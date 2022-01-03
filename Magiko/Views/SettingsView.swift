@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct OptionsView: View {
-    @Binding var optionsToggle: Bool
+struct SettingsView: View {
+    @Binding var settingsToggle: Bool
     @Binding var offsetX: CGFloat
     
     var body: some View {
@@ -19,7 +19,7 @@ struct OptionsView: View {
                 Rectangle().fill(Color.pink).frame(width: 315)
             }
             VStack(alignment: .leading, spacing: 0) {
-                Text("Options").frame(height: 60).padding(.top, 15)
+                Text("Settings").frame(height: 60).padding(.top, 15)
                 ScrollView {
                     VStack(spacing: 10) {
                         ZStack {
@@ -70,7 +70,7 @@ struct OptionsView: View {
                     Button("X") {
                         offsetX = -449
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            optionsToggle = false
+                            settingsToggle = false
                         }
                     }
                     .buttonStyle(GrowingButton(width: 40))
@@ -85,9 +85,9 @@ struct OptionsView: View {
     }
 }
 
-struct OptionsView_Previews: PreviewProvider {
+struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(optionsToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

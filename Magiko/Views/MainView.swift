@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var optionsToggle: Bool = false
+    @State var currentFighter: String = "magicalgirl_1"
+    
+    @State var overviewToggle: Bool = false
+    @State var settingsToggle: Bool = false
     @State var infoToggle: Bool = false
-    @State var creditsToggle: Bool = false
     
     @State var offsetX: CGFloat = -449
     
     var body: some View {
         ZStack(alignment: .trailing) {
             Color.red
-            Image("magicalgirl").resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
+            Image(currentFighter).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button("Training") {
@@ -25,15 +27,15 @@ struct MainView: View {
                     }
                     .buttonStyle(GrowingButton(width: 135))
                     Button("O") {
-                        optionsToggle = true
+                        overviewToggle = true
                     }
                     .buttonStyle(GrowingButton(width: 40))
-                    Button("T") {
+                    Button("S") {
+                        settingsToggle = true
+                    }
+                    .buttonStyle(GrowingButton(width: 40))
+                    Button("I") {
                         infoToggle = true
-                    }
-                    .buttonStyle(GrowingButton(width: 40))
-                    Button("C") {
-                        creditsToggle = true
                     }
                     .buttonStyle(GrowingButton(width: 40))
                 }
@@ -48,12 +50,12 @@ struct MainView: View {
                 }
             }
             .padding(.all, 15)
-            if optionsToggle {
-                OptionsView(optionsToggle: $optionsToggle, offsetX: $offsetX)
+            if overviewToggle {
+                OverviewView(currentFighter: $currentFighter, overviewToggle: $overviewToggle, offsetX: $offsetX)
+            } else if settingsToggle {
+                SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
             } else if infoToggle {
                 InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
-            } else if creditsToggle {
-                CreditsView(creditsToggle: $creditsToggle, offsetX: $offsetX)
             }
         }
     }
