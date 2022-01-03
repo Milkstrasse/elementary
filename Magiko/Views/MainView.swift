@@ -9,6 +9,9 @@ import SwiftUI
 
 struct MainView: View {
     @State var optionsToggle: Bool = false
+    @State var infoToggle: Bool = false
+    @State var creditsToggle: Bool = false
+    
     @State var offsetX: CGFloat = -449
     
     var body: some View {
@@ -26,11 +29,11 @@ struct MainView: View {
                     }
                     .buttonStyle(GrowingButton(width: 40))
                     Button("T") {
-                        print("Button pressed!")
+                        infoToggle = true
                     }
                     .buttonStyle(GrowingButton(width: 40))
                     Button("C") {
-                        print("Button pressed!")
+                        creditsToggle = true
                     }
                     .buttonStyle(GrowingButton(width: 40))
                 }
@@ -47,6 +50,10 @@ struct MainView: View {
             .padding(.all, 15)
             if optionsToggle {
                 OptionsView(optionsToggle: $optionsToggle, offsetX: $offsetX)
+            } else if infoToggle {
+                InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
+            } else if creditsToggle {
+                CreditsView(creditsToggle: $creditsToggle, offsetX: $offsetX)
             }
         }
     }
