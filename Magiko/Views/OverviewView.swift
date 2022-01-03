@@ -29,7 +29,7 @@ struct OverviewView: View {
                         Color.red
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Nickname")
-                            ScrollView {
+                            ScrollView(.vertical, showsIndicators: false) {
                                 VStack(spacing: 5) {
                                     HStack(spacing: 5) {
                                         ZStack {
@@ -147,7 +147,7 @@ struct OverviewView: View {
                 }
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Overview").frame(height: 60).padding(.top, 15)
-                    ScrollView {
+                    ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 8) {
                             HStack(spacing: 8) {
                                 Button(action: {

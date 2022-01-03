@@ -20,7 +20,7 @@ struct SettingsView: View {
             }
             VStack(alignment: .leading, spacing: 0) {
                 Text("Settings").frame(height: 60).padding(.top, 15)
-                ScrollView {
+                ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 10) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
