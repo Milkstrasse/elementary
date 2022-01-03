@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA4278345EC00DEB25F /* MagikoApp.swift */; };
-		B80D7CA7278345EC00DEB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA6278345EC00DEB25F /* ContentView.swift */; };
 		B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CA8278345EE00DEB25F /* Assets.xcassets */; };
 		B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */; };
 		B80D7CB6278345EE00DEB25F /* MagikoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CB5278345EE00DEB25F /* MagikoTests.swift */; };
+		B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CCE2783508E00DEB25F /* MainView.swift */; };
+		B80D7CD22783536500DEB25F /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CD12783536500DEB25F /* Styles.swift */; };
+		B80D7CD527835A8700DEB25F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CD427835A8700DEB25F /* OptionsView.swift */; };
+		B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CD627835CD900DEB25F /* Shapes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,11 +30,14 @@
 /* Begin PBXFileReference section */
 		B80D7CA1278345EC00DEB25F /* Magiko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magiko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CA4278345EC00DEB25F /* MagikoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagikoApp.swift; sourceTree = "<group>"; };
-		B80D7CA6278345EC00DEB25F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B80D7CA8278345EE00DEB25F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B80D7CB1278345EE00DEB25F /* MagikoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MagikoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CB5278345EE00DEB25F /* MagikoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagikoTests.swift; sourceTree = "<group>"; };
+		B80D7CCE2783508E00DEB25F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		B80D7CD12783536500DEB25F /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		B80D7CD427835A8700DEB25F /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
+		B80D7CD627835CD900DEB25F /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				B80D7CA4278345EC00DEB25F /* MagikoApp.swift */,
-				B80D7CA6278345EC00DEB25F /* ContentView.swift */,
+				B80D7CD32783539000DEB25F /* Views */,
+				B80D7CD02783534700DEB25F /* UIStyles */,
 				B80D7CA8278345EE00DEB25F /* Assets.xcassets */,
 				B80D7CAA278345EE00DEB25F /* Preview Content */,
 			);
@@ -95,6 +102,24 @@
 				B80D7CB5278345EE00DEB25F /* MagikoTests.swift */,
 			);
 			path = MagikoTests;
+			sourceTree = "<group>";
+		};
+		B80D7CD02783534700DEB25F /* UIStyles */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CD12783536500DEB25F /* Styles.swift */,
+				B80D7CD627835CD900DEB25F /* Shapes.swift */,
+			);
+			path = UIStyles;
+			sourceTree = "<group>";
+		};
+		B80D7CD32783539000DEB25F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CCE2783508E00DEB25F /* MainView.swift */,
+				B80D7CD427835A8700DEB25F /* OptionsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,8 +222,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B80D7CA7278345EC00DEB25F /* ContentView.swift in Sources */,
+				B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */,
 				B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */,
+				B80D7CD527835A8700DEB25F /* OptionsView.swift in Sources */,
+				B80D7CD22783536500DEB25F /* Styles.swift in Sources */,
+				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
