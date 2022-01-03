@@ -12,8 +12,8 @@ struct GrowingButton: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: width, height: 40, alignment: .leading)
-            .offset(x: 15)
+            .frame(width: width, height: 40, alignment: width == 40 ? .center : .leading)
+            .offset(x: width == 40 ? 0 : 15)
             .background(content: {
                 RoundedRectangle(cornerRadius: 5).fill(Color.blue)
             })
