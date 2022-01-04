@@ -56,43 +56,31 @@ struct OverviewView: View {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 8) {
                                 HStack(spacing: 8) {
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
                                 }
                                 HStack(spacing: 8) {
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
-                                    Button(action: {
+                                    RectangleFighterView(isSelected: false).onTapGesture {
                                         fighterSelected = true
                                         currentFighter = "magicalgirl_2"
-                                    }) {
-                                        RectangleFighterView()
                                     }
                                 }
                             }
@@ -101,11 +89,23 @@ struct OverviewView: View {
                         Spacer().frame(height: 10)
                         HStack(spacing: 5) {
                             Spacer()
-                            Button("<All Types>") {
-                                print("Button pressed!")
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 160, height: 40)
+                                HStack {
+                                    Button("<") {
+                                        print("Button pressed!")
+                                    }
+                                    Spacer()
+                                    Text("All Types")
+                                    Spacer()
+                                    Button(">") {
+                                        print("Button pressed!")
+                                    }
+                                }
+                                .frame(width: 130).padding(.horizontal, 15)
                             }
-                            .buttonStyle(GrowingButton(width: 160))
                             Button("X") {
+                                fighterSelected = false
                                 offsetX = -449
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     overviewToggle = false
@@ -128,9 +128,11 @@ struct OverviewView: View {
 }
 
 struct RectangleFighterView: View {
+    var isSelected: Bool
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 125)
+            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.yellow : Color.blue).frame(height: 125)
             Image("magicalgirl_2").resizable().scaleEffect(4.6).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 100).clipShape(RoundedRectangle(cornerRadius: 5))
             Triangle().fill(Color.green).frame(height: 35).padding(.bottom, 10)
             Rectangle().fill(Color.green).frame(height: 5).padding(.bottom, 5)

@@ -27,7 +27,7 @@ struct MainView: View {
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button("Training") {
-                        transitionToggle = true
+                        print("Button pressed!")
                     }
                     .buttonStyle(GrowingButton(width: 135))
                     Button("O") {
