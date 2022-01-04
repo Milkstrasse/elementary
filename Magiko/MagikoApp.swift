@@ -22,6 +22,8 @@ struct MagikoApp: App {
                 MainView().environmentObject(currentView)
             } else if currentView.viewName == "FightSelection" {
                 FightSelectionView().environmentObject(currentView)
+            } else if currentView.viewName == "Fight" {
+                FightView()
             }
         }
     }

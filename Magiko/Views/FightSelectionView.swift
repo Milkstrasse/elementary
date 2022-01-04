@@ -21,6 +21,7 @@ struct FightSelectionView: View {
                         Spacer()
                         HStack(spacing: 5) {
                             Button("Ready") {
+                                currentView.viewName = "Fight"
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -37,6 +38,7 @@ struct FightSelectionView: View {
                     VStack {
                         HStack(spacing: 5) {
                             Button("Ready") {
+                                currentView.viewName = "Fight"
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -54,7 +56,7 @@ struct FightSelectionView: View {
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
                     LeftSelectionView()
-                    Text("X")
+                    Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
                     RightSelectionView()
                 }
                 .edgesIgnoringSafeArea(.bottom)

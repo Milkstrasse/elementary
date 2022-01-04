@@ -20,6 +20,7 @@
 		B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CE02783A92300DEB25F /* FightSelectionView.swift */; };
 		B80D7CE327847B8600DEB25F /* LeftSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */; };
 		B80D7CE527847BBA00DEB25F /* RightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CE427847BBA00DEB25F /* RightSelectionView.swift */; };
+		B80D7CE72784D27500DEB25F /* FightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CE62784D27500DEB25F /* FightView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		B80D7CE02783A92300DEB25F /* FightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSelectionView.swift; sourceTree = "<group>"; };
 		B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftSelectionView.swift; sourceTree = "<group>"; };
 		B80D7CE427847BBA00DEB25F /* RightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightSelectionView.swift; sourceTree = "<group>"; };
+		B80D7CE62784D27500DEB25F /* FightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				B80D7CE02783A92300DEB25F /* FightSelectionView.swift */,
 				B80D7CE427847BBA00DEB25F /* RightSelectionView.swift */,
 				B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */,
+				B80D7CE62784D27500DEB25F /* FightView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */,
 				B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */,
 				B80D7CD527835A8700DEB25F /* SettingsView.swift in Sources */,
+				B80D7CE72784D27500DEB25F /* FightView.swift in Sources */,
 				B80D7CD22783536500DEB25F /* Styles.swift in Sources */,
 				B80D7CD92783771D00DEB25F /* InfoView.swift in Sources */,
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
