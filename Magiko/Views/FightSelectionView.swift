@@ -26,7 +26,7 @@ struct FightSelectionView: View {
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
                                 transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     currentView.viewName = "Main"
                                 }
                             }
@@ -38,12 +38,15 @@ struct FightSelectionView: View {
                     VStack {
                         HStack(spacing: 5) {
                             Button("Ready") {
-                                currentView.viewName = "Fight"
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    currentView.viewName = "Fight"
+                                }
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
                                 transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     currentView.viewName = "Main"
                                 }
                             }
@@ -63,7 +66,7 @@ struct FightSelectionView: View {
             }
             GeometryReader { geometry in
                 ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                    .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.2), value: transitionToggle).ignoresSafeArea()
+                    .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }
         .onAppear {

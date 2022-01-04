@@ -49,7 +49,7 @@ struct MainView: View {
                     Spacer()
                     Button("Fight") {
                         transitionToggle = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             currentView.viewName = "FightSelection"
                         }
                     }
@@ -66,7 +66,7 @@ struct MainView: View {
             }
             GeometryReader { geometry in
                 ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65)
-                    .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.2), value: transitionToggle).ignoresSafeArea()
+                    .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }
         .edgesIgnoringSafeArea(.bottom)

@@ -8,25 +8,38 @@
 import SwiftUI
 
 struct FightView: View {
+    @State var transitionToggle: Bool = true
+    @State var offsetX: CGFloat = -200
+    
     var body: some View {
         ZStack {
             Color.red.ignoresSafeArea()
             HStack {
-                LeftPlayerFightView()
+                LeftPlayerFightView(offsetX: offsetX)
                 Spacer()
-                RightPlayerFightView()
+                RightPlayerFightView(offsetX: offsetX)
             }
             .edgesIgnoringSafeArea(.bottom)
+            GeometryReader { geometry in
+                ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65)
+                    .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            }
+        }
+        .onAppear {
+            transitionToggle = false
+            offsetX = 0
         }
     }
 }
 
 struct LeftPlayerFightView: View {
+    var offsetX: CGFloat
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
                 ZStack(alignment: .topLeading) {
-                    Image("magicalgirl_1").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40, y: 0).rotationEffect(.degrees(90))
+                    Image("magicalgirl_1").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     Rectangle().fill(Color.yellow).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 0) {
                         Text("Action!!!").frame(width: 142)
@@ -66,7 +79,7 @@ struct LeftPlayerFightView: View {
                                 }
                                 .frame(height: 75)
                             }
-                            .rotationEffect(.degrees(90)).frame(width: 75, height: 230)
+                            .rotationEffect(.degrees(90)).frame(width: 75, height: 230).offset(y: -offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                         }
                     }
                 }
@@ -78,12 +91,14 @@ struct LeftPlayerFightView: View {
 }
 
 struct RightPlayerFightView: View {
+    var offsetX: CGFloat
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
-                    Image("magicalgirl_1").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40, y: 0).rotationEffect(.degrees(-90))
+                    Image("magicalgirl_1").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     Rectangle().fill(Color.yellow).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 0) {
                         VStack(alignment: .trailing) {
@@ -120,7 +135,7 @@ struct RightPlayerFightView: View {
                                 }
                                 .frame(height: 75)
                             }
-                            .rotationEffect(.degrees(-90)).frame(width: 75, height: 230)
+                            .rotationEffect(.degrees(-90)).frame(width: 75, height: 230).offset(y: offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                             Spacer()
                             Text("Next")
                         }
