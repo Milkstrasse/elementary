@@ -7,11 +7,22 @@
 
 import SwiftUI
 
+class CurrentView: ObservableObject {
+    @Published var viewName: String = "Main"
+}
+
 @main
 struct MagikoApp: App {
+    
+    @StateObject var currentView = CurrentView()
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if currentView.viewName == "Main" {
+                MainView().environmentObject(currentView)
+            } else if currentView.viewName == "FightSelection" {
+                FightSelectionView().environmentObject(currentView)
+            }
         }
     }
 }
