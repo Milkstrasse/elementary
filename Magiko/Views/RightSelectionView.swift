@@ -19,7 +19,7 @@ struct RightSelectionView: View {
                         Spacer()
                         HStack(spacing: 5) {
                             Button(action: {
-                                selectionToggle = true
+                                infoToggle = true
                             }) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.blue)
@@ -29,7 +29,7 @@ struct RightSelectionView: View {
                                 .frame(width: 70, height: 70)
                             }
                             Button(action: {
-                                selectionToggle = true
+                                infoToggle = true
                             }) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.blue)
@@ -39,7 +39,7 @@ struct RightSelectionView: View {
                                 .frame(width: 70, height: 70)
                             }
                             Button(action: {
-                                selectionToggle = true
+                                infoToggle = true
                             }) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.blue)
@@ -61,7 +61,7 @@ struct RightSelectionView: View {
                         .offset(x: geometry.safeAreaInsets.trailing)
                     }
                 }
-                if selectionToggle || infoToggle {
+                if selectionToggle {
                     VStack {
                         ScrollView(.vertical, showsIndicators: false) {
                             HStack(alignment: .top, spacing: 5) {
@@ -86,6 +86,31 @@ struct RightSelectionView: View {
                         .clipped()
                     }
                     .padding(.vertical, 15).rotationEffect(.degrees(180))
+                } else if infoToggle {
+                    VStack {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(alignment: .top, spacing: 5) {
+                                VStack(spacing: 5) {
+                                    Button("Remove") {
+                                        infoToggle = false
+                                    }
+                                    .buttonStyle(GrowingButton(width: geometry.size.height - 30 - 215 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30 - 215 - 5)
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 5).fill(Color.blue).frame(width: 40, height: 215)
+                                        Text("<  Loadout  >").rotationEffect(.degrees(-90)).fixedSize().frame(width: 40, height: 215)
+                                    }
+                                }
+                                StatOverviewView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                .padding(.trailing, 5)
+                                DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                            }
+                            .padding(.vertical, 15)
+                        }
+                        .clipped()
+                    }
+                    .padding(.horizontal, 15).frame(width: 175)
                 }
             }
         }

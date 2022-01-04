@@ -51,13 +51,13 @@ struct FightSelectionView: View {
                         Spacer()
                     }
                 }
-                .padding(.all, 15).edgesIgnoringSafeArea([.bottom])
+                .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
                     LeftSelectionView()
                     Text("X")
                     RightSelectionView()
                 }
-                .edgesIgnoringSafeArea([.bottom])
+                .edgesIgnoringSafeArea(.bottom)
             }
             GeometryReader { geometry in
                 ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))

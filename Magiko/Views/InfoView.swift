@@ -54,7 +54,7 @@ struct InfoView: View {
                 }
                 .frame(width: 340).padding(.vertical, 15)
             }
-            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).edgesIgnoringSafeArea([.bottom])
+            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).edgesIgnoringSafeArea(.bottom)
 
         }
         .onAppear {

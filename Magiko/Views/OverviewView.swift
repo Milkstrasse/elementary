@@ -32,106 +32,10 @@ struct OverviewView: View {
                                 Text("Nickname")
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
-                                        HStack(spacing: 5) {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
-                                                HStack(spacing: 0) {
-                                                    VStack(spacing: 0) {
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                    }
-                                                }
-                                                .padding(.horizontal, 15)
-                                            }
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
-                                                HStack(spacing: 0) {
-                                                    VStack(spacing: 0) {
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                        HStack {
-                                                            Text("Stat")
-                                                            Spacer()
-                                                            Text("100")
-                                                        }
-                                                    }
-                                                }
-                                                .padding(.horizontal, 15)
-                                            }
-                                        }
-                                        .padding(.bottom, 5)
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
-                                            HStack(spacing: 0) {
-                                                VStack(alignment: .leading) {
-                                                    Text("Attack")
-                                                    Text("Description")
-                                                }
-                                                .padding(.leading, 15)
-                                                Spacer()
-                                                Triangle().fill(Color.green).frame(width: 22)
-                                                ZStack(alignment: .leading) {
-                                                    Rectangle().fill(Color.green).frame(width: 25)
-                                                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                                                }
-                                            }
-                                        }
-                                        .frame(height: 60)
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
-                                            HStack(spacing: 0) {
-                                                VStack(alignment: .leading) {
-                                                    Text("Attack")
-                                                    Text("Description")
-                                                }
-                                                .padding(.leading, 15)
-                                                Spacer()
-                                                Triangle().fill(Color.green).frame(width: 22)
-                                                ZStack(alignment: .leading) {
-                                                    Rectangle().fill(Color.green).frame(width: 25)
-                                                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                                                }
-                                            }
-                                        }
-                                        .frame(height: 60)
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
-                                            HStack(spacing: 0) {
-                                                VStack(alignment: .leading) {
-                                                    Text("Attack")
-                                                    Text("Description")
-                                                }
-                                                .padding(.leading, 15)
-                                                Spacer()
-                                                Triangle().fill(Color.green).frame(width: 22)
-                                                ZStack(alignment: .leading) {
-                                                    Rectangle().fill(Color.green).frame(width: 25)
-                                                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                                                }
-                                            }
-                                        }
-                                        .frame(height: 60)
+                                        StatOverviewView().padding(.bottom, 5)
+                                        DetailedAttackView()
+                                        DetailedAttackView()
+                                        DetailedAttackView()
                                     }
                                 }
                             }
@@ -215,7 +119,7 @@ struct OverviewView: View {
                 }
                 .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 449 : 0).animation(.linear(duration: 0.2), value: infoToggle)
             }
-            .edgesIgnoringSafeArea([.bottom])
+            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
             offsetX = 0
@@ -239,5 +143,85 @@ struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
         OverviewView(currentFighter: Binding.constant("magicalgirl_1"), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
+    }
+}
+
+struct DetailedAttackView: View {
+    var width: CGFloat?
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            HStack(spacing: 0) {
+                VStack(alignment: .leading) {
+                    Text("Attack")
+                    Text("Description")
+                }
+                .padding(.leading, 15)
+                Spacer()
+                Triangle().fill(Color.green).frame(width: 22)
+                ZStack(alignment: .leading) {
+                    Rectangle().fill(Color.green).frame(width: 25)
+                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
+                }
+            }
+        }
+        .frame(width: width, height: 60)
+    }
+}
+
+struct StatOverviewView: View {
+    var width: CGFloat?
+    
+    var body: some View {
+        HStack(spacing: 5) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
+                HStack(spacing: 0) {
+                    VStack(spacing: 0) {
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                    }
+                }
+                .padding(.horizontal, 15)
+            }
+            ZStack {
+                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
+                HStack(spacing: 0) {
+                    VStack(spacing: 0) {
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                        HStack {
+                            Text("Stat")
+                            Spacer()
+                            Text("100")
+                        }
+                    }
+                }
+                .padding(.horizontal, 15)
+            }
+        }
+        .frame(width: width)
     }
 }
