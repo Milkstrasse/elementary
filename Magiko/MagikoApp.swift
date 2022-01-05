@@ -27,7 +27,7 @@ struct MagikoApp: App {
             } else {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
-                        GlobalData.loadFighters()
+                        GlobalData.loadData()
                         currentView.viewName = "Main"
                     }
                 }

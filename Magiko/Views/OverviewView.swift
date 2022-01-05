@@ -11,35 +11,35 @@ struct OverviewView: View {
     @State var fighterSelected: Bool = false
     @State var infoToggle: Bool = false
     
-    @Binding var currentFighter: FighterData
+    @Binding var currentFighter: Fighter
     
     @Binding var overviewToggle: Bool
     @Binding var offsetX: CGFloat
     
     func getRowAmount() -> Int {
-        if GlobalData.allFighterData.count%3 > 0 {
-            return GlobalData.allFighterData.count/3 + 1
+        if GlobalData.allFighter.count%3 > 0 {
+            return GlobalData.allFighter.count/3 + 1
         } else {
-            return GlobalData.allFighterData.count/3
+            return GlobalData.allFighter.count/3
         }
     }
     
-    func getSubArray(row: Int) -> [FighterData?] {
-        if (3 + row * 3) < GlobalData.allFighterData.count {
-            let rowArray = GlobalData.allFighterData[row * 3 ..< 3 + row * 3]
+    func getSubArray(row: Int) -> [Fighter?] {
+        if (3 + row * 3) < GlobalData.allFighter.count {
+            let rowArray = GlobalData.allFighter[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.allFighterData[row * 3 ..< GlobalData.allFighterData.count]
+            let rowArray = GlobalData.allFighter[row * 3 ..< GlobalData.allFighter.count]
             
-            var subArray: [FighterData?] = Array(rowArray)
-            for _ in (0 ..< (row + 1) * 3 - GlobalData.allFighterData.count) {
+            var subArray: [Fighter?] = Array(rowArray)
+            for _ in (0 ..< (row + 1) * 3 - GlobalData.allFighter.count) {
                 subArray.append(nil)
             }
             return subArray
         }
     }
     
-    func isSelected(fighter: FighterData) -> Bool {
+    func isSelected(fighter: Fighter) -> Bool {
         if fighterSelected {
             return fighter.name == currentFighter.name
         } else {
@@ -64,10 +64,9 @@ struct OverviewView: View {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
-                                        DetailedActionView(title: "Attack", description: "Description")
-                                        DetailedActionView(title: "Attack", description: "Description")
-                                        DetailedActionView(title: "Attack", description: "Description")
-                                        DetailedActionView(title: "Attack", description: "Description")
+                                        ForEach(currentFighter.skills, id: \.name) { skill in
+                                            DetailedActionView(title: skill.name, description: skill.description)
+                                        }
                                     }
                                 }
                             }
@@ -91,7 +90,7 @@ struct OverviewView: View {
                                     HStack(spacing: 8) {
                                         ForEach(self.getSubArray(row: row), id: \.?.name) { fighter in
                                             if fighter != nil {
-                                                RectangleFighterView(fighterData: fighter!, isSelected: self.isSelected(fighter: fighter!))
+                                                RectangleFighterView(fighter: fighter!, isSelected: self.isSelected(fighter: fighter!))
                                                     .onTapGesture {
                                                         print(fighter!.name)
                                                         fighterSelected = true
@@ -149,7 +148,7 @@ struct OverviewView: View {
 
 struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView(currentFighter: Binding.constant(FighterData(name: "magicalgirl_1", element: "Water", skills: [""], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        OverviewView(currentFighter: Binding.constant(Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

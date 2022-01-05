@@ -25,7 +25,9 @@
 		B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */; };
 		B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CEE2785C09B00DEB25F /* Views.swift */; };
 		B80D7CF32785F86A00DEB25F /* Fighters in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CF22785F86A00DEB25F /* Fighters */; };
-		B80D7CF62785F90500DEB25F /* FighterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF52785F90500DEB25F /* FighterData.swift */; };
+		B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF52785F90500DEB25F /* GlobalData.swift */; };
+		B80D7CF8278635CC00DEB25F /* Fighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF7278635CC00DEB25F /* Fighter.swift */; };
+		B80D7D01278639BA00DEB25F /* Skills in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D00278639BA00DEB25F /* Skills */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +61,9 @@
 		B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightPlayerFightView.swift; sourceTree = "<group>"; };
 		B80D7CEE2785C09B00DEB25F /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		B80D7CF22785F86A00DEB25F /* Fighters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fighters; sourceTree = "<group>"; };
-		B80D7CF52785F90500DEB25F /* FighterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterData.swift; sourceTree = "<group>"; };
+		B80D7CF52785F90500DEB25F /* GlobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalData.swift; sourceTree = "<group>"; };
+		B80D7CF7278635CC00DEB25F /* Fighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fighter.swift; sourceTree = "<group>"; };
+		B80D7D00278639BA00DEB25F /* Skills */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Skills; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,7 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B80D7D00278639BA00DEB25F /* Skills */,
 				B80D7CF22785F86A00DEB25F /* Fighters */,
 			);
 			path = Data;
@@ -166,7 +171,8 @@
 		B80D7CF42785F8CB00DEB25F /* Structs */ = {
 			isa = PBXGroup;
 			children = (
-				B80D7CF52785F90500DEB25F /* FighterData.swift */,
+				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
+				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -252,6 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B80D7D01278639BA00DEB25F /* Skills in Resources */,
 				B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */,
 				B80D7CF32785F86A00DEB25F /* Fighters in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
@@ -273,12 +280,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */,
+				B80D7CF8278635CC00DEB25F /* Fighter.swift in Sources */,
 				B80D7CE92784F4A000DEB25F /* LeftPlayerFightView.swift in Sources */,
 				B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */,
 				B80D7CD527835A8700DEB25F /* SettingsView.swift in Sources */,
 				B80D7CE72784D27500DEB25F /* FightView.swift in Sources */,
 				B80D7CD22783536500DEB25F /* Styles.swift in Sources */,
-				B80D7CF62785F90500DEB25F /* FighterData.swift in Sources */,
+				B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */,
 				B80D7CD92783771D00DEB25F /* InfoView.swift in Sources */,
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
 				B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */,

@@ -1,1 +1,1 @@
-{  "name": "magicalgirl_3",  "element": "Water",  "base": {      "health": 99,      "attack": 95,      "defense": 96,      "agility": 97,      "precision": 98,      "spAttack": 94  },  "skills": [      "Skill 1",      "Skill 2",      "Skill 3",      "Skill 4"  ]}
+{  "name": "magicalgirl_3",  "element": "Water",  "base": {      "health": 99,      "attack": 95,      "defense": 96,      "agility": 97,      "precision": 98,      "spAttack": 94  },  "skills": [      "skill1",      "skill1",      "skill2",      "skill1"  ]}

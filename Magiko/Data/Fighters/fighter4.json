@@ -10,9 +10,9 @@
       "spAttack": 100
   },
   "skills": [
-      "Skill 1",
-      "Skill 2",
-      "Skill 3",
-      "Skill 4"
+      "skill4",
+      "skill1",
+      "skill2",
+      "skill3"
   ]
 }

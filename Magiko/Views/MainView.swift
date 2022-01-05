@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var currentView: CurrentView
     
-    @State var currentFighter: FighterData = FighterData(name: "magicalgirl_1", element: "Water", skills: [""], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
+    @State var currentFighter: Fighter = Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))
     
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
