@@ -158,9 +158,10 @@ struct RightSelectionView: View {
                                             }
                                             StatOverviewView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
-                                            DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedAttackView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         .padding(.vertical, 15)
                                     }
