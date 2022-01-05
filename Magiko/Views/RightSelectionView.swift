@@ -156,7 +156,7 @@ struct RightSelectionView: View {
                                                     Text("<  Loadout  >").rotationEffect(.degrees(-90)).fixedSize().frame(width: 40, height: 215)
                                                 }
                                             }
-                                            StatOverviewView(width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                            BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
                                             DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)

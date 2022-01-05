@@ -8,7 +8,7 @@
 import SwiftUI
 
 class CurrentView: ObservableObject {
-    @Published var viewName: String = "Main"
+    @Published var viewName: String = "Loading"
 }
 
 @main
@@ -24,6 +24,13 @@ struct MagikoApp: App {
                 FightSelectionView().environmentObject(currentView)
             } else if currentView.viewName == "Fight" {
                 FightView()
+            } else {
+                Color.purple.onAppear {
+                    DispatchQueue.main.async {
+                        GlobalData.loadFighters()
+                        currentView.viewName = "Main"
+                    }
+                }
             }
         }
     }

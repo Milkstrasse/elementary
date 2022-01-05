@@ -1,0 +1,18 @@
+{
+  "name": "magicalgirl_4",
+  "element": "Water",
+  "base": {
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
+      "spAttack": 100
+  },
+  "skills": [
+      "Skill 1",
+      "Skill 2",
+      "Skill 3",
+      "Skill 4"
+  ]
+}

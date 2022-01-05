@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var currentView: CurrentView
     
-    @State var currentFighter: String = "magicalgirl_1"
+    @State var currentFighter: FighterData = FighterData(name: "magicalgirl_1", element: "Water", skills: [""], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
     
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
@@ -23,7 +23,7 @@ struct MainView: View {
     var body: some View {
         ZStack(alignment: .trailing) {
             Color.red.ignoresSafeArea()
-            Image(currentFighter).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
+            Image(currentFighter.name).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button("Training") {
