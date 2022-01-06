@@ -57,15 +57,14 @@ struct RightPlayerFightView: View {
                             .rotationEffect(.degrees(-90)).frame(width: 75, height: 230).offset(y: offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                             Spacer()
                             ZStack {
-                                Button(action: {
+                                Button(currentSection == "Summary" ? "Next" : "Back") {
                                     if currentSection == "Options" {
                                         currentSection = "Summary"
                                     } else {
                                         currentSection = "Options"
                                     }
-                                }) {
-                                    Text(currentSection == "Summary" ? "Next" : "Back").fixedSize().frame(width: 100, height: 35, alignment: .bottomLeading)
                                 }
+                                .buttonStyle(ClearGrowingButton(width: 100, height: 35))
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 35, height: 100)
                         }

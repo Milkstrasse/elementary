@@ -28,11 +28,15 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
                                     Text("Option").frame(width: 100, alignment: .leading)
-                                    Text("<").frame(width: 40, height: 40)
+                                    Button("<") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
                                     Text("100%")
                                     Spacer()
-                                    Text(">").frame(width: 40, height: 40)
+                                    Button(">") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }
@@ -40,11 +44,15 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
                                     Text("Option").frame(width: 100, alignment: .leading)
-                                    Text("<").frame(width: 40, height: 40)
+                                    Button("<") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
                                     Text("100%")
                                     Spacer()
-                                    Text(">").frame(width: 40, height: 40)
+                                    Button(">") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }
@@ -52,11 +60,15 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
                                     Text("Option").frame(width: 100, alignment: .leading)
-                                    Text("<").frame(width: 40, height: 40)
+                                    Button("<") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
                                     Text("100%")
                                     Spacer()
-                                    Text(">").frame(width: 40, height: 40)
+                                    Button(">") {
+                                    }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }

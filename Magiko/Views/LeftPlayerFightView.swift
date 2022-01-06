@@ -111,15 +111,14 @@ struct LeftPlayerFightView: View {
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         VStack(alignment: .leading) {
                             ZStack {
-                                Button(action: {
+                                Button(currentSection == "Summary" ? "Next" : "Back") {
                                     if currentSection == "Options" {
                                         currentSection = "Summary"
                                     } else {
                                         currentSection = "Options"
                                     }
-                                }) {
-                                    Text(currentSection == "Summary" ? "Next" : "Back").fixedSize().frame(width: 100, height: 35, alignment: .bottomLeading)
                                 }
+                                .buttonStyle(ClearGrowingButton(width: 100, height: 35))
                             }
                             .rotationEffect(.degrees(90)).frame(width: 35, height: 100)
                             Spacer()

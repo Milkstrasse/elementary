@@ -81,13 +81,3 @@ struct FightSelectionView_Previews: PreviewProvider {
 .previewInterfaceOrientation(.landscapeRight)
     }
 }
-
-struct FighterView: View {
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.blue)
-            Image("magicalgirl_1").resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
-        }
-        .frame(width: 70, height: 70)
-    }
-}

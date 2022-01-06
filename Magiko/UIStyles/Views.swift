@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DetailedActionView: View {
-    var title: String
-    var description: String
+    let title: String
+    let description: String
     
     var width: CGFloat?
     
@@ -35,7 +35,7 @@ struct DetailedActionView: View {
 }
 
 struct SimpleAttackView: View {
-    var title: String
+    let title: String
     
     var width: CGFloat?
     
@@ -134,12 +134,29 @@ struct BaseOverviewView: View {
     }
 }
 
+struct FighterView: View {
+    var fighter: Fighter?
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(Color.purple)
+            if fighter != nil {
+                Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
+            } else {
+                Text("+")
+            }
+        }
+        .frame(width: 70, height: 70).contentShape(Rectangle())
+    }
+}
+
 struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             DetailedActionView(title: "Title", description: "Description")
             SimpleAttackView(title: "Title")
             RectangleFighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false).frame(width: 100)
+            FighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))))
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
         }
     }

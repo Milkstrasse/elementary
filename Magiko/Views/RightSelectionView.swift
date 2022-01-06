@@ -8,15 +8,48 @@
 import SwiftUI
 
 struct RightSelectionView: View {
-    @State var fighter1: String = "magicalgirl_1"
-    @State var fighter2: String?
-    @State var fighter3: String?
-    @State var fighter4: String?
+    @State var fighters: [Fighter?] = [nil, nil, nil, nil]
+    @State var selectedSlot: Int = -1
     
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
     
     @State var offsetX: CGFloat = 189
+    
+    func getOffset() -> CGFloat {
+        switch selectedSlot {
+        case 0:
+            return 113
+        case 1:
+            return 38
+        case 2:
+            return -38
+        case 3:
+            return -113
+        default:
+            return 0
+        }
+    }
+    
+    func getFirstHalf() -> [Fighter?] {
+        if GlobalData.allFighter.count%2 == 0 {
+            let rowArray = GlobalData.allFighter[0 ..< GlobalData.allFighter.count/2]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.allFighter[0 ..< GlobalData.allFighter.count/2 + 1]
+            return Array(rowArray)
+        }
+    }
+    
+    func getSecondHalf() -> [Fighter?] {
+        if GlobalData.allFighter.count%2 == 0 {
+            let rowArray = GlobalData.allFighter[GlobalData.allFighter.count/2 ..< GlobalData.allFighter.count]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.allFighter[GlobalData.allFighter.count/2 + 1 ..< GlobalData.allFighter.count]
+            return Array(rowArray)
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,80 +58,29 @@ struct RightSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button(action: {
-                                if fighter1 != nil {
-                                    selectionToggle = false
-                                    infoToggle = true
-                                } else {
-                                    infoToggle = false
-                                    selectionToggle = true
-                                }
-                            }) {
-                                if fighter1 != nil {
-                                    FighterView()
-                                } else {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                        Text("+")
+                            ForEach(0 ..< 4) { index in
+                                Button(action: {
+                                    if selectedSlot == index {
+                                        selectedSlot = -1
+                                        offsetX = 189
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            selectionToggle = false
+                                            infoToggle = false
+                                        }
+                                    } else {
+                                        selectedSlot = index
+                                        
+                                        if fighters[index] != nil {
+                                            selectionToggle = false
+                                            infoToggle = true
+                                        } else {
+                                            infoToggle = false
+                                            selectionToggle = true
+                                        }
                                     }
-                                    .frame(width: 70, height: 70)
-                                }
-                            }
-                            Button(action: {
-                                if fighter2 != nil {
-                                    selectionToggle = false
-                                    infoToggle = true
-                                } else {
-                                    infoToggle = false
-                                    selectionToggle = true
-                                }
-                            }) {
-                                if fighter2 != nil {
-                                    FighterView()
-                                } else {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                        Text("+")
-                                    }
-                                    .frame(width: 70, height: 70)
-                                }
-                            }
-                            Button(action: {
-                                if fighter3 != nil {
-                                    selectionToggle = false
-                                    infoToggle = true
-                                } else {
-                                    infoToggle = false
-                                    selectionToggle = true
-                                }
-                            }) {
-                                if fighter3 != nil {
-                                    FighterView()
-                                } else {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                        Text("+")
-                                    }
-                                    .frame(width: 70, height: 70)
-                                }
-                            }
-                            Button(action: {
-                                if fighter4 != nil {
-                                    selectionToggle = false
-                                    infoToggle = true
-                                } else {
-                                    infoToggle = false
-                                    selectionToggle = true
-                                }
-                            }) {
-                                if fighter4 != nil {
-                                    FighterView()
-                                } else {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                        Text("+")
-                                    }
-                                    .frame(width: 70, height: 70)
+                                }) {
+                                    FighterView(fighter: fighters[index])
                                 }
                             }
                         }
@@ -109,7 +91,7 @@ struct RightSelectionView: View {
                 }
                 if selectionToggle || infoToggle {
                     HStack(spacing: 0) {
-                        SmallTriangle().fill(Color.pink).frame(width: 14, height: 26)
+                        SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: self.getOffset()).animation(.linear(duration: 0.2), value: selectedSlot)
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing)
                             if selectionToggle {
@@ -117,19 +99,20 @@ struct RightSelectionView: View {
                                     ScrollView(.vertical, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
+                                                ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
+                                                    FighterView(fighter: fighter).rotationEffect(.degrees(90))
+                                                        .onTapGesture {
+                                                            fighters[selectedSlot] = fighter
+                                                        }
+                                                }
                                             }
                                             VStack(spacing: 5) {
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
-                                                FighterView().rotationEffect(.degrees(90))
+                                                ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
+                                                    FighterView(fighter: fighter).rotationEffect(.degrees(90))
+                                                        .onTapGesture {
+                                                            fighters[selectedSlot] = fighter
+                                                        }
+                                                }
                                             }
                                         }
                                         .padding(.horizontal, 15)
@@ -143,17 +126,24 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 Button("Remove") {
-                                                    offsetX = 189
+                                                    fighters[selectedSlot] = nil
                                                     
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                        selectionToggle = false
-                                                        infoToggle = false
-                                                    }
+                                                    selectionToggle = true
+                                                    infoToggle = false
                                                 }
                                                 .buttonStyle(GrowingButton(width: geometry.size.height - 30 - 215 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30 - 215 - 5)
                                                 ZStack {
                                                     RoundedRectangle(cornerRadius: 5).fill(Color.blue).frame(width: 40, height: 215)
-                                                    Text("<  Loadout  >").rotationEffect(.degrees(-90)).fixedSize().frame(width: 40, height: 215)
+                                                    HStack(spacing: 0) {
+                                                        Button("<") {
+                                                        }
+                                                        .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                                        Text("Loadout").fixedSize().frame(width: 120)
+                                                        Button(">") {
+                                                        }
+                                                        .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                                    }
+                                                    .rotationEffect(.degrees(-90)).frame(width: 40, height: 215)
                                                 }
                                             }
                                             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
