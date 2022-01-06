@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
     
-    @State var currentFighter: Fighter = Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))
+    @State var currentFighter: Fighter = exampleFighter
     
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
@@ -50,7 +50,7 @@ struct MainView: View {
                     Button("Fight") {
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            currentView.scene = CurrentView.Scene.fightSelection
+                            manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                         }
                     }
                     .buttonStyle(GrowingButton(width: 190))

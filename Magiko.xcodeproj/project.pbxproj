@@ -30,6 +30,7 @@
 		B80D7D01278639BA00DEB25F /* Skills in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D00278639BA00DEB25F /* Skills */; };
 		B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D02278707B600DEB25F /* FightOverView.swift */; };
 		B80D7D062787207C00DEB25F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D052787207C00DEB25F /* GameLogic.swift */; };
+		B80D7D082787558100DEB25F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D072787558100DEB25F /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		B80D7D00278639BA00DEB25F /* Skills */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Skills; sourceTree = "<group>"; };
 		B80D7D02278707B600DEB25F /* FightOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightOverView.swift; sourceTree = "<group>"; };
 		B80D7D052787207C00DEB25F /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		B80D7D072787558100DEB25F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				B80D7D052787207C00DEB25F /* GameLogic.swift */,
+				B80D7D072787558100DEB25F /* Extensions.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				B80D7CD527835A8700DEB25F /* SettingsView.swift in Sources */,
 				B80D7CE72784D27500DEB25F /* FightView.swift in Sources */,
 				B80D7CD22783536500DEB25F /* Styles.swift in Sources */,
+				B80D7D082787558100DEB25F /* Extensions.swift in Sources */,
 				B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */,
 				B80D7CD92783771D00DEB25F /* InfoView.swift in Sources */,
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,

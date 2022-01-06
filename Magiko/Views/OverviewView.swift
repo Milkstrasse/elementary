@@ -64,7 +64,7 @@ struct OverviewView: View {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
-                                        ForEach(currentFighter.skills, id: \.name) { skill in
+                                        ForEach(currentFighter.skills, id: \.self) { skill in
                                             DetailedActionView(title: skill.name, description: skill.description)
                                         }
                                     }
@@ -148,7 +148,7 @@ struct OverviewView: View {
 
 struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView(currentFighter: Binding.constant(Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        OverviewView(currentFighter: Binding.constant(exampleFighter), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

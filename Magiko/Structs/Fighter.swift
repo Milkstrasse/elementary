@@ -8,7 +8,7 @@
 import Foundation
 import CloudKit
 
-struct Fighter {
+struct Fighter: Hashable {
     let name: String
     let element: String
     
@@ -31,10 +31,20 @@ struct Fighter {
         currhp = data.base.health
         
         skills = []
-        for index in data.skills.indices {
-            let skill = GlobalData.allSkills[data.skills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
+        let dataSkills = data.skills.removingDuplicates()
+        
+        for index in dataSkills.indices {
+            let skill = GlobalData.allSkills[dataSkills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
             skills.append(skill)
         }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+    
+    static func == (lhs: Fighter, rhs: Fighter) -> Bool {
+        return lhs.name == rhs.name
     }
 }
 
@@ -69,11 +79,15 @@ struct ElementData: Decodable {
     let weaknesses: [String]
 }
 
-struct Skill: Decodable {
+struct Skill: Decodable, Hashable {
     let name: String
     let description: String
     
     let element: String
     
     let power: UInt
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }

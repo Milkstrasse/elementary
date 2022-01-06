@@ -13,4 +13,12 @@ struct GameLogic {
     
     var leftFighters: [Fighter]
     var rightFighters: [Fighter]
+    
+    func getLeftFighter() -> Fighter {
+        return leftFighters[currentLeftFighter]
+    }
+    
+    func getRightFighter() -> Fighter {
+        return rightFighters[currentRightFighter]
+    }
 }

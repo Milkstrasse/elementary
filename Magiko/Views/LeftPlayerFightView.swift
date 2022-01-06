@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct LeftPlayerFightView: View {
-    var offsetX: CGFloat
+    let gameLogic: GameLogic
+    
+    let offsetX: CGFloat
     
     @State var currentSection: Section = .summary
     
@@ -16,7 +18,7 @@ struct LeftPlayerFightView: View {
         GeometryReader { geometry in
             HStack {
                 ZStack(alignment: .topLeading) {
-                    Image("magicalgirl_1").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                    Image(gameLogic.getLeftFighter().name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
@@ -54,42 +56,24 @@ struct LeftPlayerFightView: View {
                                                 DetailedActionView(title: "Forfeit", description: "End battle", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                         } else if currentSection == .skills {
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Attack", description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            ForEach(gameLogic.getLeftFighter().skills, id: \.self) { skill in
+                                                Button(action: {
+                                                    
+                                                }) {
+                                                    DetailedActionView(title: skill.name, description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Attack", description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Attack", description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Attack", description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                         } else if currentSection == .team {
-                                            DetailedActionView(title: "Nickname", description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Nickname", description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Nickname", description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Nickname", description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            ForEach(gameLogic.leftFighters.indices) { index in
+                                                if index == gameLogic.currentLeftFighter {
+                                                    DetailedActionView(title: gameLogic.leftFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                                } else {
+                                                    Button(action: {
+                                                        
+                                                    }) {
+                                                        DetailedActionView(title: gameLogic.leftFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                                    }
+                                                }
                                             }
                                         } else {
                                             Button(action: {
@@ -124,11 +108,10 @@ struct LeftPlayerFightView: View {
                             Spacer()
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 0) {
-                                    HStack(spacing: 4) {
-                                        Circle().fill(Color.blue).frame(width: 12)
-                                        Circle().fill(Color.blue).frame(width: 12)
-                                        Circle().fill(Color.blue).frame(width: 12)
-                                        Circle().fill(Color.blue).frame(width: 12)
+                                    HStack(spacing: 5) {
+                                        ForEach(gameLogic.leftFighters.indices) { index in
+                                            Circle().fill(Color.blue).frame(width: 12)
+                                        }
                                     }
                                     .padding(.leading, 24)
                                     HStack(spacing: 0) {
@@ -142,9 +125,9 @@ struct LeftPlayerFightView: View {
                                             .frame(width: 90, height: 30).offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
                                                 HStack {
-                                                    Text("Nickname")
+                                                    Text(gameLogic.getLeftFighter().name).lineLimit(1)
                                                     Spacer()
-                                                    Text("100/100HP")
+                                                    Text("\(Int(gameLogic.getLeftFighter().currhp))/\(Int(gameLogic.getRightFighter().base.health))HP")
                                                 }
                                                 Rectangle().fill(Color.purple).frame(height: 6)
                                             }
@@ -169,7 +152,7 @@ struct LeftPlayerFightView: View {
 
 struct LeftPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftPlayerFightView(offsetX: 0).edgesIgnoringSafeArea(.bottom)
+        LeftPlayerFightView(gameLogic: GameLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0).edgesIgnoringSafeArea(.bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

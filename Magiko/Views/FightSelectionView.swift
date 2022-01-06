@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FightSelectionView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
     
     @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
@@ -29,6 +29,24 @@ struct FightSelectionView: View {
         return false
     }
     
+    func createLogic() -> GameLogic {
+        var lefts: [Fighter] = []
+        for fighter in leftFighters {
+            if fighter != nil {
+                lefts.append(fighter!)
+            }
+        }
+        
+        var rights: [Fighter] = []
+        for fighter in rightFighters {
+            if fighter != nil {
+                rights.append(fighter!)
+            }
+        }
+        
+        return GameLogic(leftFighters: lefts, rightFighters: rights)
+    }
+    
     var body: some View {
         ZStack {
             Color.red.ignoresSafeArea()
@@ -41,7 +59,7 @@ struct FightSelectionView: View {
                                 if tempCheck() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.scene = CurrentView.Scene.fight
+                                        manager.setView(view: AnyView(FightView(gameLogic: self.createLogic()).environmentObject(manager)))
                                     }
                                 }
                             }
@@ -49,7 +67,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -63,7 +81,7 @@ struct FightSelectionView: View {
                                 if tempCheck() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.scene = CurrentView.Scene.fight
+                                        manager.setView(view: AnyView(FightView(gameLogic: self.createLogic()).environmentObject(manager)))
                                     }
                                 }
                             }
@@ -71,7 +89,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))

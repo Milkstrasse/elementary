@@ -156,8 +156,8 @@ struct Views_Previews: PreviewProvider {
         VStack {
             DetailedActionView(title: "Title", description: "Description")
             SimpleAttackView(title: "Title")
-            RectangleFighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false).frame(width: 100)
-            FighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false)
+            RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
+            FighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
         }
     }

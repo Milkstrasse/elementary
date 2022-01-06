@@ -7,36 +7,37 @@
 
 import SwiftUI
 
-class CurrentView: ObservableObject {
-    @Published var scene: Scene = .loading
+class ViewManager: ObservableObject {
+    @Published var currentView: AnyView = AnyView(Color.yellow)
     
-    enum Scene {
-        case loading
-        case main
-        case fightSelection
-        case fight
+    func setView(view: AnyView) {
+        currentView = AnyView(view)
+    }
+    
+    func getCurrentView() -> AnyView {
+        return currentView
     }
 }
 
+let exampleFighter: Fighter = Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))
+
 @main
 struct MagikoApp: App {
-    @StateObject var currentView = CurrentView()
+    @StateObject var manager: ViewManager = ViewManager()
+    @State var isLoading = true
     
     var body: some Scene {
         WindowGroup {
-            if currentView.scene == CurrentView.Scene.main {
-                MainView().environmentObject(currentView)
-            } else if currentView.scene == CurrentView.Scene.fightSelection {
-                FightSelectionView().environmentObject(currentView)
-            } else if currentView.scene == CurrentView.Scene.fight {
-                FightView()
-            } else {
+            if isLoading {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
                         GlobalData.loadData()
-                        currentView.scene = CurrentView.Scene.main
+                        manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                        isLoading = false
                     }
                 }
+            } else {
+                manager.getCurrentView()
             }
         }
     }

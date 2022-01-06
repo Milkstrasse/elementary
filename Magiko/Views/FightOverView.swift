@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FightOverView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
     
     let leftFighters: [Fighter?] = [nil, nil, nil, nil]
     let rightFighters: [Fighter?] = [nil, nil, nil, nil]
@@ -29,7 +29,7 @@ struct FightOverView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -95,7 +95,7 @@ struct FightOverView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
