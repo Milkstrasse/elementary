@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+enum Section {
+    case summary
+    case options
+    case skills
+    case team
+    case info
+}
+
 struct FightView: View {
     @State var transitionToggle: Bool = true
     @State var offsetX: CGFloat = -200

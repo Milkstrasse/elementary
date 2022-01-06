@@ -29,6 +29,7 @@
 		B80D7CF8278635CC00DEB25F /* Fighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF7278635CC00DEB25F /* Fighter.swift */; };
 		B80D7D01278639BA00DEB25F /* Skills in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D00278639BA00DEB25F /* Skills */; };
 		B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D02278707B600DEB25F /* FightOverView.swift */; };
+		B80D7D062787207C00DEB25F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D052787207C00DEB25F /* GameLogic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		B80D7CF7278635CC00DEB25F /* Fighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fighter.swift; sourceTree = "<group>"; };
 		B80D7D00278639BA00DEB25F /* Skills */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Skills; sourceTree = "<group>"; };
 		B80D7D02278707B600DEB25F /* FightOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightOverView.swift; sourceTree = "<group>"; };
+		B80D7D052787207C00DEB25F /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		B80D7CA3278345EC00DEB25F /* Magiko */ = {
 			isa = PBXGroup;
 			children = (
+				B80D7D0427871EF500DEB25F /* Logic */,
 				B80D7CF42785F8CB00DEB25F /* Structs */,
 				B80D7CF12785F85200DEB25F /* Data */,
 				B80D7CA4278345EC00DEB25F /* MagikoApp.swift */,
@@ -178,6 +181,14 @@
 				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
 			);
 			path = Structs;
+			sourceTree = "<group>";
+		};
+		B80D7D0427871EF500DEB25F /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7D052787207C00DEB25F /* GameLogic.swift */,
+			);
+			path = Logic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +305,7 @@
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
 				B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */,
 				B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */,
+				B80D7D062787207C00DEB25F /* GameLogic.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,

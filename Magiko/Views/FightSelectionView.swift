@@ -41,7 +41,7 @@ struct FightSelectionView: View {
                                 if tempCheck() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.viewName = "Fight"
+                                        currentView.scene = CurrentView.Scene.fight
                                     }
                                 }
                             }
@@ -49,7 +49,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.viewName = "Main"
+                                    currentView.scene = CurrentView.Scene.main
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -63,7 +63,7 @@ struct FightSelectionView: View {
                                 if tempCheck() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.viewName = "Fight"
+                                        currentView.scene = CurrentView.Scene.fight
                                     }
                                 }
                             }
@@ -71,7 +71,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.viewName = "Main"
+                                    currentView.scene = CurrentView.Scene.main
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))

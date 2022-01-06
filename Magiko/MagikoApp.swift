@@ -8,27 +8,33 @@
 import SwiftUI
 
 class CurrentView: ObservableObject {
-    @Published var viewName: String = "Loading"
+    @Published var scene: Scene = .loading
+    
+    enum Scene {
+        case loading
+        case main
+        case fightSelection
+        case fight
+    }
 }
 
 @main
 struct MagikoApp: App {
-    
     @StateObject var currentView = CurrentView()
     
     var body: some Scene {
         WindowGroup {
-            if currentView.viewName == "Main" {
+            if currentView.scene == CurrentView.Scene.main {
                 MainView().environmentObject(currentView)
-            } else if currentView.viewName == "FightSelection" {
+            } else if currentView.scene == CurrentView.Scene.fightSelection {
                 FightSelectionView().environmentObject(currentView)
-            } else if currentView.viewName == "Fight" {
+            } else if currentView.scene == CurrentView.Scene.fight {
                 FightView()
             } else {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
                         GlobalData.loadData()
-                        currentView.viewName = "Main"
+                        currentView.scene = CurrentView.Scene.main
                     }
                 }
             }

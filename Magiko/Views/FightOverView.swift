@@ -29,7 +29,7 @@ struct FightOverView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.viewName = "Main"
+                                    currentView.scene = CurrentView.Scene.main
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -95,7 +95,7 @@ struct FightOverView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.viewName = "Main"
+                                    currentView.scene = CurrentView.Scene.main
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))

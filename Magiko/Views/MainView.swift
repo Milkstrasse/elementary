@@ -50,7 +50,7 @@ struct MainView: View {
                     Button("Fight") {
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            currentView.viewName = "FightSelection"
+                            currentView.scene = CurrentView.Scene.fightSelection
                         }
                     }
                     .buttonStyle(GrowingButton(width: 190))

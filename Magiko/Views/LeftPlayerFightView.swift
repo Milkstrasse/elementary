@@ -10,7 +10,7 @@ import SwiftUI
 struct LeftPlayerFightView: View {
     var offsetX: CGFloat
     
-    @State var currentSection: String = "Summary"
+    @State var currentSection: Section = .summary
     
     var body: some View {
         GeometryReader { geometry in
@@ -20,7 +20,7 @@ struct LeftPlayerFightView: View {
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
-                            if currentSection == "Summary" {
+                            if currentSection == .summary {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
@@ -32,19 +32,19 @@ struct LeftPlayerFightView: View {
                             } else {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
-                                        if currentSection == "Options" {
+                                        if currentSection == .options {
                                             Button(action: {
-                                                currentSection = "Fight"
+                                                currentSection = .skills
                                             }) {
                                                 DetailedActionView(title: "Fight", description: "Use your skills", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                             Button(action: {
-                                                currentSection = "Team"
+                                                currentSection = .team
                                             }) {
                                                 DetailedActionView(title: "Team", description: "Switch out", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                             Button(action: {
-                                               currentSection = "Info"
+                                               currentSection = .info
                                             }) {
                                                 DetailedActionView(title: "Info", description: "Gather intel", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
@@ -53,7 +53,7 @@ struct LeftPlayerFightView: View {
                                             }) {
                                                 DetailedActionView(title: "Forfeit", description: "End battle", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
-                                        } else if currentSection == "Fight" {
+                                        } else if currentSection == .skills {
                                             Button(action: {
                                                 
                                             }) {
@@ -74,7 +74,7 @@ struct LeftPlayerFightView: View {
                                             }) {
                                                 DetailedActionView(title: "Attack", description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
-                                        } else if currentSection == "Team" {
+                                        } else if currentSection == .team {
                                             DetailedActionView(title: "Nickname", description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             Button(action: {
                                                 
@@ -111,11 +111,11 @@ struct LeftPlayerFightView: View {
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         VStack(alignment: .leading) {
                             ZStack {
-                                Button(currentSection == "Summary" ? "Next" : "Back") {
-                                    if currentSection == "Options" {
-                                        currentSection = "Summary"
+                                Button(currentSection == .summary ? "Next" : "Back") {
+                                    if currentSection == .options {
+                                        currentSection = .summary
                                     } else {
-                                        currentSection = "Options"
+                                        currentSection = .options
                                     }
                                 }
                                 .buttonStyle(ClearGrowingButton(width: 100, height: 35))
