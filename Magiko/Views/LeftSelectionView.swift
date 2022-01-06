@@ -76,12 +76,17 @@ struct LeftSelectionView: View {
                             ForEach(0 ..< 4) { index in
                                 Button(action: {
                                     if selectedSlot == index {
-                                        selectedSlot = -1
-                                        offsetX = 189
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        if selectionToggle {
                                             selectionToggle = false
-                                            infoToggle = false
+                                            infoToggle = true
+                                        } else {
+                                            selectedSlot = -1
+                                            offsetX = 189
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                selectionToggle = false
+                                                infoToggle = false
+                                            }
                                         }
                                     } else {
                                         selectedSlot = index
@@ -138,7 +143,7 @@ struct LeftSelectionView: View {
                                 .clipped()
                             }
                             .padding(.vertical, 15)
-                        } else if infoToggle {
+                        } else if infoToggle && selectedSlot > 0 {
                             VStack {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
