@@ -16,7 +16,7 @@ enum Section {
 }
 
 struct FightView: View {
-    let gameLogic: GameLogic
+    let fightLogic: FightLogic
     
     @State var transitionToggle: Bool = true
     @State var offsetX: CGFloat = -200
@@ -25,9 +25,9 @@ struct FightView: View {
         ZStack {
             Color.red.ignoresSafeArea()
             HStack {
-                LeftPlayerFightView(gameLogic: gameLogic, offsetX: offsetX)
+                LeftPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
                 Spacer()
-                RightPlayerFightView(gameLogic: gameLogic, offsetX: offsetX)
+                RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
             }
             .edgesIgnoringSafeArea(.bottom)
             GeometryReader { geometry in
@@ -44,7 +44,7 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(gameLogic: GameLogic(leftFighters: [], rightFighters: []))
+        FightView(fightLogic: FightLogic(leftFighters: [], rightFighters: []))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

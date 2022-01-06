@@ -9,27 +9,17 @@ import SwiftUI
 
 struct FightSelectionView: View {
     @EnvironmentObject var manager: ViewManager
+    @State var gameLogic: GameLogic = GameLogic()
     
     @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
     
+    @State var leftReady: Bool = false
+    @State var rightReady: Bool = false
+    
     @State var transitionToggle: Bool = true
     
-    func tempCheck() -> Bool {
-        for fighter in leftFighters {
-            if fighter != nil {
-                for fighter in rightFighters {
-                    if fighter != nil {
-                       return true
-                    }
-                }
-            }
-        }
-        
-        return false
-    }
-    
-    func createLogic() -> GameLogic {
+    func createLogic() -> FightLogic {
         var lefts: [Fighter] = []
         for fighter in leftFighters {
             if fighter != nil {
@@ -44,7 +34,7 @@ struct FightSelectionView: View {
             }
         }
         
-        return GameLogic(leftFighters: lefts, rightFighters: rights)
+        return FightLogic(leftFighters: lefts, rightFighters: rights)
     }
     
     var body: some View {
@@ -55,11 +45,18 @@ struct FightSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(FightView(gameLogic: self.createLogic()).environmentObject(manager)))
+                            Button(leftReady ? "Cancel" : "Ready") {
+                                leftReady = !leftReady
+                                gameLogic.setReady(player: 0, ready: leftReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = self.createLogic()
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
                                     }
                                 }
                             }
@@ -77,11 +74,18 @@ struct FightSelectionView: View {
                     Spacer()
                     VStack {
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(FightView(gameLogic: self.createLogic()).environmentObject(manager)))
+                            Button(rightReady ? "Cancel" : "Ready") {
+                                rightReady = !rightReady
+                                gameLogic.setReady(player: 1, ready: rightReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = self.createLogic()
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
                                     }
                                 }
                             }
@@ -100,9 +104,9 @@ struct FightSelectionView: View {
                 }
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
-                    LeftSelectionView(fighters: $leftFighters)
+                    LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
                     Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
-                    RightSelectionView(fighters: $rightFighters)
+                    RightSelectionView(fighters: $rightFighters).disabled(rightReady)
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }

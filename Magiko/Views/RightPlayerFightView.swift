@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RightPlayerFightView: View {
-    let gameLogic: GameLogic
+    let fightLogic: FightLogic
     
     let offsetX: CGFloat
     
@@ -19,14 +19,14 @@ struct RightPlayerFightView: View {
             HStack {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
-                    Image(gameLogic.getRightFighter().name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                    Image(fightLogic.getRightFighter().name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         VStack(alignment: .trailing) {
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack(spacing: 5) {
-                                        ForEach(gameLogic.rightFighters.indices) { index in
+                                        ForEach(fightLogic.rightFighters.indices) { index in
                                             Circle().fill(Color.blue).frame(width: 12)
                                         }
                                     }
@@ -42,9 +42,9 @@ struct RightPlayerFightView: View {
                                             .frame(width: 90, height: 30).offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
                                                 HStack {
-                                                    Text(gameLogic.getRightFighter().name).lineLimit(1)
+                                                    Text(fightLogic.getRightFighter().name).lineLimit(1)
                                                     Spacer()
-                                                    Text("\(Int(gameLogic.getRightFighter().currhp))/\(Int(gameLogic.getRightFighter().base.health))HP")
+                                                    Text("\(Int(fightLogic.getRightFighter().currhp))/\(Int(fightLogic.getRightFighter().base.health))HP")
                                                 }
                                                 Rectangle().fill(Color.purple).frame(height: 6)
                                             }
@@ -105,7 +105,7 @@ struct RightPlayerFightView: View {
                                                 DetailedActionView(title: "Forfeit", description: "End battle", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                         } else if currentSection == .skills {
-                                            ForEach(gameLogic.getRightFighter().skills, id: \.self) { skill in
+                                            ForEach(fightLogic.getRightFighter().skills, id: \.self) { skill in
                                                 Button(action: {
                                                     
                                                 }) {
@@ -113,14 +113,14 @@ struct RightPlayerFightView: View {
                                             }
                                             }
                                         } else if currentSection == .team {
-                                            ForEach(gameLogic.rightFighters.indices) { index in
-                                                if index == gameLogic.currentRightFighter {
-                                                    DetailedActionView(title: gameLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            ForEach(fightLogic.rightFighters.indices) { index in
+                                                if index == fightLogic.currentRightFighter {
+                                                    DetailedActionView(title: fightLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                                 } else {
                                                     Button(action: {
                                                         
                                                     }) {
-                                                        DetailedActionView(title: gameLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                                        DetailedActionView(title: fightLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                                     }
                                                 }
                                             }
@@ -152,7 +152,7 @@ struct RightPlayerFightView: View {
 
 struct RightPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        RightPlayerFightView(gameLogic: GameLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0).edgesIgnoringSafeArea(.bottom)
+        RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0).edgesIgnoringSafeArea(.bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }
