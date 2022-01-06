@@ -1,33 +1,19 @@
 //
-//  FightSelectionView.swift
+//  FightOverView.swift
 //  Magiko
 //
-//  Created by Janice Hablützel on 03.01.22.
+//  Created by Janice Hablützel on 06.01.22.
 //
 
 import SwiftUI
 
-struct FightSelectionView: View {
+struct FightOverView: View {
     @EnvironmentObject var currentView: CurrentView
     
-    @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
-    @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
+    let leftFighters: [Fighter?] = [nil, nil, nil, nil]
+    let rightFighters: [Fighter?] = [nil, nil, nil, nil]
     
     @State var transitionToggle: Bool = true
-    
-    func tempCheck() -> Bool {
-        for fighter in leftFighters {
-            if fighter != nil {
-                for fighter in rightFighters {
-                    if fighter != nil {
-                       return true
-                    }
-                }
-            }
-        }
-        
-        return false
-    }
     
     var body: some View {
         ZStack {
@@ -37,13 +23,7 @@ struct FightSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.viewName = "Fight"
-                                    }
-                                }
+                            Button("Rematch") {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -59,13 +39,7 @@ struct FightSelectionView: View {
                     Spacer()
                     VStack {
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.viewName = "Fight"
-                                    }
-                                }
+                            Button("Rematch") {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -82,9 +56,9 @@ struct FightSelectionView: View {
                 }
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
-                    LeftSelectionView(fighters: $leftFighters)
+                    LeftFightOverView(fighters: leftFighters)
                     Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
-                    RightSelectionView(fighters: $rightFighters)
+                    RightFightOverView(fighters: rightFighters)
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }
@@ -99,9 +73,57 @@ struct FightSelectionView: View {
     }
 }
 
-struct FightSelectionView_Previews: PreviewProvider {
+struct LeftFightOverView: View {
+    let fighters: [Fighter?]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                HStack {
+                    Spacer()
+                    VStack {
+                        Spacer()
+                        HStack(spacing: 5) {
+                            ForEach(0 ..< 4) { index in
+                                FighterView(fighter: fighters[index], isSelected: false)
+                            }
+                        }
+                        .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
+                        Spacer()
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct RightFightOverView: View {
+    let fighters: [Fighter?]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .trailing) {
+                HStack {
+                    VStack {
+                        Spacer()
+                        HStack(spacing: 5) {
+                            ForEach(0 ..< 4) { index in
+                                FighterView(fighter: fighters[index], isSelected: false)
+                            }
+                        }
+                        .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+struct FightOverView_Previews: PreviewProvider {
     static var previews: some View {
-        FightSelectionView()
-.previewInterfaceOrientation(.landscapeRight)
+        FightOverView()
+.previewInterfaceOrientation(.landscapeLeft)
     }
 }

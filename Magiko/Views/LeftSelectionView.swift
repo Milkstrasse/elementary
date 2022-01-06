@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LeftSelectionView: View {
-    @State var fighters: [Fighter?] = [nil, nil, nil, nil]
+    @Binding var fighters: [Fighter?]
     @State var selectedSlot: Int = -1
     
     @State var selectionToggle: Bool = false
@@ -189,7 +189,7 @@ struct LeftSelectionView: View {
 
 struct LeftSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftSelectionView().edgesIgnoringSafeArea(.bottom)
+        LeftSelectionView(fighters: .constant([nil, nil, nil, nil])).edgesIgnoringSafeArea(.bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

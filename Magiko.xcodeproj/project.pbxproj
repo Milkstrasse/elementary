@@ -28,6 +28,7 @@
 		B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF52785F90500DEB25F /* GlobalData.swift */; };
 		B80D7CF8278635CC00DEB25F /* Fighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CF7278635CC00DEB25F /* Fighter.swift */; };
 		B80D7D01278639BA00DEB25F /* Skills in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D00278639BA00DEB25F /* Skills */; };
+		B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D02278707B600DEB25F /* FightOverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		B80D7CF52785F90500DEB25F /* GlobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalData.swift; sourceTree = "<group>"; };
 		B80D7CF7278635CC00DEB25F /* Fighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fighter.swift; sourceTree = "<group>"; };
 		B80D7D00278639BA00DEB25F /* Skills */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Skills; sourceTree = "<group>"; };
+		B80D7D02278707B600DEB25F /* FightOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightOverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 				B80D7CE62784D27500DEB25F /* FightView.swift */,
 				B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */,
 				B80D7CE82784F4A000DEB25F /* LeftPlayerFightView.swift */,
+				B80D7D02278707B600DEB25F /* FightOverView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
+				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,
 				B80D7CE527847BBA00DEB25F /* RightSelectionView.swift in Sources */,
 				B80D7CE327847B8600DEB25F /* LeftSelectionView.swift in Sources */,
 			);
