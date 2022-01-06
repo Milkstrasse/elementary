@@ -31,6 +31,20 @@ struct RightSelectionView: View {
         }
     }
     
+    func isSelected(fighter: Fighter?) -> Bool {
+        if fighter == nil {
+            return false
+        }
+        
+        for selectedFighter in fighters {
+            if fighter?.name == selectedFighter?.name {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     func getFirstHalf() -> [Fighter?] {
         if GlobalData.allFighter.count%2 == 0 {
             let rowArray = GlobalData.allFighter[0 ..< GlobalData.allFighter.count/2]
@@ -80,7 +94,7 @@ struct RightSelectionView: View {
                                         }
                                     }
                                 }) {
-                                    FighterView(fighter: fighters[index])
+                                    FighterView(fighter: fighters[index], isSelected: false)
                                 }
                             }
                         }
@@ -100,17 +114,21 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
-                                                    FighterView(fighter: fighter).rotationEffect(.degrees(90))
+                                                    FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                         .onTapGesture {
-                                                            fighters[selectedSlot] = fighter
+                                                            if !isSelected(fighter: fighter) {
+                                                                fighters[selectedSlot] = fighter
+                                                            }
                                                         }
                                                 }
                                             }
                                             VStack(spacing: 5) {
                                                 ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
-                                                    FighterView(fighter: fighter).rotationEffect(.degrees(90))
+                                                    FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                         .onTapGesture {
-                                                            fighters[selectedSlot] = fighter
+                                                            if !isSelected(fighter: fighter) {
+                                                                fighters[selectedSlot] = fighter
+                                                            }
                                                         }
                                                 }
                                             }
@@ -146,12 +164,11 @@ struct RightSelectionView: View {
                                                     .rotationEffect(.degrees(-90)).frame(width: 40, height: 215)
                                                 }
                                             }
-                                            BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                            BaseOverviewView(base: fighters[selectedSlot]!.base, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
-                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedActionView(title: "Attack", description: "Description", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            ForEach(fighters[selectedSlot]!.skills, id: \.name) { skill in
+                                                DetailedActionView(title: skill.name, description: skill.description, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            }
                                         }
                                         .padding(.vertical, 15)
                                     }

@@ -136,10 +136,11 @@ struct BaseOverviewView: View {
 
 struct FighterView: View {
     var fighter: Fighter?
+    var isSelected: Bool
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.purple)
+            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.blue : Color.purple)
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
@@ -156,7 +157,7 @@ struct Views_Previews: PreviewProvider {
             DetailedActionView(title: "Title", description: "Description")
             SimpleAttackView(title: "Title")
             RectangleFighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false).frame(width: 100)
-            FighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))))
+            FighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
         }
     }
