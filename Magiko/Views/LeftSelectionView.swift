@@ -149,7 +149,7 @@ struct LeftSelectionView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            Button("Remove") {
+                                            Button(GlobalData.shared.getTranslation(key: "training")) {
                                                 fighters[selectedSlot] = nil
                                                 
                                                 selectionToggle = true
@@ -162,7 +162,7 @@ struct LeftSelectionView: View {
                                                     Button("<") {
                                                     }
                                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
-                                                    Text("Loadout").fixedSize().frame(width: 120)
+                                                    CustomText(key: "Loadout").fixedSize().frame(width: 120)
                                                     Button(">") {
                                                     }
                                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))

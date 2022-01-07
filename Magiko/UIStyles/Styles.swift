@@ -9,11 +9,12 @@ import SwiftUI
 
 struct GrowingButton: ButtonStyle {
     var width: CGFloat
+    var height: CGFloat = 40
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: width, height: 40, alignment: width == 40 ? .center : .leading)
-            .offset(x: width == 40 ? 0 : 15)
+            .frame(width: width, height: height, alignment: width == height ? .center : .leading)
+            .offset(x: width == height ? 0 : 15)
             .background(content: {
                 RoundedRectangle(cornerRadius: 5).fill(Color.blue)
             })

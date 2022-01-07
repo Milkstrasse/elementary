@@ -26,7 +26,7 @@ struct MainView: View {
             Image(currentFighter.name).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
-                    Button("Training") {
+                    Button(GlobalData.shared.getTranslation(key: "training")) {
                         print("Button pressed!")
                     }
                     .buttonStyle(GrowingButton(width: 135))
@@ -53,7 +53,7 @@ struct MainView: View {
                             manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                         }
                     }
-                    .buttonStyle(GrowingButton(width: 190))
+                    .buttonStyle(GrowingButton(width: 190, height: 50))
                 }
             }
             .padding(.all, 15)

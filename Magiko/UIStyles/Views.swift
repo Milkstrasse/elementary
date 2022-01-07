@@ -18,8 +18,8 @@ struct DetailedActionView: View {
             RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
-                    Text(title)
-                    Text(description)
+                    CustomText(key: title)
+                    CustomText(key: description)
                 }
                 .padding(.leading, 15)
                 Spacer()
@@ -49,8 +49,8 @@ struct SimpleAttackView: View {
                 }
                 Triangle().fill(Color.green).frame(width: 16).rotationEffect(.degrees(180))
                 HStack(spacing: 0) {
-                    Text(title)
-                    Text(" - " + "Very effective")
+                    CustomText(key: title)
+                    CustomText(key: " - " + "Very effective")
                 }
                 .padding(.leading, 15)
                 Spacer()
@@ -88,19 +88,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            Text("Health")
+                            CustomText(key: "health")
                             Spacer()
-                            Text("\(base.health)")
+                            CustomText(key: "\(base.health)")
                         }
                         HStack {
-                            Text("Attack")
+                            CustomText(key: "attack")
                             Spacer()
-                            Text("\(base.attack)")
+                            CustomText(key: "\(base.attack)")
                         }
                         HStack {
-                            Text("Defense")
+                            CustomText(key: "defense")
                             Spacer()
-                            Text("\(base.defense)")
+                            CustomText(key: "\(base.defense)")
                         }
                     }
                 }
@@ -111,19 +111,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            Text("Agility")
+                            CustomText(key: "agility")
                             Spacer()
-                            Text("\(base.agility)")
+                            CustomText(key: "\(base.agility)")
                         }
                         HStack {
-                            Text("Precision")
+                            CustomText(key: "precision")
                             Spacer()
-                            Text("\(base.precision)")
+                            CustomText(key: "\(base.precision)")
                         }
                         HStack {
-                            Text("Sp. Attack")
+                            CustomText(key: "spAttack")
                             Spacer()
-                            Text("\(base.spAttack)")
+                            CustomText(key: "\(base.spAttack)")
                         }
                     }
                 }
@@ -144,10 +144,18 @@ struct FighterView: View {
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
-                Text("+")
+                CustomText(key: "+")
             }
         }
         .frame(width: 70, height: 70).contentShape(Rectangle())
+    }
+}
+
+struct CustomText: View {
+    var key: String
+    
+    var body: some View {
+        Text(GlobalData.shared.getTranslation(key: key))
     }
 }
 

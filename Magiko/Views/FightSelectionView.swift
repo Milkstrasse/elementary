@@ -45,7 +45,7 @@ struct FightSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button(leftReady ? "Cancel" : "Ready") {
+                            Button(leftReady ? GlobalData.shared.getTranslation(key: "cancel") : GlobalData.shared.getTranslation(key: "ready")) {
                                 leftReady = !leftReady
                                 gameLogic.setReady(player: 0, ready: leftReady)
                                 
@@ -74,7 +74,7 @@ struct FightSelectionView: View {
                     Spacer()
                     VStack {
                         HStack(spacing: 5) {
-                            Button(rightReady ? "Cancel" : "Ready") {
+                            Button(rightReady ? GlobalData.shared.getTranslation(key: "cancel") : GlobalData.shared.getTranslation(key: "ready")) {
                                 rightReady = !rightReady
                                 gameLogic.setReady(player: 1, ready: rightReady)
                                 
@@ -105,7 +105,7 @@ struct FightSelectionView: View {
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
                     LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
-                    Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
+                    CustomText(key: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
                     RightSelectionView(fighters: $rightFighters).disabled(rightReady)
                 }
                 .edgesIgnoringSafeArea(.bottom)

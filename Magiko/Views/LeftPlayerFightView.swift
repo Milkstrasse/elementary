@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct LeftPlayerFightView: View {
-    let fightLogic: FightLogic
+    @ObservedObject var fightLogic: FightLogic
     
     let offsetX: CGFloat
     
     @State var currentSection: Section = .summary
+    
+    func calcWidth(fighter: Fighter) -> CGFloat {
+        let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
+        let width = round(180 * percentage)
+        
+        return width
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +33,7 @@ struct LeftPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        Text("jkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjl\njfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldj\nljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjf\nljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfld\nsfjkjjjfljldj\nljfldsf").frame(maxWidth: geometry.size.height - 60)
+                                        CustomText(key: "jkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjl\njfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldj\nljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjf\nljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfld\nsfjkjjjfljldj\nljfldsf").frame(maxWidth: geometry.size.height - 60)
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
@@ -58,7 +65,7 @@ struct LeftPlayerFightView: View {
                                         } else if currentSection == .skills {
                                             ForEach(fightLogic.getLeftFighter().skills, id: \.self) { skill in
                                                 Button(action: {
-                                                    
+                                                    fightLogic.attack(player: 0)
                                                 }) {
                                                     DetailedActionView(title: skill.name, description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
@@ -95,7 +102,7 @@ struct LeftPlayerFightView: View {
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         VStack(alignment: .leading) {
                             ZStack {
-                                Button(currentSection == .summary ? "Next" : "Back") {
+                                Button(currentSection == .summary ? GlobalData.shared.getTranslation(key: "next") : GlobalData.shared.getTranslation(key: "back")) {
                                     if currentSection == .options {
                                         currentSection = .summary
                                     } else {
@@ -120,16 +127,19 @@ struct LeftPlayerFightView: View {
                                             Rectangle().fill(Color.blue).frame(width: 210)
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                                Text("Fine")
+                                                CustomText(key: "Fine")
                                             }
                                             .frame(width: 90, height: 30).offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
                                                 HStack {
-                                                    Text(fightLogic.getLeftFighter().name).lineLimit(1)
+                                                    CustomText(key: fightLogic.getLeftFighter().name).lineLimit(1)
                                                     Spacer()
-                                                    Text("\(Int(fightLogic.getLeftFighter().currhp))/\(Int(fightLogic.getRightFighter().base.health))HP")
+                                                    CustomText(key: "\(Int(fightLogic.getLeftFighter().currhp))/\(Int(fightLogic.getRightFighter().base.health))HP")
                                                 }
-                                                Rectangle().fill(Color.purple).frame(height: 6)
+                                                ZStack(alignment: .leading) {
+                                                    Rectangle().fill(Color.purple).frame(height: 6)
+                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getLeftFighter()), height: 6)
+                                                }
                                             }
                                             .padding(.horizontal, 15).frame(height: 55)
                                         }

@@ -21,18 +21,18 @@ struct InfoView: View {
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Info").frame(height: 60).padding([.top, .leading], 15)
+                    CustomText(key: "Info").frame(height: 60).padding([.top, .leading], 15)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
-                                    Text("Option").frame(width: 100, alignment: .leading)
-                                    Text("<").frame(width: 40, height: 40)
+                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "<").frame(width: 40, height: 40)
                                     Spacer()
-                                    Text("100%")
+                                    CustomText(key: "100%")
                                     Spacer()
-                                    Text(">").frame(width: 40, height: 40)
+                                    CustomText(key: ">").frame(width: 40, height: 40)
                                 }
                                 .padding(.horizontal, 15)
                             }

@@ -60,7 +60,7 @@ struct OverviewView: View {
                         ZStack {
                             Color.red
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(currentFighter.name)
+                                CustomText(key: currentFighter.name)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
@@ -83,7 +83,7 @@ struct OverviewView: View {
                     }
                     .offset(x: geometry.safeAreaInsets.trailing)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Overview").frame(height: 60).padding([.top, .leading], 15)
+                        CustomText(key: "Overview").frame(height: 60).padding([.top, .leading], 15)
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 8) {
                                 ForEach(0 ..< self.getRowAmount()) { row in
@@ -115,7 +115,7 @@ struct OverviewView: View {
                                         print("Button pressed!")
                                     }
                                     Spacer()
-                                    Text("All Types")
+                                    CustomText(key: "All Types")
                                     Spacer()
                                     Button(">") {
                                         print("Button pressed!")
