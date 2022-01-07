@@ -19,7 +19,7 @@ struct SkillsView: View {
         HStack(spacing: 5) {
             ForEach(fightLogic.getFighter(player: player).skills, id: \.self) { skill in
                 Button(action: {
-                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: nil, skill: skill)) {
+                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
                         currentSection = .waiting
                     }
                 }) {

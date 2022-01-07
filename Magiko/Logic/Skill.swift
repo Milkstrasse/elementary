@@ -54,11 +54,11 @@ struct SubSkill: Decodable {
 
 struct Move {
     let source: Fighter
-    let target: Fighter?
+    let target: Int
     
     let skill: Skill
     
-    init(source: Fighter, target: Fighter?, skill: Skill = Skill()) {
+    init(source: Fighter, target: Int = -1, skill: Skill = Skill()) {
         self.source = source
         self.target = target
         

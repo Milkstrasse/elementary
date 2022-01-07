@@ -85,6 +85,13 @@ class FightLogic: ObservableObject {
     }
     
     func getFasterPlayer() -> Int {
+        //target -> player wants to switch
+        if usedMoves[0][0].target > -1 {
+            return 0
+        } else if usedMoves[1][0].target > -1 {
+            return 1
+        }
+        
         if getFighter(player: 0).base.agility > getFighter(player: 1).base.agility {
             return 0
         } else if getFighter(player: 1).base.agility > getFighter(player: 0).base.agility {
@@ -97,7 +104,19 @@ class FightLogic: ObservableObject {
     }
     
     func processTurn(player: Int) {
-        attack(player: player)
+        if usedMoves[player][0].target > -1 {
+            if player == 0 {
+                publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + "\n"
+                
+                currentLeftFighter = usedMoves[player][0].target
+            } else {
+                publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + "\n"
+                
+                currentRightFighter = usedMoves[player][0].target
+            }
+        } else {
+            attack(player: player)
+        }
     }
     
     func undoMove(player: Int) {
@@ -120,6 +139,6 @@ class FightLogic: ObservableObject {
             }
         }
         
-        publishedText += getFighter(player: 0).name + "used" + usedMoves[player][0].skill.name + "\n"
+        publishedText += getFighter(player: 0).name + " used " + usedMoves[player][0].skill.name + "\n"
     }
 }
