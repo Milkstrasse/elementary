@@ -53,16 +53,27 @@ class FightLogic: ObservableObject {
             
             DispatchQueue.main.async { [self] in
                 publishedText = "Loading..."
-                
                 let fasterPlayer: Int = getFasterPlayer()
-                processTurn(player: fasterPlayer)
-                if fasterPlayer == 0 {
-                    processTurn(player: 1)
-                } else {
-                    processTurn(player: 0)
-                }
                 
-                battling = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    publishedText = ""
+                    processTurn(player: fasterPlayer)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        if fasterPlayer == 0 {
+                            processTurn(player: 1)
+                        } else {
+                            processTurn(player: 0)
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            gameLogic.setReady(player: 0, ready: false)
+                            gameLogic.setReady(player: 1, ready: false)
+                            
+                            battling = false
+                        }
+                    }
+                }
             }
             //fasterPlayer = get faster player
             //playerTurn of fasterPlayer
@@ -109,7 +120,6 @@ class FightLogic: ObservableObject {
             }
         }
         
-        publishedText += getFighter(player: 0).name + "used" + usedMoves[player][0].skill.name
-        print("attacked")
+        publishedText += getFighter(player: 0).name + "used" + usedMoves[player][0].skill.name + "\n"
     }
 }
