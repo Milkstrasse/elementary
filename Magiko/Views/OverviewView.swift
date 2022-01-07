@@ -24,18 +24,13 @@ struct OverviewView: View {
         }
     }
     
-    func getSubArray(row: Int) -> [Fighter?] {
+    func getSubArray(row: Int) -> [Fighter] {
         if (3 + row * 3) < GlobalData.shared.allFighter.count {
             let rowArray = GlobalData.shared.allFighter[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
             let rowArray = GlobalData.shared.allFighter[row * 3 ..< GlobalData.shared.allFighter.count]
-            
-            var subArray: [Fighter?] = Array(rowArray)
-            for _ in (0 ..< (row + 1) * 3 - GlobalData.shared.allFighter.count) {
-                subArray.append(nil)
-            }
-            return subArray
+            return Array(rowArray)
         }
     }
     
@@ -88,17 +83,16 @@ struct OverviewView: View {
                             VStack(spacing: 8) {
                                 ForEach(0 ..< self.getRowAmount()) { row in
                                     HStack(spacing: 8) {
-                                        ForEach(self.getSubArray(row: row), id: \.?.name) { fighter in
-                                            if fighter != nil {
-                                                RectangleFighterView(fighter: fighter!, isSelected: self.isSelected(fighter: fighter!))
-                                                    .onTapGesture {
-                                                        print(fighter!.name)
-                                                        fighterSelected = true
-                                                        currentFighter = fighter!
-                                                }
-                                            } else {
-                                                Color.clear
+                                        ForEach(self.getSubArray(row: row), id: \.name) { fighter in
+                                            RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
+                                                .onTapGesture {
+                                                    print(fighter.name)
+                                                    fighterSelected = true
+                                                    currentFighter = fighter
                                             }
+                                        }
+                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count) { _ in
+                                            Color.clear
                                         }
                                     }
                                 }
