@@ -47,7 +47,7 @@ struct MainView: View {
                 Spacer()
                 VStack {
                     Spacer()
-                    Button("Fight") {
+                    Button(GlobalData.shared.getTranslation(key: "fight")) {
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             currentView.scene = CurrentView.Scene.fightSelection
