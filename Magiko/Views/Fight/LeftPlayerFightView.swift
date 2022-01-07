@@ -33,7 +33,7 @@ struct LeftPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(key: "player did something").frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(key: fightLogic.publishedText).frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
@@ -77,7 +77,7 @@ struct LeftPlayerFightView: View {
                                 }
                                 .buttonStyle(ClearGrowingButton(width: 100, height: 35))
                             }
-                            .rotationEffect(.degrees(90)).frame(width: 35, height: 100)
+                            .rotationEffect(.degrees(90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
                             Spacer()
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 0) {
@@ -122,11 +122,11 @@ struct LeftPlayerFightView: View {
                 .frame(width: 215)
                 Spacer()
             }
-            .onChange(of: fightLogic.battling) { battling in
+            .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
                     currentSection = .summary
                 }
-            }
+            })
         }
     }
 }

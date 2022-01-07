@@ -37,7 +37,6 @@
 		B80D7D102788739200DEB25F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0F2788739200DEB25F /* OptionsView.swift */; };
 		B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D11278876FC00DEB25F /* TeamView.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
-		B8EAA7852788A94000DD3813 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7842788A94000DD3813 /* Stack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +82,6 @@
 		B80D7D0F2788739200DEB25F /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		B80D7D11278876FC00DEB25F /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
-		B8EAA7842788A94000DD3813 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,7 +193,6 @@
 				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
 				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
 				B8EAA7822788870900DD3813 /* Skill.swift */,
-				B8EAA7842788A94000DD3813 /* Stack.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -342,7 +339,6 @@
 				B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */,
 				B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */,
 				B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */,
-				B8EAA7852788A94000DD3813 /* Stack.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,

@@ -20,6 +20,8 @@ class FightLogic: ObservableObject {
     
     @Published var battling: Bool = false
     
+    @Published var publishedText: String = ""
+    
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
         self.rightFighters = rightFighters
@@ -48,9 +50,43 @@ class FightLogic: ObservableObject {
         if gameLogic.areBothReady() {
             print("START FIGHTING")
             battling = true
+            
+            DispatchQueue.main.async { [self] in
+                publishedText = "Loading..."
+                
+                let fasterPlayer: Int = getFasterPlayer()
+                processTurn(player: fasterPlayer)
+                if fasterPlayer == 0 {
+                    processTurn(player: 1)
+                } else {
+                    processTurn(player: 0)
+                }
+                
+                battling = false
+            }
+            //fasterPlayer = get faster player
+            //playerTurn of fasterPlayer
+            //playerTurn of other player
+            //some status effects
         }
         
         return true
+    }
+    
+    func getFasterPlayer() -> Int {
+        if getFighter(player: 0).base.agility > getFighter(player: 1).base.agility {
+            return 0
+        } else if getFighter(player: 1).base.agility > getFighter(player: 0).base.agility {
+            return 1
+        } else if Bool.random() {
+            return 0
+        } else {
+            return 1
+        }
+    }
+    
+    func processTurn(player: Int) {
+        attack(player: player)
     }
     
     func undoMove(player: Int) {
@@ -73,6 +109,7 @@ class FightLogic: ObservableObject {
             }
         }
         
+        publishedText += getFighter(player: 0).name + "used" + usedMoves[player][0].skill.name
         print("attacked")
     }
 }
