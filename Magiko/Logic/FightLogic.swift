@@ -19,12 +19,12 @@ class FightLogic: ObservableObject {
         self.rightFighters = rightFighters
     }
     
-    func getLeftFighter() -> Fighter {
-        return leftFighters[currentLeftFighter]
-    }
-    
-    func getRightFighter() -> Fighter {
-        return rightFighters[currentRightFighter]
+    func getFighter(player: Int) -> Fighter {
+        if player == 0 {
+            return leftFighters[currentLeftFighter]
+        } else {
+            return rightFighters[currentRightFighter]
+        }
     }
     
     func isValid() -> Bool {

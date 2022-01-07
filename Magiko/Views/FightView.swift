@@ -13,6 +13,7 @@ enum Section {
     case skills
     case team
     case info
+    case waiting
 }
 
 struct FightView: View {

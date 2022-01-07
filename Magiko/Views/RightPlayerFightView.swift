@@ -27,7 +27,7 @@ struct RightPlayerFightView: View {
             HStack {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
-                    Image(fightLogic.getRightFighter().name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                    Image(fightLogic.getFighter(player: 1).name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         VStack(alignment: .trailing) {
@@ -50,13 +50,13 @@ struct RightPlayerFightView: View {
                                             .frame(width: 90, height: 30).offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
                                                 HStack {
-                                                    CustomText(key: fightLogic.getRightFighter().name).lineLimit(1)
+                                                    CustomText(key: fightLogic.getFighter(player: 1).name).lineLimit(1)
                                                     Spacer()
-                                                    CustomText(key: "\(Int(fightLogic.getRightFighter().currhp))/\(Int(fightLogic.getRightFighter().base.health))HP")
+                                                    CustomText(key: "\(Int(fightLogic.getFighter(player: 1).currhp))/\(Int(fightLogic.getFighter(player: 1).base.health))HP")
                                                 }
                                                 ZStack(alignment: .leading) {
                                                     Rectangle().fill(Color.purple).frame(height: 6)
-                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getRightFighter()), height: 6)
+                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 1)), height: 6)
                                                 }
                                             }
                                             .padding(.horizontal, 15).frame(height: 55)
@@ -86,70 +86,33 @@ struct RightPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(key: "jkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjl\njfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldj\nljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjf\nljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfldsfjkjjjfljldjljfld\nsfjkjjjfljldj\nljfldsf").frame(maxWidth: geometry.size.height - 60)
+                                        CustomText(key: "player did something").frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
                                 .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
-                            } else {
+                            } else if currentSection != .waiting {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
                                         if currentSection == .options {
-                                            Button(action: {
-                                                currentSection = .skills
-                                            }) {
-                                                DetailedActionView(title: "Fight", description: "Use your skills", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                currentSection = .team
-                                            }) {
-                                                DetailedActionView(title: "Team", description: "Switch out", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                currentSection = .info
-                                            }) {
-                                                DetailedActionView(title: "Info", description: "Gather intel", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Forfeit", description: "End battle", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
+                                            OptionsView(currentSection: $currentSection, geoHeight: geometry.size.height)
                                         } else if currentSection == .skills {
-                                            ForEach(fightLogic.getRightFighter().skills, id: \.self) { skill in
-                                                Button(action: {
-                                                    fightLogic.attack(player: 1)
-                                                }) {
-                                                    DetailedActionView(title: skill.name, description: "Effective - 10/10PP", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                                }
-                                            }
+                                            SkillsView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
                                         } else if currentSection == .team {
-                                            ForEach(fightLogic.rightFighters.indices) { index in
-                                                if index == fightLogic.currentRightFighter {
-                                                    DetailedActionView(title: fightLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                                } else {
-                                                    Button(action: {
-                                                        
-                                                    }) {
-                                                        DetailedActionView(title: fightLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
-                                            Button(action: {
-                                                
-                                            }) {
-                                                DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            }
+                                            TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
+                                        } else if currentSection == .info {
+                                            DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                     }
                                 }
                                 .padding(.vertical, 15)
+                            } else {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
+                                    CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 87, alignment: .topLeading).padding(.horizontal, 15)
+                                }
+                                .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }
                         }
                         .padding(.trailing, 15)
