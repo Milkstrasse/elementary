@@ -69,6 +69,9 @@ struct LeftPlayerFightView: View {
                                     if currentSection == .options {
                                         currentSection = .summary
                                     } else {
+                                        if currentSection == .waiting {
+                                            fightLogic.undoMove(player: 0)
+                                        }
                                         currentSection = .options
                                     }
                                 }
@@ -118,6 +121,11 @@ struct LeftPlayerFightView: View {
                 }
                 .frame(width: 215)
                 Spacer()
+            }
+            .onChange(of: fightLogic.battling) { battling in
+                if battling {
+                    currentSection = .summary
+                }
             }
         }
     }

@@ -19,8 +19,9 @@ struct SkillsView: View {
         HStack(spacing: 5) {
             ForEach(fightLogic.getFighter(player: player).skills, id: \.self) { skill in
                 Button(action: {
-                    fightLogic.attack(player: player)
-                    currentSection = .waiting
+                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: nil, skill: skill)) {
+                        currentSection = .waiting
+                    }
                 }) {
                     DetailedActionView(title: skill.name, description: "Effective - 10/10PP", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }

@@ -36,6 +36,8 @@
 		B80D7D0E2788712B00DEB25F /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0D2788712B00DEB25F /* SkillsView.swift */; };
 		B80D7D102788739200DEB25F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0F2788739200DEB25F /* OptionsView.swift */; };
 		B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D11278876FC00DEB25F /* TeamView.swift */; };
+		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
+		B8EAA7852788A94000DD3813 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7842788A94000DD3813 /* Stack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		B80D7D0D2788712B00DEB25F /* SkillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
 		B80D7D0F2788739200DEB25F /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		B80D7D11278876FC00DEB25F /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
+		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
+		B8EAA7842788A94000DD3813 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				B80D7D0427871EF500DEB25F /* Logic */,
-				B80D7CF42785F8CB00DEB25F /* Structs */,
 				B80D7CF12785F85200DEB25F /* Data */,
 				B80D7CA4278345EC00DEB25F /* MagikoApp.swift */,
 				B80D7CD32783539000DEB25F /* Views */,
@@ -162,20 +165,13 @@
 		B80D7CD32783539000DEB25F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B80D7D14278884AC00DEB25F /* Selection */,
+				B80D7D13278884A200DEB25F /* Fight */,
 				B80D7CCE2783508E00DEB25F /* MainView.swift */,
 				B80D7CDC27837A6400DEB25F /* OverviewView.swift */,
 				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
 				B80D7CD82783771D00DEB25F /* InfoView.swift */,
-				B80D7CE02783A92300DEB25F /* FightSelectionView.swift */,
-				B80D7CE427847BBA00DEB25F /* RightSelectionView.swift */,
-				B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */,
-				B80D7CE62784D27500DEB25F /* FightView.swift */,
-				B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */,
-				B80D7CE82784F4A000DEB25F /* LeftPlayerFightView.swift */,
 				B80D7D02278707B600DEB25F /* FightOverView.swift */,
-				B80D7D0D2788712B00DEB25F /* SkillsView.swift */,
-				B80D7D0F2788739200DEB25F /* OptionsView.swift */,
-				B80D7D11278876FC00DEB25F /* TeamView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,23 +186,41 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		B80D7CF42785F8CB00DEB25F /* Structs */ = {
-			isa = PBXGroup;
-			children = (
-				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
-				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
-			);
-			path = Structs;
-			sourceTree = "<group>";
-		};
 		B80D7D0427871EF500DEB25F /* Logic */ = {
 			isa = PBXGroup;
 			children = (
 				B80D7D052787207C00DEB25F /* FightLogic.swift */,
 				B80D7D072787558100DEB25F /* Extensions.swift */,
 				B80D7D0927875EA700DEB25F /* GameLogic.swift */,
+				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
+				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
+				B8EAA7822788870900DD3813 /* Skill.swift */,
+				B8EAA7842788A94000DD3813 /* Stack.swift */,
 			);
 			path = Logic;
+			sourceTree = "<group>";
+		};
+		B80D7D13278884A200DEB25F /* Fight */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CE62784D27500DEB25F /* FightView.swift */,
+				B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */,
+				B80D7CE82784F4A000DEB25F /* LeftPlayerFightView.swift */,
+				B80D7D0D2788712B00DEB25F /* SkillsView.swift */,
+				B80D7D0F2788739200DEB25F /* OptionsView.swift */,
+				B80D7D11278876FC00DEB25F /* TeamView.swift */,
+			);
+			path = Fight;
+			sourceTree = "<group>";
+		};
+		B80D7D14278884AC00DEB25F /* Selection */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CE02783A92300DEB25F /* FightSelectionView.swift */,
+				B80D7CE427847BBA00DEB25F /* RightSelectionView.swift */,
+				B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */,
+			);
+			path = Selection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,11 +342,13 @@
 				B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */,
 				B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */,
 				B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */,
+				B8EAA7852788A94000DD3813 /* Stack.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,
 				B80D7CE527847BBA00DEB25F /* RightSelectionView.swift in Sources */,
 				B80D7D102788739200DEB25F /* OptionsView.swift in Sources */,
+				B8EAA7832788870900DD3813 /* Skill.swift in Sources */,
 				B80D7D0A27875EA700DEB25F /* GameLogic.swift in Sources */,
 				B80D7CE327847B8600DEB25F /* LeftSelectionView.swift in Sources */,
 			);

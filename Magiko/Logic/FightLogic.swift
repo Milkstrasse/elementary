@@ -14,6 +14,12 @@ class FightLogic: ObservableObject {
     @Published var leftFighters: [Fighter]
     @Published var rightFighters: [Fighter]
     
+    var gameLogic: GameLogic = GameLogic()
+    
+    var usedMoves: [[Move]] = [[], []]
+    
+    @Published var battling: Bool = false
+    
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
         self.rightFighters = rightFighters
@@ -29,6 +35,27 @@ class FightLogic: ObservableObject {
     
     func isValid() -> Bool {
         return (leftFighters.count > 0 && leftFighters.count <= 4) && (rightFighters.count > 0 && rightFighters.count <= 4)
+    }
+    
+    func makeMove(player: Int, move: Move) -> Bool {
+        if gameLogic.readyPlayers[player] {
+            return false
+        }
+        
+        gameLogic.setReady(player: player, ready: true)
+        usedMoves[player].insert(move, at: 0)
+        
+        if gameLogic.areBothReady() {
+            print("START FIGHTING")
+            battling = true
+        }
+        
+        return true
+    }
+    
+    func undoMove(player: Int) {
+        gameLogic.setReady(player: player, ready: false)
+        usedMoves[player].removeFirst()
     }
     
     func attack(player: Int) {
