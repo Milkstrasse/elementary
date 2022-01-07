@@ -61,7 +61,7 @@ struct FightOverView: View {
                         }
                     }
                     .padding(.leading, 10)
-                    CustomText(key: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
+                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
                     HStack {
                         VStack {
                             Spacer()

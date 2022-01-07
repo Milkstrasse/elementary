@@ -27,12 +27,7 @@ struct InfoView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
-                                    CustomText(key: "<").frame(width: 40, height: 40)
-                                    Spacer()
-                                    CustomText(key: "100%")
-                                    Spacer()
-                                    CustomText(key: ">").frame(width: 40, height: 40)
+                                    Text("Lorem Ipsum")
                                 }
                                 .padding(.horizontal, 15)
                             }

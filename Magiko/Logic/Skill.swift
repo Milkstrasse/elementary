@@ -9,34 +9,32 @@ import Foundation
 
 struct Skill: Decodable, Hashable {
     let name: String
-    let description: String
+    let description: String?
     let element: String
     
     let skills: [SubSkill]
     
-    /*enum CodingKeys: String, CodingKey {
-        case name, description, element, power
-    }*/
+    enum CodingKeys: String, CodingKey {
+        case name, description, element, skills
+    }
     
     init() {
         name = "Unknown Skill"
-        description = "Missing"
+        description = nil
         element = "Aether"
         
         skills = []
     }
 
-    /*init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         name = try container.decode(String.self, forKey: .name)
-        description = try container.decode(String.self, forKey: .description)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
         element = try container.decode(String.self, forKey: .element)
         
-        //target = try container.decodeIfPresent(Target.self, forKey: .target) ?? .other
-        
-        power = try container.decode(UInt.self, forKey: .power)
-    }*/
+        skills = try container.decode([SubSkill].self, forKey: .skills)
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)

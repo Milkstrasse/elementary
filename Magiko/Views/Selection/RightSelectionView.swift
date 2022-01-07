@@ -173,7 +173,7 @@ struct RightSelectionView: View {
                                             BaseOverviewView(base: fighters[selectedSlot]!.base, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
                                             ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
-                                                DetailedActionView(title: skill.name, description: skill.description, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                                DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                         }
                                         .padding(.vertical, 15)

@@ -34,7 +34,7 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: "100%")
+                                    CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }
@@ -50,7 +50,7 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: "100%")
+                                    CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }

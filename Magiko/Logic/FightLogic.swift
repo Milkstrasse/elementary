@@ -115,7 +115,7 @@ class FightLogic: ObservableObject {
                 currentRightFighter = usedMoves[player][0].target
             }
         } else {
-            attack(player: player)
+            attack(player: player, skill: usedMoves[player][0].skill)
         }
     }
     
@@ -124,19 +124,11 @@ class FightLogic: ObservableObject {
         usedMoves[player].removeFirst()
     }
     
-    func attack(player: Int) {
+    func attack(player: Int, skill: Skill) {
         if player == 0 {
-            if rightFighters[currentRightFighter].currhp >= 10 {
-                rightFighters[currentRightFighter].currhp -= 10
-            } else {
-                rightFighters[currentRightFighter].currhp = 0
-            }
+            rightFighters[currentRightFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0])
         } else {
-            if leftFighters[currentLeftFighter].currhp >= 10 {
-                leftFighters[currentLeftFighter].currhp -= 10
-            } else {
-                leftFighters[currentLeftFighter].currhp = 0
-            }
+            leftFighters[currentLeftFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0])
         }
         
         publishedText += getFighter(player: 0).name + " used " + usedMoves[player][0].skill.name + "\n"

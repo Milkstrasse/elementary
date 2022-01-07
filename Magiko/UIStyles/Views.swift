@@ -34,6 +34,46 @@ struct DetailedActionView: View {
     }
 }
 
+struct DetailedSkillView: View {
+    let skill: Skill
+    
+    var width: CGFloat?
+    
+    func getDescription() -> String {
+        if skill.description != nil {
+            return skill.description!
+        }
+        
+        var description: String = ""
+        
+        if skill.skills[0].power > 0 {
+            description += "Deals \(skill.skills[0].power) DMG"
+        }
+        
+        return description
+    }
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            HStack(spacing: 0) {
+                VStack(alignment: .leading) {
+                    CustomText(key: skill.name)
+                    CustomText(key: getDescription())
+                }
+                .padding(.leading, 15)
+                Spacer()
+                Triangle().fill(Color.green).frame(width: 22)
+                ZStack(alignment: .leading) {
+                    Rectangle().fill(Color.green).frame(width: 25)
+                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
+                }
+            }
+        }
+        .frame(width: width, height: 60)
+    }
+}
+
 struct SimpleAttackView: View {
     let title: String
     
@@ -90,17 +130,17 @@ struct BaseOverviewView: View {
                         HStack {
                             CustomText(key: "health")
                             Spacer()
-                            CustomText(key: "\(base.health)")
+                            CustomText(text: "\(base.health)")
                         }
                         HStack {
                             CustomText(key: "attack")
                             Spacer()
-                            CustomText(key: "\(base.attack)")
+                            CustomText(text: "\(base.attack)")
                         }
                         HStack {
                             CustomText(key: "defense")
                             Spacer()
-                            CustomText(key: "\(base.defense)")
+                            CustomText(text: "\(base.defense)")
                         }
                     }
                 }
@@ -113,17 +153,17 @@ struct BaseOverviewView: View {
                         HStack {
                             CustomText(key: "agility")
                             Spacer()
-                            CustomText(key: "\(base.agility)")
+                            CustomText(text: "\(base.agility)")
                         }
                         HStack {
                             CustomText(key: "precision")
                             Spacer()
-                            CustomText(key: "\(base.precision)")
+                            CustomText(text: "\(base.precision)")
                         }
                         HStack {
                             CustomText(key: "spAttack")
                             Spacer()
-                            CustomText(key: "\(base.spAttack)")
+                            CustomText(text: "\(base.spAttack)")
                         }
                     }
                 }
@@ -144,7 +184,7 @@ struct FighterView: View {
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
-                CustomText(key: "+")
+                CustomText(text: "+")
             }
         }
         .frame(width: 70, height: 70).contentShape(Rectangle())
@@ -152,10 +192,18 @@ struct FighterView: View {
 }
 
 struct CustomText: View {
-    var key: String
+    var text: String
+    
+    init(text: String) {
+        self.text = text
+    }
+    
+    init(key: String) {
+        self.text = GlobalData.shared.getTranslation(key: key)
+    }
     
     var body: some View {
-        Text(GlobalData.shared.getTranslation(key: key))
+        Text(text)
     }
 }
 

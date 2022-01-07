@@ -33,7 +33,7 @@ struct LeftPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(key: fightLogic.publishedText).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(text: fightLogic.publishedText).frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
@@ -100,11 +100,11 @@ struct LeftPlayerFightView: View {
                                                 HStack {
                                                     CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
                                                     Spacer()
-                                                    CustomText(key: "\(Int(fightLogic.getFighter(player: 0).currhp))/\(Int(fightLogic.getFighter(player: 0).base.health))HP")
+                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 0).currhp))/\(Int(fightLogic.getFighter(player: 0).base.health))HP")
                                                 }
                                                 ZStack(alignment: .leading) {
                                                     Rectangle().fill(Color.purple).frame(height: 6)
-                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6)
+                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6).animation(.default, value: fightLogic.getFighter(player: 0).currhp)
                                                 }
                                             }
                                             .padding(.horizontal, 15).frame(height: 55)

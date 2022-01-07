@@ -105,7 +105,7 @@ struct FightSelectionView: View {
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
                     LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
-                    CustomText(key: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
+                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
                     RightSelectionView(fighters: $rightFighters).disabled(rightReady)
                 }
                 .edgesIgnoringSafeArea(.bottom)

@@ -60,7 +60,7 @@ struct OverviewView: View {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
                                         ForEach(currentFighter.skills, id: \.self) { skill in
-                                            DetailedActionView(title: skill.name, description: skill.description)
+                                            DetailedSkillView(skill: skill)
                                         }
                                     }
                                 }

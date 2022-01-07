@@ -39,6 +39,16 @@ struct Fighter: Hashable {
         }
     }
     
+    func getModifiedBase() -> Base {
+        let attack: Int = Int(base.attack) + attackMod
+        let defense: Int = Int(base.defense) + defenseMod
+        let agility: Int = Int(base.agility) + agilityMod
+        let precision: Int = Int(base.precision) + precisionMod
+        let spAttack: Int = Int(base.spAttack) + spAttackMod
+        
+        return Base(health: base.health, attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), spAttack: UInt(spAttack))
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
