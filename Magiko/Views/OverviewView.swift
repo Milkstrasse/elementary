@@ -17,22 +17,22 @@ struct OverviewView: View {
     @Binding var offsetX: CGFloat
     
     func getRowAmount() -> Int {
-        if GlobalData.allFighter.count%3 > 0 {
-            return GlobalData.allFighter.count/3 + 1
+        if GlobalData.shared.allFighter.count%3 > 0 {
+            return GlobalData.shared.allFighter.count/3 + 1
         } else {
-            return GlobalData.allFighter.count/3
+            return GlobalData.shared.allFighter.count/3
         }
     }
     
     func getSubArray(row: Int) -> [Fighter?] {
-        if (3 + row * 3) < GlobalData.allFighter.count {
-            let rowArray = GlobalData.allFighter[row * 3 ..< 3 + row * 3]
+        if (3 + row * 3) < GlobalData.shared.allFighter.count {
+            let rowArray = GlobalData.shared.allFighter[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.allFighter[row * 3 ..< GlobalData.allFighter.count]
+            let rowArray = GlobalData.shared.allFighter[row * 3 ..< GlobalData.shared.allFighter.count]
             
             var subArray: [Fighter?] = Array(rowArray)
-            for _ in (0 ..< (row + 1) * 3 - GlobalData.allFighter.count) {
+            for _ in (0 ..< (row + 1) * 3 - GlobalData.shared.allFighter.count) {
                 subArray.append(nil)
             }
             return subArray

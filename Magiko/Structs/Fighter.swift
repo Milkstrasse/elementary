@@ -34,7 +34,7 @@ struct Fighter: Hashable {
         let dataSkills = data.skills.removingDuplicates()
         
         for index in dataSkills.indices {
-            let skill = GlobalData.allSkills[dataSkills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
+            let skill = GlobalData.shared.allSkills[dataSkills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
             skills.append(skill)
         }
     }

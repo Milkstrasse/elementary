@@ -46,21 +46,21 @@ struct RightSelectionView: View {
     }
     
     func getFirstHalf() -> [Fighter?] {
-        if GlobalData.allFighter.count%2 == 0 {
-            let rowArray = GlobalData.allFighter[0 ..< GlobalData.allFighter.count/2]
+        if GlobalData.shared.allFighter.count%2 == 0 {
+            let rowArray = GlobalData.shared.allFighter[0 ..< GlobalData.shared.allFighter.count/2]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.allFighter[0 ..< GlobalData.allFighter.count/2 + 1]
+            let rowArray = GlobalData.shared.allFighter[0 ..< GlobalData.shared.allFighter.count/2 + 1]
             return Array(rowArray)
         }
     }
     
     func getSecondHalf() -> [Fighter?] {
-        if GlobalData.allFighter.count%2 == 0 {
-            let rowArray = GlobalData.allFighter[GlobalData.allFighter.count/2 ..< GlobalData.allFighter.count]
+        if GlobalData.shared.allFighter.count%2 == 0 {
+            let rowArray = GlobalData.shared.allFighter[GlobalData.shared.allFighter.count/2 ..< GlobalData.shared.allFighter.count]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.allFighter[GlobalData.allFighter.count/2 + 1 ..< GlobalData.allFighter.count]
+            let rowArray = GlobalData.shared.allFighter[GlobalData.shared.allFighter.count/2 + 1 ..< GlobalData.shared.allFighter.count]
             return Array(rowArray)
         }
     }

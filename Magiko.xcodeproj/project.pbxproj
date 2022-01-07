@@ -32,6 +32,7 @@
 		B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D052787207C00DEB25F /* FightLogic.swift */; };
 		B80D7D082787558100DEB25F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D072787558100DEB25F /* Extensions.swift */; };
 		B80D7D0A27875EA700DEB25F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0927875EA700DEB25F /* GameLogic.swift */; };
+		B80D7D0C27882EA800DEB25F /* Languages in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D0B27882EA800DEB25F /* Languages */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		B80D7D052787207C00DEB25F /* FightLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightLogic.swift; sourceTree = "<group>"; };
 		B80D7D072787558100DEB25F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B80D7D0927875EA700DEB25F /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		B80D7D0B27882EA800DEB25F /* Languages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Languages; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B80D7D0B27882EA800DEB25F /* Languages */,
 				B80D7D00278639BA00DEB25F /* Skills */,
 				B80D7CF22785F86A00DEB25F /* Fighters */,
 			);
@@ -281,6 +284,7 @@
 				B80D7D01278639BA00DEB25F /* Skills in Resources */,
 				B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */,
 				B80D7CF32785F86A00DEB25F /* Fighters in Resources */,
+				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

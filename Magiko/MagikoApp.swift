@@ -26,12 +26,28 @@ struct MagikoApp: App {
     @StateObject var manager: ViewManager = ViewManager()
     @State var isLoading = true
     
+    func getDeviceLanguage() -> String {
+        let langCode = String(Locale.preferredLanguages[0].prefix(2))
+        let currLocale = Locale(identifier: langCode + "_" + Locale.current.regionCode!)
+        var langName = ""
+        if let languageName = currLocale.localizedString(forLanguageCode: langCode) {
+            langName = languageName
+        }
+        
+        return langName
+    }
+    
     var body: some Scene {
         WindowGroup {
             if isLoading {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
-                        GlobalData.loadData()
+                        GlobalData.shared.loadData()
+                        
+                        let langCode = String(Locale.preferredLanguages[0].prefix(2))
+                        GlobalData.shared.getLanguages()
+                        GlobalData.shared.loadLanguage(language: langCode)
+                        
                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         isLoading = false
                     }
