@@ -33,7 +33,12 @@ struct MagikoApp: App {
             } else {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
-                        GlobalData.loadData()
+                        GlobalData.shared.loadData()
+                        
+                        let lang = String(Locale.preferredLanguages[0].prefix(2))
+                        GlobalData.shared.getLanguages()
+                        GlobalData.shared.loadLanguage(language: lang)
+                        
                         currentView.scene = CurrentView.Scene.main
                     }
                 }

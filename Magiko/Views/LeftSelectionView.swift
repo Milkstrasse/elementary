@@ -76,10 +76,11 @@ struct LeftSelectionView: View {
                             ForEach(0 ..< 4) { index in
                                 Button(action: {
                                     if selectedSlot == index {
-                                        selectedSlot = -1
                                         offsetX = 189
                                         
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            selectedSlot = -1
+                                            
                                             selectionToggle = false
                                             infoToggle = false
                                         }

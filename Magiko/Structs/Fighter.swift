@@ -31,7 +31,8 @@ struct Fighter: Hashable {
         currhp = data.base.health
         
         skills = []
-        let dataSkills = data.skills.removingDuplicates()
+        let dataSkills = data.skills
+        //todo: Remove duplicates with extension
         
         for index in dataSkills.indices {
             let skill = GlobalData.shared.allSkills[dataSkills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
