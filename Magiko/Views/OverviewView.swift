@@ -12,25 +12,43 @@ struct OverviewView: View {
     @State var infoToggle: Bool = false
     
     @Binding var currentFighter: Fighter
+    @State var currentArray: [Fighter] = GlobalData.shared.fighters
+    @State var currentElement: Int = -1
     
     @Binding var overviewToggle: Bool
     @Binding var offsetX: CGFloat
     
     func getRowAmount() -> Int {
-        if GlobalData.shared.fighters.count%3 > 0 {
-            return GlobalData.shared.fighters.count/3 + 1
+        if currentArray.count%3 > 0 {
+            return currentArray.count/3 + 1
         } else {
-            return GlobalData.shared.fighters.count/3
+            return currentArray.count/3
         }
     }
     
     func getSubArray(row: Int) -> [Fighter] {
-        if (3 + row * 3) < GlobalData.shared.fighters.count {
-            let rowArray = GlobalData.shared.fighters[row * 3 ..< 3 + row * 3]
+        if (3 + row * 3) < currentArray.count {
+            let rowArray = currentArray[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.shared.fighters[row * 3 ..< GlobalData.shared.fighters.count]
+            let rowArray = currentArray[row * 3 ..< currentArray.count]
             return Array(rowArray)
+        }
+    }
+    
+    func setElementalArray(element: Element?) {
+        if element == nil {
+            currentArray = GlobalData.shared.fighters
+        } else {
+            var elementals: [Fighter] = []
+            
+            for fighter in GlobalData.shared.fighters {
+                if element!.name == fighter.element.name {
+                    elementals.append(fighter)
+                }
+            }
+            
+            currentArray = elementals
         }
     }
     
@@ -81,7 +99,7 @@ struct OverviewView: View {
                         CustomText(key: "Overview").frame(height: 60).padding([.top, .leading], 15)
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 8) {
-                                ForEach(0 ..< self.getRowAmount()) { row in
+                                ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
                                     HStack(spacing: 8) {
                                         ForEach(self.getSubArray(row: row), id: \.name) { fighter in
                                             RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
@@ -90,7 +108,7 @@ struct OverviewView: View {
                                                     currentFighter = fighter
                                             }
                                         }
-                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count) { _ in
+                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count, id:\.self) { _ in
                                             Color.clear
                                         }
                                     }
@@ -105,16 +123,30 @@ struct OverviewView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 160, height: 40)
                                 HStack {
                                     Button("<") {
-                                        print("Button pressed!")
+                                        if currentElement < 0 {
+                                            currentElement = GlobalData.shared.elementArray.count - 1
+                                        } else {
+                                            currentElement -= 1
+                                        }
+                                        
+                                        setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: "All Types")
+                                    CustomText(key: currentElement == -1 ? "All Types" : GlobalData.shared.elementArray[currentElement].name).fixedSize()
                                     Spacer()
                                     Button(">") {
-                                        print("Button pressed!")
+                                        if currentElement >= GlobalData.shared.elementArray.count - 1 {
+                                            currentElement = -1
+                                        } else {
+                                            currentElement += 1
+                                        }
+                                        
+                                        setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
+                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
-                                .frame(width: 130).padding(.horizontal, 15)
+                                .frame(width: 145)
                             }
                             Button("X") {
                                 fighterSelected = false

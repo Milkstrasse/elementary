@@ -11,6 +11,8 @@ class GlobalData {
     static let shared = GlobalData()
     
     var elements: Dictionary<String, Element> = [:]
+    var elementArray: [Element] = []
+    
     var skills: Dictionary<String, Skill> = [:]
     var fighters: [Fighter] = []
     var loadouts: [Loadout] = []
@@ -33,6 +35,7 @@ class GlobalData {
                     let elementData = try JSONDecoder().decode(Element.self, from: data)
                     
                     elements[elementData.name] = elementData
+                    elementArray.append(elementData)
                 }
             } catch {
                 print("error: \(error)")
@@ -90,7 +93,6 @@ class GlobalData {
             }
             
             print("loaded: \(loadouts.count) loadouts")
-            print(loadouts)
         }
     }
     

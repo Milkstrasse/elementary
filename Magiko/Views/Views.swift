@@ -114,12 +114,13 @@ struct RectangleFighterView: View {
     var isSelected: Bool
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottomTrailing) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.yellow : Color.blue).frame(height: 125)
             Image(fighter.name).resizable().scaleEffect(4.6).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 100).clipShape(RoundedRectangle(cornerRadius: 5))
             Triangle().fill(Color.green).frame(height: 35).padding(.bottom, 10)
             Rectangle().fill(Color.green).frame(height: 5).padding(.bottom, 5)
             RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(height: 10)
+            CustomText(text: String(fighter.element.name.first ?? "?")).frame(width: 35, height: 35)
         }
         .contentShape(Rectangle())
     }

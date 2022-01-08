@@ -34,5 +34,6 @@ struct ClearGrowingButton: ButtonStyle {
             .foregroundColor(.white)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .contentShape(Rectangle())
     }
 }

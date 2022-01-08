@@ -182,7 +182,7 @@ struct RightSelectionView: View {
                                                             fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
-                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).fixedSize().frame(width: 120)
+                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).fixedSize().frame(width: 125)
                                                         Button(">") {
                                                             if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
                                                                 selectedLoadout = 0
