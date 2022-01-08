@@ -13,9 +13,12 @@ enum Section {
     case skills
     case team
     case info
+    case waiting
 }
 
 struct FightView: View {
+    let fightLogic: FightLogic
+    
     @State var transitionToggle: Bool = true
     @State var offsetX: CGFloat = -200
     
@@ -23,9 +26,9 @@ struct FightView: View {
         ZStack {
             Color.red.ignoresSafeArea()
             HStack {
-                LeftPlayerFightView(offsetX: offsetX)
+                LeftPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
                 Spacer()
-                RightPlayerFightView(offsetX: offsetX)
+                RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
             }
             .edgesIgnoringSafeArea(.bottom)
             GeometryReader { geometry in
@@ -42,7 +45,7 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView()
+        FightView(fightLogic: FightLogic(leftFighters: [], rightFighters: []))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

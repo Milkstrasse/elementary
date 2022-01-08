@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
     
-    @State var currentFighter: Fighter = Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))
+    @State var currentFighter: Fighter = exampleFighter
     
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
@@ -26,7 +26,7 @@ struct MainView: View {
             Image(currentFighter.name).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
-                    Button("Training") {
+                    Button(GlobalData.shared.getTranslation(key: "training")) {
                         print("Button pressed!")
                     }
                     .buttonStyle(GrowingButton(width: 135))
@@ -50,10 +50,10 @@ struct MainView: View {
                     Button(GlobalData.shared.getTranslation(key: "fight")) {
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            currentView.scene = CurrentView.Scene.fightSelection
+                            manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                         }
                     }
-                    .buttonStyle(GrowingButton(width: 190))
+                    .buttonStyle(GrowingButton(width: 190, height: 50))
                 }
             }
             .padding(.all, 15)

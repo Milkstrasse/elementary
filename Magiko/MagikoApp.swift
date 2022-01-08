@@ -7,41 +7,53 @@
 
 import SwiftUI
 
-class CurrentView: ObservableObject {
-    @Published var scene: Scene = .loading
+class ViewManager: ObservableObject {
+    @Published var currentView: AnyView = AnyView(Color.yellow)
     
-    enum Scene {
-        case loading
-        case main
-        case fightSelection
-        case fight
+    func setView(view: AnyView) {
+        currentView = AnyView(view)
+    }
+    
+    func getCurrentView() -> AnyView {
+        return currentView
     }
 }
 
+let exampleFighter: Fighter = Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))
+
 @main
 struct MagikoApp: App {
-    @StateObject var currentView = CurrentView()
+    @StateObject var manager: ViewManager = ViewManager()
+    @State var isLoading = true
+    
+    func getDeviceLanguage() -> String {
+        let langCode = String(Locale.preferredLanguages[0].prefix(2))
+        let currLocale = Locale(identifier: langCode + "_" + Locale.current.regionCode!)
+        var langName = ""
+        if let languageName = currLocale.localizedString(forLanguageCode: langCode) {
+            langName = languageName
+        }
+        
+        return langName
+    }
     
     var body: some Scene {
         WindowGroup {
-            if currentView.scene == CurrentView.Scene.main {
-                MainView().environmentObject(currentView)
-            } else if currentView.scene == CurrentView.Scene.fightSelection {
-                FightSelectionView().environmentObject(currentView)
-            } else if currentView.scene == CurrentView.Scene.fight {
-                FightView()
-            } else {
+            if isLoading {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
                         GlobalData.shared.loadData()
                         
-                        let lang = String(Locale.preferredLanguages[0].prefix(2))
+                        let langCode = String(Locale.preferredLanguages[0].prefix(2))
                         GlobalData.shared.getLanguages()
-                        GlobalData.shared.loadLanguage(language: lang)
+                        GlobalData.shared.loadLanguage(language: langCode)
                         
-                        currentView.scene = CurrentView.Scene.main
+                        manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                        isLoading = false
                     }
                 }
+            } else {
+                manager.getCurrentView()
             }
         }
     }

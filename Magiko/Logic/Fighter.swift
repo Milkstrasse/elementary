@@ -31,13 +31,22 @@ struct Fighter: Hashable {
         currhp = data.base.health
         
         skills = []
-        let dataSkills = data.skills
-        //todo: Remove duplicates with extension
+        let dataSkills = data.skills.removingDuplicates()
         
         for index in dataSkills.indices {
-            let skill = GlobalData.shared.allSkills[dataSkills[index]] ?? Skill(name: "Unknown Skill", description: "Missing", element: "Aether", power: 0)
+            let skill = GlobalData.shared.allSkills[dataSkills[index]] ?? Skill()
             skills.append(skill)
         }
+    }
+    
+    func getModifiedBase() -> Base {
+        let attack: Int = Int(base.attack) + attackMod
+        let defense: Int = Int(base.defense) + defenseMod
+        let agility: Int = Int(base.agility) + agilityMod
+        let precision: Int = Int(base.precision) + precisionMod
+        let spAttack: Int = Int(base.spAttack) + spAttackMod
+        
+        return Base(health: base.health, attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), spAttack: UInt(spAttack))
     }
     
     func hash(into hasher: inout Hasher) {
@@ -78,17 +87,4 @@ struct ElementData: Decodable {
     
     let strengths: [String]
     let weaknesses: [String]
-}
-
-struct Skill: Decodable, Hashable {
-    let name: String
-    let description: String
-    
-    let element: String
-    
-    let power: UInt
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
-    }
 }

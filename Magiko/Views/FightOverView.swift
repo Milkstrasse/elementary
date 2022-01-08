@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FightOverView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
     
     let leftFighters: [Fighter?] = [nil, nil, nil, nil]
     let rightFighters: [Fighter?] = [nil, nil, nil, nil]
@@ -23,13 +23,13 @@ struct FightOverView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("Rematch") {
+                            Button(GlobalData.shared.getTranslation(key: "rematch")) {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -41,7 +41,7 @@ struct FightOverView: View {
                             ZStack(alignment: .topTrailing) {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
                                 ZStack {
-                                    Text("Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
+                                    CustomText(key: "Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
                                 }
                                 .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(90))
                             }
@@ -61,7 +61,7 @@ struct FightOverView: View {
                         }
                     }
                     .padding(.leading, 10)
-                    Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
+                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
                     HStack {
                         VStack {
                             Spacer()
@@ -79,7 +79,7 @@ struct FightOverView: View {
                             ZStack(alignment: .bottom) {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
                                 ZStack {
-                                    Text("Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
+                                    CustomText(key: "Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
                                 }
                                 .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(-90))
                             }
@@ -89,13 +89,13 @@ struct FightOverView: View {
                     .padding(.trailing, 10)
                     VStack {
                         HStack(spacing: 5) {
-                            Button("Rematch") {
+                            Button(GlobalData.shared.getTranslation(key: "rematch")) {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))

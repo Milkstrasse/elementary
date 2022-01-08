@@ -8,25 +8,33 @@
 import SwiftUI
 
 struct FightSelectionView: View {
-    @EnvironmentObject var currentView: CurrentView
+    @EnvironmentObject var manager: ViewManager
+    @State var gameLogic: GameLogic = GameLogic()
     
     @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
     
+    @State var leftReady: Bool = false
+    @State var rightReady: Bool = false
+    
     @State var transitionToggle: Bool = true
     
-    func tempCheck() -> Bool {
+    func createLogic() -> FightLogic {
+        var lefts: [Fighter] = []
         for fighter in leftFighters {
             if fighter != nil {
-                for fighter in rightFighters {
-                    if fighter != nil {
-                       return true
-                    }
-                }
+                lefts.append(fighter!)
             }
         }
         
-        return false
+        var rights: [Fighter] = []
+        for fighter in rightFighters {
+            if fighter != nil {
+                rights.append(fighter!)
+            }
+        }
+        
+        return FightLogic(leftFighters: lefts, rightFighters: rights)
     }
     
     var body: some View {
@@ -37,11 +45,18 @@ struct FightSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.scene = CurrentView.Scene.fight
+                            Button(leftReady ? GlobalData.shared.getTranslation(key: "cancel") : GlobalData.shared.getTranslation(key: "ready")) {
+                                leftReady = !leftReady
+                                gameLogic.setReady(player: 0, ready: leftReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = self.createLogic()
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
                                     }
                                 }
                             }
@@ -49,7 +64,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -59,11 +74,18 @@ struct FightSelectionView: View {
                     Spacer()
                     VStack {
                         HStack(spacing: 5) {
-                            Button("Ready") {
-                                if tempCheck() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        currentView.scene = CurrentView.Scene.fight
+                            Button(rightReady ? GlobalData.shared.getTranslation(key: "cancel") : GlobalData.shared.getTranslation(key: "ready")) {
+                                rightReady = !rightReady
+                                gameLogic.setReady(player: 1, ready: rightReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = self.createLogic()
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
                                     }
                                 }
                             }
@@ -71,7 +93,7 @@ struct FightSelectionView: View {
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    currentView.scene = CurrentView.Scene.main
+                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
                             .buttonStyle(GrowingButton(width: 40))
@@ -82,9 +104,9 @@ struct FightSelectionView: View {
                 }
                 .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
                 HStack(spacing: 0) {
-                    LeftSelectionView(fighters: $leftFighters)
-                    Text("------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
-                    RightSelectionView(fighters: $rightFighters)
+                    LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
+                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
+                    RightSelectionView(fighters: $rightFighters).disabled(rightReady)
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }

@@ -18,8 +18,48 @@ struct DetailedActionView: View {
             RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
-                    Text(title)
-                    Text(description)
+                    CustomText(key: title)
+                    CustomText(key: description)
+                }
+                .padding(.leading, 15)
+                Spacer()
+                Triangle().fill(Color.green).frame(width: 22)
+                ZStack(alignment: .leading) {
+                    Rectangle().fill(Color.green).frame(width: 25)
+                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
+                }
+            }
+        }
+        .frame(width: width, height: 60)
+    }
+}
+
+struct DetailedSkillView: View {
+    let skill: Skill
+    
+    var width: CGFloat?
+    
+    func getDescription() -> String {
+        if skill.description != nil {
+            return skill.description!
+        }
+        
+        var description: String = ""
+        
+        if skill.skills[0].power > 0 {
+            description += "Deals \(skill.skills[0].power) DMG"
+        }
+        
+        return description
+    }
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            HStack(spacing: 0) {
+                VStack(alignment: .leading) {
+                    CustomText(key: skill.name)
+                    CustomText(key: getDescription())
                 }
                 .padding(.leading, 15)
                 Spacer()
@@ -49,8 +89,8 @@ struct SimpleAttackView: View {
                 }
                 Triangle().fill(Color.green).frame(width: 16).rotationEffect(.degrees(180))
                 HStack(spacing: 0) {
-                    Text(title)
-                    Text(" - " + "Very effective")
+                    CustomText(key: title)
+                    CustomText(key: " - " + "Very effective")
                 }
                 .padding(.leading, 15)
                 Spacer()
@@ -88,19 +128,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            Text("Health")
+                            CustomText(key: "health")
                             Spacer()
-                            Text("\(base.health)")
+                            CustomText(text: "\(base.health)")
                         }
                         HStack {
-                            Text("Attack")
+                            CustomText(key: "attack")
                             Spacer()
-                            Text("\(base.attack)")
+                            CustomText(text: "\(base.attack)")
                         }
                         HStack {
-                            Text("Defense")
+                            CustomText(key: "defense")
                             Spacer()
-                            Text("\(base.defense)")
+                            CustomText(text: "\(base.defense)")
                         }
                     }
                 }
@@ -111,19 +151,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            Text("Agility")
+                            CustomText(key: "agility")
                             Spacer()
-                            Text("\(base.agility)")
+                            CustomText(text: "\(base.agility)")
                         }
                         HStack {
-                            Text("Precision")
+                            CustomText(key: "precision")
                             Spacer()
-                            Text("\(base.precision)")
+                            CustomText(text: "\(base.precision)")
                         }
                         HStack {
-                            Text("Sp. Attack")
+                            CustomText(key: "spAttack")
                             Spacer()
-                            Text("\(base.spAttack)")
+                            CustomText(text: "\(base.spAttack)")
                         }
                     }
                 }
@@ -144,10 +184,28 @@ struct FighterView: View {
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
-                Text("+")
+                CustomText(text: "+")
             }
         }
         .frame(width: 70, height: 70).contentShape(Rectangle())
+    }
+}
+
+struct CustomText: View {
+    var text: String
+    var lineLimit: Int?
+    
+    init(text: String) {
+        self.text = text
+    }
+    
+    init(key: String) {
+        self.text = GlobalData.shared.getTranslation(key: key)
+        self.lineLimit = 1
+    }
+    
+    var body: some View {
+        Text(text).lineLimit(lineLimit)
     }
 }
 
@@ -156,8 +214,8 @@ struct Views_Previews: PreviewProvider {
         VStack {
             DetailedActionView(title: "Title", description: "Description")
             SimpleAttackView(title: "Title")
-            RectangleFighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false).frame(width: 100)
-            FighterView(fighter: Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))), isSelected: false)
+            RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
+            FighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
         }
     }

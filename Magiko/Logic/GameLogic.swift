@@ -8,9 +8,13 @@
 import Foundation
 
 struct GameLogic {
-    var currentLeftFighter: Int = 0
-    var currentRightFighter: Int = 0
+    var readyPlayers: [Bool] = [false, false]
     
-    var leftFighters: [Fighter]
-    var rightFighters: [Fighter]
+    mutating func setReady(player: Int, ready: Bool) {
+        readyPlayers[player] = ready
+    }
+    
+    func areBothReady() -> Bool {
+        return readyPlayers[0] && readyPlayers[1]
+    }
 }

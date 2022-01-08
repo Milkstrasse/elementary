@@ -24,18 +24,13 @@ struct OverviewView: View {
         }
     }
     
-    func getSubArray(row: Int) -> [Fighter?] {
+    func getSubArray(row: Int) -> [Fighter] {
         if (3 + row * 3) < GlobalData.shared.allFighter.count {
             let rowArray = GlobalData.shared.allFighter[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
             let rowArray = GlobalData.shared.allFighter[row * 3 ..< GlobalData.shared.allFighter.count]
-            
-            var subArray: [Fighter?] = Array(rowArray)
-            for _ in (0 ..< (row + 1) * 3 - GlobalData.shared.allFighter.count) {
-                subArray.append(nil)
-            }
-            return subArray
+            return Array(rowArray)
         }
     }
     
@@ -60,12 +55,12 @@ struct OverviewView: View {
                         ZStack {
                             Color.red
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(currentFighter.name)
+                                CustomText(key: currentFighter.name)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
-                                        ForEach(currentFighter.skills, id: \.name) { skill in
-                                            DetailedActionView(title: skill.name, description: skill.description)
+                                        ForEach(currentFighter.skills, id: \.self) { skill in
+                                            DetailedSkillView(skill: skill)
                                         }
                                     }
                                 }
@@ -83,22 +78,21 @@ struct OverviewView: View {
                     }
                     .offset(x: geometry.safeAreaInsets.trailing)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Overview").frame(height: 60).padding([.top, .leading], 15)
+                        CustomText(key: "Overview").frame(height: 60).padding([.top, .leading], 15)
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 8) {
                                 ForEach(0 ..< self.getRowAmount()) { row in
                                     HStack(spacing: 8) {
-                                        ForEach(self.getSubArray(row: row), id: \.?.name) { fighter in
-                                            if fighter != nil {
-                                                RectangleFighterView(fighter: fighter!, isSelected: self.isSelected(fighter: fighter!))
-                                                    .onTapGesture {
-                                                        print(fighter!.name)
-                                                        fighterSelected = true
-                                                        currentFighter = fighter!
-                                                }
-                                            } else {
-                                                Color.clear
+                                        ForEach(self.getSubArray(row: row), id: \.name) { fighter in
+                                            RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
+                                                .onTapGesture {
+                                                    print(fighter.name)
+                                                    fighterSelected = true
+                                                    currentFighter = fighter
                                             }
+                                        }
+                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count) { _ in
+                                            Color.clear
                                         }
                                     }
                                 }
@@ -115,7 +109,7 @@ struct OverviewView: View {
                                         print("Button pressed!")
                                     }
                                     Spacer()
-                                    Text("All Types")
+                                    CustomText(key: "All Types")
                                     Spacer()
                                     Button(">") {
                                         print("Button pressed!")
@@ -148,7 +142,7 @@ struct OverviewView: View {
 
 struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView(currentFighter: Binding.constant(Fighter(data: FighterData(name: "magicalgirl_1", element: "Water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100)))), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        OverviewView(currentFighter: Binding.constant(exampleFighter), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

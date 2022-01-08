@@ -11,6 +11,8 @@ struct SettingsView: View {
     @Binding var settingsToggle: Bool
     @Binding var offsetX: CGFloat
     
+    @State var langIndex: Int = 0
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
@@ -21,18 +23,18 @@ struct SettingsView: View {
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Settings").frame(height: 60).padding([.top, .leading], 15)
+                    CustomText(key: "settings").frame(height: 60).padding([.top, .leading], 15)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
-                                    Text("Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    Text("100%")
+                                    CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }
@@ -43,12 +45,12 @@ struct SettingsView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
-                                    Text("Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    Text("100%")
+                                    CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }
@@ -59,14 +61,24 @@ struct SettingsView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
                                 HStack {
-                                    Text("Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
+                                        if langIndex <= 0 {
+                                            langIndex = GlobalData.shared.languages.count - 1
+                                        } else {
+                                            langIndex -= 1
+                                        }
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    Text("100%")
+                                    CustomText(key: GlobalData.shared.languages[langIndex])
                                     Spacer()
                                     Button(">") {
+                                        if langIndex >= GlobalData.shared.languages.count - 1 {
+                                            langIndex = 0
+                                        } else {
+                                            langIndex += 1
+                                        }
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
@@ -78,7 +90,7 @@ struct SettingsView: View {
                     Spacer().frame(height: 10)
                     HStack(spacing: 5) {
                         Spacer()
-                        Button("Restore Defaults") {
+                        Button(GlobalData.shared.getTranslation(key: "reset")) {
                             print("Button pressed!")
                         }
                         .buttonStyle(GrowingButton(width: 160))

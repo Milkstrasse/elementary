@@ -1,1 +1,1 @@
-{  "name": "Skill 1",  "description": "Generic Attack",  "element": "Water",  "power": 40}
+{  "name": "Skill 1",  "element": "Water",  "skills": [      {          "power": 40,          "range": 1      }  ]}

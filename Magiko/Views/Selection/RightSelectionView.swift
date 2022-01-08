@@ -75,13 +75,18 @@ struct RightSelectionView: View {
                             ForEach(0 ..< 4) { index in
                                 Button(action: {
                                     if selectedSlot == index {
-                                        offsetX = 189
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            selectedSlot = -1
-                                            
+                                        if selectionToggle && fighters[index] != nil {
                                             selectionToggle = false
-                                            infoToggle = false
+                                            infoToggle = true
+                                        } else {
+                                            offsetX = 189
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                selectionToggle = false
+                                                infoToggle = false
+                                                
+                                                selectedSlot = -1
+                                            }
                                         }
                                     } else {
                                         selectedSlot = index
@@ -144,7 +149,7 @@ struct RightSelectionView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                Button("Remove") {
+                                                Button(GlobalData.shared.getTranslation(key: "remove")) {
                                                     fighters[selectedSlot] = nil
                                                     
                                                     selectionToggle = true
@@ -157,7 +162,7 @@ struct RightSelectionView: View {
                                                         Button("<") {
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
-                                                        Text("Loadout").fixedSize().frame(width: 120)
+                                                        CustomText(key: "Loadout").fixedSize().frame(width: 120)
                                                         Button(">") {
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
@@ -167,8 +172,8 @@ struct RightSelectionView: View {
                                             }
                                             BaseOverviewView(base: fighters[selectedSlot]!.base, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
-                                            ForEach(fighters[selectedSlot]!.skills, id: \.name) { skill in
-                                                DetailedActionView(title: skill.name, description: skill.description, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
+                                                DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
                                         }
                                         .padding(.vertical, 15)
