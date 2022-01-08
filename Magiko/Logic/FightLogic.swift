@@ -131,6 +131,6 @@ class FightLogic: ObservableObject {
             leftFighters[currentLeftFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0], skillElement: skill.element)
         }
         
-        publishedText += getFighter(player: 0).name + " used " + usedMoves[player][0].skill.name + "\n"
+        publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "\n"
     }
 }
