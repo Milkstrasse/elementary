@@ -13,6 +13,16 @@ struct SettingsView: View {
     
     @State var langIndex: Int = 0
     
+    func getCurrentLang() -> Int {
+        for index in GlobalData.shared.languages.indices {
+            if GlobalData.shared.currentLang == GlobalData.shared.languages[index] {
+                return index
+            }
+        }
+        
+        return 0
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
@@ -68,6 +78,8 @@ struct SettingsView: View {
                                         } else {
                                             langIndex -= 1
                                         }
+                                        
+                                        GlobalData.shared.loadLanguage(language: GlobalData.shared.languages[langIndex])
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
@@ -79,6 +91,8 @@ struct SettingsView: View {
                                         } else {
                                             langIndex += 1
                                         }
+                                        
+                                        GlobalData.shared.loadLanguage(language: GlobalData.shared.languages[langIndex])
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
@@ -91,11 +105,14 @@ struct SettingsView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button(GlobalData.shared.getTranslation(key: "reset")) {
-                            print("Button pressed!")
+                            GlobalData.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
+                            langIndex = getCurrentLang()
                         }
                         .buttonStyle(GrowingButton(width: 160))
                         Button("X") {
+                            UserDefaults.standard.set(GlobalData.shared.languages[langIndex], forKey: "lang")
                             offsetX = -449
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 settingsToggle = false
                             }
@@ -111,6 +128,8 @@ struct SettingsView: View {
         }
         .onAppear {
             offsetX = 0
+            
+            langIndex = getCurrentLang()
         }
     }
 }

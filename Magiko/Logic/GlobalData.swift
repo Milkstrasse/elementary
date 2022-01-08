@@ -19,6 +19,7 @@ class GlobalData {
     
     var languages: [String] = []
     var translations: Dictionary<String, String> = [:]
+    var currentLang: String = ""
     
     func loadData() {
         loadElements()
@@ -109,6 +110,8 @@ class GlobalData {
             do {
                 let data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
+                
+                currentLang = language
             } catch {
                 print("error: \(error)")
             }

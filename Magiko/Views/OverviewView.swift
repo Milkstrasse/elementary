@@ -133,7 +133,7 @@ struct OverviewView: View {
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: currentElement == -1 ? "All Types" : GlobalData.shared.elementArray[currentElement].name).fixedSize()
+                                    CustomText(key: currentElement == -1 ? "allTypes" : GlobalData.shared.elementArray[currentElement].name.lowercased()).fixedSize().frame(width: 65)
                                     Spacer()
                                     Button(">") {
                                         if currentElement >= GlobalData.shared.elementArray.count - 1 {

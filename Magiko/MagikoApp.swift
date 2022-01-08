@@ -31,11 +31,16 @@ struct MagikoApp: App {
             if isLoading {
                 Color.purple.onAppear {
                     DispatchQueue.main.async {
+                        var langCode = UserDefaults.standard.string(forKey: "lang")
+                        if langCode == nil {
+                            langCode = String(Locale.preferredLanguages[0].prefix(2))
+                            UserDefaults.standard.set(langCode, forKey: "lang")
+                        }
+                        
                         GlobalData.shared.loadData()
                         
-                        let langCode = String(Locale.preferredLanguages[0].prefix(2))
                         GlobalData.shared.getLanguages()
-                        GlobalData.shared.loadLanguage(language: langCode)
+                        GlobalData.shared.loadLanguage(language: langCode!)
                         
                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         isLoading = false
