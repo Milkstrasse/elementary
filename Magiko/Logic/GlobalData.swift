@@ -13,6 +13,7 @@ class GlobalData {
     var elements: Dictionary<String, Element> = [:]
     var skills: Dictionary<String, Skill> = [:]
     var fighters: [Fighter] = []
+    var loadouts: [Loadout] = []
     
     var languages: [String] = []
     var translations: Dictionary<String, String> = [:]
@@ -21,6 +22,7 @@ class GlobalData {
         loadElements()
         loadSkills()
         loadFighters()
+        loadLoadouts()
     }
     
     func loadElements() {
@@ -37,7 +39,6 @@ class GlobalData {
             }
             
             print("loaded: \(elements.count) elements")
-            print(elements)
         }
     }
     
@@ -75,13 +76,29 @@ class GlobalData {
         }
     }
     
+    func loadLoadouts() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Loadouts") {
+            do {
+                for url in urls {
+                    let data = try Data(contentsOf: url)
+                    let loadoutData = try JSONDecoder().decode(Loadout.self, from: data)
+                    
+                    loadouts.append(loadoutData)
+                }
+            } catch {
+                print("error: \(error)")
+            }
+            
+            print("loaded: \(loadouts.count) loadouts")
+            print(loadouts)
+        }
+    }
+    
     func getLanguages() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Languages") {
             for url in urls {
                 languages.append(url.deletingPathExtension().lastPathComponent)
             }
-            
-            print(languages)
         }
     }
     

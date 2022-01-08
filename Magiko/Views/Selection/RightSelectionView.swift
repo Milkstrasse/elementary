@@ -10,6 +10,7 @@ import SwiftUI
 struct RightSelectionView: View {
     @Binding var fighters: [Fighter?]
     @State var selectedSlot: Int = -1
+    @State var selectedLoadout: Int = 0
     
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
@@ -65,6 +66,16 @@ struct RightSelectionView: View {
         }
     }
     
+    func getLoadout(fighter: Fighter) -> Int {
+        for index in GlobalData.shared.loadouts.indices {
+            if fighter.loadout.name == GlobalData.shared.loadouts[index].name {
+                return index
+            }
+        }
+        
+        return 0
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
@@ -92,6 +103,8 @@ struct RightSelectionView: View {
                                         selectedSlot = index
                                         
                                         if fighters[index] != nil {
+                                            selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                            
                                             selectionToggle = false
                                             infoToggle = true
                                         } else {
@@ -160,17 +173,31 @@ struct RightSelectionView: View {
                                                     RoundedRectangle(cornerRadius: 5).fill(Color.blue).frame(width: 40, height: 215)
                                                     HStack(spacing: 0) {
                                                         Button("<") {
+                                                            if selectedLoadout <= 0 {
+                                                                selectedLoadout = GlobalData.shared.loadouts.count - 1
+                                                            } else {
+                                                                selectedLoadout -= 1
+                                                            }
+                                                            
+                                                            fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
-                                                        CustomText(key: "Loadout").fixedSize().frame(width: 120)
+                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).fixedSize().frame(width: 120)
                                                         Button(">") {
+                                                            if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
+                                                                selectedLoadout = 0
+                                                            } else {
+                                                                selectedLoadout += 1
+                                                            }
+                                                            
+                                                            fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                                     }
                                                     .rotationEffect(.degrees(-90)).frame(width: 40, height: 215)
                                                 }
                                             }
-                                            BaseOverviewView(base: fighters[selectedSlot]!.base, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                            BaseOverviewView(base: fighters[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                             .padding(.trailing, 5)
                                             ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
                                                 DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
@@ -181,6 +208,9 @@ struct RightSelectionView: View {
                                     .clipped()
                                 }
                                 .padding(.horizontal, 15).frame(width: 175)
+                                .onAppear {
+                                    selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                }
                             }
                         }
                     }

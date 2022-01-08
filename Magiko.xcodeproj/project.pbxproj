@@ -38,6 +38,7 @@
 		B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D11278876FC00DEB25F /* TeamView.swift */; };
 		B81CC3292789A31800908195 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC3282789A31800908195 /* Element.swift */; };
 		B81CC32B2789A5E700908195 /* Elements in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32A2789A5E700908195 /* Elements */; };
+		B81CC32D2789D10A00908195 /* Loadouts in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32C2789D10A00908195 /* Loadouts */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +87,7 @@
 		B80D7D11278876FC00DEB25F /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		B81CC3282789A31800908195 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		B81CC32A2789A5E700908195 /* Elements */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Elements; sourceTree = "<group>"; };
+		B81CC32C2789D10A00908195 /* Loadouts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Loadouts; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +185,7 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B81CC32C2789D10A00908195 /* Loadouts */,
 				B81CC32A2789A5E700908195 /* Elements */,
 				B80D7D0B27882EA800DEB25F /* Languages */,
 				B80D7D00278639BA00DEB25F /* Skills */,
@@ -314,6 +317,7 @@
 				B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */,
 				B80D7CF32785F86A00DEB25F /* Fighters in Resources */,
 				B81CC32B2789A5E700908195 /* Elements in Resources */,
+				B81CC32D2789D10A00908195 /* Loadouts in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 			);

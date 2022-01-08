@@ -5,10 +5,7 @@
 //  Created by Janice Hablützel on 05.01.22.
 //
 
-import Foundation
-import CloudKit
-
-struct Fighter: Hashable {
+class Fighter: Hashable {
     let name: String
     let element: Element
     
@@ -16,6 +13,8 @@ struct Fighter: Hashable {
     var currhp: UInt
     
     var skills: [Skill]
+    
+    var loadout: Loadout
     
     var attackMod: Int = 0
     var defenseMod: Int = 0
@@ -37,16 +36,25 @@ struct Fighter: Hashable {
             let skill = GlobalData.shared.skills[dataSkills[index]] ?? Skill()
             skills.append(skill)
         }
+        
+        loadout = Loadout()
     }
     
     func getModifiedBase() -> Base {
-        let attack: Int = Int(base.attack) + attackMod
-        let defense: Int = Int(base.defense) + defenseMod
-        let agility: Int = Int(base.agility) + agilityMod
-        let precision: Int = Int(base.precision) + precisionMod
-        let spAttack: Int = Int(base.spAttack) + spAttackMod
+        let health: Int = max(Int(base.health) + loadout.healthMod, 0)
+        let attack: Int = max(Int(base.attack) + attackMod + loadout.attackMod, 0)
+        let defense: Int = max(Int(base.defense) + defenseMod + loadout.defenseMod, 0)
+        let agility: Int = max(Int(base.agility) + agilityMod + loadout.agilityMod, 0)
+        let precision: Int = max(Int(base.precision) + precisionMod + loadout.precisionMod, 0)
+        let spAttack: Int = max(Int(base.spAttack) + spAttackMod + loadout.spAttackMod, 0)
         
-        return Base(health: base.health, attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), spAttack: UInt(spAttack))
+        return Base(health: UInt(health), attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), spAttack: UInt(spAttack))
+    }
+    
+    func setLoadout(loadout: Int) {
+        if loadout < GlobalData.shared.loadouts.count {
+            self.loadout = GlobalData.shared.loadouts[loadout]
+        }
     }
     
     func hash(into hasher: inout Hasher) {
@@ -73,4 +81,26 @@ struct Base: Decodable {
     let agility: UInt
     let precision: UInt
     let spAttack: UInt
+}
+
+struct Loadout: Decodable {
+    let name: String
+    
+    let healthMod: Int
+    let attackMod: Int
+    let defenseMod: Int
+    let agilityMod: Int
+    let precisionMod: Int
+    let spAttackMod: Int
+    
+    init() {
+        name = "Neutral"
+        
+        healthMod = 0
+        attackMod = 0
+        defenseMod = 0
+        agilityMod = 0
+        precisionMod = 0
+        spAttackMod = 0
+    }
 }

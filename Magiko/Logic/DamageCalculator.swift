@@ -14,7 +14,7 @@ struct DamageCalculator {
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
         let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
-        let defense: Float = Float(defender.getModifiedBase().defense)
+        let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
         dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
