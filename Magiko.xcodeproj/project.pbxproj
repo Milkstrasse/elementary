@@ -163,7 +163,6 @@
 			children = (
 				B80D7CD12783536500DEB25F /* Styles.swift */,
 				B80D7CD627835CD900DEB25F /* Shapes.swift */,
-				B80D7CEE2785C09B00DEB25F /* Views.swift */,
 			);
 			path = UIStyles;
 			sourceTree = "<group>";
@@ -178,6 +177,7 @@
 				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
 				B80D7CD82783771D00DEB25F /* InfoView.swift */,
 				B80D7D02278707B600DEB25F /* FightOverView.swift */,
+				B80D7CEE2785C09B00DEB25F /* Views.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

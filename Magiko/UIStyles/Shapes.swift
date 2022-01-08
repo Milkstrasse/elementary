@@ -40,15 +40,15 @@ struct ZigZag: Shape {
         path.move(to: CGPoint(x: rect.maxX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX/10, y: rect.minY + 65))
-        path.addLine(to: CGPoint(x: 2 * rect.maxX/10, y: rect.minY))
-        path.addLine(to: CGPoint(x: 3 * rect.maxX/10, y: rect.minY + 65))
-        path.addLine(to: CGPoint(x: 4 * rect.maxX/10, y: rect.minY))
-        path.addLine(to: CGPoint(x: 5 * rect.maxX/10, y: rect.minY + 65))
-        path.addLine(to: CGPoint(x: 6 * rect.maxX/10, y: rect.minY))
-        path.addLine(to: CGPoint(x: 7 * rect.maxX/10, y: rect.minY + 65))
-        path.addLine(to: CGPoint(x: 8 * rect.maxX/10, y: rect.minY))
-        path.addLine(to: CGPoint(x: 9 * rect.maxX/10, y: rect.minY + 65))
+        
+        for index in (1 ..< 10) {
+            if index%2 == 0 {
+                path.addLine(to: CGPoint(x: CGFloat(index) * rect.maxX/10, y: rect.minY))
+            } else {
+                path.addLine(to: CGPoint(x: CGFloat(index) * rect.maxX/10, y: rect.minY + 65))
+            }
+        }
+        
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
         path.closeSubpath()
 

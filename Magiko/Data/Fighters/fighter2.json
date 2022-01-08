@@ -2,17 +2,17 @@
   "name": "magicalgirl_2",
   "element": "Water",
   "base": {
-      "health": 95,
-      "attack": 96,
-      "defense": 97,
-      "agility": 98,
-      "precision": 99,
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
       "spAttack": 100
   },
   "skills": [
       "skill1",
-      "skill3",
       "skill2",
-      "skill2"
+      "skill3",
+      "skill4"
   ]
 }
