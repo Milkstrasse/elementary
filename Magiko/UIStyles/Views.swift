@@ -7,6 +7,25 @@
 
 import SwiftUI
 
+struct BigBarView: View {
+    var width: CGFloat?
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            HStack(spacing: 0) {
+                Spacer()
+                Triangle().fill(Color.green).frame(width: 22)
+                ZStack(alignment: .leading) {
+                    Rectangle().fill(Color.green).frame(width: 25)
+                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
+                }
+            }
+        }
+        .frame(width: width, height: 60)
+    }
+}
+
 struct DetailedActionView: View {
     let title: String
     let description: String
@@ -15,7 +34,7 @@ struct DetailedActionView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            BigBarView()
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: title)
@@ -23,11 +42,6 @@ struct DetailedActionView: View {
                 }
                 .padding(.leading, 15)
                 Spacer()
-                Triangle().fill(Color.green).frame(width: 22)
-                ZStack(alignment: .leading) {
-                    Rectangle().fill(Color.green).frame(width: 25)
-                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                }
             }
         }
         .frame(width: width, height: 60)
@@ -55,7 +69,7 @@ struct DetailedSkillView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+            BigBarView()
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name)
@@ -63,11 +77,6 @@ struct DetailedSkillView: View {
                 }
                 .padding(.leading, 15)
                 Spacer()
-                Triangle().fill(Color.green).frame(width: 22)
-                ZStack(alignment: .leading) {
-                    Rectangle().fill(Color.green).frame(width: 25)
-                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                }
             }
         }
         .frame(width: width, height: 60)

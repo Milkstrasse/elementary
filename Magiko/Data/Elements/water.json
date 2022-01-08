@@ -1,0 +1,10 @@
+{
+    "name": "Water",
+    "color": "#9FBFCF",
+    "strengths": [
+        "Fire"
+    ],
+    "weaknesses": [
+        "Plant"
+    ]
+}

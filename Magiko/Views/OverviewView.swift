@@ -17,19 +17,19 @@ struct OverviewView: View {
     @Binding var offsetX: CGFloat
     
     func getRowAmount() -> Int {
-        if GlobalData.shared.allFighter.count%3 > 0 {
-            return GlobalData.shared.allFighter.count/3 + 1
+        if GlobalData.shared.fighters.count%3 > 0 {
+            return GlobalData.shared.fighters.count/3 + 1
         } else {
-            return GlobalData.shared.allFighter.count/3
+            return GlobalData.shared.fighters.count/3
         }
     }
     
     func getSubArray(row: Int) -> [Fighter] {
-        if (3 + row * 3) < GlobalData.shared.allFighter.count {
-            let rowArray = GlobalData.shared.allFighter[row * 3 ..< 3 + row * 3]
+        if (3 + row * 3) < GlobalData.shared.fighters.count {
+            let rowArray = GlobalData.shared.fighters[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.shared.allFighter[row * 3 ..< GlobalData.shared.allFighter.count]
+            let rowArray = GlobalData.shared.fighters[row * 3 ..< GlobalData.shared.fighters.count]
             return Array(rowArray)
         }
     }
@@ -86,7 +86,6 @@ struct OverviewView: View {
                                         ForEach(self.getSubArray(row: row), id: \.name) { fighter in
                                             RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
                                                 .onTapGesture {
-                                                    print(fighter.name)
                                                     fighterSelected = true
                                                     currentFighter = fighter
                                             }

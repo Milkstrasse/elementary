@@ -10,7 +10,7 @@ import CloudKit
 
 struct Fighter: Hashable {
     let name: String
-    let element: String
+    let element: Element
     
     let base: Base
     var currhp: UInt
@@ -25,7 +25,7 @@ struct Fighter: Hashable {
     
     init(data: FighterData) {
         name = data.name
-        element = data.element
+        element = GlobalData.shared.elements[data.element] ?? Element()
         
         base = data.base
         currhp = data.base.health
@@ -34,7 +34,7 @@ struct Fighter: Hashable {
         let dataSkills = data.skills.removingDuplicates()
         
         for index in dataSkills.indices {
-            let skill = GlobalData.shared.allSkills[dataSkills[index]] ?? Skill()
+            let skill = GlobalData.shared.skills[dataSkills[index]] ?? Skill()
             skills.append(skill)
         }
     }
@@ -73,18 +73,4 @@ struct Base: Decodable {
     let agility: UInt
     let precision: UInt
     let spAttack: UInt
-}
-
-struct Element {
-    let name: String
-    
-    let strengths: [ElementData]
-    let weaknesses: [ElementData]
-}
-
-struct ElementData: Decodable {
-    let name: String
-    
-    let strengths: [String]
-    let weaknesses: [String]
 }

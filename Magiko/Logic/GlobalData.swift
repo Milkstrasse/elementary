@@ -10,31 +10,34 @@ import Foundation
 class GlobalData {
     static let shared = GlobalData()
     
-    var allFighter: [Fighter] = []
-    var allSkills: Dictionary<String, Skill> = [:]
+    var elements: Dictionary<String, Element> = [:]
+    var skills: Dictionary<String, Skill> = [:]
+    var fighters: [Fighter] = []
     
     var languages: [String] = []
     var translations: Dictionary<String, String> = [:]
     
     func loadData() {
+        loadElements()
         loadSkills()
         loadFighters()
     }
     
-    func loadFighters() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
+    func loadElements() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    let fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    let elementData = try JSONDecoder().decode(Element.self, from: data)
                     
-                    allFighter.append(Fighter(data: fighterData))
+                    elements[elementData.name] = elementData
                 }
             } catch {
                 print("error: \(error)")
             }
             
-            print("loaded: \(allFighter.count) fighters")
+            print("loaded: \(elements.count) elements")
+            print(elements)
         }
     }
     
@@ -45,13 +48,30 @@ class GlobalData {
                     let data = try Data(contentsOf: url)
                     let skillData = try JSONDecoder().decode(Skill.self, from: data)
                     
-                    allSkills[url.deletingPathExtension().lastPathComponent] = skillData
+                    skills[url.deletingPathExtension().lastPathComponent] = skillData
                 }
             } catch {
                 print("error: \(error)")
             }
             
-            print("loaded: \(allSkills.count) skills")
+            print("loaded: \(skills.count) skills")
+        }
+    }
+    
+    func loadFighters() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
+            do {
+                for url in urls {
+                    let data = try Data(contentsOf: url)
+                    let fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    
+                    fighters.append(Fighter(data: fighterData))
+                }
+            } catch {
+                print("error: \(error)")
+            }
+            
+            print("loaded: \(fighters.count) fighters")
         }
     }
     
