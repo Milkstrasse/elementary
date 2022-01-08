@@ -26,6 +26,11 @@ struct MagikoApp: App {
     @StateObject var manager: ViewManager = ViewManager()
     @State var isLoading = true
     
+    //disables rotation animation
+    init() {
+        UINavigationBar.setAnimationsEnabled(false)
+    }
+    
     var body: some Scene {
         WindowGroup {
             if isLoading {
