@@ -162,7 +162,7 @@ struct RightSelectionView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                Button(GlobalData.shared.getTranslation(key: "remove")) {
+                                                Button(Localization.shared.getTranslation(key: "remove")) {
                                                     fighters[selectedSlot] = nil
                                                     
                                                     selectionToggle = true

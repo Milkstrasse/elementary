@@ -162,7 +162,7 @@ struct LeftSelectionView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            Button(GlobalData.shared.getTranslation(key: "training")) {
+                                            Button(Localization.shared.getTranslation(key: "training")) {
                                                 fighters[selectedSlot] = nil
                                                 
                                                 selectionToggle = true

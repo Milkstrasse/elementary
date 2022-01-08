@@ -210,7 +210,7 @@ struct CustomText: View {
     }
     
     init(key: String) {
-        self.text = GlobalData.shared.getTranslation(key: key)
+        self.text = Localization.shared.getTranslation(key: key)
         self.lineLimit = 1
     }
     

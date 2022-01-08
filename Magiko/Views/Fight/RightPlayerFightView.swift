@@ -69,7 +69,7 @@ struct RightPlayerFightView: View {
                             .rotationEffect(.degrees(-90)).frame(width: 75, height: 230).offset(y: offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                             Spacer()
                             ZStack {
-                                Button(currentSection == .summary ? GlobalData.shared.getTranslation(key: "next") : GlobalData.shared.getTranslation(key: "back")) {
+                                Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
                                     if currentSection == .options {
                                         currentSection = .summary
                                     } else {

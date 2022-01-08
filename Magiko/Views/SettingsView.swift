@@ -14,8 +14,8 @@ struct SettingsView: View {
     @State var langIndex: Int = 0
     
     func getCurrentLang() -> Int {
-        for index in GlobalData.shared.languages.indices {
-            if GlobalData.shared.currentLang == GlobalData.shared.languages[index] {
+        for index in Localization.shared.languages.indices {
+            if Localization.shared.currentLang == Localization.shared.languages[index] {
                 return index
             }
         }
@@ -74,25 +74,25 @@ struct SettingsView: View {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         if langIndex <= 0 {
-                                            langIndex = GlobalData.shared.languages.count - 1
+                                            langIndex = Localization.shared.languages.count - 1
                                         } else {
                                             langIndex -= 1
                                         }
                                         
-                                        GlobalData.shared.loadLanguage(language: GlobalData.shared.languages[langIndex])
+                                        Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: GlobalData.shared.languages[langIndex])
+                                    CustomText(key: Localization.shared.languages[langIndex])
                                     Spacer()
                                     Button(">") {
-                                        if langIndex >= GlobalData.shared.languages.count - 1 {
+                                        if langIndex >= Localization.shared.languages.count - 1 {
                                             langIndex = 0
                                         } else {
                                             langIndex += 1
                                         }
                                         
-                                        GlobalData.shared.loadLanguage(language: GlobalData.shared.languages[langIndex])
+                                        Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                     }
                                     .buttonStyle(ClearGrowingButton(width: 40, height: 40))
                                 }
@@ -104,13 +104,13 @@ struct SettingsView: View {
                     Spacer().frame(height: 10)
                     HStack(spacing: 5) {
                         Spacer()
-                        Button(GlobalData.shared.getTranslation(key: "reset")) {
-                            GlobalData.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
+                        Button(Localization.shared.getTranslation(key: "reset")) {
+                            Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
                             langIndex = getCurrentLang()
                         }
                         .buttonStyle(GrowingButton(width: 160))
                         Button("X") {
-                            UserDefaults.standard.set(GlobalData.shared.languages[langIndex], forKey: "lang")
+                            UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             offsetX = -449
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

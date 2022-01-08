@@ -23,7 +23,7 @@ struct FightOverView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button(GlobalData.shared.getTranslation(key: "rematch")) {
+                            Button(Localization.shared.getTranslation(key: "rematch")) {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -89,7 +89,7 @@ struct FightOverView: View {
                     .padding(.trailing, 10)
                     VStack {
                         HStack(spacing: 5) {
-                            Button(GlobalData.shared.getTranslation(key: "rematch")) {
+                            Button(Localization.shared.getTranslation(key: "rematch")) {
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {

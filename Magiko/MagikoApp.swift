@@ -42,10 +42,10 @@ struct MagikoApp: App {
                             UserDefaults.standard.set(langCode, forKey: "lang")
                         }
                         
-                        GlobalData.shared.loadData()
+                        Localization.shared.getLanguages()
+                        Localization.shared.loadLanguage(language: langCode!)
                         
-                        GlobalData.shared.getLanguages()
-                        GlobalData.shared.loadLanguage(language: langCode!)
+                        GlobalData.shared.loadData()
                         
                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         isLoading = false

@@ -65,7 +65,7 @@ struct LeftPlayerFightView: View {
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         VStack(alignment: .leading) {
                             ZStack {
-                                Button(currentSection == .summary ? GlobalData.shared.getTranslation(key: "next") : GlobalData.shared.getTranslation(key: "back")) {
+                                Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
                                     if currentSection == .options {
                                         currentSection = .summary
                                     } else {

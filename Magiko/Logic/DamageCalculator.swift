@@ -8,7 +8,7 @@
 import Foundation
 
 struct DamageCalculator {
-    static let shared = DamageCalculator()
+    static let shared: DamageCalculator = DamageCalculator()
     
     func calcDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String) -> UInt {
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
