@@ -17,7 +17,7 @@ struct RightPlayerFightView: View {
     
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
-        let width = round(180 * percentage)
+        let width = round(190 * percentage)
         
         return width
     }
@@ -59,7 +59,7 @@ struct RightPlayerFightView: View {
                                                     Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 1)), height: 6).animation(.default, value: fightLogic.getFighter(player: 1).currhp)
                                                 }
                                             }
-                                            .padding(.horizontal, 15).frame(height: 55)
+                                            .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
                                         }
                                     }
                                     .frame(height: 55)

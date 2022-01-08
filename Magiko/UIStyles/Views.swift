@@ -193,6 +193,7 @@ struct FighterView: View {
 
 struct CustomText: View {
     var text: String
+    var lineLimit: Int?
     
     init(text: String) {
         self.text = text
@@ -200,10 +201,11 @@ struct CustomText: View {
     
     init(key: String) {
         self.text = GlobalData.shared.getTranslation(key: key)
+        self.lineLimit = 1
     }
     
     var body: some View {
-        Text(text)
+        Text(text).lineLimit(lineLimit)
     }
 }
 
