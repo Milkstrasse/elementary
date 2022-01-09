@@ -17,10 +17,10 @@ class FightLogic: ObservableObject {
     var gameLogic: GameLogic = GameLogic()
     
     var usedMoves: [[Move]] = [[], []]
+    var playerStack: [Int] = []
     
     @Published var battling: Bool = false
-    
-    @Published var publishedText: String = ""
+    @Published var publishedText: String = "let the fight begin"
     
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
@@ -51,21 +51,40 @@ class FightLogic: ObservableObject {
             battling = true
             publishedText = "Loading..."
             
-            DispatchQueue.main.async { [self] in
-                let fasterPlayer: Int = getFasterPlayer()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    publishedText = ""
-                    processTurn(player: fasterPlayer)
+            if getFasterPlayer() == 0 {
+                print(0)
+                playerStack.insert(1, at: 0)
+                playerStack.insert(0, at: 0)
+            } else {
+                print(1)
+                playerStack.insert(0, at: 0)
+                playerStack.insert(1, at: 0)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
+                var turns: Int = 0
+                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                    let currentPlayer: Int = playerStack.removeFirst();
+                    turns += 1
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        if fasterPlayer == 0 {
-                            processTurn(player: 1)
-                        } else {
-                            processTurn(player: 0)
+                    if turns == 1 {
+                        publishedText = ""
+                    }
+                    
+                    processTurn(player: currentPlayer)
+                    
+                    if turns > 1 {
+                        if currentPlayer == 0 && getFighter(player: 1).currhp == 0 {
+                            playerStack.insert(1, at: 0)
+                        } else if currentPlayer == 1 && getFighter(player: 0).currhp == 0 {
+                            playerStack.insert(0, at: 1)
                         }
+                    }
+                    
+                    if playerStack.isEmpty {
+                        timer.invalidate()
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)
                             
@@ -73,6 +92,23 @@ class FightLogic: ObservableObject {
                         }
                     }
                 }
+                
+                /*processTurn(player: fasterPlayer)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    if fasterPlayer == 0 {
+                        processTurn(player: 1)
+                    } else {
+                        processTurn(player: 0)
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        gameLogic.setReady(player: 0, ready: false)
+                        gameLogic.setReady(player: 1, ready: false)
+                        
+                        battling = false
+                    }
+                }*/
             }
             //fasterPlayer = get faster player
             //playerTurn of fasterPlayer
@@ -103,6 +139,11 @@ class FightLogic: ObservableObject {
     }
     
     func processTurn(player: Int) {
+        if getFighter(player: player).currhp == 0 {
+            publishedText += getFighter(player: player).name + " fainted\n"
+            return
+        }
+        
         if usedMoves[player][0].target > -1 {
             if player == 0 {
                 publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + "\n"
