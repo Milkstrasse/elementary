@@ -10,6 +10,9 @@ import SwiftUI
 struct OptionsView: View {
     @Binding var currentSection: Section
     
+    let fightLogic: FightLogic
+    let player: Int
+    
     let geoHeight: CGFloat
     
     var body: some View {
@@ -19,6 +22,7 @@ struct OptionsView: View {
             }) {
                 DetailedActionView(title: "Fight", description: "Use your skills", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
+            .disabled(fightLogic.getFighter(player: player).currhp == 0) //remove button?
             Button(action: {
                 currentSection = .team
             }) {
@@ -40,6 +44,6 @@ struct OptionsView: View {
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(currentSection: .constant(.options), geoHeight: 375)
+        OptionsView(currentSection: .constant(.options), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
     }
 }

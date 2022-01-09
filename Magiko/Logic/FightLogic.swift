@@ -8,8 +8,8 @@
 import Foundation
 
 class FightLogic: ObservableObject {
-    var currentLeftFighter: Int = 0
-    var currentRightFighter: Int = 0
+    @Published var currentLeftFighter: Int = 0
+    @Published var currentRightFighter: Int = 0
     
     @Published var leftFighters: [Fighter]
     @Published var rightFighters: [Fighter]
@@ -44,6 +44,14 @@ class FightLogic: ObservableObject {
             return false
         }
         
+        if getFighter(player: player).currhp == 0 {
+            if move.target > -1 {
+                swapFighters(player: player, target: move.target)
+            }
+            
+            return false
+        }
+        
         gameLogic.setReady(player: player, ready: true)
         usedMoves[player].insert(move, at: 0)
         
@@ -52,11 +60,9 @@ class FightLogic: ObservableObject {
             publishedText = "Loading..."
             
             if getFasterPlayer() == 0 {
-                print(0)
                 playerStack.insert(1, at: 0)
                 playerStack.insert(0, at: 0)
             } else {
-                print(1)
                 playerStack.insert(0, at: 0)
                 playerStack.insert(1, at: 0)
             }
@@ -77,7 +83,7 @@ class FightLogic: ObservableObject {
                         if currentPlayer == 0 && getFighter(player: 1).currhp == 0 {
                             playerStack.insert(1, at: 0)
                         } else if currentPlayer == 1 && getFighter(player: 0).currhp == 0 {
-                            playerStack.insert(0, at: 1)
+                            playerStack.insert(0, at: 0)
                         }
                     }
                     
@@ -148,14 +154,22 @@ class FightLogic: ObservableObject {
             if player == 0 {
                 publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + "\n"
                 
-                currentLeftFighter = usedMoves[player][0].target
+                swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
                 publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + "\n"
                 
-                currentRightFighter = usedMoves[player][0].target
+                swapFighters(player: player, target: usedMoves[player][0].target)
             }
         } else {
             attack(player: player, skill: usedMoves[player][0].skill)
+        }
+    }
+    
+    func swapFighters(player: Int, target: Int) {
+        if player == 0 {
+            currentLeftFighter = target
+        } else {
+            currentRightFighter = target
         }
     }
     

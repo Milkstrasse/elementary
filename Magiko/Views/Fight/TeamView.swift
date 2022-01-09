@@ -10,7 +10,7 @@ import SwiftUI
 struct TeamView: View {
     @Binding var currentSection: Section
     
-    let fightLogic: FightLogic
+    @ObservedObject var fightLogic: FightLogic
     let player: Int
     
     let geoHeight: CGFloat

@@ -98,7 +98,7 @@ struct RightPlayerFightView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
                                         if currentSection == .options {
-                                            OptionsView(currentSection: $currentSection, geoHeight: geometry.size.height)
+                                            OptionsView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
                                         } else if currentSection == .skills {
                                             SkillsView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
                                         } else if currentSection == .team {
