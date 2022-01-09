@@ -48,11 +48,10 @@ class FightLogic: ObservableObject {
         usedMoves[player].insert(move, at: 0)
         
         if gameLogic.areBothReady() {
-            print("START FIGHTING")
             battling = true
+            publishedText = "Loading..."
             
             DispatchQueue.main.async { [self] in
-                publishedText = "Loading..."
                 let fasterPlayer: Int = getFasterPlayer()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {

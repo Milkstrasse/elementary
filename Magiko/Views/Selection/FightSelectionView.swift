@@ -37,6 +37,16 @@ struct FightSelectionView: View {
         return FightLogic(leftFighters: lefts, rightFighters: rights)
     }
     
+    func isArrayEmpty(array: [Fighter?]) -> Bool {
+        for fighter in array {
+            if fighter != nil {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     var body: some View {
         ZStack {
             Color.red.ignoresSafeArea()
@@ -60,7 +70,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 135))
+                            .buttonStyle(GrowingButton(width: 135)).disabled(isArrayEmpty(array: leftFighters))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -89,7 +99,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 135))
+                            .buttonStyle(GrowingButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
