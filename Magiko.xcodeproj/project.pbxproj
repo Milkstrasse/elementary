@@ -205,18 +205,11 @@
 		B80D7D0427871EF500DEB25F /* Logic */ = {
 			isa = PBXGroup;
 			children = (
-				B80D7D052787207C00DEB25F /* FightLogic.swift */,
+				B8525155278CD4C800AD99BE /* ViewsLogic */,
+				B8525154278CD4BF00AD99BE /* DataLogic */,
 				B80D7D072787558100DEB25F /* Extensions.swift */,
-				B80D7D0927875EA700DEB25F /* GameLogic.swift */,
-				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
-				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
-				B8EAA7822788870900DD3813 /* Skill.swift */,
-				B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */,
-				B81CC3282789A31800908195 /* Element.swift */,
 				B81CC32E278A3C3500908195 /* Localization.swift */,
-				B852514E278CB15C00AD99BE /* StatModifier.swift */,
-				B8525150278CC4A400AD99BE /* States.swift */,
-				B8525152278CCF5B00AD99BE /* StatusModifier.swift */,
+				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -242,6 +235,29 @@
 				B80D7CE227847B8600DEB25F /* LeftSelectionView.swift */,
 			);
 			path = Selection;
+			sourceTree = "<group>";
+		};
+		B8525154278CD4BF00AD99BE /* DataLogic */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CF7278635CC00DEB25F /* Fighter.swift */,
+				B8EAA7822788870900DD3813 /* Skill.swift */,
+				B8525150278CC4A400AD99BE /* States.swift */,
+				B81CC3282789A31800908195 /* Element.swift */,
+			);
+			path = DataLogic;
+			sourceTree = "<group>";
+		};
+		B8525155278CD4C800AD99BE /* ViewsLogic */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7D052787207C00DEB25F /* FightLogic.swift */,
+				B80D7D0927875EA700DEB25F /* GameLogic.swift */,
+				B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */,
+				B852514E278CB15C00AD99BE /* StatModifier.swift */,
+				B8525152278CCF5B00AD99BE /* StatusModifier.swift */,
+			);
+			path = ViewsLogic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
