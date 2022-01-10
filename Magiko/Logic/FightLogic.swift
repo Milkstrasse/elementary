@@ -20,7 +20,7 @@ class FightLogic: ObservableObject {
     var playerStack: [Int] = []
     
     @Published var battling: Bool = false
-    @Published var publishedText: String = "let the fight begin"
+    @Published var publishedText: [String] = ["let the fight begin"]
     
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
@@ -57,7 +57,7 @@ class FightLogic: ObservableObject {
         
         if gameLogic.areBothReady() {
             battling = true
-            publishedText = "Loading..."
+            publishedText = ["Loading..."]
             
             if getFasterPlayer() == 0 {
                 playerStack.insert(1, at: 0)
@@ -69,12 +69,12 @@ class FightLogic: ObservableObject {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
                 var turns: Int = 0
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
                     let currentPlayer: Int = playerStack.removeFirst();
                     turns += 1
                     
                     if turns == 1 {
-                        publishedText = ""
+                        publishedText = []
                     }
                     
                     processTurn(player: currentPlayer)
@@ -146,17 +146,17 @@ class FightLogic: ObservableObject {
     
     func processTurn(player: Int) {
         if getFighter(player: player).currhp == 0 {
-            publishedText += getFighter(player: player).name + " fainted\n"
+            publishedText.append(getFighter(player: player).name + " fainted")
             return
         }
         
         if usedMoves[player][0].target > -1 {
             if player == 0 {
-                publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + "\n"
+                publishedText.append(getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name)
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
-                publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + "\n"
+                publishedText.append(getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name)
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }
@@ -185,6 +185,6 @@ class FightLogic: ObservableObject {
             leftFighters[currentLeftFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0], skillElement: skill.element)
         }
         
-        publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "\n"
+        publishedText.append(getFighter(player: player).name + " used " + usedMoves[player][0].skill.name)
     }
 }

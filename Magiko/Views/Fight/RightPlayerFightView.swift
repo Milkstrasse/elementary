@@ -15,6 +15,9 @@ struct RightPlayerFightView: View {
     
     @State var currentSection: Section = .summary
     
+    @State var text: String = ""
+    @State var waitText: String = ""
+    
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
         let width = round(190 * percentage)
@@ -89,7 +92,27 @@ struct RightPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.publishedText).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        VStack(spacing: 0) {
+                                            ForEach(fightLogic.publishedText, id: \.self) { gameText in
+                                                if gameText == fightLogic.publishedText[fightLogic.publishedText.count - 1] {
+                                                    CustomText(text: text).frame(width: geometry.size.height - 60, alignment: .leading)
+                                                        .onAppear {
+                                                            text = ""
+                                                            let characterArray = gameText.characterArray
+                                                            var characterIndex = 0
+                                                            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { (timer) in
+                                                                self.text.append(characterArray[characterIndex])
+                                                                characterIndex += 1
+                                                                if characterIndex == characterArray.count {
+                                                                    timer.invalidate()
+                                                                }
+                                                            }
+                                                        }
+                                                } else {
+                                                    CustomText(text: gameText).frame(width: geometry.size.height - 60, alignment: .leading)
+                                                }
+                                            }
+                                        }
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
@@ -113,7 +136,19 @@ struct RightPlayerFightView: View {
                             } else {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
-                                    CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 87, alignment: .topLeading).padding(.horizontal, 15)
+                                    CustomText(key: waitText).frame(width: geometry.size.height - 60, height: 87, alignment: .topLeading).padding(.horizontal, 15)
+                                        .onAppear {
+                                            waitText = ""
+                                            let characterArray = ("waiting").characterArray
+                                            var characterIndex = 0
+                                            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { (timer) in
+                                                self.waitText.append(characterArray[characterIndex])
+                                                characterIndex += 1
+                                                if characterIndex == characterArray.count {
+                                                    timer.invalidate()
+                                                }
+                                            }
+                                        }
                                 }
                                 .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }
