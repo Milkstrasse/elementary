@@ -54,7 +54,19 @@ class Fighter: Hashable {
     func setLoadout(loadout: Int) {
         if loadout < GlobalData.shared.loadouts.count {
             self.loadout = GlobalData.shared.loadouts[loadout]
+            
+            currhp = getModifiedBase().health
         }
+    }
+    
+    func reset() {
+        attackMod = 0
+        defenseMod = 0
+        agilityMod = 0
+        precisionMod = 0
+        spAttackMod = 0
+        
+        currhp = getModifiedBase().health
     }
     
     func hash(into hasher: inout Hasher) {

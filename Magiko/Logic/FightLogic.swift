@@ -21,6 +21,7 @@ class FightLogic: ObservableObject {
     
     @Published var battling: Bool = false
     @Published var publishedText: String = "let the fight begin"
+    @Published var gameOver: Bool = false
     
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
@@ -98,23 +99,6 @@ class FightLogic: ObservableObject {
                         }
                     }
                 }
-                
-                /*processTurn(player: fasterPlayer)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    if fasterPlayer == 0 {
-                        processTurn(player: 1)
-                    } else {
-                        processTurn(player: 0)
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        gameLogic.setReady(player: 0, ready: false)
-                        gameLogic.setReady(player: 1, ready: false)
-                        
-                        battling = false
-                    }
-                }*/
             }
             //fasterPlayer = get faster player
             //playerTurn of fasterPlayer
@@ -186,5 +170,21 @@ class FightLogic: ObservableObject {
         }
         
         publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "\n"
+    }
+    
+    func isGameOver() -> Bool {
+        for fighter in leftFighters {
+            if fighter.currhp > 0 {
+                break
+            }
+        }
+        
+        for fighter in rightFighters {
+            if fighter.currhp > 0 {
+                return false
+            }
+        }
+        
+        return true
     }
 }

@@ -17,18 +17,22 @@ enum Section {
 }
 
 struct FightView: View {
+    @EnvironmentObject var manager: ViewManager
+    
     let fightLogic: FightLogic
     
     @State var transitionToggle: Bool = true
     @State var offsetX: CGFloat = -200
     
+    @State var gameOver: Bool = false
+    
     var body: some View {
         ZStack {
             Color.red.ignoresSafeArea()
             HStack {
-                LeftPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
+                LeftPlayerFightView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
                 Spacer()
-                RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX)
+                RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
             }
             .edgesIgnoringSafeArea(.bottom)
             GeometryReader { geometry in
@@ -39,6 +43,13 @@ struct FightView: View {
         .onAppear {
             transitionToggle = false
             offsetX = 0
+        }
+        .onChange(of: gameOver) { _ in
+            transitionToggle = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                manager.setView(view: AnyView(FightOverView(leftFighters: fightLogic.leftFighters, rightFighters: fightLogic.rightFighters).environmentObject(manager)))
+            }
         }
     }
 }

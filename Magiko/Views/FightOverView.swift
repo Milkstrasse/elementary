@@ -9,11 +9,21 @@ import SwiftUI
 
 struct FightOverView: View {
     @EnvironmentObject var manager: ViewManager
+    @State var gameLogic: GameLogic = GameLogic()
     
-    let leftFighters: [Fighter?] = [nil, nil, nil, nil]
-    let rightFighters: [Fighter?] = [nil, nil, nil, nil]
+    let leftFighters: [Fighter]
+    let rightFighters: [Fighter]
+    
+    @State var leftReady: Bool = false
+    @State var rightReady: Bool = false
     
     @State var transitionToggle: Bool = true
+    
+    func resetFighters(fighters: [Fighter]) {
+        for fighter in fighters {
+            fighter.reset()
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -23,7 +33,22 @@ struct FightOverView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "rematch")) {
+                            Button(leftReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "rematch")) {
+                                resetFighters(fighters: leftFighters)
+                                
+                                leftReady = !leftReady
+                                gameLogic.setReady(player: 0, ready: leftReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = FightLogic(leftFighters: leftFighters, rightFighters: rightFighters)
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
+                                    }
+                                }
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -52,8 +77,11 @@ struct FightOverView: View {
                         VStack {
                             Spacer()
                             HStack(spacing: 5) {
-                                ForEach(0 ..< 4) { index in
-                                    FighterView(fighter: leftFighters[index], isSelected: false)
+                                ForEach(leftFighters, id: \.self) { fighter in
+                                    FighterView(fighter: fighter, isSelected: false)
+                                }
+                                ForEach(0 ..< 4 - leftFighters.count) { index in
+                                    FighterView(fighter: nil, isSelected: false)
                                 }
                             }
                             .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
@@ -66,8 +94,11 @@ struct FightOverView: View {
                         VStack {
                             Spacer()
                             HStack(spacing: 5) {
-                                ForEach(0 ..< 4) { index in
-                                    FighterView(fighter: rightFighters[index], isSelected: false)
+                                ForEach(rightFighters, id: \.self) { fighter in
+                                    FighterView(fighter: fighter, isSelected: false)
+                                }
+                                ForEach(0 ..< 4 - rightFighters.count) { index in
+                                    FighterView(fighter: nil, isSelected: false)
                                 }
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -89,7 +120,22 @@ struct FightOverView: View {
                     .padding(.trailing, 10)
                     VStack {
                         HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "rematch")) {
+                            Button(rightReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "rematch")) {
+                                resetFighters(fighters: rightFighters)
+                                
+                                rightReady = !rightReady
+                                gameLogic.setReady(player: 1, ready: rightReady)
+                                
+                                if gameLogic.areBothReady() {
+                                    let fightLogic: FightLogic = FightLogic(leftFighters: leftFighters, rightFighters: rightFighters)
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
+                                    }
+                                }
                             }
                             .buttonStyle(GrowingButton(width: 135))
                             Button("X") {
@@ -120,7 +166,7 @@ struct FightOverView: View {
 
 struct FightOverView_Previews: PreviewProvider {
     static var previews: some View {
-        FightOverView()
+        FightOverView(leftFighters: [exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter])
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

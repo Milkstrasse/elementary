@@ -13,6 +13,7 @@ struct LeftPlayerFightView: View {
     let offsetX: CGFloat
     
     @State var currentSection: Section = .summary
+    @Binding var gameOver: Bool
     
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
@@ -66,13 +67,17 @@ struct LeftPlayerFightView: View {
                         VStack(alignment: .leading) {
                             ZStack {
                                 Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
-                                    if currentSection == .options {
-                                        currentSection = .summary
+                                    if fightLogic.isGameOver() {
+                                        gameOver = true
                                     } else {
-                                        if currentSection == .waiting {
-                                            fightLogic.undoMove(player: 0)
+                                        if currentSection == .options {
+                                            currentSection = .summary
+                                        } else {
+                                            if currentSection == .waiting {
+                                                fightLogic.undoMove(player: 0)
+                                            }
+                                            currentSection = .options
                                         }
-                                        currentSection = .options
                                     }
                                 }
                                 .buttonStyle(ClearGrowingButton(width: 100, height: 35))
@@ -100,7 +105,7 @@ struct LeftPlayerFightView: View {
                                                 HStack {
                                                     CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
                                                     Spacer()
-                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 0).currhp))/\(Int(fightLogic.getFighter(player: 0).base.health))HP")
+                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 0).currhp))/\(Int(fightLogic.getFighter(player: 0).getModifiedBase().health))HP")
                                                 }
                                                 ZStack(alignment: .leading) {
                                                     Rectangle().fill(Color.purple).frame(height: 6)
@@ -133,7 +138,7 @@ struct LeftPlayerFightView: View {
 
 struct LeftPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0).edgesIgnoringSafeArea(.bottom)
+        LeftPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).edgesIgnoringSafeArea(.bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

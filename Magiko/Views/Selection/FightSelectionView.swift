@@ -60,7 +60,7 @@ struct FightSelectionView: View {
                                 gameLogic.setReady(player: 0, ready: leftReady)
                                 
                                 if gameLogic.areBothReady() {
-                                    let fightLogic: FightLogic = self.createLogic()
+                                    let fightLogic: FightLogic = createLogic()
                                     
                                     if fightLogic.isValid() {
                                         transitionToggle = true
@@ -89,7 +89,7 @@ struct FightSelectionView: View {
                                 gameLogic.setReady(player: 1, ready: rightReady)
                                 
                                 if gameLogic.areBothReady() {
-                                    let fightLogic: FightLogic = self.createLogic()
+                                    let fightLogic: FightLogic = createLogic()
                                     
                                     if fightLogic.isValid() {
                                         transitionToggle = true

@@ -14,6 +14,7 @@ struct RightPlayerFightView: View {
     let offsetX: CGFloat
     
     @State var currentSection: Section = .summary
+    @Binding var gameOver: Bool
     
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
@@ -52,7 +53,7 @@ struct RightPlayerFightView: View {
                                                 HStack {
                                                     CustomText(key: fightLogic.getFighter(player: 1).name).lineLimit(1)
                                                     Spacer()
-                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 1).currhp))/\(Int(fightLogic.getFighter(player: 1).base.health))HP")
+                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 1).currhp))/\(Int(fightLogic.getFighter(player: 1).getModifiedBase().health))HP")
                                                 }
                                                 ZStack(alignment: .leading) {
                                                     Rectangle().fill(Color.purple).frame(height: 6)
@@ -70,13 +71,17 @@ struct RightPlayerFightView: View {
                             Spacer()
                             ZStack {
                                 Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
-                                    if currentSection == .options {
-                                        currentSection = .summary
+                                    if fightLogic.isGameOver() {
+                                        gameOver = true
                                     } else {
-                                        if currentSection == .waiting {
-                                            fightLogic.undoMove(player: 1)
+                                        if currentSection == .options {
+                                            currentSection = .summary
+                                        } else {
+                                            if currentSection == .waiting {
+                                                fightLogic.undoMove(player: 0)
+                                            }
+                                            currentSection = .options
                                         }
-                                        currentSection = .options
                                     }
                                 }
                                 .buttonStyle(ClearGrowingButton(width: 100, height: 35))
@@ -134,7 +139,7 @@ struct RightPlayerFightView: View {
 
 struct RightPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0).edgesIgnoringSafeArea(.bottom)
+        RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).edgesIgnoringSafeArea(.bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }
