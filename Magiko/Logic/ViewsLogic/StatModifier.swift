@@ -18,7 +18,7 @@ struct StatModifier {
         }
         
         if skillName != nil {
-            text = attacker.name + " used " + skillName! + ". " + text
+            text = attacker.name + " used " + skillName! + ".\n" + text
         }
         
         return text

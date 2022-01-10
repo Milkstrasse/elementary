@@ -71,7 +71,11 @@ struct DetailedSkillView: View {
         }
         
         if skill.skills.count >= 2 {
-            description += ", " + getModifierDescription(subSkill: skill.skills[1], capitalize: false)
+            if description == "" {
+                description = getModifierDescription(subSkill: skill.skills[1], capitalize: true)
+            } else {
+                description += ", " + getModifierDescription(subSkill: skill.skills[1], capitalize: false)
+            }
         }
         
         return description

@@ -4,6 +4,10 @@
   "skills": [
       {
           "power": 0,
+          "range": 1
+      },
+      {
+          "power": 0,
           "range": 1,
           "precisionMod": 20
       }

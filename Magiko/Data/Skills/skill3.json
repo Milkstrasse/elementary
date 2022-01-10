@@ -1,1 +1,1 @@
-{  "name": "Skill 3",  "element": "Plant",  "skills": [      {          "power": 0,          "range": 1,          "statusChance": 50      }  ]}
+{  "name": "Skill 3",  "element": "Plant",  "skills": [      {          "power": 0,          "range": 1      },      {          "power": 0,          "range": 1,          "statusChance": 50      }  ]}

@@ -17,7 +17,7 @@ struct StatusModifier {
                 attacker.status = States.fine.getStatus(element: skillElement)
                 text = attacker.name + " became " + attacker.status.name + ".\n"
             } else {
-                text = "\n"
+                text = "It failed.\n"
             }
             
             if skillName != nil {
@@ -29,7 +29,7 @@ struct StatusModifier {
                 defender.status = States.fine.getStatus(element: skillElement)
                 text = defender.name + " became " + defender.status.name + ".\n"
             } else {
-                text = "\n"
+                text = "It failed.\n"
             }
             
             if skillName != nil {
