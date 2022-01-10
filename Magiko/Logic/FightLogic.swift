@@ -187,4 +187,24 @@ class FightLogic: ObservableObject {
         
         return true
     }
+    
+    func forfeit(player: Int) {
+        gameLogic.forfeit(player: player)
+    }
+    
+    func getWinner() -> Int {
+        if gameLogic.forfeited[0] {
+            return 1
+        } else if gameLogic.forfeited[1] {
+            return 0
+        }
+        
+        for fighter in leftFighters {
+            if fighter.currhp > 0 {
+                return 0
+            }
+        }
+        
+        return 1
+    }
 }

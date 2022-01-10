@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OptionsView: View {
     @Binding var currentSection: Section
+    @Binding var gameOver: Bool
     
     let fightLogic: FightLogic
     let player: Int
@@ -22,7 +23,7 @@ struct OptionsView: View {
             }) {
                 DetailedActionView(title: "Fight", description: "Use your skills", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
-            .disabled(fightLogic.getFighter(player: player).currhp == 0) //remove button?
+            .disabled(fightLogic.getFighter(player: player).currhp == 0)
             Button(action: {
                 currentSection = .team
             }) {
@@ -34,7 +35,8 @@ struct OptionsView: View {
                 DetailedActionView(title: "Info", description: "Gather intel", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             Button(action: {
-                
+                fightLogic.forfeit(player: player)
+                gameOver = true
             }) {
                 DetailedActionView(title: "Forfeit", description: "End battle", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
@@ -44,6 +46,6 @@ struct OptionsView: View {
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(currentSection: .constant(.options), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
+        OptionsView(currentSection: .constant(.options), gameOver: .constant(false), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
     }
 }

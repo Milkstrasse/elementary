@@ -14,6 +14,8 @@ struct FightOverView: View {
     let leftFighters: [Fighter]
     let rightFighters: [Fighter]
     
+    let winner: Int
+    
     @State var leftReady: Bool = false
     @State var rightReady: Bool = false
     
@@ -66,7 +68,7 @@ struct FightOverView: View {
                             ZStack(alignment: .topTrailing) {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
                                 ZStack {
-                                    CustomText(key: "Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
+                                    CustomText(key: winner == 0 ? "won game" : "lost game").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
                                 }
                                 .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(90))
                             }
@@ -110,7 +112,7 @@ struct FightOverView: View {
                             ZStack(alignment: .bottom) {
                                 RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
                                 ZStack {
-                                    CustomText(key: "Game Over Messagefdfdsf").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
+                                    CustomText(key: winner == 0 ? "lost game" : "won game").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
                                 }
                                 .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(-90))
                             }
@@ -166,7 +168,7 @@ struct FightOverView: View {
 
 struct FightOverView_Previews: PreviewProvider {
     static var previews: some View {
-        FightOverView(leftFighters: [exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter])
+        FightOverView(leftFighters: [exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter], winner: 0)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }
