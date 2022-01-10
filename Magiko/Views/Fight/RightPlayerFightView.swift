@@ -30,7 +30,7 @@ struct RightPlayerFightView: View {
             }
         }
         
-        let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
+        let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.getModifiedBase().health)
         let width = round(190 * percentage)
         
         return width
@@ -161,7 +161,9 @@ struct RightPlayerFightView: View {
 
 struct RightPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).edgesIgnoringSafeArea(.bottom)
+        RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false))
+            .previewDevice("iPhone 8")
+            .edgesIgnoringSafeArea(.bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

@@ -29,7 +29,7 @@ struct LeftPlayerFightView: View {
             }
         }
         
-        let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
+        let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.getModifiedBase().health)
         let width = round(190 * percentage)
         
         return width
