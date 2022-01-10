@@ -26,11 +26,11 @@ struct DamageCalculator {
             if damage > defender.currhp {
                 print(Int(damage))
                 
-                return (damage: defender.currhp, text: " It's a critical hit.\n")
+                return (damage: defender.currhp, text: "It's a critical hit.\n")
             } else {
                 print(Int(damage))
                 
-                return (damage: damage, text: " It's a critical hit.\n")
+                return (damage: damage, text: "It's a critical hit.\n")
             }
         } else {
             let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16

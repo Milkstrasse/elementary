@@ -174,17 +174,25 @@ class FightLogic: ObservableObject {
     }
     
     func attack(player: Int, skill: Skill) {
-        var calculated: (damage: UInt, text: String)
-        
-        if player == 0 {
-            calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
-            rightFighters[currentRightFighter].currhp -= calculated.damage
+        if skill.skills[playerStack[0].index].power > 0 {
+            var calculated: (damage: UInt, text: String)
+            
+            if player == 0 {
+                calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
+                rightFighters[currentRightFighter].currhp -= calculated.damage
+            } else {
+                calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
+                leftFighters[currentLeftFighter].currhp -= calculated.damage
+            }
+            
+            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + calculated.text
         } else {
-            calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
-            leftFighters[currentLeftFighter].currhp -= calculated.damage
+            if player == 0 {
+                publishedText += StatModifier.shared.modifyStats(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
+            } else {
+                publishedText += StatModifier.shared.modifyStats(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
+            }
         }
-        
-        publishedText += getFighter(player: player).name + " used " + skill.name + "." + calculated.text
     }
     
     func isGameOver() -> Bool {

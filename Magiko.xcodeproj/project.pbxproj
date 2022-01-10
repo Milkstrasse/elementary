@@ -40,6 +40,7 @@
 		B81CC32B2789A5E700908195 /* Elements in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32A2789A5E700908195 /* Elements */; };
 		B81CC32D2789D10A00908195 /* Loadouts in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32C2789D10A00908195 /* Loadouts */; };
 		B81CC32F278A3C3500908195 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC32E278A3C3500908195 /* Localization.swift */; };
+		B852514F278CB15C00AD99BE /* StatModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852514E278CB15C00AD99BE /* StatModifier.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		B81CC32A2789A5E700908195 /* Elements */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Elements; sourceTree = "<group>"; };
 		B81CC32C2789D10A00908195 /* Loadouts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Loadouts; sourceTree = "<group>"; };
 		B81CC32E278A3C3500908195 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		B852514E278CB15C00AD99BE /* StatModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatModifier.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,6 +210,7 @@
 				B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */,
 				B81CC3282789A31800908195 /* Element.swift */,
 				B81CC32E278A3C3500908195 /* Localization.swift */,
+				B852514E278CB15C00AD99BE /* StatModifier.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */,
 				B80D7CF8278635CC00DEB25F /* Fighter.swift in Sources */,
 				B80D7CE92784F4A000DEB25F /* LeftPlayerFightView.swift in Sources */,
+				B852514F278CB15C00AD99BE /* StatModifier.swift in Sources */,
 				B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */,
 				B80D7CD527835A8700DEB25F /* SettingsView.swift in Sources */,
 				B80D7CE72784D27500DEB25F /* FightView.swift in Sources */,
