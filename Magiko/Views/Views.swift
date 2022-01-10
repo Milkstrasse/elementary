@@ -60,8 +60,90 @@ struct DetailedSkillView: View {
         
         var description: String = ""
         
-        if skill.skills[0].power > 0 {
-            description += "Deals \(skill.skills[0].power) DMG"
+        if skill.skills[0].range > 0 {
+            if skill.skills[0].power > 0 {
+                description = "Deals \(skill.skills[0].power) DMG"
+            } else {
+                description = getModifierDescription(subSkill: skill.skills[0], capitalize: true)
+            }
+        } else {
+            description = getModifierDescription(subSkill: skill.skills[0], capitalize: true)
+        }
+        
+        if skill.skills.count >= 2 {
+            description += ", " + getModifierDescription(subSkill: skill.skills[1], capitalize: false)
+        }
+        
+        return description
+    }
+    
+    func getModifierDescription(subSkill: SubSkill, capitalize: Bool) -> String {
+        var description: String = ""
+        
+        if subSkill.attackMod > 0 {
+            description += "increases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "ATK"
+        } else if subSkill.attackMod < 0 {
+            description += "decreases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "ATK"
+        } else if subSkill.defenseMod > 0 {
+            description += "increases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "DEF"
+        } else if subSkill.defenseMod < 0 {
+            description += "decreases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "DEF"
+        } else if subSkill.agilityMod > 0 {
+            description += "increases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "AGL"
+        } else if subSkill.agilityMod < 0 {
+            description += "decreases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "AGL"
+        } else if subSkill.precisionMod > 0 {
+            description += "increases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "PRC"
+        } else if subSkill.precisionMod < 0 {
+            description += "decreases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "PRC"
+        } else if subSkill.spAttackMod > 0 {
+            description += "increases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "SP.ATK"
+        } else if subSkill.spAttackMod < 0 {
+            description += "decreases "
+            if subSkill.range > 1 {
+                description += "enemy's "
+            }
+            description += "SP.ATK"
+        }
+        
+        if capitalize {
+            description = description.prefix(1).capitalized + description.dropFirst()
         }
         
         return description
