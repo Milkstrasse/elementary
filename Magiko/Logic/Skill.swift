@@ -46,17 +46,19 @@ struct Skill: Decodable, Hashable {
 }
 
 struct SubSkill: Decodable {
-    var power: UInt
-    var range: Int
+    let power: UInt
+    let range: Int
     
-    var attackMod: Int
-    var defenseMod: Int
-    var agilityMod: Int
-    var precisionMod: Int
-    var spAttackMod: Int
+    let statusChance: Int
+    
+    let attackMod: Int
+    let defenseMod: Int
+    let agilityMod: Int
+    let precisionMod: Int
+    let spAttackMod: Int
     
     enum CodingKeys: String, CodingKey {
-        case power, range, attackMod, defenseMod, agilityMod, precisionMod, spAttackMod
+        case power, range, statusChance, attackMod, defenseMod, agilityMod, precisionMod, spAttackMod
     }
     
     init(from decoder: Decoder) throws {
@@ -64,6 +66,8 @@ struct SubSkill: Decodable {
         
         power = try container.decode(UInt.self, forKey: .power)
         range = try container.decode(Int.self, forKey: .range)
+        
+        statusChance = try container.decodeIfPresent(Int.self, forKey: .statusChance) ?? 0
         
         attackMod = try container.decodeIfPresent(Int.self, forKey: .attackMod) ?? 0
         defenseMod = try container.decodeIfPresent(Int.self, forKey: .defenseMod) ?? 0

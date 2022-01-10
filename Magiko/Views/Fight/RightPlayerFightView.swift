@@ -67,8 +67,8 @@ struct RightPlayerFightView: View {
                                         ZStack(alignment: .topTrailing) {
                                             Rectangle().fill(Color.blue).frame(width: 210)
                                             ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color.green)
-                                                CustomText(key: "Fine")
+                                                RoundedRectangle(cornerRadius: 5).fill(Color(hex: fightLogic.getFighter(player: 1).status.element.color))
+                                                CustomText(key: fightLogic.getFighter(player: 1).status.name)
                                             }
                                             .frame(width: 90, height: 30).offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
@@ -100,7 +100,7 @@ struct RightPlayerFightView: View {
                                             currentSection = .summary
                                         } else {
                                             if currentSection == .waiting {
-                                                fightLogic.undoMove(player: 0)
+                                                fightLogic.undoMove(player: 1)
                                             }
                                             currentSection = .options
                                         }

@@ -9,6 +9,8 @@ class Fighter: Hashable {
     let name: String
     let element: Element
     
+    var status: Status
+    
     let data: FighterData
     
     let base: Base
@@ -27,6 +29,8 @@ class Fighter: Hashable {
     init(data: FighterData) {
         name = data.name
         element = GlobalData.shared.elements[data.element] ?? Element()
+        
+        status = States.fine.getStatus()
         
         self.data = data
         

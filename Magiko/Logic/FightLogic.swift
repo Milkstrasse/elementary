@@ -186,6 +186,12 @@ class FightLogic: ObservableObject {
             }
             
             publishedText += getFighter(player: player).name + " used " + skill.name + ". " + calculated.text
+        } else if skill.skills[playerStack[0].index].statusChance > 0 {
+            if player == 0 {
+                publishedText += StatusModifier.shared.modifyStatus(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, skillName: playerStack[0].index == 0 ? skill.name : nil)
+            } else {
+                publishedText += StatusModifier.shared.modifyStatus(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, skillName: playerStack[0].index == 0 ? skill.name : nil)
+            }
         } else {
             if player == 0 {
                 publishedText += StatModifier.shared.modifyStats(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
