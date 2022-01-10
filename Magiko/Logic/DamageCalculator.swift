@@ -13,7 +13,7 @@ struct DamageCalculator {
     func calcDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String) -> UInt {
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
-        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 80
+        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
