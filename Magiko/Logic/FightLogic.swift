@@ -17,7 +17,7 @@ class FightLogic: ObservableObject {
     var gameLogic: GameLogic = GameLogic()
     
     var usedMoves: [[Move]] = [[], []]
-    var playerStack: [Int] = []
+    var playerStack: [(player: Int, index: Int)] = []
     
     @Published var battling: Bool = false
     @Published var publishedText: String = "let the fight begin"
@@ -61,17 +61,25 @@ class FightLogic: ObservableObject {
             publishedText = "Loading..."
             
             if getFasterPlayer() == 0 {
-                playerStack.insert(1, at: 0)
-                playerStack.insert(0, at: 0)
+                for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                    playerStack.insert((player: 1, index: index), at: 0)
+                }
+                for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                    playerStack.insert((player: 0, index: index), at: 0)
+                }
             } else {
-                playerStack.insert(0, at: 0)
-                playerStack.insert(1, at: 0)
+                for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                    playerStack.insert((player: 0, index: index), at: 0)
+                }
+                for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                    playerStack.insert((player: 1, index: index), at: 0)
+                }
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
                 var turns: Int = 0
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                    let currentPlayer: Int = playerStack.removeFirst();
+                    let currentPlayer: Int = playerStack[0].player;
                     turns += 1
                     
                     if turns == 1 {
@@ -79,13 +87,16 @@ class FightLogic: ObservableObject {
                     }
                     
                     processTurn(player: currentPlayer)
+                    playerStack.removeFirst()
                     
-                    if turns > 1 {
+                    if turns > 1 && playerStack.isEmpty {
                         if currentPlayer == 0 && getFighter(player: 1).currhp == 0 {
-                            playerStack.insert(1, at: 0)
+                            playerStack.insert((player: 1, index: 0), at: 0)
                         } else if currentPlayer == 1 && getFighter(player: 0).currhp == 0 {
-                            playerStack.insert(0, at: 0)
+                            playerStack.insert((player: 0, index: 0), at: 0)
                         }
+                    } else if getFighter(player: currentPlayer).currhp == 0 {
+                        playerStack.removeFirst()
                     }
                     
                     if playerStack.isEmpty {
@@ -166,21 +177,26 @@ class FightLogic: ObservableObject {
         var calculated: (damage: UInt, text: String)
         
         if player == 0 {
-            calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0], skillElement: skill.element)
+            calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
             rightFighters[currentRightFighter].currhp -= calculated.damage
         } else {
-            calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[0], skillElement: skill.element)
+            calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
             leftFighters[currentLeftFighter].currhp -= calculated.damage
         }
         
-        publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "." + calculated.text
+        publishedText += getFighter(player: player).name + " used " + skill.name + "." + calculated.text
     }
     
     func isGameOver() -> Bool {
+        var counter: Int = 0
         for fighter in leftFighters {
             if fighter.currhp > 0 {
-                break
+                counter += 1
             }
+        }
+        
+        if counter == 0 {
+            return true
         }
         
         for fighter in rightFighters {

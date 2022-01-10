@@ -15,7 +15,7 @@ struct DamageCalculator {
         
         let rndm: Float = Float.random(in: 0 ..< 100)
         if rndm < Float(attacker.getModifiedBase().precision)/10 {
-            let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().spAttack) * 24
+            let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().spAttack) * 32
             let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
             
             var dmg: Float = attack/defense

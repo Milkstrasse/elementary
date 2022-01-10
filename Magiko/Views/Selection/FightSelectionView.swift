@@ -22,15 +22,15 @@ struct FightSelectionView: View {
     func createLogic() -> FightLogic {
         var lefts: [Fighter] = []
         for fighter in leftFighters {
-            if fighter != nil { //make copy of value!
-                lefts.append(Fighter(data: fighter!.data))
+            if fighter != nil {
+                lefts.append(fighter!)
             }
         }
         
         var rights: [Fighter] = []
         for fighter in rightFighters {
-            if fighter != nil { //make copy of value!
-                rights.append(Fighter(data: fighter!.data))
+            if fighter != nil {
+                rights.append(fighter!)
             }
         }
         

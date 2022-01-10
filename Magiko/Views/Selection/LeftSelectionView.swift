@@ -136,7 +136,7 @@ struct LeftSelectionView: View {
                                                 FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                     .onTapGesture {
                                                         if !isSelected(fighter: fighter) {
-                                                            fighters[selectedSlot] = fighter
+                                                            fighters[selectedSlot] = Fighter(data: fighter!.data)
                                                         }
                                                     }
                                             }
@@ -146,7 +146,7 @@ struct LeftSelectionView: View {
                                                 FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                     .onTapGesture {
                                                         if !isSelected(fighter: fighter) {
-                                                            fighters[selectedSlot] = fighter
+                                                            fighters[selectedSlot] = Fighter(data: fighter!.data)
                                                         }
                                                     }
                                             }

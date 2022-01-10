@@ -1,9 +1,9 @@
 {
     "name": "Defender",
-    "healthMod": 0,
+    "healthMod": 20,
     "attackMod": -20,
     "defenseMod": 20,
-    "agilityMod": 0,
+    "agilityMod": -20,
     "precisionMod": 0,
     "spAttackMod": 0
 }
