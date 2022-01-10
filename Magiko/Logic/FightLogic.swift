@@ -130,17 +130,17 @@ class FightLogic: ObservableObject {
     
     func processTurn(player: Int) {
         if getFighter(player: player).currhp == 0 {
-            publishedText += getFighter(player: player).name + " fainted\n"
+            publishedText += getFighter(player: player).name + " fainted.\n"
             return
         }
         
         if usedMoves[player][0].target > -1 {
             if player == 0 {
-                publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + "\n"
+                publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
-                publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + "\n"
+                publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }
@@ -163,13 +163,17 @@ class FightLogic: ObservableObject {
     }
     
     func attack(player: Int, skill: Skill) {
+        var calculated: (damage: UInt, text: String)
+        
         if player == 0 {
-            rightFighters[currentRightFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0], skillElement: skill.element)
+            calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[0], skillElement: skill.element)
+            rightFighters[currentRightFighter].currhp -= calculated.damage
         } else {
-            leftFighters[currentLeftFighter].currhp -= DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[0], skillElement: skill.element)
+            calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[0], skillElement: skill.element)
+            leftFighters[currentLeftFighter].currhp -= calculated.damage
         }
         
-        publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "\n"
+        publishedText += getFighter(player: player).name + " used " + usedMoves[player][0].skill.name + "." + calculated.text
     }
     
     func isGameOver() -> Bool {
