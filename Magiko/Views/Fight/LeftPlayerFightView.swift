@@ -37,6 +37,7 @@ struct LeftPlayerFightView: View {
                                     currentHealth = newHealth
                                     hurting = true
                                 } else {
+                                    print("UPDATING OCCURED")
                                     currentHealth = fightLogic.getFighter(player: 0).currhp
                                 }
                         }
