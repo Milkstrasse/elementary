@@ -132,7 +132,7 @@ struct LeftSelectionView: View {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
+                                            ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
                                                 FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                     .onTapGesture {
                                                         if !isSelected(fighter: fighter) {
@@ -142,7 +142,7 @@ struct LeftSelectionView: View {
                                             }
                                         }
                                         VStack(spacing: 5) {
-                                            ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
+                                            ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
                                                 FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                     .onTapGesture {
                                                         if !isSelected(fighter: fighter) {

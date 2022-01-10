@@ -15,6 +15,9 @@ struct LeftPlayerFightView: View {
     @State var currentSection: Section = .summary
     @Binding var gameOver: Bool
     
+    @State var currentHealth: UInt = 0
+    @State var hurting: Bool = false
+    
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
         let width = round(190 * percentage)
@@ -26,7 +29,25 @@ struct LeftPlayerFightView: View {
         GeometryReader { geometry in
             HStack {
                 ZStack(alignment: .topLeading) {
-                    Image(fightLogic.getFighter(player: 0).name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                    if !hurting {
+                        Image(fightLogic.getFighter(player: 0).name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                            .onReceive(fightLogic.$publishedText) { _ in
+                                let newHealth = fightLogic.getFighter(player: 0).currhp
+                                if currentHealth > newHealth {
+                                    currentHealth = newHealth
+                                    hurting = true
+                                } else {
+                                    currentHealth = fightLogic.getFighter(player: 0).currhp
+                                }
+                        }
+                    } else {
+                        Image(fightLogic.getFighter(player: 0).name + "_closed").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(90))
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    hurting = false
+                                }
+                            }
+                    }
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {

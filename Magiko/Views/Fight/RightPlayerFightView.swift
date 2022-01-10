@@ -16,6 +16,9 @@ struct RightPlayerFightView: View {
     @State var currentSection: Section = .summary
     @Binding var gameOver: Bool
     
+    @State var currentHealth: UInt = 0
+    @State var hurting: Bool = false
+    
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.base.health)
         let width = round(190 * percentage)
@@ -28,7 +31,25 @@ struct RightPlayerFightView: View {
             HStack {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
-                    Image(fightLogic.getFighter(player: 1).name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                    if !hurting {
+                        Image(fightLogic.getFighter(player: 1).name).resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                            .onReceive(fightLogic.$publishedText) { _ in
+                                let newHealth = fightLogic.getFighter(player: 1).currhp
+                                if currentHealth > newHealth {
+                                    currentHealth = newHealth
+                                    hurting = true
+                                } else {
+                                    currentHealth = fightLogic.getFighter(player: 1).currhp
+                                }
+                        }
+                    } else {
+                        Image(fightLogic.getFighter(player: 1).name + "_closed").resizable().scaleEffect(3.7).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: -40 + offsetX, y: 0).rotationEffect(.degrees(-90))
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    hurting = false
+                                }
+                            }
+                    }
                     Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         VStack(alignment: .trailing) {

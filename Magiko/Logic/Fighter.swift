@@ -9,6 +9,8 @@ class Fighter: Hashable {
     let name: String
     let element: Element
     
+    let data: FighterData
+    
     let base: Base
     var currhp: UInt
     
@@ -25,6 +27,8 @@ class Fighter: Hashable {
     init(data: FighterData) {
         name = data.name
         element = GlobalData.shared.elements[data.element] ?? Element()
+        
+        self.data = data
         
         base = data.base
         currhp = data.base.health
