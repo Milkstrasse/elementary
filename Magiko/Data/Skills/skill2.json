@@ -9,7 +9,7 @@
       {
           "power": 0,
           "range": 1,
-          "precisionMod": 20
+          "effect": "precisionDrop"
       }
   ]
 }

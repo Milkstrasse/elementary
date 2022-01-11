@@ -66,11 +66,12 @@ struct RightPlayerFightView: View {
                                         Triangle().fill(Color.blue).frame(width: 20)
                                         ZStack(alignment: .topTrailing) {
                                             Rectangle().fill(Color.blue).frame(width: 210)
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color(hex: fightLogic.getFighter(player: 1).status.element.color))
-                                                CustomText(key: fightLogic.getFighter(player: 1).status.name)
+                                            HStack(spacing: 5) {
+                                                ForEach(fightLogic.getFighter(player: 1).effects, id: \.self) { effect in
+                                                    EffectView(effect: effect)
+                                                }
                                             }
-                                            .frame(width: 90, height: 30).offset(x: -15, y: -15)
+                                            .offset(x: -15, y: -15)
                                             VStack(spacing: 0) {
                                                 HStack {
                                                     CustomText(key: fightLogic.getFighter(player: 1).name).lineLimit(1)

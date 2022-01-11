@@ -84,66 +84,57 @@ struct DetailedSkillView: View {
     func getModifierDescription(subSkill: SubSkill, capitalize: Bool) -> String {
         var description: String = ""
         
-        if subSkill.attackMod > 0 {
-            description += "increases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "ATK"
-        } else if subSkill.attackMod < 0 {
-            description += "decreases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "ATK"
-        } else if subSkill.defenseMod > 0 {
-            description += "increases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "DEF"
-        } else if subSkill.defenseMod < 0 {
-            description += "decreases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "DEF"
-        } else if subSkill.agilityMod > 0 {
-            description += "increases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "AGL"
-        } else if subSkill.agilityMod < 0 {
-            description += "decreases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "AGL"
-        } else if subSkill.precisionMod > 0 {
-            description += "increases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "PRC"
-        } else if subSkill.precisionMod < 0 {
-            description += "decreases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "PRC"
-        } else if subSkill.spAttackMod > 0 {
-            description += "increases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "SP.ATK"
-        } else if subSkill.spAttackMod < 0 {
-            description += "decreases "
-            if subSkill.range > 1 {
-                description += "enemy's "
-            }
-            description += "SP.ATK"
+        switch subSkill.effect {
+            case "attackBoost":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "ATK"
+            case "attackDrop":
+                description += "decreases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "ATK"
+            case "defenseBoost":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "DEF"
+            case "defenseDrop":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "DEF"
+            case "agilityBoost":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "AGL"
+            case "agilityDrop":
+                description += "decreases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "AGL"
+            case "precisionBoost":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "PRC"
+            case "precisionDrop":
+                description += "increases "
+                if subSkill.range > 1 {
+                    description += "enemy's "
+                }
+                description += "PRC"
+            default:
+                break
         }
         
         if capitalize {
@@ -257,9 +248,9 @@ struct BaseOverviewView: View {
                             CustomText(text: "\(base.precision)")
                         }
                         HStack {
-                            CustomText(key: "spAttack")
+                            CustomText(key: "stamina")
                             Spacer()
-                            CustomText(text: "\(base.spAttack)")
+                            CustomText(text: "\(base.stamina)")
                         }
                     }
                 }
@@ -305,6 +296,18 @@ struct CustomText: View {
     }
 }
 
+struct EffectView: View {
+    let effect: Effect
+    
+    var body: some View {
+        ZStack {
+            Rectangle().fill(Color.red).frame(width: 30, height: 30)
+            Rectangle().fill(effect.positive ? Color.green : Color.red).frame(width: 30, height: 30)
+            Text("\(effect.duration)").frame(width: 30, height: 30)
+        }
+    }
+}
+
 struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -312,7 +315,8 @@ struct Views_Previews: PreviewProvider {
             SimpleAttackView(title: "Title")
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
             FighterView(fighter: exampleFighter, isSelected: false)
-            BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, spAttack: 100))
+            BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
+            EffectView(effect: Effect(name: "sample", symbol: "%", duration: 3, positive: true))
         }
     }
 }

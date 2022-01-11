@@ -9,12 +9,12 @@ class Fighter: Hashable {
     let name: String
     let element: Element
     
-    var status: Status
-    
     let data: FighterData
     
     let base: Base
     var currhp: UInt
+    
+    var effects: [Effect] = []
     
     var skills: [Skill]
     
@@ -24,13 +24,10 @@ class Fighter: Hashable {
     var defenseMod: Int = 0
     var agilityMod: Int = 0
     var precisionMod: Int = 0
-    var spAttackMod: Int = 0
     
     init(data: FighterData) {
         name = data.name
         element = GlobalData.shared.elements[data.element] ?? Element()
-        
-        status = States.fine.getStatus()
         
         self.data = data
         
@@ -54,9 +51,9 @@ class Fighter: Hashable {
         let defense: Int = max(Int(base.defense) + defenseMod + loadout.defenseMod, 0)
         let agility: Int = max(Int(base.agility) + agilityMod + loadout.agilityMod, 0)
         let precision: Int = max(Int(base.precision) + precisionMod + loadout.precisionMod, 0)
-        let spAttack: Int = max(Int(base.spAttack) + spAttackMod + loadout.spAttackMod, 0)
+        let stamina: Int = max(Int(base.stamina) + loadout.staminaMod, 0)
         
-        return Base(health: UInt(health), attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), spAttack: UInt(spAttack))
+        return Base(health: UInt(health), attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), stamina: UInt(stamina))
     }
     
     func setLoadout(loadout: Int) {
@@ -67,12 +64,72 @@ class Fighter: Hashable {
         }
     }
     
+    func applyEffect(effect: Effect) -> Bool {
+        if effects.count < 2 {
+            effects.append(effect)
+            effects.sort {
+                $0.duration < $1.duration
+            }
+            
+            switch effect.name {
+                case "attackBoost":
+                    attackMod += 40
+                case "attackDrop":
+                    attackMod -= 40
+                case "defenseBoost":
+                    defenseMod += 40
+                case "defenseDrop":
+                    defenseMod -= 40
+                case "agilityBoost":
+                    agilityMod += 40
+                case "agilityDrop":
+                    agilityMod -= 40
+                case "precisionBoost":
+                    precisionMod += 40
+                case "precisionDrop":
+                    precisionMod -= 40
+                default:
+                    break
+            }
+            
+            return true
+        }
+        
+        return false
+    }
+    
+    func removeEffect(effect: Effect) {
+        effects.removeFirst()
+        
+        switch effect.name {
+            case "attackBoost":
+                attackMod -= 40
+            case "attackDrop":
+                attackMod += 40
+            case "defenseBoost":
+                defenseMod -= 40
+            case "defenseDrop":
+                defenseMod += 40
+            case "agilityBoost":
+                agilityMod -= 40
+            case "agilityDrop":
+                agilityMod += 40
+            case "precisionBoost":
+                precisionMod -= 40
+            case "precisionDrop":
+                precisionMod += 40
+            default:
+                break
+        }
+    }
+    
     func reset() {
+        effects = []
+        
         attackMod = 0
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
-        spAttackMod = 0
         
         currhp = getModifiedBase().health
     }
@@ -100,7 +157,7 @@ struct Base: Decodable {
     let defense: UInt
     let agility: UInt
     let precision: UInt
-    let spAttack: UInt
+    let stamina: UInt
 }
 
 struct Loadout: Decodable {
@@ -111,7 +168,7 @@ struct Loadout: Decodable {
     let defenseMod: Int
     let agilityMod: Int
     let precisionMod: Int
-    let spAttackMod: Int
+    let staminaMod: Int
     
     init() {
         name = "Neutral"
@@ -121,6 +178,6 @@ struct Loadout: Decodable {
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
-        spAttackMod = 0
+        staminaMod = 0
     }
 }

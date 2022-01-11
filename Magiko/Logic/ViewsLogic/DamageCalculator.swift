@@ -11,44 +11,30 @@ struct DamageCalculator {
     static let shared: DamageCalculator = DamageCalculator()
     
     func calcDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String) -> (damage: UInt, text: String) {
+        var text: String = ""
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
+        
+        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+        let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
+        
+        var dmg: Float = attack/defense
+        dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
         
         let chance: Float = Float.random(in: 0 ..< 100)
         if chance < Float(attacker.getModifiedBase().precision)/10 {
-            let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().spAttack) * 32
-            let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
-            
-            var dmg: Float = attack/defense
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
-            
-            let damage: UInt = UInt(round(dmg))
-            
-            if damage > defender.currhp {
-                print(Int(damage))
-                
-                return (damage: defender.currhp, text: "It's a critical hit.\n")
-            } else {
-                print(Int(damage))
-                
-                return (damage: damage, text: "It's a critical hit.\n")
-            }
-        } else {
-            let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
-            let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
-            
-            var dmg: Float = attack/defense
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
-            
-            let damage: UInt = UInt(round(dmg))
-            
-            if damage > defender.currhp {
-                return (damage: defender.currhp, text: "\n")
-            }
-            
+            dmg *= 1.5
+            text = "It's a critical hit."
+        }
+        
+        let damage: UInt = UInt(round(dmg))
+        
+        if damage > defender.currhp {
             print(Int(damage))
-            
             return (damage: damage, text: "\n")
         }
+        
+        print(Int(damage))
+        return (damage: damage, text: text + "\n")
     }
     
     func getElementalModifier(attacker: Fighter, defender: Fighter, skillElement: Element) -> Float {

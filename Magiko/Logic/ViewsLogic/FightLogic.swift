@@ -60,6 +60,21 @@ class FightLogic: ObservableObject {
             battling = true
             publishedText = "Loading..."
             
+            for effect in getFighter(player: 0).effects {
+                effect.duration -= 1
+                
+                if effect.duration == 0 {
+                    getFighter(player: 0).removeEffect(effect: effect)
+                }
+            }
+            for effect in getFighter(player: 1).effects {
+                effect.duration -= 1
+                
+                if effect.duration == 0 {
+                    getFighter(player: 1).removeEffect(effect: effect)
+                }
+            }
+            
             if getFasterPlayer() == 0 {
                 for index in usedMoves[1][0].skill.skills.indices.reversed() {
                     playerStack.insert((player: 1, index: index), at: 0)
@@ -186,18 +201,14 @@ class FightLogic: ObservableObject {
             }
             
             publishedText += getFighter(player: player).name + " used " + skill.name + ". " + calculated.text
-        } else if skill.skills[playerStack[0].index].statusChance > 0 {
+        } else if skill.skills[playerStack[0].index].effect != nil {
             if player == 0 {
-                publishedText += StatusModifier.shared.modifyStatus(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, skillName: playerStack[0].index == 0 ? skill.name : nil)
+                publishedText += EffectApplication.shared.applyEffect(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             } else {
-                publishedText += StatusModifier.shared.modifyStatus(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, skillName: playerStack[0].index == 0 ? skill.name : nil)
+                publishedText += EffectApplication.shared.applyEffect(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             }
         } else {
-            if player == 0 {
-                publishedText += StatModifier.shared.modifyStats(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
-            } else {
-                publishedText += StatModifier.shared.modifyStats(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
-            }
+            publishedText += getFighter(player: player).name + " used " + skill.name + ".\n"
         }
     }
     
