@@ -53,7 +53,7 @@ struct DetailedSkillView: View {
     
     var width: CGFloat?
     
-    func getDescription() -> String {
+    func generateDescription() -> String {
         if skill.description != nil {
             return skill.description!
         }
@@ -150,7 +150,7 @@ struct DetailedSkillView: View {
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name)
-                    CustomText(key: getDescription())
+                    CustomText(key: generateDescription())
                 }
                 .padding(.leading, 15)
                 Spacer()

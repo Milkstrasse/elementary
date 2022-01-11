@@ -15,10 +15,21 @@ struct TeamView: View {
     
     let geoHeight: CGFloat
     
+    func generateDescription(fighter: Fighter) -> String {
+        var text: String = "\(fighter.currhp)/\(fighter.getModifiedBase().health)HP - "
+        if fighter.effects.count > 0 {
+            text += "\(fighter.effects.count) Effect(s)"
+        } else {
+            text += "No Effects"
+        }
+        
+        return text
+    }
+    
     var body: some View {
         HStack(spacing: 5) {
             if player == 0 {
-                DetailedActionView(title: fightLogic.leftFighters[fightLogic.currentLeftFighter].name, description: "50/50HP - No Status", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 ForEach(fightLogic.leftFighters.indices) { index in
                     if index != fightLogic.currentLeftFighter {
                         Button(action: {
@@ -26,12 +37,12 @@ struct TeamView: View {
                                 currentSection = .waiting
                             }
                         }) {
-                            DetailedActionView(title: fightLogic.leftFighters[index].name, description: "50/50HP - No Status", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: fightLogic.leftFighters[index].name, description: "50/50HP - No Effects", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                     }
                 }
             } else {
-                DetailedActionView(title: fightLogic.rightFighters[fightLogic.currentRightFighter].name, description: "50/50HP - No Status", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 ForEach(fightLogic.rightFighters.indices) { index in
                     if index != fightLogic.currentRightFighter {
                         Button(action: {
