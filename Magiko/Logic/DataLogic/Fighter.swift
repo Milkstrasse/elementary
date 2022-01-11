@@ -132,6 +132,10 @@ class Fighter: Hashable {
         precisionMod = 0
         
         currhp = getModifiedBase().health
+        
+        for index in skills.indices {
+            skills[index].useCounter = 0
+        }
     }
     
     func hash(into hasher: inout Hasher) {
