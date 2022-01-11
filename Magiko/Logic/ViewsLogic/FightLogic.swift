@@ -91,6 +91,8 @@ class FightLogic: ObservableObject {
                 }
             }
             
+            var endRound: Bool = false
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
                 var turns: Int = 0
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -112,6 +114,31 @@ class FightLogic: ObservableObject {
                         }
                     } else if getFighter(player: currentPlayer).currhp == 0 {
                         playerStack.removeFirst()
+                    }
+                    
+                    if playerStack.isEmpty && !endRound {
+                        if getFighter(player: 1).effects.count > 0 {
+                            var counter: Int = getFighter(player: 1).effects.count
+                            for effect in getFighter(player: 1).effects {
+                                counter -= 1
+                                
+                                if effect.damageDivisor != 0 {
+                                    playerStack.insert((player: 1, index: -1 - counter), at: 0)
+                                }
+                            }
+                        }
+                        if getFighter(player: 0).effects.count > 0 {
+                            var counter: Int = getFighter(player: 0).effects.count
+                            for effect in getFighter(player: 0).effects {
+                                counter -= 1
+                                
+                                if effect.damageDivisor != 0 {
+                                    playerStack.insert((player: 0, index: -1 - counter), at: 0)
+                                }
+                            }
+                        }
+                        
+                        endRound = true
                     }
                     
                     if playerStack.isEmpty {
@@ -155,18 +182,38 @@ class FightLogic: ObservableObject {
     }
     
     func processTurn(player: Int) {
-        if getFighter(player: player).currhp == 0 {
-            publishedText += getFighter(player: player).name + " fainted.\n"
+        let attacker: Fighter = getFighter(player: player)
+        
+        if attacker.currhp == 0 {
+            publishedText += attacker.name + " fainted.\n"
+            return
+        }
+        
+        if playerStack[0].index < 0 {
+            let damage: Int = Int(attacker.getModifiedBase().health)/attacker.effects[abs(playerStack[0].index) - 1].damageDivisor
+            if damage >= attacker.currhp {
+                attacker.currhp = 0
+                publishedText += attacker.name + " succumbed to the poison.\n"
+            } else if abs(damage) >= attacker.currhp {
+                attacker.currhp = attacker.getModifiedBase().health
+                publishedText += attacker.name + " recovered health.\n"
+            } else if damage > 0 {
+                attacker.currhp -= UInt(damage)
+                publishedText += attacker.name + " took damage.\n"
+            } else {
+                attacker.currhp += UInt(abs(damage))
+                publishedText += attacker.name + " recovered health.\n"
+            }
             return
         }
         
         if usedMoves[player][0].target > -1 {
             if player == 0 {
-                publishedText += getFighter(player: player).name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
+                publishedText += attacker.name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
-                publishedText += getFighter(player: player).name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
+                publishedText += attacker.name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }

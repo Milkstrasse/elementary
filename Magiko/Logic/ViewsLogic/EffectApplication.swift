@@ -76,6 +76,14 @@ struct EffectApplication {
                 } else {
                     text += "The effect failed.\n"
                 }
+            case "poison":
+                if target.applyEffect(effect: Effects.poison.getEffect()) {
+                    text += target.name + " was poisoned.\n"
+                }
+            case "healing":
+                if target.applyEffect(effect: Effects.healing.getEffect()) {
+                    text += target.name + "was healed.\n"
+                }
             default:
                 text += "The effect failed.\n"
         }

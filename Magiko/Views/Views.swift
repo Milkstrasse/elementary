@@ -307,7 +307,7 @@ struct EffectView: View {
             Rectangle().fill(Color.red).frame(width: 30, height: 30)
             Group {
                 Rectangle().fill(effect.positive ? Color.green : Color.red).frame(width: 30, height: 30)
-                Text("\(effect.duration)").frame(width: 30, height: 30)
+                Text(effect.symbol).frame(width: 30, height: 30)
             }
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
         }

@@ -28,7 +28,7 @@ struct DamageCalculator {
         
         let damage: UInt = UInt(round(dmg))
         
-        if damage > defender.currhp {
+        if damage >= defender.currhp {
             print(Int(damage))
             return (damage: defender.currhp, text: "\n")
         }
