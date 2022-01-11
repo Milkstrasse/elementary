@@ -30,11 +30,6 @@ struct OptionsView: View {
                 DetailedActionView(title: "Team", description: "Switch out", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             Button(action: {
-                currentSection = .info
-            }) {
-                DetailedActionView(title: "Info", description: "Gather intel", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
-            }
-            Button(action: {
                 fightLogic.forfeit(player: player)
                 gameOver = true
             }) {

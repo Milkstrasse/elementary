@@ -131,9 +131,6 @@ struct RightPlayerFightView: View {
                                             SkillsView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
                                         } else if currentSection == .team {
                                             TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: 1, geoHeight: geometry.size.height)
-                                        } else if currentSection == .info {
-                                            DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
-                                            DetailedActionView(title: "Nickname", description: "50/50HP - No Modifiers", width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                     }
                                 }

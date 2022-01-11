@@ -12,7 +12,6 @@ enum Section {
     case options
     case skills
     case team
-    case info
     case waiting
 }
 
