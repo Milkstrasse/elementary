@@ -64,24 +64,24 @@ struct DetailedSkillView: View {
             if skill.skills[0].power > 0 {
                 description = "Deals \(skill.skills[0].power) DMG"
             } else {
-                description = getModifierDescription(subSkill: skill.skills[0], capitalize: true)
+                description = getEffectDescription(subSkill: skill.skills[0], capitalize: true)
             }
         } else {
-            description = getModifierDescription(subSkill: skill.skills[0], capitalize: true)
+            description = getEffectDescription(subSkill: skill.skills[0], capitalize: true)
         }
         
         if skill.skills.count >= 2 {
             if description == "" {
-                description = getModifierDescription(subSkill: skill.skills[1], capitalize: true)
+                description = getEffectDescription(subSkill: skill.skills[1], capitalize: true)
             } else {
-                description += ", " + getModifierDescription(subSkill: skill.skills[1], capitalize: false)
+                description += ", " + getEffectDescription(subSkill: skill.skills[1], capitalize: false)
             }
         }
         
         return description
     }
     
-    func getModifierDescription(subSkill: SubSkill, capitalize: Bool) -> String {
+    func getEffectDescription(subSkill: SubSkill, capitalize: Bool) -> String {
         var description: String = ""
         
         switch subSkill.effect {
