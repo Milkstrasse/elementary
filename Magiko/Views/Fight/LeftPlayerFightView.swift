@@ -117,7 +117,7 @@ struct LeftPlayerFightView: View {
                                             Rectangle().fill(Color.blue).frame(width: 210)
                                             HStack(spacing: 5) {
                                                 ForEach(fightLogic.getFighter(player: 0).effects, id: \.self) { effect in
-                                                    EffectView(effect: effect)
+                                                    EffectView(effect: effect, battling: fightLogic.battling)
                                                 }
                                             }
                                             .offset(x: -15, y: -15)

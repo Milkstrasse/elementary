@@ -298,12 +298,23 @@ struct CustomText: View {
 
 struct EffectView: View {
     let effect: Effect
+    let battling: Bool
+    
+    @State var opacity: Double = 1
     
     var body: some View {
         ZStack {
             Rectangle().fill(Color.red).frame(width: 30, height: 30)
-            Rectangle().fill(effect.positive ? Color.green : Color.red).frame(width: 30, height: 30)
-            Text("\(effect.duration)").frame(width: 30, height: 30)
+            Group {
+                Rectangle().fill(effect.positive ? Color.green : Color.red).frame(width: 30, height: 30)
+                Text("\(effect.duration)").frame(width: 30, height: 30)
+            }
+            .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
+        }
+        .onChange(of: battling) { _ in
+            if effect.duration == 1 {
+                opacity = 0
+            }
         }
     }
 }
@@ -316,7 +327,7 @@ struct Views_Previews: PreviewProvider {
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
             FighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
-            EffectView(effect: Effect(name: "sample", symbol: "%", duration: 3, positive: true))
+            EffectView(effect: Effect(name: "sample", symbol: "%", duration: 3, positive: true), battling: false)
         }
     }
 }
