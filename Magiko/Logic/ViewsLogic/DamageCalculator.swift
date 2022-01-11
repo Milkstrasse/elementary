@@ -30,7 +30,7 @@ struct DamageCalculator {
         
         if damage > defender.currhp {
             print(Int(damage))
-            return (damage: damage, text: "\n")
+            return (damage: defender.currhp, text: "\n")
         }
         
         print(Int(damage))
