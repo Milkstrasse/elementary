@@ -41,7 +41,7 @@ class FightLogic: ObservableObject {
     }
     
     func makeMove(player: Int, move: Move) -> Bool {
-        if gameLogic.readyPlayers[player] {
+        if gameLogic.readyPlayers[player] || move.skill.useCounter >= move.skill.uses {
             return false
         }
         
@@ -59,6 +59,9 @@ class FightLogic: ObservableObject {
         if gameLogic.areBothReady() {
             battling = true
             publishedText = "Loading..."
+            
+            usedMoves[0][0].useSkill()
+            usedMoves[1][0].useSkill()
             
             for effect in getFighter(player: 0).effects {
                 effect.duration -= 1

@@ -39,6 +39,10 @@ struct SkillsView: View {
         }
     }
     
+    func generateDescription(skill: Skill) -> String {
+        return getEffectiveness(skillElement: skill.element) + " - \(skill.uses - skill.useCounter)/\(skill.uses)PP"
+    }
+    
     var body: some View {
         HStack(spacing: 5) {
             ForEach(fightLogic.getFighter(player: player).skills, id: \.self) { skill in
@@ -47,7 +51,7 @@ struct SkillsView: View {
                         currentSection = .waiting
                     }
                 }) {
-                    DetailedActionView(title: skill.name, description: self.getEffectiveness(skillElement: skill.element) + " - 10/10PP", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                    DetailedActionView(title: skill.name, description: generateDescription(skill: skill), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
             }
         }

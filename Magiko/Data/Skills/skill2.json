@@ -1,6 +1,7 @@
 {
   "name": "Skill 2",
   "element": "Water",
+  "uses": 5,
   "skills": [
       {
           "power": 0,

@@ -1,1 +1,1 @@
-{  "name": "Skill 3",  "element": "Plant",  "skills": [      {          "power": 0,          "range": 1,          "effect": "poison"      },      {          "power": 0,          "range": 1,          "effect": "healing"      }  ]}
+{  "name": "Skill 3",  "element": "Plant",  "uses": 10,  "skills": [      {          "power": 0,          "range": 1,          "effect": "poison"      },      {          "power": 0,          "range": 1,          "effect": "healing"      }  ]}
