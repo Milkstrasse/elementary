@@ -19,6 +19,7 @@ class Fighter: Hashable {
     var skills: [Skill]
     
     var loadout: Loadout
+    var ability: Ability
     
     var attackMod: Int = 0
     var defenseMod: Int = 0
@@ -45,6 +46,7 @@ class Fighter: Hashable {
         }
         
         loadout = Loadout()
+        ability = Abilities.freeSpirit.getAbility()
     }
     
     func getModifiedBase() -> Base {
@@ -59,11 +61,12 @@ class Fighter: Hashable {
     }
     
     func setLoadout(loadout: Int) {
-        if loadout < GlobalData.shared.loadouts.count {
-            self.loadout = GlobalData.shared.loadouts[loadout]
-            
-            currhp = getModifiedBase().health
-        }
+        self.loadout = GlobalData.shared.loadouts[loadout]
+        currhp = getModifiedBase().health
+    }
+    
+    func setAbility(ability: Int) {
+        self.ability = Abilities.allCases[ability].getAbility()
     }
     
     func hasEffect(effectName: String) -> Bool {

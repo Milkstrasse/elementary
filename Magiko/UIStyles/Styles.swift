@@ -30,7 +30,21 @@ struct ClearGrowingButton: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: width, height: height, alignment: width <= height ? .center : .bottomLeading)
+            .frame(width: width, height: height)
+            .foregroundColor(.white)
+            .scaleEffect(configuration.isPressed ? 1.2 : 1)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+            .contentShape(Rectangle())
+    }
+}
+
+struct ClearButton: ButtonStyle {
+    var width: CGFloat
+    var height: CGFloat
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: width, height: height, alignment: .bottomLeading)
             .foregroundColor(.white)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)

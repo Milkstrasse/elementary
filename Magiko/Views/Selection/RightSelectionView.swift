@@ -11,6 +11,7 @@ struct RightSelectionView: View {
     @Binding var fighters: [Fighter?]
     @State var selectedSlot: Int = -1
     @State var selectedLoadout: Int = 0
+    @State var selectedAbility: Int = 0
     
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
@@ -198,10 +199,41 @@ struct RightSelectionView: View {
                                                 }
                                             }
                                             BaseOverviewView(base: fighters[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
-                                            .padding(.trailing, 5)
+                                                .padding(.trailing, 5)
                                             ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
                                                 DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                             }
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 60)
+                                                HStack(spacing: 0) {
+                                                    Button("<") {
+                                                        if selectedAbility <= 0 {
+                                                            selectedAbility = Abilities.allCases.count - 1
+                                                        } else {
+                                                            selectedAbility -= 1
+                                                        }
+                                                        
+                                                        fighters[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    }
+                                                    .buttonStyle(ClearGrowingButton(width: 40, height: 60))
+                                                    VStack {
+                                                        CustomText(text: Abilities.allCases[selectedAbility].getAbility().name).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(text: Abilities.allCases[selectedAbility].getAbility().description).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    }
+                                                    Button(">") {
+                                                        if selectedAbility >= Abilities.allCases.count - 1 {
+                                                            selectedAbility = 0
+                                                        } else {
+                                                            selectedAbility += 1
+                                                        }
+                                                        
+                                                        fighters[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    }
+                                                    .buttonStyle(ClearGrowingButton(width: 40, height: 60))
+                                                }
+                                                .frame(width: geometry.size.height - 30, height: 60)
+                                            }
+                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         .padding(.vertical, 15)
                                     }

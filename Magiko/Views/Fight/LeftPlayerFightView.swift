@@ -99,7 +99,7 @@ struct LeftPlayerFightView: View {
                                         }
                                     }
                                 }
-                                .buttonStyle(ClearGrowingButton(width: 100, height: 35))
+                                .buttonStyle(ClearButton(width: 100, height: 35))
                             }
                             .rotationEffect(.degrees(90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
                             Spacer()
