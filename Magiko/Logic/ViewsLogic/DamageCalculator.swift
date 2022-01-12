@@ -18,14 +18,17 @@ struct DamageCalculator {
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
+        
         if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
             dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
         }
         
-        let chance: Int = Int.random(in: 0 ..< 100)
-        if chance < attacker.getModifiedBase().precision/10 {
-            dmg *= 1.5
-            text = "It's a critical hit."
+        if defender.ability.name != Abilities.shinyArmor.rawValue {
+            let chance: Int = Int.random(in: 0 ..< 100)
+            if chance < attacker.getModifiedBase().precision/10 {
+                dmg *= 1.5
+                text = "It's a critical hit."
+            }
         }
         
         let damage: Int = Int(round(dmg))

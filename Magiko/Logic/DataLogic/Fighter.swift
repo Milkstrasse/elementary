@@ -46,7 +46,7 @@ class Fighter: Hashable {
         }
         
         loadout = Loadout()
-        ability = Abilities.freeSpirit.getAbility()
+        ability = Abilities.allCases[0].getAbility()
     }
     
     func getModifiedBase() -> Base {
@@ -115,6 +115,10 @@ class Fighter: Hashable {
                 if hasEffect(effectName: Effects.blessing.rawValue) {
                     return false
                 } else if effect.name == Effects.chain.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
+                    return false
+                } else if effect.name == Effects.curse.rawValue && self.ability.name == Abilities.sceptic.rawValue {
+                    return false
+                } else if effect.name == Effects.poison.rawValue && self.ability.name == Abilities.immune.rawValue {
                     return false
                 }
             } else if effect.name == Effects.healing.rawValue {

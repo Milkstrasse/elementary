@@ -11,15 +11,24 @@ struct Ability {
 }
 
 enum Abilities: String, CaseIterable {
+    case shinyArmor
     case freeSpirit
+    case sceptic
+    case immune
     case ethereal
     
     func getAbility() -> Ability {
         switch self {
+            case .shinyArmor:
+                return Ability(name: self.rawValue, description: "Protects from critical hits.")
             case .freeSpirit:
                 return Ability(name: self.rawValue, description: "Fighter can’t be chained.")
+            case .sceptic:
+                return Ability(name: self.rawValue, description: "Fighter can’t be cursed.")
+            case .immune:
+                return Ability(name: self.rawValue, description: "Fighter can’t be poisoned.")
             case .ethereal:
-                return Ability(name: self.rawValue, description: "Removes fighter’s typing")
+                return Ability(name: self.rawValue, description: "Removes fighter’s typing.")
         }
     }
 }
