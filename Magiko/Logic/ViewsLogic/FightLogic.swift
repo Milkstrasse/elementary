@@ -231,6 +231,13 @@ class FightLogic: ObservableObject {
         }
         
         if usedMoves[player][0].target > -1 {
+            for effect in attacker.effects {
+                if effect.name == Effects.chain.rawValue {
+                    publishedText += attacker.name + " failed to swap.\n"
+                    return
+                }
+            }
+            
             if player == 0 {
                 publishedText += attacker.name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
                 

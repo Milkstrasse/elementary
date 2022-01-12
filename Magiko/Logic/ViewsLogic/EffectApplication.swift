@@ -101,6 +101,14 @@ struct EffectApplication {
                 if target.applyEffect(effect: Effects.blessing.getEffect()) {
                     text = target.name + " was blessed.\n"
                 }
+            case Effects.block.rawValue:
+                if target.applyEffect(effect: Effects.block.getEffect()) {
+                    text = target.name + " was blocked.\n"
+                }
+            case Effects.chain.rawValue:
+                if target.applyEffect(effect: Effects.block.getEffect()) {
+                    text = target.name + " is chained.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }

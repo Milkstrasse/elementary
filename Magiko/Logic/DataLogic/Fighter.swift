@@ -65,10 +65,48 @@ class Fighter: Hashable {
     }
     
     func applyEffect(effect: Effect) -> Bool {
-        if effects.count < 2 && effect.name != Effects.blessing.rawValue {
+        if effect.name == Effects.blessing.rawValue {
+            for effect in effects {
+                if !effect.positive {
+                    removeEffect(effect: effect)
+                }
+            }
+            
+            if effects.count < 2 {
+                effects.append(effect)
+                effects.sort {
+                    $0.duration < $1.duration
+                }
+                
+                return true
+            }
+            
+            return false
+        } else if effect.name == Effects.block.rawValue {
+            for effect in effects {
+                if effect.name == Effects.healing.rawValue {
+                    removeEffect(effect: effect)
+                }
+            }
+            
+            if effects.count < 2 {
+                effects.append(effect)
+                effects.sort {
+                    $0.duration < $1.duration
+                }
+                
+                return true
+            }
+        } else if effects.count < 2 {
             if !effect.positive {
                 for effect in effects {
                     if effect.name == Effects.blessing.rawValue {
+                        return false
+                    }
+                }
+            } else if effect.name == Effects.healing.rawValue {
+                for effect in effects {
+                    if effect.name == Effects.block.rawValue {
                         return false
                     }
                 }
@@ -101,23 +139,6 @@ class Fighter: Hashable {
             }
             
             return true
-        } else if effect.name == Effects.blessing.rawValue {
-            for effect in effects {
-                if !effect.positive {
-                    removeEffect(effect: effect)
-                }
-            }
-            
-            if effects.count < 2 {
-                effects.append(effect)
-                effects.sort {
-                    $0.duration < $1.duration
-                }
-                
-                return true
-            }
-            
-            return false
         }
         
         return false
