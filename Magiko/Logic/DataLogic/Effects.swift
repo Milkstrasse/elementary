@@ -46,6 +46,7 @@ enum Effects: String {
     case precisionDrop
     case poison
     case healing
+    case curse
     
     func getEffect() -> Effect {
         switch self {
@@ -69,6 +70,8 @@ enum Effects: String {
                 return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageDivisor: 2)
             case .healing:
                 return Effect(name: self.rawValue, symbol: "10", duration: 3, positive: false, damageDivisor: -10)
+            case .curse:
+                return Effect(name: self.rawValue, symbol: "11", duration: 3, positive: false)
         }
     }
 }

@@ -54,7 +54,25 @@ class FightLogic: ObservableObject {
         }
         
         gameLogic.setReady(player: player, ready: true)
-        usedMoves[player].insert(move, at: 0)
+        
+        if move.target == -1 {
+            var cursed: Bool = false
+            for effect in getFighter(player: player).effects {
+                if effect.name == Effects.curse.rawValue {
+                    cursed = true
+                    break
+                }
+            }
+            
+            if cursed {
+                let randomMove: Move = Move(source: move.source, skill: getFighter(player: player).skills[Int.random(in: 0 ..< getFighter(player: player).skills.count)])
+                usedMoves[player].insert(randomMove, at: 0)
+            } else {
+                usedMoves[player].insert(move, at: 0)
+            }
+        } else {
+            usedMoves[player].insert(move, at: 0)
+        }
         
         if gameLogic.areBothReady() {
             battling = true

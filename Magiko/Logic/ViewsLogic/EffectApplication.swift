@@ -33,61 +33,65 @@ struct EffectApplication {
         var text: String = ""
         
         switch skill.effect {
-            case "attackBoost":
+            case Effects.attackBoost.rawValue:
                 if target.applyEffect(effect: Effects.attackBoost.getEffect()) {
                     text = target.name + "'s attack increased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "attackDrop":
+            case Effects.attackDrop.rawValue:
                 if target.applyEffect(effect: Effects.attackDrop.getEffect()) {
                     text = target.name + "'s attack decreased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "defenseBoost":
+            case Effects.defenseBoost.rawValue:
                 if target.applyEffect(effect: Effects.defenseBoost.getEffect()) {
                     text = target.name + "'s defense increased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "defenseDrop":
+            case Effects.defenseDrop.rawValue:
                 if target.applyEffect(effect: Effects.defenseDrop.getEffect()) {
                     text = target.name + "'s defense decreased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "agilityBoost":
+            case Effects.agilityBoost.rawValue:
                 if target.applyEffect(effect: Effects.agilityBoost.getEffect()) {
                     text = target.name + "'s agility increased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "agilityDrop":
+            case Effects.agilityDrop.rawValue:
                 if target.applyEffect(effect: Effects.agilityDrop.getEffect()) {
                     text = target.name + "'s agility decreased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "precisionBoost":
+            case Effects.precisionBoost.rawValue:
                 if target.applyEffect(effect: Effects.precisionBoost.getEffect()) {
                     text = target.name + "'s precision increased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "precisionDrop":
+            case Effects.precisionDrop.rawValue:
                 if target.applyEffect(effect: Effects.precisionDrop.getEffect()) {
                     text = target.name + "'s precision decreased.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
-            case "poison":
+            case Effects.poison.rawValue:
                 if target.applyEffect(effect: Effects.poison.getEffect()) {
                     text = target.name + " was poisoned.\n"
                 }
-            case "healing":
+            case Effects.healing.rawValue:
                 if target.applyEffect(effect: Effects.healing.getEffect()) {
                     text = target.name + "was healed.\n"
+                }
+            case Effects.curse.rawValue:
+                if target.applyEffect(effect: Effects.curse.getEffect()) {
+                    text = target.name + "was cursed.\n"
                 }
             default:
                 text = "The effect failed.\n"

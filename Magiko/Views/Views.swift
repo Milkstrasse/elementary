@@ -85,49 +85,49 @@ struct DetailedSkillView: View {
         var description: String = ""
         
         switch subSkill.effect {
-            case "attackBoost":
+            case Effects.attackBoost.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "ATK"
-            case "attackDrop":
+            case Effects.attackDrop.rawValue:
                 description += "decreases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "ATK"
-            case "defenseBoost":
+            case Effects.defenseBoost.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "DEF"
-            case "defenseDrop":
+            case Effects.defenseDrop.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "DEF"
-            case "agilityBoost":
+            case Effects.agilityBoost.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "AGL"
-            case "agilityDrop":
+            case Effects.agilityDrop.rawValue:
                 description += "decreases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "AGL"
-            case "precisionBoost":
+            case Effects.precisionBoost.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
                 }
                 description += "PRC"
-            case "precisionDrop":
+            case Effects.precisionDrop.rawValue:
                 description += "increases "
                 if subSkill.range > 1 {
                     description += "enemy's "
