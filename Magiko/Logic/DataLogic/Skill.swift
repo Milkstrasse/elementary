@@ -56,10 +56,11 @@ struct SubSkill: Decodable {
     let power: UInt
     let range: Int
     
+    let chance: UInt
     let effect: String?
     
     enum CodingKeys: String, CodingKey {
-        case power, range, effect
+        case power, range, chance, effect
     }
     
     init(from decoder: Decoder) throws {
@@ -68,6 +69,7 @@ struct SubSkill: Decodable {
         power = try container.decode(UInt.self, forKey: .power)
         range = try container.decode(Int.self, forKey: .range)
         
+        chance = try container.decodeIfPresent(UInt.self, forKey: .chance) ?? 100
         effect = try container.decodeIfPresent(String.self, forKey: .effect) ?? nil
     }
 }

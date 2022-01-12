@@ -12,9 +12,9 @@ struct EffectApplication {
         var text: String = ""
         
         if skill.range == 0 {
-            text = applyStats(target: attacker, skill: skill)
+            text = applyStats(attacker: attacker, target: attacker, skill: skill)
         } else {
-            text = applyStats(target: defender, skill: skill)
+            text = applyStats(attacker: attacker, target: defender, skill: skill)
         }
         
         if skillName != nil {
@@ -24,68 +24,73 @@ struct EffectApplication {
         return text
     }
     
-    func applyStats(target: Fighter, skill: SubSkill) -> String {
+    func applyStats(attacker: Fighter, target: Fighter, skill: SubSkill) -> String {
+        let chance: Int = Int.random(in: 0 ..< 100)
+        if chance > skill.chance + attacker.getModifiedBase().precision/100 {
+            return "The effect failed.\n"
+        }
+        
         var text: String = ""
         
         switch skill.effect {
             case "attackBoost":
                 if target.applyEffect(effect: Effects.attackBoost.getEffect()) {
-                    text += target.name + "'s attack increased.\n"
+                    text = target.name + "'s attack increased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "attackDrop":
                 if target.applyEffect(effect: Effects.attackDrop.getEffect()) {
-                    text += target.name + "'s attack decreased.\n"
+                    text = target.name + "'s attack decreased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "defenseBoost":
                 if target.applyEffect(effect: Effects.defenseBoost.getEffect()) {
-                    text += target.name + "'s defense increased.\n"
+                    text = target.name + "'s defense increased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "defenseDrop":
                 if target.applyEffect(effect: Effects.defenseDrop.getEffect()) {
-                    text += target.name + "'s defense decreased.\n"
+                    text = target.name + "'s defense decreased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "agilityBoost":
                 if target.applyEffect(effect: Effects.agilityBoost.getEffect()) {
-                    text += target.name + "'s agility increased.\n"
+                    text = target.name + "'s agility increased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "agilityDrop":
                 if target.applyEffect(effect: Effects.agilityDrop.getEffect()) {
-                    text += target.name + "'s agility decreased.\n"
+                    text = target.name + "'s agility decreased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "precisionBoost":
                 if target.applyEffect(effect: Effects.precisionBoost.getEffect()) {
-                    text += target.name + "'s precision increased.\n"
+                    text = target.name + "'s precision increased.\n"
                 } else {
-                    
+                    text = "The effect failed.\n"
                 }
             case "precisionDrop":
                 if target.applyEffect(effect: Effects.precisionDrop.getEffect()) {
-                    text += target.name + "'s precision decreased.\n"
+                    text = target.name + "'s precision decreased.\n"
                 } else {
-                    text += "The effect failed.\n"
+                    text = "The effect failed.\n"
                 }
             case "poison":
                 if target.applyEffect(effect: Effects.poison.getEffect()) {
-                    text += target.name + " was poisoned.\n"
+                    text = target.name + " was poisoned.\n"
                 }
             case "healing":
                 if target.applyEffect(effect: Effects.healing.getEffect()) {
-                    text += target.name + "was healed.\n"
+                    text = target.name + "was healed.\n"
                 }
             default:
-                text += "The effect failed.\n"
+                text = "The effect failed.\n"
         }
         
         return text

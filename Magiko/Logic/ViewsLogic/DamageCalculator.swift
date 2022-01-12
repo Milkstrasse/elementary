@@ -20,8 +20,8 @@ struct DamageCalculator {
         var dmg: Float = attack/defense
         dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
         
-        let chance: Float = Float.random(in: 0 ..< 100)
-        if chance < Float(attacker.getModifiedBase().precision)/10 {
+        let chance: Int = Int.random(in: 0 ..< 100)
+        if chance < attacker.getModifiedBase().precision/10 {
             dmg *= 1.5
             text = "It's a critical hit."
         }
