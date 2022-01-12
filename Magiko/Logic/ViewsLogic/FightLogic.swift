@@ -248,6 +248,8 @@ class FightLogic: ObservableObject {
         } else {
             attack(player: player, skill: usedMoves[player][0].skill)
         }
+        
+        print(publishedText)
     }
     
     func swapFighters(player: Int, target: Int) {

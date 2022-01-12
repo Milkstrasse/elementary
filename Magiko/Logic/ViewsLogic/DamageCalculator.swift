@@ -29,11 +29,11 @@ struct DamageCalculator {
         let damage: Int = Int(round(dmg))
         
         if damage >= defender.currhp {
-            print(damage)
+            print(defender.name + " lost \(damage)DMG.\n")
             return (damage: defender.currhp, text: "\n")
         }
         
-        print(damage)
+        print(defender.name + " lost \(damage)DMG.\n")
         return (damage: damage, text: text + "\n")
     }
     
