@@ -93,3 +93,32 @@ enum Effects: String {
         }
     }
 }
+
+enum WeatherEffects: String {
+    case sandstorm
+    case thunderstorm
+    case sunnyDay
+    case smog
+    case mysticWeather
+    case lightRain
+    case drought
+    
+    func getEffect() -> Effect {
+        switch self {
+            case .sandstorm:
+                return Effect(name: self.rawValue, symbol: "A", duration: 3, positive: true)
+            case .thunderstorm:
+                return Effect(name: self.rawValue, symbol: "B", duration: 3, positive: true)
+            case .sunnyDay:
+                return Effect(name: self.rawValue, symbol: "C", duration: 3, positive: true)
+            case .smog:
+                return Effect(name: self.rawValue, symbol: "D", duration: 3, positive: true)
+            case .mysticWeather:
+                return Effect(name: self.rawValue, symbol: "E", duration: 3, positive: true)
+            case .lightRain:
+                return Effect(name: self.rawValue, symbol: "F", duration: 3, positive: true)
+            case .drought:
+                return Effect(name: self.rawValue, symbol: "G", duration: 3, positive: true)
+        }
+    }
+}

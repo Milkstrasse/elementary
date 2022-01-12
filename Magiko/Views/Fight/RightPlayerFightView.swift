@@ -70,6 +70,9 @@ struct RightPlayerFightView: View {
                                                 ForEach(fightLogic.getFighter(player: 1).effects, id: \.self) { effect in
                                                     EffectView(effect: effect, battling: fightLogic.battling)
                                                 }
+                                                if fightLogic.weather != nil {
+                                                    EffectView(effect: fightLogic.weather!, battling: fightLogic.battling, weather: true)
+                                                }
                                             }
                                             .offset(x: -15, y: -15)
                                             VStack(spacing: 0) {

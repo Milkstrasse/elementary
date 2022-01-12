@@ -299,14 +299,27 @@ struct CustomText: View {
 struct EffectView: View {
     let effect: Effect
     let battling: Bool
+    var weather: Bool = false
     
     @State var opacity: Double = 1
+    
+    func getColor() -> Color {
+        if weather {
+            return Color.yellow
+        }
+        
+        if effect.positive {
+            return Color.green
+        } else {
+            return Color.purple
+        }
+    }
     
     var body: some View {
         ZStack {
             Rectangle().fill(Color.red).frame(width: 30, height: 30)
             Group {
-                Rectangle().fill(effect.positive ? Color.green : Color.red).frame(width: 30, height: 30)
+                Rectangle().fill(getColor()).frame(width: 30, height: 30)
                 Text(effect.symbol).frame(width: 30, height: 30)
             }
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)

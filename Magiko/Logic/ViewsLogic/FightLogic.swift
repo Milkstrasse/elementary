@@ -23,6 +23,8 @@ class FightLogic: ObservableObject {
     @Published var publishedText: String = "let the fight begin"
     @Published var gameOver: Bool = false
     
+    @Published var weather: Effect?
+    
     init(leftFighters: [Fighter], rightFighters: [Fighter]) {
         self.leftFighters = leftFighters
         self.rightFighters = rightFighters
@@ -80,6 +82,14 @@ class FightLogic: ObservableObject {
             
             usedMoves[0][0].useSkill(amount: getFighter(player: 0).staminaUse)
             usedMoves[1][0].useSkill(amount: getFighter(player: 1).staminaUse)
+            
+            if weather != nil {
+                weather!.duration -= 1
+                
+                if weather!.duration == 0 {
+                    weather = nil
+                }
+            }
             
             for effect in getFighter(player: 0).effects {
                 effect.duration -= 1
@@ -293,6 +303,21 @@ class FightLogic: ObservableObject {
             }
             
             publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
+        } else if skill.skills[playerStack[0].index].weatherEffect != nil {
+            var text: String = ""
+            
+            if weather == nil {
+                weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect()
+                text = "The weather changed to " + (weather?.name ?? "nothing") + ".\n"
+            } else {
+                text = "Nothing changed.\n"
+            }
+            
+            if playerStack[0].index == 0 {
+                publishedText += getFighter(player: player).name + " used " + skill.name + ".\n" + text
+            } else {
+                publishedText += text
+            }
         } else {
             publishedText += getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
         }
