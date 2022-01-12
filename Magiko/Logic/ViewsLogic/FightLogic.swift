@@ -139,22 +139,24 @@ class FightLogic: ObservableObject {
                     
                     if playerStack.isEmpty && !endRound {
                         if getFighter(player: 1).effects.count > 0 {
-                            var counter: Int = getFighter(player: 1).effects.count
-                            for effect in getFighter(player: 1).effects {
-                                counter -= 1
+                            for index in getFighter(player: 1).effects.indices {
+                                let effect: Effect = getFighter(player: 1).effects[index]
                                 
-                                if effect.damageDivisor != 0 {
-                                    playerStack.insert((player: 1, index: -1 - counter), at: 0)
+                                if effect.damageDivisor != 0 && effect.name != Effects.bomb.rawValue {
+                                    playerStack.insert((player: 1, index: -1 - index), at: 0)
+                                } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
+                                    playerStack.insert((player: 1, index: -1 - index), at: 0)
                                 }
                             }
                         }
                         if getFighter(player: 0).effects.count > 0 {
-                            var counter: Int = getFighter(player: 0).effects.count
-                            for effect in getFighter(player: 0).effects {
-                                counter -= 1
+                            for index in getFighter(player: 0).effects.indices {
+                                let effect: Effect = getFighter(player: 0).effects[index]
                                 
-                                if effect.damageDivisor != 0 {
-                                    playerStack.insert((player: 0, index: -1 - counter), at: 0)
+                                if effect.damageDivisor != 0 && effect.name != Effects.bomb.rawValue {
+                                    playerStack.insert((player: 0, index: -1 - index), at: 0)
+                                } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
+                                    playerStack.insert((player: 0, index: -1 - index), at: 0)
                                 }
                             }
                         }
@@ -214,8 +216,8 @@ class FightLogic: ObservableObject {
             let damage: Int = Int(attacker.getModifiedBase().health)/attacker.effects[abs(playerStack[0].index) - 1].damageDivisor
             if damage >= attacker.currhp {
                 attacker.currhp = 0
-                publishedText += attacker.name + " succumbed to the poison.\n"
-            } else if abs(damage) >= attacker.currhp {
+                publishedText += attacker.name + " perished.\n"
+            } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
                 attacker.currhp = attacker.getModifiedBase().health
                 publishedText += attacker.name + " recovered health.\n"
             } else if damage > 0 {

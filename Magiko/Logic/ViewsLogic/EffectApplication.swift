@@ -87,11 +87,15 @@ struct EffectApplication {
                 }
             case Effects.healing.rawValue:
                 if target.applyEffect(effect: Effects.healing.getEffect()) {
-                    text = target.name + "was healed.\n"
+                    text = target.name + " was healed.\n"
                 }
             case Effects.curse.rawValue:
                 if target.applyEffect(effect: Effects.curse.getEffect()) {
-                    text = target.name + "was cursed.\n"
+                    text = target.name + " was cursed.\n"
+                }
+            case Effects.bomb.rawValue:
+                if target.applyEffect(effect: Effects.bomb.getEffect()) {
+                    text = target.name + " is doomed.\n"
                 }
             default:
                 text = "The effect failed.\n"
