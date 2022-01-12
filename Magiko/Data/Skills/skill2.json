@@ -10,7 +10,7 @@
       {
           "power": 0,
           "range": 1,
-          "chance": 30,
+          "chance": 90,
           "effect": "precisionDrop"
       }
   ]

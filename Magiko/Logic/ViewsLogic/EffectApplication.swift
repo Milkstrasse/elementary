@@ -97,6 +97,10 @@ struct EffectApplication {
                 if target.applyEffect(effect: Effects.bomb.getEffect()) {
                     text = target.name + " is doomed.\n"
                 }
+            case Effects.blessing.rawValue:
+                if target.applyEffect(effect: Effects.blessing.getEffect()) {
+                    text = target.name + " was blessed.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }

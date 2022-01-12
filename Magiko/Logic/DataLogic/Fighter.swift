@@ -65,34 +65,59 @@ class Fighter: Hashable {
     }
     
     func applyEffect(effect: Effect) -> Bool {
-        if effects.count < 2 {
+        if effects.count < 2 && effect.name != Effects.blessing.rawValue {
+            if !effect.positive {
+                for effect in effects {
+                    if effect.name == Effects.blessing.rawValue {
+                        return false
+                    }
+                }
+            }
+            
             effects.append(effect)
             effects.sort {
                 $0.duration < $1.duration
             }
             
             switch effect.name {
-                case "attackBoost":
+                case Effects.attackBoost.rawValue:
                     attackMod += 40
-                case "attackDrop":
+                case Effects.attackDrop.rawValue:
                     attackMod -= 40
-                case "defenseBoost":
+                case Effects.defenseBoost.rawValue:
                     defenseMod += 40
-                case "defenseDrop":
+                case Effects.defenseDrop.rawValue:
                     defenseMod -= 40
-                case "agilityBoost":
+                case Effects.agilityBoost.rawValue:
                     agilityMod += 40
-                case "agilityDrop":
+                case Effects.agilityDrop.rawValue:
                     agilityMod -= 40
-                case "precisionBoost":
+                case Effects.precisionBoost.rawValue:
                     precisionMod += 40
-                case "precisionDrop":
+                case Effects.precisionDrop.rawValue:
                     precisionMod -= 40
                 default:
                     break
             }
             
             return true
+        } else if effect.name == Effects.blessing.rawValue {
+            for effect in effects {
+                if !effect.positive {
+                    removeEffect(effect: effect)
+                }
+            }
+            
+            if effects.count < 2 {
+                effects.append(effect)
+                effects.sort {
+                    $0.duration < $1.duration
+                }
+                
+                return true
+            }
+            
+            return false
         }
         
         return false
@@ -102,21 +127,21 @@ class Fighter: Hashable {
         effects.removeFirst()
         
         switch effect.name {
-            case "attackBoost":
+            case Effects.attackBoost.rawValue:
                 attackMod -= 40
-            case "attackDrop":
+            case Effects.attackDrop.rawValue:
                 attackMod += 40
-            case "defenseBoost":
+            case Effects.defenseBoost.rawValue:
                 defenseMod -= 40
-            case "defenseDrop":
+            case Effects.defenseDrop.rawValue:
                 defenseMod += 40
-            case "agilityBoost":
+            case Effects.agilityBoost.rawValue:
                 agilityMod -= 40
-            case "agilityDrop":
+            case Effects.agilityDrop.rawValue:
                 agilityMod += 40
-            case "precisionBoost":
+            case Effects.precisionBoost.rawValue:
                 precisionMod -= 40
-            case "precisionDrop":
+            case Effects.precisionDrop.rawValue:
                 precisionMod += 40
             default:
                 break
