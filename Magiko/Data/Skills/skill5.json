@@ -1,0 +1,12 @@
+{
+  "name": "Skill 5",
+  "element": "Aether",
+  "type": "shield",
+  "uses": 7,
+  "skills": [
+      {
+          "power": 0,
+          "range": 0
+      }
+  ]
+}

@@ -12,19 +12,23 @@ struct Skill: Decodable, Hashable {
     let description: String?
     let element: String
     
+    let type: String
+    
     let uses: Int
     var useCounter: Int = 0
     
     let skills: [SubSkill]
     
     enum CodingKeys: String, CodingKey {
-        case name, description, element, uses, skills
+        case name, description, element, type, uses, skills
     }
     
     init() {
         name = "Unknown Skill"
         description = nil
         element = "Aether"
+        
+        type = "default"
         
         uses = 10
         
@@ -37,6 +41,8 @@ struct Skill: Decodable, Hashable {
         name = try container.decode(String.self, forKey: .name)
         description = try container.decodeIfPresent(String.self, forKey: .description)
         element = try container.decode(String.self, forKey: .element)
+        
+        type = try container.decodeIfPresent(String.self, forKey: .type) ?? "default"
         
         uses = try container.decode(Int.self, forKey: .uses)
         

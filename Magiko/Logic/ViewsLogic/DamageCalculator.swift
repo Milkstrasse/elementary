@@ -12,6 +12,7 @@ struct DamageCalculator {
     
     func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> String {
         var text: String = ""
+        
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
         let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16

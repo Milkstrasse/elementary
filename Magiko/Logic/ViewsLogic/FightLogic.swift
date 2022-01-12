@@ -198,22 +198,32 @@ class FightLogic: ObservableObject {
     }
     
     func getFasterPlayer() -> Int {
-        //target -> player wants to switch
+        //target -> player wants to switch -> priority
         if usedMoves[0][0].target > -1 {
             return 0
         } else if usedMoves[1][0].target > -1 {
             return 1
         }
         
-        if getFighter(player: 0).base.agility > getFighter(player: 1).base.agility {
+        if usedMoves[0][0].skill.type == "shield" {
             return 0
-        } else if getFighter(player: 1).base.agility > getFighter(player: 0).base.agility {
-            return 1
-        } else if Bool.random() {
-            return 0
-        } else {
+        } else if usedMoves[1][0].skill.type == "shield" {
             return 1
         }
+        
+        var fasterPlayer: Int
+        
+        if getFighter(player: 0).base.agility > getFighter(player: 1).base.agility {
+            fasterPlayer = 0
+        } else if getFighter(player: 1).base.agility > getFighter(player: 0).base.agility {
+            fasterPlayer = 1
+        } else if Bool.random() {
+            fasterPlayer = 0
+        } else {
+            fasterPlayer = 1
+        }
+        
+        return fasterPlayer
     }
     
     func processTurn(player: Int) {
@@ -258,6 +268,15 @@ class FightLogic: ObservableObject {
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }
+        } else if usedMoves[player][0].skill.type == "shield" {
+            let usedMoves: [Move] = usedMoves[player]
+            var text: String = "\n"
+        
+            if usedMoves.count > 1 && usedMoves[0].skill.name == usedMoves[1].skill.name {
+                text = "It failed.\n"
+            }
+            
+            publishedText += getFighter(player: player).name + " used " + usedMoves[0].skill.name + ". " + text
         } else {
             attack(player: player, skill: usedMoves[player][0].skill)
         }
@@ -277,6 +296,42 @@ class FightLogic: ObservableObject {
     }
     
     func attack(player: Int, skill: Skill) {
+        if skill.skills[playerStack[0].index].range > 0 {
+            if player == 0 {
+                if usedMoves[1][0].skill.type == "shield" {
+                    if usedMoves[1].count == 1 || usedMoves[1][0].skill.name != usedMoves[1][1].skill.name {
+                        if skill.skills.count > 1 {
+                            if playerStack[0].index == 0 {
+                                publishedText += leftFighters[currentLeftFighter].name + " used " + skill.name + ".\n"
+                            } else {
+                                publishedText += rightFighters[currentRightFighter].name + " blocked the attack.\n"
+                            }
+                        } else {
+                            publishedText += leftFighters[currentLeftFighter].name + " used " + skill.name + ". " + rightFighters[currentRightFighter].name + " blocked the attack.\n"
+                        }
+                        
+                        return
+                    }
+                }
+            } else {
+                if usedMoves[0][0].skill.type == "shield" {
+                    if usedMoves[0].count == 1 || usedMoves[0][0].skill.name != usedMoves[0][1].skill.name {
+                        if skill.skills.count > 1 {
+                            if playerStack[0].index == 0 {
+                                publishedText += rightFighters[currentRightFighter].name + " used " + skill.name + ".\n"
+                            } else {
+                                publishedText += leftFighters[currentLeftFighter].name + " blocked the attack.\n"
+                            }
+                        } else {
+                            publishedText += rightFighters[currentRightFighter].name + " used " + skill.name + ". " + leftFighters[currentLeftFighter].name + " blocked the attack.\n"
+                        }
+                        
+                        return
+                    }
+                }
+            }
+        }
+        
         if skill.skills[playerStack[0].index].power > 0 {
             var text: String
             
