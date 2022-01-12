@@ -281,9 +281,9 @@ class FightLogic: ObservableObject {
             var text: String
             
             if player == 0 {
-                text = DamageCalculator.shared.applyDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
+                text = DamageCalculator.shared.applyDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
             } else {
-                text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
+                text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
             }
             
             publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
@@ -307,7 +307,11 @@ class FightLogic: ObservableObject {
             var text: String = ""
             
             if weather == nil {
-                weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect()
+                if getFighter(player: player).ability.name == Abilities.weatherFrog.rawValue {
+                    weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect(duration: 5)
+                } else {
+                    weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect(duration: 3)
+                }
                 text = "The weather changed to " + (weather?.name ?? "nothing") + ".\n"
             } else {
                 text = "Nothing changed.\n"

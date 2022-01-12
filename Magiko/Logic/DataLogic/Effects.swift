@@ -103,22 +103,22 @@ enum WeatherEffects: String {
     case lightRain
     case drought
     
-    func getEffect() -> Effect {
+    func getEffect(duration: Int) -> Effect {
         switch self {
             case .sandstorm:
-                return Effect(name: self.rawValue, symbol: "A", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "A", duration: duration, positive: true)
             case .thunderstorm:
-                return Effect(name: self.rawValue, symbol: "B", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "B", duration: duration, positive: true)
             case .sunnyDay:
-                return Effect(name: self.rawValue, symbol: "C", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "C", duration: duration, positive: true)
             case .smog:
-                return Effect(name: self.rawValue, symbol: "D", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "D", duration: duration, positive: true)
             case .mysticWeather:
-                return Effect(name: self.rawValue, symbol: "E", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "E", duration: duration, positive: true)
             case .lightRain:
-                return Effect(name: self.rawValue, symbol: "F", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "F", duration: duration, positive: true)
             case .drought:
-                return Effect(name: self.rawValue, symbol: "G", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "G", duration: duration, positive: true)
         }
     }
 }
