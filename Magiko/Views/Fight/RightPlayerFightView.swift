@@ -16,7 +16,7 @@ struct RightPlayerFightView: View {
     @State var currentSection: Section = .summary
     @Binding var gameOver: Bool
     
-    @State var currentHealth: UInt = 0
+    @State var currentHealth: Int = 0
     @State var hurting: Bool = false
     
     func calcWidth(fighter: Fighter) -> CGFloat {
@@ -76,7 +76,7 @@ struct RightPlayerFightView: View {
                                                 HStack {
                                                     CustomText(key: fightLogic.getFighter(player: 1).name).lineLimit(1)
                                                     Spacer()
-                                                    CustomText(text: "\(Int(fightLogic.getFighter(player: 1).currhp))/\(Int(fightLogic.getFighter(player: 1).getModifiedBase().health))HP")
+                                                    CustomText(text: "\(fightLogic.getFighter(player: 1).currhp)/\(fightLogic.getFighter(player: 1).getModifiedBase().health)HP")
                                                 }
                                                 ZStack(alignment: .leading) {
                                                     Rectangle().fill(Color.purple).frame(height: 6)

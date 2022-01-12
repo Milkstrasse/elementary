@@ -11,12 +11,12 @@ class Effect: Hashable {
     let id = UUID()
     let name: String
     let symbol: String
-    var duration: UInt
+    var duration: Int
     
     let positive: Bool
     let damageDivisor: Int
     
-    init(name: String, symbol: String, duration: UInt, positive: Bool, damageDivisor: Int = 0) {
+    init(name: String, symbol: String, duration: Int, positive: Bool, damageDivisor: Int = 0) {
         self.name = name
         self.symbol = symbol
         self.duration = duration
@@ -51,6 +51,8 @@ enum Effects: String {
     case blessing
     case block
     case chain
+    case invigorated
+    case exhausted
     
     func getEffect() -> Effect {
         switch self {
@@ -84,6 +86,10 @@ enum Effects: String {
                 return Effect(name: self.rawValue, symbol: "14", duration: 3, positive: false)
             case .chain:
                 return Effect(name: self.rawValue, symbol: "15", duration: 3, positive: false)
+            case .invigorated:
+                return Effect(name: self.rawValue, symbol: "16", duration: 3, positive: true)
+            case .exhausted:
+                return Effect(name: self.rawValue, symbol: "17", duration: 3, positive: false)
         }
     }
 }

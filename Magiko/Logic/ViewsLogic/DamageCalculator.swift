@@ -10,7 +10,7 @@ import Foundation
 struct DamageCalculator {
     static let shared: DamageCalculator = DamageCalculator()
     
-    func calcDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String) -> (damage: UInt, text: String) {
+    func calcDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String) -> (damage: Int, text: String) {
         var text: String = ""
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
@@ -26,14 +26,14 @@ struct DamageCalculator {
             text = "It's a critical hit."
         }
         
-        let damage: UInt = UInt(round(dmg))
+        let damage: Int = Int(round(dmg))
         
         if damage >= defender.currhp {
-            print(Int(damage))
+            print(damage)
             return (damage: defender.currhp, text: "\n")
         }
         
-        print(Int(damage))
+        print(damage)
         return (damage: damage, text: text + "\n")
     }
     

@@ -1,1 +1,1 @@
-{  "name": "Skill 1",  "element": "Fire",  "uses": 3,  "skills": [      {          "power": 40,          "range": 1      },      {          "power": 0,          "range": 1,          "effect": "curse"      }  ]}
+{  "name": "Skill 1",  "element": "Fire",  "uses": 3,  "skills": [      {          "power": 40,          "range": 1      },      {          "power": 0,          "range": 1,          "effect": "exhausted"      }  ]}

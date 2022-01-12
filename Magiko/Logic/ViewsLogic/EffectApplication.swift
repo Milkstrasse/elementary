@@ -109,6 +109,14 @@ struct EffectApplication {
                 if target.applyEffect(effect: Effects.block.getEffect()) {
                     text = target.name + " is chained.\n"
                 }
+            case Effects.invigorated.rawValue:
+                if target.applyEffect(effect: Effects.invigorated.getEffect()) {
+                    text = target.name + " became invigorated.\n"
+                }
+            case Effects.exhausted.rawValue:
+                if target.applyEffect(effect: Effects.exhausted.getEffect()) {
+                    text = target.name + " became exhausted.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }

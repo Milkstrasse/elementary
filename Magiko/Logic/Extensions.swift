@@ -25,13 +25,13 @@ extension Color {
         var str = "0x"
         str += String(hex[hex.index(after: hex.startIndex)...])
 
-        let hexUINT: UInt32 = UInt32(Float64(str) ?? 0xCC6699)
+        let hexInt: Int32 = Int32(Float64(str) ?? 0xCC6699)
         
         self.init(
             .sRGB,
-            red: Double((hexUINT >> 16) & 0xff) / 255,
-            green: Double((hexUINT >> 08) & 0xff) / 255,
-            blue: Double((hexUINT >> 00) & 0xff) / 255,
+            red: Double((hexInt >> 16) & 0xff) / 255,
+            green: Double((hexInt >> 08) & 0xff) / 255,
+            blue: Double((hexInt >> 00) & 0xff) / 255,
             opacity: 1
         )
     }

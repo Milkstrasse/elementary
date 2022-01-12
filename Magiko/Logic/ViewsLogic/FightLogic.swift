@@ -41,7 +41,7 @@ class FightLogic: ObservableObject {
     }
     
     func makeMove(player: Int, move: Move) -> Bool {
-        if gameLogic.readyPlayers[player] || move.skill.useCounter >= move.skill.uses {
+        if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.uses {
             return false
         }
         
@@ -78,8 +78,8 @@ class FightLogic: ObservableObject {
             battling = true
             publishedText = "Loading..."
             
-            usedMoves[0][0].useSkill()
-            usedMoves[1][0].useSkill()
+            usedMoves[0][0].useSkill(amount: getFighter(player: 0).staminaUse)
+            usedMoves[1][0].useSkill(amount: getFighter(player: 1).staminaUse)
             
             for effect in getFighter(player: 0).effects {
                 effect.duration -= 1
@@ -213,7 +213,7 @@ class FightLogic: ObservableObject {
         }
         
         if playerStack[0].index < 0 {
-            let damage: Int = Int(attacker.getModifiedBase().health)/attacker.effects[abs(playerStack[0].index) - 1].damageDivisor
+            let damage: Int = attacker.getModifiedBase().health/attacker.effects[abs(playerStack[0].index) - 1].damageDivisor
             if damage >= attacker.currhp {
                 attacker.currhp = 0
                 publishedText += attacker.name + " perished.\n"
@@ -221,21 +221,19 @@ class FightLogic: ObservableObject {
                 attacker.currhp = attacker.getModifiedBase().health
                 publishedText += attacker.name + " recovered health.\n"
             } else if damage > 0 {
-                attacker.currhp -= UInt(damage)
+                attacker.currhp -= damage
                 publishedText += attacker.name + " took damage.\n"
             } else {
-                attacker.currhp += UInt(abs(damage))
+                attacker.currhp += abs(damage)
                 publishedText += attacker.name + " recovered health.\n"
             }
             return
         }
         
         if usedMoves[player][0].target > -1 {
-            for effect in attacker.effects {
-                if effect.name == Effects.chain.rawValue {
-                    publishedText += attacker.name + " failed to swap.\n"
-                    return
-                }
+            if attacker.hasEffect(effectName: Effects.chain.rawValue) {
+                publishedText += attacker.name + " failed to swap.\n"
+                return
             }
             
             if player == 0 {
@@ -267,7 +265,7 @@ class FightLogic: ObservableObject {
     
     func attack(player: Int, skill: Skill) {
         if skill.skills[playerStack[0].index].power > 0 {
-            var calculated: (damage: UInt, text: String)
+            var calculated: (damage: Int, text: String)
             
             if player == 0 {
                 calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)

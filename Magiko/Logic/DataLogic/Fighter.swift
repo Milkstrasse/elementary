@@ -12,7 +12,7 @@ class Fighter: Hashable {
     let data: FighterData
     
     let base: Base
-    var currhp: UInt
+    var currhp: Int
     
     var effects: [Effect] = []
     
@@ -24,6 +24,8 @@ class Fighter: Hashable {
     var defenseMod: Int = 0
     var agilityMod: Int = 0
     var precisionMod: Int = 0
+    
+    var staminaUse: Int = 2
     
     init(data: FighterData) {
         name = data.name
@@ -46,14 +48,14 @@ class Fighter: Hashable {
     }
     
     func getModifiedBase() -> Base {
-        let health: Int = max(Int(base.health) + loadout.healthMod, 0)
-        let attack: Int = max(Int(base.attack) + attackMod + loadout.attackMod, 0)
-        let defense: Int = max(Int(base.defense) + defenseMod + loadout.defenseMod, 0)
-        let agility: Int = max(Int(base.agility) + agilityMod + loadout.agilityMod, 0)
-        let precision: Int = max(Int(base.precision) + precisionMod + loadout.precisionMod, 0)
-        let stamina: Int = max(Int(base.stamina) + loadout.staminaMod, 0)
+        let health: Int = max(base.health + loadout.healthMod, 0)
+        let attack: Int = max(base.attack + attackMod + loadout.attackMod, 0)
+        let defense: Int = max(base.defense + defenseMod + loadout.defenseMod, 0)
+        let agility: Int = max(base.agility + agilityMod + loadout.agilityMod, 0)
+        let precision: Int = max(base.precision + precisionMod + loadout.precisionMod, 0)
+        let stamina: Int = max(base.stamina + loadout.staminaMod, 0)
         
-        return Base(health: UInt(health), attack: UInt(attack), defense: UInt(defense), agility: UInt(agility), precision: UInt(precision), stamina: UInt(stamina))
+        return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, stamina: stamina)
     }
     
     func setLoadout(loadout: Int) {
@@ -62,6 +64,16 @@ class Fighter: Hashable {
             
             currhp = getModifiedBase().health
         }
+    }
+    
+    func hasEffect(effectName: String) -> Bool {
+        for effect in effects {
+            if effect.name == effectName {
+                return true
+            }
+        }
+        
+        return false
     }
     
     func applyEffect(effect: Effect) -> Bool {
@@ -83,10 +95,8 @@ class Fighter: Hashable {
             
             return false
         } else if effect.name == Effects.block.rawValue {
-            for effect in effects {
-                if effect.name == Effects.healing.rawValue {
-                    removeEffect(effect: effect)
-                }
+            if hasEffect(effectName: Effects.healing.rawValue) {
+                removeEffect(effect: effect)
             }
             
             if effects.count < 2 {
@@ -99,16 +109,12 @@ class Fighter: Hashable {
             }
         } else if effects.count < 2 {
             if !effect.positive {
-                for effect in effects {
-                    if effect.name == Effects.blessing.rawValue {
-                        return false
-                    }
+                if hasEffect(effectName: Effects.blessing.rawValue) {
+                    return false
                 }
             } else if effect.name == Effects.healing.rawValue {
-                for effect in effects {
-                    if effect.name == Effects.block.rawValue {
-                        return false
-                    }
+                if hasEffect(effectName: Effects.block.rawValue) {
+                    return false
                 }
             }
             
@@ -134,6 +140,10 @@ class Fighter: Hashable {
                     precisionMod += 40
                 case Effects.precisionDrop.rawValue:
                     precisionMod -= 40
+                case Effects.invigorated.rawValue:
+                    staminaUse = 1
+                case Effects.exhausted.rawValue:
+                    staminaUse = 3
                 default:
                     break
             }
@@ -164,20 +174,26 @@ class Fighter: Hashable {
                 precisionMod -= 40
             case Effects.precisionDrop.rawValue:
                 precisionMod += 40
+            case Effects.invigorated.rawValue:
+                staminaUse = 2
+            case Effects.exhausted.rawValue:
+                staminaUse = 2
             default:
                 break
         }
     }
     
     func reset() {
-        effects = []
-        
         attackMod = 0
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
         
         currhp = getModifiedBase().health
+        
+        for effect in effects {
+            removeEffect(effect: effect)
+        }
         
         for index in skills.indices {
             skills[index].useCounter = 0
@@ -202,12 +218,12 @@ struct FighterData: Decodable {
 }
 
 struct Base: Decodable {
-    let health: UInt
-    let attack: UInt
-    let defense: UInt
-    let agility: UInt
-    let precision: UInt
-    let stamina: UInt
+    let health: Int
+    let attack: Int
+    let defense: Int
+    let agility: Int
+    let precision: Int
+    let stamina: Int
 }
 
 struct Loadout: Decodable {
