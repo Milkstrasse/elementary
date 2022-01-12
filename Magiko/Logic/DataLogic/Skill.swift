@@ -58,9 +58,10 @@ struct SubSkill: Decodable {
     
     let chance: Int
     let effect: String?
+    let healAmount: Int
     
     enum CodingKeys: String, CodingKey {
-        case power, range, chance, effect
+        case power, range, chance, effect, healAmount
     }
     
     init(from decoder: Decoder) throws {
@@ -71,6 +72,7 @@ struct SubSkill: Decodable {
         
         chance = try container.decodeIfPresent(Int.self, forKey: .chance) ?? 100
         effect = try container.decodeIfPresent(String.self, forKey: .effect) ?? nil
+        healAmount = try container.decodeIfPresent(Int.self, forKey: .healAmount) ?? 0
     }
 }
 

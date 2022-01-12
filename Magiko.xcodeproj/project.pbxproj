@@ -43,6 +43,7 @@
 		B852514F278CB15C00AD99BE /* EffectApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852514E278CB15C00AD99BE /* EffectApplication.swift */; };
 		B8525157278DD49D00AD99BE /* Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525156278DD49D00AD99BE /* Effects.swift */; };
 		B8525159278EFF3900AD99BE /* Abilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525158278EFF3800AD99BE /* Abilities.swift */; };
+		B852515B278F3AD600AD99BE /* Healer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852515A278F3AD500AD99BE /* Healer.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -96,6 +97,7 @@
 		B852514E278CB15C00AD99BE /* EffectApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectApplication.swift; sourceTree = "<group>"; };
 		B8525156278DD49D00AD99BE /* Effects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
 		B8525158278EFF3800AD99BE /* Abilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abilities.swift; sourceTree = "<group>"; };
+		B852515A278F3AD500AD99BE /* Healer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Healer.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -256,6 +258,7 @@
 				B80D7D0927875EA700DEB25F /* GameLogic.swift */,
 				B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */,
 				B852514E278CB15C00AD99BE /* EffectApplication.swift */,
+				B852515A278F3AD500AD99BE /* Healer.swift */,
 			);
 			path = ViewsLogic;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */,
 				B80D7CD527835A8700DEB25F /* SettingsView.swift in Sources */,
 				B80D7CE72784D27500DEB25F /* FightView.swift in Sources */,
+				B852515B278F3AD600AD99BE /* Healer.swift in Sources */,
 				B80D7CD22783536500DEB25F /* Styles.swift in Sources */,
 				B80D7D082787558100DEB25F /* Extensions.swift in Sources */,
 				B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */,

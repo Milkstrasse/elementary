@@ -14,16 +14,16 @@ class Effect: Hashable {
     var duration: Int
     
     let positive: Bool
-    let damageDivisor: Int
+    let damageAmount: Int
     
-    init(name: String, symbol: String, duration: Int, positive: Bool, damageDivisor: Int = 0) {
+    init(name: String, symbol: String, duration: Int, positive: Bool, damageAmount: Int = 0) {
         self.name = name
         self.symbol = symbol
         self.duration = duration
         
         self.positive = positive
         
-        self.damageDivisor = damageDivisor
+        self.damageAmount = damageAmount
     }
     
     func hash(into hasher: inout Hasher) {
@@ -73,13 +73,13 @@ enum Effects: String {
             case .precisionDrop:
                 return Effect(name: self.rawValue, symbol: "8", duration: 3, positive: false)
             case .poison:
-                return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageDivisor: 2)
+                return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageAmount: 50)
             case .healing:
-                return Effect(name: self.rawValue, symbol: "10", duration: 3, positive: false, damageDivisor: -10)
+                return Effect(name: self.rawValue, symbol: "10", duration: 3, positive: true, damageAmount: -10)
             case .curse:
                 return Effect(name: self.rawValue, symbol: "11", duration: 3, positive: false)
             case .bomb:
-                return Effect(name: self.rawValue, symbol: "12", duration: 3, positive: false, damageDivisor: 1)
+                return Effect(name: self.rawValue, symbol: "12", duration: 3, positive: false, damageAmount: 100)
             case .blessing:
                 return Effect(name: self.rawValue, symbol: "13", duration: 3, positive: true)
             case .block:

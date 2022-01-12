@@ -142,7 +142,7 @@ class FightLogic: ObservableObject {
                             for index in getFighter(player: 1).effects.indices {
                                 let effect: Effect = getFighter(player: 1).effects[index]
                                 
-                                if effect.damageDivisor != 0 && effect.name != Effects.bomb.rawValue {
+                                if effect.damageAmount != 0 && effect.name != Effects.bomb.rawValue {
                                     playerStack.insert((player: 1, index: -1 - index), at: 0)
                                 } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
                                     playerStack.insert((player: 1, index: -1 - index), at: 0)
@@ -153,7 +153,7 @@ class FightLogic: ObservableObject {
                             for index in getFighter(player: 0).effects.indices {
                                 let effect: Effect = getFighter(player: 0).effects[index]
                                 
-                                if effect.damageDivisor != 0 && effect.name != Effects.bomb.rawValue {
+                                if effect.damageAmount != 0 && effect.name != Effects.bomb.rawValue {
                                     playerStack.insert((player: 0, index: -1 - index), at: 0)
                                 } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
                                     playerStack.insert((player: 0, index: -1 - index), at: 0)
@@ -213,7 +213,8 @@ class FightLogic: ObservableObject {
         }
         
         if playerStack[0].index < 0 {
-            let damage: Int = attacker.getModifiedBase().health/attacker.effects[abs(playerStack[0].index) - 1].damageDivisor
+            let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(playerStack[0].index) - 1].damageAmount)
+            
             if damage >= attacker.currhp {
                 attacker.currhp = 0
                 publishedText += attacker.name + " perished.\n"
@@ -267,25 +268,33 @@ class FightLogic: ObservableObject {
     
     func attack(player: Int, skill: Skill) {
         if skill.skills[playerStack[0].index].power > 0 {
-            var calculated: (damage: Int, text: String)
+            var text: String
             
             if player == 0 {
-                calculated = DamageCalculator.shared.calcDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
-                rightFighters[currentRightFighter].currhp -= calculated.damage
+                text = DamageCalculator.shared.applyDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
             } else {
-                calculated = DamageCalculator.shared.calcDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
-                leftFighters[currentLeftFighter].currhp -= calculated.damage
+                text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element)
             }
             
-            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + calculated.text
+            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
         } else if skill.skills[playerStack[0].index].effect != nil {
             if player == 0 {
                 publishedText += EffectApplication.shared.applyEffect(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             } else {
                 publishedText += EffectApplication.shared.applyEffect(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             }
+        } else if skill.skills[playerStack[0].index].healAmount > 0 {
+            var text: String
+            
+            if player == 0 {
+                text = Healer.shared.applyHealing(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index])
+            } else {
+                text = Healer.shared.applyHealing(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index])
+            }
+            
+            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
         } else {
-            publishedText += getFighter(player: player).name + " used " + skill.name + ".\n"
+            publishedText += getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
         }
     }
     
