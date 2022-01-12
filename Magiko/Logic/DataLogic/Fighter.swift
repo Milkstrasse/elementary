@@ -80,37 +80,30 @@ class Fighter: Hashable {
     }
     
     func applyEffect(effect: Effect) -> Bool {
-        if effect.name == Effects.blessing.rawValue {
-            for effect in effects {
-                if !effect.positive {
+        switch effect.name {
+            case Effects.blessing.rawValue:
+                for effect in effects {
+                    if !effect.positive {
+                        removeEffect(effect: effect)
+                    }
+                }
+            case Effects.block.rawValue:
+                if hasEffect(effectName: Effects.healing.rawValue) {
                     removeEffect(effect: effect)
                 }
-            }
-            
-            if effects.count < 2 {
-                effects.append(effect)
-                effects.sort {
-                    $0.duration < $1.duration
+            case Effects.invigorated.rawValue:
+                if hasEffect(effectName: Effects.exhausted.rawValue) {
+                    removeEffect(effect: effect)
                 }
-                
-                return true
-            }
-            
-            return false
-        } else if effect.name == Effects.block.rawValue {
-            if hasEffect(effectName: Effects.healing.rawValue) {
-                removeEffect(effect: effect)
-            }
-            
-            if effects.count < 2 {
-                effects.append(effect)
-                effects.sort {
-                    $0.duration < $1.duration
+            case Effects.exhausted.rawValue:
+                if hasEffect(effectName: Effects.invigorated.rawValue) {
+                    removeEffect(effect: effect)
                 }
-                
-                return true
-            }
-        } else if effects.count < 2 {
+            default:
+                break
+        }
+        
+        if effects.count < 2 {
             if !effect.positive {
                 if hasEffect(effectName: Effects.blessing.rawValue) {
                     return false
