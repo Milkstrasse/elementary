@@ -181,6 +181,8 @@ class FightLogic: ObservableObject {
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)
                             
+                            print(publishedText)
+                            
                             battling = false
                         }
                     }
@@ -259,8 +261,6 @@ class FightLogic: ObservableObject {
         } else {
             attack(player: player, skill: usedMoves[player][0].skill)
         }
-        
-        print(publishedText)
     }
     
     func swapFighters(player: Int, target: Int) {
