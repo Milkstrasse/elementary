@@ -16,6 +16,10 @@ struct SkillsView: View {
     let geoHeight: CGFloat
     
     func getEffectiveness(skillElement: String) -> String {
+        if fightLogic.getFighter(player: player).ability.name == Abilities.ethereal.rawValue {
+            return "Effective"
+        }
+        
         var modifier: Float
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         

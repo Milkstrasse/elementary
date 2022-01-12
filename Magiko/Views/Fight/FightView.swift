@@ -42,6 +42,10 @@ struct FightView: View {
         .onAppear {
             transitionToggle = false
             offsetX = 0
+            
+            print(fightLogic.leftFighters[0].ability.name)
+            print("--------")
+            print(fightLogic.rightFighters[0].ability.name)
         }
         .onChange(of: gameOver) { _ in
             transitionToggle = true

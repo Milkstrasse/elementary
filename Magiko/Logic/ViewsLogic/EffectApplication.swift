@@ -84,38 +84,56 @@ struct EffectApplication {
             case Effects.poison.rawValue:
                 if target.applyEffect(effect: Effects.poison.getEffect()) {
                     text = target.name + " was poisoned.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.healing.rawValue:
                 if target.applyEffect(effect: Effects.healing.getEffect()) {
                     text = target.name + " was healed.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.curse.rawValue:
                 if target.applyEffect(effect: Effects.curse.getEffect()) {
                     text = target.name + " was cursed.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.bomb.rawValue:
                 if target.applyEffect(effect: Effects.bomb.getEffect()) {
                     text = target.name + " is doomed.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.blessing.rawValue:
                 if target.applyEffect(effect: Effects.blessing.getEffect()) {
                     text = target.name + " was blessed.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.block.rawValue:
                 if target.applyEffect(effect: Effects.block.getEffect()) {
                     text = target.name + " was blocked.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.chain.rawValue:
-                if target.applyEffect(effect: Effects.block.getEffect()) {
+                if target.applyEffect(effect: Effects.chain.getEffect()) {
                     text = target.name + " is chained.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.invigorated.rawValue:
                 if target.applyEffect(effect: Effects.invigorated.getEffect()) {
                     text = target.name + " became invigorated.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             case Effects.exhausted.rawValue:
                 if target.applyEffect(effect: Effects.exhausted.getEffect()) {
                     text = target.name + " became exhausted.\n"
+                } else {
+                    text = "The effect failed.\n"
                 }
             default:
                 text = "The effect failed.\n"

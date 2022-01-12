@@ -10,16 +10,16 @@ struct Ability {
     let description: String
 }
 
-enum Abilities: CaseIterable {
+enum Abilities: String, CaseIterable {
     case freeSpirit
     case ethereal
     
     func getAbility() -> Ability {
         switch self {
             case .freeSpirit:
-                return Ability(name: "Free Spirit", description: "Fighter can’t be chained.")
+                return Ability(name: self.rawValue, description: "Fighter can’t be chained.")
             case .ethereal:
-                return Ability(name: "Ethereal", description: "Removes fighter’s typing")
+                return Ability(name: self.rawValue, description: "Removes fighter’s typing")
         }
     }
 }

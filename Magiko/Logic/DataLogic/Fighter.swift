@@ -114,6 +114,8 @@ class Fighter: Hashable {
             if !effect.positive {
                 if hasEffect(effectName: Effects.blessing.rawValue) {
                     return false
+                } else if effect.name == Effects.chain.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
+                    return false
                 }
             } else if effect.name == Effects.healing.rawValue {
                 if hasEffect(effectName: Effects.block.rawValue) {
