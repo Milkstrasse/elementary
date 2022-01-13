@@ -9,7 +9,6 @@ import Foundation
 
 struct Skill: Decodable, Hashable {
     let name: String
-    let description: String?
     let element: String
     
     let type: String
@@ -20,12 +19,11 @@ struct Skill: Decodable, Hashable {
     let skills: [SubSkill]
     
     enum CodingKeys: String, CodingKey {
-        case name, description, element, type, uses, skills
+        case name, element, type, uses, skills
     }
     
     init() {
         name = "Unknown Skill"
-        description = nil
         element = "Aether"
         
         type = "default"
@@ -39,7 +37,6 @@ struct Skill: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         name = try container.decode(String.self, forKey: .name)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
         element = try container.decode(String.self, forKey: .element)
         
         type = try container.decodeIfPresent(String.self, forKey: .type) ?? "default"

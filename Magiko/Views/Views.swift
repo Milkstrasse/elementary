@@ -53,95 +53,11 @@ struct DetailedSkillView: View {
     
     var width: CGFloat?
     
-    func generateDescription() -> String {
-        if skill.description != nil {
-            return skill.description!
-        }
+    func getTranslationKey() -> String {
+        var key: String = skill.name.lowercased()
+        key = key.replacingOccurrences(of: " ", with: "")
         
-        var description: String = ""
-        
-        if skill.skills[0].range > 0 {
-            if skill.skills[0].power > 0 {
-                description = "Deals \(skill.skills[0].power) DMG"
-            } else {
-                description = getEffectDescription(subSkill: skill.skills[0], capitalize: true)
-            }
-        } else {
-            description = getEffectDescription(subSkill: skill.skills[0], capitalize: true)
-        }
-        
-        if skill.skills.count >= 2 {
-            if description == "" {
-                description = getEffectDescription(subSkill: skill.skills[1], capitalize: true)
-            } else {
-                description += ", " + getEffectDescription(subSkill: skill.skills[1], capitalize: false)
-            }
-        }
-        
-        return description
-    }
-    
-    func getEffectDescription(subSkill: SubSkill, capitalize: Bool) -> String {
-        var description: String = ""
-        
-        switch subSkill.effect {
-            case Effects.attackBoost.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "ATK"
-            case Effects.attackDrop.rawValue:
-                description += "decreases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "ATK"
-            case Effects.defenseBoost.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "DEF"
-            case Effects.defenseDrop.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "DEF"
-            case Effects.agilityBoost.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "AGL"
-            case Effects.agilityDrop.rawValue:
-                description += "decreases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "AGL"
-            case Effects.precisionBoost.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "PRC"
-            case Effects.precisionDrop.rawValue:
-                description += "increases "
-                if subSkill.range > 1 {
-                    description += "enemy's "
-                }
-                description += "PRC"
-            default:
-                break
-        }
-        
-        if capitalize {
-            description = description.prefix(1).capitalized + description.dropFirst()
-        }
-        
-        return description
+        return key + "Description"
     }
     
     var body: some View {
@@ -150,7 +66,7 @@ struct DetailedSkillView: View {
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name)
-                    CustomText(key: generateDescription())
+                    CustomText(key: getTranslationKey())
                 }
                 .padding(.leading, 15)
                 Spacer()
