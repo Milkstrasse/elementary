@@ -135,6 +135,12 @@ struct EffectApplication {
                 } else {
                     text = "The effect failed.\n"
                 }
+            case Effects.locked.rawValue:
+                if target.applyEffect(effect: Effects.locked.getEffect()) {
+                    text = target.name + " became locked.\n"
+                } else {
+                    text = "The effect failed.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }

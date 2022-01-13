@@ -57,18 +57,16 @@ class FightLogic: ObservableObject {
         
         gameLogic.setReady(player: player, ready: true)
         
-        if move.target == -1 {
-            var cursed: Bool = false
-            for effect in getFighter(player: player).effects {
-                if effect.name == Effects.curse.rawValue {
-                    cursed = true
-                    break
-                }
-            }
-            
-            if cursed {
+        if move.target < 0 {
+            if getFighter(player: player).hasEffect(effectName: Effects.curse.rawValue) {
                 let randomMove: Move = Move(source: move.source, skill: getFighter(player: player).skills[Int.random(in: 0 ..< getFighter(player: player).skills.count)])
                 usedMoves[player].insert(randomMove, at: 0)
+            } else if usedMoves[player].count > 0 && getFighter(player: player).hasEffect(effectName: Effects.locked.rawValue) {
+                if usedMoves[player][0].target < 0 {
+                    usedMoves[player].insert(usedMoves[player][0], at: 0)
+                } else {
+                    usedMoves[player].insert(move, at: 0)
+                }
             } else {
                 usedMoves[player].insert(move, at: 0)
             }
@@ -144,7 +142,7 @@ class FightLogic: ObservableObject {
                             playerStack.insert((player: 0, index: 0), at: 0)
                         }
                     } else if getFighter(player: currentPlayer).currhp == 0 {
-                        playerStack.removeFirst()
+                        playerStack.removeFirst() //TODO does it really work?
                     }
                     
                     if playerStack.isEmpty && !endRound {
@@ -231,6 +229,9 @@ class FightLogic: ObservableObject {
         
         if attacker.currhp == 0 {
             publishedText += attacker.name + " fainted.\n"
+            return
+        } else if usedMoves[player][0].skill.useCounter > usedMoves[player][0].skill.uses {
+            publishedText += attacker.name + "used " + usedMoves[player][0].skill.name + ". It failed.\n"
             return
         }
         

@@ -53,6 +53,7 @@ enum Effects: String {
     case chain
     case invigorated
     case exhausted
+    case locked
     
     func getEffect() -> Effect {
         switch self {
@@ -90,6 +91,8 @@ enum Effects: String {
                 return Effect(name: self.rawValue, symbol: "16", duration: 3, positive: true)
             case .exhausted:
                 return Effect(name: self.rawValue, symbol: "17", duration: 3, positive: false)
+            case .locked:
+                return Effect(name: self.rawValue, symbol: "18", duration: 3, positive: false)
         }
     }
 }
