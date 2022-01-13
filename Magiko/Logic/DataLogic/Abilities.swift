@@ -32,7 +32,7 @@ enum Abilities: String, CaseIterable {
             case .rebellious:
                 return Ability(name: self.rawValue, description: "Fighter can’t be locked.")
             case .ethereal:
-                return Ability(name: self.rawValue, description: "Removes fighter’s typing.")
+                return Ability(name: self.rawValue, description: "Removes fighter’s element.")
             case .weatherFrog:
                 return Ability(name: self.rawValue, description: "Extend weather skills.")
         }
