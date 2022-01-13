@@ -109,7 +109,7 @@ class Fighter: Hashable {
                     return false
                 } else if effect.name == Effects.chain.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
                     return false
-                } else if effect.name == Effects.curse.rawValue && self.ability.name == Abilities.sceptic.rawValue {
+                } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.sceptic.rawValue {
                     return false
                 } else if effect.name == Effects.poison.rawValue && self.ability.name == Abilities.immune.rawValue {
                     return false

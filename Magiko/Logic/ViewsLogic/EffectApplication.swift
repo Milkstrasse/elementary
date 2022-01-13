@@ -93,9 +93,9 @@ struct EffectApplication {
                 } else {
                     text = "The effect failed.\n"
                 }
-            case Effects.curse.rawValue:
-                if target.applyEffect(effect: Effects.curse.getEffect()) {
-                    text = target.name + " was cursed.\n"
+            case Effects.confused.rawValue:
+                if target.applyEffect(effect: Effects.confused.getEffect()) {
+                    text = target.name + " became confused.\n"
                 } else {
                     text = "The effect failed.\n"
                 }
@@ -141,9 +141,9 @@ struct EffectApplication {
                 } else {
                     text = "The effect failed.\n"
                 }
-            case Effects.protected.rawValue:
-                if target.applyEffect(effect: Effects.protected.getEffect()) {
-                    text = target.name + " is protected.\n"
+            case Effects.revive.rawValue:
+                if target.applyEffect(effect: Effects.revive.getEffect()) {
+                    text = target.name + " became enlightened.\n"
                 } else {
                     text = "The effect failed.\n"
                 }

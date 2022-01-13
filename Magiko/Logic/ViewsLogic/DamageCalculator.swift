@@ -40,11 +40,7 @@ struct DamageCalculator {
         
         if damage >= defender.currhp {
             print(defender.name + " lost \(damage)DMG.\n")
-            if defender.hasEffect(effectName: Effects.protected.rawValue) {
-                defender.currhp = 1
-            } else {
-                defender.currhp = 0
-            }
+            defender.currhp = 0
             
             return text + "\n"
         }

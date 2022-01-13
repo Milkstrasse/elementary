@@ -65,7 +65,7 @@ class FightLogic: ObservableObject {
         gameLogic.setReady(player: player, ready: true)
         
         if move.target < 0 {
-            if getFighter(player: player).hasEffect(effectName: Effects.curse.rawValue) {
+            if getFighter(player: player).hasEffect(effectName: Effects.confused.rawValue) {
                 let randomMove: Move = Move(source: move.source, skill: getFighter(player: player).skills[Int.random(in: 0 ..< getFighter(player: player).skills.count)])
                 usedMoves[player].insert(randomMove, at: 0)
             } else if usedMoves[player].count > 0 && getFighter(player: player).hasEffect(effectName: Effects.locked.rawValue) {
@@ -234,11 +234,14 @@ class FightLogic: ObservableObject {
     func processTurn(player: Int) {
         let attacker: Fighter = getFighter(player: player)
         
-        if attacker.currhp == 0 {
+        if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.revive.rawValue) {
             battleLog += attacker.name + " fainted.\n"
             hasToSwitch[player] = true
             
             return
+        } else if attacker.currhp == 0 {
+            attacker.reset()
+            battleLog += attacker.name + " fainted but was reborn.\n"
         } else if usedMoves[player][0].skill.useCounter > usedMoves[player][0].skill.uses {
             battleLog += attacker.name + "used " + usedMoves[player][0].skill.name + ". It failed.\n"
             return
@@ -248,9 +251,9 @@ class FightLogic: ObservableObject {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(playerStack[0].index) - 1].damageAmount)
             
             if damage >= attacker.currhp {
-                if attacker.hasEffect(effectName: Effects.protected.rawValue){
-                    attacker.currhp = 1
-                    battleLog += attacker.name + " took damage.\n"
+                if attacker.hasEffect(effectName: Effects.revive.rawValue){
+                    attacker.reset()
+                    battleLog += attacker.name + " perished but was reborn.\n"
                 } else {
                     attacker.currhp = 0
                     battleLog += attacker.name + " perished.\n"
