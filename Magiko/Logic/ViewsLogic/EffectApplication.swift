@@ -141,6 +141,12 @@ struct EffectApplication {
                 } else {
                     text = "The effect failed.\n"
                 }
+            case Effects.protected.rawValue:
+                if target.applyEffect(effect: Effects.protected.getEffect()) {
+                    text = target.name + " is protected.\n"
+                } else {
+                    text = "The effect failed.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }

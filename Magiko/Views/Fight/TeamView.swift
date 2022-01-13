@@ -35,9 +35,11 @@ struct TeamView: View {
                         Button(action: {
                             if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
                                 currentSection = .waiting
+                            } else {
+                                currentSection = .options
                             }
                         }) {
-                            DetailedActionView(title: fightLogic.leftFighters[index].name, description: "50/50HP - No Effects", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: fightLogic.leftFighters[index].name, description: generateDescription(fighter: fightLogic.leftFighters[index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                     }
                 }
@@ -48,9 +50,11 @@ struct TeamView: View {
                         Button(action: {
                             if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
                                 currentSection = .waiting
+                            } else {
+                                currentSection = .options
                             }
                         }) {
-                            DetailedActionView(title: fightLogic.rightFighters[index].name, description: "50/50HP - No Status", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: fightLogic.rightFighters[index].name, description: generateDescription(fighter: fightLogic.rightFighters[index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                     }
                 }

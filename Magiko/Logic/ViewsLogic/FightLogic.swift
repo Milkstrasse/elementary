@@ -10,6 +10,7 @@ import Foundation
 class FightLogic: ObservableObject {
     @Published var currentLeftFighter: Int = 0
     @Published var currentRightFighter: Int = 0
+    var hasToSwitch: [Bool] = [false, false]
     
     @Published var leftFighters: [Fighter]
     @Published var rightFighters: [Fighter]
@@ -20,7 +21,7 @@ class FightLogic: ObservableObject {
     var playerStack: [(player: Int, index: Int)] = []
     
     @Published var battling: Bool = false
-    @Published var publishedText: String = "let the fight begin"
+    @Published var battleLog: String = "let the fight begin"
     @Published var gameOver: Bool = false
     
     @Published var weather: Effect?
@@ -45,9 +46,15 @@ class FightLogic: ObservableObject {
     func makeMove(player: Int, move: Move) -> Bool {
         if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.uses {
             return false
+        } else if move.target > -1 {
+            if player == 0 && leftFighters[move.target].currhp == 0 {
+                return false
+            } else if rightFighters[move.target].currhp == 0 {
+                return false
+            }
         }
         
-        if getFighter(player: player).currhp == 0 {
+        if hasToSwitch[player] {
             if move.target > -1 {
                 swapFighters(player: player, target: move.target)
             }
@@ -76,7 +83,7 @@ class FightLogic: ObservableObject {
         
         if gameLogic.areBothReady() {
             battling = true
-            publishedText = "Loading..."
+            battleLog = "Loading..."
             
             usedMoves[0][0].useSkill(amount: getFighter(player: 0).staminaUse)
             usedMoves[1][0].useSkill(amount: getFighter(player: 1).staminaUse)
@@ -129,7 +136,7 @@ class FightLogic: ObservableObject {
                     turns += 1
                     
                     if turns == 1 {
-                        publishedText = ""
+                        battleLog = ""
                     }
                     
                     processTurn(player: currentPlayer)
@@ -179,7 +186,7 @@ class FightLogic: ObservableObject {
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)
                             
-                            print(publishedText)
+                            print(battleLog)
                             
                             battling = false
                         }
@@ -228,10 +235,12 @@ class FightLogic: ObservableObject {
         let attacker: Fighter = getFighter(player: player)
         
         if attacker.currhp == 0 {
-            publishedText += attacker.name + " fainted.\n"
+            battleLog += attacker.name + " fainted.\n"
+            hasToSwitch[player] = true
+            
             return
         } else if usedMoves[player][0].skill.useCounter > usedMoves[player][0].skill.uses {
-            publishedText += attacker.name + "used " + usedMoves[player][0].skill.name + ". It failed.\n"
+            battleLog += attacker.name + "used " + usedMoves[player][0].skill.name + ". It failed.\n"
             return
         }
         
@@ -239,33 +248,40 @@ class FightLogic: ObservableObject {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(playerStack[0].index) - 1].damageAmount)
             
             if damage >= attacker.currhp {
-                attacker.currhp = 0
-                publishedText += attacker.name + " perished.\n"
+                if attacker.hasEffect(effectName: Effects.protected.rawValue){
+                    attacker.currhp = 1
+                    battleLog += attacker.name + " took damage.\n"
+                } else {
+                    attacker.currhp = 0
+                    battleLog += attacker.name + " perished.\n"
+                    hasToSwitch[player] = true
+                }
             } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
                 attacker.currhp = attacker.getModifiedBase().health
-                publishedText += attacker.name + " recovered health.\n"
+                battleLog += attacker.name + " recovered health.\n"
             } else if damage > 0 {
                 attacker.currhp -= damage
-                publishedText += attacker.name + " took damage.\n"
+                battleLog += attacker.name + " took damage.\n"
             } else {
                 attacker.currhp += abs(damage)
-                publishedText += attacker.name + " recovered health.\n"
+                battleLog += attacker.name + " recovered health.\n"
             }
+            
             return
         }
         
         if usedMoves[player][0].target > -1 {
             if attacker.hasEffect(effectName: Effects.chain.rawValue) {
-                publishedText += attacker.name + " failed to swap.\n"
+                battleLog += attacker.name + " failed to swap.\n"
                 return
             }
             
             if player == 0 {
-                publishedText += attacker.name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
+                battleLog += attacker.name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
-                publishedText += attacker.name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
+                battleLog += attacker.name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }
@@ -277,13 +293,14 @@ class FightLogic: ObservableObject {
                 text = "It failed.\n"
             }
             
-            publishedText += getFighter(player: player).name + " used " + usedMoves[0].skill.name + ". " + text
+            battleLog += getFighter(player: player).name + " used " + usedMoves[0].skill.name + ". " + text
         } else {
             attack(player: player, skill: usedMoves[player][0].skill)
         }
     }
     
     func swapFighters(player: Int, target: Int) {
+        hasToSwitch[player] = false
         if player == 0 {
             currentLeftFighter = target
         } else {
@@ -303,12 +320,12 @@ class FightLogic: ObservableObject {
                     if usedMoves[1].count == 1 || usedMoves[1][0].skill.name != usedMoves[1][1].skill.name {
                         if skill.skills.count > 1 {
                             if playerStack[0].index == 0 {
-                                publishedText += leftFighters[currentLeftFighter].name + " used " + skill.name + ".\n"
+                                battleLog += leftFighters[currentLeftFighter].name + " used " + skill.name + ".\n"
                             } else {
-                                publishedText += rightFighters[currentRightFighter].name + " blocked the attack.\n"
+                                battleLog += rightFighters[currentRightFighter].name + " blocked the attack.\n"
                             }
                         } else {
-                            publishedText += leftFighters[currentLeftFighter].name + " used " + skill.name + ". " + rightFighters[currentRightFighter].name + " blocked the attack.\n"
+                            battleLog += leftFighters[currentLeftFighter].name + " used " + skill.name + ". " + rightFighters[currentRightFighter].name + " blocked the attack.\n"
                         }
                         
                         return
@@ -319,12 +336,12 @@ class FightLogic: ObservableObject {
                     if usedMoves[0].count == 1 || usedMoves[0][0].skill.name != usedMoves[0][1].skill.name {
                         if skill.skills.count > 1 {
                             if playerStack[0].index == 0 {
-                                publishedText += rightFighters[currentRightFighter].name + " used " + skill.name + ".\n"
+                                battleLog += rightFighters[currentRightFighter].name + " used " + skill.name + ".\n"
                             } else {
-                                publishedText += leftFighters[currentLeftFighter].name + " blocked the attack.\n"
+                                battleLog += leftFighters[currentLeftFighter].name + " blocked the attack.\n"
                             }
                         } else {
-                            publishedText += rightFighters[currentRightFighter].name + " used " + skill.name + ". " + leftFighters[currentLeftFighter].name + " blocked the attack.\n"
+                            battleLog += rightFighters[currentRightFighter].name + " used " + skill.name + ". " + leftFighters[currentLeftFighter].name + " blocked the attack.\n"
                         }
                         
                         return
@@ -342,12 +359,12 @@ class FightLogic: ObservableObject {
                 text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
             }
             
-            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
+            battleLog += getFighter(player: player).name + " used " + skill.name + ". " + text
         } else if skill.skills[playerStack[0].index].effect != nil {
             if player == 0 {
-                publishedText += EffectApplication.shared.applyEffect(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
+                battleLog += EffectApplication.shared.applyEffect(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             } else {
-                publishedText += EffectApplication.shared.applyEffect(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
+                battleLog += EffectApplication.shared.applyEffect(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
             }
         } else if skill.skills[playerStack[0].index].healAmount > 0 {
             var text: String
@@ -358,7 +375,7 @@ class FightLogic: ObservableObject {
                 text = Healer.shared.applyHealing(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index])
             }
             
-            publishedText += getFighter(player: player).name + " used " + skill.name + ". " + text
+            battleLog += getFighter(player: player).name + " used " + skill.name + ". " + text
         } else if skill.skills[playerStack[0].index].weatherEffect != nil {
             var text: String = ""
             
@@ -374,12 +391,12 @@ class FightLogic: ObservableObject {
             }
             
             if playerStack[0].index == 0 {
-                publishedText += getFighter(player: player).name + " used " + skill.name + ".\n" + text
+                battleLog += getFighter(player: player).name + " used " + skill.name + ".\n" + text
             } else {
-                publishedText += text
+                battleLog += text
             }
         } else {
-            publishedText += getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
+            battleLog += getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
         }
     }
     

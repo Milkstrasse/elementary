@@ -53,6 +53,8 @@ struct SkillsView: View {
                 Button(action: {
                     if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
                         currentSection = .waiting
+                    } else {
+                        currentSection = .options
                     }
                 }) {
                     DetailedActionView(title: skill.name, description: generateDescription(skill: skill), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)

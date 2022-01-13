@@ -120,7 +120,7 @@ struct RightPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.publishedText).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(text: fightLogic.battleLog).frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
                                     .frame(height: 87).padding(.horizontal, 15)
                                 }
