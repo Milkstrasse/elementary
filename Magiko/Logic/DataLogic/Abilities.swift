@@ -16,6 +16,7 @@ enum Abilities: String, CaseIterable {
     case sceptic
     case immune
     case rebellious
+    case confident
     case ethereal
     case weatherFrog
     
@@ -31,6 +32,8 @@ enum Abilities: String, CaseIterable {
                 return Ability(name: self.rawValue, description: "Fighter can’t be poisoned.")
             case .rebellious:
                 return Ability(name: self.rawValue, description: "Fighter can’t be locked.")
+            case .confident:
+                return Ability(name: self.rawValue, description: "Fighter can’t become confused.")
             case .ethereal:
                 return Ability(name: self.rawValue, description: "Removes fighter’s element.")
             case .weatherFrog:

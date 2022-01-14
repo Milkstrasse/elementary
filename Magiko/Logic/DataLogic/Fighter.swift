@@ -115,6 +115,8 @@ class Fighter: Hashable {
                     return false
                 } else if effect.name == Effects.locked.rawValue && self.ability.name == Abilities.rebellious.rawValue {
                     return false
+                } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.confident.rawValue {
+                    return false
                 }
             } else if effect.name == Effects.healing.rawValue {
                 if hasEffect(effectName: Effects.block.rawValue) {
