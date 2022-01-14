@@ -57,7 +57,7 @@ struct DetailedSkillView: View {
         var key: String = skill.name.lowercased()
         key = key.replacingOccurrences(of: " ", with: "")
         
-        return key + "Description"
+        return key + "Descr"
     }
     
     var body: some View {

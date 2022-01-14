@@ -22,25 +22,6 @@ enum Abilities: String, CaseIterable {
     case coward
     
     func getAbility() -> Ability {
-        switch self {
-            case .freeSpirit:
-                return Ability(name: self.rawValue, description: "Fighter can’t be chained.")
-            case .sceptic:
-                return Ability(name: self.rawValue, description: "Fighter can’t be cursed.")
-            case .immune:
-                return Ability(name: self.rawValue, description: "Fighter can’t be poisoned.")
-            case .rebellious:
-                return Ability(name: self.rawValue, description: "Fighter can’t be locked.")
-            case .confident:
-                return Ability(name: self.rawValue, description: "Fighter can’t become confused.")
-            case .ethereal:
-                return Ability(name: self.rawValue, description: "Removes fighter’s element.")
-            case .weatherFrog:
-                return Ability(name: self.rawValue, description: "Extend weather skills.")
-            case .contrarian:
-                return Ability(name: self.rawValue, description: "Inverts certain received effects.")
-            case .coward:
-                return Ability(name: self.rawValue, description: "Switches out when hit.")
-        }
+        return Ability(name: self.rawValue, description: self.rawValue + "Descr")
     }
 }

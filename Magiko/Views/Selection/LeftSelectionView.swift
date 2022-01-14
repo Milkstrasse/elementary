@@ -216,8 +216,8 @@ struct LeftSelectionView: View {
                                                 }
                                                 .buttonStyle(ClearGrowingButton(width: 40, height: 60))
                                                 VStack {
-                                                    CustomText(text: Abilities.allCases[selectedAbility].getAbility().name).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                    CustomText(text: Abilities.allCases[selectedAbility].getAbility().description).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().name).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                 }
                                                 Button(">") {
                                                     if selectedAbility >= Abilities.allCases.count - 1 {
