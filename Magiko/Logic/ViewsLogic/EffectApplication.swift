@@ -18,7 +18,7 @@ struct EffectApplication {
         }
         
         if skillName != nil {
-            text = attacker.name + " used " + skillName! + ".\n" + text
+            text = attacker.name + " used **" + skillName! + "**.\n" + text
         }
         
         return text
