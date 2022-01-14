@@ -264,11 +264,11 @@ class FightLogic: ObservableObject {
             }
             
             if player == 0 {
-                battleLog += attacker.name + " swapped with " + leftFighters[usedMoves[player][0].target].name + ".\n"
+                battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, leftFighters[usedMoves[player][0].target].name]) + "\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             } else {
-                battleLog += attacker.name + " swapped with " + rightFighters[usedMoves[player][0].target].name + ".\n"
+                battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, rightFighters[usedMoves[player][0].target].name]) + "\n"
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }

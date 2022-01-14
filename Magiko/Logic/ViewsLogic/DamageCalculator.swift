@@ -28,7 +28,7 @@ struct DamageCalculator {
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < attacker.getModifiedBase().precision/10 {
                 dmg *= 1.5
-                text = "It's a critical hit."
+                text = Localization.shared.getTranslation(key: "criticalHit")
             }
         }
         

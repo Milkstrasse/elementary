@@ -181,10 +181,10 @@ class TurnLogic {
                 if fightLogic!.weather != nil {
                     text = Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
                 } else {
-                    text = "The weather didn't change.\n"
+                    text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
                 }
             } else {
-                text = "The weather didn't change.\n"
+                text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
             }
             
             if fightLogic!.playerStack[0].index == 0 {
