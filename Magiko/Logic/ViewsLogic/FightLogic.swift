@@ -44,7 +44,7 @@ class FightLogic: ObservableObject {
     }
     
     func makeMove(player: Int, move: Move) -> Bool {
-        if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.uses {
+        if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.getUses(fighter: getFighter(player: player)) {
             return false
         } else if move.target > -1 {
             if player == 0 && leftFighters[move.target].currhp == 0 {

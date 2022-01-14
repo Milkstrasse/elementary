@@ -24,7 +24,7 @@ class TurnLogic {
         } else if attacker.currhp == 0 {
             attacker.reset()
             battleLog += attacker.name + " fainted but was reborn.\n"
-        } else if fightLogic.usedMoves[player][0].skill.useCounter > fightLogic.usedMoves[player][0].skill.uses {
+        } else if fightLogic.usedMoves[player][0].skill.useCounter > fightLogic.usedMoves[player][0].skill.getUses(fighter: attacker) {
             battleLog += attacker.name + "used " + fightLogic.usedMoves[player][0].skill.name + ". It failed.\n"
             return battleLog
         }

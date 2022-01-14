@@ -43,8 +43,8 @@ struct SkillsView: View {
         }
     }
     
-    func generateDescription(skill: Skill) -> String {
-        return getEffectiveness(skillElement: skill.element) + " - \(skill.uses - skill.useCounter)/\(skill.uses)PP"
+    func generateDescription(skill: Skill, fighter: Fighter) -> String {
+        return getEffectiveness(skillElement: skill.element) + " - \(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP"
     }
     
     var body: some View {
@@ -55,7 +55,7 @@ struct SkillsView: View {
                         currentSection = .waiting
                     }
                 }) {
-                    DetailedActionView(title: skill.name, description: generateDescription(skill: skill), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                    DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
             }
         }

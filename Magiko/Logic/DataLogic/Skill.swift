@@ -46,6 +46,10 @@ struct Skill: Decodable, Hashable {
         skills = try container.decode([SubSkill].self, forKey: .skills)
     }
     
+    func getUses(fighter: Fighter) -> Int {
+        return uses + fighter.getModifiedBase().stamina/20
+    }
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
