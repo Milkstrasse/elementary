@@ -32,6 +32,8 @@
     "fail": "Ça a échoué!",
     "lostHP": "{0} a perdu HP.",
     "gainedHP": "{0} a gagné HP.",
+    "healFailed": "La guérison a échoué.",
+    "namePerished": "{0} a péri.",
     "freeSpiritDescr": "Le combattant ne peut pas être **enchaîné**",
     "scepticDescr": "Fighter can’t be **cursed**.",
     "immuneDescr": "Fighter can’t be **poisoned**.",

@@ -40,7 +40,7 @@ class TurnLogic {
                     battleLog += attacker.name + " perished but was reborn.\n"
                 } else {
                     attacker.currhp = 0
-                    battleLog += attacker.name + " perished.\n"
+                    battleLog += Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
                     fightLogic.hasToSwitch[player] = true
                 }
             } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
@@ -195,7 +195,7 @@ class TurnLogic {
             return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name]) + "\n"
         }
         
-        return "Healing failed.\n"
+        return Localization.shared.getTranslation(key: "healFailed") + "\n"
     }
     
     private func isAbleToSwitch(player: Int) -> Bool {
