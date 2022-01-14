@@ -18,6 +18,7 @@ enum Abilities: String, CaseIterable {
     case confident
     case ethereal
     case weatherFrog
+    case contrarian
     
     func getAbility() -> Ability {
         switch self {
@@ -35,6 +36,8 @@ enum Abilities: String, CaseIterable {
                 return Ability(name: self.rawValue, description: "Removes fighter’s element.")
             case .weatherFrog:
                 return Ability(name: self.rawValue, description: "Extend weather skills.")
+            case .contrarian:
+                return Ability(name: self.rawValue, description: "Inverts certain received effects")
         }
     }
 }

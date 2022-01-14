@@ -31,8 +31,18 @@ struct EffectApplication {
         }
         
         var text: String = ""
+        var effect: String? = skill.effect
         
-        switch skill.effect {
+        if target.ability.name == Abilities.contrarian.rawValue {
+            if effect != nil {
+                effect = Effects(rawValue: effect!)?.getEffect().opposite?.rawValue
+                if effect == nil {
+                    effect = skill.effect
+                }
+            }
+        }
+        
+        switch effect {
             case Effects.attackBoost.rawValue:
                 if target.applyEffect(effect: Effects.attackBoost.getEffect()) {
                     text = target.name + "'s attack increased.\n"

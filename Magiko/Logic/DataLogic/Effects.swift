@@ -16,7 +16,9 @@ class Effect: Hashable {
     let positive: Bool
     let damageAmount: Int
     
-    init(name: String, symbol: String, duration: Int, positive: Bool, damageAmount: Int = 0) {
+    let opposite: Effects?
+    
+    init(name: String, symbol: String, duration: Int, positive: Bool, damageAmount: Int = 0, opposite: Effects? = nil) {
         self.name = name
         self.symbol = symbol
         self.duration = duration
@@ -24,6 +26,8 @@ class Effect: Hashable {
         self.positive = positive
         
         self.damageAmount = damageAmount
+        
+        self.opposite = opposite
     }
     
     func hash(into hasher: inout Hasher) {
@@ -60,21 +64,21 @@ enum Effects: String {
     func getEffect() -> Effect {
         switch self {
             case .attackBoost:
-            return Effect(name: self.rawValue, symbol: "1", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "1", duration: 3, positive: true, opposite: .attackDrop)
             case .attackDrop:
-                return Effect(name: self.rawValue, symbol: "2", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: "2", duration: 3, positive: false, opposite: .attackBoost)
             case .defenseBoost:
-                return Effect(name: self.rawValue, symbol: "3", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "3", duration: 3, positive: true, opposite: .defenseDrop)
             case .defenseDrop:
-                return Effect(name: self.rawValue, symbol: "4", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: "4", duration: 3, positive: false, opposite: .defenseBoost)
             case .agilityBoost:
-                return Effect(name: self.rawValue, symbol: "5", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "5", duration: 3, positive: true, opposite: .agilityDrop)
             case .agilityDrop:
-                return Effect(name: self.rawValue, symbol: "6", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: "6", duration: 3, positive: false, opposite: .agilityBoost)
             case .precisionBoost:
-                return Effect(name: self.rawValue, symbol: "7", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: "7", duration: 3, positive: true, opposite: .precisionDrop)
             case .precisionDrop:
-                return Effect(name: self.rawValue, symbol: "8", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: "8", duration: 3, positive: false, opposite: .precisionBoost)
             case .poison:
                 return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageAmount: 50)
             case .healing:
