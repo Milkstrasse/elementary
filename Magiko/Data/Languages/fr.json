@@ -30,6 +30,8 @@
     "swapWith": "{0} a été échangé avec {1}.",
     "swapFailed": "{0} n'a pas pu être échangée.",
     "fail": "Ça a échoué!",
+    "lostHP": "{0} a perdu HP.",
+    "gainedHP": "{0} a gagné HP.",
     "freeSpiritDescr": "Le combattant ne peut pas être **enchaîné**",
     "scepticDescr": "Fighter can’t be **cursed**.",
     "immuneDescr": "Fighter can’t be **poisoned**.",

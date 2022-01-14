@@ -45,39 +45,13 @@ class TurnLogic {
                 }
             } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
                 attacker.currhp = attacker.getModifiedBase().health
-                battleLog += attacker.name + " recovered health.\n"
+                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             } else if damage > 0 {
                 attacker.currhp -= damage
-                battleLog += attacker.name + " took damage.\n"
+                battleLog += Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
             } else {
                 attacker.currhp += abs(damage)
-                battleLog += attacker.name + " recovered health.\n"
-            }
-            
-            return battleLog
-        }
-        
-        if fightLogic.playerStack[0].index < 0 {
-            let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
-            
-            if damage >= attacker.currhp {
-                if attacker.hasEffect(effectName: Effects.enlightened.rawValue){
-                    attacker.reset()
-                    battleLog += attacker.name + " perished but was reborn.\n"
-                } else {
-                    attacker.currhp = 0
-                    battleLog += attacker.name + " perished.\n"
-                    fightLogic.hasToSwitch[player] = true
-                }
-            } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
-                attacker.currhp = attacker.getModifiedBase().health
-                battleLog += attacker.name + " recovered health.\n"
-            } else if damage > 0 {
-                attacker.currhp -= damage
-                battleLog += attacker.name + " took damage.\n"
-            } else {
-                attacker.currhp += abs(damage)
-                battleLog += attacker.name + " recovered health.\n"
+                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
             
             return battleLog
@@ -209,7 +183,7 @@ class TurnLogic {
                 attacker.currhp += newHealth
             }
             
-            return attacker.name + " recovered health.\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
         } else if !defender.hasEffect(effectName: Effects.blocked.rawValue) {
             newHealth = defender.getModifiedBase().health/(100/skill.healAmount)
             if newHealth >= (defender.getModifiedBase().health - defender.currhp) {
@@ -218,7 +192,7 @@ class TurnLogic {
                 defender.currhp += newHealth
             }
             
-            return defender.name + " recovered health.\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name]) + "\n"
         }
         
         return "Healing failed.\n"
