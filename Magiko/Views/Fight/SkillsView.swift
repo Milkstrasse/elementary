@@ -15,6 +15,9 @@ struct SkillsView: View {
     
     let geoHeight: CGFloat
     
+    @State var gestureStates: [Bool] = []
+    @GestureState var isDetectingPress = false
+    
     func getEffectiveness(skillElement: String) -> String {
         if fightLogic.getFighter(player: player).ability.name == Abilities.ethereal.rawValue {
             return "Effective"
@@ -30,16 +33,16 @@ struct SkillsView: View {
         }
         
         switch modifier {
-            case 4.0:
-                return "Super Effective"
-            case 2.0:
-                return "Very Effective"
-            case 0.5:
-                return "Not Very Effective"
-            case 0.25:
-                return "Not Effective"
-            default:
-                return "Effective"
+        case 4.0:
+            return "Super Effective"
+        case 2.0:
+            return "Very Effective"
+        case 0.5:
+            return "Not Very Effective"
+        case 0.25:
+            return "Not Effective"
+        default:
+            return "Effective"
         }
     }
     
@@ -51,12 +54,28 @@ struct SkillsView: View {
         HStack(spacing: 5) {
             ForEach(fightLogic.getFighter(player: player).skills, id: \.self) { skill in
                 Button(action: {
-                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
-                        currentSection = .waiting
-                    }
                 }) {
-                    DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                    ZStack {
+                        if isDetectingPress {
+                            DetailedSkillView(skill: skill, width: geoHeight - 30)
+                        } else {
+                            DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30)
+                        }
+                    }
+                    .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: .infinity)
+                            .updating($isDetectingPress) { value, state, _ in state = value }
+                    )
+                    .highPriorityGesture(
+                        TapGesture()
+                            .onEnded { _ in
+                                if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
+                                    currentSection = .waiting
+                                }
+                    })
                 }
+                
             }
         }
     }
