@@ -29,6 +29,7 @@
     "weatherFailed": "Le temps n'a pas changé.",
     "swapWith": "{0} a été échangé avec {1}.",
     "swapFailed": "{0} n'a pas pu être échangée.",
+    "fail": "Ça a échoué!",
     "freeSpiritDescr": "Le combattant ne peut pas être **enchaîné**",
     "scepticDescr": "Fighter can’t be **cursed**.",
     "immuneDescr": "Fighter can’t be **poisoned**.",

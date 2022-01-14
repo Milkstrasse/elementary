@@ -259,7 +259,7 @@ class FightLogic: ObservableObject {
         
         if usedMoves[player][0].target > -1 {
             if attacker.hasEffect(effectName: Effects.chained.rawValue) {
-                battleLog += attacker.name + " failed to swap.\n"
+                battleLog += Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]) + "\n"
                 return
             }
             
