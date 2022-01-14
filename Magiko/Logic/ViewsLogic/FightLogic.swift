@@ -257,45 +257,6 @@ class FightLogic: ObservableObject {
     func processTurn(player: Int) {
         let attacker: Fighter = getFighter(player: player)
         
-        if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.revive.rawValue) {
-            battleLog += attacker.name + " fainted.\n"
-            hasToSwitch[player] = true
-            
-            return
-        } else if attacker.currhp == 0 {
-            attacker.reset()
-            battleLog += attacker.name + " fainted but was reborn.\n"
-        } else if usedMoves[player][0].skill.useCounter > usedMoves[player][0].skill.uses {
-            battleLog += attacker.name + "used " + usedMoves[player][0].skill.name + ". It failed.\n"
-            return
-        }
-        
-        if playerStack[0].index < 0 {
-            let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(playerStack[0].index) - 1].damageAmount)
-            
-            if damage >= attacker.currhp {
-                if attacker.hasEffect(effectName: Effects.revive.rawValue){
-                    attacker.reset()
-                    battleLog += attacker.name + " perished but was reborn.\n"
-                } else {
-                    attacker.currhp = 0
-                    battleLog += attacker.name + " perished.\n"
-                    hasToSwitch[player] = true
-                }
-            } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
-                attacker.currhp = attacker.getModifiedBase().health
-                battleLog += attacker.name + " recovered health.\n"
-            } else if damage > 0 {
-                attacker.currhp -= damage
-                battleLog += attacker.name + " took damage.\n"
-            } else {
-                attacker.currhp += abs(damage)
-                battleLog += attacker.name + " recovered health.\n"
-            }
-            
-            return
-        }
-        
         if usedMoves[player][0].target > -1 {
             if attacker.hasEffect(effectName: Effects.chain.rawValue) {
                 battleLog += attacker.name + " failed to swap.\n"
@@ -311,17 +272,8 @@ class FightLogic: ObservableObject {
                 
                 swapFighters(player: player, target: usedMoves[player][0].target)
             }
-        } else if usedMoves[player][0].skill.type == "shield" {
-            let usedMoves: [Move] = usedMoves[player]
-            var text: String = "\n"
-        
-            if usedMoves.count > 1 && usedMoves[0].skill.name == usedMoves[1].skill.name {
-                text = "It failed.\n"
-            }
-            
-            battleLog += getFighter(player: player).name + " used " + usedMoves[0].skill.name + ". " + text
         } else {
-            attack(player: player, skill: usedMoves[player][0].skill)
+            battleLog += TurnLogic.shared.startTurn(player: player, fightLogic: self)
         }
     }
     
@@ -337,97 +289,6 @@ class FightLogic: ObservableObject {
     func undoMove(player: Int) {
         gameLogic.setReady(player: player, ready: false)
         usedMoves[player].removeFirst()
-    }
-    
-    func attack(player: Int, skill: Skill) {
-        if skill.skills[playerStack[0].index].range > 0 {
-            if player == 0 {
-                if usedMoves[1][0].skill.type == "shield" {
-                    if usedMoves[1].count == 1 || usedMoves[1][0].skill.name != usedMoves[1][1].skill.name {
-                        if skill.skills.count > 1 {
-                            if playerStack[0].index == 0 {
-                                battleLog += leftFighters[currentLeftFighter].name + " used " + skill.name + ".\n"
-                            } else {
-                                battleLog += rightFighters[currentRightFighter].name + " blocked the attack.\n"
-                            }
-                        } else {
-                            battleLog += leftFighters[currentLeftFighter].name + " used " + skill.name + ". " + rightFighters[currentRightFighter].name + " blocked the attack.\n"
-                        }
-                        
-                        return
-                    }
-                }
-            } else {
-                if usedMoves[0][0].skill.type == "shield" {
-                    if usedMoves[0].count == 1 || usedMoves[0][0].skill.name != usedMoves[0][1].skill.name {
-                        if skill.skills.count > 1 {
-                            if playerStack[0].index == 0 {
-                                battleLog += rightFighters[currentRightFighter].name + " used " + skill.name + ".\n"
-                            } else {
-                                battleLog += leftFighters[currentLeftFighter].name + " blocked the attack.\n"
-                            }
-                        } else {
-                            battleLog += rightFighters[currentRightFighter].name + " used " + skill.name + ". " + leftFighters[currentLeftFighter].name + " blocked the attack.\n"
-                        }
-                        
-                        return
-                    }
-                }
-            }
-        }
-        
-        if skill.skills[playerStack[0].index].power > 0 {
-            var text: String
-            
-            if player == 0 {
-                text = DamageCalculator.shared.applyDamage(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
-            } else {
-                text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
-            }
-            
-            if getFighter(player: player).ability.name == Abilities.coward.rawValue && isAbleToSwitch(player: player) {
-                hasToSwitch[player] = true
-            }
-            
-            battleLog += getFighter(player: player).name + " used " + skill.name + ". " + text
-        } else if skill.skills[playerStack[0].index].effect != nil {
-            if player == 0 {
-                battleLog += EffectApplication.shared.applyEffect(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
-            } else {
-                battleLog += EffectApplication.shared.applyEffect(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillName: playerStack[0].index == 0 ? skill.name : nil)
-            }
-        } else if skill.skills[playerStack[0].index].healAmount > 0 {
-            var text: String
-            
-            if player == 0 {
-                text = Healer.shared.applyHealing(attacker: leftFighters[currentLeftFighter], defender: rightFighters[currentRightFighter], skill: skill.skills[playerStack[0].index])
-            } else {
-                text = Healer.shared.applyHealing(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index])
-            }
-            
-            battleLog += getFighter(player: player).name + " used " + skill.name + ". " + text
-        } else if skill.skills[playerStack[0].index].weatherEffect != nil {
-            var text: String = ""
-            
-            if weather == nil {
-                if getFighter(player: player).ability.name == Abilities.weatherFrog.rawValue {
-                    weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect(duration: 5)
-                } else {
-                    weather = WeatherEffects(rawValue: skill.skills[playerStack[0].index].weatherEffect!)?.getEffect(duration: 3)
-                }
-                text = "The weather changed to " + (weather?.name ?? "nothing") + ".\n"
-            } else {
-                text = "Nothing changed.\n"
-            }
-            
-            if playerStack[0].index == 0 {
-                battleLog += getFighter(player: player).name + " used " + skill.name + ".\n" + text
-            } else {
-                battleLog += text
-            }
-        } else {
-            battleLog += getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
-        }
     }
     
     func isGameOver() -> Bool {
