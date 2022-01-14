@@ -24,7 +24,7 @@ struct DamageCalculator {
             dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
         }
         
-        if !defender.hasEffect(effectName: Effects.alert.rawValue) {
+        if !defender.hasEffect(effectName: Effects.alerted.rawValue) {
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < attacker.getModifiedBase().precision/10 {
                 dmg *= 1.5

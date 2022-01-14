@@ -18,7 +18,7 @@ class TurnLogic {
         
         let attacker: Fighter = fightLogic.getFighter(player: player)
         
-        if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.revive.rawValue) {
+        if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.enlightened.rawValue) {
             battleLog += attacker.name + " fainted.\n"
             fightLogic.hasToSwitch[player] = true
             
@@ -35,7 +35,7 @@ class TurnLogic {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
             
             if damage >= attacker.currhp {
-                if attacker.hasEffect(effectName: Effects.revive.rawValue){
+                if attacker.hasEffect(effectName: Effects.enlightened.rawValue){
                     attacker.reset()
                     battleLog += attacker.name + " perished but was reborn.\n"
                 } else {
@@ -61,7 +61,7 @@ class TurnLogic {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
             
             if damage >= attacker.currhp {
-                if attacker.hasEffect(effectName: Effects.revive.rawValue){
+                if attacker.hasEffect(effectName: Effects.enlightened.rawValue){
                     attacker.reset()
                     battleLog += attacker.name + " perished but was reborn.\n"
                 } else {
@@ -196,7 +196,7 @@ class TurnLogic {
     
     func applyHealing(attacker: Fighter, defender: Fighter, skill: SubSkill) -> String {
         var newHealth: Int
-        if skill.range == 0 && !attacker.hasEffect(effectName: Effects.block.rawValue) {
+        if skill.range == 0 && !attacker.hasEffect(effectName: Effects.blocked.rawValue) {
             newHealth = attacker.getModifiedBase().health/(100/skill.healAmount)
             if newHealth >= (attacker.getModifiedBase().health - attacker.currhp) {
                 attacker.currhp = attacker.getModifiedBase().health
@@ -205,7 +205,7 @@ class TurnLogic {
             }
             
             return attacker.name + " recovered health.\n"
-        } else if !defender.hasEffect(effectName: Effects.block.rawValue) {
+        } else if !defender.hasEffect(effectName: Effects.blocked.rawValue) {
             newHealth = defender.getModifiedBase().health/(100/skill.healAmount)
             if newHealth >= (defender.getModifiedBase().health - defender.currhp) {
                 defender.currhp = defender.getModifiedBase().health

@@ -55,7 +55,7 @@ class FightLogic: ObservableObject {
         }
         
         if hasToSwitch[player] {
-            if !getFighter(player: player).hasEffect(effectName: Effects.chain.rawValue) || getFighter(player: player).currhp == 0 {
+            if !getFighter(player: player).hasEffect(effectName: Effects.chained.rawValue) || getFighter(player: player).currhp == 0 {
                 if move.target > -1 {
                     swapFighters(player: player, target: move.target)
                 }
@@ -180,9 +180,9 @@ class FightLogic: ObservableObject {
                             for index in getFighter(player: 1).effects.indices {
                                 let effect: Effect = getFighter(player: 1).effects[index]
                                 
-                                if effect.damageAmount != 0 && effect.name != Effects.bomb.rawValue {
+                                if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
                                     playerStack.insert((player: 1, index: -1 - index), at: 0)
-                                } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
+                                } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
                                     playerStack.insert((player: 1, index: -1 - index), at: 0)
                                 }
                             }
@@ -191,9 +191,9 @@ class FightLogic: ObservableObject {
                             for index in getFighter(player: 0).effects.indices {
                                 let effect: Effect = getFighter(player: 0).effects[index]
                                 
-                                if effect.damageAmount != 0 && effect.name != Effects.bomb.rawValue {
+                                if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
                                     playerStack.insert((player: 0, index: -1 - index), at: 0)
-                                } else if effect.name == Effects.bomb.rawValue && effect.duration == 1 {
+                                } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
                                     playerStack.insert((player: 0, index: -1 - index), at: 0)
                                 }
                             }
@@ -258,7 +258,7 @@ class FightLogic: ObservableObject {
         let attacker: Fighter = getFighter(player: player)
         
         if usedMoves[player][0].target > -1 {
-            if attacker.hasEffect(effectName: Effects.chain.rawValue) {
+            if attacker.hasEffect(effectName: Effects.chained.rawValue) {
                 battleLog += attacker.name + " failed to swap.\n"
                 return
             }

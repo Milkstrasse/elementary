@@ -81,14 +81,14 @@ class Fighter: Hashable {
     
     func applyEffect(effect: Effect) -> Bool {
         switch effect.name {
-            case Effects.blessing.rawValue:
+            case Effects.blessed.rawValue:
                 for effect in effects {
                     if !effect.positive {
                         removeEffect(effect: effect)
                     }
                 }
-            case Effects.block.rawValue:
-                if hasEffect(effectName: Effects.healing.rawValue) {
+            case Effects.blocked.rawValue:
+                if hasEffect(effectName: Effects.healed.rawValue) {
                     removeEffect(effect: effect)
                 }
             case Effects.invigorated.rawValue:
@@ -105,21 +105,21 @@ class Fighter: Hashable {
         
         if effects.count < 2 {
             if !effect.positive {
-                if hasEffect(effectName: Effects.blessing.rawValue) {
+                if hasEffect(effectName: Effects.blessed.rawValue) {
                     return false
-                } else if effect.name == Effects.chain.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
+                } else if effect.name == Effects.chained.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
                     return false
                 } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.sceptic.rawValue {
                     return false
-                } else if effect.name == Effects.poison.rawValue && self.ability.name == Abilities.immune.rawValue {
+                } else if effect.name == Effects.poisoned.rawValue && self.ability.name == Abilities.immune.rawValue {
                     return false
                 } else if effect.name == Effects.locked.rawValue && self.ability.name == Abilities.rebellious.rawValue {
                     return false
                 } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.confident.rawValue {
                     return false
                 }
-            } else if effect.name == Effects.healing.rawValue {
-                if hasEffect(effectName: Effects.block.rawValue) {
+            } else if effect.name == Effects.healed.rawValue {
+                if hasEffect(effectName: Effects.blocked.rawValue) {
                     return false
                 }
             }

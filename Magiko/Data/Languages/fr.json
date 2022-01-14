@@ -20,6 +20,7 @@
     "water": "Eau",
     "usedSkill": "{0} a utilisé **{1}**.",
     "nameFainted": "{0} s'est évanoui.",
+    "becameEffect": "{0} s'est **{1}**.",
     "freeSpiritDescr": "Le combattant ne peut pas être **enchaîné**",
     "scepticDescr": "Fighter can’t be **cursed**.",
     "immuneDescr": "Fighter can’t be **poisoned**.",
