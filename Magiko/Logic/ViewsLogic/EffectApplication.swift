@@ -147,6 +147,12 @@ struct EffectApplication {
                 } else {
                     text = "The effect failed.\n"
                 }
+            case Effects.alert.rawValue:
+                if target.applyEffect(effect: Effects.alert.getEffect()) {
+                    text = target.name + " is now alert.\n"
+                } else {
+                    text = "The effect failed.\n"
+                }
             default:
                 text = "The effect failed.\n"
         }
