@@ -37,7 +37,7 @@ struct DetailedActionView: View {
             BigBarView()
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
-                    CustomText(key: title)
+                    CustomText(key: title, bold: true)
                     CustomText(key: description)
                 }
                 .padding(.leading, 15)
@@ -65,7 +65,7 @@ struct DetailedSkillView: View {
             BigBarView()
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
-                    CustomText(key: skill.name)
+                    CustomText(key: skill.name, bold: true)
                     CustomText(key: getTranslationKey())
                 }
                 .padding(.leading, 15)
@@ -73,32 +73,6 @@ struct DetailedSkillView: View {
             }
         }
         .frame(width: width, height: 60)
-    }
-}
-
-struct SimpleAttackView: View {
-    let title: String
-    
-    var width: CGFloat?
-    
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
-            HStack(spacing: 0) {
-                ZStack(alignment: .trailing) {
-                    Rectangle().fill(Color.green).frame(width: 25)
-                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 75)
-                }
-                Triangle().fill(Color.green).frame(width: 16).rotationEffect(.degrees(180))
-                HStack(spacing: 0) {
-                    CustomText(key: title)
-                    CustomText(key: " - " + "Very effective")
-                }
-                .padding(.leading, 15)
-                Spacer()
-            }
-        }
-        .frame(width: width, height: 45)
     }
 }
 
@@ -131,17 +105,17 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(key: "health")
+                            CustomText(key: "health", bold: true)
                             Spacer()
                             CustomText(text: "\(base.health)")
                         }
                         HStack {
-                            CustomText(key: "attack")
+                            CustomText(key: "attack", bold: true)
                             Spacer()
                             CustomText(text: "\(base.attack)")
                         }
                         HStack {
-                            CustomText(key: "defense")
+                            CustomText(key: "defense", bold: true)
                             Spacer()
                             CustomText(text: "\(base.defense)")
                         }
@@ -154,17 +128,17 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(key: "agility")
+                            CustomText(key: "agility", bold: true)
                             Spacer()
                             CustomText(text: "\(base.agility)")
                         }
                         HStack {
-                            CustomText(key: "precision")
+                            CustomText(key: "precision", bold: true)
                             Spacer()
                             CustomText(text: "\(base.precision)")
                         }
                         HStack {
-                            CustomText(key: "stamina")
+                            CustomText(key: "stamina", bold: true)
                             Spacer()
                             CustomText(text: "\(base.stamina)")
                         }
@@ -197,18 +171,46 @@ struct FighterView: View {
 struct CustomText: View {
     var text: String
     var lineLimit: Int?
+    var bold: Bool
     
-    init(text: String) {
+    var textArray: [String]
+    
+    init(text: String, bold: Bool = false) {
         self.text = text
+        textArray = text.components(separatedBy: "**")
+        
+        self.bold = bold
     }
     
-    init(key: String) {
+    init(key: String, bold: Bool = false) {
         self.text = Localization.shared.getTranslation(key: key)
         self.lineLimit = 1
+        textArray = text.components(separatedBy: "**")
+        
+        self.bold = bold
+    }
+    
+    func isBold(index: Int) -> Bool {
+        if bold {
+            return true
+        }
+        
+        if textArray.count > 1 {
+            return index%2 != 0
+        }
+        
+        return false
     }
     
     var body: some View {
-        Text(text).lineLimit(lineLimit)
+        HStack(spacing: 0) {
+            Group {
+                ForEach(textArray.indices) { index in
+                    Text(textArray[index]).fontWeight(isBold(index: index) ? .bold : .regular)
+                }
+            }
+            .lineLimit(lineLimit)
+        }
     }
 }
 
@@ -252,7 +254,6 @@ struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             DetailedActionView(title: "Title", description: "Description")
-            SimpleAttackView(title: "Title")
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
             FighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
