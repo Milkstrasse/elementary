@@ -26,7 +26,7 @@ struct EffectApplication {
     
     func applyStats(attacker: Fighter, target: Fighter, skill: SubSkill) -> String {
         let chance: Int = Int.random(in: 0 ..< 100)
-        if chance > skill.chance + attacker.getModifiedBase().precision/100 {
+        if chance > skill.chance {
             return "The effect failed.\n"
         }
         
