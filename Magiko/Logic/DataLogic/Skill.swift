@@ -97,6 +97,10 @@ struct Move {
     }
     
     mutating func useSkill(amount: Int) {
+        if skill == Skill() {
+            return
+        }
+        
         var skillIndex: Int = 0
         for sourceSkill in source.skills {
             if sourceSkill == skill {

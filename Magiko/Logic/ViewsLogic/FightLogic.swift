@@ -55,11 +55,13 @@ class FightLogic: ObservableObject {
         }
         
         if hasToSwitch[player] {
-            if move.target > -1 {
-                swapFighters(player: player, target: move.target)
+            if !getFighter(player: player).hasEffect(effectName: Effects.chain.rawValue) || getFighter(player: player).currhp == 0 {
+                if move.target > -1 {
+                    swapFighters(player: player, target: move.target)
+                }
+                
+                return false
             }
-            
-            return false
         }
         
         gameLogic.setReady(player: player, ready: true)
@@ -88,6 +90,9 @@ class FightLogic: ObservableObject {
             usedMoves[0][0].useSkill(amount: getFighter(player: 0).staminaUse)
             usedMoves[1][0].useSkill(amount: getFighter(player: 1).staminaUse)
             
+            hasToSwitch[0] = false
+            hasToSwitch[1] = false
+            
             if weather != nil {
                 weather!.duration -= 1
                 
@@ -112,18 +117,36 @@ class FightLogic: ObservableObject {
             }
             
             if getFasterPlayer() == 0 {
-                for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                    playerStack.insert((player: 1, index: index), at: 0)
+                if usedMoves[1][0].skill.skills.count > 0 {
+                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 1, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 1, index: 0), at: 0)
                 }
-                for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                    playerStack.insert((player: 0, index: index), at: 0)
+                
+                if usedMoves[0][0].skill.skills.count > 0 {
+                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 0, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 0, index: 0), at: 0)
                 }
             } else {
-                for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                    playerStack.insert((player: 0, index: index), at: 0)
+                if usedMoves[0][0].skill.skills.count > 0 {
+                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 0, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 0, index: 0), at: 0)
                 }
-                for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                    playerStack.insert((player: 1, index: index), at: 0)
+                
+                if usedMoves[1][0].skill.skills.count > 0 {
+                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 1, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 1, index: 0), at: 0)
                 }
             }
             
@@ -362,6 +385,10 @@ class FightLogic: ObservableObject {
                 text = DamageCalculator.shared.applyDamage(attacker: rightFighters[currentRightFighter], defender: leftFighters[currentLeftFighter], skill: skill.skills[playerStack[0].index], skillElement: skill.element, weather: weather)
             }
             
+            if getFighter(player: player).ability.name == Abilities.coward.rawValue && isAbleToSwitch(player: player) {
+                hasToSwitch[player] = true
+            }
+            
             battleLog += getFighter(player: player).name + " used " + skill.name + ". " + text
         } else if skill.skills[playerStack[0].index].effect != nil {
             if player == 0 {
@@ -422,6 +449,29 @@ class FightLogic: ObservableObject {
         }
         
         return true
+    }
+    
+    func isAbleToSwitch(player: Int) -> Bool {
+        var counter: Int = 0
+        if player == 0 {
+            for fighter in leftFighters {
+                if fighter.currhp > 0 {
+                    counter += 1
+                }
+            }
+        } else {
+            for fighter in rightFighters {
+                if fighter.currhp > 0 {
+                    counter += 1
+                }
+            }
+        }
+        
+        if counter >= 2 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func forfeit(player: Int) {
