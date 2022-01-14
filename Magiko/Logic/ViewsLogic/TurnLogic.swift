@@ -25,7 +25,7 @@ class TurnLogic {
             attacker.reset()
             battleLog += attacker.name + " fainted but was reborn.\n"
         } else if fightLogic.usedMoves[player][0].skill.useCounter > fightLogic.usedMoves[player][0].skill.getUses(fighter: attacker) {
-            battleLog += attacker.name + "used " + fightLogic.usedMoves[player][0].skill.name + ". It failed.\n"
+            battleLog += attacker.name + "used **" + fightLogic.usedMoves[player][0].skill.name + "**. It failed.\n"
             return battleLog
         }
         
@@ -89,7 +89,7 @@ class TurnLogic {
                 text = "It failed.\n"
             }
             
-            battleLog += fightLogic.getFighter(player: player).name + " used " + usedMoves[0].skill.name + ". " + text
+            battleLog += fightLogic.getFighter(player: player).name + " used **" + usedMoves[0].skill.name + "**. " + text
         } else {
             battleLog += attack(player: player, skill: fightLogic.usedMoves[player][0].skill)
         }
@@ -106,12 +106,12 @@ class TurnLogic {
                     if fightLogic!.usedMoves[1].count == 1 || fightLogic!.usedMoves[1][0].skill.name != fightLogic!.usedMoves[1][1].skill.name {
                         if skill.skills.count > 1 {
                             if fightLogic!.playerStack[0].index == 0 {
-                                battleLog += fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " used " + skill.name + ".\n"
+                                battleLog += fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " used **" + skill.name + "**.\n"
                             } else {
                                 battleLog += fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " blocked the attack.\n"
                             }
                         } else {
-                            battleLog += fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " used " + skill.name + ". " + fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " blocked the attack.\n"
+                            battleLog += fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " used **" + skill.name + "**. " + fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " blocked the attack.\n"
                         }
                         
                         return battleLog
@@ -122,12 +122,12 @@ class TurnLogic {
                     if fightLogic!.usedMoves[0].count == 1 || fightLogic!.usedMoves[0][0].skill.name != fightLogic!.usedMoves[0][1].skill.name {
                         if skill.skills.count > 1 {
                             if fightLogic!.playerStack[0].index == 0 {
-                                battleLog += fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " used " + skill.name + ".\n"
+                                battleLog += fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " used **" + skill.name + "**.\n"
                             } else {
                                 battleLog += fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " blocked the attack.\n"
                             }
                         } else {
-                            battleLog += fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " used " + skill.name + ". " + fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " blocked the attack.\n"
+                            battleLog += fightLogic!.rightFighters[fightLogic!.currentRightFighter].name + " used **" + skill.name + "**. " + fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name + " blocked the attack.\n"
                         }
                         
                         return battleLog
@@ -149,7 +149,7 @@ class TurnLogic {
                 fightLogic!.hasToSwitch[player] = true
             }
             
-            battleLog += fightLogic!.getFighter(player: player).name + " used " + skill.name + ". " + text
+            battleLog += fightLogic!.getFighter(player: player).name + " used **" + skill.name + "**. " + text
         } else if skill.skills[fightLogic!.playerStack[0].index].effect != nil {
             if player == 0 {
                 battleLog += EffectApplication.shared.applyEffect(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillName: fightLogic!.playerStack[0].index == 0 ? skill.name : nil)
@@ -165,7 +165,7 @@ class TurnLogic {
                 text = applyHealing(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index])
             }
             
-            battleLog += fightLogic!.getFighter(player: player).name + " used " + skill.name + ". " + text
+            battleLog += fightLogic!.getFighter(player: player).name + " used **" + skill.name + "**. " + text
         } else if skill.skills[fightLogic!.playerStack[0].index].weatherEffect != nil {
             var text: String = ""
             
@@ -181,12 +181,12 @@ class TurnLogic {
             }
             
             if fightLogic!.playerStack[0].index == 0 {
-                battleLog += fightLogic!.getFighter(player: player).name + " used " + skill.name + ".\n" + text
+                battleLog += fightLogic!.getFighter(player: player).name + " used **" + skill.name + "**.\n" + text
             } else {
                 battleLog += text
             }
         } else {
-            battleLog += fightLogic!.getFighter(player: player).name + " used " + skill.name + ". It does nothing.\n"
+            battleLog += fightLogic!.getFighter(player: player).name + " used **" + skill.name + "**. It does nothing.\n"
         }
         
         return battleLog

@@ -173,11 +173,16 @@ struct CustomText: View {
     var lineLimit: Int?
     var bold: Bool
     
-    var textArray: [String]
+    var textArray: [[String]]
     
     init(text: String, bold: Bool = false) {
         self.text = text
-        textArray = text.components(separatedBy: "**")
+        
+        textArray = []
+        let lines: [String] = text.components(separatedBy: "\n")
+        for line in lines {
+            textArray.append(line.components(separatedBy: "**"))
+        }
         
         self.bold = bold
     }
@@ -185,7 +190,12 @@ struct CustomText: View {
     init(key: String, bold: Bool = false) {
         self.text = Localization.shared.getTranslation(key: key)
         self.lineLimit = 1
-        textArray = text.components(separatedBy: "**")
+        
+        textArray = []
+        let lines: [String] = text.components(separatedBy: "\n")
+        for line in lines {
+            textArray.append(line.components(separatedBy: "**"))
+        }
         
         self.bold = bold
     }
@@ -203,13 +213,14 @@ struct CustomText: View {
     }
     
     var body: some View {
-        HStack(spacing: 0) {
-            Group {
-                ForEach(textArray.indices) { index in
-                    Text(textArray[index]).fontWeight(isBold(index: index) ? .bold : .regular)
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(textArray.indices, id: \.self) { line in
+                HStack(spacing: 0) {
+                    ForEach(textArray[line].indices, id: \.self) { index in
+                        Text(textArray[line][index]).fontWeight(isBold(index: index) ? .bold : .regular).fixedSize().lineLimit(lineLimit)
+                    }
                 }
             }
-            .lineLimit(lineLimit)
         }
     }
 }
