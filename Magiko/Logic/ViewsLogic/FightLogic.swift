@@ -312,29 +312,6 @@ class FightLogic: ObservableObject {
         return true
     }
     
-    func isAbleToSwitch(player: Int) -> Bool {
-        var counter: Int = 0
-        if player == 0 {
-            for fighter in leftFighters {
-                if fighter.currhp > 0 {
-                    counter += 1
-                }
-            }
-        } else {
-            for fighter in rightFighters {
-                if fighter.currhp > 0 {
-                    counter += 1
-                }
-            }
-        }
-        
-        if counter >= 2 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
     func forfeit(player: Int) {
         gameLogic.forfeit(player: player)
     }

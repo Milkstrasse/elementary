@@ -18,6 +18,7 @@
     "stamina": "Endurance",
     "training": "Entraînement",
     "water": "Eau",
+    "usedSkill": "{0} a utilisé **{1}**.",
     "freeSpiritDescr": "Fighter can’t be **chained**.",
     "scepticDescr": "Fighter can’t be **cursed**.",
     "immuneDescr": "Fighter can’t be **poisoned**.",

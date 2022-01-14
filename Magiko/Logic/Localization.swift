@@ -37,7 +37,26 @@ class Localization {
         }
     }
     
-    func getTranslation(key: String) -> String {
+    func getTranslation(key: String, params: [String] = []) -> String {
+        let translation: String? = translations[key]
+        
+        if translation != nil && params.count > 0 {
+            let charSet = CharacterSet(charactersIn: "{}")
+            var components: [String] = translation!.components(separatedBy: charSet)
+            
+            for index in components.indices {
+                if index%2 != 0 {
+                    let paramIndex: Int = Int(components[index]) ?? 0
+                    
+                    if paramIndex < params.count {
+                        components[index] = getTranslation(key: params[paramIndex])
+                    }
+                }
+            }
+            
+            return components.joined()
+        }
+        
         return translations[key] ?? key
     }
 }

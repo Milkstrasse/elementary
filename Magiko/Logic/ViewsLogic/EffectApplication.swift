@@ -18,7 +18,7 @@ struct EffectApplication {
         }
         
         if skillName != nil {
-            text = attacker.name + " used **" + skillName! + "**.\n" + text
+            text = Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, skillName!]) + "\n" + text
         }
         
         return text
