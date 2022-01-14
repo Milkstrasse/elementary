@@ -45,49 +45,49 @@ struct EffectApplication {
         switch effect {
             case Effects.attackBoost.rawValue:
                 if target.applyEffect(effect: Effects.attackBoost.getEffect()) {
-                    text = target.name + "'s attack increased.\n"
+                    text = Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.attackDrop.rawValue:
                 if target.applyEffect(effect: Effects.attackDrop.getEffect()) {
-                    text = target.name + "'s attack decreased.\n"
+                    text = Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.defenseBoost.rawValue:
                 if target.applyEffect(effect: Effects.defenseBoost.getEffect()) {
-                    text = target.name + "'s defense increased.\n"
+                    text = Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.defenseDrop.rawValue:
                 if target.applyEffect(effect: Effects.defenseDrop.getEffect()) {
-                    text = target.name + "'s defense decreased.\n"
+                    text = Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.agilityBoost.rawValue:
                 if target.applyEffect(effect: Effects.agilityBoost.getEffect()) {
-                    text = target.name + "'s agility increased.\n"
+                    text = Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.agilityDrop.rawValue:
                 if target.applyEffect(effect: Effects.agilityDrop.getEffect()) {
-                    text = target.name + "'s agility decreased.\n"
+                    text = Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.precisionBoost.rawValue:
                 if target.applyEffect(effect: Effects.precisionBoost.getEffect()) {
-                    text = target.name + "'s precision increased.\n"
+                    text = Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }
             case Effects.precisionDrop.rawValue:
                 if target.applyEffect(effect: Effects.precisionDrop.getEffect()) {
-                    text = target.name + "'s precision decreased.\n"
+                    text = Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"]) + "\n"
                 } else {
                     text = "The effect failed.\n"
                 }

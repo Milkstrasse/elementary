@@ -177,7 +177,12 @@ class TurnLogic {
                 } else {
                     fightLogic!.weather = WeatherEffects(rawValue: skill.skills[fightLogic!.playerStack[0].index].weatherEffect!)?.getEffect(duration: 3)
                 }
-                text = "The weather changed to " + (fightLogic!.weather?.name ?? "nothing") + ".\n"
+                
+                if fightLogic!.weather != nil {
+                    text = Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
+                } else {
+                    text = "The weather didn't change.\n"
+                }
             } else {
                 text = "The weather didn't change.\n"
             }
