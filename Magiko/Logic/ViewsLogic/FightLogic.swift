@@ -281,8 +281,6 @@ class FightLogic: ObservableObject {
                 return
             }
             
-            battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, leftFighters[usedMoves[player][0].target].name]) + "\n"
-            
             battleLog += swapFighters(player: player, target: usedMoves[player][0].target)
         } else {
             battleLog += TurnLogic.shared.startTurn(player: player, fightLogic: self)
