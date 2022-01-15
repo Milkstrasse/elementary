@@ -5,7 +5,8 @@
   "skills": [
       {
           "power": 0,
-          "range": 0
+          "range": 0,
+          "effect": "blessed"
       },
       {
           "power": 0,

@@ -283,31 +283,36 @@ class FightLogic: ObservableObject {
             
             battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, leftFighters[usedMoves[player][0].target].name]) + "\n"
             
-            var addEffect: Bool = false
-            if attacker.ability.name == Abilities.lastWill.rawValue {
-                addEffect = true
-            }
-            
-            swapFighters(player: player, target: usedMoves[player][0].target)
-            
-            if addEffect {
-                if getFighter(player: player).applyEffect(effect: Effects.blessed.getEffect()) {
-                    battleLog += Localization.shared.getTranslation(key: "becameEffect", params: [getFighter(player: player).name, Effects.blessed.rawValue]) + "\n"
-                }
-            }
+            battleLog += swapFighters(player: player, target: usedMoves[player][0].target)
         } else {
             battleLog += TurnLogic.shared.startTurn(player: player, fightLogic: self)
         }
     }
     
-    func swapFighters(player: Int, target: Int) {
+    func swapFighters(player: Int, target: Int) -> String {
         hasToSwitch[player] = false
         
+        var text: String
+        var applyEffect: Bool = false
+        
+        if getFighter(player: player).ability.name == Abilities.lastWill.rawValue {
+            applyEffect = true
+        }
+        
         if player == 0 {
+            text = Localization.shared.getTranslation(key: "swapWith", params: [getFighter(player: player).name, leftFighters[target].name]) + "\n"
             currentLeftFighter = target
         } else {
+            text = Localization.shared.getTranslation(key: "swapWith", params: [getFighter(player: player).name, rightFighters[target].name]) + "\n"
             currentRightFighter = target
         }
+        
+        if applyEffect {
+            getFighter(player: player).applyEffect(effect: Effects.blessed.getEffect())
+        }
+                                                                                
+        return text
+                                                                                
     }
     
     func undoMove(player: Int) {

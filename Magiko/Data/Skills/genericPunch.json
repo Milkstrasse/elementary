@@ -4,7 +4,7 @@
   "uses": 10,
   "skills": [
       {
-          "power": 80,
+          "power": 800,
           "range": 1
       }
   ]

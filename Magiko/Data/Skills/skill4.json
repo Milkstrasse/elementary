@@ -10,7 +10,7 @@
       {
           "power": 0,
           "range": 1,
-          "effect": "enlightened"
+          "effect": "blocked"
       }
   ]
 }
