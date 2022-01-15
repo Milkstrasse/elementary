@@ -20,6 +20,10 @@ enum Abilities: String, CaseIterable {
     case weatherFrog
     case contrarian
     case coward
+    case retaliator
+    case enraged
+    case defensive
+    case lastWill
     
     func getAbility() -> Ability {
         return Ability(name: self.rawValue, description: self.rawValue + "Descr")

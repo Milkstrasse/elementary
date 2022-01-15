@@ -39,7 +39,7 @@ class Effect: Hashable {
     }
 }
 
-enum Effects: String {
+enum Effects: String, CaseIterable {
     case attackBoost
     case attackDrop
     case defenseBoost
@@ -104,6 +104,15 @@ enum Effects: String {
             case .alerted:
                 return Effect(name: self.rawValue, symbol: "20", duration: 3, positive: true)
         }
+    }
+    
+    static func getNegativeEffect() -> Effect {
+        var effect: Effect = Effects.allCases[0].getEffect()
+        while effect.positive {
+            effect = Effects.allCases[Int.random(in: 0 ..< Effects.allCases.count)].getEffect()
+        }
+        
+        return effect
     }
 }
 

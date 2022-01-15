@@ -51,11 +51,17 @@ class Fighter: Hashable {
     
     func getModifiedBase() -> Base {
         let health: Int = max(base.health + loadout.healthMod, 0)
-        let attack: Int = max(base.attack + attackMod + loadout.attackMod, 0)
-        let defense: Int = max(base.defense + defenseMod + loadout.defenseMod, 0)
+        var attack: Int = max(base.attack + attackMod + loadout.attackMod, 0)
+        var defense: Int = max(base.defense + defenseMod + loadout.defenseMod, 0)
         let agility: Int = max(base.agility + agilityMod + loadout.agilityMod, 0)
         let precision: Int = max(base.precision + precisionMod + loadout.precisionMod, 0)
         let stamina: Int = max(base.stamina + loadout.staminaMod, 0)
+        
+        if ability.name == Abilities.enraged.rawValue && currhp < health/4 {
+            attack += 40
+        } else if ability.name == Abilities.defensive.rawValue && currhp < health/4 {
+            defense += 40
+        }
         
         return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, stamina: stamina)
     }

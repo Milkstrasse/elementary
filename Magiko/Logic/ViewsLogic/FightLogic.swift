@@ -263,14 +263,19 @@ class FightLogic: ObservableObject {
                 return
             }
             
-            if player == 0 {
-                battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, leftFighters[usedMoves[player][0].target].name]) + "\n"
-                
-                swapFighters(player: player, target: usedMoves[player][0].target)
-            } else {
-                battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, rightFighters[usedMoves[player][0].target].name]) + "\n"
-                
-                swapFighters(player: player, target: usedMoves[player][0].target)
+            battleLog += Localization.shared.getTranslation(key: "swapWith", params: [attacker.name, leftFighters[usedMoves[player][0].target].name]) + "\n"
+            
+            var addEffect: Bool = false
+            if attacker.ability.name == Abilities.lastWill.rawValue {
+                addEffect = true
+            }
+            
+            swapFighters(player: player, target: usedMoves[player][0].target)
+            
+            if addEffect {
+                if getFighter(player: player).applyEffect(effect: Effects.blessed.getEffect()) {
+                    battleLog += Localization.shared.getTranslation(key: "becameEffect", params: [getFighter(player: player).name, Effects.blessed.rawValue]) + "\n"
+                }
             }
         } else {
             battleLog += TurnLogic.shared.startTurn(player: player, fightLogic: self)
@@ -279,6 +284,7 @@ class FightLogic: ObservableObject {
     
     func swapFighters(player: Int, target: Int) {
         hasToSwitch[player] = false
+        
         if player == 0 {
             currentLeftFighter = target
         } else {

@@ -19,7 +19,24 @@ class TurnLogic {
         let attacker: Fighter = fightLogic.getFighter(player: player)
         
         if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.enlightened.rawValue) {
-            battleLog += attacker.name + " fainted.\n"
+            if attacker.ability.name == Abilities.retaliator.rawValue {
+                if player == 0 {
+                    if fightLogic.getFighter(player: 1).applyEffect(effect: Effects.getNegativeEffect()) {
+                        battleLog += attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 1).name + ".\n"
+                    } else {
+                        battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                    }
+                } else {
+                    if fightLogic.getFighter(player: 0).applyEffect(effect: Effects.blocked.getEffect()) {
+                        battleLog += attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 0).name + ".\n"
+                    } else {
+                        battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                    }
+                }
+            } else {
+                battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+            }
+            
             fightLogic.hasToSwitch[player] = true
             
             return battleLog

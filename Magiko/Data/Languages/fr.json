@@ -35,13 +35,5 @@
     "healFailed": "La guérison a échoué.",
     "namePerished": "{0} a péri.",
     "freeSpiritDescr": "Le combattant ne peut pas être **enchaîné**",
-    "scepticDescr": "Fighter can’t be **cursed**.",
-    "immuneDescr": "Fighter can’t be **poisoned**.",
-    "rebelliousDescr": "Fighter can’t be **locked**.",
-    "confidentDescr": "Fighter can’t be **confused**.",
-    "etherealDescr": "Removes fighter’s **element**.",
-    "weatherFrogDescr": "**Extends** weather skills.",
-    "contrarianDescr": "**Inverts** certain received effects.",
-    "cowardDescr": "**Switches** out when hit.",
     "skill1Descr": "Description traduite"
 }
