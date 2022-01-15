@@ -49,7 +49,7 @@ class FightLogic: ObservableObject {
         } else if move.target > -1 {
             if player == 0 && leftFighters[move.target].currhp == 0 {
                 return false
-            } else if rightFighters[move.target].currhp == 0 {
+            } else if player == 1 && rightFighters[move.target].currhp == 0 {
                 return false
             }
         }
@@ -117,14 +117,6 @@ class FightLogic: ObservableObject {
             }
             
             if getFasterPlayer() == 0 {
-                if usedMoves[1][0].skill.skills.count > 0 {
-                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 1, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 1, index: 0), at: 0)
-                }
-                
                 if usedMoves[0][0].skill.skills.count > 0 {
                     for index in usedMoves[0][0].skill.skills.indices.reversed() {
                         playerStack.insert((player: 0, index: index), at: 0)
@@ -133,14 +125,6 @@ class FightLogic: ObservableObject {
                     playerStack.insert((player: 0, index: 0), at: 0)
                 }
             } else {
-                if usedMoves[0][0].skill.skills.count > 0 {
-                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 0, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 0, index: 0), at: 0)
-                }
-                
                 if usedMoves[1][0].skill.skills.count > 0 {
                     for index in usedMoves[1][0].skill.skills.indices.reversed() {
                         playerStack.insert((player: 1, index: index), at: 0)
@@ -153,7 +137,9 @@ class FightLogic: ObservableObject {
             var endRound: Bool = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
+                let firstTurns: Int = playerStack.count
                 var turns: Int = 0
+                
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                     let currentPlayer: Int = playerStack[0].player;
                     turns += 1
@@ -165,41 +151,8 @@ class FightLogic: ObservableObject {
                     processTurn(player: currentPlayer)
                     playerStack.removeFirst()
                     
-                    if turns > 1 && playerStack.isEmpty {
-                        if currentPlayer == 0 && getFighter(player: 1).currhp == 0 {
-                            playerStack.insert((player: 1, index: 0), at: 0)
-                        } else if currentPlayer == 1 && getFighter(player: 0).currhp == 0 {
-                            playerStack.insert((player: 0, index: 0), at: 0)
-                        }
-                    } else if getFighter(player: currentPlayer).currhp == 0 {
-                        playerStack.removeFirst() //TODO does it really work?
-                    }
-                    
                     if playerStack.isEmpty && !endRound {
-                        if getFighter(player: 1).effects.count > 0 {
-                            for index in getFighter(player: 1).effects.indices {
-                                let effect: Effect = getFighter(player: 1).effects[index]
-                                
-                                if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                                    playerStack.insert((player: 1, index: -1 - index), at: 0)
-                                } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                                    playerStack.insert((player: 1, index: -1 - index), at: 0)
-                                }
-                            }
-                        }
-                        if getFighter(player: 0).effects.count > 0 {
-                            for index in getFighter(player: 0).effects.indices {
-                                let effect: Effect = getFighter(player: 0).effects[index]
-                                
-                                if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                                    playerStack.insert((player: 0, index: -1 - index), at: 0)
-                                } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                                    playerStack.insert((player: 0, index: -1 - index), at: 0)
-                                }
-                            }
-                        }
-                        
-                        endRound = true
+                        endRound = addTurns(currentPlayer: currentPlayer, turns: turns, firstTurns: firstTurns)
                     }
                     
                     if playerStack.isEmpty {
@@ -220,6 +173,124 @@ class FightLogic: ObservableObject {
             //playerTurn of fasterPlayer
             //playerTurn of other player
             //some status effects
+        }
+        
+        return true
+    }
+    
+    func addTurns(currentPlayer: Int, turns: Int, firstTurns: Int) -> Bool {
+        if getFighter(player: 1).currhp == 0 {
+            playerStack.insert((player: 1, index: 0), at: 0)
+            
+            if getFighter(player: 0).currhp == 0 {
+                playerStack.insert((player: 0, index: 0), at: 0)
+                return true
+            }
+            
+            if currentPlayer == 0 {
+                if getFighter(player: 0).effects.count > 0 {
+                    for index in getFighter(player: 0).effects.indices {
+                        let effect: Effect = getFighter(player: 0).effects[index]
+                        
+                        if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
+                            playerStack.insert((player: 0, index: -1 - index), at: 0)
+                        } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
+                            playerStack.insert((player: 0, index: -1 - index), at: 0)
+                        }
+                    }
+                }
+            } else {
+                if turns == firstTurns {
+                    if usedMoves[0][0].skill.skills.count > 0 {
+                        for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                            playerStack.insert((player: 0, index: index), at: 0)
+                        }
+                    } else {
+                        playerStack.insert((player: 0, index: 0), at: 0)
+                    }
+                } else {
+                    if getFighter(player: 0).effects.count > 0 {
+                        for index in getFighter(player: 0).effects.indices {
+                            let effect: Effect = getFighter(player: 0).effects[index]
+                            
+                            if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
+                                playerStack.insert((player: 0, index: -1 - index), at: 0)
+                            } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
+                                playerStack.insert((player: 0, index: -1 - index), at: 0)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return true
+        } else if getFighter(player: 0).currhp == 0 {
+            playerStack.insert((player: 0, index: 0), at: 0)
+            
+            if getFighter(player: 1).currhp == 0 {
+                playerStack.insert((player: 1, index: 0), at: 0)
+                return true
+            }
+            
+            if currentPlayer == 1 {
+                if getFighter(player: 1).effects.count > 0 {
+                    for index in getFighter(player: 1).effects.indices {
+                        let effect: Effect = getFighter(player: 1).effects[index]
+                        
+                        if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
+                            playerStack.insert((player: 1, index: -1 - index), at: 0)
+                        } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
+                            playerStack.insert((player: 1, index: -1 - index), at: 0)
+                        }
+                    }
+                }
+            } else {
+                if turns == firstTurns {
+                    if usedMoves[1][0].skill.skills.count > 0 {
+                        for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                            playerStack.insert((player: 1, index: index), at: 0)
+                        }
+                    } else {
+                        playerStack.insert((player: 1, index: 0), at: 0)
+                    }
+                } else {
+                    if getFighter(player: 1).effects.count > 0 {
+                        for index in getFighter(player: 1).effects.indices {
+                            let effect: Effect = getFighter(player: 1).effects[index]
+                            
+                            if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
+                                playerStack.insert((player: 1, index: -1 - index), at: 0)
+                            } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
+                                playerStack.insert((player: 1, index: -1 - index), at: 0)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return true
+        }
+        
+        if turns == firstTurns {
+            if currentPlayer == 0 {
+                if usedMoves[1][0].skill.skills.count > 0 {
+                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 1, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 1, index: 0), at: 0)
+                }
+            } else {
+                if usedMoves[0][0].skill.skills.count > 0 {
+                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
+                        playerStack.insert((player: 0, index: index), at: 0)
+                    }
+                } else {
+                    playerStack.insert((player: 0, index: 0), at: 0)
+                }
+            }
+            
+            return false
         }
         
         return true

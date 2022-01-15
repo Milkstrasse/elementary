@@ -1,0 +1,15 @@
+{
+  "name": "Recoil Punch",
+  "element": "Aether",
+  "uses": 10,
+  "skills": [
+      {
+          "power": 120,
+          "range": 1
+      },
+      {
+          "power": 20,
+          "range": 0
+      }
+  ]
+}

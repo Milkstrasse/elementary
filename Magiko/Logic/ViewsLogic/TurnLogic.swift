@@ -133,9 +133,17 @@ class TurnLogic {
             let text: String
             
             if player == 0 {
-                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
+                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                } else {
+                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                }
             } else {
-                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
+                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                } else {
+                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
+                }
             }
             
             if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && isAbleToSwitch(player: player) {

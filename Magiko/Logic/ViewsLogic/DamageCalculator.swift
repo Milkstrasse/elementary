@@ -11,6 +11,10 @@ struct DamageCalculator {
     static let shared: DamageCalculator = DamageCalculator()
     
     func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> String {
+        if defender.currhp == 0 {
+            return Localization.shared.getTranslation(key: "fail") + "\n"
+        }
+        
         var text: String = ""
         
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()

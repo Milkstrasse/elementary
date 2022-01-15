@@ -1,0 +1,11 @@
+{
+  "name": "Generic Punch",
+  "element": "Aether",
+  "uses": 10,
+  "skills": [
+      {
+          "power": 80,
+          "range": 1
+      }
+  ]
+}

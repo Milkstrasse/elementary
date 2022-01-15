@@ -1,0 +1,16 @@
+{
+  "name": "Boosted Punch",
+  "element": "Aether",
+  "uses": 10,
+  "skills": [
+      {
+          "power": 60,
+          "range": 1
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "effect": "attackBoost"
+      }
+  ]
+}
