@@ -2,9 +2,9 @@
     "name": "Water",
     "color": "#9FBFCF",
     "strengths": [
-        "Fire"
+        "fire"
     ],
     "weaknesses": [
-        "Plant"
+        "plant"
     ]
 }

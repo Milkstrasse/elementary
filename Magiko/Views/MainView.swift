@@ -27,7 +27,10 @@ struct MainView: View {
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button(Localization.shared.getTranslation(key: "training")) {
-                        print("Button pressed!")
+                        transitionToggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
+                        }
                     }
                     .buttonStyle(GrowingButton(width: 135))
                     Button("O") {

@@ -29,7 +29,8 @@ class GlobalData {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    let elementData = try JSONDecoder().decode(Element.self, from: data)
+                    var elementData = try JSONDecoder().decode(Element.self, from: data)
+                    elementData.name = url.deletingPathExtension().lastPathComponent
                     
                     elements[elementData.name] = elementData
                     elementArray.append(elementData)
@@ -65,7 +66,8 @@ class GlobalData {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    let fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    fighterData.name = url.deletingPathExtension().lastPathComponent
                     
                     fighters.append(Fighter(data: fighterData))
                 }
@@ -82,7 +84,8 @@ class GlobalData {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    let loadoutData = try JSONDecoder().decode(Loadout.self, from: data)
+                    var loadoutData = try JSONDecoder().decode(Loadout.self, from: data)
+                    loadoutData.name = url.deletingPathExtension().lastPathComponent
                     
                     loadouts.append(loadoutData)
                 }

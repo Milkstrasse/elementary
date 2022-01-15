@@ -227,11 +227,33 @@ class Fighter: Hashable {
 }
 
 struct FighterData: Decodable {
-    let name: String
+    var name: String
     let element: String
     let skills: [String]
     
     let base: Base
+    
+    enum CodingKeys: String, CodingKey {
+        case element, skills, base
+    }
+    
+    init(name: String, element: String, skills: [String], base: Base) {
+        self.name = name
+        self.element = element
+        self.skills = skills
+        
+        self.base = base
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        name = "unknownFighter"
+        element = try container.decode(String.self, forKey: .element)
+        skills = try container.decode([String].self, forKey: .skills)
+        
+        base = try container.decode(Base.self, forKey: .base)
+    }
 }
 
 struct Base: Decodable {
@@ -244,7 +266,7 @@ struct Base: Decodable {
 }
 
 struct Loadout: Decodable {
-    let name: String
+    var name: String
     
     let healthMod: Int
     let attackMod: Int
@@ -253,8 +275,12 @@ struct Loadout: Decodable {
     let precisionMod: Int
     let staminaMod: Int
     
+    enum CodingKeys: String, CodingKey {
+        case healthMod, attackMod, defenseMod, agilityMod, precisionMod, staminaMod
+    }
+    
     init() {
-        name = "Neutral"
+        name = "neutral"
         
         healthMod = 0
         attackMod = 0
@@ -262,5 +288,18 @@ struct Loadout: Decodable {
         agilityMod = 0
         precisionMod = 0
         staminaMod = 0
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        name = "unknownElement"
+        
+        healthMod = try container.decode(Int.self, forKey: .healthMod)
+        attackMod = try container.decode(Int.self, forKey: .attackMod)
+        defenseMod = try container.decode(Int.self, forKey: .defenseMod)
+        agilityMod = try container.decode(Int.self, forKey: .agilityMod)
+        precisionMod = try container.decode(Int.self, forKey: .precisionMod)
+        staminaMod = try container.decode(Int.self, forKey: .staminaMod)
     }
 }

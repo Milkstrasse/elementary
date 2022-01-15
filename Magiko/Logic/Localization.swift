@@ -15,7 +15,7 @@ class Localization {
     var currentLang: String = ""
     
     func getLanguages() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Languages") {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Languages") {
             for url in urls {
                 languages.append(url.deletingPathExtension().lastPathComponent)
             }

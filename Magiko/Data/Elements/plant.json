@@ -1,10 +1,9 @@
 {
-    "name": "Plant",
     "color": "#9CC08D",
     "strengths": [
-        "Water"
+        "water"
     ],
     "weaknesses": [
-        "Fire"
+        "fire"
     ]
 }

@@ -8,6 +8,8 @@
 import Foundation
 
 class FightLogic: ObservableObject {
+    let hasCPUPlayer: Bool
+    
     @Published var currentLeftFighter: Int = 0
     @Published var currentRightFighter: Int = 0
     var hasToSwitch: [Bool] = [false, false]
@@ -26,7 +28,9 @@ class FightLogic: ObservableObject {
     
     @Published var weather: Effect?
     
-    init(leftFighters: [Fighter], rightFighters: [Fighter]) {
+    init(leftFighters: [Fighter], rightFighters: [Fighter], hasCPUPlayer: Bool = false) {
+        self.hasCPUPlayer = hasCPUPlayer
+        
         self.leftFighters = leftFighters
         self.rightFighters = rightFighters
     }
@@ -44,6 +48,16 @@ class FightLogic: ObservableObject {
     }
     
     func makeMove(player: Int, move: Move) -> Bool {
+        if hasCPUPlayer {
+            if hasToSwitch[0] {
+                swapFighters(player: 0, target: currentLeftFighter + 1)
+            }
+            
+            let rndmMove: Move = Move(source: getFighter(player: 0), target: -1, skill: getFighter(player: 0).skills[0])
+            
+            usedMoves[0].insert(rndmMove, at: 0)
+        }
+        
         if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.getUses(fighter: getFighter(player: player)) {
             return false
         } else if move.target > -1 {
@@ -83,7 +97,7 @@ class FightLogic: ObservableObject {
             usedMoves[player].insert(move, at: 0)
         }
         
-        if gameLogic.areBothReady() {
+        if gameLogic.areBothReady() || hasCPUPlayer {
             battling = true
             battleLog = "Loading..."
             

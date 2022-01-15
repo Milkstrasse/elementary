@@ -23,7 +23,7 @@ struct Skill: Decodable, Hashable {
     
     init() {
         name = "unknownSkill"
-        element = "Aether"
+        element = "aether"
         
         type = "default"
         

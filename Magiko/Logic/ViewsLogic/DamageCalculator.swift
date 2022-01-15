@@ -32,7 +32,7 @@ struct DamageCalculator {
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < attacker.getModifiedBase().precision/6 {
                 dmg *= 1.5
-                text = Localization.shared.getTranslation(key: "criticalHit")
+                text = "\n" + Localization.shared.getTranslation(key: "criticalHit")
             }
         }
         
@@ -75,31 +75,31 @@ struct DamageCalculator {
     func getWeatherModifier(weather: Effect, skillElement: String) -> Float {
         switch weather.name {
             case WeatherEffects.sandstorm.rawValue:
-                if skillElement == "Wind" || skillElement == "Rock" {
+                if skillElement == "wind" || skillElement == "rock" {
                     return 1.5
                 }
             case WeatherEffects.thunderstorm.rawValue:
-                if skillElement == "Water" || skillElement == "Electric" {
+                if skillElement == "water" || skillElement == "electric" {
                     return 1.5
                 }
             case WeatherEffects.sunnyDay.rawValue:
-                if skillElement == "Plant" || skillElement == "Fire" {
+                if skillElement == "plant" || skillElement == "fire" {
                     return 1.5
                 }
             case WeatherEffects.smog.rawValue:
-                if skillElement == "Metal" || skillElement == "Wind" {
+                if skillElement == "metal" || skillElement == "wind" {
                     return 1.5
                 }
             case WeatherEffects.mysticWeather.rawValue:
-                if skillElement == "Metal" || skillElement == "Electric" {
+                if skillElement == "metal" || skillElement == "electric" {
                     return 1.5
                 }
             case WeatherEffects.lightRain.rawValue:
-                if skillElement == "Water" || skillElement == "Plant" {
+                if skillElement == "water" || skillElement == "plant" {
                     return 1.5
                 }
             case WeatherEffects.drought.rawValue:
-                if skillElement == "Rock" || skillElement == "Fire" {
+                if skillElement == "rock" || skillElement == "fire" {
                     return 1.5
                 }
             default:
