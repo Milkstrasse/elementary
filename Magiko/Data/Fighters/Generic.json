@@ -13,6 +13,8 @@
       "genericPunch",
       "recoilPunch",
       "healingSpell",
-      "boostedPunch"
+      "boostedPunch",
+      "protectSpell",
+      "poisonSpell"
   ]
 }

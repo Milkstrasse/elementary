@@ -60,14 +60,14 @@ class TurnLogic {
                     battleLog += Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
                     fightLogic.hasToSwitch[player] = true
                 }
-            } else if abs(damage) >= (attacker.getModifiedBase().health - attacker.currhp) {
-                attacker.currhp = attacker.getModifiedBase().health
-                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             } else if damage > 0 {
                 attacker.currhp -= damage
                 battleLog += Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
+            } else if damage < attacker.getModifiedBase().health - attacker.currhp {
+                attacker.currhp = attacker.getModifiedBase().health
+                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             } else {
-                attacker.currhp += abs(damage)
+                attacker.currhp -= damage
                 battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
             
@@ -79,7 +79,7 @@ class TurnLogic {
             var text: String = "\n"
         
             if usedMoves.count > 1 && usedMoves[0].skill.name == usedMoves[1].skill.name {
-                text = Localization.shared.getTranslation(key: "fail") + "\n"
+                text = "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
             }
             
             battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, usedMoves[0].skill.name]) + " " + text
@@ -104,7 +104,7 @@ class TurnLogic {
                                 battleLog += Localization.shared.getTranslation(key: "fail") + "\n"
                             }
                         } else {
-                            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name, skill.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
+                            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
                         }
                         
                         return battleLog
@@ -120,7 +120,7 @@ class TurnLogic {
                                 battleLog += Localization.shared.getTranslation(key: "fail") + "\n"
                             }
                         } else {
-                            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.rightFighters[fightLogic!.currentRightFighter].name, skill.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
+                            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.rightFighters[fightLogic!.currentRightFighter].name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
                         }
                         
                         return battleLog

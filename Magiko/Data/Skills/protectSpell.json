@@ -1,0 +1,12 @@
+{
+  "name": "Protect Spell",
+  "element": "Aether",
+  "type": "shield",
+  "uses": 10,
+  "skills": [
+      {
+          "power": 0,
+          "range": 0
+      }
+  ]
+}

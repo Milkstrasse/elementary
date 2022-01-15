@@ -80,7 +80,7 @@ enum Effects: String, CaseIterable {
             case .precisionDrop:
                 return Effect(name: self.rawValue, symbol: "8", duration: 3, positive: false, opposite: .precisionBoost)
             case .poisoned:
-                return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageAmount: 50)
+                return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageAmount: 10)
             case .healed:
                 return Effect(name: self.rawValue, symbol: "10", duration: 3, positive: true, damageAmount: -10)
             case .confused:

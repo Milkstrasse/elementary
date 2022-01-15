@@ -116,23 +116,7 @@ class FightLogic: ObservableObject {
                 }
             }
             
-            if getFasterPlayer() == 0 {
-                if usedMoves[0][0].skill.skills.count > 0 {
-                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 0, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 0, index: 0), at: 0)
-                }
-            } else {
-                if usedMoves[1][0].skill.skills.count > 0 {
-                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 1, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 1, index: 0), at: 0)
-                }
-            }
+            addMoves(player: getFasterPlayer())
             
             var endRound: Bool = false
             
@@ -188,38 +172,12 @@ class FightLogic: ObservableObject {
             }
             
             if currentPlayer == 0 {
-                if getFighter(player: 0).effects.count > 0 {
-                    for index in getFighter(player: 0).effects.indices {
-                        let effect: Effect = getFighter(player: 0).effects[index]
-                        
-                        if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                            playerStack.insert((player: 0, index: -1 - index), at: 0)
-                        } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                            playerStack.insert((player: 0, index: -1 - index), at: 0)
-                        }
-                    }
-                }
+                addEffects(player: 0)
             } else {
                 if turns == firstTurns {
-                    if usedMoves[0][0].skill.skills.count > 0 {
-                        for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                            playerStack.insert((player: 0, index: index), at: 0)
-                        }
-                    } else {
-                        playerStack.insert((player: 0, index: 0), at: 0)
-                    }
+                    addMoves(player: 0)
                 } else {
-                    if getFighter(player: 0).effects.count > 0 {
-                        for index in getFighter(player: 0).effects.indices {
-                            let effect: Effect = getFighter(player: 0).effects[index]
-                            
-                            if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                                playerStack.insert((player: 0, index: -1 - index), at: 0)
-                            } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                                playerStack.insert((player: 0, index: -1 - index), at: 0)
-                            }
-                        }
-                    }
+                    addEffects(player: 0)
                 }
             }
             
@@ -233,38 +191,12 @@ class FightLogic: ObservableObject {
             }
             
             if currentPlayer == 1 {
-                if getFighter(player: 1).effects.count > 0 {
-                    for index in getFighter(player: 1).effects.indices {
-                        let effect: Effect = getFighter(player: 1).effects[index]
-                        
-                        if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                            playerStack.insert((player: 1, index: -1 - index), at: 0)
-                        } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                            playerStack.insert((player: 1, index: -1 - index), at: 0)
-                        }
-                    }
-                }
+                addEffects(player: 1)
             } else {
                 if turns == firstTurns {
-                    if usedMoves[1][0].skill.skills.count > 0 {
-                        for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                            playerStack.insert((player: 1, index: index), at: 0)
-                        }
-                    } else {
-                        playerStack.insert((player: 1, index: 0), at: 0)
-                    }
+                    addMoves(player: 1)
                 } else {
-                    if getFighter(player: 1).effects.count > 0 {
-                        for index in getFighter(player: 1).effects.indices {
-                            let effect: Effect = getFighter(player: 1).effects[index]
-                            
-                            if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
-                                playerStack.insert((player: 1, index: -1 - index), at: 0)
-                            } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
-                                playerStack.insert((player: 1, index: -1 - index), at: 0)
-                            }
-                        }
-                    }
+                    addEffects(player: 1)
                 }
             }
             
@@ -273,27 +205,42 @@ class FightLogic: ObservableObject {
         
         if turns == firstTurns {
             if currentPlayer == 0 {
-                if usedMoves[1][0].skill.skills.count > 0 {
-                    for index in usedMoves[1][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 1, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 1, index: 0), at: 0)
-                }
+                addMoves(player: 1)
             } else {
-                if usedMoves[0][0].skill.skills.count > 0 {
-                    for index in usedMoves[0][0].skill.skills.indices.reversed() {
-                        playerStack.insert((player: 0, index: index), at: 0)
-                    }
-                } else {
-                    playerStack.insert((player: 0, index: 0), at: 0)
-                }
+                addMoves(player: 0)
             }
             
             return false
+        } else {
+            addEffects(player: 0)
+            addEffects(player: 1)
         }
         
         return true
+    }
+    
+    func addMoves(player: Int) {
+        if usedMoves[player][0].skill.skills.count > 0 {
+            for index in usedMoves[player][0].skill.skills.indices.reversed() {
+                playerStack.insert((player: player, index: index), at: 0)
+            }
+        } else {
+            playerStack.insert((player: player, index: 0), at: 0)
+        }
+    }
+    
+    func addEffects(player: Int) {
+        if getFighter(player: player).effects.count > 0 {
+            for index in getFighter(player: player).effects.indices {
+                let effect: Effect = getFighter(player: player).effects[index]
+                
+                if effect.damageAmount != 0 && effect.name != Effects.bombed.rawValue {
+                    playerStack.insert((player: player, index: -1 - index), at: 0)
+                } else if effect.name == Effects.bombed.rawValue && effect.duration == 1 {
+                    playerStack.insert((player: player, index: -1 - index), at: 0)
+                }
+            }
+        }
     }
     
     func getFasterPlayer() -> Int {
