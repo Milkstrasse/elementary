@@ -1,6 +1,6 @@
 {
   "name": "Healing Spell",
-  "element": "Aether",
+  "element": "Water",
   "uses": 10,
   "skills": [
       {

@@ -1,10 +1,10 @@
 {
   "name": "Generic Punch",
-  "element": "Aether",
+  "element": "Water",
   "uses": 10,
   "skills": [
       {
-          "power": 800,
+          "power": 80,
           "range": 1
       }
   ]
