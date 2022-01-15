@@ -10,6 +10,7 @@
       "stamina": 100
   },
   "skills": [
+      "skill4",
       "genericPunch",
       "recoilPunch",
       "healingSpell",

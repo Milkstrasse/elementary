@@ -137,21 +137,21 @@ class Fighter: Hashable {
             
             switch effect.name {
                 case Effects.attackBoost.rawValue:
-                    attackMod += 40
+                    attackMod += 20
                 case Effects.attackDrop.rawValue:
-                    attackMod -= 40
+                    attackMod -= 20
                 case Effects.defenseBoost.rawValue:
-                    defenseMod += 40
+                    defenseMod += 20
                 case Effects.defenseDrop.rawValue:
-                    defenseMod -= 40
+                    defenseMod -= 20
                 case Effects.agilityBoost.rawValue:
-                    agilityMod += 40
+                    agilityMod += 20
                 case Effects.agilityDrop.rawValue:
-                    agilityMod -= 40
+                    agilityMod -= 20
                 case Effects.precisionBoost.rawValue:
-                    precisionMod += 40
+                    precisionMod += 20
                 case Effects.precisionDrop.rawValue:
-                    precisionMod -= 40
+                    precisionMod -= 20
                 case Effects.invigorated.rawValue:
                     staminaUse = 1
                 case Effects.exhausted.rawValue:
@@ -171,21 +171,21 @@ class Fighter: Hashable {
         
         switch effect.name {
             case Effects.attackBoost.rawValue:
-                attackMod -= 40
+                attackMod -= 20
             case Effects.attackDrop.rawValue:
-                attackMod += 40
+                attackMod += 20
             case Effects.defenseBoost.rawValue:
-                defenseMod -= 40
+                defenseMod -= 20
             case Effects.defenseDrop.rawValue:
-                defenseMod += 40
+                defenseMod += 20
             case Effects.agilityBoost.rawValue:
-                agilityMod -= 40
+                agilityMod -= 20
             case Effects.agilityDrop.rawValue:
-                agilityMod += 40
+                agilityMod += 20
             case Effects.precisionBoost.rawValue:
-                precisionMod -= 40
+                precisionMod -= 20
             case Effects.precisionDrop.rawValue:
-                precisionMod += 40
+                precisionMod += 20
             case Effects.invigorated.rawValue:
                 staminaUse = 2
             case Effects.exhausted.rawValue:
@@ -210,6 +210,11 @@ class Fighter: Hashable {
         for index in skills.indices {
             skills[index].useCounter = 0
         }
+    }
+    
+    func revive() {
+        reset()
+        currhp = getModifiedBase().health/2
     }
     
     func hash(into hasher: inout Hasher) {

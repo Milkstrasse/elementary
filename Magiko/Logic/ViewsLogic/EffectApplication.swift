@@ -8,7 +8,7 @@
 struct EffectApplication {
     static let shared: EffectApplication = EffectApplication()
     
-    func applyEffect(attacker: Fighter, defender: Fighter, skill: SubSkill, skillName: String?) -> String {
+    func applyEffect(attacker: Fighter, defender: Fighter, skill: SubSkill, skillName: String) -> String {
         var text: String = ""
         
         if skill.range == 0 {
@@ -17,11 +17,7 @@ struct EffectApplication {
             text = applyStats(attacker: attacker, target: defender, skill: skill)
         }
         
-        if skillName != nil {
-            text = Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, skillName!]) + "\n" + text
-        }
-        
-        return text
+        return Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, skillName]) + "\n" + text
     }
     
     func applyStats(attacker: Fighter, target: Fighter, skill: SubSkill) -> String {
