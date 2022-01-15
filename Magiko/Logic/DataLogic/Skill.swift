@@ -8,41 +8,38 @@
 import Foundation
 
 struct Skill: Decodable, Hashable {
-    let name: String
+    var name: String
     let element: String
     
     let type: String
     
     let uses: Int
     var useCounter: Int = 0
-    
     let skills: [SubSkill]
     
     enum CodingKeys: String, CodingKey {
-        case name, element, type, uses, skills
+        case element, type, uses, skills
     }
     
     init() {
-        name = "Unknown Skill"
+        name = "unknownSkill"
         element = "Aether"
         
         type = "default"
         
         uses = 10
-        
         skills = []
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        name = try container.decode(String.self, forKey: .name)
+        name = "unknownSkill"
         element = try container.decode(String.self, forKey: .element)
         
         type = try container.decodeIfPresent(String.self, forKey: .type) ?? "default"
         
         uses = try container.decode(Int.self, forKey: .uses)
-        
         skills = try container.decode([SubSkill].self, forKey: .skills)
     }
     

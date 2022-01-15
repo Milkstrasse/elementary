@@ -53,20 +53,13 @@ struct DetailedSkillView: View {
     
     var width: CGFloat?
     
-    func getTranslationKey() -> String {
-        var key: String = skill.name.lowercased()
-        key = key.replacingOccurrences(of: " ", with: "")
-        
-        return key + "Descr"
-    }
-    
     var body: some View {
         ZStack {
             BigBarView()
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name, bold: true)
-                    CustomText(key: getTranslationKey())
+                    CustomText(key: skill.name + "Descr")
                 }
                 .padding(.leading, 15)
                 Spacer()

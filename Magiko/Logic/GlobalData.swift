@@ -47,9 +47,10 @@ class GlobalData {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    let skillData = try JSONDecoder().decode(Skill.self, from: data)
+                    var skillData = try JSONDecoder().decode(Skill.self, from: data)
+                    skillData.name = url.deletingPathExtension().lastPathComponent
                     
-                    skills[url.deletingPathExtension().lastPathComponent] = skillData
+                    skills[skillData.name] = skillData
                 }
             } catch {
                 print("error: \(error)")
