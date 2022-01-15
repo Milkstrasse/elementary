@@ -47,7 +47,7 @@ struct Skill: Decodable, Hashable {
     }
     
     func getUses(fighter: Fighter) -> Int {
-        return uses + fighter.getModifiedBase().stamina/20
+        return uses + (fighter.getModifiedBase().stamina - 100)/10
     }
     
     func hash(into hasher: inout Hasher) {
