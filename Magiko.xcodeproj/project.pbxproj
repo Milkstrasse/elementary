@@ -49,6 +49,7 @@
 		B8CDEEC1279376710073F5B2 /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC0279376710073F5B2 /* TrainingView.swift */; };
 		B8CDEEC3279377110073F5B2 /* CPUTrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC2279377110073F5B2 /* CPUTrainingView.swift */; };
 		B8CDEEC527937CBE0073F5B2 /* TrainingOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */; };
+		B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC7279388890073F5B2 /* CPULogic.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -108,6 +109,7 @@
 		B8CDEEC0279376710073F5B2 /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
 		B8CDEEC2279377110073F5B2 /* CPUTrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUTrainingView.swift; sourceTree = "<group>"; };
 		B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingOverView.swift; sourceTree = "<group>"; };
+		B8CDEEC7279388890073F5B2 /* CPULogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPULogic.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -190,15 +192,14 @@
 		B80D7CD32783539000DEB25F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B8CDEEC62793877F0073F5B2 /* FightOver */,
 				B80D7D14278884AC00DEB25F /* Selection */,
 				B80D7D13278884A200DEB25F /* Fight */,
 				B80D7CCE2783508E00DEB25F /* MainView.swift */,
 				B80D7CDC27837A6400DEB25F /* OverviewView.swift */,
 				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
 				B80D7CD82783771D00DEB25F /* InfoView.swift */,
-				B80D7D02278707B600DEB25F /* FightOverView.swift */,
 				B80D7CEE2785C09B00DEB25F /* Views.swift */,
-				B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,8 +275,18 @@
 				B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */,
 				B852514E278CB15C00AD99BE /* EffectApplication.swift */,
 				B852515E279189D400AD99BE /* TurnLogic.swift */,
+				B8CDEEC7279388890073F5B2 /* CPULogic.swift */,
 			);
 			path = ViewsLogic;
+			sourceTree = "<group>";
+		};
+		B8CDEEC62793877F0073F5B2 /* FightOver */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7D02278707B600DEB25F /* FightOverView.swift */,
+				B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */,
+			);
+			path = FightOver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,6 +411,7 @@
 				B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */,
 				B80D7CD92783771D00DEB25F /* InfoView.swift in Sources */,
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
+				B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */,
 				B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */,
 				B8525159278EFF3900AD99BE /* Abilities.swift in Sources */,
 				B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */,

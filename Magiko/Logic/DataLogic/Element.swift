@@ -37,7 +37,7 @@ struct Element: Decodable {
         return strengths.contains(element.name)
     }
     
-    func hasDisdvantage(element: Element) -> Bool {
+    func hasDisadvantage(element: Element) -> Bool {
         return weaknesses.contains(element.name)
     }
 }

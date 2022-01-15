@@ -59,13 +59,13 @@ struct DamageCalculator {
         
         if attacker.element.hasAdvantage(element: defender.element) {
             modifier *= 2
-        } else if attacker.element.hasDisdvantage(element: defender.element) {
+        } else if attacker.element.hasDisadvantage(element: defender.element) {
             modifier *= 0.5
         }
         
         if skillElement.hasAdvantage(element: defender.element) {
             modifier *= 2
-        } else if skillElement.hasDisdvantage(element: defender.element) {
+        } else if skillElement.hasDisadvantage(element: defender.element) {
             modifier *= 0.5
         }
         

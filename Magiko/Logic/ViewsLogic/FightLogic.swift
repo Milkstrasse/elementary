@@ -50,12 +50,10 @@ class FightLogic: ObservableObject {
     func makeMove(player: Int, move: Move) -> Bool {
         if hasCPUPlayer {
             if hasToSwitch[0] {
-                swapFighters(player: 0, target: currentLeftFighter + 1)
+                swapFighters(player: 0, target: CPULogic.shared.getTarget(currentFighter: currentLeftFighter, fighters: leftFighters, enemyElement: getFighter(player: 1).element))
             }
             
-            let rndmMove: Move = Move(source: getFighter(player: 0), target: -1, skill: getFighter(player: 0).skills[0])
-            
-            usedMoves[0].insert(rndmMove, at: 0)
+            usedMoves[0].insert(CPULogic.shared.getMove(fighter: getFighter(player: 0), enemyElement: getFighter(player: 1).element), at: 0)
         }
         
         if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.getUses(fighter: getFighter(player: player)) {
