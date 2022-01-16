@@ -7,16 +7,26 @@
 
 import Foundation
 
+/// Calculates the amount of damage of an attack and deals it to the targeted fighter. The damage calculation considers different factors like the element of the fighter, the element of a skill and the current weather, there is also a chance of an additional bonus called critical hit.
 struct DamageCalculator {
     static let shared: DamageCalculator = DamageCalculator()
     
+    /// Calculates the amount of damage of an attack and deals it to the targeted fighter
+    /// - Parameters:
+    ///   - attacker: The fighter that attacks
+    ///   - defender: The fighter to be attacked
+    ///   - skill: The skill used to make the attack
+    ///   - skillElement: The element of the used skill
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> String {
-        if defender.currhp == 0 {
-            return Localization.shared.getTranslation(key: "fail") + "\n"
+        if defender.currhp == 0 { //target already fainted -> no target for skill
+            return "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
         var text: String = ""
         
+        //pure damage calculation
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
         let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
@@ -24,10 +34,12 @@ struct DamageCalculator {
         
         var dmg: Float = attack/defense
         
+        //multiply with elemental modifier
         if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
             dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
         }
         
+        //multiply with critical modifier
         if !defender.hasEffect(effectName: Effects.alerted.rawValue) {
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < attacker.getModifiedBase().precision/6 {
@@ -36,13 +48,14 @@ struct DamageCalculator {
             }
         }
         
+        //multiply with weather modifier
         if weather != nil {
             dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement)
         }
         
         let damage: Int = Int(round(dmg))
         
-        if damage >= defender.currhp {
+        if damage >= defender.currhp { //prevent hp below 0
             print(defender.name + " lost \(damage)DMG.\n")
             defender.currhp = 0
             
@@ -54,15 +67,23 @@ struct DamageCalculator {
         return text + "\n"
     }
     
+    /// Determines which elemental modifier the attack receives.
+    /// - Parameters:
+    ///   - - attacker: The fighter that attacks
+    ///   - defender: The fighter to be attacked
+    ///   - skillElement: The element of the used skill
+    /// - Returns: Returns the received modifier
     func getElementalModifier(attacker: Fighter, defender: Fighter, skillElement: Element) -> Float {
         var modifier: Float = 1
         
+        //elemental modifier of fighter
         if attacker.element.hasAdvantage(element: defender.element) {
             modifier *= 2
         } else if attacker.element.hasDisadvantage(element: defender.element) {
             modifier *= 0.5
         }
         
+        //elemental modifier of skill
         if skillElement.hasAdvantage(element: defender.element) {
             modifier *= 2
         } else if skillElement.hasDisadvantage(element: defender.element) {
@@ -72,6 +93,11 @@ struct DamageCalculator {
         return modifier
     }
     
+    /// Determines which weather modifier the attack receives.
+    /// - Parameters:
+    ///   - weather: The current weather of the fight
+    ///   - skillElement: The element of the used skill
+    /// - Returns: Returns the received modifier
     func getWeatherModifier(weather: Effect, skillElement: String) -> Float {
         switch weather.name {
             case WeatherEffects.sandstorm.rawValue:

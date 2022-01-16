@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// This is the main logic of the game. Stores all participating fighters, determines the turn order and the amount of turns needed in each round, swaps fighters , determines when the game is over and who has won.
 class FightLogic: ObservableObject {
     let hasCPUPlayer: Bool
     
