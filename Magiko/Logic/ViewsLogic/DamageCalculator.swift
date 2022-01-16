@@ -20,31 +20,37 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> String {
-        if defender.currhp == 0 { //target already fainted -> no target for skill
-            return "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
+        var text: String = "\n"
+        
+        //determine actual target
+        var target: Fighter = defender
+        if skill.range == 0 {
+            target = attacker
         }
         
-        var text: String = ""
+        if target.currhp == 0 { //target already fainted -> no target for skill
+            return "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
+        }
         
         //pure damage calculation
         let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
         
         let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
-        let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
+        let defense: Float = max(Float(target.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
         
         //multiply with elemental modifier
-        if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
+        if attacker.ability.name != Abilities.ethereal.rawValue && target.ability.name != Abilities.ethereal.rawValue {
+            dmg *= getElementalModifier(attacker: attacker, defender: target, skillElement: element)
         }
         
         //multiply with critical modifier
-        if !defender.hasEffect(effectName: Effects.alerted.rawValue) {
+        if !target.hasEffect(effectName: Effects.alerted.rawValue) {
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < attacker.getModifiedBase().precision/6 {
                 dmg *= 1.5
-                text = "\n" + Localization.shared.getTranslation(key: "criticalHit")
+                text = "\n" + Localization.shared.getTranslation(key: "criticalHit") + "\n"
             }
         }
         
@@ -55,16 +61,16 @@ struct DamageCalculator {
         
         let damage: Int = Int(round(dmg))
         
-        if damage >= defender.currhp { //prevent hp below 0
-            print(defender.name + " lost \(damage)DMG.\n")
-            defender.currhp = 0
+        if damage >= target.currhp { //prevent hp below 0
+            print(target.name + " lost \(damage)DMG.\n")
+            target.currhp = 0
             
-            return text + "\n"
+            return text
         }
         
-        print(defender.name + " lost \(damage)DMG.\n")
-        defender.currhp -= damage
-        return text + "\n"
+        print(target.name + " lost \(damage)DMG.\n")
+        target.currhp -= damage
+        return text
     }
     
     /// Determines which elemental modifier the attack receives.

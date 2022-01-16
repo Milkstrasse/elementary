@@ -93,8 +93,6 @@ class TurnLogic {
     }
     
     private func attack(player: Int, skill: Skill) -> String {
-        var battleLog: String = ""
-        
         var oppositePlayer: Int = 0
         if player == 0 {
             oppositePlayer = 1
@@ -103,43 +101,36 @@ class TurnLogic {
         if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
             if fightLogic!.usedMoves[oppositePlayer][0].skill.type == "shield" {
                 if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].skill.name != fightLogic!.usedMoves[oppositePlayer][1].skill.name {
-                    battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
-                    
-                    return battleLog
+                    return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
                 }
             }
         }
         
-        if skill.skills[fightLogic!.playerStack[0].index].power > 0 {
-            let text: String
-            
-            if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
-                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-            } else {
-                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: oppositePlayer), defender: fightLogic!.getFighter(player: player), skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-            }
+        let text: String
+        let usedSkill: SubSkill = skill.skills[fightLogic!.playerStack[0].index]
+        
+        if usedSkill.power > 0 {
+            text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill, skillElement: skill.element, weather: fightLogic!.weather)
             
             if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwap(player: player) {
                 fightLogic!.hasToSwap[player] = true
             }
             
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " " + text
-        } else if skill.skills[fightLogic!.playerStack[0].index].effect != nil {
-            battleLog += EffectApplication.shared.applyEffect(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index], skillName: skill.name)
-        } else if skill.skills[fightLogic!.playerStack[0].index].healAmount > 0 {
-            var text: String
+            return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " " + text
+        } else if usedSkill.effect != nil {
+            text = EffectApplication.shared.applyEffect(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill)
             
-            text = applyHealing(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index])
+            return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
+        } else if usedSkill.healAmount > 0 {
+            text = applyHealing(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill)
             
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
-        } else if skill.skills[fightLogic!.playerStack[0].index].weatherEffect != nil {
-            var text: String = ""
-            
+            return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
+        } else if usedSkill.weatherEffect != nil {
             if fightLogic!.weather == nil {
                 if fightLogic!.getFighter(player: player).ability.name == Abilities.weatherFrog.rawValue {
-                    fightLogic!.weather = WeatherEffects(rawValue: skill.skills[fightLogic!.playerStack[0].index].weatherEffect!)?.getEffect(duration: 5)
+                    fightLogic!.weather = WeatherEffects(rawValue: usedSkill.weatherEffect!)?.getEffect(duration: 5)
                 } else {
-                    fightLogic!.weather = WeatherEffects(rawValue: skill.skills[fightLogic!.playerStack[0].index].weatherEffect!)?.getEffect(duration: 3)
+                    fightLogic!.weather = WeatherEffects(rawValue: usedSkill.weatherEffect!)?.getEffect(duration: 3)
                 }
                 
                 if fightLogic!.weather != nil {
@@ -151,34 +142,30 @@ class TurnLogic {
                 text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
             }
             
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " \n" + text
+            return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " \n" + text
         } else {
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " It does nothing.\n"
+            return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " It does nothing.\n"
         }
-        
-        return battleLog
     }
     
     func applyHealing(attacker: Fighter, defender: Fighter, skill: SubSkill) -> String {
         var newHealth: Int
-        if skill.range == 0 && !attacker.hasEffect(effectName: Effects.blocked.rawValue) {
-            newHealth = attacker.getModifiedBase().health/(100/skill.healAmount)
-            if newHealth >= (attacker.getModifiedBase().health - attacker.currhp) {
-                attacker.currhp = attacker.getModifiedBase().health
+        
+        //determine actual target
+        var target: Fighter = defender
+        if skill.range == 0 {
+            target = attacker
+        }
+        
+        if !target.hasEffect(effectName: Effects.blocked.rawValue) {
+            newHealth = target.getModifiedBase().health/(100/skill.healAmount)
+            if newHealth >= (target.getModifiedBase().health - target.currhp) {
+                target.currhp = target.getModifiedBase().health
             } else {
-                attacker.currhp += newHealth
+                target.currhp += newHealth
             }
             
-            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
-        } else if !defender.hasEffect(effectName: Effects.blocked.rawValue) {
-            newHealth = defender.getModifiedBase().health/(100/skill.healAmount)
-            if newHealth >= (defender.getModifiedBase().health - defender.currhp) {
-                defender.currhp = defender.getModifiedBase().health
-            } else {
-                defender.currhp += newHealth
-            }
-            
-            return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name]) + "\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [target.name]) + "\n"
         }
         
         return Localization.shared.getTranslation(key: "healFailed") + "\n"
