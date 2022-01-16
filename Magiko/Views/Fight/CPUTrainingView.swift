@@ -80,7 +80,7 @@ struct CPUTrainingView: View {
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack(spacing: 5) {
-                                        ForEach(fightLogic.leftFighters.indices) { index in
+                                        ForEach(fightLogic.fighters[0].indices) { index in
                                             Circle().fill(Color.blue).frame(width: 12)
                                         }
                                     }

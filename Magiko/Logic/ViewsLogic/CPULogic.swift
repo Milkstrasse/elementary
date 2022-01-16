@@ -10,7 +10,9 @@ struct CPULogic {
     
     func getMove(fighter: Fighter, enemyElement: Element, weather: Effect?, isAbleToSwitch: Bool) -> Move? {
         if fighter.element.hasDisadvantage(element: enemyElement) && isAbleToSwitch {
-            return nil
+            if !fighter.hasEffect(effectName: Effects.chained.rawValue) {
+                return nil
+            }
         }
 
         if weather == nil || weather?.duration == 1 {

@@ -28,34 +28,17 @@ struct TeamView: View {
     
     var body: some View {
         HStack(spacing: 5) {
-            if player == 0 {
-                DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
-                ForEach(fightLogic.leftFighters.indices) { index in
-                    if index != fightLogic.currentLeftFighter {
-                        Button(action: {
-                            if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
-                                currentSection = .waiting
-                            } else {
-                                currentSection = .options
-                            }
-                        }) {
-                            DetailedActionView(title: fightLogic.leftFighters[index].name, description: generateDescription(fighter: fightLogic.leftFighters[index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+            DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+            ForEach(fightLogic.fighters[player].indices) { index in
+                if index != fightLogic.currentFighter[player] {
+                    Button(action: {
+                        if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
+                            currentSection = .waiting
+                        } else {
+                            currentSection = .options
                         }
-                    }
-                }
-            } else {
-                DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
-                ForEach(fightLogic.rightFighters.indices) { index in
-                    if index != fightLogic.currentRightFighter {
-                        Button(action: {
-                            if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
-                                currentSection = .waiting
-                            } else {
-                                currentSection = .options
-                            }
-                        }) {
-                            DetailedActionView(title: fightLogic.rightFighters[index].name, description: generateDescription(fighter: fightLogic.rightFighters[index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
-                        }
+                    }) {
+                        DetailedActionView(title: fightLogic.fighters[player][index].name, description: generateDescription(fighter: fightLogic.fighters[player][index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                     }
                 }
             }

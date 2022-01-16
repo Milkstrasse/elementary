@@ -37,7 +37,7 @@ class TurnLogic {
                 battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
             }
             
-            fightLogic.hasToSwitch[player] = true
+            fightLogic.hasToSwap[player] = true
             
             return battleLog
         } else if attacker.currhp == 0 {
@@ -60,7 +60,7 @@ class TurnLogic {
                 } else {
                     attacker.currhp = 0
                     battleLog += Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
-                    fightLogic.hasToSwitch[player] = true
+                    fightLogic.hasToSwap[player] = true
                 }
             } else if damage > 0 {
                 attacker.currhp -= damage
@@ -95,22 +95,17 @@ class TurnLogic {
     private func attack(player: Int, skill: Skill) -> String {
         var battleLog: String = ""
         
+        var oppositePlayer: Int = 0
+        if player == 0 {
+            oppositePlayer = 1
+        }
+        
         if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
-            if player == 0 {
-                if fightLogic!.usedMoves[1][0].skill.type == "shield" {
-                    if fightLogic!.usedMoves[1].count == 1 || fightLogic!.usedMoves[1][0].skill.name != fightLogic!.usedMoves[1][1].skill.name {
-                        battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.leftFighters[fightLogic!.currentLeftFighter].name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
-                        
-                        return battleLog
-                    }
-                }
-            } else {
-                if fightLogic!.usedMoves[0][0].skill.type == "shield" {
-                    if fightLogic!.usedMoves[0].count == 1 || fightLogic!.usedMoves[0][0].skill.name != fightLogic!.usedMoves[0][1].skill.name {
-                        battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.rightFighters[fightLogic!.currentRightFighter].name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
-                        
-                        return battleLog
-                    }
+            if fightLogic!.usedMoves[oppositePlayer][0].skill.type == "shield" {
+                if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].skill.name != fightLogic!.usedMoves[oppositePlayer][1].skill.name {
+                    battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
+                    
+                    return battleLog
                 }
             }
         }
@@ -118,39 +113,23 @@ class TurnLogic {
         if skill.skills[fightLogic!.playerStack[0].index].power > 0 {
             let text: String
             
-            if player == 0 {
-                if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
-                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-                } else {
-                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-                }
+            if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
+                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
             } else {
-                if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
-                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-                } else {
-                    text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
-                }
+                text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: oppositePlayer), defender: fightLogic!.getFighter(player: player), skill: skill.skills[fightLogic!.playerStack[0].index], skillElement: skill.element, weather: fightLogic!.weather)
             }
             
-            if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwitch(player: player) {
-                fightLogic!.hasToSwitch[player] = true
+            if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwap(player: player) {
+                fightLogic!.hasToSwap[player] = true
             }
             
             battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " " + text
         } else if skill.skills[fightLogic!.playerStack[0].index].effect != nil {
-            if player == 0 {
-                battleLog += EffectApplication.shared.applyEffect(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillName: skill.name)
-            } else {
-                battleLog += EffectApplication.shared.applyEffect(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index], skillName: skill.name)
-            }
+            battleLog += EffectApplication.shared.applyEffect(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index], skillName: skill.name)
         } else if skill.skills[fightLogic!.playerStack[0].index].healAmount > 0 {
             var text: String
             
-            if player == 0 {
-                text = applyHealing(attacker: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], defender: fightLogic!.rightFighters[fightLogic!.currentRightFighter], skill: skill.skills[fightLogic!.playerStack[0].index])
-            } else {
-                text = applyHealing(attacker: fightLogic!.rightFighters[fightLogic!.currentRightFighter], defender: fightLogic!.leftFighters[fightLogic!.currentLeftFighter], skill: skill.skills[fightLogic!.playerStack[0].index])
-            }
+            text = applyHealing(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: skill.skills[fightLogic!.playerStack[0].index])
             
             battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
         } else if skill.skills[fightLogic!.playerStack[0].index].weatherEffect != nil {

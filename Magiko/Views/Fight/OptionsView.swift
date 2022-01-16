@@ -23,7 +23,7 @@ struct OptionsView: View {
             }) {
                 DetailedActionView(title: "Fight", description: "Use your skills", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
-            .disabled(fightLogic.hasToSwitch[player])
+            .disabled(fightLogic.hasToSwap[player])
             Button(action: {
                 currentSection = .team
             }) {

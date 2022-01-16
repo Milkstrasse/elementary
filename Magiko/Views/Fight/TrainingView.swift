@@ -39,7 +39,7 @@ struct TrainingView: View {
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(TrainingOverView(leftFighters: fightLogic.leftFighters, rightFighters: fightLogic.rightFighters, winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(TrainingOverView(leftFighters: fightLogic.fighters[0], rightFighters: fightLogic.fighters[1], winner: fightLogic.getWinner()).environmentObject(manager)))
             }
         }
     }

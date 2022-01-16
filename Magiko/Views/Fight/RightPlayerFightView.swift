@@ -67,7 +67,7 @@ struct RightPlayerFightView: View {
                             ZStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack(spacing: 5) {
-                                        ForEach(fightLogic.rightFighters.indices) { index in
+                                        ForEach(fightLogic.fighters[1].indices) { index in
                                             Circle().fill(Color.blue).frame(width: 12)
                                         }
                                     }
