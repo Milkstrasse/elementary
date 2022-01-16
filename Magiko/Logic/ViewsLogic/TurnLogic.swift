@@ -7,34 +7,41 @@
 
 import SwiftUI
 
+/// This is the main logic for a player's turn.  It determines whether fighter uses their skill or an other action.
 class TurnLogic {
     static let shared: TurnLogic = TurnLogic()
     
     var fightLogic: FightLogic?
     
+    /// Starts the turn of the player. Determines whether fighter uses their skill or an other action.
+    /// - Parameters:
+    ///   - player: The id of the player
+    ///   - fightLogic: Access to fighter info
+    /// - Returns: Returns a description of what occured during the player's turn
     func startTurn(player: Int, fightLogic: FightLogic) -> String {
         self.fightLogic = fightLogic
-        var battleLog: String = ""
+        var battleLog: String
         
         let attacker: Fighter = fightLogic.getFighter(player: player)
         
+        //fighter faints
         if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.enlightened.rawValue) {
             if attacker.ability.name == Abilities.retaliator.rawValue {
                 if player == 0 {
                     if fightLogic.getFighter(player: 1).applyEffect(effect: Effects.getNegativeEffect()) {
-                        battleLog += attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 1).name + ".\n"
+                        battleLog = attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 1).name + ".\n"
                     } else {
-                        battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                        battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
                 } else {
                     if fightLogic.getFighter(player: 0).applyEffect(effect: Effects.blocked.getEffect()) {
-                        battleLog += attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 0).name + ".\n"
+                        battleLog = attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 0).name + ".\n"
                     } else {
-                        battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                        battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
                 }
             } else {
-                battleLog += Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
             }
             
             fightLogic.hasToSwap[player] = true
@@ -42,65 +49,71 @@ class TurnLogic {
             return battleLog
         } else if attacker.currhp == 0 {
             attacker.revive()
-            battleLog += attacker.name + " fainted but was reborn.\n"
-            
-            return battleLog
+            return attacker.name + " fainted but was reborn.\n"
         } else if fightLogic.usedMoves[player][0].skill.useCounter > fightLogic.usedMoves[player][0].skill.getUses(fighter: attacker) {
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, fightLogic.usedMoves[player][0].skill.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
-            return battleLog
+            return Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, fightLogic.usedMoves[player][0].skill.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
+        //apply damage or healing of effects
         if fightLogic.playerStack[0].index < 0 {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.effects[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
+            //damage can be positive or negative!
             
             if damage >= attacker.currhp {
                 if attacker.hasEffect(effectName: Effects.enlightened.rawValue){
                     attacker.reset()
-                    battleLog += attacker.name + " perished but was reborn.\n"
+                    return attacker.name + " perished but was reborn.\n"
                 } else {
                     attacker.currhp = 0
-                    battleLog += Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
+                    battleLog = Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
                     fightLogic.hasToSwap[player] = true
+                    
+                    return battleLog
                 }
             } else if damage > 0 {
                 attacker.currhp -= damage
-                battleLog += Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
+                battleLog = Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
             } else if damage < attacker.getModifiedBase().health - attacker.currhp {
                 attacker.currhp = attacker.getModifiedBase().health
-                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             } else {
                 attacker.currhp -= damage
-                battleLog += Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
-            
-            return battleLog
         }
         
+        //checks if shielding skill or other skill
         if fightLogic.usedMoves[player][0].skill.type == "shield" {
             let usedMoves: [Move] = fightLogic.usedMoves[player]
             var text: String = "\n"
         
+            //shield can't be used twice in a row -> failure
             if usedMoves.count > 1 && usedMoves[0].skill.name == usedMoves[1].skill.name {
                 text = "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
             }
             
-            battleLog += Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, usedMoves[0].skill.name]) + " " + text
+            return Localization.shared.getTranslation(key: "usedSkill", params: [attacker.name, usedMoves[0].skill.name]) + " " + text
         } else {
-            battleLog += attack(player: player, skill: fightLogic.usedMoves[player][0].skill)
+            return attack(player: player, skill: fightLogic.usedMoves[player][0].skill)
         }
-        
-        return battleLog
     }
     
+    /// Fighter uses their skill to attack, heal or to do another action.
+    /// - Parameters:
+    ///   - player: The id of the player
+    ///   - skill: The skill used to make the attack
+    /// - Returns: Returns a description of what occured during the player's attack
     private func attack(player: Int, skill: Skill) -> String {
+        //determine actual target
         var oppositePlayer: Int = 0
         if player == 0 {
             oppositePlayer = 1
         }
         
+        //checks if targeted user is successfully shielded or not
         if skill.skills[fightLogic!.playerStack[0].index].range > 0 {
             if fightLogic!.usedMoves[oppositePlayer][0].skill.type == "shield" {
-                if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].skill.name != fightLogic!.usedMoves[oppositePlayer][1].skill.name {
+                if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].skill.name != fightLogic!.usedMoves[oppositePlayer][1].skill.name { //attack was successfully blocked
                     return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
                 }
             }
@@ -109,6 +122,7 @@ class TurnLogic {
         let text: String
         let usedSkill: SubSkill = skill.skills[fightLogic!.playerStack[0].index]
         
+        //determine what kind of attack this is
         if usedSkill.power > 0 {
             text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill, skillElement: skill.element, weather: fightLogic!.weather)
             
@@ -135,7 +149,7 @@ class TurnLogic {
                 
                 if fightLogic!.weather != nil {
                     text = Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
-                } else {
+                } else { //weather can only be applied when there's currently no weather active
                     text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
                 }
             } else {
@@ -148,6 +162,12 @@ class TurnLogic {
         }
     }
     
+    /// Restores hitpoints of targeted fighter.
+    /// - Parameters:
+    ///   - attacker: The fighter that attacks
+    ///   - defender: The fighter to be targeted
+    ///   - skill: The skill used to make the attack
+    /// - Returns: Returns a description of what occured during healing
     func applyHealing(attacker: Fighter, defender: Fighter, skill: SubSkill) -> String {
         var newHealth: Int
         

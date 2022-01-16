@@ -5,13 +5,14 @@
 //  Created by Janice Hablützel on 10.01.22.
 //
 
+/// Tries to apply effect of a skill to the targeted fighter.
 struct EffectApplication {
     static let shared: EffectApplication = EffectApplication()
     
     /// Tries to apply an effect on the targeted fighter.
     /// - Parameters:
     ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be attacked
+    ///   - defender: The fighter to be targeted
     ///   - skill: The skill used to make the attack
     /// - Returns: Returns a description of what occured during the application of the effect
     func applyEffect(attacker: Fighter, defender: Fighter, skill: SubSkill) -> String {

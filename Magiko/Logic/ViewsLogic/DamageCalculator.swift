@@ -14,7 +14,7 @@ struct DamageCalculator {
     /// Calculates the amount of damage of an attack and deals it to the targeted fighter
     /// - Parameters:
     ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be attacked
+    ///   - defender: The fighter to be targeted
     ///   - skill: The skill used to make the attack
     ///   - skillElement: The element of the used skill
     ///   - weather: The current weather of the fight
@@ -76,7 +76,7 @@ struct DamageCalculator {
     /// Determines which elemental modifier the attack receives.
     /// - Parameters:
     ///   - - attacker: The fighter that attacks
-    ///   - defender: The fighter to be attacked
+    ///   - defender: The fighter to be targeted
     ///   - skillElement: The element of the used skill
     /// - Returns: Returns the received modifier
     func getElementalModifier(attacker: Fighter, defender: Fighter, skillElement: Element) -> Float {
