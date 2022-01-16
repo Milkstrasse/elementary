@@ -36,13 +36,13 @@ struct TrainingSelectionView: View {
     
     func selectRandom() {
         var set = Set<Int>()
-        while set.count < 3 {
+        while set.count < 4 {
             set.insert(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
         }
         
         let rndm: [Int] = Array(set)
         
-        for index in 0 ..< 3 {
+        for index in 0 ..< 4 {
             leftFighters[index] = Fighter(data: GlobalData.shared.fighters[rndm[index]].data)
             leftFighters[index]?.setAbility(ability: Int.random(in: 0 ..< Abilities.allCases.count))
         }

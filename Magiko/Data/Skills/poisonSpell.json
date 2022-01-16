@@ -1,5 +1,6 @@
 {
   "element": "plant",
+  "type": "special",
   "uses": 10,
   "skills": [
       {

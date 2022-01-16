@@ -1,10 +1,1 @@
-{
-    "name": "Water",
-    "color": "#9FBFCF",
-    "strengths": [
-        "fire"
-    ],
-    "weaknesses": [
-        "plant"
-    ]
-}
+{    "color": "#DA4651",    "strengths": [        "fire",        "metal"    ],    "weaknesses": [        "electric",        "plant"    ]}

@@ -53,7 +53,13 @@ class FightLogic: ObservableObject {
                 swapFighters(player: 0, target: CPULogic.shared.getTarget(currentFighter: currentLeftFighter, fighters: leftFighters, enemyElement: getFighter(player: 1).element))
             }
             
-            usedMoves[0].insert(CPULogic.shared.getMove(fighter: getFighter(player: 0), enemyElement: getFighter(player: 1).element), at: 0)
+            var rndmMove: Move? = CPULogic.shared.getMove(fighter: getFighter(player: 0), enemyElement: getFighter(player: 1).element, weather: weather, isAbleToSwitch: isAbleToSwitch(player: 0))
+            
+            if rndmMove == nil {
+                rndmMove = Move(source: getFighter(player: 0), target: CPULogic.shared.getTarget(currentFighter: currentLeftFighter, fighters: leftFighters, enemyElement: getFighter(player: 1).element), skill: Skill())
+            }
+            
+            usedMoves[0].insert(rndmMove!, at: 0)
         }
         
         if gameLogic.readyPlayers[player] || move.skill.useCounter + getFighter(player: player).staminaUse > move.skill.getUses(fighter: getFighter(player: player)) {
@@ -328,6 +334,29 @@ class FightLogic: ObservableObject {
     func undoMove(player: Int) {
         gameLogic.setReady(player: player, ready: false)
         usedMoves[player].removeFirst()
+    }
+    
+    func isAbleToSwitch(player: Int) -> Bool {
+        var counter: Int = 0
+        if player == 0 {
+            for fighter in leftFighters {
+                if fighter.currhp > 0 {
+                    counter += 1
+                }
+            }
+        } else {
+            for fighter in rightFighters {
+                if fighter.currhp > 0 {
+                    counter += 1
+                }
+            }
+        }
+        
+        if counter >= 2 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func isGameOver() -> Bool {

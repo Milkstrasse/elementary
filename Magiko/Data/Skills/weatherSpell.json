@@ -1,5 +1,6 @@
 {
   "element": "fire",
+  "type": "special",
   "uses": 15,
   "skills": [
       {

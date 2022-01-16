@@ -1,9 +1,1 @@
-{
-    "color": "#DA4651",
-    "strengths": [
-        "plant"
-    ],
-    "weaknesses": [
-        "water"
-    ]
-}
+{    "color": "#DA4651",    "strengths": [        "metal",        "plant"    ],    "weaknesses": [        "ground",        "water"    ]}

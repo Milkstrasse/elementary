@@ -1,5 +1,6 @@
 {
   "element": "water",
+  "type": "attack",
   "uses": 10,
   "skills": [
       {

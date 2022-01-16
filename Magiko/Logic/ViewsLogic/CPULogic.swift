@@ -8,11 +8,27 @@
 struct CPULogic {
     static let shared: CPULogic = CPULogic()
     
-    func getMove(fighter: Fighter, enemyElement: Element) -> Move {
+    func getMove(fighter: Fighter, enemyElement: Element, weather: Effect?, isAbleToSwitch: Bool) -> Move? {
+        if fighter.element.hasDisadvantage(element: enemyElement) && isAbleToSwitch {
+            return nil
+        }
+
+        if weather == nil || weather?.duration == 1 {
+            for index in fighter.skills.indices {
+                if fighter.skills[index].useCounter + fighter.staminaUse <= fighter.skills[index].getUses(fighter: fighter) {
+                    for skill in fighter.skills[index].skills {
+                        if skill.weatherEffect != nil {
+                            return Move(source: fighter, target: -1, skill: fighter.skills[index])
+                        }
+                    }
+                }
+            }
+        }
+        
         for index in fighter.skills.indices {
             let skillElement: Element = GlobalData.shared.elements[fighter.skills[index].element] ?? Element()
             
-            if skillElement.hasAdvantage(element: enemyElement) {
+            if skillElement.hasAdvantage(element: enemyElement) && fighter.skills[index].useCounter + fighter.staminaUse <= fighter.skills[index].getUses(fighter: fighter) {
                 return Move(source: fighter, target: -1, skill: fighter.skills[index])
             }
         }
@@ -20,7 +36,7 @@ struct CPULogic {
         for index in fighter.skills.indices {
             let skillElement: Element = GlobalData.shared.elements[fighter.skills[index].element] ?? Element()
             
-            if !skillElement.hasDisadvantage(element: enemyElement) {
+            if !skillElement.hasDisadvantage(element: enemyElement) && fighter.skills[index].useCounter + fighter.staminaUse <= fighter.skills[index].getUses(fighter: fighter) {
                 return Move(source: fighter, target: -1, skill: fighter.skills[index])
             }
         }

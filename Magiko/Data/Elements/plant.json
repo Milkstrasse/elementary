@@ -1,9 +1,1 @@
-{
-    "color": "#9CC08D",
-    "strengths": [
-        "water"
-    ],
-    "weaknesses": [
-        "fire"
-    ]
-}
+{    "color": "#DA4651",    "strengths": [        "ground",        "water"    ],    "weaknesses": [        "fire",        "wind"    ]}

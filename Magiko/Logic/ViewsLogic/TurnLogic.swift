@@ -132,7 +132,7 @@ class TurnLogic {
                 }
             }
             
-            if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && isAbleToSwitch(player: player) {
+            if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwitch(player: player) {
                 fightLogic!.hasToSwitch[player] = true
             }
             
@@ -203,28 +203,5 @@ class TurnLogic {
         }
         
         return Localization.shared.getTranslation(key: "healFailed") + "\n"
-    }
-    
-    private func isAbleToSwitch(player: Int) -> Bool {
-        var counter: Int = 0
-        if player == 0 {
-            for fighter in fightLogic!.leftFighters {
-                if fighter.currhp > 0 {
-                    counter += 1
-                }
-            }
-        } else {
-            for fighter in fightLogic!.rightFighters {
-                if fighter.currhp > 0 {
-                    counter += 1
-                }
-            }
-        }
-        
-        if counter >= 2 {
-            return true
-        } else {
-            return false
-        }
     }
 }

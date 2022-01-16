@@ -1,5 +1,6 @@
 {
   "element": "fire",
+  "type": "attack",
   "uses": 10,
   "skills": [
       {

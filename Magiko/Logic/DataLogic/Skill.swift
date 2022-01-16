@@ -13,7 +13,7 @@ struct Skill: Decodable, Hashable {
     
     let type: String
     
-    let uses: Int
+    private let uses: Int
     var useCounter: Int = 0
     let skills: [SubSkill]
     
@@ -37,7 +37,7 @@ struct Skill: Decodable, Hashable {
         name = "unknownSkill"
         element = try container.decode(String.self, forKey: .element)
         
-        type = try container.decodeIfPresent(String.self, forKey: .type) ?? "default"
+        type = try container.decode(String.self, forKey: .type)
         
         uses = try container.decode(Int.self, forKey: .uses)
         skills = try container.decode([SubSkill].self, forKey: .skills)
