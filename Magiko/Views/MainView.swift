@@ -22,7 +22,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            Color(hex: currentFighter.element.color).ignoresSafeArea()
+            Color.red.ignoresSafeArea()
             Image(currentFighter.name).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {

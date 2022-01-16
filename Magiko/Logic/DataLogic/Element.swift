@@ -7,7 +7,6 @@
 
 struct Element: Decodable {
     var name: String
-    let color: String
     
     let strengths: [String]
     let weaknesses: [String]
@@ -18,7 +17,6 @@ struct Element: Decodable {
     
     init() {
         name = "aether"
-        color = "#929292"
         strengths = []
         weaknesses = []
     }
@@ -27,7 +25,6 @@ struct Element: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownElement"
-        color = try container.decode(String.self, forKey: .color)
         
         strengths = try container.decode([String].self, forKey: .strengths)
         weaknesses = try container.decode([String].self, forKey: .weaknesses)
