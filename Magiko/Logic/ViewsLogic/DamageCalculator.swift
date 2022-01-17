@@ -32,18 +32,8 @@ struct DamageCalculator {
             return "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
-        //pure damage calculation
-        let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
-        
-        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
-        let defense: Float = max(Float(target.getModifiedBase().defense), 1.0) //prevent division by zero
-        
-        var dmg: Float = attack/defense
-        
-        //multiply with elemental modifier
-        if attacker.ability.name != Abilities.ethereal.rawValue && target.ability.name != Abilities.ethereal.rawValue {
-            dmg *= getElementalModifier(attacker: attacker, defender: target, skillElement: element)
-        }
+        //damage calculation
+        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, skill: skill, skillElement: skillElement, weather: weather)
         
         //multiply with critical modifier
         if !target.hasEffect(effectName: Effects.alerted.rawValue) {
@@ -52,11 +42,6 @@ struct DamageCalculator {
                 dmg *= 1.5
                 text = "\n" + Localization.shared.getTranslation(key: "criticalHit") + "\n"
             }
-        }
-        
-        //multiply with weather modifier
-        if weather != nil {
-            dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement)
         }
         
         let damage: Int = Int(round(dmg))
@@ -75,7 +60,7 @@ struct DamageCalculator {
     
     /// Determines which elemental modifier the attack receives.
     /// - Parameters:
-    ///   - - attacker: The fighter that attacks
+    ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
     ///   - skillElement: The element of the used skill
     /// - Returns: Returns the received modifier
@@ -139,5 +124,54 @@ struct DamageCalculator {
         }
         
         return 1
+    }
+    
+    /// Calculates the damage of an attack.
+    /// - Parameters:
+    ///   - attacker: The fighter that attacks
+    ///   - defender: The fighter to be targeted
+    ///   - skill: The skill used to make the attack
+    ///   - skillElement: The element of the used skill
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns the damage of the attack
+    func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> Float {
+        let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
+        
+        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+        let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
+        
+        var dmg: Float = attack/defense
+        
+        //multiply with elemental modifier
+        if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
+            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
+        }
+        
+        //multiply with weather modifier
+        if weather != nil {
+            dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement)
+        }
+        
+        return dmg
+    }
+    
+    func willDefeatFighter(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> Bool {
+        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, skill: skill, skillElement: skillElement, weather: weather)
+        
+        //multiply with critical modifier
+        if !defender.hasEffect(effectName: Effects.alerted.rawValue) {
+            let chance: Int = Int.random(in: 0 ..< 100)
+            if chance < attacker.getModifiedBase().precision/6 {
+                dmg *= 1.5
+            }
+        }
+        
+        let damage: Int = Int(round(dmg))
+        
+        if damage >= defender.currhp {
+            return true
+        } else {
+            return false
+        }
     }
 }

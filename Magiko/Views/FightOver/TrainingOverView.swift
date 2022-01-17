@@ -113,7 +113,7 @@ struct TrainingOverView: View {
                                 if fightLogic.isValid() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
                                     }
                                 }
                             }

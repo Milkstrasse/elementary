@@ -59,7 +59,7 @@ class FightLogic: ObservableObject {
                 swapFighters(player: 0, target: CPULogic.shared.getTarget(currentFighter: currentFighter[0], fighters: fighters[0], enemyElement: getFighter(player: 1).element))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(fighter: getFighter(player: 0), enemyElement: getFighter(player: 1).element, weather: weather, isAbleToSwitch: isAbleToSwap(player: 0))
+            var rndmMove: Move? = CPULogic.shared.getMove(fighter: getFighter(player: 0), enemy: getFighter(player: 1), weather: weather, isAbleToSwitch: isAbleToSwap(player: 0))
             
             if rndmMove == nil { //CPU wants to switch
                 rndmMove = Move(source: getFighter(player: 0), target: CPULogic.shared.getTarget(currentFighter: currentFighter[0], fighters: fighters[0], enemyElement: getFighter(player: 1).element), skill: Skill())

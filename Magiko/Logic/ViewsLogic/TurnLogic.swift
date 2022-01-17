@@ -24,7 +24,7 @@ class TurnLogic {
         
         let attacker: Fighter = fightLogic.getFighter(player: player)
         
-        //fighter faints
+        //fighter faints and certain abilities activate
         if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.enlightened.rawValue) {
             if attacker.ability.name == Abilities.retaliator.rawValue {
                 if player == 0 {
@@ -82,7 +82,7 @@ class TurnLogic {
             }
         }
         
-        //checks if shielding skill or other skill
+        //checks if shielding skill is used or another skill
         if fightLogic.usedMoves[player][0].skill.type == "shield" {
             let usedMoves: [Move] = fightLogic.usedMoves[player]
             var text: String = "\n"
@@ -123,7 +123,7 @@ class TurnLogic {
         let usedSkill: SubSkill = skill.skills[fightLogic!.playerStack[0].index]
         
         //determine what kind of attack this is
-        if usedSkill.power > 0 {
+        if usedSkill.power > 0 { //damaging attack
             text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill, skillElement: skill.element, weather: fightLogic!.weather)
             
             if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwap(player: player) {
@@ -131,7 +131,7 @@ class TurnLogic {
             }
             
             return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " " + text
-        } else if usedSkill.effect != nil {
+        } else if usedSkill.effect != nil { //effect adding skill
             text = EffectApplication.shared.applyEffect(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill)
             
             return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
@@ -139,7 +139,7 @@ class TurnLogic {
             text = applyHealing(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill)
             
             return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + "\n" + text
-        } else if usedSkill.weatherEffect != nil {
+        } else if usedSkill.weatherEffect != nil { //weather adding skill
             if fightLogic!.weather == nil {
                 if fightLogic!.getFighter(player: player).ability.name == Abilities.weatherFrog.rawValue {
                     fightLogic!.weather = WeatherEffects(rawValue: usedSkill.weatherEffect!)?.getEffect(duration: 5)
