@@ -5,6 +5,7 @@
 //  Created by Janice Hablützel on 05.01.22.
 //
 
+/// Contains all the important data of a fighter.
 class Fighter: Hashable {
     let name: String
     let element: Element
@@ -28,6 +29,8 @@ class Fighter: Hashable {
     
     var staminaUse: Int = 2
     
+    /// Creates a fighter from data, this data contains all of the information that will always remain the same.
+    /// - Parameter data: This contains the main data of the fighter
     init(data: FighterData) {
         name = data.name
         element = GlobalData.shared.elements[data.element] ?? Element()
@@ -49,6 +52,8 @@ class Fighter: Hashable {
         ability = Abilities.allCases[0].getAbility()
     }
     
+    /// Calculates current stats of a fighter considering  the current loadout and effects of the fighter.
+    /// - Returns: Returns the current stats of a fighter
     func getModifiedBase() -> Base {
         let health: Int = max(base.health + loadout.healthMod, 0)
         var attack: Int = max(base.attack + attackMod + loadout.attackMod, 0)
@@ -66,15 +71,22 @@ class Fighter: Hashable {
         return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, stamina: stamina)
     }
     
+    /// Changes the current loadout of a fighter.
+    /// - Parameter loadout: The desired loadout
     func setLoadout(loadout: Int) {
         self.loadout = GlobalData.shared.loadouts[loadout]
         currhp = getModifiedBase().health
     }
     
+    /// Changes the current ability of the fighter.
+    /// - Parameter ability: The desired ability
     func setAbility(ability: Int) {
         self.ability = Abilities.allCases[ability].getAbility()
     }
     
+    /// Checks if fighter has certain effect.
+    /// - Parameter effectName: The name of the effect
+    /// - Returns: Returns wether the fighter has the effect or not
     func hasEffect(effectName: String) -> Bool {
         for effect in effects {
             if effect.name == effectName {
@@ -85,7 +97,11 @@ class Fighter: Hashable {
         return false
     }
     
+    /// Tries to to apply an effect to the fighter
+    /// - Parameter effect: The desired effect
+    /// - Returns: Returns whether the effect has been applied successfully or not
     func applyEffect(effect: Effect) -> Bool {
+        //checks if effect removes other effects
         switch effect.name {
             case Effects.blessed.rawValue:
                 for effect in effects {
@@ -109,7 +125,8 @@ class Fighter: Hashable {
                 break
         }
         
-        if effects.count < 2 {
+        if effects.count < 2 { //fighter can only have up to two effects
+            //checks if other effect or an ability prevents the new effect
             if !effect.positive {
                 if hasEffect(effectName: Effects.blessed.rawValue) {
                     return false
@@ -130,11 +147,12 @@ class Fighter: Hashable {
                 }
             }
             
-            effects.append(effect)
+            effects.append(effect) //effect has been added
             effects.sort {
                 $0.duration < $1.duration
             }
             
+            //makes changes to fighter if neccessary
             switch effect.name {
                 case Effects.attackBoost.rawValue:
                     attackMod += 20
@@ -166,6 +184,8 @@ class Fighter: Hashable {
         return false
     }
     
+    /// Removes an effect from the fighter and reverts changes made by the effect
+    /// - Parameter effect: The effect to be removed
     func removeEffect(effect: Effect) {
         effects.removeFirst()
         
@@ -195,6 +215,7 @@ class Fighter: Hashable {
         }
     }
     
+    /// Removes all effects, refreshes all skills and restores the health of the fighter
     func reset() {
         attackMod = 0
         defenseMod = 0
@@ -212,6 +233,7 @@ class Fighter: Hashable {
         }
     }
     
+    /// Removes all effects, refreshes all skills and restores half of the health of the fighter
     func revive() {
         reset()
         currhp = getModifiedBase().health/2
@@ -226,6 +248,7 @@ class Fighter: Hashable {
     }
 }
 
+/// Contains all the base data of a fighter. This data should always remain the same.
 struct FighterData: Decodable {
     var name: String
     let element: String
@@ -237,6 +260,12 @@ struct FighterData: Decodable {
         case element, skills, base
     }
     
+    /// Creates placeholder fighter.
+    /// - Parameters:
+    ///   - name: The name of the fighter
+    ///   - element: The element of the fighter
+    ///   - skills: The skills of the fighter
+    ///   - base: All the base stats of the fighter
     init(name: String, element: String, skills: [String], base: Base) {
         self.name = name
         self.element = element
@@ -245,6 +274,8 @@ struct FighterData: Decodable {
         self.base = base
     }
     
+    /// Creates fighter from JSON data
+    /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -256,6 +287,7 @@ struct FighterData: Decodable {
     }
 }
 
+/// Contains all base stat values of a fighter.
 struct Base: Decodable {
     let health: Int
     let attack: Int
@@ -263,43 +295,4 @@ struct Base: Decodable {
     let agility: Int
     let precision: Int
     let stamina: Int
-}
-
-struct Loadout: Decodable {
-    var name: String
-    
-    let healthMod: Int
-    let attackMod: Int
-    let defenseMod: Int
-    let agilityMod: Int
-    let precisionMod: Int
-    let staminaMod: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case healthMod, attackMod, defenseMod, agilityMod, precisionMod, staminaMod
-    }
-    
-    init() {
-        name = "neutral"
-        
-        healthMod = 0
-        attackMod = 0
-        defenseMod = 0
-        agilityMod = 0
-        precisionMod = 0
-        staminaMod = 0
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        name = "unknownElement"
-        
-        healthMod = try container.decode(Int.self, forKey: .healthMod)
-        attackMod = try container.decode(Int.self, forKey: .attackMod)
-        defenseMod = try container.decode(Int.self, forKey: .defenseMod)
-        agilityMod = try container.decode(Int.self, forKey: .agilityMod)
-        precisionMod = try container.decode(Int.self, forKey: .precisionMod)
-        staminaMod = try container.decode(Int.self, forKey: .staminaMod)
-    }
 }

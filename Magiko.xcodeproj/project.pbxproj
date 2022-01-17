@@ -50,6 +50,7 @@
 		B8CDEEC3279377110073F5B2 /* CPUTrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC2279377110073F5B2 /* CPUTrainingView.swift */; };
 		B8CDEEC527937CBE0073F5B2 /* TrainingOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */; };
 		B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC7279388890073F5B2 /* CPULogic.swift */; };
+		B8CDEECC279574050073F5B2 /* Loadout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEECB279574050073F5B2 /* Loadout.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 		B8CDEEC2279377110073F5B2 /* CPUTrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUTrainingView.swift; sourceTree = "<group>"; };
 		B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingOverView.swift; sourceTree = "<group>"; };
 		B8CDEEC7279388890073F5B2 /* CPULogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPULogic.swift; sourceTree = "<group>"; };
+		B8CDEECB279574050073F5B2 /* Loadout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadout.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +265,7 @@
 				B81CC3282789A31800908195 /* Element.swift */,
 				B8525156278DD49D00AD99BE /* Effects.swift */,
 				B8525158278EFF3800AD99BE /* Abilities.swift */,
+				B8CDEECB279574050073F5B2 /* Loadout.swift */,
 			);
 			path = DataLogic;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */,
 				B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */,
 				B8525159278EFF3900AD99BE /* Abilities.swift in Sources */,
+				B8CDEECC279574050073F5B2 /* Loadout.swift in Sources */,
 				B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */,
 				B80D7CEB2784F4F600DEB25F /* RightPlayerFightView.swift in Sources */,
 				B8525157278DD49D00AD99BE /* Effects.swift in Sources */,
