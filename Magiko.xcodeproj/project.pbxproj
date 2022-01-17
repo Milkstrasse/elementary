@@ -51,6 +51,7 @@
 		B8CDEEC527937CBE0073F5B2 /* TrainingOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */; };
 		B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC7279388890073F5B2 /* CPULogic.swift */; };
 		B8CDEECC279574050073F5B2 /* Loadout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEECB279574050073F5B2 /* Loadout.swift */; };
+		B8CDEECE279578FF0073F5B2 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEECD279578FF0073F5B2 /* Move.swift */; };
 		B8EAA7832788870900DD3813 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7822788870900DD3813 /* Skill.swift */; };
 		B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */; };
 /* End PBXBuildFile section */
@@ -112,6 +113,7 @@
 		B8CDEEC427937CBE0073F5B2 /* TrainingOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingOverView.swift; sourceTree = "<group>"; };
 		B8CDEEC7279388890073F5B2 /* CPULogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPULogic.swift; sourceTree = "<group>"; };
 		B8CDEECB279574050073F5B2 /* Loadout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadout.swift; sourceTree = "<group>"; };
+		B8CDEECD279578FF0073F5B2 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		B8EAA7822788870900DD3813 /* Skill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		B8EAA7882788D5B200DD3813 /* DamageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamageCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -266,6 +268,7 @@
 				B8525156278DD49D00AD99BE /* Effects.swift */,
 				B8525158278EFF3800AD99BE /* Abilities.swift */,
 				B8CDEECB279574050073F5B2 /* Loadout.swift */,
+				B8CDEECD279578FF0073F5B2 /* Move.swift */,
 			);
 			path = DataLogic;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				B80D7D082787558100DEB25F /* Extensions.swift in Sources */,
 				B80D7CF62785F90500DEB25F /* GlobalData.swift in Sources */,
 				B80D7CD92783771D00DEB25F /* InfoView.swift in Sources */,
+				B8CDEECE279578FF0073F5B2 /* Move.swift in Sources */,
 				B80D7CD727835CD900DEB25F /* Shapes.swift in Sources */,
 				B8CDEEC8279388890073F5B2 /* CPULogic.swift in Sources */,
 				B80D7CEF2785C09B00DEB25F /* Views.swift in Sources */,
