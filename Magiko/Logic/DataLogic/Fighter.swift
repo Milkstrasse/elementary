@@ -52,7 +52,7 @@ class Fighter: Hashable {
         ability = Abilities.allCases[0].getAbility()
     }
     
-    /// Calculates current stats of a fighter considering  the current loadout and effects of the fighter.
+    /// Calculates current stats of a fighter taking the current loadout and effects of the fighter into consideration.
     /// - Returns: Returns the current stats of a fighter
     func getModifiedBase() -> Base {
         let health: Int = max(base.health + loadout.healthMod, 0)
@@ -260,7 +260,7 @@ struct FighterData: Decodable {
         case element, skills, base
     }
     
-    /// Creates placeholder fighter.
+    /// Creates placeholder data for a fighter.
     /// - Parameters:
     ///   - name: The name of the fighter
     ///   - element: The element of the fighter
@@ -274,12 +274,12 @@ struct FighterData: Decodable {
         self.base = base
     }
     
-    /// Creates fighter from JSON data
+    /// Creates data for a fighter from JSON data
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        name = "unknownFighter"
+        name = "unknownFighter" //will be overwritten by GlobalData
         element = try container.decode(String.self, forKey: .element)
         skills = try container.decode([String].self, forKey: .skills)
         

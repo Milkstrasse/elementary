@@ -5,6 +5,7 @@
 //  Created by Janice Hablützel on 07.01.22.
 //
 
+/// Contains info on which actions a fighter can make when using this skill, the amount of uses and the element which can give a damage bonus when attacking..
 struct Skill: Decodable, Hashable {
     var name: String
     let element: String
@@ -19,6 +20,7 @@ struct Skill: Decodable, Hashable {
         case element, type, uses, skills
     }
     
+    /// Creates placeholder skill.
     init() {
         name = "unknownSkill"
         element = "aether"
@@ -28,11 +30,13 @@ struct Skill: Decodable, Hashable {
         uses = 10
         skills = []
     }
-
+    
+    /// Creates skill from JSON data.
+    /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        name = "unknownSkill"
+        name = "unknownSkill" //will be overwritten by GlobalData
         element = try container.decode(String.self, forKey: .element)
         
         type = try container.decode(String.self, forKey: .type)
@@ -41,6 +45,9 @@ struct Skill: Decodable, Hashable {
         skills = try container.decode([SubSkill].self, forKey: .skills)
     }
     
+    /// Checks how many uses a skill has with taking the stamina stat into consideration.
+    /// - Parameter fighter: The owner of the skill
+    /// - Returns: Returns the amount of uses the skill has
     func getUses(fighter: Fighter) -> Int {
         return uses + (fighter.getModifiedBase().stamina - 100)/10
     }
@@ -54,6 +61,7 @@ struct Skill: Decodable, Hashable {
     }
 }
 
+/// Subskills are a part of a skill and contain the info for one action.
 struct SubSkill: Decodable {
     let power: Int
     let range: Int
@@ -68,6 +76,8 @@ struct SubSkill: Decodable {
         case power, range, chance, effect, weatherEffect, healAmount
     }
     
+    /// Creates action from JSON data.
+    /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
