@@ -72,7 +72,7 @@ class TurnLogic {
                 }
             } else if damage > 0 {
                 attacker.currhp -= damage
-                battleLog = Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
             } else if damage < attacker.getModifiedBase().health - attacker.currhp {
                 attacker.currhp = attacker.getModifiedBase().health
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
