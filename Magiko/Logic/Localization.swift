@@ -40,7 +40,7 @@ class Localization {
     func getTranslation(key: String, params: [String] = []) -> String {
         let translation: String? = translations[key]
         
-        if translation != nil && params.count > 0 {
+        if translation != nil && !params.isEmpty {
             let charSet = CharacterSet(charactersIn: "{}")
             var components: [String] = translation!.components(separatedBy: charSet)
             

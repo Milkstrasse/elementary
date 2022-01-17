@@ -17,10 +17,18 @@ struct TeamView: View {
     
     func generateDescription(fighter: Fighter) -> String {
         var text: String = "\(fighter.currhp)/\(fighter.getModifiedBase().health)HP - "
-        if fighter.effects.count > 0 {
-            text += "\(fighter.effects.count) Effect(s)"
+        
+        var oppositePlayer: Int = 0
+        if player == 0 {
+            oppositePlayer = 1
+        }
+        
+        if fighter.element.hasAdvantage(element: fightLogic.getFighter(player: oppositePlayer).element) {
+            text += "Very Effective"
+        } else if fighter.element.hasDisadvantage(element: fightLogic.getFighter(player: oppositePlayer).element) {
+            text += "Not Very Effective"
         } else {
-            text += "No Effects"
+            text += "Effective"
         }
         
         return text

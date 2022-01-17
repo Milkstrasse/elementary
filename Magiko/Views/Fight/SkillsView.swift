@@ -33,16 +33,16 @@ struct SkillsView: View {
         }
         
         switch modifier {
-        case 4.0:
-            return "Super Effective"
-        case 2.0:
-            return "Very Effective"
-        case 0.5:
-            return "Not Very Effective"
-        case 0.25:
-            return "Not Effective"
-        default:
-            return "Effective"
+            case 4.0:
+                return "Super Effective"
+            case 2.0:
+                return "Very Effective"
+            case 0.5:
+                return "Not Very Effective"
+            case 0.25:
+                return "Not Effective"
+            default:
+                return "Effective"
         }
     }
     

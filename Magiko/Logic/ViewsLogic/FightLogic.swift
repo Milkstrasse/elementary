@@ -296,7 +296,7 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addMoveTurn(player: Int) {
-        if usedMoves[player][0].skill.skills.count > 0 {
+        if !usedMoves[player][0].skill.skills.isEmpty {
             for index in usedMoves[player][0].skill.skills.indices.reversed() {
                 playerStack.insert((player: player, index: index), at: 0)
             }
@@ -308,7 +308,7 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the effects of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addEffectTurns(player: Int) {
-        if getFighter(player: player).effects.count > 0 {
+        if !getFighter(player: player).effects.isEmpty {
             for index in getFighter(player: player).effects.indices {
                 let effect: Effect = getFighter(player: player).effects[index]
                 
