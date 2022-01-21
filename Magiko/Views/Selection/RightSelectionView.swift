@@ -77,6 +77,16 @@ struct RightSelectionView: View {
         return 0
     }
     
+    func getAbility(fighter: Fighter) -> Int {
+        for index in Abilities.allCases.indices {
+            if fighter.ability.name == Abilities.allCases[index].rawValue {
+                return index
+            }
+        }
+        
+        return 0
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
@@ -105,6 +115,7 @@ struct RightSelectionView: View {
                                         
                                         if fighters[index] != nil {
                                             selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                            selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
                                             
                                             selectionToggle = false
                                             infoToggle = true
@@ -242,6 +253,7 @@ struct RightSelectionView: View {
                                 .padding(.horizontal, 15).frame(width: 175)
                                 .onAppear {
                                     selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                    selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
                                 }
                             }
                         }

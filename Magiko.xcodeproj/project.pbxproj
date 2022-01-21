@@ -136,6 +136,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32219A23279ABE5B008C4836 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B80D7CCE2783508E00DEB25F /* MainView.swift */,
+				B80D7CDC27837A6400DEB25F /* OverviewView.swift */,
+				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
+				B80D7CD82783771D00DEB25F /* InfoView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		B80D7C98278345EC00DEB25F = {
 			isa = PBXGroup;
 			children = (
@@ -196,13 +207,10 @@
 		B80D7CD32783539000DEB25F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				32219A23279ABE5B008C4836 /* Main */,
 				B8CDEEC62793877F0073F5B2 /* FightOver */,
 				B80D7D14278884AC00DEB25F /* Selection */,
 				B80D7D13278884A200DEB25F /* Fight */,
-				B80D7CCE2783508E00DEB25F /* MainView.swift */,
-				B80D7CDC27837A6400DEB25F /* OverviewView.swift */,
-				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
-				B80D7CD82783771D00DEB25F /* InfoView.swift */,
 				B80D7CEE2785C09B00DEB25F /* Views.swift */,
 			);
 			path = Views;
