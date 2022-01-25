@@ -63,10 +63,10 @@ struct CPUTrainingView: View {
                     HStack(spacing: 10) {
                         Group {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 123)
-                                CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 93, alignment: .topLeading).padding(.horizontal, 15)
+                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 120)
+                                CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 90, alignment: .topLeading).padding(.horizontal, 15)
                             }
-                            .rotationEffect(.degrees(-90)).frame(width: 123, height: geometry.size.height - 30)
+                            .rotationEffect(.degrees(-90)).frame(width: 120, height: geometry.size.height - 30)
                         }
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         ZStack(alignment: .leading) {
