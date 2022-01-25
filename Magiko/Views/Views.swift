@@ -7,25 +7,6 @@
 
 import SwiftUI
 
-struct BigBarView: View {
-    var width: CGFloat?
-    
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
-            HStack(spacing: 0) {
-                Spacer()
-                Triangle().fill(Color.green).frame(width: 22)
-                ZStack(alignment: .leading) {
-                    Rectangle().fill(Color.green).frame(width: 25)
-                    RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(width: 55)
-                }
-            }
-        }
-        .frame(width: width, height: 60)
-    }
-}
-
 struct DetailedActionView: View {
     let title: String
     let description: String
@@ -34,7 +15,7 @@ struct DetailedActionView: View {
     
     var body: some View {
         ZStack {
-            BigBarView()
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: title, bold: true)
@@ -55,7 +36,7 @@ struct DetailedSkillView: View {
     
     var body: some View {
         ZStack {
-            BigBarView()
+            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name, bold: true)
@@ -237,12 +218,16 @@ struct EffectView: View {
         }
     }
     
+    func createSymbol() -> String {
+        return String(Character(UnicodeScalar(effect.symbol) ?? "\u{2718}"))
+    }
+    
     var body: some View {
         ZStack {
             Rectangle().fill(Color.red).frame(width: 30, height: 30)
             Group {
                 Rectangle().fill(getColor()).frame(width: 30, height: 30)
-                Text(effect.symbol).frame(width: 30, height: 30)
+                Text(self.createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 20))
             }
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
         }
@@ -261,7 +246,7 @@ struct Views_Previews: PreviewProvider {
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
             FighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
-            EffectView(effect: Effect(name: "sample", symbol: "%", duration: 3, positive: true), battling: false)
+            EffectView(effect: Effect(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
         }
     }
 }

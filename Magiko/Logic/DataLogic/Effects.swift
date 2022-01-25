@@ -10,7 +10,7 @@ import SwiftUI
 class Effect: Hashable {
     let id = UUID()
     let name: String
-    let symbol: String
+    let symbol: UInt16
     var duration: Int
     
     let positive: Bool
@@ -18,7 +18,7 @@ class Effect: Hashable {
     
     let opposite: Effects?
     
-    init(name: String, symbol: String, duration: Int, positive: Bool, damageAmount: Int = 0, opposite: Effects? = nil) {
+    init(name: String, symbol: UInt16, duration: Int, positive: Bool, damageAmount: Int = 0, opposite: Effects? = nil) {
         self.name = name
         self.symbol = symbol
         self.duration = duration
@@ -64,45 +64,45 @@ enum Effects: String, CaseIterable {
     func getEffect() -> Effect {
         switch self {
             case .attackBoost:
-                return Effect(name: self.rawValue, symbol: "1", duration: 3, positive: true, opposite: .attackDrop)
+                return Effect(name: self.rawValue, symbol: 0xf6de, duration: 3, positive: true, opposite: .attackDrop)
             case .attackDrop:
-                return Effect(name: self.rawValue, symbol: "2", duration: 3, positive: false, opposite: .attackBoost)
+                return Effect(name: self.rawValue, symbol: 0xf6de, duration: 3, positive: false, opposite: .attackBoost)
             case .defenseBoost:
-                return Effect(name: self.rawValue, symbol: "3", duration: 3, positive: true, opposite: .defenseDrop)
+                return Effect(name: self.rawValue, symbol: 0xf132, duration: 3, positive: true, opposite: .defenseDrop)
             case .defenseDrop:
-                return Effect(name: self.rawValue, symbol: "4", duration: 3, positive: false, opposite: .defenseBoost)
+                return Effect(name: self.rawValue, symbol: 0xf132, duration: 3, positive: false, opposite: .defenseBoost)
             case .agilityBoost:
-                return Effect(name: self.rawValue, symbol: "5", duration: 3, positive: true, opposite: .agilityDrop)
+                return Effect(name: self.rawValue, symbol: 0xf72e, duration: 3, positive: true, opposite: .agilityDrop)
             case .agilityDrop:
-                return Effect(name: self.rawValue, symbol: "6", duration: 3, positive: false, opposite: .agilityBoost)
+                return Effect(name: self.rawValue, symbol: 0xf72e, duration: 3, positive: false, opposite: .agilityBoost)
             case .precisionBoost:
-                return Effect(name: self.rawValue, symbol: "7", duration: 3, positive: true, opposite: .precisionDrop)
+                return Effect(name: self.rawValue, symbol: 0xf05b, duration: 3, positive: true, opposite: .precisionDrop)
             case .precisionDrop:
-                return Effect(name: self.rawValue, symbol: "8", duration: 3, positive: false, opposite: .precisionBoost)
+                return Effect(name: self.rawValue, symbol: 0xf05b, duration: 3, positive: false, opposite: .precisionBoost)
             case .poisoned:
-                return Effect(name: self.rawValue, symbol: "9", duration: 3, positive: false, damageAmount: 10)
+                return Effect(name: self.rawValue, symbol: 0xf54c, duration: 3, positive: false, damageAmount: 10)
             case .healed:
-                return Effect(name: self.rawValue, symbol: "10", duration: 3, positive: true, damageAmount: -10)
+                return Effect(name: self.rawValue, symbol: 0xe05c, duration: 3, positive: true, damageAmount: -10)
             case .confused:
-                return Effect(name: self.rawValue, symbol: "11", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: 0xf074, duration: 3, positive: false)
             case .bombed:
-                return Effect(name: self.rawValue, symbol: "12", duration: 3, positive: false, damageAmount: 25)
+                return Effect(name: self.rawValue, symbol: 0xf1e2, duration: 3, positive: false, damageAmount: 25)
             case .blessed:
-                return Effect(name: self.rawValue, symbol: "13", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf4c2, duration: 3, positive: true)
             case .blocked:
-                return Effect(name: self.rawValue, symbol: "14", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: 0xf05e, duration: 3, positive: false)
             case .chained:
-                return Effect(name: self.rawValue, symbol: "15", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
             case .invigorated:
-                return Effect(name: self.rawValue, symbol: "16", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf102, duration: 3, positive: true)
             case .exhausted:
-                return Effect(name: self.rawValue, symbol: "17", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: 0xf103, duration: 3, positive: false)
             case .locked:
-                return Effect(name: self.rawValue, symbol: "18", duration: 3, positive: false)
+                return Effect(name: self.rawValue, symbol: 0xf023, duration: 3, positive: false)
             case .enlightened:
-                return Effect(name: self.rawValue, symbol: "19", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf5bb, duration: 3, positive: true)
             case .alerted:
-                return Effect(name: self.rawValue, symbol: "20", duration: 3, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf06e, duration: 3, positive: true)
         }
     }
     
@@ -128,19 +128,19 @@ enum WeatherEffects: String {
     func getEffect(duration: Int) -> Effect {
         switch self {
             case .sandstorm:
-                return Effect(name: self.rawValue, symbol: "A", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf6c4, duration: duration, positive: true)
             case .thunderstorm:
-                return Effect(name: self.rawValue, symbol: "B", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
             case .sunnyDay:
-                return Effect(name: self.rawValue, symbol: "C", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
             case .smog:
-                return Effect(name: self.rawValue, symbol: "D", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
             case .mysticWeather:
-                return Effect(name: self.rawValue, symbol: "E", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
             case .lightRain:
-                return Effect(name: self.rawValue, symbol: "F", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf73d, duration: duration, positive: true)
             case .drought:
-                return Effect(name: self.rawValue, symbol: "G", duration: duration, positive: true)
+                return Effect(name: self.rawValue, symbol: 0xf5c7, duration: duration, positive: true)
         }
     }
 }

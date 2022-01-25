@@ -63,62 +63,67 @@ struct CPUTrainingView: View {
                     HStack(spacing: 10) {
                         Group {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 115)
-                                CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 87, alignment: .topLeading).padding(.horizontal, 15)
+                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 123)
+                                CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 93, alignment: .topLeading).padding(.horizontal, 15)
                             }
-                            .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
+                            .rotationEffect(.degrees(-90)).frame(width: 123, height: geometry.size.height - 30)
                         }
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
-                        VStack(alignment: .leading) {
-                            ZStack {
-                                Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
-                                }
-                                .buttonStyle(ClearButton(width: 100, height: 35)).disabled(true)
-                            }
-                            .rotationEffect(.degrees(90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
-                            Spacer()
-                            ZStack(alignment: .leading) {
-                                VStack(alignment: .leading, spacing: 0) {
-                                    HStack(spacing: 5) {
-                                        ForEach(fightLogic.fighters[0].indices) { index in
-                                            Circle().fill(Color.blue).frame(width: 12)
-                                        }
-                                    }
-                                    .padding(.leading, 24)
-                                    HStack(spacing: 0) {
-                                        Triangle().fill(Color.blue).frame(width: 20)
-                                        ZStack(alignment: .topTrailing) {
-                                            Rectangle().fill(Color.blue).frame(width: 210)
-                                            HStack(spacing: 5) {
-                                                ForEach(fightLogic.getFighter(player: 0).effects, id: \.self) { effect in
-                                                    EffectView(effect: effect, battling: fightLogic.battling)
-                                                }
-                                                if fightLogic.weather != nil {
-                                                    EffectView(effect: fightLogic.weather!, battling: fightLogic.battling, weather: true)
-                                                }
+                        ZStack(alignment: .leading) {
+                            VStack(alignment: .leading) {
+                                Spacer()
+                                ZStack(alignment: .leading) {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        HStack(spacing: 5) {
+                                            ForEach(fightLogic.fighters[0].indices) { index in
+                                                Circle().fill(Color.blue).frame(width: 12)
                                             }
-                                            .offset(x: -15, y: -15)
-                                            VStack(spacing: 0) {
-                                                HStack {
-                                                    CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
-                                                    Spacer()
-                                                    CustomText(text: "\(fightLogic.getFighter(player: 0).currhp)/\(fightLogic.getFighter(player: 0).getModifiedBase().health)HP")
-                                                }
-                                                ZStack(alignment: .leading) {
-                                                    Rectangle().fill(Color.purple).frame(height: 6)
-                                                    Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6).animation(.default, value: fightLogic.getFighter(player: 0).currhp)
-                                                }
-                                            }
-                                            .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
                                         }
+                                        .padding(.leading, 24)
+                                        HStack(spacing: 0) {
+                                            Triangle().fill(Color.blue).frame(width: 20)
+                                            ZStack(alignment: .topTrailing) {
+                                                Rectangle().fill(Color.blue).frame(width: 210)
+                                                HStack(spacing: 5) {
+                                                    ForEach(fightLogic.getFighter(player: 0).effects, id: \.self) { effect in
+                                                        EffectView(effect: effect, battling: fightLogic.battling)
+                                                    }
+                                                    if fightLogic.weather != nil {
+                                                        EffectView(effect: fightLogic.weather!, battling: fightLogic.battling, weather: true)
+                                                    }
+                                                }
+                                                .offset(x: -15, y: -15)
+                                                VStack(spacing: 0) {
+                                                    HStack {
+                                                        CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
+                                                        Spacer()
+                                                        CustomText(text: "\(fightLogic.getFighter(player: 0).currhp)/\(fightLogic.getFighter(player: 0).getModifiedBase().health)HP")
+                                                    }
+                                                    ZStack(alignment: .leading) {
+                                                        Rectangle().fill(Color.purple).frame(height: 6)
+                                                        Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6).animation(.default, value: fightLogic.getFighter(player: 0).currhp)
+                                                    }
+                                                }
+                                                .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
+                                            }
+                                        }
+                                        .frame(height: 55)
                                     }
-                                    .frame(height: 55)
+                                    .frame(height: 75)
                                 }
-                                .frame(height: 75)
+                                .rotationEffect(.degrees(90)).frame(width: 75, height: 230).offset(y: -offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                             }
-                            .rotationEffect(.degrees(90)).frame(width: 75, height: 230).offset(y: -offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
+                            VStack(alignment: .leading) {
+                                ZStack {
+                                    Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
+                                    }
+                                    .buttonStyle(ClearButton(width: 100, height: 35)).disabled(true)
+                                }
+                                .rotationEffect(.degrees(90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
+                                Spacer()
+                            }
+                            .padding(.top, 15)
                         }
-                        .padding(.top, 15)
                     }
                 }
                 .frame(width: 215)

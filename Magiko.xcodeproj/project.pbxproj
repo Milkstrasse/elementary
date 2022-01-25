@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */; };
 		B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA4278345EC00DEB25F /* MagikoApp.swift */; };
 		B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CA8278345EE00DEB25F /* Assets.xcassets */; };
 		B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */; };
@@ -67,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
+		3258B6CF27A06EC700746B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B80D7CA1278345EC00DEB25F /* Magiko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magiko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CA4278345EC00DEB25F /* MagikoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagikoApp.swift; sourceTree = "<group>"; };
 		B80D7CA8278345EE00DEB25F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -168,6 +171,7 @@
 		B80D7CA3278345EC00DEB25F /* Magiko */ = {
 			isa = PBXGroup;
 			children = (
+				3258B6CF27A06EC700746B2D /* Info.plist */,
 				B80D7D0427871EF500DEB25F /* Logic */,
 				B80D7CF12785F85200DEB25F /* Data */,
 				B80D7CA4278345EC00DEB25F /* MagikoApp.swift */,
@@ -219,6 +223,7 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */,
 				B81CC32C2789D10A00908195 /* Loadouts */,
 				B81CC32A2789A5E700908195 /* Elements */,
 				B80D7D0B27882EA800DEB25F /* Languages */,
@@ -391,6 +396,7 @@
 				B81CC32D2789D10A00908195 /* Loadouts in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
+				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +602,7 @@
 				DEVELOPMENT_TEAM = 37V7Q3S6X2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Magiko/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -629,6 +636,7 @@
 				DEVELOPMENT_TEAM = 37V7Q3S6X2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Magiko/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
