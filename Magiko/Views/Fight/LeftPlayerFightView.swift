@@ -59,8 +59,8 @@ struct LeftPlayerFightView: View {
                                 }
                             }
                     }
-                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading)
-                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
                             if currentSection == .summary {
@@ -184,7 +184,7 @@ struct LeftPlayerFightView: View {
 
 struct LeftPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).edgesIgnoringSafeArea(.bottom)
+        LeftPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

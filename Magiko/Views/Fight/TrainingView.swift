@@ -24,7 +24,7 @@ struct TrainingView: View {
                 Spacer()
                 RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in
                 ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65)
                     .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()

@@ -42,7 +42,7 @@ struct InfoView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button("X") {
-                            offsetX = -449
+                            offsetX = -450
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 infoToggle = false
                             }
@@ -53,7 +53,7 @@ struct InfoView: View {
                 }
                 .frame(width: 340).padding(.vertical, 15)
             }
-            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).edgesIgnoringSafeArea(.bottom)
+            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).ignoresSafeArea(.all, edges: .bottom)
 
         }
         .onAppear {

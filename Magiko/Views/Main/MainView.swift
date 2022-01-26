@@ -18,7 +18,7 @@ struct MainView: View {
     
     @State var transitionToggle: Bool = true
     
-    @State var offsetX: CGFloat = -449
+    @State var offsetX: CGFloat = -450
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -45,7 +45,7 @@ struct MainView: View {
                     }
                     .buttonStyle(BasicButton(width: 40))
                 }
-                .padding(.leading, offsetX < 0 ? 0 : -449).animation(.linear(duration: 0.2), value: offsetX)
+                .padding(.leading, offsetX < 0 ? 0 : -450).animation(.linear(duration: 0.2), value: offsetX)
                 Spacer()
                 VStack {
                     Spacer()
@@ -71,7 +71,7 @@ struct MainView: View {
                     .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }
-        .edgesIgnoringSafeArea(.bottom)
+        .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             transitionToggle = false
         }

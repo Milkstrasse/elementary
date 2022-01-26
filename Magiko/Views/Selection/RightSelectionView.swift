@@ -257,6 +257,6 @@ struct RightSelectionView: View {
 
 struct RightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        RightSelectionView(fighters: .constant([nil, nil, nil, nil])).edgesIgnoringSafeArea(.bottom).previewInterfaceOrientation(.landscapeLeft)
+        RightSelectionView(fighters: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
     }
 }

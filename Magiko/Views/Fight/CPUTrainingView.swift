@@ -142,7 +142,7 @@ struct CPUTrainingView: View {
 
 struct CPUTrainingView_Previews: PreviewProvider {
     static var previews: some View {
-        CPUTrainingView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).edgesIgnoringSafeArea(.bottom)
+        CPUTrainingView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false)).ignoresSafeArea(.all, edges: .bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

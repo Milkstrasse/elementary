@@ -244,7 +244,7 @@ struct LeftSelectionView: View {
 
 struct LeftSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftSelectionView(fighters: .constant([nil, nil, nil, nil])).edgesIgnoringSafeArea(.bottom)
+        LeftSelectionView(fighters: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

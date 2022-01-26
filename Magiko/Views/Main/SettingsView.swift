@@ -117,7 +117,7 @@ struct SettingsView: View {
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
-                            offsetX = -449
+                            offsetX = -450
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 settingsToggle = false
@@ -129,7 +129,7 @@ struct SettingsView: View {
                 }
                 .frame(width: 340).padding(.vertical, 15)
             }
-            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).edgesIgnoringSafeArea(.bottom)
+            .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).ignoresSafeArea(.all, edges: .bottom)
 
         }
         .onAppear {

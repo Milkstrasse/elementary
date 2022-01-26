@@ -61,7 +61,7 @@ struct RightPlayerFightView: View {
                                 }
                             }
                     }
-                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.trailing, 175 + geometry.safeAreaInsets.trailing)
+                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.trailing, 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         ZStack(alignment: .trailing) {
@@ -187,8 +187,7 @@ struct RightPlayerFightView: View {
 struct RightPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false))
-            .previewDevice("iPhone 8")
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(.all, edges: .bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

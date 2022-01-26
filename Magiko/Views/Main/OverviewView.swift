@@ -84,7 +84,7 @@ struct OverviewView: View {
                                 }
                             }
                         }
-                        .frame(width: 345).offset(x: infoToggle ? 0 : 224).animation(.linear(duration: 0.2), value: infoToggle)
+                        .frame(width: 345).offset(x: infoToggle ? 0 : 225).animation(.linear(duration: 0.2), value: infoToggle)
                     }
                     .padding(.all, 15)
                 }
@@ -154,7 +154,7 @@ struct OverviewView: View {
                             }
                             Button("X") {
                                 fighterSelected = false
-                                offsetX = -449
+                                offsetX = -450
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     overviewToggle = false
                                 }
@@ -165,9 +165,9 @@ struct OverviewView: View {
                     }
                     .frame(width: 340).padding(.vertical, 15)
                 }
-                .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 449 : 0).animation(.linear(duration: 0.2), value: infoToggle)
+                .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 315 + geometry.safeAreaInsets.trailing + geometry.size.height/2.75 : 0).animation(.linear(duration: 0.2), value: infoToggle)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(.all, edges: .bottom)
         }
         .onAppear {
             offsetX = 0

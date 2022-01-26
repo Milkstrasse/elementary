@@ -61,16 +61,17 @@ struct TrainingOverView: View {
                 HStack(spacing: 0) {
                     ZStack(alignment: .leading) {
                         HStack(spacing: 0) {
-                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.trailing)
+                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.leading)
                             Rectangle().fill(Color("outline")).frame(width: 1)
                         }
+                        .offset(x: -geometry.safeAreaInsets.leading)
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height - 30)
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             ZStack {
-                                CustomText(key: winner == 0 ? "won game" : "lost game").frame(width: geometry.size.height - 50, height: 75, alignment: .topLeading)
+                                CustomText(key: winner == 0 ? "won game" : "lost game").frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 50, height: 75, alignment: .topLeading)
                             }
-                            .frame(width: 75, height: geometry.size.height - 50).padding(.all, 10).rotationEffect(.degrees(90))
+                            .frame(width: 75, height: geometry.size.height + geometry.safeAreaInsets.bottom - 50).padding(.all, 10).rotationEffect(.degrees(90))
                         }
                         .padding(.leading, 65)
                         VStack {
@@ -97,6 +98,7 @@ struct TrainingOverView: View {
                             Rectangle().fill(Color("outline")).frame(width: 1)
                             Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.trailing)
                         }
+                        .offset(x: geometry.safeAreaInsets.trailing)
                         ZStack {
                             RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height - 30)
                             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height - 30)
@@ -136,9 +138,9 @@ struct TrainingOverView: View {
                         .padding([.top, .trailing], 15)
                     }
                 }
-                .frame(height: geometry.size.height)
+                .frame(height: geometry.size.height + geometry.safeAreaInsets.bottom)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(.all, edges: .bottom)
             ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }

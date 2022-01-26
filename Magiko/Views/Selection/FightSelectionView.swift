@@ -111,13 +111,13 @@ struct FightSelectionView: View {
                         Spacer()
                     }
                 }
-                .padding(.all, 15).edgesIgnoringSafeArea(.bottom)
+                .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
                     LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
                     CustomText(text: "------- X -------").rotationEffect(.degrees(90)).frame(width: 60)
                     RightSelectionView(fighters: $rightFighters).disabled(rightReady)
                 }
-                .edgesIgnoringSafeArea(.bottom)
+                .ignoresSafeArea(.all, edges: .bottom)
             }
             GeometryReader { geometry in
                 ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
