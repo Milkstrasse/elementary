@@ -1,0 +1,14 @@
+{
+  "element": "metal",
+  "base": {
+      "health": 100,
+      "attack": 90,
+      "defense": 130,
+      "agility": 60,
+      "precision": 100,
+      "stamina": 120
+  },
+  "skills": [
+      "genericPunch"
+  ]
+}

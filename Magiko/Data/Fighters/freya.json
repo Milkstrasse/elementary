@@ -1,0 +1,14 @@
+{
+  "element": "wind",
+  "base": {
+      "health": 95,
+      "attack": 80,
+      "defense": 125,
+      "agility": 65,
+      "precision": 140,
+      "stamina": 95
+  },
+  "skills": [
+      "genericPunch"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "element": "plant",
+  "base": {
+      "health": 105,
+      "attack": 95,
+      "defense": 110,
+      "agility": 50,
+      "precision": 110,
+      "stamina": 130
+  },
+  "skills": [
+      "genericPunch"
+  ]
+}

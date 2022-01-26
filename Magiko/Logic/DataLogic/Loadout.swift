@@ -20,7 +20,7 @@ struct Loadout: Decodable {
     }
     
     init() {
-        name = "neutral"
+        name = "allrounder"
         
         healthMod = 0
         attackMod = 0
