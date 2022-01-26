@@ -16,22 +16,7 @@ struct LeftSelectionView: View {
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
     
-    @State var offsetX: CGFloat = 189
-    
-    func getOffset() -> CGFloat {
-        switch selectedSlot {
-        case 0:
-            return 113
-        case 1:
-            return 38
-        case 2:
-            return -38
-        case 3:
-            return -113
-        default:
-            return 0
-        }
-    }
+    @State var offsetX: CGFloat = 175
     
     func isSelected(fighter: Fighter?) -> Bool {
         if fighter == nil {
@@ -127,7 +112,7 @@ struct LeftSelectionView: View {
             if selectionToggle || infoToggle {
                 HStack(spacing: 0) {
                     ZStack(alignment: .trailing) {
-                        Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.leading)
+                        Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading)
                         if selectionToggle {
                             VStack {
                                 ScrollView(.vertical, showsIndicators: false) {
@@ -169,9 +154,10 @@ struct LeftSelectionView: View {
                                                 selectionToggle = true
                                                 infoToggle = false
                                             }
-                                            .buttonStyle(GrowingButton(width: geometry.size.height - 30 - 215 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30 - 215 - 5)
+                                            .buttonStyle(BasicButton(width: geometry.size.height - 30 - 215 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30 - 215 - 5)
                                             ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color.blue).frame(width: 40, height: 215)
+                                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 40, height: 215)
+                                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40, height: 215)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
                                                         if selectedLoadout <= 0 {
@@ -182,7 +168,7 @@ struct LeftSelectionView: View {
                                                         
                                                         fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
-                                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                                     CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).frame(width: 125)
                                                     Button(">") {
                                                         if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
@@ -193,7 +179,7 @@ struct LeftSelectionView: View {
                                                         
                                                         fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
-                                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                                 }.rotationEffect(.degrees(-90)).frame(width: 40, height: 215)
                                             }
                                         }
@@ -203,7 +189,8 @@ struct LeftSelectionView: View {
                                             DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         ZStack {
-                                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 60)
+                                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 60)
+                                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 60)
                                             HStack(spacing: 0) {
                                                 Button("<") {
                                                     if selectedAbility <= 0 {
@@ -214,7 +201,7 @@ struct LeftSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
-                                                .buttonStyle(ClearGrowingButton(width: 40, height: 60))
+                                                .buttonStyle(ClearBasicButton(width: 40, height: 60))
                                                 VStack {
                                                     CustomText(key: Abilities.allCases[selectedAbility].getAbility().name).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
@@ -228,7 +215,7 @@ struct LeftSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
-                                                .buttonStyle(ClearGrowingButton(width: 40, height: 60))
+                                                .buttonStyle(ClearBasicButton(width: 40, height: 60))
                                             }
                                             .frame(width: geometry.size.height - 30, height: 60)
                                         }
@@ -244,7 +231,7 @@ struct LeftSelectionView: View {
                             }
                         }
                     }
-                    SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: self.getOffset()).animation(.linear(duration: 0.2), value: selectedSlot).rotationEffect(.degrees(180))
+                    Rectangle().fill(Color("outline")).frame(width: 1)
                 }
                 .offset(x: -geometry.safeAreaInsets.leading - offsetX).animation(.linear(duration: 0.2), value: offsetX)
                 .onAppear {

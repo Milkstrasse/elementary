@@ -34,7 +34,7 @@ struct FightView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
             GeometryReader { geometry in
-                ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65)
+                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65)
                     .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }

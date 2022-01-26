@@ -68,10 +68,10 @@ struct OverviewView: View {
                         Button(infoToggle ? "X" : "?") {
                             infoToggle = !infoToggle
                         }
-                        .buttonStyle(GrowingButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40))
                         Spacer()
                         ZStack {
-                            Color.red
+                            Color("background")
                             VStack(alignment: .leading, spacing: 5) {
                                 CustomText(key: currentFighter.name)
                                 ScrollView(.vertical, showsIndicators: false) {
@@ -91,8 +91,11 @@ struct OverviewView: View {
                 ZStack(alignment: .trailing) {
                     HStack(spacing: 0) {
                         Spacer()
-                        Triangle().fill(Color.pink).frame(width: 134)
-                        Rectangle().fill(Color.pink).frame(width: 315 + geometry.safeAreaInsets.trailing)
+                        ZStack(alignment: .trailing) {
+                            Triangle().fill(Color("outline")).offset(x: -1)
+                            Triangle().fill(Color("background"))
+                        }
+                        Rectangle().fill(Color("background")).frame(width: 315 + geometry.safeAreaInsets.trailing)
                     }
                     .offset(x: geometry.safeAreaInsets.trailing)
                     VStack(alignment: .leading, spacing: 0) {
@@ -120,7 +123,8 @@ struct OverviewView: View {
                         HStack(spacing: 5) {
                             Spacer()
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 160, height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 160, height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 160, height: 40)
                                 HStack {
                                     Button("<") {
                                         if currentElement < 0 {
@@ -131,7 +135,7 @@ struct OverviewView: View {
                                         
                                         setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
                                     CustomText(key: currentElement == -1 ? "allTypes" : GlobalData.shared.elementArray[currentElement].name.lowercased()).frame(width: 65)
                                     Spacer()
@@ -144,7 +148,7 @@ struct OverviewView: View {
                                         
                                         setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
                                 .frame(width: 145)
                             }
@@ -155,7 +159,7 @@ struct OverviewView: View {
                                     overviewToggle = false
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40))
                         }
                         .padding(.trailing, 15)
                     }

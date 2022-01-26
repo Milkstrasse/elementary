@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GrowingButton: ButtonStyle {
+struct BasicButton: ButtonStyle {
     var width: CGFloat
     var height: CGFloat = 40
     
@@ -16,22 +16,27 @@ struct GrowingButton: ButtonStyle {
             .frame(width: width, height: height, alignment: width == height ? .center : .leading)
             .offset(x: width == height ? 0 : 15)
             .background(content: {
-                RoundedRectangle(cornerRadius: 5).fill(Color.blue)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                }
             })
-            .foregroundColor(.white)
+            .font(.custom("Recoleta-Regular", size: 13))
+            .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
 
-struct ClearGrowingButton: ButtonStyle {
+struct ClearBasicButton: ButtonStyle {
     var width: CGFloat
     var height: CGFloat
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height)
-            .foregroundColor(.white)
+            .font(.custom("Recoleta-Regular", size: 13))
+            .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
             .contentShape(Rectangle())
@@ -45,7 +50,8 @@ struct ClearButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height, alignment: .bottomLeading)
-            .foregroundColor(.white)
+            .font(.custom("Recoleta-Regular", size: 13))
+            .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
             .contentShape(Rectangle())

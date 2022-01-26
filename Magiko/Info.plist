@@ -5,6 +5,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Font Awesome 5 Free-Solid-900.otf</string>
+		<string>Recoleta-Regular.ttf</string>
+		<string>Recoleta-Bold.ttf</string>
 	</array>
 </dict>
 </plist>

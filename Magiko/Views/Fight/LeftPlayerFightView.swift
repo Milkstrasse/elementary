@@ -59,18 +59,20 @@ struct LeftPlayerFightView: View {
                                 }
                             }
                     }
-                    Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
                             if currentSection == .summary {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 120)
+                                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
+                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.battleLog).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(text: fightLogic.battleLog).frame(width: geometry.size.height - 50, alignment: .leading)
                                     }
-                                    .frame(height: 90).padding(.horizontal, 15)
+                                    .frame(height: 95).padding(.horizontal, 15)
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 120, height: geometry.size.height - 30)
+                                .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             } else if currentSection != .waiting {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
@@ -83,31 +85,37 @@ struct LeftPlayerFightView: View {
                                         }
                                     }
                                 }
-                                .padding(.vertical, 15).frame(width: 120, height: geometry.size.height - 30)
+                                .padding(.vertical, 15).frame(width: 115, height: geometry.size.height - 30)
                             } else {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 120)
-                                    CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 90, alignment: .topLeading).padding(.horizontal, 15)
+                                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
+                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
+                                    CustomText(key: "waiting on other player").frame(width: geometry.size.height - 50, height: 95, alignment: .topLeading).padding(.horizontal, 15)
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 120, height: geometry.size.height - 30)
+                                .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }
                         }
                         .padding(.trailing, 15).rotationEffect(.degrees(180))
                         ZStack(alignment: .leading) {
                             VStack(alignment: .leading) {
                                 Spacer()
-                                ZStack(alignment: .leading) {
+                                ZStack(alignment: .bottomLeading) {
+                                    HStack(spacing: 0) {
+                                        Triangle().fill(Color("outline")).frame(width: 21, height: 57)
+                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 57)
+                                    }
+                                    .padding(.bottom, 3).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
                                             ForEach(fightLogic.fighters[0].indices) { index in
-                                                Circle().fill(Color.blue).frame(width: 12)
+                                                Circle().fill(Color("outline")).frame(width: 12, height: 12).opacity(fightLogic.fighters[0][index].currhp == 0 ? 0.5 : 1)
                                             }
                                         }
-                                        .padding(.leading, 24)
+                                        .padding(.leading, 24).offset(y: -5)
                                         HStack(spacing: 0) {
-                                            Triangle().fill(Color.blue).frame(width: 20)
+                                            Triangle().fill(Color("button")).frame(width: 20, height: 55)
                                             ZStack(alignment: .topTrailing) {
-                                                Rectangle().fill(Color.blue).frame(width: 190)
+                                                Rectangle().fill(Color("button")).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(fightLogic.getFighter(player: 0).effects, id: \.self) { effect in
                                                         EffectView(effect: effect, battling: fightLogic.battling)
@@ -116,7 +124,7 @@ struct LeftPlayerFightView: View {
                                                         EffectView(effect: fightLogic.weather!, battling: fightLogic.battling, weather: true)
                                                     }
                                                 }
-                                                .offset(x: -15, y: -15)
+                                                .offset(x: -12, y: -12)
                                                 VStack(spacing: 0) {
                                                     HStack {
                                                         CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
@@ -124,9 +132,10 @@ struct LeftPlayerFightView: View {
                                                         CustomText(text: "\(fightLogic.getFighter(player: 0).currhp)/\(fightLogic.getFighter(player: 0).getModifiedBase().health)HP")
                                                     }
                                                     ZStack(alignment: .leading) {
-                                                        Rectangle().fill(Color.purple).frame(height: 6)
-                                                        Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6).animation(.default, value: fightLogic.getFighter(player: 0).currhp)
+                                                        Rectangle().fill(Color("outline")).frame(height: 6)
+                                                        Rectangle().fill(Color("health")).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 0)), height: 6).animation(.default, value: fightLogic.getFighter(player: 0).currhp)
                                                     }
+                                                    .clipShape(RoundedRectangle(cornerRadius: 5))
                                                 }
                                                 .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
                                             }

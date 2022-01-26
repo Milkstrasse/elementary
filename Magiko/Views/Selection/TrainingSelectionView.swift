@@ -68,14 +68,14 @@ struct TrainingSelectionView: View {
                             Button("randomize") {
                                 selectRandom()
                             }
-                            .buttonStyle(GrowingButton(width: 135))
+                            .buttonStyle(BasicButton(width: 135))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40))
                         }
                         .rotationEffect(.degrees(90)).frame(width: 40, height: 170)
                     }
@@ -92,14 +92,14 @@ struct TrainingSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
+                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
                             Button("X") {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(GrowingButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40))
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 40, height: 170)
                         Spacer()
@@ -114,7 +114,7 @@ struct TrainingSelectionView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
             GeometryReader { geometry in
-                ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                     .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }

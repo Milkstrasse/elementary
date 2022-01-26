@@ -34,9 +34,9 @@ struct MagikoApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                Color.red.ignoresSafeArea()
+                Color("background").ignoresSafeArea()
                 if isLoading {
-                    Color.purple.onAppear {
+                    Color("outline").onAppear {
                         DispatchQueue.main.async {
                             var langCode = UserDefaults.standard.string(forKey: "lang")
                             if langCode == nil {

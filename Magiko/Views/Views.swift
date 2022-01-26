@@ -14,8 +14,11 @@ struct DetailedActionView: View {
     var width: CGFloat?
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+        ZStack(alignment: .trailing) {
+            RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40).padding(.all, 10)
+            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 42, height: 42).rotationEffect(.degrees(45)).padding(.trailing, 9)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: title, bold: true)
@@ -35,8 +38,11 @@ struct DetailedSkillView: View {
     var width: CGFloat?
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color.yellow)
+        ZStack(alignment: .trailing) {
+            RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40).padding(.all, 10)
+            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 42, height: 42).rotationEffect(.degrees(45)).padding(.trailing, 9)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     CustomText(key: skill.name, bold: true)
@@ -55,15 +61,13 @@ struct RectangleFighterView: View {
     var isSelected: Bool
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.yellow : Color.blue).frame(height: 125)
-            Image(fighter.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
-            Triangle().fill(Color.green).frame(height: 35).padding(.bottom, 10)
-            Rectangle().fill(Color.green).frame(height: 5).padding(.bottom, 5)
-            RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(height: 10)
+        ZStack(alignment: .topTrailing) {
+            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button")).frame(height: 125)
+            Image(fighter.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
             CustomText(text: String(fighter.element.name.first ?? "?")).frame(width: 35, height: 35)
+            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 125)
         }
-        .contentShape(Rectangle())
+        .clipShape(RoundedRectangle(cornerRadius: 5)).contentShape(Rectangle())
     }
 }
 
@@ -75,7 +79,8 @@ struct BaseOverviewView: View {
     var body: some View {
         HStack(spacing: 5) {
             ZStack {
-                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
+                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 75)
+                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 75)
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
@@ -98,7 +103,8 @@ struct BaseOverviewView: View {
                 .padding(.horizontal, 15)
             }
             ZStack {
-                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 75)
+                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 75)
+                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 75)
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
@@ -131,12 +137,13 @@ struct SquareFighterView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.blue : Color.purple)
+            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button"))
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(1.4).aspectRatio(contentMode: .fit).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 CustomText(text: "+")
             }
+            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
         }
         .frame(width: 70, height: 70).contentShape(Rectangle())
     }
@@ -191,7 +198,7 @@ struct CustomText: View {
             ForEach(textArray.indices, id: \.self) { line in
                 HStack(spacing: 0) {
                     ForEach(textArray[line].indices, id: \.self) { index in
-                        Text(textArray[line][index]).fontWeight(isBold(index: index) ? .bold : .regular).fixedSize().lineLimit(lineLimit)
+                        Text(textArray[line][index]).font(.custom(isBold(index: index) ? "Recoleta-Bold" : "Recoleta-Regular", size: 13)).fixedSize().foregroundColor(Color("outline")).lineLimit(lineLimit)
                     }
                 }
             }
@@ -206,15 +213,23 @@ struct EffectView: View {
     
     @State var opacity: Double = 1
     
-    func getColor() -> Color {
+    func getBackgroundColor() -> Color {
+        if !effect.positive || weather {
+            return Color("button")
+        } else {
+            return Color("outline")
+        }
+    }
+    
+    func getFontColor() -> Color {
         if weather {
-            return Color.yellow
+            return Color("highlight")
         }
         
         if effect.positive {
-            return Color.green
+            return Color("background")
         } else {
-            return Color.purple
+            return Color("outline")
         }
     }
     
@@ -224,10 +239,10 @@ struct EffectView: View {
     
     var body: some View {
         ZStack {
-            Rectangle().fill(Color.red).frame(width: 30, height: 30)
+            RoundedRectangle(cornerRadius: 5).fill(Color("background")).frame(width: 24, height: 24)
             Group {
-                Rectangle().fill(getColor()).frame(width: 30, height: 30)
-                Text(self.createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 20))
+                RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor()).frame(width: 24, height: 24)
+                Text(self.createSymbol()).frame(width: 24, height: 24).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(getFontColor())
             }
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
         }

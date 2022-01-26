@@ -31,19 +31,19 @@ struct MainView: View {
                             manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
                         }
                     }
-                    .buttonStyle(GrowingButton(width: 135))
+                    .buttonStyle(BasicButton(width: 135))
                     Button("O") {
                         overviewToggle = true
                     }
-                    .buttonStyle(GrowingButton(width: 40))
+                    .buttonStyle(BasicButton(width: 40))
                     Button("S") {
                         settingsToggle = true
                     }
-                    .buttonStyle(GrowingButton(width: 40))
+                    .buttonStyle(BasicButton(width: 40))
                     Button("I") {
                         infoToggle = true
                     }
-                    .buttonStyle(GrowingButton(width: 40))
+                    .buttonStyle(BasicButton(width: 40))
                 }
                 .padding(.leading, offsetX < 0 ? 0 : -449).animation(.linear(duration: 0.2), value: offsetX)
                 Spacer()
@@ -55,7 +55,7 @@ struct MainView: View {
                             manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                         }
                     }
-                    .buttonStyle(GrowingButton(width: 190, height: 50))
+                    .buttonStyle(BasicButton(width: 190, height: 50))
                 }
             }
             .padding(.all, 15)
@@ -67,7 +67,7 @@ struct MainView: View {
                 InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
             }
             GeometryReader { geometry in
-                ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65)
+                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65)
                     .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }

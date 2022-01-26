@@ -28,8 +28,11 @@ struct SettingsView: View {
             ZStack(alignment: .trailing) {
                 HStack(spacing: 0) {
                     Spacer()
-                    Triangle().fill(Color.pink).frame(width: 134)
-                    Rectangle().fill(Color.pink).frame(width: 315 + geometry.safeAreaInsets.trailing)
+                    ZStack(alignment: .trailing) {
+                        Triangle().fill(Color("outline")).offset(x: -1)
+                        Triangle().fill(Color("background"))
+                    }
+                    Rectangle().fill(Color("background")).frame(width: 315 + geometry.safeAreaInsets.trailing)
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
@@ -37,39 +40,42 @@ struct SettingsView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
                                     CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
                                     CustomText(text: "100%")
                                     Spacer()
                                     Button(">") {
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
@@ -81,7 +87,7 @@ struct SettingsView: View {
                                         
                                         Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
                                     CustomText(key: Localization.shared.languages[langIndex])
                                     Spacer()
@@ -94,7 +100,7 @@ struct SettingsView: View {
                                         
                                         Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                     }
-                                    .buttonStyle(ClearGrowingButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
                                 .padding(.horizontal, 15)
                             }
@@ -108,7 +114,7 @@ struct SettingsView: View {
                             Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
                             langIndex = getCurrentLang()
                         }
-                        .buttonStyle(GrowingButton(width: 160))
+                        .buttonStyle(BasicButton(width: 160))
                         Button("X") {
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             offsetX = -449
@@ -117,7 +123,7 @@ struct SettingsView: View {
                                 settingsToggle = false
                             }
                         }
-                        .buttonStyle(GrowingButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40))
                     }
                     .padding(.trailing, 15)
                 }

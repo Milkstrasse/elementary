@@ -60,41 +60,50 @@ struct TrainingOverView: View {
                 }
                 HStack(spacing: 0) {
                     ZStack(alignment: .leading) {
-                        Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                        HStack(spacing: 0) {
+                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.trailing)
+                            Rectangle().fill(Color("outline")).frame(width: 1)
+                        }
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 95, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height - 30)
                             ZStack {
-                                CustomText(key: winner == 0 ? "won game" : "lost game").frame(width: geometry.size.height - 60, height: 65, alignment: .topLeading)
+                                CustomText(key: winner == 0 ? "won game" : "lost game").frame(width: geometry.size.height - 50, height: 75, alignment: .topLeading)
                             }
-                            .frame(width: 65, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(90))
+                            .frame(width: 75, height: geometry.size.height - 50).padding(.all, 10).rotationEffect(.degrees(90))
                         }
                         .padding(.leading, 65)
                         VStack {
                             Spacer()
                             HStack(spacing: 5) {
+                                Button(Localization.shared.getTranslation(key: "rematch")) {
+                                }
+                                .buttonStyle(BasicButton(width: 135)).disabled(true)
                                 Button("X") {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                     }
                                 }
-                                .buttonStyle(GrowingButton(width: 40))
+                                .buttonStyle(BasicButton(width: 40))
                             }
                             .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                         }
                         .padding([.bottom, .leading], 15)
                     }
-                    SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: 113).rotationEffect(.degrees(180))
                     Spacer()
-                    SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: 113)
                     ZStack(alignment: .trailing) {
-                        Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                        HStack(spacing: 0) {
+                            Rectangle().fill(Color("outline")).frame(width: 1)
+                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.trailing)
+                        }
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 95, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height - 30)
                             ZStack {
-                                CustomText(key: winner == 1 ? "won game" : "lost game").frame(width: geometry.size.height - 60, height: 65, alignment: .topLeading)
+                                CustomText(key: winner == 1 ? "won game" : "lost game").frame(width: geometry.size.height - 50, height: 75, alignment: .topLeading)
                             }
-                            .frame(width: 65, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))
+                            .frame(width: 75, height: geometry.size.height - 50).padding(.all, 15).rotationEffect(.degrees(-90))
                         }
                         .padding(.trailing, 65)
                         VStack {
@@ -112,14 +121,14 @@ struct TrainingOverView: View {
                                         }
                                     }
                                 }
-                                .buttonStyle(GrowingButton(width: 135))
+                                .buttonStyle(BasicButton(width: 135))
                                 Button("X") {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                     }
                                 }
-                                .buttonStyle(GrowingButton(width: 40))
+                                .buttonStyle(BasicButton(width: 40))
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                             Spacer()
@@ -130,7 +139,7 @@ struct TrainingOverView: View {
                 .frame(height: geometry.size.height)
             }
             .edgesIgnoringSafeArea(.bottom)
-            ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

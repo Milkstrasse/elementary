@@ -16,8 +16,11 @@ struct InfoView: View {
             ZStack(alignment: .trailing) {
                 HStack(spacing: 0) {
                     Spacer()
-                    Triangle().fill(Color.pink).frame(width: 134)
-                    Rectangle().fill(Color.pink).frame(width: 315 + geometry.safeAreaInsets.trailing)
+                    ZStack(alignment: .trailing) {
+                        Triangle().fill(Color("outline")).offset(x: -1)
+                        Triangle().fill(Color("background"))
+                    }
+                    Rectangle().fill(Color("background")).frame(width: 315 + geometry.safeAreaInsets.trailing)
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
@@ -25,7 +28,8 @@ struct InfoView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
                                     Text("Lorem Ipsum")
                                 }
@@ -43,7 +47,7 @@ struct InfoView: View {
                                 infoToggle = false
                             }
                         }
-                        .buttonStyle(GrowingButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40))
                     }
                     .padding(.trailing, 15)
                 }
