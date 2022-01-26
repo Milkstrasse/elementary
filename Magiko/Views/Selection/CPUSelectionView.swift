@@ -21,7 +21,7 @@ struct CPUSelectionView: View {
                     Spacer()
                     HStack(spacing: 5) {
                         ForEach(0 ..< 4) { index in
-                            FighterView(fighter: fighters[index], isSelected: false)
+                            SquareFighterView(fighter: fighters[index], isSelected: false)
                         }
                     }
                     .rotationEffect(.degrees(90)).frame(width: 70, height: 295)

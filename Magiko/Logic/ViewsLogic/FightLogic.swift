@@ -351,6 +351,10 @@ class FightLogic: ObservableObject {
         
         if getFighter(player: player).ability.name == Abilities.lastWill.rawValue {
             applyEffect = true
+        } else if getFighter(player: player).ability.name == Abilities.naturalCure.rawValue {
+            for effect in getFighter(player: player).effects {
+                getFighter(player: player).removeEffect(effect: effect)
+            }
         }
         
         text = Localization.shared.getTranslation(key: "swapWith", params: [getFighter(player: player).name, fighters[player][target].name]) + "\n"

@@ -25,118 +25,113 @@ struct TrainingOverView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.red.ignoresSafeArea()
+        GeometryReader { geometry in
             ZStack {
                 HStack(spacing: 0) {
+                    Spacer()
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "rematch")) {
+                            ForEach(leftFighters, id: \.self) { fighter in
+                                SquareFighterView(fighter: fighter, isSelected: false)
                             }
-                            .buttonStyle(GrowingButton(width: 135)).disabled(true)
-                            Button("X") {
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                                }
+                            ForEach(0 ..< 4 - leftFighters.count) { index in
+                                SquareFighterView(fighter: nil, isSelected: false)
                             }
-                            .buttonStyle(GrowingButton(width: 40))
                         }
-                        .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
-                    }
-                    HStack {
-                        HStack(spacing: 0) {
-                            ZStack(alignment: .topTrailing) {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
-                                ZStack {
-                                    CustomText(key: winner == 0 ? "won game" : "lost game").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
-                                }
-                                .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(90))
-                            }
-                            .frame(width: 109)
-                            SmallTriangle().fill(Color.yellow).frame(width: 14, height: 26).offset(y: 113).rotationEffect(.degrees(180))
-                        }
+                        .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
                         Spacer()
-                        VStack {
-                            Spacer()
-                            HStack(spacing: 5) {
-                                ForEach(leftFighters, id: \.self) { fighter in
-                                    FighterView(fighter: fighter, isSelected: false)
-                                }
-                                ForEach(0 ..< 4 - leftFighters.count) { index in
-                                    FighterView(fighter: nil, isSelected: false)
-                                }
-                            }
-                            .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
-                            Spacer()
-                        }
                     }
-                    .padding(.leading, 10)
-                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).fixedSize().frame(width: 60)
-                    HStack {
-                        VStack {
-                            Spacer()
-                            HStack(spacing: 5) {
-                                ForEach(rightFighters, id: \.self) { fighter in
-                                    FighterView(fighter: fighter, isSelected: false)
-                                }
-                                ForEach(0 ..< 4 - rightFighters.count) { index in
-                                    FighterView(fighter: nil, isSelected: false)
-                                }
-                            }
-                            .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
-                            Spacer()
-                        }
-                        Spacer()
-                        HStack(spacing: 0) {
-                            SmallTriangle().fill(Color.yellow).frame(width: 14, height: 26).offset(y: 113)
-                            ZStack(alignment: .bottom) {
-                                RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 109)
-                                ZStack {
-                                    CustomText(key: winner == 0 ? "lost game" : "won game").fixedSize().frame(width: 250, height: 79, alignment: .topLeading)
-                                }
-                                .frame(width: 79, height: 250).padding(.all, 15).rotationEffect(.degrees(-90))
-                            }
-                            .frame(width: 109)
-                        }
-                    }
-                    .padding(.trailing, 10)
+                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).frame(width: 60)
                     VStack {
+                        Spacer()
                         HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "rematch")) {
-                                resetFighters(fighters: leftFighters)
-                                resetFighters(fighters: rightFighters)
-                                
-                                let fightLogic: FightLogic = FightLogic(leftFighters: leftFighters, rightFighters: rightFighters, hasCPUPlayer: true)
-                                
-                                if fightLogic.isValid() {
+                            ForEach(rightFighters, id: \.self) { fighter in
+                                SquareFighterView(fighter: fighter, isSelected: false)
+                            }
+                            ForEach(0 ..< 4 - rightFighters.count) { index in
+                                SquareFighterView(fighter: nil, isSelected: false)
+                            }
+                        }
+                        .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                HStack(spacing: 0) {
+                    ZStack(alignment: .leading) {
+                        Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 95, height: geometry.size.height - 30)
+                            ZStack {
+                                CustomText(key: winner == 0 ? "won game" : "lost game").frame(width: geometry.size.height - 60, height: 65, alignment: .topLeading)
+                            }
+                            .frame(width: 65, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(90))
+                        }
+                        .padding(.leading, 65)
+                        VStack {
+                            Spacer()
+                            HStack(spacing: 5) {
+                                Button("X") {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                                        manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                     }
                                 }
+                                .buttonStyle(GrowingButton(width: 40))
                             }
-                            .buttonStyle(GrowingButton(width: 135))
-                            Button("X") {
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                                }
-                            }
-                            .buttonStyle(GrowingButton(width: 40))
+                            .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
-                        Spacer()
+                        .padding([.bottom, .leading], 15)
+                    }
+                    SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: 113).rotationEffect(.degrees(180))
+                    Spacer()
+                    SmallTriangle().fill(Color.pink).frame(width: 14, height: 26).offset(y: 113)
+                    ZStack(alignment: .trailing) {
+                        Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: 95, height: geometry.size.height - 30)
+                            ZStack {
+                                CustomText(key: winner == 1 ? "won game" : "lost game").frame(width: geometry.size.height - 60, height: 65, alignment: .topLeading)
+                            }
+                            .frame(width: 65, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))
+                        }
+                        .padding(.trailing, 65)
+                        VStack {
+                            HStack(spacing: 5) {
+                                Button(Localization.shared.getTranslation(key: "rematch")) {
+                                    resetFighters(fighters: rightFighters)
+                                    resetFighters(fighters: leftFighters)
+                                    
+                                    let fightLogic: FightLogic = FightLogic(leftFighters: leftFighters, rightFighters: rightFighters)
+                                    
+                                    if fightLogic.isValid() {
+                                        transitionToggle = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                        }
+                                    }
+                                }
+                                .buttonStyle(GrowingButton(width: 135))
+                                Button("X") {
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                                    }
+                                }
+                                .buttonStyle(GrowingButton(width: 40))
+                            }
+                            .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
+                            Spacer()
+                        }
+                        .padding([.top, .trailing], 15)
                     }
                 }
-                .padding(.all, 15)
+                .frame(height: geometry.size.height)
             }
             .edgesIgnoringSafeArea(.bottom)
-            GeometryReader { geometry in
-                ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                    .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
-            }
+            ZigZag().fill(Color.purple).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+                .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

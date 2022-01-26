@@ -19,7 +19,6 @@ struct TrainingView: View {
     
     var body: some View {
         ZStack {
-            Color.red.ignoresSafeArea()
             HStack {
                 CPUTrainingView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
                 Spacer()

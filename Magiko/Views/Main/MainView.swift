@@ -21,9 +21,8 @@ struct MainView: View {
     @State var offsetX: CGFloat = -449
     
     var body: some View {
-        ZStack(alignment: .trailing) {
-            Color.red.ignoresSafeArea()
-            Image(currentFighter.name).resizable().scaleEffect(2.4).aspectRatio(contentMode: .fit).offset(x: -50, y: 170).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
+        ZStack(alignment: .bottomTrailing) {
+            Image(currentFighter.name).resizable().frame(width: 300, height: 300).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -80, y: 0).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button(Localization.shared.getTranslation(key: "training")) {

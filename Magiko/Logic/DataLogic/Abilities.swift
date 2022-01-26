@@ -24,6 +24,7 @@ enum Abilities: String, CaseIterable {
     case enraged
     case defensive
     case lastWill
+    case naturalCure
     
     func getAbility() -> Ability {
         return Ability(name: self.rawValue, description: self.rawValue + "Descr")

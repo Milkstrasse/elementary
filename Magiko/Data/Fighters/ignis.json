@@ -1,1 +1,0 @@
-{  "element": "fire",  "base": {      "health": 100,      "attack": 100,      "defense": 100,      "agility": 100,      "precision": 100,      "stamina": 100  },  "skills": [      "weatherSpell",      "genericPunch",      "recoilPunch",      "healingSpell",      "boostedPunch",      "protectSpell",      "poisonSpell"  ]}

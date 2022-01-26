@@ -57,7 +57,7 @@ struct RectangleFighterView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.yellow : Color.blue).frame(height: 125)
-            Image(fighter.name).resizable().scaleEffect(4.6).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 100).clipShape(RoundedRectangle(cornerRadius: 5))
+            Image(fighter.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
             Triangle().fill(Color.green).frame(height: 35).padding(.bottom, 10)
             Rectangle().fill(Color.green).frame(height: 5).padding(.bottom, 5)
             RoundedRectangle(cornerRadius: 5).fill(Color.green).frame(height: 10)
@@ -125,7 +125,7 @@ struct BaseOverviewView: View {
     }
 }
 
-struct FighterView: View {
+struct SquareFighterView: View {
     var fighter: Fighter?
     var isSelected: Bool
     
@@ -133,7 +133,7 @@ struct FighterView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color.blue : Color.purple)
             if fighter != nil {
-                Image(fighter!.name).resizable().scaleEffect(6.4).aspectRatio(contentMode: .fit).offset(y: 95).clipShape(RoundedRectangle(cornerRadius: 5))
+                Image(fighter!.name).resizable().scaleEffect(1.4).aspectRatio(contentMode: .fit).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 CustomText(text: "+")
             }
@@ -244,7 +244,7 @@ struct Views_Previews: PreviewProvider {
         VStack {
             DetailedActionView(title: "Title", description: "Description")
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
-            FighterView(fighter: exampleFighter, isSelected: false)
+            SquareFighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
             EffectView(effect: Effect(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
         }

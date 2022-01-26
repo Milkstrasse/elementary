@@ -19,7 +19,7 @@ class ViewManager: ObservableObject {
     }
 }
 
-let exampleFighter: Fighter = Fighter(data: FighterData(name: "ella", element: "water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100)))
+let exampleFighter: Fighter = Fighter(data: FighterData(name: "luna", element: "water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100)))
 
 @main
 struct MagikoApp: App {
@@ -33,26 +33,29 @@ struct MagikoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if isLoading {
-                Color.purple.onAppear {
-                    DispatchQueue.main.async {
-                        var langCode = UserDefaults.standard.string(forKey: "lang")
-                        if langCode == nil {
-                            langCode = String(Locale.preferredLanguages[0].prefix(2))
-                            UserDefaults.standard.set(langCode, forKey: "lang")
+            ZStack {
+                Color.red.ignoresSafeArea()
+                if isLoading {
+                    Color.purple.onAppear {
+                        DispatchQueue.main.async {
+                            var langCode = UserDefaults.standard.string(forKey: "lang")
+                            if langCode == nil {
+                                langCode = String(Locale.preferredLanguages[0].prefix(2))
+                                UserDefaults.standard.set(langCode, forKey: "lang")
+                            }
+                            
+                            Localization.shared.getLanguages()
+                            Localization.shared.loadLanguage(language: langCode!)
+                            
+                            GlobalData.shared.loadData()
+                            
+                            manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                            isLoading = false
                         }
-                        
-                        Localization.shared.getLanguages()
-                        Localization.shared.loadLanguage(language: langCode!)
-                        
-                        GlobalData.shared.loadData()
-                        
-                        manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                        isLoading = false
                     }
+                } else {
+                    manager.getCurrentView()
                 }
-            } else {
-                manager.getCurrentView()
             }
         }
     }

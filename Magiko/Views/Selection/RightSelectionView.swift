@@ -125,7 +125,7 @@ struct RightSelectionView: View {
                                         }
                                     }
                                 }) {
-                                    FighterView(fighter: fighters[index], isSelected: false)
+                                    SquareFighterView(fighter: fighters[index], isSelected: index == selectedSlot)
                                 }
                             }
                         }
@@ -145,7 +145,7 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
-                                                    FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                         .onTapGesture {
                                                             if !isSelected(fighter: fighter) {
                                                                 fighters[selectedSlot] = Fighter(data: fighter!.data)
@@ -155,7 +155,7 @@ struct RightSelectionView: View {
                                             }
                                             VStack(spacing: 5) {
                                                 ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
-                                                    FighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
                                                         .onTapGesture {
                                                             if !isSelected(fighter: fighter) {
                                                                 fighters[selectedSlot] = Fighter(data: fighter!.data)
@@ -194,7 +194,7 @@ struct RightSelectionView: View {
                                                             fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                         }
                                                         .buttonStyle(ClearGrowingButton(width: 40, height: 40))
-                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).fixedSize().frame(width: 125)
+                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).frame(width: 125)
                                                         Button(">") {
                                                             if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
                                                                 selectedLoadout = 0
@@ -228,8 +228,8 @@ struct RightSelectionView: View {
                                                     }
                                                     .buttonStyle(ClearGrowingButton(width: 40, height: 60))
                                                     VStack {
-                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().name).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).fixedSize().frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().name).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
                                                         if selectedAbility >= Abilities.allCases.count - 1 {
