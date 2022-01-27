@@ -22,21 +22,21 @@ struct OptionsView: View {
                 AudioPlayer.shared.playStandardSound()
                 currentSection = .skills
             }) {
-                DetailedActionView(title: "Fight", description: "Use your skills", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "Fight", description: "Use your skills", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             .disabled(fightLogic.hasToSwap[player])
             Button(action: {
                 AudioPlayer.shared.playStandardSound()
                 currentSection = .team
             }) {
-                DetailedActionView(title: "Team", description: "Switch out", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "Team", description: "Switch out", symbol: "0xf500", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             Button(action: {
                 AudioPlayer.shared.playCancelSound()
                 fightLogic.forfeit(player: player)
                 gameOver = true
             }) {
-                DetailedActionView(title: "Forfeit", description: "End battle", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "Forfeit", description: "End battle", symbol: "0xf70c", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
         }
     }

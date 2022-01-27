@@ -64,7 +64,7 @@ struct CPULogic {
         
         //main goal is to do damage
         for index in availableSkills.indices {
-            let skillElement: Element = GlobalData.shared.elements[fighter.skills[availableSkills[index]].element] ?? Element()
+            let skillElement: Element = fighter.skills[availableSkills[index]].element
             
             if fighter.skills[availableSkills[index]].type == "attack" {
                 if skillElement.hasAdvantage(element: enemy.element) {
@@ -74,7 +74,7 @@ struct CPULogic {
         }
         
         for index in availableSkills.indices {
-            let skillElement: Element = GlobalData.shared.elements[fighter.skills[availableSkills[index]].element] ?? Element()
+            let skillElement: Element = fighter.skills[availableSkills[index]].element
             
             if fighter.skills[availableSkills[index]].type == "attack" {
                 if !skillElement.hasDisadvantage(element: enemy.element) {

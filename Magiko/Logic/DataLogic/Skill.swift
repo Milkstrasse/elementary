@@ -8,7 +8,7 @@
 /// Contains info on which actions a fighter can make when using this skill, the amount of uses and the element which can give a damage bonus when attacking..
 struct Skill: Decodable, Hashable {
     var name: String
-    let element: String
+    let element: Element
     
     let type: String
     
@@ -23,7 +23,7 @@ struct Skill: Decodable, Hashable {
     /// Creates placeholder skill.
     init() {
         name = "unknownSkill"
-        element = "aether"
+        element = Element()
         
         type = "default"
         
@@ -37,7 +37,8 @@ struct Skill: Decodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownSkill" //will be overwritten by GlobalData
-        element = try container.decode(String.self, forKey: .element)
+        let elem = try container.decode(String.self, forKey: .element)
+        element = GlobalData.shared.elements[elem] ?? Element()
         
         type = try container.decode(String.self, forKey: .type)
         

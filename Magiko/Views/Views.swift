@@ -10,8 +10,14 @@ import SwiftUI
 struct DetailedActionView: View {
     let title: String
     let description: String
+    let symbol: String
     
     var width: CGFloat?
+    
+    func createSymbol() -> String {
+        let icon: UInt16 = UInt16(Float64(symbol) ?? 0xf52d)
+        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+    }
     
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -24,32 +30,9 @@ struct DetailedActionView: View {
                     CustomText(key: title, bold: true)
                     CustomText(key: description)
                 }
-                .padding(.leading, 15)
+                .padding(.leading, 10)
                 Spacer()
-            }
-        }
-        .frame(width: width, height: 60)
-    }
-}
-
-struct DetailedSkillView: View {
-    let skill: Skill
-    
-    var width: CGFloat?
-    
-    var body: some View {
-        ZStack(alignment: .trailing) {
-            RoundedRectangle(cornerRadius: 5).fill(Color("button"))
-            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
-            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40).padding(.all, 10)
-            Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 42, height: 42).rotationEffect(.degrees(45)).padding(.trailing, 9)
-            HStack(spacing: 0) {
-                VStack(alignment: .leading) {
-                    CustomText(key: skill.name, bold: true)
-                    CustomText(key: skill.name + "Descr")
-                }
-                .padding(.leading, 15)
-                Spacer()
+                Text(createSymbol()).frame(width: 60, height: 60).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(Color("highlight"))
             }
         }
         .frame(width: width, height: 60)
@@ -60,11 +43,16 @@ struct RectangleFighterView: View {
     let fighter: Fighter
     var isSelected: Bool
     
+    func createSymbol() -> String {
+        let icon: UInt16 = UInt16(Float64(fighter.element.symbol) ?? 0xf52d)
+        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+    }
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button")).frame(height: 125)
             Image(fighter.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
-            CustomText(text: String(fighter.element.name.first ?? "?")).frame(width: 35, height: 35)
+            Text(createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(isSelected ? Color("background") : Color("outline"))
             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 125)
         }
         .clipShape(RoundedRectangle(cornerRadius: 5)).contentShape(Rectangle())
@@ -257,7 +245,7 @@ struct EffectView: View {
 struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            DetailedActionView(title: "Title", description: "Description")
+            DetailedActionView(title: "Title", description: "Description", symbol: "#")
             RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
             SquareFighterView(fighter: exampleFighter, isSelected: false)
             BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))

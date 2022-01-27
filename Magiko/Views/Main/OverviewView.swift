@@ -79,7 +79,7 @@ struct OverviewView: View {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
                                         ForEach(currentFighter.skills, id: \.self) { skill in
-                                            DetailedSkillView(skill: skill)
+                                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol)
                                         }
                                     }
                                 }
@@ -106,10 +106,12 @@ struct OverviewView: View {
                                 ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
                                     HStack(spacing: 8) {
                                         ForEach(self.getSubArray(row: row), id: \.name) { fighter in
-                                            RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
-                                                .onTapGesture {
-                                                    fighterSelected = true
-                                                    currentFighter = fighter
+                                            Button(action: {
+                                                AudioPlayer.shared.playConfirmSound()
+                                                fighterSelected = true
+                                                currentFighter = fighter
+                                            }) {
+                                                RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
                                             }
                                         }
                                         ForEach(0 ..< 3 - self.getSubArray(row: row).count, id:\.self) { _ in

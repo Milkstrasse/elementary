@@ -36,7 +36,7 @@ struct TeamView: View {
     
     var body: some View {
         HStack(spacing: 5) {
-            DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+            DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), symbol: fightLogic.getFighter(player: player).element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5)
             ForEach(fightLogic.fighters[player].indices) { index in
                 if index != fightLogic.currentFighter[player] {
                     Button(action: {
@@ -48,7 +48,7 @@ struct TeamView: View {
                             currentSection = .options
                         }
                     }) {
-                        DetailedActionView(title: fightLogic.fighters[player][index].name, description: generateDescription(fighter: fightLogic.fighters[player][index]), width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                        DetailedActionView(title: fightLogic.fighters[player][index].name, description: generateDescription(fighter: fightLogic.fighters[player][index]), symbol: fightLogic.fighters[player][index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                     }
                 }
             }

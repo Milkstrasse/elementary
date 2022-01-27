@@ -199,7 +199,7 @@ struct LeftSelectionView: View {
                                         BaseOverviewView(base: fighters[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                         .padding(.trailing, 5)
                                         ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
-                                            DetailedSkillView(skill: skill, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 60)

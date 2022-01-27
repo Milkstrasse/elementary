@@ -8,17 +8,20 @@
 /// Contains info on element.
 struct Element: Decodable {
     var name: String
+    let symbol: String
     
     let strengths: [String]
     let weaknesses: [String]
     
     enum CodingKeys: String, CodingKey {
-        case color, strengths, weaknesses
+        case symbol, strengths, weaknesses
     }
     
     /// Creates default element with no strengths or weaknesses.
     init() {
         name = "aether"
+        symbol = "0xf52d"
+        
         strengths = []
         weaknesses = []
     }
@@ -29,6 +32,7 @@ struct Element: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownElement" //will be overwritten by GlobalData
+        symbol = try container.decode(String.self, forKey: .symbol)
         
         strengths = try container.decode([String].self, forKey: .strengths)
         weaknesses = try container.decode([String].self, forKey: .weaknesses)

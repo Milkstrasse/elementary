@@ -47,7 +47,7 @@ struct SkillsView: View {
     }
     
     func generateDescription(skill: Skill, fighter: Fighter) -> String {
-        return "\(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP - " + getEffectiveness(skillElement: skill.element)
+        return "\(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP - " + getEffectiveness(skillElement: skill.element.name)
     }
     
     var body: some View {
@@ -57,9 +57,9 @@ struct SkillsView: View {
                 }) {
                     ZStack {
                         if isDetectingPress {
-                            DetailedSkillView(skill: skill, width: geoHeight - 30)
+                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol, width: geoHeight - 30)
                         } else {
-                            DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), width: geoHeight - 30)
+                            DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), symbol: skill.element.symbol, width: geoHeight - 30)
                         }
                     }
                     .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)

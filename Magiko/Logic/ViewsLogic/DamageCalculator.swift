@@ -19,7 +19,7 @@ struct DamageCalculator {
     ///   - skillElement: The element of the used skill
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> String {
+    func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> String {
         var text: String = "\n"
         
         //determine actual target
@@ -134,9 +134,7 @@ struct DamageCalculator {
     ///   - skillElement: The element of the used skill
     ///   - weather: The current weather of the fight
     /// - Returns: Returns the damage of the attack
-    func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> Float {
-        let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
-        
+    func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> Float {
         let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
@@ -144,18 +142,18 @@ struct DamageCalculator {
         
         //multiply with elemental modifier
         if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: element)
+            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: skillElement)
         }
         
         //multiply with weather modifier
         if weather != nil {
-            dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement)
+            dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement.name)
         }
         
         return dmg
     }
     
-    func willDefeatFighter(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: String, weather: Effect?) -> Bool {
+    func willDefeatFighter(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> Bool {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, skill: skill, skillElement: skillElement, weather: weather)
         
         //multiply with critical modifier
