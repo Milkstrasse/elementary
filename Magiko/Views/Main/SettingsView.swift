@@ -138,6 +138,7 @@ struct SettingsView: View {
                             langIndex = getCurrentLang()
                             
                             AudioPlayer.shared.setSoundVolume(volume: 1.0)
+                            soundVolume = 10
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {

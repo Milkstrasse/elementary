@@ -139,13 +139,15 @@ struct SquareFighterView: View {
 
 struct CustomText: View {
     var text: String
+    var fontColor: Color
     var lineLimit: Int?
     var bold: Bool
     
     var textArray: [[String]]
     
-    init(text: String, bold: Bool = false) {
+    init(text: String, fontColor: Color = Color("outline"), bold: Bool = false) {
         self.text = text
+        self.fontColor = fontColor
         
         textArray = []
         let lines: [String] = text.components(separatedBy: "\n")
@@ -156,8 +158,9 @@ struct CustomText: View {
         self.bold = bold
     }
     
-    init(key: String, bold: Bool = false) {
+    init(key: String, fontColor: Color = Color("outline"), bold: Bool = false) {
         self.text = Localization.shared.getTranslation(key: key)
+        self.fontColor = fontColor
         self.lineLimit = 1
         
         textArray = []
@@ -186,7 +189,7 @@ struct CustomText: View {
             ForEach(textArray.indices, id: \.self) { line in
                 HStack(spacing: 0) {
                     ForEach(textArray[line].indices, id: \.self) { index in
-                        Text(textArray[line][index]).font(.custom(isBold(index: index) ? "Recoleta-Bold" : "Recoleta-Regular", size: 13)).fixedSize().foregroundColor(Color("outline")).lineLimit(lineLimit)
+                        Text(textArray[line][index]).font(.custom(isBold(index: index) ? "Recoleta-Bold" : "Recoleta-Regular", size: 13)).fixedSize().foregroundColor(fontColor).lineLimit(lineLimit)
                     }
                 }
             }

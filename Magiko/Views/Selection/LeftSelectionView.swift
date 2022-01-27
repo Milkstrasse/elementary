@@ -62,6 +62,16 @@ struct LeftSelectionView: View {
         return 0
     }
     
+    func getAbility(fighter: Fighter) -> Int {
+        for index in Abilities.allCases.indices {
+            if fighter.ability.name == Abilities.allCases[index].rawValue {
+                return index
+            }
+        }
+        
+        return 0
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -93,6 +103,7 @@ struct LeftSelectionView: View {
                                         
                                         if fighters[index] != nil {
                                             selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                            selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
                                             
                                             selectionToggle = false
                                             infoToggle = true
@@ -163,10 +174,9 @@ struct LeftSelectionView: View {
                                                 selectionToggle = true
                                                 infoToggle = false
                                             }
-                                            .buttonStyle(BasicButton(width: geometry.size.height - 30 - 215 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30 - 215 - 5)
+                                            .buttonStyle(BasicButton(width: (geometry.size.height - 30)/3 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 - 5)
                                             ZStack {
-                                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 40, height: 215)
-                                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40, height: 215)
+                                                RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
                                                         AudioPlayer.shared.playStandardSound()
@@ -179,8 +189,8 @@ struct LeftSelectionView: View {
                                                         
                                                         fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                                    CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).frame(width: 125)
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
+                                                    CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name, fontColor: Color("background")).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                     Button(">") {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
@@ -192,8 +202,8 @@ struct LeftSelectionView: View {
                                                         
                                                         fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                                }.rotationEffect(.degrees(-90)).frame(width: 40, height: 215)
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
+                                                }.rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                             }
                                         }
                                         BaseOverviewView(base: fighters[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
@@ -202,8 +212,7 @@ struct LeftSelectionView: View {
                                             DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         ZStack {
-                                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 60)
-                                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 60)
+                                            RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: geometry.size.height - 30, height: 60)
                                             HStack(spacing: 0) {
                                                 Button("<") {
                                                     AudioPlayer.shared.playStandardSound()
@@ -216,10 +225,10 @@ struct LeftSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
-                                                .buttonStyle(ClearBasicButton(width: 40, height: 60))
+                                                .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 VStack {
-                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().name).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().name, fontColor: Color("background"), bold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().description, fontColor: Color("background")).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                 }
                                                 Button(">") {
                                                     AudioPlayer.shared.playStandardSound()
@@ -232,7 +241,7 @@ struct LeftSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
-                                                .buttonStyle(ClearBasicButton(width: 40, height: 60))
+                                                .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                             }
                                             .frame(width: geometry.size.height - 30, height: 60)
                                         }
@@ -245,6 +254,7 @@ struct LeftSelectionView: View {
                             .padding(.horizontal, 15).frame(width: 175).rotationEffect(.degrees(180))
                             .onAppear {
                                 selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
+                                selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
                             }
                         }
                     }

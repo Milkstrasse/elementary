@@ -32,11 +32,13 @@ struct ClearBasicButton: ButtonStyle {
     var width: CGFloat
     var height: CGFloat
     
+    var fontColor: Color = Color("outline")
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height)
             .font(.custom("Recoleta-Regular", size: 13))
-            .foregroundColor(Color("outline"))
+            .foregroundColor(fontColor)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
             .contentShape(Rectangle())
