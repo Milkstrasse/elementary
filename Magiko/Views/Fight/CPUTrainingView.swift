@@ -43,22 +43,23 @@ struct CPUTrainingView: View {
             HStack {
                 ZStack(alignment: .topLeading) {
                     if !hurting && !healing {
-                        Image(fightLogic.getFighter(player: 0).name).resizable().scaleEffect(1.1).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                        Image(fightLogic.getFighter(player: 0).name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     } else if healing {
-                        Image(fightLogic.getFighter(player: 0).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                        Image(fightLogic.getFighter(player: 0).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     healing = false
                                 }
                             }
                     } else {
-                        Image(fightLogic.getFighter(player: 0).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                        Image(fightLogic.getFighter(player: 0).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     hurting = false
                                 }
                             }
                     }
+                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
@@ -133,7 +134,7 @@ struct CPUTrainingView: View {
                         }
                     }
                 }
-                .frame(width: 215)
+                .frame(width: geometry.size.width/2)
                 Spacer()
             }
         }
