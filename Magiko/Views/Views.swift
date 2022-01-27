@@ -212,6 +212,14 @@ struct EffectView: View {
         }
     }
     
+    func getOutlineColor() -> Color {
+        if weather {
+            return Color("highlight")
+        } else {
+            return Color("outline")
+        }
+    }
+    
     func getFontColor() -> Color {
         if weather {
             return Color("highlight")
@@ -233,6 +241,7 @@ struct EffectView: View {
             RoundedRectangle(cornerRadius: 5).fill(Color("background")).frame(width: 24, height: 24)
             Group {
                 RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor()).frame(width: 24, height: 24)
+                RoundedRectangle(cornerRadius: 5).strokeBorder(getBackgroundColor(), lineWidth: 1).frame(width: 24, height: 24)
                 Text(self.createSymbol()).frame(width: 24, height: 24).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(getFontColor())
             }
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
