@@ -68,7 +68,7 @@ struct CPUTrainingView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                CustomText(key: "waiting on other player").frame(width: geometry.size.height - 50, height: 95, alignment: .topLeading).padding(.horizontal, 15)
+                                CustomText(key: "waiting on other player", fontSize: 14).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                         }
@@ -104,9 +104,9 @@ struct CPUTrainingView: View {
                                                 .offset(x: -12, y: -12)
                                                 VStack(spacing: 0) {
                                                     HStack {
-                                                        CustomText(key: fightLogic.getFighter(player: 0).name).lineLimit(1)
+                                                        CustomText(key: fightLogic.getFighter(player: 0).name, fontSize: 16).lineLimit(1)
                                                         Spacer()
-                                                        CustomText(text: "\(fightLogic.getFighter(player: 0).currhp)/\(fightLogic.getFighter(player: 0).getModifiedBase().health)HP")
+                                                        CustomText(text: "\(fightLogic.getFighter(player: 0).currhp)/\(fightLogic.getFighter(player: 0).getModifiedBase().health)HP", fontSize: 13)
                                                     }
                                                     ZStack(alignment: .leading) {
                                                         Rectangle().fill(Color("outline")).frame(height: 6)

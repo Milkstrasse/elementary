@@ -17,22 +17,3 @@ extension Array where Element: Hashable {
         }
     }
 }
-
-//https://stackoverflow.com/questions/56874133/use-hex-color-in-swiftui
-//https://developer.apple.com/forums/thread/120694
-extension Color {
-    init(hex: String) {
-        var str = "0x"
-        str += String(hex[hex.index(after: hex.startIndex)...])
-
-        let hexInt: Int32 = Int32(Float64(str) ?? 0xCC6699)
-        
-        self.init(
-            .sRGB,
-            red: Double((hexInt >> 16) & 0xff) / 255,
-            green: Double((hexInt >> 08) & 0xff) / 255,
-            blue: Double((hexInt >> 00) & 0xff) / 255,
-            opacity: 1
-        )
-    }
-}

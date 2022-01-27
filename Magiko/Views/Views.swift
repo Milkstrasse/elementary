@@ -27,10 +27,10 @@ struct DetailedActionView: View {
             Rectangle().strokeBorder(Color("outline"), lineWidth: 1).frame(width: 42, height: 42).rotationEffect(.degrees(45)).padding(.trailing, 9)
             HStack(spacing: 0) {
                 VStack(alignment: .leading) {
-                    CustomText(key: title, bold: true)
-                    CustomText(key: description)
+                    CustomText(key: title, fontSize: 16, isBold: true)
+                    CustomText(key: description, fontSize: 13)
                 }
-                .padding(.leading, 10)
+                .padding(.leading, 15)
                 Spacer()
                 Text(createSymbol()).frame(width: 60, height: 60).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(Color("highlight"))
             }
@@ -72,19 +72,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(key: "health", bold: true)
+                            CustomText(key: "health", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.health)")
+                            CustomText(text: "\(base.health)", fontSize: 14)
                         }
                         HStack {
-                            CustomText(key: "attack", bold: true)
+                            CustomText(key: "attack", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.attack)")
+                            CustomText(text: "\(base.attack)", fontSize: 14)
                         }
                         HStack {
-                            CustomText(key: "defense", bold: true)
+                            CustomText(key: "defense", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.defense)")
+                            CustomText(text: "\(base.defense)", fontSize: 14)
                         }
                     }
                 }
@@ -96,19 +96,19 @@ struct BaseOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(key: "agility", bold: true)
+                            CustomText(key: "agility", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.agility)")
+                            CustomText(text: "\(base.agility)", fontSize: 14)
                         }
                         HStack {
-                            CustomText(key: "precision", bold: true)
+                            CustomText(key: "precision", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.precision)")
+                            CustomText(text: "\(base.precision)", fontSize: 14)
                         }
                         HStack {
-                            CustomText(key: "stamina", bold: true)
+                            CustomText(key: "stamina", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.stamina)")
+                            CustomText(text: "\(base.stamina)", fontSize: 14)
                         }
                     }
                 }
@@ -129,7 +129,7 @@ struct SquareFighterView: View {
             if fighter != nil {
                 Image(fighter!.name).resizable().scaleEffect(1.4).aspectRatio(contentMode: .fit).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
-                CustomText(text: "+")
+                CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24)
             }
             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
         }
@@ -140,14 +140,17 @@ struct SquareFighterView: View {
 struct CustomText: View {
     var text: String
     var fontColor: Color
+    var fontSize: CGFloat
+    
     var lineLimit: Int?
-    var bold: Bool
+    var isBold: Bool
     
     var textArray: [[String]]
     
-    init(text: String, fontColor: Color = Color("outline"), bold: Bool = false) {
+    init(text: String, fontColor: Color = Color("outline"), fontSize: CGFloat, isBold: Bool = false) {
         self.text = text
         self.fontColor = fontColor
+        self.fontSize = fontSize
         
         textArray = []
         let lines: [String] = text.components(separatedBy: "\n")
@@ -155,12 +158,14 @@ struct CustomText: View {
             textArray.append(line.components(separatedBy: "**"))
         }
         
-        self.bold = bold
+        self.isBold = isBold
     }
     
-    init(key: String, fontColor: Color = Color("outline"), bold: Bool = false) {
+    init(key: String, fontColor: Color = Color("outline"), fontSize: CGFloat, isBold: Bool = false) {
         self.text = Localization.shared.getTranslation(key: key)
         self.fontColor = fontColor
+        self.fontSize = fontSize
+        
         self.lineLimit = 1
         
         textArray = []
@@ -169,11 +174,11 @@ struct CustomText: View {
             textArray.append(line.components(separatedBy: "**"))
         }
         
-        self.bold = bold
+        self.isBold = isBold
     }
     
     func isBold(index: Int) -> Bool {
-        if bold {
+        if isBold {
             return true
         }
         
@@ -189,7 +194,7 @@ struct CustomText: View {
             ForEach(textArray.indices, id: \.self) { line in
                 HStack(spacing: 0) {
                     ForEach(textArray[line].indices, id: \.self) { index in
-                        Text(textArray[line][index]).font(.custom(isBold(index: index) ? "Recoleta-Bold" : "Recoleta-Regular", size: 13)).fixedSize().foregroundColor(fontColor).lineLimit(lineLimit)
+                        Text(textArray[line][index]).font(.custom(isBold(index: index) ? "Recoleta-Bold" : "Recoleta-Regular", size: fontSize)).fixedSize().foregroundColor(fontColor).lineLimit(lineLimit)
                     }
                 }
             }

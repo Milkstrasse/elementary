@@ -21,7 +21,7 @@ struct BasicButton: ButtonStyle {
                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                 }
             })
-            .font(.custom("Recoleta-Regular", size: 13))
+            .font(.custom("Recoleta-Regular", size: 14))
             .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
@@ -37,7 +37,7 @@ struct ClearBasicButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height)
-            .font(.custom("Recoleta-Regular", size: 13))
+            .font(.custom("Recoleta-Regular", size: 14))
             .foregroundColor(fontColor)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
@@ -52,7 +52,7 @@ struct ClearButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height, alignment: .bottomLeading)
-            .font(.custom("Recoleta-Regular", size: 13))
+            .font(.custom("Recoleta-Regular", size: 14))
             .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)

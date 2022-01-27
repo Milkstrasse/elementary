@@ -112,7 +112,11 @@ struct TrainingSelectionView: View {
                 .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
                     CPUSelectionView(fighters: leftFighters)
-                    CustomText(text: "------- X -------").rotationEffect(.degrees(90)).frame(width: 60)
+                    ZStack {
+                        Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
+                        CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                    }
+                    .frame(width: 60)
                     RightSelectionView(fighters: $rightFighters)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)

@@ -26,7 +26,7 @@ struct InfoView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .leading) {
                         Rectangle().fill(Color("outline")).frame(height: 1)
-                        CustomText(key: "info").padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                        CustomText(key: "info", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {

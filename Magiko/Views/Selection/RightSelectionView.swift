@@ -190,7 +190,7 @@ struct RightSelectionView: View {
                                                             fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                         }
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
-                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name, fontColor: Color("background")).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
+                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
                                                             AudioPlayer.shared.playStandardSound()
                                                             
@@ -228,8 +228,8 @@ struct RightSelectionView: View {
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                     VStack {
-                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().name, fontColor: Color("background"), bold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().description, fontColor: Color("background")).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Abilities.allCases[selectedAbility].getAbility().description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
                                                         AudioPlayer.shared.playStandardSound()

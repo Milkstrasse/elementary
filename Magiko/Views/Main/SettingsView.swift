@@ -40,7 +40,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .leading) {
                         Rectangle().fill(Color("outline")).frame(height: 1)
-                        CustomText(key: "settings").padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                        CustomText(key: "settings", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
@@ -49,7 +49,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "music").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "music", fontSize: 14).frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         if musicVolume > 0 {
                                             musicVolume -= 1
@@ -62,7 +62,7 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(text: "\(musicVolume * 10)%")
+                                    CustomText(text: "\(musicVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         if musicVolume < 10 {
@@ -82,7 +82,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "sound").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "sound", fontSize: 14).frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         if soundVolume > 0 {
                                             soundVolume -= 1
@@ -95,7 +95,7 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(text: "\(soundVolume * 10)%")
+                                    CustomText(text: "\(soundVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         if soundVolume < 10 {
@@ -115,7 +115,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "language").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "language", fontSize: 14).frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -129,7 +129,7 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: Localization.shared.languages[langIndex])
+                                    CustomText(key: Localization.shared.languages[langIndex], fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
