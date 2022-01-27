@@ -21,62 +21,61 @@ struct MainView: View {
     @State var offsetX: CGFloat = -450
     
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            Image(currentFighter.name).resizable().frame(width: 300, height: 300).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -80, y: 0).padding(.trailing, offsetX < 0 ? 0 : 255).animation(.linear(duration: 0.2), value: offsetX)
-            HStack(alignment: .top, spacing: 5) {
-                HStack(spacing: 5) {
-                    Button(Localization.shared.getTranslation(key: "training")) {
-                        AudioPlayer.shared.playStandardSound()
-                        transitionToggle = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
+        GeometryReader { geometry in
+            ZStack(alignment: .bottomTrailing) {
+                Image(currentFighter.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
+                HStack(alignment: .top, spacing: 5) {
+                    HStack(spacing: 5) {
+                        Button(Localization.shared.getTranslation(key: "training")) {
+                            AudioPlayer.shared.playStandardSound()
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
+                            }
                         }
+                        .buttonStyle(BasicButton(width: 135))
+                        Button("O") {
+                            AudioPlayer.shared.playStandardSound()
+                            overviewToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 40))
+                        Button("S") {
+                            AudioPlayer.shared.playStandardSound()
+                            settingsToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 40))
+                        Button("I") {
+                            AudioPlayer.shared.playStandardSound()
+                            infoToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 40))
                     }
-                    .buttonStyle(BasicButton(width: 135))
-                    Button("O") {
-                        AudioPlayer.shared.playStandardSound()
-                        overviewToggle = true
-                    }
-                    .buttonStyle(BasicButton(width: 40))
-                    Button("S") {
-                        AudioPlayer.shared.playStandardSound()
-                        settingsToggle = true
-                    }
-                    .buttonStyle(BasicButton(width: 40))
-                    Button("I") {
-                        AudioPlayer.shared.playStandardSound()
-                        infoToggle = true
-                    }
-                    .buttonStyle(BasicButton(width: 40))
-                }
-                .padding(.leading, offsetX < 0 ? 0 : -450).animation(.linear(duration: 0.2), value: offsetX)
-                Spacer()
-                VStack {
+                    .padding(.leading, offsetX < 0 ? 0 : -450).animation(.linear(duration: 0.2), value: offsetX)
                     Spacer()
-                    Button(Localization.shared.getTranslation(key: "fight")) {
-                        AudioPlayer.shared.playStandardSound()
-                        transitionToggle = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                    VStack {
+                        Spacer()
+                        Button(Localization.shared.getTranslation(key: "fight")) {
+                            AudioPlayer.shared.playStandardSound()
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                            }
                         }
+                        .buttonStyle(BasicButton(width: 190, height: 50))
                     }
-                    .buttonStyle(BasicButton(width: 190, height: 50))
+                }
+                .padding(.all, 15)
+                if overviewToggle {
+                    OverviewView(currentFighter: $currentFighter, overviewToggle: $overviewToggle, offsetX: $offsetX)
+                } else if settingsToggle {
+                    SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
+                } else if infoToggle {
+                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
                 }
             }
-            .padding(.all, 15)
-            if overviewToggle {
-                OverviewView(currentFighter: $currentFighter, overviewToggle: $overviewToggle, offsetX: $offsetX)
-            } else if settingsToggle {
-                SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
-            } else if infoToggle {
-                InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
-            }
-            GeometryReader { geometry in
-                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65)
-                    .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
-            }
+            .ignoresSafeArea(.all, edges: .bottom)
+            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
-        .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             transitionToggle = false
         }

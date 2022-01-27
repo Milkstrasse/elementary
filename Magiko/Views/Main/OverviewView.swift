@@ -85,7 +85,7 @@ struct OverviewView: View {
                                 }
                             }
                         }
-                        .frame(width: 345).offset(x: infoToggle ? 0 : 225).animation(.linear(duration: 0.2), value: infoToggle)
+                        .frame(width: geometry.size.height - 30).offset(x: infoToggle ? 0 : 225).animation(.linear(duration: 0.2), value: infoToggle)
                     }
                     .padding(.all, 15)
                 }
@@ -173,7 +173,7 @@ struct OverviewView: View {
                     }
                     .frame(width: 340).padding(.vertical, 15)
                 }
-                .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 315 + geometry.safeAreaInsets.trailing + geometry.size.height/2.75 : 0).animation(.linear(duration: 0.2), value: infoToggle)
+                .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 316 + geometry.safeAreaInsets.trailing + geometry.size.height/2.75 : 0).animation(.linear(duration: 0.2), value: infoToggle)
             }
             .ignoresSafeArea(.all, edges: .bottom)
         }
