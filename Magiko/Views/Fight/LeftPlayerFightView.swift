@@ -172,9 +172,9 @@ struct LeftPlayerFightView: View {
                         }
                     }
                 }
-                .frame(width: geometry.size.width/2)
                 Spacer()
             }
+            .frame(width: geometry.size.width)
             .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
                     currentSection = .summary

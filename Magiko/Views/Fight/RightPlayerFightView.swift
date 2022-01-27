@@ -175,8 +175,8 @@ struct RightPlayerFightView: View {
                         .padding(.trailing, 15)
                     }
                 }
-                .frame(width: geometry.size.width/2)
             }
+            .frame(width: geometry.size.width)
             .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
                     currentSection = .summary

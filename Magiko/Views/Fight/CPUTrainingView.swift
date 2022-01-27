@@ -134,9 +134,9 @@ struct CPUTrainingView: View {
                         }
                     }
                 }
-                .frame(width: geometry.size.width/2)
                 Spacer()
             }
+            .frame(width: geometry.size.width)
         }
     }
 }
