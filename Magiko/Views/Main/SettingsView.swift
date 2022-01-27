@@ -80,7 +80,7 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
-                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        AudioPlayer.shared.playStandardSound()
                                         
                                         if langIndex <= 0 {
                                             langIndex = Localization.shared.languages.count - 1
@@ -95,7 +95,7 @@ struct SettingsView: View {
                                     CustomText(key: Localization.shared.languages[langIndex])
                                     Spacer()
                                     Button(">") {
-                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        AudioPlayer.shared.playStandardSound()
                                         
                                         if langIndex >= Localization.shared.languages.count - 1 {
                                             langIndex = 0
@@ -116,13 +116,13 @@ struct SettingsView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button(Localization.shared.getTranslation(key: "reset")) {
-                            AudioPlayer.shared.playSound(name: "Button3.wav")
+                            AudioPlayer.shared.playStandardSound()
                             Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
                             langIndex = getCurrentLang()
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
-                            AudioPlayer.shared.playSound(name: "Button3.wav")
+                            AudioPlayer.shared.playStandardSound()
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             offsetX = -450
                             

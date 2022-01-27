@@ -42,7 +42,7 @@ struct InfoView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button("X") {
-                            AudioPlayer.shared.playSound(name: "Button3.wav")
+                            AudioPlayer.shared.playStandardSound()
                             offsetX = -450
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 infoToggle = false

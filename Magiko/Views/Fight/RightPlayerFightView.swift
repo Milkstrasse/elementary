@@ -118,7 +118,7 @@ struct RightPlayerFightView: View {
                                 Spacer()
                                 ZStack {
                                     Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
-                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        AudioPlayer.shared.playStandardSound()
                                         
                                         if fightLogic.isGameOver() {
                                             gameOver = true

@@ -12,16 +12,42 @@ class AudioPlayer {
     
     var audioPlayer: AVAudioPlayer?
     
-    func playSound(name: String) {
-        let path = Bundle.main.path(forResource: name, ofType: nil)!
-            let url = URL(fileURLWithPath: path)
-
-            do {
-                //create your audioPlayer in your parent class as a property
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.play()
-            } catch {
-                print("couldn't load the file")
-            }
+    func playStandardSound() {
+        let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            //create your audioPlayer in your parent class as a property
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playConfirmSound() {
+        let path = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            //create your audioPlayer in your parent class as a property
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playCancelSound() {
+        let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            //create your audioPlayer in your parent class as a property
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("\(error)")
+        }
     }
 }
