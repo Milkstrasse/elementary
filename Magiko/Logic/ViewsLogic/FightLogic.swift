@@ -32,6 +32,13 @@ class FightLogic: ObservableObject {
         
         fighters[0] = leftFighters
         fighters[1] = rightFighters
+        
+        if getFighter(player: 0).ability.name == Abilities.intimidate.rawValue {
+            getFighter(player: 1).applyEffect(effect: Effects.attackDrop.getEffect())
+        }
+        if getFighter(player: 1).ability.name == Abilities.intimidate.rawValue {
+            getFighter(player: 0).applyEffect(effect: Effects.attackDrop.getEffect())
+        }
     }
     
     /// Checks if there are enough fighters on both sides.
@@ -362,6 +369,16 @@ class FightLogic: ObservableObject {
         
         if applyEffect {
             getFighter(player: player).applyEffect(effect: Effects.blessed.getEffect())
+        }
+        
+        var oppositePlayer: Int = 0
+        if player == 0 {
+            oppositePlayer = 1
+        }
+        if getFighter(player: oppositePlayer).ability.name == Abilities.intimidate.rawValue {
+            if getFighter(player: player).applyEffect(effect: Effects.attackDrop.getEffect()) {
+                text += Localization.shared.getTranslation(key: "statDecreased", params: [getFighter(player: player).name, "attack"]) + "\n"
+            }
         }
                                                                                 
         return text
