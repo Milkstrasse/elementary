@@ -73,8 +73,12 @@ struct OverviewView: View {
                         Spacer()
                         ZStack {
                             Color("background")
-                            VStack(alignment: .leading, spacing: 5) {
-                                CustomText(key: currentFighter.name)
+                            VStack(alignment: .leading, spacing: 0) {
+                                ZStack(alignment: .leading) {
+                                    Rectangle().fill(Color("outline")).frame(height: 1)
+                                    CustomText(key: currentFighter.name).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                                }
+                                .frame(height: 60)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
                                         BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
