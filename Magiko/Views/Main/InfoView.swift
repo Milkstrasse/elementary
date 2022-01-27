@@ -24,7 +24,11 @@ struct InfoView: View {
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
-                    CustomText(key: "Info").frame(height: 60).padding([.top, .leading], 15)
+                    ZStack(alignment: .leading) {
+                        Rectangle().fill(Color("outline")).frame(height: 1)
+                        CustomText(key: "info").padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                    }
+                    .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
