@@ -47,7 +47,7 @@ struct SkillsView: View {
     }
     
     func generateDescription(skill: Skill, fighter: Fighter) -> String {
-        return getEffectiveness(skillElement: skill.element) + " - \(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP"
+        return "\(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP - " + getEffectiveness(skillElement: skill.element)
     }
     
     var body: some View {
@@ -70,9 +70,11 @@ struct SkillsView: View {
                     .highPriorityGesture(
                         TapGesture()
                             .onEnded { _ in
-                                AudioPlayer.shared.playStandardSound()
                                 if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
+                                    AudioPlayer.shared.playConfirmSound()
                                     currentSection = .waiting
+                                } else {
+                                    AudioPlayer.shared.playStandardSound()
                                 }
                     })
                 }

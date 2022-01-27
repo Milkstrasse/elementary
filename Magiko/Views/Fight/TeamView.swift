@@ -40,11 +40,11 @@ struct TeamView: View {
             ForEach(fightLogic.fighters[player].indices) { index in
                 if index != fightLogic.currentFighter[player] {
                     Button(action: {
-                        AudioPlayer.shared.playStandardSound()
-                        
                         if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
+                            AudioPlayer.shared.playConfirmSound()
                             currentSection = .waiting
                         } else {
+                            AudioPlayer.shared.playStandardSound()
                             currentSection = .options
                         }
                     }) {
