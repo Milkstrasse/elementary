@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "luna.png",
+      "filename" : "luna_blink.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

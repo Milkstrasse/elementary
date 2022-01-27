@@ -19,6 +19,8 @@ struct LeftPlayerFightView: View {
     @State var hurting: Bool = false
     @State var healing: Bool = false
     
+    @State var blink: Bool = false
+    
     func calcWidth(fighter: Fighter) -> CGFloat {
         DispatchQueue.main.async {
             let newHealth = fightLogic.getFighter(player: 0).currhp
@@ -43,7 +45,7 @@ struct LeftPlayerFightView: View {
             HStack {
                 ZStack(alignment: .topLeading) {
                     if !hurting && !healing {
-                        Image(fightLogic.getFighter(player: 0).name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                        Image(blink ? fightLogic.getFighter(player: 0).name + "_blink" : fightLogic.getFighter(player: 0).name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     } else if healing {
                         Image(fightLogic.getFighter(player: 0).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
@@ -180,6 +182,16 @@ struct LeftPlayerFightView: View {
                     currentSection = .summary
                 }
             })
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
+                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
+                    blink = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        blink = false
+                    }
+                }
+            }
         }
     }
 }

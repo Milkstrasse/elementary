@@ -20,10 +20,12 @@ struct MainView: View {
     
     @State var offsetX: CGFloat = -450
     
+    @State var blink: Bool = false
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottomTrailing) {
-                Image(currentFighter.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
+                Image(blink ? currentFighter.name + "_blink" : currentFighter.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
                 HStack(alignment: .top, spacing: 5) {
                     HStack(spacing: 5) {
                         Button(Localization.shared.getTranslation(key: "training")) {
@@ -78,6 +80,13 @@ struct MainView: View {
         }
         .onAppear {
             transitionToggle = false
+            
+            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
+                blink = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    blink = false
+                }
+            }
         }
     }
 }
