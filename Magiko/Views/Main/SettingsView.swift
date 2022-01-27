@@ -12,6 +12,7 @@ struct SettingsView: View {
     @Binding var offsetX: CGFloat
     
     @State var langIndex: Int = 0
+    @State var soundVolume: Int = 10
     
     func getCurrentLang() -> Int {
         for index in Localization.shared.languages.indices {
@@ -61,14 +62,30 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "sound").frame(width: 100, alignment: .leading)
                                     Button("<") {
+                                        if soundVolume > 0 {
+                                            soundVolume -= 1
+                                        } else {
+                                            soundVolume = 10
+                                        }
+                                        
+                                        AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(text: "100%")
+                                    CustomText(text: "\(soundVolume * 10)%")
                                     Spacer()
                                     Button(">") {
+                                        if soundVolume < 10 {
+                                            soundVolume += 1
+                                        } else {
+                                            soundVolume = 0
+                                        }
+                                        
+                                        AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
@@ -78,7 +95,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "language").frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -119,11 +136,16 @@ struct SettingsView: View {
                             AudioPlayer.shared.playStandardSound()
                             Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
                             langIndex = getCurrentLang()
+                            
+                            AudioPlayer.shared.setSoundVolume(volume: 1.0)
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
                             AudioPlayer.shared.playStandardSound()
+                            
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
+                            UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
+                            
                             offsetX = -450
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -143,6 +165,7 @@ struct SettingsView: View {
             offsetX = 0
             
             langIndex = getCurrentLang()
+            soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
         }
     }
 }

@@ -10,7 +10,12 @@ import AVFoundation
 class AudioPlayer {
     static let shared: AudioPlayer = AudioPlayer()
     
-    var audioPlayer: AVAudioPlayer?
+    var soundVolume: Float = 1.0
+    var soundPlayer: AVAudioPlayer?
+    
+    func setSoundVolume(volume: Float) {
+        soundVolume = volume
+    }
     
     func playStandardSound() {
         let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
@@ -18,8 +23,9 @@ class AudioPlayer {
         
         do {
             //create your audioPlayer in your parent class as a property
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            soundPlayer?.volume = soundVolume
+            soundPlayer?.play()
         } catch {
             print("\(error)")
         }
@@ -31,8 +37,9 @@ class AudioPlayer {
         
         do {
             //create your audioPlayer in your parent class as a property
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            soundPlayer?.volume = soundVolume
+            soundPlayer?.play()
         } catch {
             print("\(error)")
         }
@@ -44,8 +51,9 @@ class AudioPlayer {
         
         do {
             //create your audioPlayer in your parent class as a property
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            soundPlayer?.volume = soundVolume
+            soundPlayer?.play()
         } catch {
             print("\(error)")
         }

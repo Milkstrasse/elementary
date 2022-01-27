@@ -47,6 +47,8 @@ struct MagikoApp: App {
                             Localization.shared.getLanguages()
                             Localization.shared.loadLanguage(language: langCode!)
                             
+                            AudioPlayer.shared.setSoundVolume(volume: UserDefaults.standard.float(forKey: "sound"))
+                            
                             GlobalData.shared.loadData()
                             
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
