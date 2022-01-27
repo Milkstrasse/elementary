@@ -81,6 +81,7 @@ struct FightOverView: View {
                             Spacer()
                             HStack(spacing: 5) {
                                 Button(leftReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "rematch")) {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     resetFighters(fighters: leftFighters)
                                     
                                     leftReady = !leftReady
@@ -99,6 +100,7 @@ struct FightOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135))
                                 Button("X") {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
@@ -129,6 +131,7 @@ struct FightOverView: View {
                         VStack {
                             HStack(spacing: 5) {
                                 Button(rightReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "rematch")) {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     resetFighters(fighters: rightFighters)
                                     
                                     rightReady = !rightReady
@@ -147,6 +150,7 @@ struct FightOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135))
                                 Button("X") {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))

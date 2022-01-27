@@ -26,6 +26,7 @@ struct MainView: View {
             HStack(alignment: .top, spacing: 5) {
                 HStack(spacing: 5) {
                     Button(Localization.shared.getTranslation(key: "training")) {
+                        AudioPlayer.shared.playSound(name: "Button3.wav")
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
@@ -33,14 +34,17 @@ struct MainView: View {
                     }
                     .buttonStyle(BasicButton(width: 135))
                     Button("O") {
+                        AudioPlayer.shared.playSound(name: "Button3.wav")
                         overviewToggle = true
                     }
                     .buttonStyle(BasicButton(width: 40))
                     Button("S") {
+                        AudioPlayer.shared.playSound(name: "Button3.wav")
                         settingsToggle = true
                     }
                     .buttonStyle(BasicButton(width: 40))
                     Button("I") {
+                        AudioPlayer.shared.playSound(name: "Button3.wav")
                         infoToggle = true
                     }
                     .buttonStyle(BasicButton(width: 40))
@@ -50,6 +54,7 @@ struct MainView: View {
                 VStack {
                     Spacer()
                     Button(Localization.shared.getTranslation(key: "fight")) {
+                        AudioPlayer.shared.playSound(name: "Button3.wav")
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))

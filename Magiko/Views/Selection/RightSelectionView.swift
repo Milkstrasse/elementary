@@ -81,6 +81,8 @@ struct RightSelectionView: View {
                         HStack(spacing: 5) {
                             ForEach(0 ..< 4) { index in
                                 Button(action: {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
+                                    
                                     if selectedSlot == index {
                                         if selectionToggle && fighters[index] != nil {
                                             selectionToggle = false
@@ -130,22 +132,28 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
-                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
-                                                        .onTapGesture {
-                                                            if !isSelected(fighter: fighter) {
-                                                                fighters[selectedSlot] = Fighter(data: fighter!.data)
-                                                            }
+                                                    Button(action: {
+                                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                        
+                                                        if !isSelected(fighter: fighter) {
+                                                            fighters[selectedSlot] = Fighter(data: fighter!.data)
                                                         }
+                                                    }) {
+                                                        SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    }
                                                 }
                                             }
                                             VStack(spacing: 5) {
                                                 ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
-                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
-                                                        .onTapGesture {
-                                                            if !isSelected(fighter: fighter) {
-                                                                fighters[selectedSlot] = Fighter(data: fighter!.data)
-                                                            }
+                                                    Button(action: {
+                                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                        
+                                                        if !isSelected(fighter: fighter) {
+                                                            fighters[selectedSlot] = Fighter(data: fighter!.data)
                                                         }
+                                                    }) {
+                                                        SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    }
                                                 }
                                             }
                                         }
@@ -160,6 +168,7 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 Button(Localization.shared.getTranslation(key: "remove")) {
+                                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                                     fighters[selectedSlot] = nil
                                                     
                                                     selectionToggle = true
@@ -171,6 +180,8 @@ struct RightSelectionView: View {
                                                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 40, height: 215)
                                                     HStack(spacing: 0) {
                                                         Button("<") {
+                                                            AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                            
                                                             if selectedLoadout <= 0 {
                                                                 selectedLoadout = GlobalData.shared.loadouts.count - 1
                                                             } else {
@@ -182,6 +193,8 @@ struct RightSelectionView: View {
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                                         CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name).frame(width: 125)
                                                         Button(">") {
+                                                            AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                            
                                                             if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
                                                                 selectedLoadout = 0
                                                             } else {
@@ -205,6 +218,8 @@ struct RightSelectionView: View {
                                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 60)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
+                                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                        
                                                         if selectedAbility <= 0 {
                                                             selectedAbility = Abilities.allCases.count - 1
                                                         } else {
@@ -219,6 +234,8 @@ struct RightSelectionView: View {
                                                         CustomText(key: Abilities.allCases[selectedAbility].getAbility().description).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
+                                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                                        
                                                         if selectedAbility >= Abilities.allCases.count - 1 {
                                                             selectedAbility = 0
                                                         } else {

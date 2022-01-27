@@ -66,10 +66,12 @@ struct TrainingSelectionView: View {
                         Spacer()
                         HStack(spacing: 5) {
                             Button("randomize") {
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 selectRandom()
                             }
                             .buttonStyle(BasicButton(width: 135))
                             Button("X") {
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
@@ -83,6 +85,7 @@ struct TrainingSelectionView: View {
                     VStack {
                         HStack(spacing: 5) {
                             Button(Localization.shared.getTranslation(key: "ready")) {
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 let fightLogic: FightLogic = createLogic()
                                 
                                 if fightLogic.isValid() {
@@ -94,6 +97,7 @@ struct TrainingSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
                             Button("X") {
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))

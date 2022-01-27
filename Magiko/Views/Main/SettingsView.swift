@@ -45,6 +45,7 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
+                                        
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
@@ -79,6 +80,8 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "Option").frame(width: 100, alignment: .leading)
                                     Button("<") {
+                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        
                                         if langIndex <= 0 {
                                             langIndex = Localization.shared.languages.count - 1
                                         } else {
@@ -92,6 +95,8 @@ struct SettingsView: View {
                                     CustomText(key: Localization.shared.languages[langIndex])
                                     Spacer()
                                     Button(">") {
+                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        
                                         if langIndex >= Localization.shared.languages.count - 1 {
                                             langIndex = 0
                                         } else {
@@ -111,11 +116,13 @@ struct SettingsView: View {
                     HStack(spacing: 5) {
                         Spacer()
                         Button(Localization.shared.getTranslation(key: "reset")) {
+                            AudioPlayer.shared.playSound(name: "Button3.wav")
                             Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
                             langIndex = getCurrentLang()
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
+                            AudioPlayer.shared.playSound(name: "Button3.wav")
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             offsetX = -450
                             

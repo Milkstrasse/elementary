@@ -10,6 +10,8 @@
 		3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */; };
 		3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */; };
 		3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */; };
+		328121A927A283470022A5D1 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328121A827A283470022A5D1 /* AudioPlayer.swift */; };
+		328121AE27A285A60022A5D1 /* Button3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121AD27A285A60022A5D1 /* Button3.wav */; };
 		B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA4278345EC00DEB25F /* MagikoApp.swift */; };
 		B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CA8278345EE00DEB25F /* Assets.xcassets */; };
 		B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */; };
@@ -71,9 +73,11 @@
 
 /* Begin PBXFileReference section */
 		3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
-		3258B6CF27A06EC700746B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3258B6CF27A06EC700746B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Recoleta-Regular.ttf"; sourceTree = "<group>"; };
 		3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Recoleta-Bold.ttf"; sourceTree = "<group>"; };
+		328121A827A283470022A5D1 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		328121AD27A285A60022A5D1 /* Button3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Button3.wav; sourceTree = "<group>"; };
 		B80D7CA1278345EC00DEB25F /* Magiko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magiko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CA4278345EC00DEB25F /* MagikoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagikoApp.swift; sourceTree = "<group>"; };
 		B80D7CA8278345EE00DEB25F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,6 +158,18 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		328121AC27A285790022A5D1 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				328121AD27A285A60022A5D1 /* Button3.wav */,
+				3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */,
+				3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */,
+				3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */,
+				B80D7CA8278345EE00DEB25F /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		B80D7C98278345EC00DEB25F = {
 			isa = PBXGroup;
 			children = (
@@ -176,12 +192,12 @@
 			isa = PBXGroup;
 			children = (
 				3258B6CF27A06EC700746B2D /* Info.plist */,
+				328121AC27A285790022A5D1 /* Assets */,
 				B80D7D0427871EF500DEB25F /* Logic */,
 				B80D7CF12785F85200DEB25F /* Data */,
 				B80D7CA4278345EC00DEB25F /* MagikoApp.swift */,
 				B80D7CD32783539000DEB25F /* Views */,
 				B80D7CD02783534700DEB25F /* UIStyles */,
-				B80D7CA8278345EE00DEB25F /* Assets.xcassets */,
 				B80D7CAA278345EE00DEB25F /* Preview Content */,
 			);
 			path = Magiko;
@@ -227,9 +243,6 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */,
-				3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */,
-				3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */,
 				B81CC32C2789D10A00908195 /* Loadouts */,
 				B81CC32A2789A5E700908195 /* Elements */,
 				B80D7D0B27882EA800DEB25F /* Languages */,
@@ -247,6 +260,7 @@
 				B80D7D072787558100DEB25F /* Extensions.swift */,
 				B81CC32E278A3C3500908195 /* Localization.swift */,
 				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
+				328121A827A283470022A5D1 /* AudioPlayer.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -404,6 +418,7 @@
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
+				328121AE27A285A60022A5D1 /* Button3.wav in Resources */,
 				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +464,7 @@
 				B8525157278DD49D00AD99BE /* Effects.swift in Sources */,
 				B8CDEEBD2793647E0073F5B2 /* TrainingSelectionView.swift in Sources */,
 				B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */,
+				328121A927A283470022A5D1 /* AudioPlayer.swift in Sources */,
 				B81CC3292789A31800908195 /* Element.swift in Sources */,
 				B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,

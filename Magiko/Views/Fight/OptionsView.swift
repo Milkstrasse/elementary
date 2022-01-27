@@ -19,17 +19,20 @@ struct OptionsView: View {
     var body: some View {
         HStack(spacing: 5) {
             Button(action: {
+                AudioPlayer.shared.playSound(name: "Button3.wav")
                 currentSection = .skills
             }) {
                 DetailedActionView(title: "Fight", description: "Use your skills", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             .disabled(fightLogic.hasToSwap[player])
             Button(action: {
+                AudioPlayer.shared.playSound(name: "Button3.wav")
                 currentSection = .team
             }) {
                 DetailedActionView(title: "Team", description: "Switch out", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             Button(action: {
+                AudioPlayer.shared.playSound(name: "Button3.wav")
                 fightLogic.forfeit(player: player)
                 gameOver = true
             }) {

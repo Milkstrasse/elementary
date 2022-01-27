@@ -70,6 +70,7 @@ struct SkillsView: View {
                     .highPriorityGesture(
                         TapGesture()
                             .onEnded { _ in
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
                                     currentSection = .waiting
                                 }

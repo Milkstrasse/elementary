@@ -81,6 +81,7 @@ struct TrainingOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135)).disabled(true)
                                 Button("X") {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
@@ -111,6 +112,7 @@ struct TrainingOverView: View {
                         VStack {
                             HStack(spacing: 5) {
                                 Button(Localization.shared.getTranslation(key: "rematch")) {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     resetFighters(fighters: rightFighters)
                                     resetFighters(fighters: leftFighters)
                                     
@@ -125,6 +127,7 @@ struct TrainingOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135))
                                 Button("X") {
+                                    AudioPlayer.shared.playSound(name: "Button3.wav")
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))

@@ -149,6 +149,8 @@ struct LeftPlayerFightView: View {
                             VStack(alignment: .leading) {
                                 ZStack {
                                     Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
+                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        
                                         if fightLogic.isGameOver() {
                                             gameOver = true
                                         } else {

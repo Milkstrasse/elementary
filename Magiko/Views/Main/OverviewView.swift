@@ -66,6 +66,7 @@ struct OverviewView: View {
                 if fighterSelected {
                     HStack(alignment: .top) {
                         Button(infoToggle ? "X" : "?") {
+                            AudioPlayer.shared.playSound(name: "Button3.wav")
                             infoToggle = !infoToggle
                         }
                         .buttonStyle(BasicButton(width: 40))
@@ -127,6 +128,8 @@ struct OverviewView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 160, height: 40)
                                 HStack {
                                     Button("<") {
+                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        
                                         if currentElement < 0 {
                                             currentElement = GlobalData.shared.elementArray.count - 1
                                         } else {
@@ -140,6 +143,8 @@ struct OverviewView: View {
                                     CustomText(key: currentElement == -1 ? "allTypes" : GlobalData.shared.elementArray[currentElement].name.lowercased()).frame(width: 65)
                                     Spacer()
                                     Button(">") {
+                                        AudioPlayer.shared.playSound(name: "Button3.wav")
+                                        
                                         if currentElement >= GlobalData.shared.elementArray.count - 1 {
                                             currentElement = -1
                                         } else {
@@ -153,6 +158,7 @@ struct OverviewView: View {
                                 .frame(width: 145)
                             }
                             Button("X") {
+                                AudioPlayer.shared.playSound(name: "Button3.wav")
                                 fighterSelected = false
                                 offsetX = -450
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
