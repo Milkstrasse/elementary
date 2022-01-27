@@ -77,7 +77,7 @@ struct FightSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: leftFighters))
                             Button("X") {
-                                AudioPlayer.shared.playStandardSound()
+                                AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
@@ -113,7 +113,7 @@ struct FightSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
                             Button("X") {
-                                AudioPlayer.shared.playStandardSound()
+                                AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))

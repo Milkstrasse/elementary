@@ -81,7 +81,7 @@ struct TrainingOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135)).disabled(true)
                                 Button("X") {
-                                    AudioPlayer.shared.playStandardSound()
+                                    AudioPlayer.shared.playCancelSound()
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
@@ -128,7 +128,7 @@ struct TrainingOverView: View {
                                 }
                                 .buttonStyle(BasicButton(width: 135))
                                 Button("X") {
-                                    AudioPlayer.shared.playStandardSound()
+                                    AudioPlayer.shared.playCancelSound()
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))

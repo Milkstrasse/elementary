@@ -164,7 +164,7 @@ struct OverviewView: View {
                                 .frame(width: 145)
                             }
                             Button("X") {
-                                AudioPlayer.shared.playStandardSound()
+                                AudioPlayer.shared.playCancelSound()
                                 fighterSelected = false
                                 offsetX = -450
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

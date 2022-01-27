@@ -13,6 +13,7 @@ struct SettingsView: View {
     
     @State var langIndex: Int = 0
     @State var soundVolume: Int = 10
+    @State var musicVolume: Int = 10
     
     func getCurrentLang() -> Int {
         for index in Localization.shared.languages.indices {
@@ -48,15 +49,30 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "Option").frame(width: 100, alignment: .leading)
+                                    CustomText(key: "music").frame(width: 100, alignment: .leading)
                                     Button("<") {
+                                        if musicVolume > 0 {
+                                            musicVolume -= 1
+                                        } else {
+                                            musicVolume = 10
+                                        }
                                         
+                                        AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(text: "100%")
+                                    CustomText(text: "\(musicVolume * 10)%")
                                     Spacer()
                                     Button(">") {
+                                        if musicVolume < 10 {
+                                            musicVolume += 1
+                                        } else {
+                                            musicVolume = 0
+                                        }
+                                        
+                                        AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
@@ -143,13 +159,16 @@ struct SettingsView: View {
                             
                             AudioPlayer.shared.setSoundVolume(volume: 1.0)
                             soundVolume = 10
+                            AudioPlayer.shared.setMusicVolume(volume: 1.0)
+                            musicVolume = 10
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
-                            AudioPlayer.shared.playStandardSound()
+                            AudioPlayer.shared.playCancelSound()
                             
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
+                            UserDefaults.standard.set(Float(musicVolume)/10, forKey: "music")
                             
                             offsetX = -450
                             
@@ -171,6 +190,7 @@ struct SettingsView: View {
             
             langIndex = getCurrentLang()
             soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
+            musicVolume = Int(AudioPlayer.shared.musicVolume * 10)
         }
     }
 }

@@ -14,6 +14,8 @@
 		328121B527A29C210022A5D1 /* abs-pointer-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */; };
 		328121B727A29C380022A5D1 /* abs-confirm-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */; };
 		328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */; };
+		328121BC27A2EA940022A5D1 /* NebulaCloud(drumless).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */; };
+		328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */; };
 		B80D7CA5278345EC00DEB25F /* MagikoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA4278345EC00DEB25F /* MagikoApp.swift */; };
 		B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CA8278345EE00DEB25F /* Assets.xcassets */; };
 		B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */; };
@@ -82,6 +84,8 @@
 		328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-pointer-1.mp3"; sourceTree = "<group>"; };
 		328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-confirm-1.mp3"; sourceTree = "<group>"; };
 		328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-cancel-1.mp3"; sourceTree = "<group>"; };
+		328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "NebulaCloud(drumless).mp3"; sourceTree = "<group>"; };
+		328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = AltusStratum.mp3; sourceTree = "<group>"; };
 		B80D7CA1278345EC00DEB25F /* Magiko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magiko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CA4278345EC00DEB25F /* MagikoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagikoApp.swift; sourceTree = "<group>"; };
 		B80D7CA8278345EE00DEB25F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 		328121AC27A285790022A5D1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */,
+				328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */,
 				328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */,
 				328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */,
 				328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */,
@@ -422,9 +428,11 @@
 				B80D7CF32785F86A00DEB25F /* Fighters in Resources */,
 				B81CC32B2789A5E700908195 /* Elements in Resources */,
 				328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */,
+				328121BC27A2EA940022A5D1 /* NebulaCloud(drumless).mp3 in Resources */,
 				3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */,
 				B81CC32D2789D10A00908195 /* Loadouts in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
+				328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,

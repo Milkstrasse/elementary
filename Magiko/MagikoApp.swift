@@ -48,6 +48,8 @@ struct MagikoApp: App {
                             Localization.shared.loadLanguage(language: langCode!)
                             
                             AudioPlayer.shared.setSoundVolume(volume: UserDefaults.standard.float(forKey: "sound"))
+                            AudioPlayer.shared.setMusicVolume(volume: UserDefaults.standard.float(forKey: "music"))
+                            AudioPlayer.shared.playMusic()
                             
                             GlobalData.shared.loadData()
                             
