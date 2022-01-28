@@ -20,20 +20,14 @@ struct RightPlayerFightView: View {
     @State var hurting: Bool = false
     @State var healing: Bool = false
     
-    @State var blink: Bool = false
-    
-    @State var previousFighter: String = ""
-    
     func calcWidth(fighter: Fighter) -> CGFloat {
         DispatchQueue.main.async {
             let newHealth = fightLogic.getFighter(player: 1).currhp
             
-            if fightLogic.getFighter(player: 1).name == previousFighter {
-                if currentHealth > newHealth {
-                    hurting = true
-                } else if currentHealth < newHealth && currentHealth > 0 {
-                    healing = true
-                }
+            if currentHealth > newHealth {
+                hurting = true
+            } else if currentHealth < newHealth && currentHealth > 0 {
+                healing = true
             }
             
             currentHealth = newHealth
@@ -51,45 +45,38 @@ struct RightPlayerFightView: View {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
                     if !hurting && !healing {
-                        Image(blink ? fightLogic.getFighter(player: 1).name + "_blink" : fightLogic.getFighter(player: 1).name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                        Image(fightLogic.getFighter(player: 1).name).resizable().scaleEffect(1.1).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     } else if healing {
-                        Image(fightLogic.getFighter(player: 1).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
+                        Image(fightLogic.getFighter(player: 1).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     healing = false
                                 }
                             }
                     } else {
-                        Image(fightLogic.getFighter(player: 1).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
+                        Image(fightLogic.getFighter(player: 1).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).aspectRatio(contentMode: .fit).frame(width: 215).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
                             .onAppear {
-                                AudioPlayer.shared.playHurtSound()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     hurting = false
                                 }
                             }
                     }
-                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.trailing, 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
-                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
+                    Rectangle().fill(Color.pink).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         ZStack(alignment: .trailing) {
                             VStack(alignment: .trailing) {
-                                ZStack(alignment: .bottomLeading) {
-                                    HStack(spacing: 0) {
-                                        Triangle().fill(Color("outline")).frame(width: 21, height: 57)
-                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 57)
-                                    }
-                                    .padding(.bottom, 4).offset(x: -1).frame(width: 210)
+                                ZStack(alignment: .leading) {
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
                                             ForEach(fightLogic.fighters[1].indices) { index in
-                                                Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(fightLogic.fighters[1][index].currhp == 0 ? 0.5 : 1)
+                                                Circle().fill(Color.blue).frame(width: 12)
                                             }
                                         }
-                                        .padding(.leading, 24).offset(y: -5)
+                                        .padding(.leading, 24)
                                         HStack(spacing: 0) {
-                                            Triangle().fill(Color("button")).frame(width: 20, height: 55)
+                                            Triangle().fill(Color.blue).frame(width: 20)
                                             ZStack(alignment: .topTrailing) {
-                                                Rectangle().fill(Color("button")).frame(width: 190)
+                                                Rectangle().fill(Color.blue).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(fightLogic.getFighter(player: 1).effects, id: \.self) { effect in
                                                         EffectView(effect: effect, battling: fightLogic.battling)
@@ -98,18 +85,17 @@ struct RightPlayerFightView: View {
                                                         EffectView(effect: fightLogic.weather!, battling: fightLogic.battling, weather: true)
                                                     }
                                                 }
-                                                .offset(x: -12, y: -12)
+                                                .offset(x: -15, y: -15)
                                                 VStack(spacing: 0) {
                                                     HStack {
-                                                        CustomText(key: fightLogic.getFighter(player: 1).name, fontSize: 16).lineLimit(1)
+                                                        CustomText(key: fightLogic.getFighter(player: 1).name).lineLimit(1)
                                                         Spacer()
-                                                        CustomText(text: "\(fightLogic.getFighter(player: 1).currhp)/\(fightLogic.getFighter(player: 1).getModifiedBase().health)HP", fontSize: 13)
+                                                        CustomText(text: "\(fightLogic.getFighter(player: 1).currhp)/\(fightLogic.getFighter(player: 1).getModifiedBase().health)HP")
                                                     }
                                                     ZStack(alignment: .leading) {
-                                                        Rectangle().fill(Color("outline")).frame(height: 6)
-                                                        Rectangle().fill(Color("health")).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 1)), height: 6).animation(.default, value: fightLogic.getFighter(player: 1).currhp)
+                                                        Rectangle().fill(Color.purple).frame(height: 6)
+                                                        Rectangle().fill(Color.yellow).frame(width: calcWidth(fighter: fightLogic.getFighter(player: 1)), height: 6).animation(.default, value: fightLogic.getFighter(player: 1).currhp)
                                                     }
-                                                    .clipShape(RoundedRectangle(cornerRadius: 5))
                                                 }
                                                 .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
                                             }
@@ -125,8 +111,6 @@ struct RightPlayerFightView: View {
                                 Spacer()
                                 ZStack {
                                     Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
-                                        AudioPlayer.shared.playStandardSound()
-                                        
                                         if fightLogic.isGameOver() {
                                             gameOver = true
                                         } else {
@@ -149,14 +133,13 @@ struct RightPlayerFightView: View {
                         Group {
                             if currentSection == .summary {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
-                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
+                                    RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 120)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.battleLog, fontSize: 13).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(text: fightLogic.battleLog).frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
-                                    .frame(height: 85).padding(.horizontal, 15)
+                                    .frame(height: 90).padding(.horizontal, 15)
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
+                                .rotationEffect(.degrees(-90)).frame(width: 120, height: geometry.size.height - 30)
                             } else if currentSection != .waiting {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
@@ -169,38 +152,25 @@ struct RightPlayerFightView: View {
                                         }
                                     }
                                 }
-                                .padding(.vertical, 15).frame(width: 115, height: geometry.size.height - 30)
+                                .padding(.vertical, 15).frame(width: 120, height: geometry.size.height - 30)
                             } else {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
-                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                    CustomText(key: "waiting on other player", fontSize: 13).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
+                                    RoundedRectangle(cornerRadius: 5).fill(Color.yellow).frame(width: geometry.size.height - 30, height: 120)
+                                    CustomText(key: "waiting on other player").frame(width: geometry.size.height - 60, height: 90, alignment: .topLeading).padding(.horizontal, 15)
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
+                                .rotationEffect(.degrees(-90)).frame(width: 120, height: geometry.size.height - 30)
                             }
                         }
                         .padding(.trailing, 15)
                     }
                 }
+                .frame(width: 215)
             }
-            .frame(width: geometry.size.width)
             .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
                     currentSection = .summary
                 }
             })
-        }
-        .onAppear {
-            previousFighter = fightLogic.getFighter(player: 1).name
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
-                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
-                    blink = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        blink = false
-                    }
-                }
-            }
         }
     }
 }
@@ -208,7 +178,8 @@ struct RightPlayerFightView: View {
 struct RightPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         RightPlayerFightView(fightLogic: FightLogic(leftFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter, exampleFighter]), offsetX: 0, gameOver: .constant(false))
-            .ignoresSafeArea(.all, edges: .bottom)
+            .previewDevice("iPhone 8")
+            .edgesIgnoringSafeArea(.bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }
