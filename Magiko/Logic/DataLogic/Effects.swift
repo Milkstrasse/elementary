@@ -53,7 +53,7 @@ enum Effects: String, CaseIterable {
     case confused
     case bombed
     case blessed
-    case blocked
+    case haunted
     case chained
     case invigorated
     case exhausted
@@ -88,7 +88,7 @@ enum Effects: String, CaseIterable {
                 return Effect(name: self.rawValue, symbol: 0xf1e2, duration: 3, positive: false, damageAmount: 25)
             case .blessed:
                 return Effect(name: self.rawValue, symbol: 0xf4c2, duration: 3, positive: true)
-            case .blocked:
+            case .haunted:
                 return Effect(name: self.rawValue, symbol: 0xf05e, duration: 3, positive: false)
             case .chained:
                 return Effect(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)

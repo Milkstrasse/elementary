@@ -34,7 +34,7 @@ class TurnLogic {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
                 } else {
-                    if fightLogic.getFighter(player: 0).applyEffect(effect: Effects.blocked.getEffect()) {
+                    if fightLogic.getFighter(player: 0).applyEffect(effect: Effects.haunted.getEffect()) {
                         battleLog = attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 0).name + ".\n"
                     } else {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
@@ -173,7 +173,7 @@ class TurnLogic {
             target = attacker
         }
         
-        if !target.hasEffect(effectName: Effects.blocked.rawValue) {
+        if !target.hasEffect(effectName: Effects.haunted.rawValue) {
             newHealth = target.getModifiedBase().health/(100/skill.healAmount)
             if newHealth >= (target.getModifiedBase().health - target.currhp) {
                 target.currhp = target.getModifiedBase().health

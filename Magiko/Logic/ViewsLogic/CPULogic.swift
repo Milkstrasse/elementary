@@ -54,7 +54,7 @@ struct CPULogic {
         }
         
         //low health -> should heal
-        if fighter.currhp <= fighter.getModifiedBase().health/2 && !fighter.hasEffect(effectName: Effects.blocked.rawValue) {
+        if fighter.currhp <= fighter.getModifiedBase().health/2 && !fighter.hasEffect(effectName: Effects.haunted.rawValue) {
             for index in availableSkills.indices {
                 if fighter.skills[availableSkills[index]].type == "heal" {
                     return Move(source: fighter, target: -1, skill: fighter.skills[availableSkills[index]])

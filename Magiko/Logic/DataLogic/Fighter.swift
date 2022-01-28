@@ -109,7 +109,7 @@ class Fighter: Hashable {
                         removeEffect(effect: effect)
                     }
                 }
-            case Effects.blocked.rawValue:
+            case Effects.haunted.rawValue:
                 if hasEffect(effectName: Effects.healed.rawValue) {
                     removeEffect(effect: effect)
                 }
@@ -148,7 +148,7 @@ class Fighter: Hashable {
                     return false
                 }
             } else if effect.name == Effects.healed.rawValue {
-                if hasEffect(effectName: Effects.blocked.rawValue) {
+                if hasEffect(effectName: Effects.haunted.rawValue) {
                     return false
                 }
             }

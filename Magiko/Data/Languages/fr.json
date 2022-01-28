@@ -28,6 +28,11 @@
     "reset": "Réinitialiser",
     "training": "Entraînement",
     
+    "music": "Musique",
+    "sound": "Son",
+    "voices": "Voix",
+    "language": "Langue",
+    
     "usedSkill": "{0} a utilisé **{1}**.",
     "criticalHit": "C'est un coup critique!",
     "nameFainted": "{0} s'est évanouie.",
@@ -44,6 +49,18 @@
     "gainedHP": "{0} a gagnée HP.",
     "healFailed": "La guérison a échoué.",
     "namePerished": "{0} a périe.",
+    
+    "poisoned": "empoisonnée",
+    "healed": "guérie",
+    "confused": "confondue",
+    "bombed": "bombardée",
+    "blessed": "bénie",
+    "haunted": "hantée",
+    "chained": "enchaînée",
+    "invigorated": "revigorée",
+    "exhausted": "épuisée"
+    "restricted": "restreinte",
+    "enlightened": "éclairée",
     
     "genericPunchDescr": "Frappe adversaire",
     
