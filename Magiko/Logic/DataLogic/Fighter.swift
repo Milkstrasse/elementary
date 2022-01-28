@@ -136,7 +136,7 @@ class Fighter: Hashable {
             if !effect.positive {
                 if hasEffect(effectName: Effects.blessed.rawValue) {
                     return false
-                } else if effect.name == Effects.chained.rawValue && self.ability.name == Abilities.freeSpirit.rawValue {
+                } else if effect.name == Effects.chained.rawValue && self.ability.name == Abilities.freeSpirited.rawValue {
                     return false
                 } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.sceptic.rawValue {
                     return false

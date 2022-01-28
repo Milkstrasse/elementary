@@ -117,7 +117,7 @@ class FightLogic: ObservableObject {
         //fight begins
         if gameLogic.areBothReady() || hasCPUPlayer {
             battling = true
-            battleLog = "Loading..."
+            battleLog = Localization.shared.getTranslation(key: "loading")
             
             //increase useCounter of skills
             usedMoves[0][0].useSkill(amount: getFighter(player: 0).staminaUse)

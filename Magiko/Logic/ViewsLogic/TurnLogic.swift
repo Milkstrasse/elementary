@@ -26,7 +26,7 @@ class TurnLogic {
         
         //fighter faints and certain abilities activate
         if attacker.currhp == 0 && !attacker.hasEffect(effectName: Effects.enlightened.rawValue) {
-            if attacker.ability.name == Abilities.retaliator.rawValue {
+            if attacker.ability.name == Abilities.retaliation.rawValue {
                 if player == 0 {
                     if fightLogic.getFighter(player: 1).applyEffect(effect: Effects.getNegativeEffect()) {
                         battleLog = attacker.name + " fainted and cursed " + fightLogic.getFighter(player: 1).name + ".\n"

@@ -97,7 +97,7 @@ struct LeftPlayerFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
                                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                    CustomText(key: "waiting on other player", fontSize: 13).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
+                                    CustomText(key: "waiting", fontSize: 13).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
                                 }
                                 .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }

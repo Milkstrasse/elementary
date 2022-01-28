@@ -12,7 +12,7 @@ struct Ability {
 
 enum Abilities: String, CaseIterable {
     case defensive
-    case freeSpirit
+    case freeSpirited
     case sceptic
     case immune
     case rebellious
@@ -20,7 +20,7 @@ enum Abilities: String, CaseIterable {
     case ethereal
     case weatherFrog
     case contrarian
-    case retaliator
+    case retaliation
     case enraged
     case lastWill
     case naturalCure

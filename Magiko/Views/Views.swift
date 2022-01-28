@@ -182,11 +182,7 @@ struct CustomText: View {
             return true
         }
         
-        if textArray.count > 1 {
-            return index%2 != 0
-        }
-        
-        return false
+        return index%2 != 0
     }
     
     var body: some View {
