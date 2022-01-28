@@ -127,7 +127,7 @@ struct SquareFighterView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button"))
             if fighter != nil {
-                Image(fighter!.name).resizable().scaleEffect(1.4).aspectRatio(contentMode: .fit).offset(y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
+                Image(fighter!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24)
             }

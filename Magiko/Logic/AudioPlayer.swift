@@ -14,6 +14,8 @@ class AudioPlayer {
     var musicPlayer: AVAudioPlayer?
     var soundVolume: Float = 1.0
     var soundPlayer: AVAudioPlayer?
+    var voiceVolume: Float = 1.0
+    var voicePlayer: AVAudioPlayer?
     
     let voices: [String] = ["damaged1.wav", "damaged2.wav", "damaged3.wav"]
     
@@ -24,6 +26,10 @@ class AudioPlayer {
     
     func setSoundVolume(volume: Float) {
         soundVolume = volume
+    }
+    
+    func setVoiceVolume(volume: Float) {
+        voiceVolume = volume
     }
     
     func playMenuMusic() {
@@ -102,9 +108,9 @@ class AudioPlayer {
             let path = Bundle.main.path(forResource: voices[index], ofType: nil)!
             let url = URL(fileURLWithPath: path)
             
-            soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume
-            soundPlayer?.play()
+            voicePlayer = try AVAudioPlayer(contentsOf: url)
+            voicePlayer?.volume = voiceVolume
+            voicePlayer?.play()
         } catch {
             print("\(error)")
         }
