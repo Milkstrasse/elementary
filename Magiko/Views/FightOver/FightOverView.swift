@@ -67,18 +67,13 @@ struct FightOverView: View {
                 }
                 HStack(spacing: 0) {
                     ZStack(alignment: .leading) {
-                        HStack(spacing: 0) {
-                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.leading)
-                            Rectangle().fill(Color("outline")).frame(width: 1)
-                        }
-                        .offset(x: -geometry.safeAreaInsets.leading)
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             ZStack {
-                                CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 65, alignment: .topLeading)
+                                CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                             }
-                            .frame(width: 65, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(90))
+                            .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(90))
                         }
                         .padding(.leading, 65)
                         VStack {
@@ -122,18 +117,13 @@ struct FightOverView: View {
                     }
                     Spacer()
                     ZStack(alignment: .trailing) {
-                        HStack(spacing: 0) {
-                            Rectangle().fill(Color("outline")).frame(width: 1)
-                            Rectangle().fill(Color("background")).frame(width: 174 + geometry.safeAreaInsets.trailing)
-                        }
-                        .offset(x: geometry.safeAreaInsets.trailing)
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 95, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             ZStack {
-                                CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 65, alignment: .topLeading)
+                                CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                             }
-                            .frame(width: 65, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(-90))
+                            .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(-90))
                         }
                         .padding(.trailing, 65)
                         VStack {
