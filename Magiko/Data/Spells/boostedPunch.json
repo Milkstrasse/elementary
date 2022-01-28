@@ -2,7 +2,7 @@
   "element": "fire",
   "type": "attack",
   "uses": 10,
-  "skills": [
+  "spells": [
       {
           "power": 60,
           "range": 1
@@ -11,7 +11,7 @@
           "power": 0,
           "range": 0,
           "chance": 40,
-          "effect": "attackBoost"
+          "hex": "attackBoost"
       }
   ]
 }

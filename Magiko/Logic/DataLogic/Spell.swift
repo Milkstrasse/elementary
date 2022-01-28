@@ -1,12 +1,12 @@
 //
-//  Skill.swift
+//  Spell.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 07.01.22.
 //
 
-/// Contains info on which actions a fighter can make when using this skill, the amount of uses and the element which can give a damage bonus when attacking..
-struct Skill: Decodable, Hashable {
+/// Contains info on which actions a witch can make when using this spell, the amount of uses and the element which can give a damage bonus when attacking..
+struct Spell: Decodable, Hashable {
     var name: String
     let element: Element
     
@@ -14,67 +14,67 @@ struct Skill: Decodable, Hashable {
     
     private let uses: Int
     var useCounter: Int = 0
-    let skills: [SubSkill]
+    let spells: [SubSpell]
     
     enum CodingKeys: String, CodingKey {
-        case element, type, uses, skills
+        case element, type, uses, spells
     }
     
-    /// Creates placeholder skill.
+    /// Creates placeholder spell.
     init() {
-        name = "unknownSkill"
+        name = "unknownSpell"
         element = Element()
         
         type = "default"
         
         uses = 10
-        skills = []
+        spells = []
     }
     
-    /// Creates skill from JSON data.
+    /// Creates spell from JSON data.
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        name = "unknownSkill" //will be overwritten by GlobalData
+        name = "unknownSpell" //will be overwritten by GlobalData
         let elem = try container.decode(String.self, forKey: .element)
         element = GlobalData.shared.elements[elem] ?? Element()
         
         type = try container.decode(String.self, forKey: .type)
         
         uses = try container.decode(Int.self, forKey: .uses)
-        skills = try container.decode([SubSkill].self, forKey: .skills)
+        spells = try container.decode([SubSpell].self, forKey: .spells)
     }
     
-    /// Checks how many uses a skill has with taking the stamina stat into consideration.
-    /// - Parameter fighter: The owner of the skill
-    /// - Returns: Returns the amount of uses the skill has
-    func getUses(fighter: Fighter) -> Int {
-        return uses + (fighter.getModifiedBase().stamina - 100)/10
+    /// Checks how many uses a spell has with taking the stamina stat into consideration.
+    /// - Parameter witch: The owner of the spell
+    /// - Returns: Returns the amount of uses the spell has
+    func getUses(witch: Witch) -> Int {
+        return uses + (witch.getModifiedBase().stamina - 100)/10
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
     
-    static func == (lhs: Skill, rhs: Skill) -> Bool {
+    static func == (lhs: Spell, rhs: Spell) -> Bool {
         return lhs.name == rhs.name
     }
 }
 
-/// Subskills are a part of a skill and contain the info for one action.
-struct SubSkill: Decodable {
+/// Subspells are a part of a spell and contain the info for one action.
+struct SubSpell: Decodable {
     let power: Int
     let range: Int
     
     let chance: Int
-    let effect: String?
-    let weatherEffect: String?
+    let hex: String?
+    let weather: String?
     
     let healAmount: Int
     
     enum CodingKeys: String, CodingKey {
-        case power, range, chance, effect, weatherEffect, healAmount
+        case power, range, chance, hex, weather, healAmount
     }
     
     /// Creates action from JSON data.
@@ -86,8 +86,8 @@ struct SubSkill: Decodable {
         range = try container.decode(Int.self, forKey: .range)
         
         chance = try container.decodeIfPresent(Int.self, forKey: .chance) ?? 100
-        effect = try container.decodeIfPresent(String.self, forKey: .effect) ?? nil
-        weatherEffect = try container.decodeIfPresent(String.self, forKey: .weatherEffect) ?? nil
+        hex = try container.decodeIfPresent(String.self, forKey: .hex) ?? nil
+        weather = try container.decodeIfPresent(String.self, forKey: .weather) ?? nil
         
         healAmount = try container.decodeIfPresent(Int.self, forKey: .healAmount) ?? 0
     }

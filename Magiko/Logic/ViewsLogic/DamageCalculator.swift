@@ -7,33 +7,33 @@
 
 import Foundation
 
-/// Calculates the amount of damage of an attack and deals it to the targeted fighter. The damage calculation considers different factors like the element of the fighter, the element of a skill and the current weather, there is also a chance of an additional bonus called critical hit.
+/// Calculates the amount of damage of an attack and deals it to the targeted witch. The damage calculation considers different factors like the element of the witch, the element of a spell and the current weather, there is also a chance of an additional bonus called critical hit.
 struct DamageCalculator {
     static let shared: DamageCalculator = DamageCalculator()
     
-    /// Calculates the amount of damage of an attack and deals it to the targeted fighter
+    /// Calculates the amount of damage of an attack and deals it to the targeted witch
     /// - Parameters:
-    ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be targeted
-    ///   - skill: The skill used to make the attack
-    ///   - skillElement: The element of the used skill
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spell: The spell used to make the attack
+    ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> String {
+    func applyDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> String {
         var text: String = "\n"
         
         //determine actual target
-        var target: Fighter = defender
-        if skill.range == 0 {
+        var target: Witch = defender
+        if spell.range == 0 {
             target = attacker
         }
         
-        if target.currhp == 0 { //target already fainted -> no target for skill
+        if target.currhp == 0 { //target already fainted -> no target for spell
             return "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
         //damage calculation
-        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, skill: skill, skillElement: skillElement, weather: weather)
+        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, spell: spell, spellElement: spellElement, weather: weather)
         
         //multiply with critical modifier
         let chance: Int = Int.random(in: 0 ..< 100)
@@ -58,24 +58,24 @@ struct DamageCalculator {
     
     /// Determines which elemental modifier the attack receives.
     /// - Parameters:
-    ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be targeted
-    ///   - skillElement: The element of the used skill
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spellElement: The element of the used spell
     /// - Returns: Returns the received modifier
-    func getElementalModifier(attacker: Fighter, defender: Fighter, skillElement: Element) -> Float {
+    func getElementalModifier(attacker: Witch, defender: Witch, spellElement: Element) -> Float {
         var modifier: Float = 1
         
-        //elemental modifier of fighter
+        //elemental modifier of witch
         if attacker.element.hasAdvantage(element: defender.element) {
             modifier *= 2
         } else if attacker.element.hasDisadvantage(element: defender.element) {
             modifier *= 0.5
         }
         
-        //elemental modifier of skill
-        if skillElement.hasAdvantage(element: defender.element) {
+        //elemental modifier of spell
+        if spellElement.hasAdvantage(element: defender.element) {
             modifier *= 2
-        } else if skillElement.hasDisadvantage(element: defender.element) {
+        } else if spellElement.hasDisadvantage(element: defender.element) {
             modifier *= 0.5
         }
         
@@ -85,36 +85,36 @@ struct DamageCalculator {
     /// Determines which weather modifier the attack receives.
     /// - Parameters:
     ///   - weather: The current weather of the fight
-    ///   - skillElement: The element of the used skill
+    ///   - spellElement: The element of the used spell
     /// - Returns: Returns the received modifier
-    func getWeatherModifier(weather: Effect, skillElement: String) -> Float {
+    func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
-            case WeatherEffects.sandstorm.rawValue:
-                if skillElement == "wind" || skillElement == "rock" {
+            case Weather.sandstorm.rawValue:
+                if spellElement == "wind" || spellElement == "rock" {
                     return 1.5
                 }
-            case WeatherEffects.thunderstorm.rawValue:
-                if skillElement == "water" || skillElement == "electric" {
+            case Weather.thunderstorm.rawValue:
+                if spellElement == "water" || spellElement == "electric" {
                     return 1.5
                 }
-            case WeatherEffects.sunnyDay.rawValue:
-                if skillElement == "plant" || skillElement == "fire" {
+            case Weather.sunnyDay.rawValue:
+                if spellElement == "plant" || spellElement == "fire" {
                     return 1.5
                 }
-            case WeatherEffects.smog.rawValue:
-                if skillElement == "metal" || skillElement == "wind" {
+            case Weather.smog.rawValue:
+                if spellElement == "metal" || spellElement == "wind" {
                     return 1.5
                 }
-            case WeatherEffects.mysticWeather.rawValue:
-                if skillElement == "metal" || skillElement == "electric" {
+            case Weather.mysticWeather.rawValue:
+                if spellElement == "metal" || spellElement == "electric" {
                     return 1.5
                 }
-            case WeatherEffects.lightRain.rawValue:
-                if skillElement == "water" || skillElement == "plant" {
+            case Weather.lightRain.rawValue:
+                if spellElement == "water" || spellElement == "plant" {
                     return 1.5
                 }
-            case WeatherEffects.drought.rawValue:
-                if skillElement == "rock" || skillElement == "fire" {
+            case Weather.drought.rawValue:
+                if spellElement == "rock" || spellElement == "fire" {
                     return 1.5
                 }
             default:
@@ -126,33 +126,33 @@ struct DamageCalculator {
     
     /// Calculates the damage of an attack.
     /// - Parameters:
-    ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be targeted
-    ///   - skill: The skill used to make the attack
-    ///   - skillElement: The element of the used skill
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spell: The spell used to make the attack
+    ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns the damage of the attack
-    func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> Float {
-        let attack: Float = Float(skill.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+    func calcNonCriticalDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Float {
+        let attack: Float = Float(spell.power)/100 * Float(attacker.getModifiedBase().attack) * 16
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
         
         //multiply with elemental modifier
         if attacker.ability.name != Abilities.ethereal.rawValue && defender.ability.name != Abilities.ethereal.rawValue {
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, skillElement: skillElement)
+            dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement)
         }
         
         //multiply with weather modifier
         if weather != nil {
-            dmg *= getWeatherModifier(weather: weather!, skillElement: skillElement.name)
+            dmg *= getWeatherModifier(weather: weather!, spellElement: spellElement.name)
         }
         
         return dmg
     }
     
-    func willDefeatFighter(attacker: Fighter, defender: Fighter, skill: SubSkill, skillElement: Element, weather: Effect?) -> Bool {
-        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, skill: skill, skillElement: skillElement, weather: weather)
+    func willDefeatWitch(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
+        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
         
         //multiply with critical modifier
         let chance: Int = Int.random(in: 0 ..< 100)

@@ -11,8 +11,8 @@ struct FightSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
-    @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
+    @State var leftWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var rightWitches: [Witch?] = [nil, nil, nil, nil]
     
     @State var leftReady: Bool = false
     @State var rightReady: Bool = false
@@ -20,26 +20,26 @@ struct FightSelectionView: View {
     @State var transitionToggle: Bool = true
     
     func createLogic() -> FightLogic {
-        var lefts: [Fighter] = []
-        for fighter in leftFighters {
-            if fighter != nil {
-                lefts.append(fighter!)
+        var lefts: [Witch] = []
+        for witch in leftWitches {
+            if witch != nil {
+                lefts.append(witch!)
             }
         }
         
-        var rights: [Fighter] = []
-        for fighter in rightFighters {
-            if fighter != nil {
-                rights.append(fighter!)
+        var rights: [Witch] = []
+        for witch in rightWitches {
+            if witch != nil {
+                rights.append(witch!)
             }
         }
         
-        return FightLogic(leftFighters: lefts, rightFighters: rights)
+        return FightLogic(leftWitches: lefts, rightWitches: rights)
     }
     
-    func isArrayEmpty(array: [Fighter?]) -> Bool {
-        for fighter in array {
-            if fighter != nil {
+    func isArrayEmpty(array: [Witch?]) -> Bool {
+        for witch in array {
+            if witch != nil {
                 return false
             }
         }
@@ -75,7 +75,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: leftFighters))
+                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: leftWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -111,7 +111,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
+                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -127,13 +127,13 @@ struct FightSelectionView: View {
                 }
                 .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
-                    LeftSelectionView(fighters: $leftFighters).disabled(leftReady)
+                    LeftSelectionView(witches: $leftWitches).disabled(leftReady)
                     ZStack {
                         Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
                         CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(fighters: $rightFighters).disabled(rightReady)
+                    RightSelectionView(witches: $rightWitches).disabled(rightReady)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }

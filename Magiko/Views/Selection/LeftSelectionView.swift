@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LeftSelectionView: View {
-    @Binding var fighters: [Fighter?]
+    @Binding var witches: [Witch?]
     @State var selectedSlot: Int = -1
     @State var selectedLoadout: Int = 0
     @State var selectedAbility: Int = 0
@@ -18,13 +18,13 @@ struct LeftSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
-    func isSelected(fighter: Fighter?) -> Bool {
-        if fighter == nil {
+    func isSelected(witch: Witch?) -> Bool {
+        if witch == nil {
             return false
         }
         
-        for selectedFighter in fighters {
-            if fighter?.name == selectedFighter?.name {
+        for selectedWitch in witches {
+            if witch?.name == selectedWitch?.name {
                 return true
             }
         }
@@ -32,29 +32,29 @@ struct LeftSelectionView: View {
         return false
     }
     
-    func getFirstHalf() -> [Fighter?] {
-        if GlobalData.shared.fighters.count%2 == 0 {
-            let rowArray = GlobalData.shared.fighters[0 ..< GlobalData.shared.fighters.count/2]
+    func getFirstHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.shared.fighters[0 ..< GlobalData.shared.fighters.count/2 + 1]
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2 + 1]
             return Array(rowArray)
         }
     }
     
-    func getSecondHalf() -> [Fighter?] {
-        if GlobalData.shared.fighters.count%2 == 0 {
-            let rowArray = GlobalData.shared.fighters[GlobalData.shared.fighters.count/2 ..< GlobalData.shared.fighters.count]
+    func getSecondHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 ..< GlobalData.shared.witches.count]
             return Array(rowArray)
         } else {
-            let rowArray = GlobalData.shared.fighters[GlobalData.shared.fighters.count/2 + 1 ..< GlobalData.shared.fighters.count]
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 + 1 ..< GlobalData.shared.witches.count]
             return Array(rowArray)
         }
     }
     
-    func getLoadout(fighter: Fighter) -> Int {
+    func getLoadout(witch: Witch) -> Int {
         for index in GlobalData.shared.loadouts.indices {
-            if fighter.loadout.name == GlobalData.shared.loadouts[index].name {
+            if witch.loadout.name == GlobalData.shared.loadouts[index].name {
                 return index
             }
         }
@@ -62,9 +62,9 @@ struct LeftSelectionView: View {
         return 0
     }
     
-    func getAbility(fighter: Fighter) -> Int {
+    func getAbility(witch: Witch) -> Int {
         for index in Abilities.allCases.indices {
-            if fighter.ability.name == Abilities.allCases[index].rawValue {
+            if witch.ability.name == Abilities.allCases[index].rawValue {
                 return index
             }
         }
@@ -85,7 +85,7 @@ struct LeftSelectionView: View {
                                     AudioPlayer.shared.playStandardSound()
                                     
                                     if selectedSlot == index {
-                                        if selectionToggle && fighters[index] != nil {
+                                        if selectionToggle && witches[index] != nil {
                                             selectionToggle = false
                                             infoToggle = true
                                         } else {
@@ -101,9 +101,9 @@ struct LeftSelectionView: View {
                                     } else {
                                         selectedSlot = index
                                         
-                                        if fighters[index] != nil {
-                                            selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
-                                            selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
+                                        if witches[index] != nil {
+                                            selectedLoadout = getLoadout(witch: witches[selectedSlot]!)
+                                            selectedAbility = getAbility(witch: witches[selectedSlot]!)
                                             
                                             selectionToggle = false
                                             infoToggle = true
@@ -113,7 +113,7 @@ struct LeftSelectionView: View {
                                         }
                                     }
                                 }) {
-                                    SquareFighterView(fighter: fighters[index], isSelected: index == selectedSlot)
+                                    SquareWitchView(witch: witches[index], isSelected: index == selectedSlot)
                                 }
                             }
                         }
@@ -131,28 +131,28 @@ struct LeftSelectionView: View {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            ForEach(self.getSecondHalf(), id: \.?.name) { fighter in
+                                            ForEach(self.getSecondHalf(), id: \.?.name) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
-                                                    if !isSelected(fighter: fighter) {
-                                                        fighters[selectedSlot] = Fighter(data: fighter!.data)
+                                                    if !isSelected(witch: witch) {
+                                                        witches[selectedSlot] = Witch(data: witch!.data)
                                                     }
                                                 }) {
-                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                 }
                                             }
                                         }
                                         VStack(spacing: 5) {
-                                            ForEach(self.getFirstHalf(), id: \.?.name) { fighter in
+                                            ForEach(self.getFirstHalf(), id: \.?.name) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
-                                                    if !isSelected(fighter: fighter) {
-                                                        fighters[selectedSlot] = Fighter(data: fighter!.data)
+                                                    if !isSelected(witch: witch) {
+                                                        witches[selectedSlot] = Witch(data: witch!.data)
                                                     }
                                                 }) {
-                                                    SquareFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter)).rotationEffect(.degrees(90))
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                 }
                                             }
                                         }
@@ -169,7 +169,7 @@ struct LeftSelectionView: View {
                                         VStack(spacing: 5) {
                                             Button(Localization.shared.getTranslation(key: "remove")) {
                                                 AudioPlayer.shared.playStandardSound()
-                                                fighters[selectedSlot] = nil
+                                                witches[selectedSlot] = nil
                                                 
                                                 selectionToggle = true
                                                 infoToggle = false
@@ -187,7 +187,7 @@ struct LeftSelectionView: View {
                                                             selectedLoadout -= 1
                                                         }
                                                         
-                                                        fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
+                                                        witches[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
                                                     CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
@@ -200,16 +200,16 @@ struct LeftSelectionView: View {
                                                             selectedLoadout += 1
                                                         }
                                                         
-                                                        fighters[selectedSlot]!.setLoadout(loadout: selectedLoadout)
+                                                        witches[selectedSlot]!.setLoadout(loadout: selectedLoadout)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
                                                 }.rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                             }
                                         }
-                                        BaseOverviewView(base: fighters[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                        BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                         .padding(.trailing, 5)
-                                        ForEach(fighters[selectedSlot]!.skills, id: \.self) { skill in
-                                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                        ForEach(witches[selectedSlot]!.spells, id: \.self) { spell in
+                                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: geometry.size.height - 30, height: 60)
@@ -223,7 +223,7 @@ struct LeftSelectionView: View {
                                                         selectedAbility -= 1
                                                     }
                                                     
-                                                    fighters[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    witches[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
                                                 .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 VStack {
@@ -239,7 +239,7 @@ struct LeftSelectionView: View {
                                                         selectedAbility += 1
                                                     }
                                                     
-                                                    fighters[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    witches[selectedSlot]!.setAbility(ability: selectedAbility)
                                                 }
                                                 .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                             }
@@ -253,8 +253,8 @@ struct LeftSelectionView: View {
                             }
                             .padding(.horizontal, 15).frame(width: 175).rotationEffect(.degrees(180))
                             .onAppear {
-                                selectedLoadout = getLoadout(fighter: fighters[selectedSlot]!)
-                                selectedAbility = getAbility(fighter: fighters[selectedSlot]!)
+                                selectedLoadout = getLoadout(witch: witches[selectedSlot]!)
+                                selectedAbility = getAbility(witch: witches[selectedSlot]!)
                             }
                         }
                     }
@@ -271,7 +271,7 @@ struct LeftSelectionView: View {
 
 struct LeftSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftSelectionView(fighters: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
+        LeftSelectionView(witches: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

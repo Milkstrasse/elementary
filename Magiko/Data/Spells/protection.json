@@ -2,7 +2,7 @@
   "element": "aether",
   "type": "shield",
   "uses": 10,
-  "skills": [
+  "spells": [
       {
           "power": 0,
           "range": 0

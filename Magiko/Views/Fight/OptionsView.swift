@@ -20,9 +20,9 @@ struct OptionsView: View {
         HStack(spacing: 5) {
             Button(action: {
                 AudioPlayer.shared.playStandardSound()
-                currentSection = .skills
+                currentSection = .spells
             }) {
-                DetailedActionView(title: "Fight", description: "Use your skills", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "Fight", description: "Use your spells", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             .disabled(fightLogic.hasToSwap[player])
             Button(action: {
@@ -44,6 +44,6 @@ struct OptionsView: View {
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(currentSection: .constant(.options), gameOver: .constant(false), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
+        OptionsView(currentSection: .constant(.options), gameOver: .constant(false), fightLogic: FightLogic(leftWitches: [exampleWitch], rightWitches: [exampleWitch]), player: 0, geoHeight: 375)
     }
 }

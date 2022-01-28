@@ -10,7 +10,7 @@ import SwiftUI
 enum Section {
     case summary
     case options
-    case skills
+    case spells
     case team
     case waiting
 }
@@ -48,7 +48,7 @@ struct FightView: View {
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightOverView(leftFighters: fightLogic.fighters[0], rightFighters: fightLogic.fighters[1], winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(FightOverView(leftWitches: fightLogic.witches[0], rightWitches: fightLogic.witches[1], winner: fightLogic.getWinner()).environmentObject(manager)))
             }
         }
     }
@@ -56,7 +56,7 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(leftFighters: [], rightFighters: []))
+        FightView(fightLogic: FightLogic(leftWitches: [], rightWitches: []))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

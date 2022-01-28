@@ -1,5 +1,5 @@
 //
-//  OverviewView.swift
+//  WitchesOverviewView.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 03.01.22.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct OverviewView: View {
-    @State var fighterSelected: Bool = false
+struct WitchesOverviewView: View {
+    @State var witchSelected: Bool = false
     @State var infoToggle: Bool = false
     
-    @Binding var currentFighter: Fighter
-    @State var currentArray: [Fighter] = GlobalData.shared.fighters
+    @Binding var currentWitch: Witch
+    @State var currentArray: [Witch] = GlobalData.shared.witches
     @State var currentElement: Int = -1
     
     @Binding var overviewToggle: Bool
@@ -26,7 +26,7 @@ struct OverviewView: View {
         }
     }
     
-    func getSubArray(row: Int) -> [Fighter] {
+    func getSubArray(row: Int) -> [Witch] {
         if (3 + row * 3) < currentArray.count {
             let rowArray = currentArray[row * 3 ..< 3 + row * 3]
             return Array(rowArray)
@@ -38,13 +38,13 @@ struct OverviewView: View {
     
     func setElementalArray(element: Element?) {
         if element == nil {
-            currentArray = GlobalData.shared.fighters
+            currentArray = GlobalData.shared.witches
         } else {
-            var elementals: [Fighter] = []
+            var elementals: [Witch] = []
             
-            for fighter in GlobalData.shared.fighters {
-                if element!.name == fighter.element.name {
-                    elementals.append(fighter)
+            for witch in GlobalData.shared.witches {
+                if element!.name == witch.element.name {
+                    elementals.append(witch)
                 }
             }
             
@@ -52,9 +52,9 @@ struct OverviewView: View {
         }
     }
     
-    func isSelected(fighter: Fighter) -> Bool {
-        if fighterSelected {
-            return fighter.name == currentFighter.name
+    func isSelected(witch: Witch) -> Bool {
+        if witchSelected {
+            return witch.name == currentWitch.name
         } else {
             return false
         }
@@ -63,7 +63,7 @@ struct OverviewView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                if fighterSelected {
+                if witchSelected {
                     HStack(alignment: .top) {
                         Button(infoToggle ? "X" : "?") {
                             AudioPlayer.shared.playStandardSound()
@@ -76,14 +76,14 @@ struct OverviewView: View {
                             VStack(alignment: .leading, spacing: 0) {
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("outline")).frame(height: 1)
-                                    CustomText(key: currentFighter.name, fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                                    CustomText(key: currentWitch.name, fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                                 }
                                 .frame(height: 60)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
-                                        BaseOverviewView(base: currentFighter.base).padding(.bottom, 5)
-                                        ForEach(currentFighter.skills, id: \.self) { skill in
-                                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol)
+                                        BaseWitchesOverviewView(base: currentWitch.base).padding(.bottom, 5)
+                                        ForEach(currentWitch.spells, id: \.self) { spell in
+                                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol)
                                         }
                                     }
                                 }
@@ -113,13 +113,13 @@ struct OverviewView: View {
                             VStack(spacing: 8) {
                                 ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
                                     HStack(spacing: 8) {
-                                        ForEach(self.getSubArray(row: row), id: \.name) { fighter in
+                                        ForEach(self.getSubArray(row: row), id: \.name) { witch in
                                             Button(action: {
                                                 AudioPlayer.shared.playConfirmSound()
-                                                fighterSelected = true
-                                                currentFighter = fighter
+                                                witchSelected = true
+                                                currentWitch = witch
                                             }) {
-                                                RectangleFighterView(fighter: fighter, isSelected: self.isSelected(fighter: fighter))
+                                                RectangleWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
                                             }
                                         }
                                         ForEach(0 ..< 3 - self.getSubArray(row: row).count, id:\.self) { _ in
@@ -169,7 +169,7 @@ struct OverviewView: View {
                             }
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
-                                fighterSelected = false
+                                witchSelected = false
                                 offsetX = -450
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     overviewToggle = false
@@ -191,9 +191,9 @@ struct OverviewView: View {
     }
 }
 
-struct OverviewView_Previews: PreviewProvider {
+struct WitchesOverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView(currentFighter: Binding.constant(exampleFighter), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        WitchesOverviewView(currentWitch: Binding.constant(exampleWitch), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

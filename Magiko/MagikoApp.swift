@@ -19,7 +19,7 @@ class ViewManager: ObservableObject {
     }
 }
 
-let exampleFighter: Fighter = Fighter(data: FighterData(name: "luna", element: "water", skills: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100)))
+let exampleWitch: Witch = Witch(data: WitchData(name: "luna", element: "water", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100)))
 
 @main
 struct MagikoApp: App {

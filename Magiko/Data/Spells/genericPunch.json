@@ -2,7 +2,7 @@
   "element": "water",
   "type": "attack",
   "uses": 10,
-  "skills": [
+  "spells": [
       {
           "power": 95,
           "range": 1

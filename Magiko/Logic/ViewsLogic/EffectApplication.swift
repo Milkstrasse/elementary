@@ -1,102 +1,102 @@
 //
-//  EffectApplication.swift
+//  HexApplication.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 10.01.22.
 //
 
-/// Tries to apply effect of a skill to the targeted fighter.
-struct EffectApplication {
-    static let shared: EffectApplication = EffectApplication()
+/// Tries to apply hex of a spell to the targeted witch.
+struct HexApplication {
+    static let shared: HexApplication = HexApplication()
     
-    /// Tries to apply an effect on the targeted fighter.
+    /// Tries to apply an hex on the targeted witch.
     /// - Parameters:
-    ///   - attacker: The fighter that attacks
-    ///   - defender: The fighter to be targeted
-    ///   - skill: The skill used to make the attack
-    /// - Returns: Returns a description of what occured during the application of the effect
-    func applyEffect(attacker: Fighter, defender: Fighter, skill: SubSkill) -> String {
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spell: The spell used to make the attack
+    /// - Returns: Returns a description of what occured during the application of the hex
+    func applyHex(attacker: Witch, defender: Witch, spell: SubSpell) -> String {
         let chance: Int = Int.random(in: 0 ..< 100)
-        if chance > skill.chance {
-            return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+        if chance > spell.chance {
+            return Localization.shared.getTranslation(key: "hexFailed") + "\n"
         }
         
-        var effect: String? = skill.effect
+        var hex: String? = spell.hex
         
         //determine actual target
-        var target: Fighter = defender
-        if skill.range == 0 {
+        var target: Witch = defender
+        if spell.range == 0 {
             target = attacker
         }
         
-        if target.ability.name == Abilities.contrarian.rawValue { //get opposite effect
-            if effect != nil {
-                effect = Effects(rawValue: effect!)?.getEffect().opposite?.rawValue
-                if effect == nil {
-                    effect = skill.effect
+        if target.ability.name == Abilities.contrarian.rawValue { //get opposite hex
+            if hex != nil {
+                hex = Hexes(rawValue: hex!)?.getHex().opposite?.rawValue
+                if hex == nil {
+                    hex = spell.hex
                 }
             }
         }
         
-        //try to apply effect
-        switch effect {
-            case Effects.attackBoost.rawValue:
-                if target.applyEffect(effect: Effects.attackBoost.getEffect()) {
+        //try to apply hex
+        switch hex {
+            case Hexes.attackBoost.rawValue:
+                if target.applyHex(hex: Hexes.attackBoost.getHex()) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.attackDrop.rawValue:
-                if target.applyEffect(effect: Effects.attackDrop.getEffect()) {
+            case Hexes.attackDrop.rawValue:
+                if target.applyHex(hex: Hexes.attackDrop.getHex()) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.defenseBoost.rawValue:
-                if target.applyEffect(effect: Effects.defenseBoost.getEffect()) {
+            case Hexes.defenseBoost.rawValue:
+                if target.applyHex(hex: Hexes.defenseBoost.getHex()) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.defenseDrop.rawValue:
-                if target.applyEffect(effect: Effects.defenseDrop.getEffect()) {
+            case Hexes.defenseDrop.rawValue:
+                if target.applyHex(hex: Hexes.defenseDrop.getHex()) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.agilityBoost.rawValue:
-                if target.applyEffect(effect: Effects.agilityBoost.getEffect()) {
+            case Hexes.agilityBoost.rawValue:
+                if target.applyHex(hex: Hexes.agilityBoost.getHex()) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.agilityDrop.rawValue:
-                if target.applyEffect(effect: Effects.agilityDrop.getEffect()) {
+            case Hexes.agilityDrop.rawValue:
+                if target.applyHex(hex: Hexes.agilityDrop.getHex()) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.precisionBoost.rawValue:
-                if target.applyEffect(effect: Effects.precisionBoost.getEffect()) {
+            case Hexes.precisionBoost.rawValue:
+                if target.applyHex(hex: Hexes.precisionBoost.getHex()) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            case Effects.precisionDrop.rawValue:
-                if target.applyEffect(effect: Effects.precisionDrop.getEffect()) {
+            case Hexes.precisionDrop.rawValue:
+                if target.applyHex(hex: Hexes.precisionDrop.getHex()) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"]) + "\n"
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
-            default: //non stat effects or unknown effect
-                if let appliedEffect = Effects(rawValue: effect!)?.getEffect() {
-                    if target.applyEffect(effect: appliedEffect) {
-                        return Localization.shared.getTranslation(key: "becameEffect", params: [target.name, appliedEffect.name]) + "\n"
+            default: //non stat hexes or unknown hex
+                if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
+                    if target.applyHex(hex: appliedHex) {
+                        return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name]) + "\n"
                     } else {
-                        return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                        return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                     }
                 } else {
-                    return Localization.shared.getTranslation(key: "effectFailed") + "\n"
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  InfoView.swift
+//  CreditsView.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 03.01.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InfoView: View {
+struct CreditsView: View {
     @Binding var infoToggle: Bool
     @Binding var offsetX: CGFloat
     
@@ -69,9 +69,9 @@ struct InfoView: View {
     }
 }
 
-struct InfoView_Previews: PreviewProvider {
+struct CreditsView_Previews: PreviewProvider {
     static var previews: some View {
-        InfoView(infoToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        CreditsView(infoToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

@@ -39,19 +39,19 @@ struct DetailedActionView: View {
     }
 }
 
-struct RectangleFighterView: View {
-    let fighter: Fighter
+struct RectangleWitchView: View {
+    let witch: Witch
     var isSelected: Bool
     
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(fighter.element.symbol) ?? 0xf52d)
+        let icon: UInt16 = UInt16(Float64(witch.element.symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
     }
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button")).frame(height: 125)
-            Image(fighter.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
+            Image(witch.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
             Text(createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(isSelected ? Color("background") : Color("outline"))
             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 125)
         }
@@ -59,7 +59,7 @@ struct RectangleFighterView: View {
     }
 }
 
-struct BaseOverviewView: View {
+struct BaseWitchesOverviewView: View {
     let base: Base
     
     var width: CGFloat?
@@ -119,15 +119,15 @@ struct BaseOverviewView: View {
     }
 }
 
-struct SquareFighterView: View {
-    var fighter: Fighter?
+struct SquareWitchView: View {
+    var witch: Witch?
     var isSelected: Bool
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button"))
-            if fighter != nil {
-                Image(fighter!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
+            if witch != nil {
+                Image(witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24)
             }
@@ -198,15 +198,15 @@ struct CustomText: View {
     }
 }
 
-struct EffectView: View {
-    let effect: Effect
+struct HexView: View {
+    let hex: Hex
     let battling: Bool
     var weather: Bool = false
     
     @State var opacity: Double = 1
     
     func getBackgroundColor() -> Color {
-        if !effect.positive || weather {
+        if !hex.positive || weather {
             return Color("button")
         } else {
             return Color("outline")
@@ -226,7 +226,7 @@ struct EffectView: View {
             return Color("highlight")
         }
         
-        if effect.positive {
+        if hex.positive {
             return Color("background")
         } else {
             return Color("outline")
@@ -234,7 +234,7 @@ struct EffectView: View {
     }
     
     func createSymbol() -> String {
-        return String(Character(UnicodeScalar(effect.symbol) ?? "\u{2718}"))
+        return String(Character(UnicodeScalar(hex.symbol) ?? "\u{2718}"))
     }
     
     var body: some View {
@@ -248,7 +248,7 @@ struct EffectView: View {
             .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
         }
         .onChange(of: battling) { _ in
-            if effect.duration == 1 {
+            if hex.duration == 1 {
                 opacity = 0
             }
         }
@@ -259,10 +259,10 @@ struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             DetailedActionView(title: "Title", description: "Description", symbol: "#")
-            RectangleFighterView(fighter: exampleFighter, isSelected: false).frame(width: 100)
-            SquareFighterView(fighter: exampleFighter, isSelected: false)
-            BaseOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
-            EffectView(effect: Effect(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
+            RectangleWitchView(witch: exampleWitch, isSelected: false).frame(width: 100)
+            SquareWitchView(witch: exampleWitch, isSelected: false)
+            BaseWitchesOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
+            HexView(hex: Hex(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
         }
     }
 }

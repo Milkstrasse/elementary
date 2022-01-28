@@ -13,14 +13,14 @@ class GlobalData {
     var elements: Dictionary<String, Element> = [:]
     var elementArray: [Element] = []
     
-    var skills: Dictionary<String, Skill> = [:]
-    var fighters: [Fighter] = []
+    var spells: Dictionary<String, Spell> = [:]
+    var witches: [Witch] = []
     var loadouts: [Loadout] = []
     
     func loadData() {
         loadElements()
-        loadSkills()
-        loadFighters()
+        loadSpells()
+        loadWitches()
         loadLoadouts()
     }
     
@@ -43,39 +43,39 @@ class GlobalData {
         }
     }
     
-    func loadSkills() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Skills") {
+    func loadSpells() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    var skillData = try JSONDecoder().decode(Skill.self, from: data)
-                    skillData.name = url.deletingPathExtension().lastPathComponent
+                    var spellData = try JSONDecoder().decode(Spell.self, from: data)
+                    spellData.name = url.deletingPathExtension().lastPathComponent
                     
-                    skills[skillData.name] = skillData
+                    spells[spellData.name] = spellData
                 }
             } catch {
                 print("error: \(error)")
             }
             
-            print("loaded: \(skills.count) skills")
+            print("loaded: \(spells.count) spells")
         }
     }
     
-    func loadFighters() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
+    func loadWitches() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Witches") {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
-                    fighterData.name = url.deletingPathExtension().lastPathComponent
+                    var witchData = try JSONDecoder().decode(WitchData.self, from: data)
+                    witchData.name = url.deletingPathExtension().lastPathComponent
                     
-                    fighters.append(Fighter(data: fighterData))
+                    witches.append(Witch(data: witchData))
                 }
             } catch {
                 print("error: \(error)")
             }
             
-            print("loaded: \(fighters.count) fighters")
+            print("loaded: \(witches.count) witches")
         }
     }
     

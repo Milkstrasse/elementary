@@ -11,46 +11,46 @@ struct TrainingSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    @State var leftFighters: [Fighter?] = [nil, nil, nil, nil]
-    @State var rightFighters: [Fighter?] = [nil, nil, nil, nil]
+    @State var leftWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var rightWitches: [Witch?] = [nil, nil, nil, nil]
     
     @State var transitionToggle: Bool = true
     
     func createLogic() -> FightLogic {
-        var lefts: [Fighter] = []
-        for fighter in leftFighters {
-            if fighter != nil {
-                lefts.append(fighter!)
+        var lefts: [Witch] = []
+        for witch in leftWitches {
+            if witch != nil {
+                lefts.append(witch!)
             }
         }
         
-        var rights: [Fighter] = []
-        for fighter in rightFighters {
-            if fighter != nil {
-                rights.append(fighter!)
+        var rights: [Witch] = []
+        for witch in rightWitches {
+            if witch != nil {
+                rights.append(witch!)
             }
         }
         
-        return FightLogic(leftFighters: lefts, rightFighters: rights, hasCPUPlayer: true)
+        return FightLogic(leftWitches: lefts, rightWitches: rights, hasCPUPlayer: true)
     }
     
     func selectRandom() {
         var set = Set<Int>()
         while set.count < 4 {
-            set.insert(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
+            set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
         }
         
         let rndm: [Int] = Array(set)
         
         for index in 0 ..< 4 {
-            leftFighters[index] = Fighter(data: GlobalData.shared.fighters[rndm[index]].data)
-            leftFighters[index]?.setAbility(ability: Int.random(in: 0 ..< Abilities.allCases.count))
+            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
+            leftWitches[index]?.setAbility(ability: Int.random(in: 0 ..< Abilities.allCases.count))
         }
     }
     
-    func isArrayEmpty(array: [Fighter?]) -> Bool {
-        for fighter in array {
-            if fighter != nil {
+    func isArrayEmpty(array: [Witch?]) -> Bool {
+        for witch in array {
+            if witch != nil {
                 return false
             }
         }
@@ -95,7 +95,7 @@ struct TrainingSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightFighters))
+                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -111,13 +111,13 @@ struct TrainingSelectionView: View {
                 }
                 .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
-                    CPUSelectionView(fighters: leftFighters)
+                    CPUSelectionView(witches: leftWitches)
                     ZStack {
                         Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
                         CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(fighters: $rightFighters)
+                    RightSelectionView(witches: $rightWitches)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }

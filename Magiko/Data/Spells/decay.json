@@ -1,16 +1,18 @@
 {
-  "element": "water",
+  "element": "plant",
   "type": "special",
-  "uses": 7,
-  "skills": [
+  "uses": 10,
+  "spells": [
       {
           "power": 0,
           "range": 0
       },
       {
           "power": 0,
-          "range": 0,
-          "weatherEffect": "lightRain"
+          "range": 1,
+          "chance": 85,
+          "hex": "poisoned"
       }
   ]
 }
+

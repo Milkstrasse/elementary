@@ -8,7 +8,7 @@
       "precision": 110,
       "stamina": 130
   },
-  "skills": [
+  "spells": [
       "genericPunch"
   ]
 }

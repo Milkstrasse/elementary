@@ -6,32 +6,32 @@
 //
 
 struct Move {
-    let source: Fighter
+    let source: Witch
     let target: Int
     
-    var skill: Skill
+    var spell: Spell
     
-    init(source: Fighter, target: Int = -1, skill: Skill = Skill()) {
+    init(source: Witch, target: Int = -1, spell: Spell = Spell()) {
         self.source = source
         self.target = target
         
-        self.skill = skill
+        self.spell = spell
     }
     
-    mutating func useSkill(amount: Int) {
-        if skill == Skill() {
+    mutating func useSpell(amount: Int) {
+        if spell == Spell() {
             return
         }
         
-        var skillIndex: Int = 0
-        for sourceSkill in source.skills {
-            if sourceSkill == skill {
+        var spellIndex: Int = 0
+        for sourceSpell in source.spells {
+            if sourceSpell == spell {
                 break
             }
             
-            skillIndex += 1
+            spellIndex += 1
         }
-        skill.useCounter += amount
-        source.skills[skillIndex] = skill
+        spell.useCounter += amount
+        source.spells[spellIndex] = spell
     }
 }

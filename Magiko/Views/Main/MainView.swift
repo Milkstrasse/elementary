@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var manager: ViewManager
     
-    @State var currentFighter: Fighter = exampleFighter
+    @State var currentWitch: Witch = exampleWitch
     
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
@@ -25,7 +25,7 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottomTrailing) {
-                Image(blink ? currentFighter.name + "_blink" : currentFighter.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
+                Image(blink ? currentWitch.name + "_blink" : currentWitch.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
                 HStack(alignment: .top, spacing: 5) {
                     HStack(spacing: 5) {
                         Button(Localization.shared.getTranslation(key: "training")) {
@@ -36,7 +36,7 @@ struct MainView: View {
                             }
                         }
                         .buttonStyle(BasicButton(width: 135))
-                        Button("O") {
+                        Button("W") {
                             AudioPlayer.shared.playStandardSound()
                             overviewToggle = true
                         }
@@ -46,7 +46,7 @@ struct MainView: View {
                             settingsToggle = true
                         }
                         .buttonStyle(BasicButton(width: 40))
-                        Button("I") {
+                        Button("C") {
                             AudioPlayer.shared.playStandardSound()
                             infoToggle = true
                         }
@@ -68,11 +68,11 @@ struct MainView: View {
                 }
                 .padding(.all, 15)
                 if overviewToggle {
-                    OverviewView(currentFighter: $currentFighter, overviewToggle: $overviewToggle, offsetX: $offsetX)
+                    WitchesOverviewView(currentWitch: $currentWitch, overviewToggle: $overviewToggle, offsetX: $offsetX)
                 } else if settingsToggle {
                     SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
                 } else if infoToggle {
-                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
+                    CreditsView(infoToggle: $infoToggle, offsetX: $offsetX)
                 }
             }
             .ignoresSafeArea(.all, edges: .bottom)

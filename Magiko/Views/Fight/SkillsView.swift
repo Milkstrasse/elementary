@@ -1,5 +1,5 @@
 //
-//  SkillsView.swift
+//  SpellsView.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 07.01.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SkillsView: View {
+struct SpellsView: View {
     @Binding var currentSection: Section
     
     let fightLogic: FightLogic
@@ -18,48 +18,48 @@ struct SkillsView: View {
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
-    func getEffectiveness(skillElement: String) -> String {
-        if fightLogic.getFighter(player: player).ability.name == Abilities.ethereal.rawValue {
-            return "Effective"
+    func getHexiveness(spellElement: String) -> String {
+        if fightLogic.getWitch(player: player).ability.name == Abilities.ethereal.rawValue {
+            return "Hexive"
         }
         
         var modifier: Float
-        let element: Element = GlobalData.shared.elements[skillElement] ?? Element()
+        let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
         
         if player == 0 {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getFighter(player: 0), defender: fightLogic.getFighter(player: 1), skillElement: element)
+            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getWitch(player: 0), defender: fightLogic.getWitch(player: 1), spellElement: element)
         } else {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getFighter(player: 1), defender: fightLogic.getFighter(player: 0), skillElement: element)
+            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getWitch(player: 1), defender: fightLogic.getWitch(player: 0), spellElement: element)
         }
         
         switch modifier {
             case 4.0:
-                return "Super Effective"
+                return "superHexive"
             case 2.0:
-                return "Very Effective"
+                return "veryHexive"
             case 0.5:
-                return "Not Very Effective"
+                return "notVeryHexive"
             case 0.25:
-                return "Not Effective"
+                return "Not Hexive"
             default:
-                return "Effective"
+                return "hexive"
         }
     }
     
-    func generateDescription(skill: Skill, fighter: Fighter) -> String {
-        return "\(skill.getUses(fighter: fighter) - skill.useCounter)/\(skill.getUses(fighter: fighter))PP - " + getEffectiveness(skillElement: skill.element.name)
+    func generateDescription(spell: Spell, witch: Witch) -> String {
+        return "\(spell.getUses(witch: witch) - spell.useCounter)/\(spell.getUses(witch: witch))PP - " + Localization.shared.getTranslation(key: getHexiveness(spellElement: spell.element.name))
     }
     
     var body: some View {
         HStack(spacing: 5) {
-            ForEach(fightLogic.getFighter(player: player).skills, id: \.self) { skill in
+            ForEach(fightLogic.getWitch(player: player).spells, id: \.self) { spell in
                 Button(action: {
                 }) {
                     ZStack {
                         if isDetectingPress {
-                            DetailedActionView(title: skill.name, description: skill.name + "Descr", symbol: skill.element.symbol, width: geoHeight - 30)
+                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, width: geoHeight - 30)
                         } else {
-                            DetailedActionView(title: skill.name, description: generateDescription(skill: skill, fighter: fightLogic.getFighter(player: player)), symbol: skill.element.symbol, width: geoHeight - 30)
+                            DetailedActionView(title: spell.name, description: generateDescription(spell: spell, witch: fightLogic.getWitch(player: player)), symbol: spell.element.symbol, width: geoHeight - 30)
                         }
                     }
                     .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
@@ -70,7 +70,7 @@ struct SkillsView: View {
                     .highPriorityGesture(
                         TapGesture()
                             .onEnded { _ in
-                                if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), skill: skill)) {
+                                if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getWitch(player: player), spell: spell)) {
                                     AudioPlayer.shared.playConfirmSound()
                                     currentSection = .waiting
                                 } else {
@@ -84,8 +84,8 @@ struct SkillsView: View {
     }
 }
 
-struct SkillsView_Previews: PreviewProvider {
+struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SkillsView(currentSection: .constant(.skills), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
+        SpellsView(currentSection: .constant(.spells), fightLogic: FightLogic(leftWitches: [exampleWitch], rightWitches: [exampleWitch]), player: 0, geoHeight: 375)
     }
 }

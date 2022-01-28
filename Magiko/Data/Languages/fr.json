@@ -37,11 +37,11 @@
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",
     
-    "usedSkill": "{0} a utilisé **{1}**.",
+    "usedSpell": "{0} a utilisé **{1}**.",
     "criticalHit": "C'est un coup critique!",
     "nameFainted": "{0} s'est évanouie.",
-    "becameEffect": "{0} s'est **{1}**.",
-    "effectFailed": "L'effet a échoué.",
+    "becameHex": "{0} s'est **{1}**.",
+    "hexFailed": "L'effet a échoué.",
     "statIncreased": "**{1}** de {0} a augmenté.",
     "statDecreased": "**{1}** de {0} a diminué.",
     "weatherChanged": "Le temps a changé en {0}.",
@@ -53,6 +53,12 @@
     "gainedHP": "{0} a gagnée HP.",
     "healFailed": "La guérison a échoué.",
     "namePerished": "{0} a périe.",
+    
+    "superHexive": "Super efficace",
+    "veryHexive": "Très efficace",
+    "hexive": "Efficace",
+    "notVeryHexive": "Nicht sehr efficace",
+    "notHexive": "Pas très efficace",
     
     "poisoned": "empoisonnée",
     "healed": "guérie",
@@ -101,7 +107,7 @@
     "assassin": "Assassin",
     "berserker": "Berserker",
     "cleric": "Clerc",
-    "fighter": "Combattante",
+    "witch": "Combattante",
     "ranger": "Rôdeur",
     
     "creditBy": "{0} de {1}"

@@ -1,18 +1,16 @@
 {
   "element": "water",
-  "type": "heal",
-  "uses": 10,
-  "skills": [
+  "type": "special",
+  "uses": 7,
+  "spells": [
       {
           "power": 0,
-          "range": 0,
-          "effect": "blessed"
+          "range": 0
       },
       {
           "power": 0,
           "range": 0,
-          "healAmount": 50
+          "weather": "lightRain"
       }
   ]
 }
-

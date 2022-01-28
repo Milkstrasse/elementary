@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CPUSelectionView: View {
-    var fighters: [Fighter?]
+    var witches: [Witch?]
     var selectedSlot: Int = 0
     var selectedLoadout: Int = 0
     var selectedAbility: Int = 0
@@ -21,7 +21,7 @@ struct CPUSelectionView: View {
                     Spacer()
                     HStack(spacing: 5) {
                         ForEach(0 ..< 4) { index in
-                            SquareFighterView(fighter: fighters[index], isSelected: false)
+                            SquareWitchView(witch: witches[index], isSelected: false)
                         }
                     }
                     .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
@@ -34,7 +34,7 @@ struct CPUSelectionView: View {
 
 struct CPUSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        CPUSelectionView(fighters: [nil, nil, nil, nil])
+        CPUSelectionView(witches: [nil, nil, nil, nil])
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

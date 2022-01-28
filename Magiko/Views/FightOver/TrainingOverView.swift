@@ -11,16 +11,16 @@ struct TrainingOverView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    let leftFighters: [Fighter]
-    let rightFighters: [Fighter]
+    let leftWitches: [Witch]
+    let rightWitches: [Witch]
     
     let winner: Int
     
     @State var transitionToggle: Bool = true
     
-    func resetFighters(fighters: [Fighter]) {
-        for fighter in fighters {
-            fighter.reset()
+    func resetWitches(witches: [Witch]) {
+        for witch in witches {
+            witch.reset()
         }
     }
     
@@ -32,11 +32,11 @@ struct TrainingOverView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            ForEach(leftFighters, id: \.self) { fighter in
-                                SquareFighterView(fighter: fighter, isSelected: false)
+                            ForEach(leftWitches, id: \.self) { witch in
+                                SquareWitchView(witch: witch, isSelected: false)
                             }
-                            ForEach(0 ..< 4 - leftFighters.count) { index in
-                                SquareFighterView(fighter: nil, isSelected: false)
+                            ForEach(0 ..< 4 - leftWitches.count) { index in
+                                SquareWitchView(witch: nil, isSelected: false)
                             }
                         }
                         .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
@@ -50,11 +50,11 @@ struct TrainingOverView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            ForEach(rightFighters, id: \.self) { fighter in
-                                SquareFighterView(fighter: fighter, isSelected: false)
+                            ForEach(rightWitches, id: \.self) { witch in
+                                SquareWitchView(witch: witch, isSelected: false)
                             }
-                            ForEach(0 ..< 4 - rightFighters.count) { index in
-                                SquareFighterView(fighter: nil, isSelected: false)
+                            ForEach(0 ..< 4 - rightWitches.count) { index in
+                                SquareWitchView(witch: nil, isSelected: false)
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -108,10 +108,10 @@ struct TrainingOverView: View {
                                 Button(Localization.shared.getTranslation(key: "rematch")) {
                                     AudioPlayer.shared.playConfirmSound()
                                     
-                                    resetFighters(fighters: rightFighters)
-                                    resetFighters(fighters: leftFighters)
+                                    resetWitches(witches: rightWitches)
+                                    resetWitches(witches: leftWitches)
                                     
-                                    let fightLogic: FightLogic = FightLogic(leftFighters: leftFighters, rightFighters: rightFighters)
+                                    let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches)
                                     
                                     if fightLogic.isValid() {
                                         transitionToggle = true
@@ -151,7 +151,7 @@ struct TrainingOverView: View {
 
 struct TrainingOverView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingOverView(leftFighters: [exampleFighter, exampleFighter], rightFighters: [exampleFighter, exampleFighter, exampleFighter], winner: 0)
+        TrainingOverView(leftWitches: [exampleWitch, exampleWitch], rightWitches: [exampleWitch, exampleWitch, exampleWitch], winner: 0)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

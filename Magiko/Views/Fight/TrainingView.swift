@@ -40,7 +40,7 @@ struct TrainingView: View {
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(TrainingOverView(leftFighters: fightLogic.fighters[0], rightFighters: fightLogic.fighters[1], winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(TrainingOverView(leftWitches: fightLogic.witches[0], rightWitches: fightLogic.witches[1], winner: fightLogic.getWinner()).environmentObject(manager)))
             }
         }
     }
@@ -48,7 +48,7 @@ struct TrainingView: View {
 
 struct TrainingView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingView(fightLogic: FightLogic(leftFighters: [], rightFighters: []))
+        TrainingView(fightLogic: FightLogic(leftWitches: [], rightWitches: []))
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

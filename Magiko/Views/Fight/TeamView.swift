@@ -15,20 +15,20 @@ struct TeamView: View {
     
     let geoHeight: CGFloat
     
-    func generateDescription(fighter: Fighter) -> String {
-        var text: String = "\(fighter.currhp)/\(fighter.getModifiedBase().health)HP - "
+    func generateDescription(witch: Witch) -> String {
+        var text: String = "\(witch.currhp)/\(witch.getModifiedBase().health)HP - "
         
         var oppositePlayer: Int = 0
         if player == 0 {
             oppositePlayer = 1
         }
         
-        if fighter.element.hasAdvantage(element: fightLogic.getFighter(player: oppositePlayer).element) {
-            text += "Very Effective"
-        } else if fighter.element.hasDisadvantage(element: fightLogic.getFighter(player: oppositePlayer).element) {
-            text += "Not Very Effective"
+        if witch.element.hasAdvantage(element: fightLogic.getWitch(player: oppositePlayer).element) {
+            text += Localization.shared.getTranslation(key: "veryHexive")
+        } else if witch.element.hasDisadvantage(element: fightLogic.getWitch(player: oppositePlayer).element) {
+            text += Localization.shared.getTranslation(key: "notVeryHexive")
         } else {
-            text += "Effective"
+            text += Localization.shared.getTranslation(key: "hexive")
         }
         
         return text
@@ -36,11 +36,11 @@ struct TeamView: View {
     
     var body: some View {
         HStack(spacing: 5) {
-            DetailedActionView(title: fightLogic.getFighter(player: player).name, description: generateDescription(fighter: fightLogic.getFighter(player: player)), symbol: fightLogic.getFighter(player: player).element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5)
-            ForEach(fightLogic.fighters[player].indices) { index in
-                if index != fightLogic.currentFighter[player] {
+            DetailedActionView(title: fightLogic.getWitch(player: player).name, description: generateDescription(witch: fightLogic.getWitch(player: player)), symbol: fightLogic.getWitch(player: player).element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5)
+            ForEach(fightLogic.witches[player].indices) { index in
+                if index != fightLogic.currentWitch[player] {
                     Button(action: {
-                        if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getFighter(player: player), target: index, skill: Skill())) {
+                        if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getWitch(player: player), target: index, spell: Spell())) {
                             AudioPlayer.shared.playConfirmSound()
                             currentSection = .waiting
                         } else {
@@ -48,7 +48,7 @@ struct TeamView: View {
                             currentSection = .options
                         }
                     }) {
-                        DetailedActionView(title: fightLogic.fighters[player][index].name, description: generateDescription(fighter: fightLogic.fighters[player][index]), symbol: fightLogic.fighters[player][index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                        DetailedActionView(title: fightLogic.witches[player][index].name, description: generateDescription(witch: fightLogic.witches[player][index]), symbol: fightLogic.witches[player][index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                     }
                 }
             }
@@ -58,6 +58,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection: .constant(.team), fightLogic: FightLogic(leftFighters: [exampleFighter], rightFighters: [exampleFighter]), player: 0, geoHeight: 375)
+        TeamView(currentSection: .constant(.team), fightLogic: FightLogic(leftWitches: [exampleWitch], rightWitches: [exampleWitch]), player: 0, geoHeight: 375)
     }
 }
