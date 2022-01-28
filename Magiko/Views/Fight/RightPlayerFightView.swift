@@ -22,14 +22,18 @@ struct RightPlayerFightView: View {
     
     @State var blink: Bool = false
     
+    @State var previousFighter: String = ""
+    
     func calcWidth(fighter: Fighter) -> CGFloat {
         DispatchQueue.main.async {
             let newHealth = fightLogic.getFighter(player: 1).currhp
             
-            if currentHealth > newHealth {
-                hurting = true
-            } else if currentHealth < newHealth && currentHealth > 0 {
-                healing = true
+            if fightLogic.getFighter(player: 1).name == previousFighter {
+                if currentHealth > newHealth {
+                    hurting = true
+                } else if currentHealth < newHealth && currentHealth > 0 {
+                    healing = true
+                }
             }
             
             currentHealth = newHealth
@@ -187,6 +191,8 @@ struct RightPlayerFightView: View {
             })
         }
         .onAppear {
+            previousFighter = fightLogic.getFighter(player: 1).name
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
                     blink = true
