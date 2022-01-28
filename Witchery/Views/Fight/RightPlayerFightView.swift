@@ -28,7 +28,7 @@ struct RightPlayerFightView: View {
         DispatchQueue.main.async {
             let newHealth = fightLogic.getWitch(player: 1).currhp
             
-            if fightLogic.getWitch(player: 1).name == previousWitch {
+            if fightLogic.getWitch(player: 1).name == previousWitch || previousWitch == "" {
                 if currentHealth > newHealth {
                     hurting = true
                 } else if currentHealth < newHealth && currentHealth > 0 {
@@ -36,6 +36,7 @@ struct RightPlayerFightView: View {
                 }
             }
             
+            previousWitch = fightLogic.getWitch(player: 1).name
             currentHealth = newHealth
         }
         
@@ -142,7 +143,7 @@ struct RightPlayerFightView: View {
                                     }
                                     .buttonStyle(ClearButton(width: 100, height: 35))
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
+                                .rotationEffect(.degrees(-90)).frame(width: 35, height: 100).opacity(fightLogic.battling ? 0.7 : 1.0).disabled(fightLogic.battling)
                             }
                             .padding(.bottom, 15)
                         }
@@ -191,8 +192,6 @@ struct RightPlayerFightView: View {
             })
         }
         .onAppear {
-            previousWitch = fightLogic.getWitch(player: 1).name
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
                     blink = true

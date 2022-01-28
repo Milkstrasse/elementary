@@ -36,7 +36,7 @@ struct MainView: View {
                             }
                         }
                         .buttonStyle(BasicButton(width: 135))
-                        Button("W") {
+                        Button("O") {
                             AudioPlayer.shared.playStandardSound()
                             overviewToggle = true
                         }

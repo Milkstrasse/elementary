@@ -8,5 +8,10 @@
 		<string>Recoleta-Regular.ttf</string>
 		<string>Recoleta-Bold.ttf</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>outline</string>
+	</dict>
 </dict>
 </plist>

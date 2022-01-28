@@ -351,6 +351,10 @@ class FightLogic: ObservableObject {
     ///   - target: The index of the targeted witch
     /// - Returns: Returns the description of what occured during the swap
     func swapWitches(player: Int, target: Int) -> String {
+        if witches[player][target].currhp == 0 {
+            return ""
+        }
+        
         hasToSwap[player] = false //flag no longer necessary
         
         var text: String

@@ -22,21 +22,21 @@ struct OptionsView: View {
                 AudioPlayer.shared.playStandardSound()
                 currentSection = .spells
             }) {
-                DetailedActionView(title: "Fight", description: "Use your spells", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "spells", description: "spellsDescr", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
-            .disabled(fightLogic.hasToSwap[player])
+            .opacity(fightLogic.hasToSwap[player] ? 0.7 : 1.0).disabled(fightLogic.hasToSwap[player])
             Button(action: {
                 AudioPlayer.shared.playStandardSound()
                 currentSection = .team
             }) {
-                DetailedActionView(title: "Team", description: "Switch out", symbol: "0xf500", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "coven", description: "covenDescr", symbol: "0xf500", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
             Button(action: {
                 AudioPlayer.shared.playCancelSound()
                 fightLogic.forfeit(player: player)
                 gameOver = true
             }) {
-                DetailedActionView(title: "Forfeit", description: "End battle", symbol: "0xf70c", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                DetailedActionView(title: "forfeit", description: "forfeitDescr", symbol: "0xf70c", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
             }
         }
     }

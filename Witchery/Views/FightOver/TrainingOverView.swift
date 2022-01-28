@@ -78,7 +78,7 @@ struct TrainingOverView: View {
                             HStack(spacing: 5) {
                                 Button(Localization.shared.getTranslation(key: "rematch")) {
                                 }
-                                .buttonStyle(BasicButton(width: 135)).disabled(true)
+                                .buttonStyle(BasicButton(width: 135)).opacity(0.7).disabled(true)
                                 Button("X") {
                                     AudioPlayer.shared.playCancelSound()
                                     transitionToggle = true
@@ -111,12 +111,12 @@ struct TrainingOverView: View {
                                     resetWitches(witches: rightWitches)
                                     resetWitches(witches: leftWitches)
                                     
-                                    let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches)
+                                    let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches, hasCPUPlayer: true)
                                     
                                     if fightLogic.isValid() {
                                         transitionToggle = true
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                            manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
                                         }
                                     }
                                 }

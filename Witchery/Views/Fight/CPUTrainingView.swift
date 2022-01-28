@@ -27,7 +27,7 @@ struct CPUTrainingView: View {
         DispatchQueue.main.async {
             let newHealth = fightLogic.getWitch(player: 0).currhp
             
-            if fightLogic.getWitch(player: 0).name == previousWitch {
+            if fightLogic.getWitch(player: 0).name == previousWitch || previousWitch == ""  {
                 if currentHealth > newHealth {
                     hurting = true
                 } else if currentHealth < newHealth && currentHealth > 0 {
@@ -35,6 +35,7 @@ struct CPUTrainingView: View {
                 }
             }
             
+            previousWitch = fightLogic.getWitch(player: 0).name
             currentHealth = newHealth
         }
         
@@ -132,9 +133,9 @@ struct CPUTrainingView: View {
                                 ZStack {
                                     Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
                                     }
-                                    .buttonStyle(ClearButton(width: 100, height: 35)).disabled(true)
+                                    .buttonStyle(ClearButton(width: 100, height: 35)).opacity(0.7).disabled(true)
                                 }
-                                .rotationEffect(.degrees(90)).frame(width: 35, height: 100).disabled(fightLogic.battling)
+                                .rotationEffect(.degrees(90)).frame(width: 35, height: 100)
                                 Spacer()
                             }
                             .padding(.top, 15)
@@ -146,8 +147,6 @@ struct CPUTrainingView: View {
             .frame(width: geometry.size.width)
         }
         .onAppear {
-            previousWitch = fightLogic.getWitch(player: 0).name
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
                 Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
                     blink = true

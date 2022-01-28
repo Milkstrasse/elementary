@@ -47,7 +47,7 @@
 		B80D7D082787558100DEB25F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D072787558100DEB25F /* Extensions.swift */; };
 		B80D7D0A27875EA700DEB25F /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0927875EA700DEB25F /* GameLogic.swift */; };
 		B80D7D0C27882EA800DEB25F /* Languages in Resources */ = {isa = PBXBuildFile; fileRef = B80D7D0B27882EA800DEB25F /* Languages */; };
-		B80D7D0E2788712B00DEB25F /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0D2788712B00DEB25F /* SkillsView.swift */; };
+		B80D7D0E2788712B00DEB25F /* SpellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0D2788712B00DEB25F /* SpellsView.swift */; };
 		B80D7D102788739200DEB25F /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D0F2788739200DEB25F /* OptionsView.swift */; };
 		B80D7D12278876FC00DEB25F /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7D11278876FC00DEB25F /* TeamView.swift */; };
 		B81CC3292789A31800908195 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC3282789A31800908195 /* Element.swift */; };
@@ -124,7 +124,7 @@
 		B80D7D072787558100DEB25F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B80D7D0927875EA700DEB25F /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		B80D7D0B27882EA800DEB25F /* Languages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Languages; sourceTree = "<group>"; };
-		B80D7D0D2788712B00DEB25F /* SkillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
+		B80D7D0D2788712B00DEB25F /* SpellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsView.swift; sourceTree = "<group>"; };
 		B80D7D0F2788739200DEB25F /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		B80D7D11278876FC00DEB25F /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		B81CC3282789A31800908195 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
@@ -314,7 +314,7 @@
 				B80D7CE62784D27500DEB25F /* FightView.swift */,
 				B80D7CEA2784F4F600DEB25F /* RightPlayerFightView.swift */,
 				B80D7CE82784F4A000DEB25F /* LeftPlayerFightView.swift */,
-				B80D7D0D2788712B00DEB25F /* SkillsView.swift */,
+				B80D7D0D2788712B00DEB25F /* SpellsView.swift */,
 				B80D7D0F2788739200DEB25F /* OptionsView.swift */,
 				B80D7D11278876FC00DEB25F /* TeamView.swift */,
 				B8CDEEC0279376710073F5B2 /* TrainingView.swift */,
@@ -489,7 +489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B80D7D0E2788712B00DEB25F /* SkillsView.swift in Sources */,
+				B80D7D0E2788712B00DEB25F /* SpellsView.swift in Sources */,
 				B852515F279189D400AD99BE /* TurnLogic.swift in Sources */,
 				B8CDEEC3279377110073F5B2 /* CPUTrainingView.swift in Sources */,
 				B8CDEEC1279376710073F5B2 /* TrainingView.swift in Sources */,
@@ -681,7 +681,6 @@
 				INFOPLIST_FILE = Witchery/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -715,7 +714,6 @@
 				INFOPLIST_FILE = Witchery/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

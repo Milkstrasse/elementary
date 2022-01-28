@@ -75,7 +75,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: leftWitches))
+                            .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: leftWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: leftWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -111,7 +111,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).disabled(isArrayEmpty(array: rightWitches))
+                            .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true

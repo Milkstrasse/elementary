@@ -37,6 +37,13 @@
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",
     
+    "coven": "Coven",
+    "covenDescr": "covenDescr",
+    "forfeit": "Forfait",
+    "forfeitDescr": "forfeitDescr",
+    "spells": "Sorts",
+    "spellsDescr": "spellsDescr",
+    
     "usedSpell": "{0} a utilisé **{1}**.",
     "criticalHit": "C'est un coup critique!",
     "nameFainted": "{0} s'est évanouie.",
