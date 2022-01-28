@@ -117,7 +117,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "voice", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "voices", fontSize: 14).frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         if voiceVolume > 0 {
                                             voiceVolume -= 1
