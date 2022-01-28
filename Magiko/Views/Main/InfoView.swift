@@ -32,12 +32,14 @@ struct InfoView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 10) {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    Text("Lorem Ipsum")
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                                VStack(spacing: 0) {
+                                    CustomText(text: "MenuSFX by Kevin Fowler", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "Voices by Cici Fyre", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "Music by Theo Allen", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.all, 15)
                             }
                         }
                         .padding(.horizontal, 15)

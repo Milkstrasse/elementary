@@ -56,6 +56,7 @@ struct CPUTrainingView: View {
                     } else {
                         Image(fightLogic.getFighter(player: 0).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
+                                AudioPlayer.shared.playHurtSound()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     hurting = false
                                 }

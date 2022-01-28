@@ -15,6 +15,8 @@ class AudioPlayer {
     var soundVolume: Float = 1.0
     var soundPlayer: AVAudioPlayer?
     
+    let voices: [String] = ["damaged1.wav", "damaged2.wav", "damaged3.wav"]
+    
     func setMusicVolume(volume: Float) {
         musicVolume = volume
         musicPlayer?.volume = musicVolume
@@ -83,6 +85,21 @@ class AudioPlayer {
     func playCancelSound() {
         do {
             let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            soundPlayer?.volume = soundVolume
+            soundPlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playHurtSound() {
+        let index: Int = Int.random(in: 0 ..< 3)
+        
+        do {
+            let path = Bundle.main.path(forResource: voices[index], ofType: nil)!
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
