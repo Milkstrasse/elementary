@@ -68,7 +68,7 @@ struct MainView: View {
                 }
                 .padding(.all, 15)
                 if overviewToggle {
-                    WitchesOverviewView(currentWitch: $currentWitch, overviewToggle: $overviewToggle, offsetX: $offsetX)
+                    OverviewView(currentWitch: $currentWitch, overviewToggle: $overviewToggle, offsetX: $offsetX)
                 } else if settingsToggle {
                     SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
                 } else if infoToggle {

@@ -17,7 +17,7 @@
     
     "credits": "Remerciements",
     "settings": "Paramètres",
-    "witches": "Sorcières",
+    "overview": "Aperçu",
     
     "back": "Retour",
     "cancel": "Annuler",
@@ -54,11 +54,11 @@
     "healFailed": "La guérison a échoué.",
     "namePerished": "{0} a périe.",
     
-    "superHexive": "Super efficace",
-    "veryHexive": "Très efficace",
-    "hexive": "Efficace",
-    "notVeryHexive": "Nicht sehr efficace",
-    "notHexive": "Pas très efficace",
+    "superEffective": "Super efficace",
+    "veryEffective": "Très efficace",
+    "effective": "Efficace",
+    "notVeryEffective": "Nicht sehr efficace",
+    "notEffective": "Pas très efficace",
     
     "poisoned": "empoisonnée",
     "healed": "guérie",

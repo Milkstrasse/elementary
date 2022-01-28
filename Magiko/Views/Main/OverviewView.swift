@@ -1,5 +1,5 @@
 //
-//  WitchesOverviewView.swift
+//  OverviewView.swift
 //  Magiko
 //
 //  Created by Janice Hablützel on 03.01.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WitchesOverviewView: View {
+struct OverviewView: View {
     @State var witchSelected: Bool = false
     @State var infoToggle: Bool = false
     
@@ -106,7 +106,7 @@ struct WitchesOverviewView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("outline")).frame(height: 1)
-                            CustomText(key: "witches", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                            CustomText(key: "overview", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                         }
                         .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                         ScrollView(.vertical, showsIndicators: false) {
@@ -193,7 +193,7 @@ struct WitchesOverviewView: View {
 
 struct WitchesOverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        WitchesOverviewView(currentWitch: Binding.constant(exampleWitch), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        OverviewView(currentWitch: Binding.constant(exampleWitch), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

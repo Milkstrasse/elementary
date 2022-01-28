@@ -18,9 +18,9 @@ struct SpellsView: View {
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
-    func getHexiveness(spellElement: String) -> String {
+    func getEffectiveness(spellElement: String) -> String {
         if fightLogic.getWitch(player: player).ability.name == Abilities.ethereal.rawValue {
-            return "Hexive"
+            return "effective"
         }
         
         var modifier: Float
@@ -34,20 +34,20 @@ struct SpellsView: View {
         
         switch modifier {
             case 4.0:
-                return "superHexive"
+                return "superEffective"
             case 2.0:
-                return "veryHexive"
+                return "veryEffective"
             case 0.5:
-                return "notVeryHexive"
+                return "notVeryEffective"
             case 0.25:
-                return "Not Hexive"
+                return "notEffective"
             default:
-                return "hexive"
+                return "effective"
         }
     }
     
     func generateDescription(spell: Spell, witch: Witch) -> String {
-        return "\(spell.getUses(witch: witch) - spell.useCounter)/\(spell.getUses(witch: witch))PP - " + Localization.shared.getTranslation(key: getHexiveness(spellElement: spell.element.name))
+        return "\(spell.getUses(witch: witch) - spell.useCounter)/\(spell.getUses(witch: witch))PP - " + Localization.shared.getTranslation(key: getEffectiveness(spellElement: spell.element.name))
     }
     
     var body: some View {

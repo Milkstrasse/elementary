@@ -24,11 +24,11 @@ struct TeamView: View {
         }
         
         if witch.element.hasAdvantage(element: fightLogic.getWitch(player: oppositePlayer).element) {
-            text += Localization.shared.getTranslation(key: "veryHexive")
+            text += Localization.shared.getTranslation(key: "veryEffective")
         } else if witch.element.hasDisadvantage(element: fightLogic.getWitch(player: oppositePlayer).element) {
-            text += Localization.shared.getTranslation(key: "notVeryHexive")
+            text += Localization.shared.getTranslation(key: "notVeryEffective")
         } else {
-            text += Localization.shared.getTranslation(key: "hexive")
+            text += Localization.shared.getTranslation(key: "effective")
         }
         
         return text
