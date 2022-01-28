@@ -39,6 +39,8 @@ struct FightView: View {
             }
         }
         .onAppear {
+            AudioPlayer.shared.playBattleMusic()
+            
             transitionToggle = false
             offsetX = 0
         }

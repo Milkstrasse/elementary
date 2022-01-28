@@ -153,6 +153,7 @@ struct TrainingOverView: View {
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
+            AudioPlayer.shared.playMenuMusic()
             transitionToggle = false
         }
     }

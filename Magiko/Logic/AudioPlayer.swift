@@ -24,12 +24,26 @@ class AudioPlayer {
         soundVolume = volume
     }
     
-    func playMusic() {
-        let path = Bundle.main.path(forResource: "AltusStratum.mp3", ofType: nil)!
-        let url = URL(fileURLWithPath: path)
-        
+    func playMenuMusic() {
         do {
-            //create your audioPlayer in your parent class as a property
+            let path = Bundle.main.path(forResource: "AltusStratum.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
+            musicPlayer = try AVAudioPlayer(contentsOf: url)
+            
+            musicPlayer?.numberOfLoops = -1
+            musicPlayer?.volume = musicVolume
+            musicPlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playBattleMusic() {
+        do {
+            let path = Bundle.main.path(forResource: "Avenger.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
             musicPlayer = try AVAudioPlayer(contentsOf: url)
             
             musicPlayer?.numberOfLoops = -1
@@ -41,11 +55,10 @@ class AudioPlayer {
     }
     
     func playStandardSound() {
-        let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
-        let url = URL(fileURLWithPath: path)
-        
         do {
-            //create your audioPlayer in your parent class as a property
+            let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
             soundPlayer = try AVAudioPlayer(contentsOf: url)
             soundPlayer?.volume = soundVolume
             soundPlayer?.play()
@@ -55,11 +68,10 @@ class AudioPlayer {
     }
     
     func playConfirmSound() {
-        let path = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
-        let url = URL(fileURLWithPath: path)
-        
         do {
-            //create your audioPlayer in your parent class as a property
+            let path = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
             soundPlayer = try AVAudioPlayer(contentsOf: url)
             soundPlayer?.volume = soundVolume
             soundPlayer?.play()
@@ -69,11 +81,10 @@ class AudioPlayer {
     }
     
     func playCancelSound() {
-        let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
-        let url = URL(fileURLWithPath: path)
-        
         do {
-            //create your audioPlayer in your parent class as a property
+            let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
             soundPlayer = try AVAudioPlayer(contentsOf: url)
             soundPlayer?.volume = soundVolume
             soundPlayer?.play()

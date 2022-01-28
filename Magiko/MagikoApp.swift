@@ -49,7 +49,7 @@ struct MagikoApp: App {
                             
                             AudioPlayer.shared.setSoundVolume(volume: UserDefaults.standard.float(forKey: "sound"))
                             AudioPlayer.shared.setMusicVolume(volume: UserDefaults.standard.float(forKey: "music"))
-                            AudioPlayer.shared.playMusic()
+                            AudioPlayer.shared.playMenuMusic()
                             
                             GlobalData.shared.loadData()
                             
