@@ -36,12 +36,10 @@ struct DamageCalculator {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, skill: skill, skillElement: skillElement, weather: weather)
         
         //multiply with critical modifier
-        if !target.hasEffect(effectName: Effects.alerted.rawValue) {
-            let chance: Int = Int.random(in: 0 ..< 100)
-            if chance < attacker.getModifiedBase().precision/10 {
-                dmg *= 1.5
-                text = "\n" + Localization.shared.getTranslation(key: "criticalHit") + "\n"
-            }
+        let chance: Int = Int.random(in: 0 ..< 100)
+        if chance < attacker.getModifiedBase().precision/10 {
+            dmg *= 1.5
+            text = "\n" + Localization.shared.getTranslation(key: "criticalHit") + "\n"
         }
         
         let damage: Int = Int(round(dmg))
@@ -157,11 +155,9 @@ struct DamageCalculator {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, skill: skill, skillElement: skillElement, weather: weather)
         
         //multiply with critical modifier
-        if !defender.hasEffect(effectName: Effects.alerted.rawValue) {
-            let chance: Int = Int.random(in: 0 ..< 100)
-            if chance < attacker.getModifiedBase().precision/6 {
-                dmg *= 1.5
-            }
+        let chance: Int = Int.random(in: 0 ..< 100)
+        if chance < attacker.getModifiedBase().precision/6 {
+            dmg *= 1.5
         }
         
         let damage: Int = Int(round(dmg))

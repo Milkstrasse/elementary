@@ -125,7 +125,13 @@ class Fighter: Hashable {
                 break
         }
         
-        if effects.count < 2 { //fighter can only have up to two effects
+        if hasEffect(effectName: effect.name) { //refresh duration of effect if already present
+            for index in effects.indices {
+                if effects[index].name == effect.name {
+                    effects[index] = effect
+                }
+            }
+        } else if effects.count < 3 { //fighter can only have up to three effects
             //checks if other effect or an ability prevents the new effect
             if !effect.positive {
                 if hasEffect(effectName: Effects.blessed.rawValue) {

@@ -81,11 +81,11 @@ struct CPUTrainingView: View {
                                         Triangle().fill(Color("outline")).frame(width: 21, height: 57)
                                         Rectangle().fill(Color("outline")).frame(width: 190, height: 57)
                                     }
-                                    .padding(.bottom, 3).offset(x: -1).frame(width: 210)
+                                    .padding(.bottom, 4).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
                                             ForEach(fightLogic.fighters[0].indices) { index in
-                                                Circle().fill(Color("outline")).frame(width: 12, height: 12).opacity(fightLogic.fighters[0][index].currhp == 0 ? 0.5 : 1)
+                                                Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(fightLogic.fighters[0][index].currhp == 0 ? 0.5 : 1)
                                             }
                                         }
                                         .padding(.leading, 24).offset(y: -5)
