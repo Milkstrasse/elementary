@@ -20,7 +20,6 @@ enum Abilities: String, CaseIterable {
     case ethereal
     case weatherFrog
     case contrarian
-    case coward
     case retaliator
     case enraged
     case lastWill

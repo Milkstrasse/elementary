@@ -126,10 +126,6 @@ class TurnLogic {
         if usedSkill.power > 0 { //damaging attack
             text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill, skillElement: skill.element, weather: fightLogic!.weather)
             
-            if fightLogic!.getFighter(player: player).ability.name == Abilities.coward.rawValue && fightLogic!.isAbleToSwap(player: player) {
-                fightLogic!.hasToSwap[player] = true
-            }
-            
             return Localization.shared.getTranslation(key: "usedSkill", params: [fightLogic!.getFighter(player: player).name, skill.name]) + " " + text
         } else if usedSkill.effect != nil { //effect adding skill
             text = EffectApplication.shared.applyEffect(attacker: fightLogic!.getFighter(player: player), defender: fightLogic!.getFighter(player: oppositePlayer), skill: usedSkill)

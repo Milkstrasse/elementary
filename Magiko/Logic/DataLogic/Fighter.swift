@@ -142,7 +142,7 @@ class Fighter: Hashable {
                     return false
                 } else if effect.name == Effects.poisoned.rawValue && self.ability.name == Abilities.immune.rawValue {
                     return false
-                } else if effect.name == Effects.locked.rawValue && self.ability.name == Abilities.rebellious.rawValue {
+                } else if effect.name == Effects.restricted.rawValue && self.ability.name == Abilities.rebellious.rawValue {
                     return false
                 } else if effect.name == Effects.confused.rawValue && self.ability.name == Abilities.confident.rawValue {
                     return false

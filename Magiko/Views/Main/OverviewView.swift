@@ -106,7 +106,7 @@ struct OverviewView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("outline")).frame(height: 1)
-                            CustomText(key: "overview", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                            CustomText(key: "witches", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                         }
                         .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                         ScrollView(.vertical, showsIndicators: false) {
@@ -150,7 +150,7 @@ struct OverviewView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: currentElement == -1 ? "allTypes" : GlobalData.shared.elementArray[currentElement].name, fontSize: 14).frame(width: 65)
+                                    CustomText(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name, fontSize: 14).frame(width: 65)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()

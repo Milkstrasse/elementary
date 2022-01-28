@@ -26,7 +26,7 @@ struct InfoView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .leading) {
                         Rectangle().fill(Color("outline")).frame(height: 1)
-                        CustomText(key: "info", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                        CustomText(key: "credits", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
@@ -35,9 +35,9 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button"))
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
-                                    CustomText(text: "MenuSFX by Kevin Fowler", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "Voices by Cici Fyre", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "Music by Theo Allen", fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Theo Allen"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }

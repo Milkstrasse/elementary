@@ -101,7 +101,7 @@ class FightLogic: ObservableObject {
             if getFighter(player: player).hasEffect(effectName: Effects.confused.rawValue) {
                 let randomMove: Move = Move(source: move.source, skill: getFighter(player: player).skills[Int.random(in: 0 ..< getFighter(player: player).skills.count)])
                 usedMoves[player].insert(randomMove, at: 0)
-            } else if !usedMoves[player].isEmpty && getFighter(player: player).hasEffect(effectName: Effects.locked.rawValue) {
+            } else if !usedMoves[player].isEmpty && getFighter(player: player).hasEffect(effectName: Effects.restricted.rawValue) {
                 if usedMoves[player][0].target < 0 {
                     usedMoves[player].insert(usedMoves[player][0], at: 0)
                 } else { //last move was a swap which can't be locked in
