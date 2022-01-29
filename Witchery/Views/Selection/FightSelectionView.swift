@@ -85,7 +85,7 @@ struct FightSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 40))
                         }
-                        .rotationEffect(.degrees(90)).frame(width: 40, height: 170)
+                        .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                     }
                     Spacer()
                     VStack {
@@ -121,7 +121,7 @@ struct FightSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 40))
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 170)
+                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                         Spacer()
                     }
                 }

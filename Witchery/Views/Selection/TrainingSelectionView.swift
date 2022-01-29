@@ -36,7 +36,9 @@ struct TrainingSelectionView: View {
     
     func selectRandom() {
         var set = Set<Int>()
-        while set.count < 4 {
+        let maxSize: Int = min(set.count, GlobalData.shared.witches.count)
+        
+        while set.count < maxSize {
             set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
         }
         
@@ -79,7 +81,7 @@ struct TrainingSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 40))
                         }
-                        .rotationEffect(.degrees(90)).frame(width: 40, height: 170)
+                        .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                     }
                     Spacer()
                     VStack {
@@ -105,7 +107,7 @@ struct TrainingSelectionView: View {
                             }
                             .buttonStyle(BasicButton(width: 40))
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 170)
+                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                         Spacer()
                     }
                 }
