@@ -101,9 +101,11 @@ class Witch: Hashable {
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex) -> Bool {
-        let rndm: Int = Int.random(in: 0 ..< 100)
-        if rndm < getModifiedBase().resistance/10 { //chance hex will be resisted
-            return false
+        if !hex.positive {
+            let rndm: Int = Int.random(in: 0 ..< 100)
+            if rndm < getModifiedBase().resistance/10 { //chance hex will be resisted
+                return false
+            }
         }
         
         //checks if hex removes other hexes

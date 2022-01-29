@@ -34,10 +34,10 @@ class FightLogic: ObservableObject {
         witches[1] = rightWitches
         
         if getWitch(player: 0).ability.name == Abilities.intimidate.rawValue {
-            getWitch(player: 1).applyHex(hex: Hexes.attackDrop.getHex())
+            getWitch(player: 1).applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
         if getWitch(player: 1).ability.name == Abilities.intimidate.rawValue {
-            getWitch(player: 0).applyHex(hex: Hexes.attackDrop.getHex())
+            getWitch(player: 0).applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
     }
     
@@ -372,7 +372,7 @@ class FightLogic: ObservableObject {
         currentWitch[player] = target
         
         if applyHex {
-            getWitch(player: player).applyHex(hex: Hexes.blessed.getHex())
+            getWitch(player: player).applyHex(hex: Hexes.blessed.getHex(duration: 4))
         }
         
         var oppositePlayer: Int = 0
@@ -380,7 +380,7 @@ class FightLogic: ObservableObject {
             oppositePlayer = 1
         }
         if getWitch(player: oppositePlayer).ability.name == Abilities.intimidate.rawValue {
-            if getWitch(player: player).applyHex(hex: Hexes.attackDrop.getHex()) {
+            if getWitch(player: player).applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [getWitch(player: player).name, "attack"]) + "\n"
             }
         }
