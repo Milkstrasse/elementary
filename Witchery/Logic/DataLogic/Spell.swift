@@ -12,7 +12,7 @@ struct Spell: Decodable, Hashable {
     
     let type: String
     
-    private let uses: Int
+    let uses: Int
     var useCounter: Int = 0
     let spells: [SubSpell]
     
@@ -44,13 +44,6 @@ struct Spell: Decodable, Hashable {
         
         uses = try container.decode(Int.self, forKey: .uses)
         spells = try container.decode([SubSpell].self, forKey: .spells)
-    }
-    
-    /// Checks how many uses a spell has with taking the stamina stat into consideration.
-    /// - Parameter witch: The owner of the spell
-    /// - Returns: Returns the amount of uses the spell has
-    func getUses(witch: Witch) -> Int {
-        return uses + (witch.getModifiedBase().stamina - 100)/10
     }
     
     func hash(into hasher: inout Hasher) {

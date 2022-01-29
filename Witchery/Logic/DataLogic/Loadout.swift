@@ -13,10 +13,10 @@ struct Loadout: Decodable {
     let defenseMod: Int
     let agilityMod: Int
     let precisionMod: Int
-    let staminaMod: Int
+    let resistanceMod: Int
     
     enum CodingKeys: String, CodingKey {
-        case healthMod, attackMod, defenseMod, agilityMod, precisionMod, staminaMod
+        case healthMod, attackMod, defenseMod, agilityMod, precisionMod, resistanceMod
     }
     
     init() {
@@ -27,7 +27,7 @@ struct Loadout: Decodable {
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
-        staminaMod = 0
+        resistanceMod = 0
     }
     
     init(from decoder: Decoder) throws {
@@ -40,6 +40,6 @@ struct Loadout: Decodable {
         defenseMod = try container.decode(Int.self, forKey: .defenseMod)
         agilityMod = try container.decode(Int.self, forKey: .agilityMod)
         precisionMod = try container.decode(Int.self, forKey: .precisionMod)
-        staminaMod = try container.decode(Int.self, forKey: .staminaMod)
+        resistanceMod = try container.decode(Int.self, forKey: .resistanceMod)
     }
 }

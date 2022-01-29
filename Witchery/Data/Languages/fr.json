@@ -1,4 +1,6 @@
 {
+    "fr": "Français",
+    
     "allElements": "Tous Éléments",
     "electric": "Électrik",
     "fire": "Feu",
@@ -13,7 +15,7 @@
     "defense": "Défense",
     "agility": "Agilité",
     "precision": "Précision",
-    "stamina": "Endurance",
+    "resistance": "Résistance",
     
     "credits": "Remerciements",
     "settings": "Paramètres",

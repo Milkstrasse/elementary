@@ -27,7 +27,7 @@ class Witch: Hashable {
     var agilityMod: Int = 0
     var precisionMod: Int = 0
     
-    var staminaUse: Int = 2
+    var manaUse: Int = 2
     
     /// Creates a witch from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the witch
@@ -60,7 +60,7 @@ class Witch: Hashable {
         var defense: Int = max(base.defense + defenseMod + loadout.defenseMod, 0)
         let agility: Int = max(base.agility + agilityMod + loadout.agilityMod, 0)
         let precision: Int = max(base.precision + precisionMod + loadout.precisionMod, 0)
-        let stamina: Int = max(base.stamina + loadout.staminaMod, 0)
+        let resistance: Int = max(base.resistance + loadout.resistanceMod, 0)
         
         if ability.name == Abilities.enraged.rawValue && currhp < health/4 {
             attack += 40
@@ -68,7 +68,7 @@ class Witch: Hashable {
             defense += 40
         }
         
-        return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, stamina: stamina)
+        return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
     }
     
     /// Changes the current loadout of a witch.
@@ -101,6 +101,11 @@ class Witch: Hashable {
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex) -> Bool {
+        let rndm: Int = Int.random(in: 0 ..< 100)
+        if rndm < getModifiedBase().resistance/10 { //chance hex will be resisted
+            return false
+        }
+        
         //checks if hex removes other hexes
         switch hex.name {
             case Hexes.blessed.rawValue:
@@ -177,9 +182,9 @@ class Witch: Hashable {
                 case Hexes.precisionDrop.rawValue:
                     precisionMod -= 20
                 case Hexes.invigorated.rawValue:
-                    staminaUse = 1
+                    manaUse = 1
                 case Hexes.exhausted.rawValue:
-                    staminaUse = 3
+                    manaUse = 3
                 default:
                     break
             }
@@ -213,9 +218,9 @@ class Witch: Hashable {
             case Hexes.precisionDrop.rawValue:
                 precisionMod += 20
             case Hexes.invigorated.rawValue:
-                staminaUse = 2
+                manaUse = 2
             case Hexes.exhausted.rawValue:
-                staminaUse = 2
+                manaUse = 2
             default:
                 break
         }
@@ -300,5 +305,5 @@ struct Base: Decodable {
     let defense: Int
     let agility: Int
     let precision: Int
-    let stamina: Int
+    let resistance: Int
 }

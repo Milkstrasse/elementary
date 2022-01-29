@@ -106,9 +106,9 @@ struct BaseWitchesOverviewView: View {
                             CustomText(text: "\(base.precision)", fontSize: 14)
                         }
                         HStack {
-                            CustomText(key: "stamina", fontSize: 14, isBold: true)
+                            CustomText(key: "resistance", fontSize: 14, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.stamina)", fontSize: 14)
+                            CustomText(text: "\(base.resistance)", fontSize: 14)
                         }
                     }
                 }
@@ -261,7 +261,7 @@ struct Views_Previews: PreviewProvider {
             DetailedActionView(title: "Title", description: "Description", symbol: "#")
             RectangleWitchView(witch: exampleWitch, isSelected: false).frame(width: 100)
             SquareWitchView(witch: exampleWitch, isSelected: false)
-            BaseWitchesOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, stamina: 100))
+            BaseWitchesOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100))
             HexView(hex: Hex(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
         }
     }

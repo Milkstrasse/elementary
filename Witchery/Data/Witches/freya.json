@@ -6,7 +6,7 @@
       "defense": 125,
       "agility": 65,
       "precision": 140,
-      "stamina": 95
+      "resistance": 95
   },
   "spells": [
       "genericPunch"

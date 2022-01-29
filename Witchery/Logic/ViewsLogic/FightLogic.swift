@@ -75,7 +75,7 @@ class FightLogic: ObservableObject {
             usedMoves[0].insert(rndmMove!, at: 0)
         }
         
-        if move.spell.useCounter + getWitch(player: player).staminaUse > move.spell.getUses(witch: getWitch(player: player)) {
+        if move.spell.useCounter + getWitch(player: player).manaUse > move.spell.uses {
             return false //spell cost is to high, witch cannot use this spell
         } else if move.target > -1 {
             if witches[player][move.target].currhp == 0 {
@@ -120,8 +120,8 @@ class FightLogic: ObservableObject {
             battleLog = Localization.shared.getTranslation(key: "loading")
             
             //increase useCounter of spells
-            usedMoves[0][0].useSpell(amount: getWitch(player: 0).staminaUse)
-            usedMoves[1][0].useSpell(amount: getWitch(player: 1).staminaUse)
+            usedMoves[0][0].useSpell(amount: getWitch(player: 0).manaUse)
+            usedMoves[1][0].useSpell(amount: getWitch(player: 1).manaUse)
             
             //reset hasToSwap marker to prevent free swaps
             hasToSwap[0] = false

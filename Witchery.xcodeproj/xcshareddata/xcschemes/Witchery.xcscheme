@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B80D7CA0278345EC00DEB25F"
-               BuildableName = "Magiko.app"
+               BuildableName = "Witchery.app"
                BlueprintName = "Witchery"
                ReferencedContainer = "container:Witchery.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B80D7CB0278345EE00DEB25F"
-               BuildableName = "MagikoTests.xctest"
+               BuildableName = "WitcheryTests.xctest"
                BlueprintName = "WitcheryTests"
                ReferencedContainer = "container:Witchery.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B80D7CA0278345EC00DEB25F"
-            BuildableName = "Magiko.app"
+            BuildableName = "Witchery.app"
             BlueprintName = "Witchery"
             ReferencedContainer = "container:Witchery.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B80D7CA0278345EC00DEB25F"
-            BuildableName = "Magiko.app"
+            BuildableName = "Witchery.app"
             BlueprintName = "Witchery"
             ReferencedContainer = "container:Witchery.xcodeproj">
          </BuildableReference>

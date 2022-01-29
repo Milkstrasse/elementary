@@ -28,7 +28,7 @@ struct CPULogic {
         var availableSpells: [Int] = []
         
         for index in witch.spells.indices {
-            if witch.spells[index].useCounter + witch.staminaUse <= witch.spells[index].getUses(witch: witch) {
+            if witch.spells[index].useCounter + witch.manaUse <= witch.spells[index].uses {
                 availableSpells.append(index)
             }
         }

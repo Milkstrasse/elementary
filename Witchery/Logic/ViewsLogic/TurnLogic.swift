@@ -50,7 +50,7 @@ class TurnLogic {
         } else if attacker.currhp == 0 {
             attacker.revive()
             return attacker.name + " fainted but was reborn.\n"
-        } else if fightLogic.usedMoves[player][0].spell.useCounter > fightLogic.usedMoves[player][0].spell.getUses(witch: attacker) {
+        } else if fightLogic.usedMoves[player][0].spell.useCounter > fightLogic.usedMoves[player][0].spell.uses {
             return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, fightLogic.usedMoves[player][0].spell.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
