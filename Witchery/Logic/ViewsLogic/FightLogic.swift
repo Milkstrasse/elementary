@@ -29,17 +29,7 @@ class FightLogic: ObservableObject {
     
     init(leftWitches: [Witch], rightWitches: [Witch], hasCPUPlayer: Bool = false) {
         self.hasCPUPlayer = hasCPUPlayer
-        
-<<<<<<< HEAD:Magiko/Logic/ViewsLogic/FightLogic.swift
-        fighters[0] = leftFighters
-        fighters[1] = rightFighters
-        
-        if getFighter(player: 0).ability.name == Abilities.intimidate.rawValue {
-            getFighter(player: 1).applyEffect(effect: Effects.attackDrop.getEffect())
-        }
-        if getFighter(player: 1).ability.name == Abilities.intimidate.rawValue {
-            getFighter(player: 0).applyEffect(effect: Effects.attackDrop.getEffect())
-=======
+
         witches[0] = leftWitches
         witches[1] = rightWitches
         
@@ -48,7 +38,6 @@ class FightLogic: ObservableObject {
         }
         if getWitch(player: 1).ability.name == Abilities.intimidate.rawValue {
             getWitch(player: 0).applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
->>>>>>> origin/ui-v2:Witchery/Logic/ViewsLogic/FightLogic.swift
         }
     }
     
@@ -393,16 +382,6 @@ class FightLogic: ObservableObject {
         if getWitch(player: oppositePlayer).ability.name == Abilities.intimidate.rawValue {
             if getWitch(player: player).applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [getWitch(player: player).name, "attack"]) + "\n"
-            }
-        }
-        
-        var oppositePlayer: Int = 0
-        if player == 0 {
-            oppositePlayer = 1
-        }
-        if getFighter(player: oppositePlayer).ability.name == Abilities.intimidate.rawValue {
-            if getFighter(player: player).applyEffect(effect: Effects.attackDrop.getEffect()) {
-                text += Localization.shared.getTranslation(key: "statDecreased", params: [getFighter(player: player).name, "attack"]) + "\n"
             }
         }
                                                                                 
