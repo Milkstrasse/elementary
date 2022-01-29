@@ -36,7 +36,8 @@ struct TrainingSelectionView: View {
     
     func selectRandom() {
         var set = Set<Int>()
-        let maxSize: Int = min(set.count, GlobalData.shared.witches.count)
+        let maxSize: Int = min(4, GlobalData.shared.witches.count)
+        print("\(maxSize)")
         
         while set.count < maxSize {
             set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
@@ -44,7 +45,7 @@ struct TrainingSelectionView: View {
         
         let rndm: [Int] = Array(set)
         
-        for index in 0 ..< 4 {
+        for index in 0 ..< maxSize {
             leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
             leftWitches[index]?.setAbility(ability: Int.random(in: 0 ..< Abilities.allCases.count))
         }
