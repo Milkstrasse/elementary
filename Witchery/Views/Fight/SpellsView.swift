@@ -51,34 +51,39 @@ struct SpellsView: View {
     }
     
     var body: some View {
-        HStack(spacing: 5) {
-            ForEach(fightLogic.getWitch(player: player).spells, id: \.self) { spell in
-                Button(action: {
-                }) {
-                    ZStack {
-                        if isDetectingPress {
-                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, width: geoHeight - 30)
-                        } else {
-                            DetailedActionView(title: spell.name, description: generateDescription(spell: spell, witch: fightLogic.getWitch(player: player)), symbol: spell.element.symbol, width: geoHeight - 30)
+        ScrollViewReader { value in
+            HStack(spacing: 5) {
+                ForEach(fightLogic.getWitch(player: player).spells.indices) { index in
+                    Button(action: {
+                    }) {
+                        ZStack {
+                            if isDetectingPress {
+                                DetailedActionView(title: fightLogic.getWitch(player: player).spells[index].name, description: fightLogic.getWitch(player: player).spells[index].name + "Descr", symbol: fightLogic.getWitch(player: player).spells[index].element.symbol, width: geoHeight - 30)
+                            } else {
+                                DetailedActionView(title: fightLogic.getWitch(player: player).spells[index].name, description: generateDescription(spell: fightLogic.getWitch(player: player).spells[index], witch: fightLogic.getWitch(player: player)), symbol: fightLogic.getWitch(player: player).spells[index].element.symbol, width: geoHeight - 30)
+                            }
                         }
+                        .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: .infinity)
+                                .updating($isDetectingPress) { value, state, _ in state = value }
+                        )
+                        .highPriorityGesture(
+                            TapGesture()
+                                .onEnded { _ in
+                                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getWitch(player: player), spell: fightLogic.getWitch(player: player).spells[index])) {
+                                        AudioPlayer.shared.playConfirmSound()
+                                        currentSection = .waiting
+                                    } else {
+                                        AudioPlayer.shared.playStandardSound()
+                                    }
+                        })
                     }
-                    .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: .infinity)
-                            .updating($isDetectingPress) { value, state, _ in state = value }
-                    )
-                    .highPriorityGesture(
-                        TapGesture()
-                            .onEnded { _ in
-                                if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getWitch(player: player), spell: spell)) {
-                                    AudioPlayer.shared.playConfirmSound()
-                                    currentSection = .waiting
-                                } else {
-                                    AudioPlayer.shared.playStandardSound()
-                                }
-                    })
+                    .id(index)
                 }
-                
+            }
+            .onAppear {
+                value.scrollTo(0)
             }
         }
     }
