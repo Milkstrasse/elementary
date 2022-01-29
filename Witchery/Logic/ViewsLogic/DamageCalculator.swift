@@ -20,7 +20,7 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> String {
-        var text: String = "\n"
+        var text: String = "its a hit" + "\n"
         
         //determine actual target
         var target: Witch = defender
@@ -39,7 +39,7 @@ struct DamageCalculator {
         let chance: Int = Int.random(in: 0 ..< 100)
         if chance < attacker.getModifiedBase().precision/10 {
             dmg *= 1.5
-            text = "\n" + Localization.shared.getTranslation(key: "criticalHit") + "\n"
+            text = Localization.shared.getTranslation(key: "criticalHit") + "\n"
         }
         
         let damage: Int = Int(round(dmg))

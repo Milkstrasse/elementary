@@ -54,7 +54,7 @@ struct CPULogic {
         }
         
         //low health -> should heal
-        if witch.currhp <= witch.getModifiedBase().health/2 && !witch.hasHex(hexName: Hexes.haunted.rawValue) {
+        if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.haunted.rawValue) {
             for index in availableSpells.indices {
                 if witch.spells[availableSpells[index]].type == "heal" {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
@@ -68,16 +68,6 @@ struct CPULogic {
             
             if witch.spells[availableSpells[index]].type == "attack" {
                 if spellElement.hasAdvantage(element: enemy.element) {
-                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
-                }
-            }
-        }
-        
-        for index in availableSpells.indices {
-            let spellElement: Element = witch.spells[availableSpells[index]].element
-            
-            if witch.spells[availableSpells[index]].type == "attack" {
-                if !spellElement.hasDisadvantage(element: enemy.element) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }

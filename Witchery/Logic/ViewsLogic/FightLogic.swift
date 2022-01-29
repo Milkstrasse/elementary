@@ -305,9 +305,11 @@ class FightLogic: ObservableObject {
     func addMoveTurn(player: Int) {
         if !usedMoves[player][0].spell.spells.isEmpty {
             for index in usedMoves[player][0].spell.spells.indices.reversed() {
-                playerStack.insert((player: player, index: index), at: 0)
+                playerStack.insert((player: player, index: index + 1), at: 0)
             }
-        } else {
+            
+            playerStack.insert((player: player, index: 0), at: 0)
+        } else { //this is a swap not a spell
             playerStack.insert((player: player, index: 0), at: 0)
         }
     }

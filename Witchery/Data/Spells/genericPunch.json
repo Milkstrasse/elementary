@@ -4,7 +4,7 @@
   "uses": 50,
   "spells": [
       {
-          "power": 195,
+          "power": 95,
           "range": 1
       }
   ]

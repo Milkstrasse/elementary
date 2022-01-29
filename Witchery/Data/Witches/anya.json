@@ -9,6 +9,10 @@
       "resistance": 100
   },
   "spells": [
-      "genericPunch"
+      "genericPunch",
+      "rainDance",
+      "restoration",
+      "decay",
+      "protection"
   ]
 }

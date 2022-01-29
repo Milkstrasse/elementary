@@ -50,8 +50,6 @@ class TurnLogic {
         } else if attacker.currhp == 0 {
             attacker.revive()
             return attacker.name + " fainted but was reborn.\n"
-        } else if fightLogic.usedMoves[player][0].spell.useCounter > fightLogic.usedMoves[player][0].spell.uses {
-            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, fightLogic.usedMoves[player][0].spell.name]) + " " + Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
         //apply damage or healing of hexes
@@ -82,17 +80,23 @@ class TurnLogic {
             }
         }
         
+        if fightLogic.playerStack[0].index == 0 {
+            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, fightLogic.usedMoves[player][0].spell.name]) + "\n"
+        }
+        
         //checks if shielding spell is used or another spell
         if fightLogic.usedMoves[player][0].spell.type == "shield" {
             let usedMoves: [Move] = fightLogic.usedMoves[player]
-            var text: String = "\n"
+            var text: String
         
             //shield can't be used twice in a row -> failure
             if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
-                text = "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
+                text = Localization.shared.getTranslation(key: "fail") + "\n"
+            } else {
+                text = attacker.name + "is now protected, lmao.\n"
             }
             
-            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, usedMoves[0].spell.name]) + " " + text
+            return text
         } else {
             return attack(player: player, spell: fightLogic.usedMoves[player][0].spell)
         }
@@ -111,31 +115,26 @@ class TurnLogic {
         }
         
         //checks if targeted user is successfully shielded or not
-        if spell.spells[fightLogic!.playerStack[0].index].range > 0 {
+        if spell.spells[fightLogic!.playerStack[0].index - 1].range > 0 {
             if fightLogic!.usedMoves[oppositePlayer][0].spell.type == "shield" {
                 if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].spell.name != fightLogic!.usedMoves[oppositePlayer][1].spell.name { //attack was successfully blocked
-                    return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + "\n" + Localization.shared.getTranslation(key: "fail") + "\n"
+                    return Localization.shared.getTranslation(key: "fail") + "\n"
                 }
             }
         }
         
-        let text: String
-        let usedSpell: SubSpell = spell.spells[fightLogic!.playerStack[0].index]
+        let usedSpell: SubSpell = spell.spells[fightLogic!.playerStack[0].index - 1]
         
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
-            text = DamageCalculator.shared.applyDamage(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
-            
-            return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + " " + text
+            return DamageCalculator.shared.applyDamage(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
         } else if usedSpell.hex != nil { //hex adding spell
-            text = HexApplication.shared.applyHex(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
-            
-            return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + "\n" + text
+            return HexApplication.shared.applyHex(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
         } else if usedSpell.healAmount > 0 {
-            text = applyHealing(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
-            
-            return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + "\n" + text
+            return applyHealing(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
         } else if usedSpell.weather != nil { //weather adding spell
+            var text: String
+            
             if fightLogic!.weather == nil {
                 if fightLogic!.getWitch(player: player).ability.name == Abilities.weatherFrog.rawValue {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
@@ -152,9 +151,9 @@ class TurnLogic {
                 text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
             }
             
-            return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + " \n" + text
+            return text
         } else {
-            return Localization.shared.getTranslation(key: "usedSpell", params: [fightLogic!.getWitch(player: player).name, spell.name]) + " It does nothing.\n"
+            return "It does nothing.\n"
         }
     }
     
