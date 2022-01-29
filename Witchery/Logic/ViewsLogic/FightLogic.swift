@@ -33,11 +33,22 @@ class FightLogic: ObservableObject {
         witches[0] = leftWitches
         witches[1] = rightWitches
         
-        if getWitch(player: 0).ability.name == Abilities.intimidate.rawValue {
+        if getWitch(player: 0).artifact.name == Artifacts.mask.rawValue {
             getWitch(player: 1).applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
-        if getWitch(player: 1).ability.name == Abilities.intimidate.rawValue {
+        if getWitch(player: 1).artifact.name == Artifacts.mask.rawValue {
             getWitch(player: 0).applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
+        }
+        
+        for witch in witches[0] {
+            if witch.artifact.name == Artifacts.corset.rawValue {
+                witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
+            }
+        }
+        for witch in witches[1] {
+            if witch.artifact.name == Artifacts.corset.rawValue {
+                witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
+            }
         }
     }
     
@@ -83,7 +94,7 @@ class FightLogic: ObservableObject {
             }
         }
         
-        if hasToSwap[player] { //witch either fainted or has special ability to swap
+        if hasToSwap[player] { //witch either fainted or has special artifact to swap
             if !getWitch(player: player).hasHex(hexName: Hexes.chained.rawValue) || getWitch(player: player).currhp == 0 {
                 if move.target > -1 {
                     swapWitches(player: player, target: move.target)
@@ -362,9 +373,9 @@ class FightLogic: ObservableObject {
         var text: String
         var applyHex: Bool = false
         
-        if getWitch(player: player).ability.name == Abilities.lastWill.rawValue {
+        if getWitch(player: player).artifact.name == Artifacts.lastWill.rawValue {
             applyHex = true
-        } else if getWitch(player: player).ability.name == Abilities.naturalCure.rawValue {
+        } else if getWitch(player: player).artifact.name == Artifacts.grimoire.rawValue {
             for hex in getWitch(player: player).hexes {
                 getWitch(player: player).removeHex(hex: hex)
             }
@@ -381,7 +392,7 @@ class FightLogic: ObservableObject {
         if player == 0 {
             oppositePlayer = 1
         }
-        if getWitch(player: oppositePlayer).ability.name == Abilities.intimidate.rawValue {
+        if getWitch(player: oppositePlayer).artifact.name == Artifacts.mask.rawValue {
             if getWitch(player: player).applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [getWitch(player: player).name, "attack"]) + "\n"
             }

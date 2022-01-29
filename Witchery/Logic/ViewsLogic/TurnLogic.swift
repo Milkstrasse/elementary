@@ -24,9 +24,9 @@ class TurnLogic {
         
         let attacker: Witch = fightLogic.getWitch(player: player)
         
-        //witch faints and certain abilities activate
+        //witch faints and certain artifacts activate
         if attacker.currhp == 0 && !attacker.hasHex(hexName: Hexes.enlightened.rawValue) {
-            if attacker.ability.name == Abilities.retaliation.rawValue {
+            if attacker.artifact.name == Artifacts.book.rawValue {
                 if player == 0 {
                     if fightLogic.getWitch(player: 1).applyHex(hex: Hexes.getNegativeHex()) {
                         battleLog = attacker.name + " fainted and cursed " + fightLogic.getWitch(player: 1).name + ".\n"
@@ -80,12 +80,19 @@ class TurnLogic {
             }
         }
         
+        let spell: Spell = fightLogic.usedMoves[player][0].spell
+        
         if fightLogic.playerStack[0].index == 0 {
-            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, fightLogic.usedMoves[player][0].spell.name]) + "\n"
+            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name]) + "\n"
+        }
+        
+        //if witch has restriction hex and was forced to use spells with no uses
+        if spell.useCounter >= spell.uses {
+            return Localization.shared.getTranslation(key: "fail") + "\n"
         }
         
         //checks if shielding spell is used or another spell
-        if fightLogic.usedMoves[player][0].spell.type == "shield" {
+        if spell.type == "shield" {
             let usedMoves: [Move] = fightLogic.usedMoves[player]
             var text: String
         
@@ -98,7 +105,7 @@ class TurnLogic {
             
             return text
         } else {
-            return attack(player: player, spell: fightLogic.usedMoves[player][0].spell)
+            return attack(player: player, spell: spell)
         }
     }
     
@@ -136,7 +143,7 @@ class TurnLogic {
             var text: String
             
             if fightLogic!.weather == nil {
-                if fightLogic!.getWitch(player: player).ability.name == Abilities.weatherFrog.rawValue {
+                if fightLogic!.getWitch(player: player).artifact.name == Artifacts.crystal.rawValue {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 } else {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 3)

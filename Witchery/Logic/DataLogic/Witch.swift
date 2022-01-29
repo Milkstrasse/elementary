@@ -20,7 +20,7 @@ class Witch: Hashable {
     var spells: [Spell]
     
     var nature: Nature
-    var ability: Ability
+    var artifact: Artifact
     
     var attackMod: Int = 0
     var defenseMod: Int = 0
@@ -49,7 +49,7 @@ class Witch: Hashable {
         }
         
         nature = Nature()
-        ability = Abilities.allCases[0].getAbility()
+        artifact = Artifacts.allCases[0].getArtifact()
     }
     
     /// Calculates current stats of a witch taking the current nature and hexes of the witch into consideration.
@@ -62,10 +62,12 @@ class Witch: Hashable {
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
         
-        if ability.name == Abilities.enraged.rawValue && currhp < health/4 {
+        if artifact.name == Artifacts.wand.rawValue && currhp < health/4 {
             attack += 40
-        } else if ability.name == Abilities.defensive.rawValue && currhp < health/4 {
+        } else if artifact.name == Artifacts.charm.rawValue && currhp < health/4 {
             defense += 40
+        } else if artifact.name == Artifacts.corset.rawValue {
+            attack += 40
         }
         
         return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
@@ -78,10 +80,10 @@ class Witch: Hashable {
         currhp = getModifiedBase().health
     }
     
-    /// Changes the current ability of the witch.
-    /// - Parameter ability: The desired ability
-    func setAbility(ability: Int) {
-        self.ability = Abilities.allCases[ability].getAbility()
+    /// Changes the current artifact of the witch.
+    /// - Parameter artifact: The desired artifact
+    func setArtifact(artifact: Int) {
+        self.artifact = Artifacts.allCases[artifact].getArtifact()
     }
     
     /// Checks if witch has certain hex.
@@ -101,7 +103,11 @@ class Witch: Hashable {
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex) -> Bool {
-        if !hex.positive {
+        if self.artifact.name == Artifacts.talisman.rawValue { //witch can't be hexed
+            return false
+        }
+        
+        if !hex.positive && hex.duration >= 0 { //hex with -1 duration are created by an artifact
             let rndm: Int = Int.random(in: 0 ..< 100)
             if rndm < getModifiedBase().resistance/10 { //chance hex will be resisted
                 return false
@@ -112,7 +118,7 @@ class Witch: Hashable {
         switch hex.name {
             case Hexes.blessed.rawValue:
                 for hex in hexes {
-                    if !hex.positive {
+                    if !hex.positive && hex.duration >= 0 { //hex with -1 duration are permanent
                         removeHex(hex: hex)
                     }
                 }
@@ -136,22 +142,13 @@ class Witch: Hashable {
             for index in hexes.indices {
                 if hexes[index].name == hex.name {
                     hexes[index] = hex
+                    return true
                 }
             }
         } else if hexes.count < 3 { //witch can only have up to three hexes
-            //checks if other hex or an ability prevents the new hex
+            //checks if other hex or an artifact prevents the new hex
             if !hex.positive {
                 if hasHex(hexName: Hexes.blessed.rawValue) {
-                    return false
-                } else if hex.name == Hexes.chained.rawValue && self.ability.name == Abilities.freeSpirited.rawValue {
-                    return false
-                } else if hex.name == Hexes.confused.rawValue && self.ability.name == Abilities.sceptic.rawValue {
-                    return false
-                } else if hex.name == Hexes.poisoned.rawValue && self.ability.name == Abilities.immune.rawValue {
-                    return false
-                } else if hex.name == Hexes.restricted.rawValue && self.ability.name == Abilities.rebellious.rawValue {
-                    return false
-                } else if hex.name == Hexes.confused.rawValue && self.ability.name == Abilities.confident.rawValue {
                     return false
                 }
             } else if hex.name == Hexes.healed.rawValue {
@@ -200,7 +197,11 @@ class Witch: Hashable {
     /// Removes an hex from the witch and reverts changes made by the hex
     /// - Parameter hex: The hex to be removed
     func removeHex(hex: Hex) {
-        hexes.removeFirst()
+        if hexes[0].duration == 0 || hex.duration < 0 {
+            hexes.removeFirst()
+        } else {
+            hexes.remove(at: 1)
+        }
         
         switch hex.name {
             case Hexes.attackBoost.rawValue:

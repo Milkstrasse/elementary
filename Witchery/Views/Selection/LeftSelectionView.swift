@@ -11,7 +11,7 @@ struct LeftSelectionView: View {
     @Binding var witches: [Witch?]
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
-    @State var selectedAbility: Int = 0
+    @State var selectedArtifact: Int = 0
     
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
@@ -62,9 +62,9 @@ struct LeftSelectionView: View {
         return 0
     }
     
-    func getAbility(witch: Witch) -> Int {
-        for index in Abilities.allCases.indices {
-            if witch.ability.name == Abilities.allCases[index].rawValue {
+    func getArtifact(witch: Witch) -> Int {
+        for index in Artifacts.allCases.indices {
+            if witch.artifact.name == Artifacts.allCases[index].rawValue {
                 return index
             }
         }
@@ -103,7 +103,7 @@ struct LeftSelectionView: View {
                                         
                                         if witches[index] != nil {
                                             selectedNature = getNature(witch: witches[selectedSlot]!)
-                                            selectedAbility = getAbility(witch: witches[selectedSlot]!)
+                                            selectedArtifact = getArtifact(witch: witches[selectedSlot]!)
                                             
                                             selectionToggle = false
                                             infoToggle = true
@@ -217,29 +217,29 @@ struct LeftSelectionView: View {
                                                 Button("<") {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
-                                                    if selectedAbility <= 0 {
-                                                        selectedAbility = Abilities.allCases.count - 1
+                                                    if selectedArtifact <= 0 {
+                                                        selectedArtifact = Artifacts.allCases.count - 1
                                                     } else {
-                                                        selectedAbility -= 1
+                                                        selectedArtifact -= 1
                                                     }
                                                     
-                                                    witches[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                 }
                                                 .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 VStack {
-                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                    CustomText(key: Abilities.allCases[selectedAbility].getAbility().description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                 }
                                                 Button(">") {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
-                                                    if selectedAbility >= Abilities.allCases.count - 1 {
-                                                        selectedAbility = 0
+                                                    if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                        selectedArtifact = 0
                                                     } else {
-                                                        selectedAbility += 1
+                                                        selectedArtifact += 1
                                                     }
                                                     
-                                                    witches[selectedSlot]!.setAbility(ability: selectedAbility)
+                                                    witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                 }
                                                 .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                             }
@@ -254,7 +254,7 @@ struct LeftSelectionView: View {
                             .padding(.horizontal, 15).frame(width: 175).rotationEffect(.degrees(180))
                             .onAppear {
                                 selectedNature = getNature(witch: witches[selectedSlot]!)
-                                selectedAbility = getAbility(witch: witches[selectedSlot]!)
+                                selectedArtifact = getArtifact(witch: witches[selectedSlot]!)
                             }
                         }
                     }

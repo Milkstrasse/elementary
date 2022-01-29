@@ -47,7 +47,7 @@ struct TrainingSelectionView: View {
         
         for index in 0 ..< maxSize {
             leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
-            leftWitches[index]?.setAbility(ability: Int.random(in: 0 ..< Abilities.allCases.count))
+            leftWitches[index]?.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
         }
     }
     

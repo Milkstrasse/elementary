@@ -11,7 +11,7 @@ struct CPUSelectionView: View {
     var witches: [Witch?]
     var selectedSlot: Int = 0
     var selectedNature: Int = 0
-    var selectedAbility: Int = 0
+    var selectedArtifact: Int = 0
     
     var body: some View {
         ZStack {

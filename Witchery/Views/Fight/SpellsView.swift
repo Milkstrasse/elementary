@@ -19,7 +19,7 @@ struct SpellsView: View {
     @GestureState var isDetectingPress = false
     
     func getEffectiveness(spellElement: String) -> String {
-        if fightLogic.getWitch(player: player).ability.name == Abilities.ethereal.rawValue {
+        if fightLogic.getWitch(player: player).artifact.name == Artifacts.ring.rawValue {
             return "effective"
         }
         

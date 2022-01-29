@@ -1,7 +1,7 @@
 {
   "element": "water",
   "type": "attack",
-  "uses": 50,
+  "uses": 5,
   "spells": [
       {
           "power": 95,
