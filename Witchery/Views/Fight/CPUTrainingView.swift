@@ -112,7 +112,7 @@ struct CPUTrainingView: View {
                                                     HStack {
                                                         CustomText(key: fightLogic.getWitch(player: 0).name, fontSize: 16).lineLimit(1)
                                                         Spacer()
-                                                        CustomText(text: "\(fightLogic.getWitch(player: 0).currhp)/\(fightLogic.getWitch(player: 0).getModifiedBase().health)HP", fontSize: 13)
+                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(fightLogic.getWitch(player: 0).currhp)", "\(fightLogic.getWitch(player: 0).getModifiedBase().health)"]), fontSize: 13)
                                                     }
                                                     ZStack(alignment: .leading) {
                                                         Rectangle().fill(Color("outline")).frame(height: 6)

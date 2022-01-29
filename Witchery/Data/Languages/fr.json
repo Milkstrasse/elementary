@@ -1,6 +1,14 @@
 {
     "fr": "Français",
     
+    "anya": "Anya",
+    "celeste": "Celeste",
+    "freya": "Freya",
+    "luna": "Luna",
+    "rhonda": "Rhonda",
+    "siobhan": "Siobhan",
+    "xenia": "Xenia",
+    
     "allElements": "Tous Éléments",
     "electric": "Électrik",
     "fire": "Feu",
@@ -46,6 +54,7 @@
     "spells": "Sorts",
     "spellsDescr": "spellsDescr",
     
+    "hpBar": "{0}/{1}PV",
     "usedSpell": "{0} a utilisé **{1}**.",
     "criticalHit": "C'est un coup critique!",
     "nameFainted": "{0} s'est évanouie.",
