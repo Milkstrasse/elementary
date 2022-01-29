@@ -15,13 +15,13 @@ class GlobalData {
     
     var spells: Dictionary<String, Spell> = [:]
     var witches: [Witch] = []
-    var loadouts: [Loadout] = []
+    var natures: [Nature] = []
     
     func loadData() {
         loadElements()
         loadSpells()
         loadWitches()
-        loadLoadouts()
+        loadNatures()
     }
     
     func loadElements() {
@@ -79,21 +79,21 @@ class GlobalData {
         }
     }
     
-    func loadLoadouts() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Loadouts") {
+    func loadNatures() {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
             do {
                 for url in urls {
                     let data = try Data(contentsOf: url)
-                    var loadoutData = try JSONDecoder().decode(Loadout.self, from: data)
-                    loadoutData.name = url.deletingPathExtension().lastPathComponent
+                    var natureData = try JSONDecoder().decode(Nature.self, from: data)
+                    natureData.name = url.deletingPathExtension().lastPathComponent
                     
-                    loadouts.append(loadoutData)
+                    natures.append(natureData)
                 }
             } catch {
                 print("error: \(error)")
             }
             
-            print("loaded: \(loadouts.count) loadouts")
+            print("loaded: \(natures.count) natures")
         }
     }
 }

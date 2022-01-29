@@ -1,7 +1,7 @@
 {
-    "healthMod": -20,
-    "attackMod": 20,
-    "defenseMod": 0,
+    "healthMod": 0,
+    "attackMod": -20,
+    "defenseMod": 20,
     "agilityMod": 0,
     "precisionMod": 0,
     "resistanceMod": 0

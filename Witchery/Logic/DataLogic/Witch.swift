@@ -19,7 +19,7 @@ class Witch: Hashable {
     
     var spells: [Spell]
     
-    var loadout: Loadout
+    var nature: Nature
     var ability: Ability
     
     var attackMod: Int = 0
@@ -48,19 +48,19 @@ class Witch: Hashable {
             spells.append(spell)
         }
         
-        loadout = Loadout()
+        nature = Nature()
         ability = Abilities.allCases[0].getAbility()
     }
     
-    /// Calculates current stats of a witch taking the current loadout and hexes of the witch into consideration.
+    /// Calculates current stats of a witch taking the current nature and hexes of the witch into consideration.
     /// - Returns: Returns the current stats of a witch
     func getModifiedBase() -> Base {
-        let health: Int = max(base.health + loadout.healthMod, 0)
-        var attack: Int = max(base.attack + attackMod + loadout.attackMod, 0)
-        var defense: Int = max(base.defense + defenseMod + loadout.defenseMod, 0)
-        let agility: Int = max(base.agility + agilityMod + loadout.agilityMod, 0)
-        let precision: Int = max(base.precision + precisionMod + loadout.precisionMod, 0)
-        let resistance: Int = max(base.resistance + loadout.resistanceMod, 0)
+        let health: Int = max(base.health + nature.healthMod, 0)
+        var attack: Int = max(base.attack + attackMod + nature.attackMod, 0)
+        var defense: Int = max(base.defense + defenseMod + nature.defenseMod, 0)
+        let agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
+        let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
+        let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
         
         if ability.name == Abilities.enraged.rawValue && currhp < health/4 {
             attack += 40
@@ -71,10 +71,10 @@ class Witch: Hashable {
         return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
     }
     
-    /// Changes the current loadout of a witch.
-    /// - Parameter loadout: The desired loadout
-    func setLoadout(loadout: Int) {
-        self.loadout = GlobalData.shared.loadouts[loadout]
+    /// Changes the current nature of a witch.
+    /// - Parameter nature: The desired nature
+    func setNature(nature: Int) {
+        self.nature = GlobalData.shared.natures[nature]
         currhp = getModifiedBase().health
     }
     

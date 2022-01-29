@@ -1,11 +1,11 @@
 //
-//  Loadout.swift
+//  Nature.swift
 //  Witchery
 //
 //  Created by Janice Hablützel on 17.01.22.
 //
 
-struct Loadout: Decodable {
+struct Nature: Decodable {
     var name: String
     
     let healthMod: Int
@@ -20,7 +20,7 @@ struct Loadout: Decodable {
     }
     
     init() {
-        name = "allrounder"
+        name = "modest"
         
         healthMod = 0
         attackMod = 0

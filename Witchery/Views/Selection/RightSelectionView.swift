@@ -10,7 +10,7 @@ import SwiftUI
 struct RightSelectionView: View {
     @Binding var witches: [Witch?]
     @State var selectedSlot: Int = -1
-    @State var selectedLoadout: Int = 0
+    @State var selectedNature: Int = 0
     @State var selectedAbility: Int = 0
     
     @State var selectionToggle: Bool = false
@@ -52,9 +52,9 @@ struct RightSelectionView: View {
         }
     }
     
-    func getLoadout(witch: Witch) -> Int {
-        for index in GlobalData.shared.loadouts.indices {
-            if witch.loadout.name == GlobalData.shared.loadouts[index].name {
+    func getNature(witch: Witch) -> Int {
+        for index in GlobalData.shared.natures.indices {
+            if witch.nature.name == GlobalData.shared.natures[index].name {
                 return index
             }
         }
@@ -101,7 +101,7 @@ struct RightSelectionView: View {
                                         selectedSlot = index
                                         
                                         if witches[index] != nil {
-                                            selectedLoadout = getLoadout(witch: witches[selectedSlot]!)
+                                            selectedNature = getNature(witch: witches[selectedSlot]!)
                                             selectedAbility = getAbility(witch: witches[selectedSlot]!)
                                             
                                             selectionToggle = false
@@ -181,26 +181,26 @@ struct RightSelectionView: View {
                                                         Button("<") {
                                                             AudioPlayer.shared.playStandardSound()
                                                             
-                                                            if selectedLoadout <= 0 {
-                                                                selectedLoadout = GlobalData.shared.loadouts.count - 1
+                                                            if selectedNature <= 0 {
+                                                                selectedNature = GlobalData.shared.natures.count - 1
                                                             } else {
-                                                                selectedLoadout -= 1
+                                                                selectedNature -= 1
                                                             }
                                                             
-                                                            witches[selectedSlot]!.setLoadout(loadout: selectedLoadout)
+                                                            witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
-                                                        CustomText(key: GlobalData.shared.loadouts[selectedLoadout].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
+                                                        CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
                                                             AudioPlayer.shared.playStandardSound()
                                                             
-                                                            if selectedLoadout >= GlobalData.shared.loadouts.count - 1 {
-                                                                selectedLoadout = 0
+                                                            if selectedNature >= GlobalData.shared.natures.count - 1 {
+                                                                selectedNature = 0
                                                             } else {
-                                                                selectedLoadout += 1
+                                                                selectedNature += 1
                                                             }
                                                             
-                                                            witches[selectedSlot]!.setLoadout(loadout: selectedLoadout)
+                                                            witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
                                                     }
@@ -254,7 +254,7 @@ struct RightSelectionView: View {
                                 }
                                 .padding(.horizontal, 15).frame(width: 175)
                                 .onAppear {
-                                    selectedLoadout = getLoadout(witch: witches[selectedSlot]!)
+                                    selectedNature = getNature(witch: witches[selectedSlot]!)
                                     selectedAbility = getAbility(witch: witches[selectedSlot]!)
                                 }
                             }
