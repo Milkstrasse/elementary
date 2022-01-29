@@ -1,0 +1,15 @@
+{
+  "element": "fire",
+  "type": "attack",
+  "uses": 10,
+  "spells": [
+      {
+          "power": 120,
+          "range": 1
+      },
+      {
+          "power": 20,
+          "range": 0
+      }
+  ]
+}

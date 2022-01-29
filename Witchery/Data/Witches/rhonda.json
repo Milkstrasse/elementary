@@ -1,0 +1,14 @@
+{
+  "element": "ground",
+  "base": {
+      "health": 165,
+      "attack": 100,
+      "defense": 120,
+      "agility": 30,
+      "precision": 65,
+      "resistance": 120
+  },
+  "spells": [
+      "genericPunch"
+  ]
+}

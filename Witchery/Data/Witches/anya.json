@@ -1,0 +1,14 @@
+{
+  "element": "electric",
+  "base": {
+      "health": 90,
+      "attack": 120,
+      "defense": 85,
+      "agility": 95,
+      "precision": 110,
+      "resistance": 100
+  },
+  "spells": [
+      "genericPunch"
+  ]
+}

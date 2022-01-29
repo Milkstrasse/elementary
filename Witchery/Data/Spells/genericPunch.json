@@ -1,0 +1,11 @@
+{
+  "element": "water",
+  "type": "attack",
+  "uses": 50,
+  "spells": [
+      {
+          "power": 195,
+          "range": 1
+      }
+  ]
+}

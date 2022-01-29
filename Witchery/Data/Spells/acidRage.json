@@ -1,0 +1,17 @@
+{
+  "element": "plant",
+  "type": "attack",
+  "uses": 10,
+  "spells": [
+      {
+          "power": 90,
+          "range": 1
+      },
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 30,
+          "hex": "poisoned"
+      }
+  ]
+}
