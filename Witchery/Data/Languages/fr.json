@@ -43,6 +43,10 @@
     "sound": "Son",
     "voices": "Voix",
     "language": "Langue",
+    "textSpeed": "Vitesse du texte",
+    "slow": "Lente",
+    "normal": "Normale",
+    "fast": "Rapide",
     
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",

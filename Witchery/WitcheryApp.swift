@@ -44,18 +44,21 @@ struct WitcheryApp: App {
                                 UserDefaults.standard.set(langCode, forKey: "lang")
                                 UserDefaults.standard.set(1.0, forKey: "music")
                                 UserDefaults.standard.set(1.0, forKey: "sound")
-                                UserDefaults.standard.set(1.0, forKey: "voice")
+                                UserDefaults.standard.set(1.0, forKey: "voices")
+                                UserDefaults.standard.set(2, forKey: "textSpeed")
                             }
                             
                             Localization.shared.getLanguages()
                             Localization.shared.loadLanguage(language: langCode!)
                             
                             AudioPlayer.shared.setSoundVolume(volume: UserDefaults.standard.float(forKey: "sound"))
-                            AudioPlayer.shared.setVoiceVolume(volume: UserDefaults.standard.float(forKey: "voice"))
+                            AudioPlayer.shared.setVoiceVolume(volume: UserDefaults.standard.float(forKey: "voices"))
                             AudioPlayer.shared.setMusicVolume(volume: UserDefaults.standard.float(forKey: "music"))
                             AudioPlayer.shared.playMenuMusic()
                             
                             GlobalData.shared.loadData()
+                            
+                            GlobalData.shared.textSpeed = UserDefaults.standard.integer(forKey: "textSpeed")
                             
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             isLoading = false

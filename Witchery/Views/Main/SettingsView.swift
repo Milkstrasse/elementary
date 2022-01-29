@@ -17,6 +17,9 @@ struct SettingsView: View {
     
     @State var langIndex: Int = 0
     
+    @State var textIndex: Int = 2
+    let textSpeeds: [String] = ["slow", "normal", "fast"]
+    
     func getCurrentLang() -> Int {
         for index in Localization.shared.languages.indices {
             if Localization.shared.currentLang == Localization.shared.languages[index] {
@@ -46,7 +49,7 @@ struct SettingsView: View {
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 10) {
+                        VStack(spacing: 5) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
@@ -146,6 +149,7 @@ struct SettingsView: View {
                                 }
                                 .padding(.horizontal, 15)
                             }
+                            .padding(.bottom, 5)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
@@ -181,6 +185,41 @@ struct SettingsView: View {
                                 }
                                 .padding(.horizontal, 15)
                             }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
+                                    CustomText(key: "textSpeed", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        
+                                        if textIndex > 1 {
+                                            textIndex -= 1
+                                        } else {
+                                            textIndex = textSpeeds.count
+                                        }
+                                        
+                                        GlobalData.shared.textSpeed = textIndex
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: textSpeeds[textIndex - 1], fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        
+                                        if textIndex < textSpeeds.count {
+                                            textIndex += 1
+                                        } else {
+                                            textIndex = 1
+                                        }
+                                        
+                                        GlobalData.shared.textSpeed = textIndex
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.horizontal, 15)
+                            }
                         }
                         .padding(.horizontal, 15)
                     }
@@ -198,6 +237,9 @@ struct SettingsView: View {
                             soundVolume = 10
                             AudioPlayer.shared.setVoiceVolume(volume: 1.0)
                             voiceVolume = 10
+                            
+                            GlobalData.shared.textSpeed = 2
+                            textIndex = 2
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
@@ -206,7 +248,9 @@ struct SettingsView: View {
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             UserDefaults.standard.set(Float(musicVolume)/10, forKey: "music")
                             UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
-                            UserDefaults.standard.set(Float(voiceVolume)/10, forKey: "voice")
+                            UserDefaults.standard.set(Float(voiceVolume)/10, forKey: "voices")
+                            
+                            UserDefaults.standard.set(textIndex, forKey: "textSpeed")
                             
                             offsetX = -450
                             
@@ -230,6 +274,8 @@ struct SettingsView: View {
             musicVolume = Int(AudioPlayer.shared.musicVolume * 10)
             soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
             voiceVolume = Int(AudioPlayer.shared.voiceVolume * 10)
+            
+            textIndex = GlobalData.shared.textSpeed
         }
     }
 }

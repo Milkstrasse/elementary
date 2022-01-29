@@ -167,13 +167,13 @@ class FightLogic: ObservableObject {
             
             var endRound: Bool = false
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 var turns: Int = 0
                 //amount of turns first player needs to do their action
                 let firstTurns: Int = playerStack.count
                 
                 //processes all actions on playerStack
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { timer in
                     let currentPlayer: Int = playerStack[0].player;
                     turns += 1
                     

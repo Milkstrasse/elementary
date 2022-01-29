@@ -17,6 +17,8 @@ class GlobalData {
     var witches: [Witch] = []
     var natures: [Nature] = []
     
+    var textSpeed: Int = 2
+    
     func loadData() {
         loadElements()
         loadSpells()
@@ -95,5 +97,13 @@ class GlobalData {
             
             print("loaded: \(natures.count) natures")
         }
+    }
+    
+    func getTextSpeed() -> Double {
+        let x: Float = Float(textSpeed)
+        let y: Float = 4 - x
+        
+        let speed: Double = Double(y * 0.5 - (y - 1) * 0.1)
+        return round(100 * speed)/100
     }
 }
