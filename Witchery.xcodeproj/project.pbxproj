@@ -59,6 +59,12 @@
 		B8525159278EFF3900AD99BE /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525158278EFF3800AD99BE /* Artifacts.swift */; };
 		B852515F279189D400AD99BE /* TurnLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852515E279189D400AD99BE /* TurnLogic.swift */; };
 		B898D91327A6C1E8001B9137 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D91227A6C1E8001B9137 /* Player.swift */; };
+		B898D91727A6F914001B9137 /* attack3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91427A6F914001B9137 /* attack3.wav */; };
+		B898D91827A6F914001B9137 /* attack1.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91527A6F914001B9137 /* attack1.wav */; };
+		B898D91927A6F914001B9137 /* attack2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91627A6F914001B9137 /* attack2.wav */; };
+		B898D91D27A6F921001B9137 /* healed1.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91A27A6F921001B9137 /* healed1.wav */; };
+		B898D91E27A6F921001B9137 /* healed2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91B27A6F921001B9137 /* healed2.wav */; };
+		B898D91F27A6F921001B9137 /* healed3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91C27A6F921001B9137 /* healed3.wav */; };
 		B8CDEEBD2793647E0073F5B2 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */; };
 		B8CDEEBF279366120073F5B2 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */; };
 		B8CDEEC1279376710073F5B2 /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC0279376710073F5B2 /* TrainingView.swift */; };
@@ -137,6 +143,12 @@
 		B8525158278EFF3800AD99BE /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
 		B852515E279189D400AD99BE /* TurnLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnLogic.swift; sourceTree = "<group>"; };
 		B898D91227A6C1E8001B9137 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		B898D91427A6F914001B9137 /* attack3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack3.wav; sourceTree = "<group>"; };
+		B898D91527A6F914001B9137 /* attack1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack1.wav; sourceTree = "<group>"; };
+		B898D91627A6F914001B9137 /* attack2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack2.wav; sourceTree = "<group>"; };
+		B898D91A27A6F921001B9137 /* healed1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed1.wav; sourceTree = "<group>"; };
+		B898D91B27A6F921001B9137 /* healed2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed2.wav; sourceTree = "<group>"; };
+		B898D91C27A6F921001B9137 /* healed3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed3.wav; sourceTree = "<group>"; };
 		B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEC0279376710073F5B2 /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
@@ -191,6 +203,12 @@
 		328121C827A417C40022A5D1 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				B898D91A27A6F921001B9137 /* healed1.wav */,
+				B898D91B27A6F921001B9137 /* healed2.wav */,
+				B898D91C27A6F921001B9137 /* healed3.wav */,
+				B898D91527A6F914001B9137 /* attack1.wav */,
+				B898D91627A6F914001B9137 /* attack2.wav */,
+				B898D91427A6F914001B9137 /* attack3.wav */,
 				328121C427A405520022A5D1 /* damaged1.wav */,
 				328121C227A405520022A5D1 /* damaged2.wav */,
 				328121C327A405520022A5D1 /* damaged3.wav */,
@@ -455,6 +473,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B898D91E27A6F921001B9137 /* healed2.wav in Resources */,
 				328121B527A29C210022A5D1 /* abs-pointer-1.mp3 in Resources */,
 				328121C027A3F30C0022A5D1 /* Avenger.mp3 in Resources */,
 				B80D7D01278639BA00DEB25F /* Spells in Resources */,
@@ -465,15 +484,20 @@
 				B81CC32B2789A5E700908195 /* Elements in Resources */,
 				328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */,
 				328121BC27A2EA940022A5D1 /* NebulaCloud(drumless).mp3 in Resources */,
+				B898D91F27A6F921001B9137 /* healed3.wav in Resources */,
 				3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */,
 				B81CC32D2789D10A00908195 /* Natures in Resources */,
+				B898D91927A6F914001B9137 /* attack2.wav in Resources */,
 				328121C527A405530022A5D1 /* damaged2.wav in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */,
 				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 				328121C727A405530022A5D1 /* damaged1.wav in Resources */,
 				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
+				B898D91D27A6F921001B9137 /* healed1.wav in Resources */,
+				B898D91827A6F914001B9137 /* attack1.wav in Resources */,
 				328121C127A3F30C0022A5D1 /* Armagedon.mp3 in Resources */,
+				B898D91727A6F914001B9137 /* attack3.wav in Resources */,
 				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

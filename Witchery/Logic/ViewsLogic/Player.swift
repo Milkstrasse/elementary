@@ -36,6 +36,17 @@ class Player: ObservableObject {
     func setState(state: PlayerState) {
         self.state = state
         
+        switch state {
+            case .neutral:
+                break
+            case .attacking:
+                AudioPlayer.shared.playAttackSound()
+            case .hurting:
+                AudioPlayer.shared.playHurtSound()
+            case .healing:
+                AudioPlayer.shared.playHealSound()
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.state = .neutral
         }

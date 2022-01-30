@@ -17,7 +17,7 @@ class AudioPlayer {
     var voiceVolume: Float = 1.0
     var voicePlayer: AVAudioPlayer?
     
-    let voices: [String] = ["damaged1.wav", "damaged2.wav", "damaged3.wav"]
+    let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
     func setMusicVolume(volume: Float) {
         musicVolume = volume
@@ -101,11 +101,41 @@ class AudioPlayer {
         }
     }
     
-    func playHurtSound() {
+    func playAttackSound() {
         let index: Int = Int.random(in: 0 ..< 3)
         
         do {
             let path = Bundle.main.path(forResource: voices[index], ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
+            voicePlayer = try AVAudioPlayer(contentsOf: url)
+            voicePlayer?.volume = voiceVolume
+            voicePlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playHurtSound() {
+        let index: Int = Int.random(in: 0 ..< 3)
+        
+        do {
+            let path = Bundle.main.path(forResource: voices[index + 3], ofType: nil)!
+            let url = URL(fileURLWithPath: path)
+            
+            voicePlayer = try AVAudioPlayer(contentsOf: url)
+            voicePlayer?.volume = voiceVolume
+            voicePlayer?.play()
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func playHealSound() {
+        let index: Int = Int.random(in: 0 ..< 3)
+        
+        do {
+            let path = Bundle.main.path(forResource: voices[index + 6], ofType: nil)!
             let url = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)

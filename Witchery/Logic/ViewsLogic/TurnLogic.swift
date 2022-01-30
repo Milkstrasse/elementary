@@ -155,6 +155,7 @@ class TurnLogic {
         if usedSpell.power > 0 { //damaging attack
             if usedSpell.range == 1 {
                 oppositePlayer.setState(state: PlayerState.hurting)
+                
                 if oppositePlayer.getCurrentWitch().artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
                     oppositePlayer.hasToSwap = true
                 }
