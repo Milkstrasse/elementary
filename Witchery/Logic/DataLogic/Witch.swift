@@ -108,8 +108,8 @@ class Witch: Hashable {
         }
         
         if !hex.positive && hex.duration >= 0 { //hex with -1 duration are created by an artifact
-            let rndm: Int = Int.random(in: 0 ..< 100)
-            if rndm < getModifiedBase().resistance/10 { //chance hex will be resisted
+            let chance: Int = Int.random(in: 0 ..< 100)
+            if chance < getModifiedBase().resistance/10 { //chance hex will be resisted
                 return false
             }
         }

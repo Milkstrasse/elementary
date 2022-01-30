@@ -36,10 +36,14 @@ struct DamageCalculator {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, spell: spell, spellElement: spellElement, weather: weather)
         
         //multiply with critical modifier
-        let chance: Int = Int.random(in: 0 ..< 100)
-        if chance < attacker.getModifiedBase().precision/10 {
-            dmg *= 1.5
-            text = Localization.shared.getTranslation(key: "criticalHit") + "\n"
+        var chance: Int = Int.random(in: 0 ..< 100)
+        if chance < attacker.getModifiedBase().precision/8 {
+            chance = Int.random(in: 0 ..< 100)
+            
+            if chance >= attacker.getModifiedBase().resistance/10 {
+                dmg *= 1.5
+                text = Localization.shared.getTranslation(key: "criticalHit") + "\n"
+            }
         }
         
         let damage: Int = Int(round(dmg))
@@ -153,12 +157,6 @@ struct DamageCalculator {
     
     func willDefeatWitch(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
-        
-        //multiply with critical modifier
-        let chance: Int = Int.random(in: 0 ..< 100)
-        if chance < attacker.getModifiedBase().precision/6 {
-            dmg *= 1.5
-        }
         
         let damage: Int = Int(round(dmg))
         
