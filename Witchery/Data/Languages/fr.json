@@ -98,8 +98,10 @@
     
     "hpBar": "{0}/{1}PV",
     "usedSpell": "{0} a utilisé **{1}**.",
+    "hit": "C'est un coup.",
     "criticalHit": "C'est un coup critique!",
     "nameFainted": "{0} s'est évanouie.",
+    "nameProtected": "{0}  s'est protégée.",
     "becameHex": "{0} s'est **{1}**.",
     "hexFailed": "L'effet a échoué.",
     "statIncreased": "**{1}** de {0} a augmenté.",

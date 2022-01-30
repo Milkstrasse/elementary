@@ -108,7 +108,7 @@ class TurnLogic {
             if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
                 text = Localization.shared.getTranslation(key: "fail") + "\n"
             } else {
-                text = attacker.name + "is now protected, lmao.\n"
+                text = Localization.shared.getTranslation(key: "nameProtected", params: [attacker.name]) + "\n"
             }
             
             return text
