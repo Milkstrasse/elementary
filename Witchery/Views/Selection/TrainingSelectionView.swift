@@ -37,7 +37,6 @@ struct TrainingSelectionView: View {
     func selectRandom() {
         var set = Set<Int>()
         let maxSize: Int = min(4, GlobalData.shared.witches.count)
-        print("\(maxSize)")
         
         while set.count < maxSize {
             set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))

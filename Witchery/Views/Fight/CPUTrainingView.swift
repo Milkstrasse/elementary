@@ -16,30 +16,9 @@ struct CPUTrainingView: View {
     var currentSection: Section = .waiting
     @Binding var gameOver: Bool
     
-    @State var currentHealth: Int = 0
-    @State var hurting: Bool = false
-    @State var healing: Bool = false
-    
     @State var blink: Bool = false
     
-    @State var previousWitch: String = ""
-    
     func calcWidth(witch: Witch) -> CGFloat {
-        DispatchQueue.main.async {
-            let newHealth = player.getCurrentWitch().currhp
-            
-            if player.getCurrentWitch().name == previousWitch || previousWitch == ""  {
-                if currentHealth > newHealth {
-                    hurting = true
-                } else if currentHealth < newHealth && currentHealth > 0 {
-                    healing = true
-                }
-            }
-            
-            previousWitch = player.getCurrentWitch().name
-            currentHealth = newHealth
-        }
-        
         let percentage: CGFloat = CGFloat(witch.currhp)/CGFloat(witch.getModifiedBase().health)
         let width = round(170 * percentage)
         
@@ -50,23 +29,14 @@ struct CPUTrainingView: View {
         GeometryReader { geometry in
             HStack {
                 ZStack(alignment: .topLeading) {
-                    if !hurting && !healing {
+                    if player.state == PlayerState.neutral {
                         Image(blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
-                    } else if healing {
-                        Image(player.getCurrentWitch().name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    healing = false
-                                }
-                            }
+                    } else if player.state == PlayerState.healing {
+                        Image(player.getCurrentWitch().name + "_happy").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                    } else if player.state == PlayerState.hurting {
+                        Image(player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     } else {
-                        Image(player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
-                            .onAppear {
-                                AudioPlayer.shared.playHurtSound()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    hurting = false
-                                }
-                            }
+                        Image(player.getCurrentWitch().name + "_attacking").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     }
                     Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)

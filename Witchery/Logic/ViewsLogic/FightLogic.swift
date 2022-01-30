@@ -60,14 +60,14 @@ class FightLogic: ObservableObject {
     func makeMove(player: Player, move: Move) -> Bool {
         //CPU makes its move
         if hasCPUPlayer {
-            if player.hasToSwap {
-                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: player.currentWitchId, witches: player.witches, enemyElement: players[1].getCurrentWitch().element))
+            if players[0].hasToSwap {
+                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().element))
             }
             
             var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), enemy: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]))
             
             if rndmMove == nil { //CPU wants to switch
-                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: player.currentWitchId, witches: player.witches, enemyElement: players[1].getCurrentWitch().element), spell: Spell())
+                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().element), spell: Spell())
             }
             
             players[0].usedMoves.insert(rndmMove!, at: 0)
@@ -119,7 +119,7 @@ class FightLogic: ObservableObject {
             
             //increase useCounter of spells
             players[0].usedMoves[0].useSpell(amount: players[0].getCurrentWitch().manaUse)
-            players[01].usedMoves[0].useSpell(amount: players[1].getCurrentWitch().manaUse)
+            players[1].usedMoves[0].useSpell(amount: players[1].getCurrentWitch().manaUse)
             
             //reset hasToSwap marker to prevent free swaps
             players[0].hasToSwap = false
@@ -178,7 +178,7 @@ class FightLogic: ObservableObject {
                     if playerStack.isEmpty {
                         timer.invalidate()
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)
                             //players are now able to choose their moves again

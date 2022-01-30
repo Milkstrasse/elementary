@@ -63,6 +63,8 @@ class TurnLogic {
                     return attacker.name + " perished but was reborn.\n"
                 } else {
                     attacker.currhp = 0
+                    player.setState(state: PlayerState.hurting)
+                    
                     battleLog = Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
                     player.hasToSwap = true
                     
@@ -70,12 +72,18 @@ class TurnLogic {
                 }
             } else if damage > 0 {
                 attacker.currhp -= damage
+                player.setState(state: PlayerState.hurting)
+                
                 return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
             } else if damage < attacker.getModifiedBase().health - attacker.currhp {
                 attacker.currhp = attacker.getModifiedBase().health
+                player.setState(state: PlayerState.healing)
+                
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             } else {
                 attacker.currhp -= damage
+                player.setState(state: PlayerState.healing)
+                
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
         } else if fightLogic.playerStack[0].index < 0 {
@@ -85,12 +93,15 @@ class TurnLogic {
                 attacker.currhp += attacker.getModifiedBase().health/16
             }
             
+            player.setState(state: PlayerState.healing)
+            
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
         }
         
         let spell: Spell = player.usedMoves[0].spell
         
         if fightLogic.playerStack[0].index == 0 {
+            player.setState(state: PlayerState.attacking)
             return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name]) + "\n"
         }
         
@@ -143,15 +154,24 @@ class TurnLogic {
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
             if usedSpell.range == 1 {
+                oppositePlayer.setState(state: PlayerState.hurting)
                 if oppositePlayer.getCurrentWitch().artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
                     oppositePlayer.hasToSwap = true
                 }
+            } else {
+                player.setState(state: PlayerState.hurting)
             }
             
             return DamageCalculator.shared.applyDamage(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
         } else if usedSpell.hex != nil { //hex adding spell
             return HexApplication.shared.applyHex(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.healAmount > 0 {
+            if usedSpell.range == 0 {
+                player.setState(state: PlayerState.healing)
+            } else {
+                oppositePlayer.setState(state: PlayerState.healing)
+            }
+            
             return applyHealing(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.weather != nil { //weather adding spell
             var text: String

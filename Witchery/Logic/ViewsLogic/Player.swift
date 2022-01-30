@@ -14,8 +14,9 @@ class Player: ObservableObject {
     @Published var currentWitchId: Int
     
     var usedMoves: [Move]
-    
     var hasToSwap: Bool
+    
+    @Published var state: PlayerState
     
     init(id: Int, witches: [Witch]) {
         self.id = id
@@ -23,10 +24,27 @@ class Player: ObservableObject {
         currentWitchId = 0
         
         usedMoves = []
-         hasToSwap = false
+        hasToSwap = false
+        
+        state = PlayerState.neutral
     }
     
     func getCurrentWitch() -> Witch {
         return witches[currentWitchId]
     }
+    
+    func setState(state: PlayerState) {
+        self.state = state
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.state = .neutral
+        }
+    }
+}
+
+enum PlayerState {
+    case neutral
+    case attacking
+    case hurting
+    case healing
 }
