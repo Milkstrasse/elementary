@@ -337,7 +337,7 @@ class FightLogic: ObservableObject {
     }
     
     /// Starts the turn of a player.
-    /// - Parameter player: The id of the player
+    /// - Parameter player: The player
     func startTurn(player: Player) {
         let attacker: Witch = player.getCurrentWitch()
         
@@ -355,7 +355,7 @@ class FightLogic: ObservableObject {
     
     /// Swaps two witches.
     /// - Parameters:
-    ///   - player: The id of the player
+    ///   - player: The player
     ///   - target: The index of the targeted witch
     /// - Returns: Returns the description of what occured during the swap
     func swapWitches(player: Player, target: Int) -> String {
@@ -398,7 +398,7 @@ class FightLogic: ObservableObject {
     }
     
     /// Checks if witch can swap within their team.
-    /// - Parameter player: The id of the player
+    /// - Parameter player: The player
     /// - Returns: Returns whether the witch can swap in their team
     func isAbleToSwap(player: Player) -> Bool {
         var counter: Int = 0

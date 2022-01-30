@@ -15,7 +15,7 @@ class TurnLogic {
     
     /// Starts the turn of the player. Determines whether witch uses their spell or an other action.
     /// - Parameters:
-    ///   - player: The id of the player
+    ///   - player: The player
     ///   - fightLogic: Access to witch info
     /// - Returns: Returns a description of what occured during the player's turn
     func startTurn(player: Player, fightLogic: FightLogic) -> String {
@@ -123,7 +123,7 @@ class TurnLogic {
     
     /// Witch uses their spell to attack, heal or to do another action.
     /// - Parameters:
-    ///   - player: The id of the player
+    ///   - player: The player
     ///   - spell: The spell used to make the attack
     /// - Returns: Returns a description of what occured during the player's attack
     private func attack(player: Player, spell: Spell) -> String {
