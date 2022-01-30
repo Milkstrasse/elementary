@@ -60,7 +60,6 @@ enum Hexes: String, CaseIterable {
     case invigorated
     case exhausted
     case restricted
-    case enlightened
     
     func getHex(duration: Int = 3) -> Hex {
         switch self {
@@ -104,8 +103,6 @@ enum Hexes: String, CaseIterable {
                 return Hex(name: self.rawValue, symbol: 0xf103, duration: duration, positive: false)
             case .restricted:
                 return Hex(name: self.rawValue, symbol: 0xf023, duration: duration, positive: false)
-            case .enlightened:
-                return Hex(name: self.rawValue, symbol: 0xf5bb, duration: duration, positive: true)
         }
     }
     

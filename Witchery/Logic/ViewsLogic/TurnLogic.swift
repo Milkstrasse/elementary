@@ -25,7 +25,7 @@ class TurnLogic {
         let attacker: Witch = player.getCurrentWitch()
         
         //witch faints and certain artifacts activate
-        if attacker.currhp == 0 && !attacker.hasHex(hexName: Hexes.enlightened.rawValue) {
+        if attacker.currhp == 0 {
             if attacker.artifact.name == Artifacts.book.rawValue {
                 if player.id == 0 {
                     if fightLogic.players[1].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
@@ -58,18 +58,11 @@ class TurnLogic {
             //damage can be positive or negative!
             
             if damage >= attacker.currhp {
-                if attacker.hasHex(hexName: Hexes.enlightened.rawValue){
-                    attacker.reset()
-                    return attacker.name + " perished but was reborn.\n"
-                } else {
-                    attacker.currhp = 0
-                    player.setState(state: PlayerState.hurting)
-                    
-                    battleLog = Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
-                    player.hasToSwap = true
-                    
-                    return battleLog
-                }
+                attacker.currhp = 0
+                player.setState(state: PlayerState.hurting)
+                player.hasToSwap = true
+                
+                return Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
             } else if damage > 0 {
                 attacker.currhp -= damage
                 player.setState(state: PlayerState.hurting)
