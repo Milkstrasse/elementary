@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// This is the main logic of the game. Stores all participating witches, determines the turn order and the amount of turns needed in each round, swaps witches , determines when the game is over and who has won.
 class FightLogic: ObservableObject {
@@ -179,6 +180,9 @@ class FightLogic: ObservableObject {
                         timer.invalidate()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            let haptic = UISelectionFeedbackGenerator()
+                            haptic.selectionChanged()
+                            
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)
                             //players are now able to choose their moves again
