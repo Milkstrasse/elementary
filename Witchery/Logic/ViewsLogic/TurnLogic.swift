@@ -142,6 +142,12 @@ class TurnLogic {
         
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
+            if usedSpell.range == 1 {
+                if fightLogic!.getWitch(player: oppositePlayer).artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                        fightLogic!.hasToSwap[oppositePlayer] = true
+                    }
+            }
+            
             return DamageCalculator.shared.applyDamage(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
         } else if usedSpell.hex != nil { //hex adding spell
             return HexApplication.shared.applyHex(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
