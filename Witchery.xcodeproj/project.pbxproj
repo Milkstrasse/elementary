@@ -14,10 +14,8 @@
 		328121B527A29C210022A5D1 /* abs-pointer-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */; };
 		328121B727A29C380022A5D1 /* abs-confirm-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */; };
 		328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */; };
-		328121BC27A2EA940022A5D1 /* NebulaCloud(drumless).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */; };
 		328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */; };
 		328121C027A3F30C0022A5D1 /* Avenger.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BE27A3F30A0022A5D1 /* Avenger.mp3 */; };
-		328121C127A3F30C0022A5D1 /* Armagedon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121BF27A3F30B0022A5D1 /* Armagedon.mp3 */; };
 		328121C527A405530022A5D1 /* damaged2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121C227A405520022A5D1 /* damaged2.wav */; };
 		328121C627A405530022A5D1 /* damaged3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121C327A405520022A5D1 /* damaged3.wav */; };
 		328121C727A405530022A5D1 /* damaged1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121C427A405520022A5D1 /* damaged1.wav */; };
@@ -96,10 +94,8 @@
 		328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-pointer-1.mp3"; sourceTree = "<group>"; };
 		328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-confirm-1.mp3"; sourceTree = "<group>"; };
 		328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-cancel-1.mp3"; sourceTree = "<group>"; };
-		328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "NebulaCloud(drumless).mp3"; sourceTree = "<group>"; };
 		328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = AltusStratum.mp3; sourceTree = "<group>"; };
 		328121BE27A3F30A0022A5D1 /* Avenger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Avenger.mp3; sourceTree = "<group>"; };
-		328121BF27A3F30B0022A5D1 /* Armagedon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Armagedon.mp3; sourceTree = "<group>"; };
 		328121C227A405520022A5D1 /* damaged2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged2.wav; sourceTree = "<group>"; };
 		328121C327A405520022A5D1 /* damaged3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged3.wav; sourceTree = "<group>"; };
 		328121C427A405520022A5D1 /* damaged1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged1.wav; sourceTree = "<group>"; };
@@ -212,10 +208,8 @@
 				328121C427A405520022A5D1 /* damaged1.wav */,
 				328121C227A405520022A5D1 /* damaged2.wav */,
 				328121C327A405520022A5D1 /* damaged3.wav */,
-				328121BF27A3F30B0022A5D1 /* Armagedon.mp3 */,
 				328121BE27A3F30A0022A5D1 /* Avenger.mp3 */,
 				328121BB27A2EA930022A5D1 /* AltusStratum.mp3 */,
-				328121BA27A2EA920022A5D1 /* NebulaCloud(drumless).mp3 */,
 				328121B827A29C890022A5D1 /* abs-cancel-1.mp3 */,
 				328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */,
 				328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */,
@@ -483,7 +477,6 @@
 				328121C627A405530022A5D1 /* damaged3.wav in Resources */,
 				B81CC32B2789A5E700908195 /* Elements in Resources */,
 				328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */,
-				328121BC27A2EA940022A5D1 /* NebulaCloud(drumless).mp3 in Resources */,
 				B898D91F27A6F921001B9137 /* healed3.wav in Resources */,
 				3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */,
 				B81CC32D2789D10A00908195 /* Natures in Resources */,
@@ -496,7 +489,6 @@
 				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 				B898D91D27A6F921001B9137 /* healed1.wav in Resources */,
 				B898D91827A6F914001B9137 /* attack1.wav in Resources */,
-				328121C127A3F30C0022A5D1 /* Armagedon.mp3 in Resources */,
 				B898D91727A6F914001B9137 /* attack3.wav in Resources */,
 				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,
 			);
