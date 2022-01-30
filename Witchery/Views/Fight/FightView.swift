@@ -28,9 +28,9 @@ struct FightView: View {
     var body: some View {
         ZStack {
             HStack {
-                LeftPlayerFightView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
+                LeftPlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
                 Spacer()
-                RightPlayerFightView(fightLogic: fightLogic, offsetX: offsetX, gameOver: $gameOver)
+                RightPlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
             }
             .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in
@@ -48,7 +48,7 @@ struct FightView: View {
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightOverView(leftWitches: fightLogic.witches[0], rightWitches: fightLogic.witches[1], winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(FightOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner()).environmentObject(manager)))
             }
         }
     }
@@ -56,7 +56,7 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(leftWitches: [], rightWitches: []))
+        FightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

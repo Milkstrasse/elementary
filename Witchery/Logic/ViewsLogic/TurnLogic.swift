@@ -18,24 +18,24 @@ class TurnLogic {
     ///   - player: The id of the player
     ///   - fightLogic: Access to witch info
     /// - Returns: Returns a description of what occured during the player's turn
-    func startTurn(player: Int, fightLogic: FightLogic) -> String {
+    func startTurn(player: Player, fightLogic: FightLogic) -> String {
         self.fightLogic = fightLogic
         var battleLog: String
         
-        let attacker: Witch = fightLogic.getWitch(player: player)
+        let attacker: Witch = player.getCurrentWitch()
         
         //witch faints and certain artifacts activate
         if attacker.currhp == 0 && !attacker.hasHex(hexName: Hexes.enlightened.rawValue) {
             if attacker.artifact.name == Artifacts.book.rawValue {
-                if player == 0 {
-                    if fightLogic.getWitch(player: 1).applyHex(hex: Hexes.getNegativeHex()) {
-                        battleLog = attacker.name + " fainted and cursed " + fightLogic.getWitch(player: 1).name + ".\n"
+                if player.id == 0 {
+                    if fightLogic.players[1].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
+                        battleLog = attacker.name + " fainted and cursed " + fightLogic.players[1].getCurrentWitch().name + ".\n"
                     } else {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
                 } else {
-                    if fightLogic.getWitch(player: 0).applyHex(hex: Hexes.haunted.getHex()) {
-                        battleLog = attacker.name + " fainted and cursed " + fightLogic.getWitch(player: 0).name + ".\n"
+                    if fightLogic.players[0].getCurrentWitch().applyHex(hex: Hexes.haunted.getHex()) {
+                        battleLog = attacker.name + " fainted and cursed " + fightLogic.players[0].getCurrentWitch().name + ".\n"
                     } else {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
@@ -44,7 +44,7 @@ class TurnLogic {
                 battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
             }
             
-            fightLogic.hasToSwap[player] = true
+            player.hasToSwap = true
             
             return battleLog
         } else if attacker.currhp == 0 {
@@ -64,7 +64,7 @@ class TurnLogic {
                 } else {
                     attacker.currhp = 0
                     battleLog = Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
-                    fightLogic.hasToSwap[player] = true
+                    player.hasToSwap = true
                     
                     return battleLog
                 }
@@ -88,7 +88,7 @@ class TurnLogic {
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
         }
         
-        let spell: Spell = fightLogic.usedMoves[player][0].spell
+        let spell: Spell = player.usedMoves[0].spell
         
         if fightLogic.playerStack[0].index == 0 {
             return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name]) + "\n"
@@ -101,7 +101,7 @@ class TurnLogic {
         
         //checks if shielding spell is used or another spell
         if spell.type == "shield" {
-            let usedMoves: [Move] = fightLogic.usedMoves[player]
+            let usedMoves: [Move] = player.usedMoves
             var text: String
         
             //shield can't be used twice in a row -> failure
@@ -122,17 +122,17 @@ class TurnLogic {
     ///   - player: The id of the player
     ///   - spell: The spell used to make the attack
     /// - Returns: Returns a description of what occured during the player's attack
-    private func attack(player: Int, spell: Spell) -> String {
+    private func attack(player: Player, spell: Spell) -> String {
         //determine actual target
-        var oppositePlayer: Int = 0
-        if player == 0 {
-            oppositePlayer = 1
+        var oppositePlayer: Player = fightLogic!.players[0]
+        if player.id == 0 {
+            oppositePlayer = fightLogic!.players[1]
         }
         
         //checks if targeted user is successfully shielded or not
         if spell.spells[fightLogic!.playerStack[0].index - 1].range > 0 {
-            if fightLogic!.usedMoves[oppositePlayer][0].spell.type == "shield" {
-                if fightLogic!.usedMoves[oppositePlayer].count == 1 || fightLogic!.usedMoves[oppositePlayer][0].spell.name != fightLogic!.usedMoves[oppositePlayer][1].spell.name { //attack was successfully blocked
+            if oppositePlayer.usedMoves[0].spell.type == "shield" {
+                if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //attack was successfully blocked
                     return Localization.shared.getTranslation(key: "fail") + "\n"
                 }
             }
@@ -143,21 +143,21 @@ class TurnLogic {
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
             if usedSpell.range == 1 {
-                if fightLogic!.getWitch(player: oppositePlayer).artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
-                        fightLogic!.hasToSwap[oppositePlayer] = true
-                    }
+                if oppositePlayer.getCurrentWitch().artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                    oppositePlayer.hasToSwap = true
+                }
             }
             
-            return DamageCalculator.shared.applyDamage(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
+            return DamageCalculator.shared.applyDamage(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
         } else if usedSpell.hex != nil { //hex adding spell
-            return HexApplication.shared.applyHex(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
+            return HexApplication.shared.applyHex(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.healAmount > 0 {
-            return applyHealing(attacker: fightLogic!.getWitch(player: player), defender: fightLogic!.getWitch(player: oppositePlayer), spell: usedSpell)
+            return applyHealing(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.weather != nil { //weather adding spell
             var text: String
             
             if fightLogic!.weather == nil {
-                if fightLogic!.getWitch(player: player).artifact.name == Artifacts.crystal.rawValue {
+                if player.getCurrentWitch().artifact.name == Artifacts.crystal.rawValue {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 } else {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 3)

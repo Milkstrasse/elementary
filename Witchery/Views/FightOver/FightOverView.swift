@@ -91,7 +91,7 @@ struct FightOverView: View {
                                     gameLogic.setReady(player: 0, ready: leftReady)
                                     
                                     if gameLogic.areBothReady() {
-                                        let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches)
+                                        let fightLogic: FightLogic = FightLogic(players: [Player(id: 0, witches: leftWitches), Player(id: 1, witches: rightWitches)])
                                         
                                         if fightLogic.isValid() {
                                             transitionToggle = true
@@ -140,7 +140,7 @@ struct FightOverView: View {
                                     gameLogic.setReady(player: 1, ready: rightReady)
                                     
                                     if gameLogic.areBothReady() {
-                                        let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches)
+                                        let fightLogic: FightLogic = FightLogic(players: [Player(id: 0, witches: leftWitches), Player(id: 1, witches: rightWitches)])
                                         
                                         if fightLogic.isValid() {
                                             transitionToggle = true

@@ -11,7 +11,7 @@ struct SpellsView: View {
     @Binding var currentSection: Section
     
     let fightLogic: FightLogic
-    let player: Int
+    let player: Player
     
     let geoHeight: CGFloat
     
@@ -19,17 +19,17 @@ struct SpellsView: View {
     @GestureState var isDetectingPress = false
     
     func getEffectiveness(spellElement: String) -> String {
-        if fightLogic.getWitch(player: player).artifact.name == Artifacts.ring.rawValue {
+        if player.getCurrentWitch().artifact.name == Artifacts.ring.rawValue {
             return "effective"
         }
         
         var modifier: Float
         let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
         
-        if player == 0 {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getWitch(player: 0), defender: fightLogic.getWitch(player: 1), spellElement: element)
+        if player.id == 0 {
+            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.players[0].getCurrentWitch(), defender: fightLogic.players[1].getCurrentWitch(), spellElement: element)
         } else {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.getWitch(player: 1), defender: fightLogic.getWitch(player: 0), spellElement: element)
+            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.players[1].getCurrentWitch(), defender: fightLogic.players[0].getCurrentWitch(), spellElement: element)
         }
         
         switch modifier {
@@ -53,14 +53,14 @@ struct SpellsView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                ForEach(fightLogic.getWitch(player: player).spells.indices) { index in
+                ForEach(player.getCurrentWitch().spells.indices) { index in
                     Button(action: {
                     }) {
                         ZStack {
                             if isDetectingPress {
-                                DetailedActionView(title: fightLogic.getWitch(player: player).spells[index].name, description: fightLogic.getWitch(player: player).spells[index].name + "Descr", symbol: fightLogic.getWitch(player: player).spells[index].element.symbol, width: geoHeight - 30)
+                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: player.getCurrentWitch().spells[index].name + "Descr", symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
                             } else {
-                                DetailedActionView(title: fightLogic.getWitch(player: player).spells[index].name, description: generateDescription(spell: fightLogic.getWitch(player: player).spells[index], witch: fightLogic.getWitch(player: player)), symbol: fightLogic.getWitch(player: player).spells[index].element.symbol, width: geoHeight - 30)
+                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: generateDescription(spell: player.getCurrentWitch().spells[index], witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
@@ -71,7 +71,7 @@ struct SpellsView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: fightLogic.getWitch(player: player), spell: fightLogic.getWitch(player: player).spells[index])) {
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[index])) {
                                         AudioPlayer.shared.playConfirmSound()
                                         currentSection = .waiting
                                     } else {
@@ -91,6 +91,6 @@ struct SpellsView: View {
 
 struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellsView(currentSection: .constant(.spells), fightLogic: FightLogic(leftWitches: [exampleWitch], rightWitches: [exampleWitch]), player: 0, geoHeight: 375)
+        SpellsView(currentSection: .constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), geoHeight: 375)
     }
 }

@@ -31,7 +31,7 @@ struct TrainingSelectionView: View {
             }
         }
         
-        return FightLogic(leftWitches: lefts, rightWitches: rights, hasCPUPlayer: true)
+        return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)], hasCPUPlayer: true)
     }
     
     func selectRandom() {

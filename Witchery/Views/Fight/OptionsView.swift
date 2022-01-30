@@ -12,7 +12,7 @@ struct OptionsView: View {
     @Binding var gameOver: Bool
     
     let fightLogic: FightLogic
-    let player: Int
+    let player: Player
     
     let geoHeight: CGFloat
     
@@ -25,7 +25,7 @@ struct OptionsView: View {
                 }) {
                     DetailedActionView(title: "spells", description: "spellsDescr", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
-                .id(0).opacity(fightLogic.hasToSwap[player] ? 0.7 : 1.0).disabled(fightLogic.hasToSwap[player])
+                .id(0).opacity(player.hasToSwap ? 0.7 : 1.0).disabled(player.hasToSwap)
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
                     currentSection = .team
@@ -35,7 +35,7 @@ struct OptionsView: View {
                 .id(1)
                 Button(action: {
                     AudioPlayer.shared.playCancelSound()
-                    fightLogic.forfeit(player: player)
+                    fightLogic.forfeit(player: player.id)
                     gameOver = true
                 }) {
                     DetailedActionView(title: "forfeit", description: "forfeitDescr", symbol: "0xf70c", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
@@ -51,6 +51,6 @@ struct OptionsView: View {
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(currentSection: .constant(.options), gameOver: .constant(false), fightLogic: FightLogic(leftWitches: [exampleWitch], rightWitches: [exampleWitch]), player: 0, geoHeight: 375)
+        OptionsView(currentSection: .constant(.options), gameOver: .constant(false), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), geoHeight: 375)
     }
 }

@@ -34,7 +34,7 @@ struct FightSelectionView: View {
             }
         }
         
-        return FightLogic(leftWitches: lefts, rightWitches: rights)
+        return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)])
     }
     
     func isArrayEmpty(array: [Witch?]) -> Bool {

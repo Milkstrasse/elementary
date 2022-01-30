@@ -111,7 +111,7 @@ struct TrainingOverView: View {
                                     resetWitches(witches: rightWitches)
                                     resetWitches(witches: leftWitches)
                                     
-                                    let fightLogic: FightLogic = FightLogic(leftWitches: leftWitches, rightWitches: rightWitches, hasCPUPlayer: true)
+                                    let fightLogic: FightLogic = FightLogic(players: [Player(id: 0, witches: leftWitches), Player(id: 1, witches: rightWitches)], hasCPUPlayer: true)
                                     
                                     if fightLogic.isValid() {
                                         transitionToggle = true

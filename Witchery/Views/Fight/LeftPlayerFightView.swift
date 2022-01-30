@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LeftPlayerFightView: View {
     @ObservedObject var fightLogic: FightLogic
+    @ObservedObject var player: Player
     
     let offsetX: CGFloat
     
@@ -25,9 +26,9 @@ struct LeftPlayerFightView: View {
     
     func calcWidth(witch: Witch) -> CGFloat {
         DispatchQueue.main.async {
-            let newHealth = fightLogic.getWitch(player: 0).currhp
+            let newHealth = player.getCurrentWitch().currhp
             
-            if fightLogic.getWitch(player: 0).name == previousWitch || previousWitch == "" {
+            if player.getCurrentWitch().name == previousWitch || previousWitch == "" {
                 if currentHealth > newHealth {
                     hurting = true
                 } else if currentHealth < newHealth && currentHealth > 0 {
@@ -35,7 +36,7 @@ struct LeftPlayerFightView: View {
                 }
             }
             
-            previousWitch = fightLogic.getWitch(player: 0).name
+            previousWitch = player.getCurrentWitch().name
             currentHealth = newHealth
         }
         
@@ -50,16 +51,16 @@ struct LeftPlayerFightView: View {
             HStack {
                 ZStack(alignment: .topLeading) {
                     if !hurting && !healing {
-                        Image(blink ? fightLogic.getWitch(player: 0).name + "_blink" : fightLogic.getWitch(player: 0).name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                        Image(blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     } else if healing {
-                        Image(fightLogic.getWitch(player: 0).name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                        Image(player.getCurrentWitch().name + "_happy").resizable().scaleEffect(healing ? 1.2 : 1.1).animation(.easeInOut, value: healing).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     healing = false
                                 }
                             }
                     } else {
-                        Image(fightLogic.getWitch(player: 0).name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                        Image(player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(hurting ? 1.2 : 1.1).animation(.easeInOut, value: hurting).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                             .onAppear {
                                 AudioPlayer.shared.playHurtSound()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -85,11 +86,11 @@ struct LeftPlayerFightView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 5) {
                                         if currentSection == .options {
-                                            OptionsView(currentSection: $currentSection, gameOver: $gameOver, fightLogic: fightLogic, player: 0, geoHeight: geometry.size.height)
+                                            OptionsView(currentSection: $currentSection, gameOver: $gameOver, fightLogic: fightLogic, player: player, geoHeight: geometry.size.height)
                                         } else if currentSection == .spells {
-                                            SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: 0, geoHeight: geometry.size.height)
+                                            SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: player, geoHeight: geometry.size.height)
                                         } else if currentSection == .team {
-                                            TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: 0, geoHeight: geometry.size.height)
+                                            TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: player, geoHeight: geometry.size.height)
                                         }
                                     }
                                 }
@@ -115,8 +116,8 @@ struct LeftPlayerFightView: View {
                                     .padding(.bottom, 4).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
-                                            ForEach(fightLogic.witches[0].indices) { index in
-                                                Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(fightLogic.witches[0][index].currhp == 0 ? 0.5 : 1)
+                                            ForEach(player.witches.indices) { index in
+                                                Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(player.witches[index].currhp == 0 ? 0.5 : 1)
                                             }
                                         }
                                         .padding(.leading, 24).offset(y: -5)
@@ -125,7 +126,7 @@ struct LeftPlayerFightView: View {
                                             ZStack(alignment: .topTrailing) {
                                                 Rectangle().fill(Color("button")).frame(width: 190)
                                                 HStack(spacing: 5) {
-                                                    ForEach(fightLogic.getWitch(player: 0).hexes, id: \.self) { hex in
+                                                    ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
                                                         HexView(hex: hex, battling: fightLogic.battling)
                                                     }
                                                     if fightLogic.weather != nil {
@@ -135,13 +136,13 @@ struct LeftPlayerFightView: View {
                                                 .offset(x: -12, y: -12)
                                                 VStack(spacing: 0) {
                                                     HStack {
-                                                        CustomText(key: fightLogic.getWitch(player: 0).name, fontSize: 16).lineLimit(1)
+                                                        CustomText(key: player.getCurrentWitch().name, fontSize: 16).lineLimit(1)
                                                         Spacer()
-                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(fightLogic.getWitch(player: 0).currhp)", "\(fightLogic.getWitch(player: 0).getModifiedBase().health)"]), fontSize: 13)
+                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontSize: 13)
                                                     }
                                                     ZStack(alignment: .leading) {
                                                         Rectangle().fill(Color("outline")).frame(height: 6)
-                                                        Rectangle().fill(Color("health")).frame(width: calcWidth(witch: fightLogic.getWitch(player: 0)), height: 6).animation(.default, value: fightLogic.getWitch(player: 0).currhp)
+                                                        Rectangle().fill(Color("health")).frame(width: calcWidth(witch: player.getCurrentWitch()), height: 6).animation(.default, value: player.getCurrentWitch().currhp)
                                                     }
                                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                                 }
@@ -166,7 +167,7 @@ struct LeftPlayerFightView: View {
                                                 currentSection = .summary
                                             } else {
                                                 if currentSection == .waiting {
-                                                    fightLogic.undoMove(player: 0)
+                                                    fightLogic.undoMove(player: player)
                                                 }
                                                 currentSection = .options
                                             }
@@ -204,7 +205,7 @@ struct LeftPlayerFightView: View {
 
 struct LeftPlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftPlayerFightView(fightLogic: FightLogic(leftWitches: [exampleWitch, exampleWitch, exampleWitch, exampleWitch], rightWitches: [exampleWitch, exampleWitch, exampleWitch, exampleWitch]), offsetX: 0, gameOver: .constant(false)).ignoresSafeArea(.all, edges: .bottom)
+        LeftPlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver: .constant(false)).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }
