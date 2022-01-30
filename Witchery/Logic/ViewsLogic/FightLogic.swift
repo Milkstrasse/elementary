@@ -339,6 +339,10 @@ class FightLogic: ObservableObject {
                 }
             }
         }
+        
+        if getWitch(player: player).artifact.name == Artifacts.cornucopia.rawValue {
+            playerStack.insert((player: player, index: -10), at: 0)
+        }
     }
     
     /// Starts the turn of a player.

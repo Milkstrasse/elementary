@@ -53,7 +53,7 @@ class TurnLogic {
         }
         
         //apply damage or healing of hexes
-        if fightLogic.playerStack[0].index < 0 {
+        if fightLogic.playerStack[0].index < 0 && fightLogic.playerStack[0].index > -10 {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
             //damage can be positive or negative!
             
@@ -78,6 +78,14 @@ class TurnLogic {
                 attacker.currhp -= damage
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
+        } else if fightLogic.playerStack[0].index < 0 {
+            if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
+                attacker.currhp = attacker.getModifiedBase().health
+            } else {
+                attacker.currhp += attacker.getModifiedBase().health/16
+            }
+            
+            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
         }
         
         let spell: Spell = fightLogic.usedMoves[player][0].spell
