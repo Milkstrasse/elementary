@@ -13,6 +13,8 @@ struct SpellsView: View {
     let fightLogic: FightLogic
     let player: Player
     
+    var tutorialCounter: Int = -1
+    
     let geoHeight: CGFloat
     
     @State var gestureStates: [Bool] = []
@@ -79,7 +81,7 @@ struct SpellsView: View {
                                     }
                         })
                     }
-                    .id(index)
+                    .id(index).disabled(tutorialCounter > 0 && index > 0)
                 }
             }
             .onAppear {

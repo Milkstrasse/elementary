@@ -312,7 +312,7 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addMoveTurn(player: Player) {
-        if !player.usedMoves[0].spell.spells.isEmpty {
+        if player.usedMoves[0].target < 0 {
             for index in player.usedMoves[0].spell.spells.indices.reversed() {
                 playerStack.insert((player: player, index: index + 1), at: 0)
             }

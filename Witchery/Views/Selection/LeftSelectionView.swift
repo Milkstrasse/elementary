@@ -32,26 +32,6 @@ struct LeftSelectionView: View {
         return false
     }
     
-    func getFirstHalf() -> [Witch?] {
-        if GlobalData.shared.witches.count%2 == 0 {
-            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2]
-            return Array(rowArray)
-        } else {
-            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2 + 1]
-            return Array(rowArray)
-        }
-    }
-    
-    func getSecondHalf() -> [Witch?] {
-        if GlobalData.shared.witches.count%2 == 0 {
-            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 ..< GlobalData.shared.witches.count]
-            return Array(rowArray)
-        } else {
-            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 + 1 ..< GlobalData.shared.witches.count]
-            return Array(rowArray)
-        }
-    }
-    
     func getNature(witch: Witch) -> Int {
         for index in GlobalData.shared.natures.indices {
             if witch.nature.name == GlobalData.shared.natures[index].name {
@@ -131,7 +111,7 @@ struct LeftSelectionView: View {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            ForEach(self.getSecondHalf(), id: \.?.name) { witch in
+                                            ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
@@ -144,7 +124,7 @@ struct LeftSelectionView: View {
                                             }
                                         }
                                         VStack(spacing: 5) {
-                                            ForEach(self.getFirstHalf(), id: \.?.name) { witch in
+                                            ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     

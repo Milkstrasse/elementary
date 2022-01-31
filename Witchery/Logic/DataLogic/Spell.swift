@@ -28,7 +28,7 @@ struct Spell: Decodable, Hashable {
         type = "default"
         
         uses = 10
-        spells = []
+        spells = [SubSpell()]
     }
     
     /// Creates spell from JSON data.
@@ -68,6 +68,17 @@ struct SubSpell: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case power, range, chance, hex, weather, healAmount
+    }
+    
+    init() {
+        power = 100
+        range = 1
+        
+        chance = 100
+        hex = nil
+        weather = nil
+        
+        healAmount = 0
     }
     
     /// Creates action from JSON data.

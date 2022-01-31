@@ -1,17 +1,19 @@
 //
-//  TrainingSelectionView.swift
+//  TutorialSelectionView.swift
 //  Witchery
 //
-//  Created by Janice Hablützel on 15.01.22.
+//  Created by Janice Hablützel on 31.01.22.
 //
 
 import SwiftUI
 
-struct TrainingSelectionView: View {
+struct TutorialSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    @State var leftWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var tutorialCounter: Int = 0
+    
+    @State var leftWitches: [Witch?] = [exampleWitch, nil, nil, nil]
     @State var rightWitches: [Witch?] = [nil, nil, nil, nil]
     
     @State var transitionToggle: Bool = true
@@ -34,22 +36,6 @@ struct TrainingSelectionView: View {
         return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)], hasCPUPlayer: true)
     }
     
-    func selectRandom() {
-        var set = Set<Int>()
-        let maxSize: Int = min(4, GlobalData.shared.witches.count)
-        
-        while set.count < maxSize {
-            set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
-        }
-        
-        let rndm: [Int] = Array(set)
-        
-        for index in 0 ..< maxSize {
-            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
-            leftWitches[index]?.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
-        }
-    }
-    
     func isArrayEmpty(array: [Witch?]) -> Bool {
         for witch in array {
             if witch != nil {
@@ -67,11 +53,9 @@ struct TrainingSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("randomize") {
-                                AudioPlayer.shared.playStandardSound()
-                                selectRandom()
+                            Button(Localization.shared.getTranslation(key: "cancel")) {
                             }
-                            .buttonStyle(BasicButton(width: 135))
+                            .buttonStyle(BasicButton(width: 135)).disabled(true)
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -93,7 +77,7 @@ struct TrainingSelectionView: View {
                                 if fightLogic.isValid() {
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                                        manager.setView(view: AnyView(TutorialFightView(fightLogic: fightLogic).environmentObject(manager)))
                                     }
                                 }
                             }
@@ -113,13 +97,27 @@ struct TrainingSelectionView: View {
                 }
                 .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
-                    CPUSelectionView(witches: leftWitches)
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                Spacer()
+                                HStack(spacing: 5) {
+                                    ForEach(0 ..< 4) { index in
+                                        SquareWitchView(witch: leftWitches[index], isSelected: false)
+                                    }
+                                }
+                                .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
+                                Spacer()
+                            }
+                        }
+                    }
                     ZStack {
                         Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
                         CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(witches: $rightWitches)
+                    TutorialRightSelectionView(witches: $rightWitches, tutorialCounter: $tutorialCounter)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
@@ -128,14 +126,13 @@ struct TrainingSelectionView: View {
         }
         .onAppear {
             transitionToggle = false
-            selectRandom()
         }
     }
 }
 
-struct TrainingSelectionView_Previews: PreviewProvider {
+struct TutorialSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingSelectionView()
+        TutorialSelectionView()
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

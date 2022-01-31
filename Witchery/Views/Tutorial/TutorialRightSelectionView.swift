@@ -1,14 +1,16 @@
 //
-//  RightSelectionView.swift
+//  TutorialRightSelectionView.swift
 //  Witchery
 //
-//  Created by Janice Hablützel on 04.01.22.
+//  Created by Janice Hablützel on 31.01.22.
 //
 
 import SwiftUI
 
-struct RightSelectionView: View {
+struct TutorialRightSelectionView: View {
     @Binding var witches: [Witch?]
+    @Binding var tutorialCounter: Int
+    
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
     @State var selectedArtifact: Int = 0
@@ -42,6 +44,28 @@ struct RightSelectionView: View {
         return 0
     }
     
+    func isDisabled(index: Int) -> Bool {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 {
+            return false
+        }
+        
+        if index > 0 {
+            return true
+        }
+        
+        return tutorialCounter == 1 || tutorialCounter > 2
+    }
+    
+    func isWitchDisabled(witch: Witch) -> Bool {
+        if tutorialCounter == 1 && witch.element.name == "fire" {
+            return false
+        } else if tutorialCounter == 6 && witch.element.name == "plant" {
+            return false
+        }
+        
+        return true
+    }
+    
     func getArtifact(witch: Witch) -> Int {
         for index in Artifacts.allCases.indices {
             if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
@@ -62,6 +86,7 @@ struct RightSelectionView: View {
                             ForEach(0 ..< 4) { index in
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
+                                    tutorialCounter += 1
                                     
                                     if selectedSlot == index {
                                         if selectionToggle && witches[index] != nil {
@@ -94,6 +119,7 @@ struct RightSelectionView: View {
                                 }) {
                                     SquareWitchView(witch: witches[index], isSelected: index == selectedSlot)
                                 }
+                                .disabled(isDisabled(index: index))
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -112,21 +138,14 @@ struct RightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
-                                                    Button(action: {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if !isSelected(witch: witch) {
-                                                            witches[selectedSlot] = Witch(data: witch!.data)
-                                                        }
-                                                    }) {
-                                                        SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
-                                                    }
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                 }
                                             }
                                             VStack(spacing: 5) {
                                                 ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
+                                                        tutorialCounter += 1
                                                         
                                                         if !isSelected(witch: witch) {
                                                             witches[selectedSlot] = Witch(data: witch!.data)
@@ -134,6 +153,7 @@ struct RightSelectionView: View {
                                                     }) {
                                                         SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                     }
+                                                    .disabled(isWitchDisabled(witch: witch!))
                                                 }
                                             }
                                         }
@@ -154,12 +174,13 @@ struct RightSelectionView: View {
                                                     selectionToggle = true
                                                     infoToggle = false
                                                 }
-                                                .buttonStyle(BasicButton(width: (geometry.size.height - 30)/3 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 - 5)
+                                                .buttonStyle(BasicButton(width: (geometry.size.height - 30)/3 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 - 5).disabled(true)
                                                 ZStack {
                                                     RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                     HStack(spacing: 0) {
                                                         Button("<") {
                                                             AudioPlayer.shared.playStandardSound()
+                                                            tutorialCounter = 4
                                                             
                                                             if selectedNature <= 0 {
                                                                 selectedNature = GlobalData.shared.natures.count - 1
@@ -173,6 +194,7 @@ struct RightSelectionView: View {
                                                         CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
                                                             AudioPlayer.shared.playStandardSound()
+                                                            tutorialCounter = 4
                                                             
                                                             if selectedNature >= GlobalData.shared.natures.count - 1 {
                                                                 selectedNature = 0
@@ -184,7 +206,7 @@ struct RightSelectionView: View {
                                                         }
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
                                                     }
-                                                    .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
+                                                    .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2).disabled(tutorialCounter >= 5)
                                                 }
                                             }
                                             BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
@@ -197,13 +219,9 @@ struct RightSelectionView: View {
                                                 HStack(spacing: 0) {
                                                     Button("<") {
                                                         AudioPlayer.shared.playStandardSound()
+                                                        tutorialCounter = 5
                                                         
-                                                        if selectedArtifact <= 0 {
-                                                            selectedArtifact = Artifacts.allCases.count - 1
-                                                        } else {
-                                                            selectedArtifact -= 1
-                                                        }
-                                                        
+                                                        selectedArtifact = 3
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
@@ -213,18 +231,14 @@ struct RightSelectionView: View {
                                                     }
                                                     Button(">") {
                                                         AudioPlayer.shared.playStandardSound()
+                                                        tutorialCounter = 5
                                                         
-                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
-                                                            selectedArtifact = 0
-                                                        } else {
-                                                            selectedArtifact += 1
-                                                        }
-                                                        
+                                                        selectedArtifact = 1
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 }
-                                                .frame(width: geometry.size.height - 30, height: 60)
+                                                .frame(width: geometry.size.height - 30, height: 60).disabled(tutorialCounter < 4 || tutorialCounter == 5)
                                             }
                                             .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
@@ -250,8 +264,8 @@ struct RightSelectionView: View {
     }
 }
 
-struct RightSelectionView_Previews: PreviewProvider {
+struct TutorialRightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        RightSelectionView(witches: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
+        TutorialRightSelectionView(witches: .constant([nil, nil, nil, nil]), tutorialCounter: .constant(0)).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
     }
 }

@@ -15,6 +15,7 @@ struct TrainingOverView: View {
     let rightWitches: [Witch]
     
     let winner: Int
+    var tutorial: Bool = false
     
     @State var transitionToggle: Bool = true
     
@@ -68,7 +69,11 @@ struct TrainingOverView: View {
                             RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             ZStack {
-                                CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                                if !tutorial {
+                                    CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                                } else {
+                                    CustomText(text: "rematch if you want to play again", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                }
                             }
                             .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 10).rotationEffect(.degrees(90))
                         }
@@ -98,7 +103,11 @@ struct TrainingOverView: View {
                             RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height - 30)
                             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height - 30)
                             ZStack {
-                                CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                if !tutorial {
+                                    CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                } else {
+                                    CustomText(text: "rematch if you want to play again", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                }
                             }
                             .frame(width: 80, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))
                         }

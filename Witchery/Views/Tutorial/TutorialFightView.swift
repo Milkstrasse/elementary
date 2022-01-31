@@ -1,21 +1,13 @@
 //
-//  FightView.swift
+//  TutorialFightView.swift
 //  Witchery
 //
-//  Created by Janice Hablützel on 04.01.22.
+//  Created by Janice Hablützel on 31.01.22.
 //
 
 import SwiftUI
 
-enum Section {
-    case summary
-    case options
-    case spells
-    case team
-    case waiting
-}
-
-struct FightView: View {
+struct TutorialFightView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -23,14 +15,16 @@ struct FightView: View {
     @State var transitionToggle: Bool = true
     @State var offsetX: CGFloat = -200
     
+    @State var tutorialCounter: Int = 0
+    
     @State var gameOver: Bool = false
     
     var body: some View {
         ZStack {
             HStack {
-                LeftFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
+                CPUTrainingView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
                 Spacer()
-                RightFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
+                TutorialRightFightView(fightLogic: fightLogic, player: fightLogic.players[1], tutorialCounter: $tutorialCounter, offsetX: offsetX, gameOver: $gameOver)
             }
             .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in
@@ -46,17 +40,18 @@ struct FightView: View {
         }
         .onChange(of: gameOver) { _ in
             transitionToggle = true
+            fightLogic.players[0].getCurrentWitch().reset()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(TrainingOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner(), tutorial: true).environmentObject(manager)))
             }
         }
     }
 }
 
-struct FightView_Previews: PreviewProvider {
+struct TutorialFightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]))
-.previewInterfaceOrientation(.landscapeLeft)
+        TutorialFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]))
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }

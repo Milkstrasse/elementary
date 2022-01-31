@@ -50,6 +50,14 @@ struct MainView: View {
                             overviewToggle = true
                         }
                         .buttonStyle(BasicButton(width: 135))
+                        Button(Localization.shared.getTranslation(key: "tutorial")) {
+                            AudioPlayer.shared.playStandardSound()
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(TutorialSelectionView().environmentObject(manager)))
+                            }
+                        }
+                        .buttonStyle(BasicButton(width: 135))
                         Button(Localization.shared.getTranslation(key: "training")) {
                             AudioPlayer.shared.playStandardSound()
                             transitionToggle = true

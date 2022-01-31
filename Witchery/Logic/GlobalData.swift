@@ -99,6 +99,26 @@ class GlobalData {
         }
     }
     
+    func getFirstHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2 + 1]
+            return Array(rowArray)
+        }
+    }
+    
+    func getSecondHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 ..< GlobalData.shared.witches.count]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 + 1 ..< GlobalData.shared.witches.count]
+            return Array(rowArray)
+        }
+    }
+    
     func getTextSpeed() -> Double {
         let x: Float = Float(textSpeed)
         let y: Float = 5 - x
