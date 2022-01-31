@@ -47,7 +47,7 @@ struct SpellsView: View {
     }
     
     func generateDescription(spell: Spell, witch: Witch) -> String {
-        return "\(spell.uses - spell.useCounter)/\(spell.uses)PP - " + Localization.shared.getTranslation(key: getEffectiveness(spellElement: spell.element.name))
+        return "\(spell.uses - spell.useCounter)/\(spell.uses)MP - " + Localization.shared.getTranslation(key: getEffectiveness(spellElement: spell.element.name))
     }
     
     var body: some View {
