@@ -1,13 +1,8 @@
 {
   "element": "water",
   "type": "heal",
-  "uses": 10,
+  "uses": 20,
   "spells": [
-      {
-          "power": 0,
-          "range": 0,
-          "hex": "blessed"
-      },
       {
           "power": 0,
           "range": 0,
@@ -15,4 +10,3 @@
       }
   ]
 }
-

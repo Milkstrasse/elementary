@@ -1,18 +1,17 @@
 {
   "element": "metal",
   "base": {
-      "health": 100,
-      "attack": 90,
-      "defense": 130,
-      "agility": 60,
-      "precision": 100,
-      "resistance": 120
+      "health": 70,
+      "attack": 130,
+      "defense": 80,
+      "agility": 100,
+      "precision": 70,
+      "resistance": 50
   },
   "spells": [
-      "genericPunch",
-      "rainDance",
-      "restoration",
-      "decay",
-      "protection"
+      "suffering",
+      "agony",
+      "ecstasy",
+      "torment"
   ]
 }

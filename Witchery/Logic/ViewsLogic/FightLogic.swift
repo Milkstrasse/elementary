@@ -401,6 +401,10 @@ class FightLogic: ObservableObject {
     /// - Parameter player: The player
     /// - Returns: Returns whether the witch can swap in their team
     func isAbleToSwap(player: Player) -> Bool {
+        if player.getCurrentWitch().hasHex(hexName: Hexes.chained.rawValue) {
+            return false
+        }
+        
         var counter: Int = 0
         for witch in player.witches {
             if witch.currhp > 0 {

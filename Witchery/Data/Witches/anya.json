@@ -1,18 +1,17 @@
 {
   "element": "electric",
   "base": {
-      "health": 90,
-      "attack": 120,
-      "defense": 85,
-      "agility": 95,
-      "precision": 110,
-      "resistance": 100
+      "health": 80,
+      "attack": 110,
+      "defense": 70,
+      "agility": 85,
+      "precision": 100,
+      "resistance": 55
   },
   "spells": [
-      "genericPunch",
-      "rainDance",
-      "restoration",
-      "decay",
-      "protection"
+      "minimize",
+      "conjuration",
+      "wrath",
+      "decay"
   ]
 }

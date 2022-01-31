@@ -1,17 +1,16 @@
 {
-  "element": "fire",
+  "element": "metal",
   "type": "attack",
   "uses": 10,
   "spells": [
       {
-          "power": 60,
-          "range": 1
+          "power": 100,
+          "range": 1,
       },
       {
           "power": 0,
           "range": 0,
-          "chance": 40,
-          "hex": "attackBoost"
+          "hex": "defenseDrop"
       }
   ]
 }

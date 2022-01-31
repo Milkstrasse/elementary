@@ -1,18 +1,17 @@
 {
   "element": "plant",
   "base": {
-      "health": 105,
-      "attack": 95,
-      "defense": 110,
-      "agility": 50,
-      "precision": 110,
-      "resistance": 130
+      "health": 80,
+      "attack": 115,
+      "defense": 70,
+      "agility": 75,
+      "precision": 90,
+      "resistance": 70
   },
   "spells": [
-      "genericPunch",
+      "immolation",
+      "torment",
       "rainDance",
-      "restoration",
-      "decay",
-      "protection"
+      "conjuration"
   ]
 }

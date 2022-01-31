@@ -2,17 +2,16 @@
   "element": "wind",
   "base": {
       "health": 95,
-      "attack": 80,
-      "defense": 125,
-      "agility": 65,
-      "precision": 140,
-      "resistance": 95
+      "attack": 65,
+      "defense": 100,
+      "agility": 60,
+      "precision": 70,
+      "resistance": 110
   },
   "spells": [
-      "genericPunch",
-      "rainDance",
-      "restoration",
-      "decay",
-      "protection"
+      "purge",
+      "daydream",
+      "protection",
+      "burden"
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "element": "wind",
+  "type": "attack",
+  "uses": 25,
+  "spells": [
+      {
+          "power": 90,
+          "range": 1,
+      }
+  ]
+}

@@ -168,27 +168,26 @@ class TurnLogic {
             
             return applyHealing(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.weather != nil { //weather adding spell
-            var text: String
+            let newWeather: String? = Weather(rawValue: usedSpell.weather ?? "")?.rawValue
             
-            if fightLogic!.weather == nil {
+            if newWeather != nil && fightLogic?.weather?.name != newWeather {
                 if player.getCurrentWitch().artifact.name == Artifacts.crystal.rawValue {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 } else {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 3)
                 }
                 
-                if fightLogic!.weather != nil {
-                    text = Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
-                } else { //weather can only be applied when there's currently no weather active
-                    text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
-                }
-            } else {
-                text = Localization.shared.getTranslation(key: "weatherFailed") + "\n"
+                return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
+            } else { //weather already active 0r invalid weather
+                return Localization.shared.getTranslation(key: "weatherFailed") + "\n"
+            }
+        } else {
+            if fightLogic!.isAbleToSwap(player: player) {
+                player.hasToSwap = true
+                return player.getCurrentWitch().name +  " flees the scene.\n"
             }
             
-            return text
-        } else {
-            return "It does nothing.\n"
+            return Localization.shared.getTranslation(key: "fail") + "\n"
         }
     }
     

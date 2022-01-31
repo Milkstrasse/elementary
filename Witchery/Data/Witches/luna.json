@@ -1,18 +1,17 @@
 {
   "element": "water",
   "base": {
-      "health": 200,
-      "attack": 70,
-      "defense": 140,
+      "health": 150,
+      "attack": 75,
+      "defense": 90,
       "agility": 55,
-      "precision": 60,
-      "resistance": 75
+      "precision": 50,
+      "resistance": 80
   },
   "spells": [
-      "genericPunch",
-      "rainDance",
+      "maelstrom",
       "restoration",
-      "decay",
-      "protection"
+      "protection",
+      "decay"
   ]
 }

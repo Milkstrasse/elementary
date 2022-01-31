@@ -1,18 +1,17 @@
 {
   "element": "fire",
   "base": {
-      "health": 75,
-      "attack": 150,
-      "defense": 70,
-      "agility": 100,
+      "health": 90,
+      "attack": 90,
+      "defense": 85,
+      "agility": 50,
       "precision": 120,
-      "resistance": 85
+      "resistance": 65
   },
   "spells": [
-      "genericPunch",
-      "rainDance",
-      "restoration",
-      "decay",
-      "protection"
+      "wrath",
+      "sunnyDay",
+      "minimize",
+      "restoration"
   ]
 }

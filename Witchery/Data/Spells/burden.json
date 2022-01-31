@@ -1,5 +1,5 @@
 {
-  "element": "plant",
+  "element": "metal",
   "type": "special",
   "uses": 20,
   "spells": [
@@ -7,7 +7,7 @@
           "power": 0,
           "range": 1,
           "chance": 90,
-          "hex": "poisoned"
+          "hex": "restricted"
       }
   ]
 }
