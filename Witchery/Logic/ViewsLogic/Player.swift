@@ -47,7 +47,7 @@ class Player: ObservableObject {
                 AudioPlayer.shared.playHealSound()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + GlobalData.shared.getTextSpeed()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + GlobalData.shared.getTextSpeed()/2) {
             self.state = .neutral
         }
     }

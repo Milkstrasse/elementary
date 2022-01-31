@@ -101,7 +101,7 @@ class GlobalData {
     
     func getTextSpeed() -> Double {
         let x: Float = Float(textSpeed)
-        let y: Float = 4 - x
+        let y: Float = 5 - x
         
         let speed: Double = Double(y * 0.5 - (y - 1) * 0.1)
         return round(100 * speed)/100
