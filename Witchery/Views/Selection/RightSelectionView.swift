@@ -64,7 +64,7 @@ struct RightSelectionView: View {
     
     func getArtifact(witch: Witch) -> Int {
         for index in Artifacts.allCases.indices {
-            if witch.artifact.name == Artifacts.allCases[index].rawValue {
+            if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
                 return index
             }
         }

@@ -28,20 +28,27 @@ class FightLogic: ObservableObject {
 
         self.players = players
         
-        if players[0].getCurrentWitch().artifact.name == Artifacts.mask.rawValue {
+        if players[0].getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
+            players[0].getCurrentWitch().overrideArtifact(artifact: players[1].getCurrentWitch().getArtifact())
+        }
+        if players[1].getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
+            players[1].getCurrentWitch().overrideArtifact(artifact: players[0].getCurrentWitch().getArtifact())
+        }
+        
+        if players[0].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
             players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
-        if players[1].getCurrentWitch().artifact.name == Artifacts.mask.rawValue {
+        if players[1].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
             players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
         
         for witch in players[0].witches {
-            if witch.artifact.name == Artifacts.corset.rawValue {
+            if witch.getArtifact().name == Artifacts.corset.rawValue {
                 witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
             }
         }
         for witch in players[1].witches {
-            if witch.artifact.name == Artifacts.corset.rawValue {
+            if witch.getArtifact().name == Artifacts.corset.rawValue {
                 witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
             }
         }
@@ -226,9 +233,9 @@ class FightLogic: ObservableObject {
         var fasterPlayer: Int
         
         //determine priority with using the agility stat of the witches
-        if players[0].getCurrentWitch().base.agility > players[1].getCurrentWitch().base.agility {
+        if players[0].getCurrentWitch().getModifiedBase().agility > players[1].getCurrentWitch().getModifiedBase().agility {
             fasterPlayer = 0
-        } else if players[1].getCurrentWitch().base.agility > players[0].getCurrentWitch().base.agility {
+        } else if players[1].getCurrentWitch().getModifiedBase().agility > players[0].getCurrentWitch().getModifiedBase().agility {
             fasterPlayer = 1
         } else if Bool.random() { //agility stat tie -> random player has priority
             fasterPlayer = 0
@@ -331,7 +338,7 @@ class FightLogic: ObservableObject {
             }
         }
         
-        if player.getCurrentWitch().artifact.name == Artifacts.cornucopia.rawValue {
+        if player.getCurrentWitch().getArtifact().name == Artifacts.cornucopia.rawValue {
             playerStack.insert((player: player, index: -10), at: 0)
         }
     }
@@ -368,9 +375,9 @@ class FightLogic: ObservableObject {
         var text: String
         var applyHex: Bool = false
         
-        if player.getCurrentWitch().artifact.name == Artifacts.lastWill.rawValue {
+        if player.getCurrentWitch().getArtifact().name == Artifacts.lastWill.rawValue {
             applyHex = true
-        } else if player.getCurrentWitch().artifact.name == Artifacts.grimoire.rawValue {
+        } else if player.getCurrentWitch().getArtifact().name == Artifacts.grimoire.rawValue {
             for hex in player.getCurrentWitch().hexes {
                 player.getCurrentWitch().removeHex(hex: hex)
             }
@@ -380,14 +387,26 @@ class FightLogic: ObservableObject {
         player.currentWitchId = target
         
         if applyHex {
-            player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 4))
+            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 4)) {
+                text += Localization.shared.getTranslation(key: "becameHex", params: [player.getCurrentWitch().name, Hexes.blessed.rawValue]) + "\n"
+            }
         }
         
         var oppositePlayer: Player = players[0]
         if player.id == 0 {
             oppositePlayer = players[1]
         }
-        if oppositePlayer.getCurrentWitch().artifact.name == Artifacts.mask.rawValue {
+        
+        if player.getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
+            player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
+            if player.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
+                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
+                    text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentWitch().name, "attack"]) + "\n"
+                }
+            }
+        }
+        
+        if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
             if player.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [player.getCurrentWitch().name, "attack"]) + "\n"
             }

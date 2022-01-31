@@ -62,6 +62,8 @@
     "stubborn": "Obstiné",
     "timid": "Timide",
     
+    "noArtifact": "Aucun artefact",
+    "noArtifactDescr": "Ne fait rien",
     "amulet": "Amulette maudite",
     "amuletDescr": "**Inverse** les enchantements reçus",
     "book": "Livre interdit",
@@ -78,6 +80,8 @@
     "grimoireDescr": "**Supprime** les enchantements après l'échange",
     "mask": "Masque effrayant",
     "maskDescr": "Diminue **l'attaque** de l'adversaire",
+    "mirror": "Miroir à main",
+    "mirrorDescr": "**Copie** l'artefact de l'adversaire",
     "ring": "Anneau béni",
     "ringDescr": "Supprime son propre **élément**",
     "talaria": "Sandales ailées",

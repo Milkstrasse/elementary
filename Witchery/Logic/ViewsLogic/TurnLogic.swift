@@ -26,7 +26,7 @@ class TurnLogic {
         
         //witch faints and certain artifacts activate
         if attacker.currhp == 0 {
-            if attacker.artifact.name == Artifacts.book.rawValue {
+            if attacker.getArtifact().name == Artifacts.book.rawValue {
                 if player.id == 0 {
                     if fightLogic.players[1].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
                         battleLog = attacker.name + " fainted and cursed " + fightLogic.players[1].getCurrentWitch().name + ".\n"
@@ -47,9 +47,6 @@ class TurnLogic {
             player.hasToSwap = true
             
             return battleLog
-        } else if attacker.currhp == 0 {
-            attacker.revive()
-            return attacker.name + " fainted but was reborn.\n"
         }
         
         //apply damage or healing of hexes
@@ -149,7 +146,7 @@ class TurnLogic {
             if usedSpell.range == 1 {
                 oppositePlayer.setState(state: PlayerState.hurting)
                 
-                if oppositePlayer.getCurrentWitch().artifact.name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
                     oppositePlayer.hasToSwap = true
                 }
             } else {
@@ -171,7 +168,7 @@ class TurnLogic {
             let newWeather: String? = Weather(rawValue: usedSpell.weather ?? "")?.rawValue
             
             if newWeather != nil && fightLogic?.weather?.name != newWeather {
-                if player.getCurrentWitch().artifact.name == Artifacts.crystal.rawValue {
+                if player.getCurrentWitch().getArtifact().name == Artifacts.crystal.rawValue {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 } else {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 3)

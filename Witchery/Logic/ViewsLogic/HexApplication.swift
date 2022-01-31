@@ -29,7 +29,7 @@ struct HexApplication {
             target = attacker
         }
         
-        if target.artifact.name == Artifacts.amulet.rawValue { //get opposite hex
+        if target.getArtifact().name == Artifacts.amulet.rawValue { //get opposite hex
             if hex != nil {
                 hex = Hexes(rawValue: hex!)?.getHex().opposite?.rawValue
                 if hex == nil {

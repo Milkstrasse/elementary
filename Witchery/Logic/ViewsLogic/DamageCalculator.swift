@@ -143,7 +143,7 @@ struct DamageCalculator {
         var dmg: Float = attack/defense
         
         //multiply with elemental modifier
-        if attacker.artifact.name != Artifacts.ring.rawValue && defender.artifact.name != Artifacts.ring.rawValue {
+        if attacker.getArtifact().name != Artifacts.ring.rawValue && defender.getArtifact().name != Artifacts.ring.rawValue {
             dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement)
         }
         

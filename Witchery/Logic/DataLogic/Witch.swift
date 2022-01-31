@@ -12,7 +12,7 @@ class Witch: Hashable {
     
     let data: WitchData
     
-    let base: Base
+    private let base: Base
     var currhp: Int
     
     var hexes: [Hex] = []
@@ -20,7 +20,8 @@ class Witch: Hashable {
     var spells: [Spell]
     
     var nature: Nature
-    var artifact: Artifact
+    private var artifact: Artifact
+    private var artifactOverride: Artifact?
     
     var attackMod: Int = 0
     var defenseMod: Int = 0
@@ -84,6 +85,14 @@ class Witch: Hashable {
     /// - Parameter artifact: The desired artifact
     func setArtifact(artifact: Int) {
         self.artifact = Artifacts.allCases[artifact].getArtifact()
+    }
+    
+    func overrideArtifact(artifact: Artifact) {
+        self.artifactOverride = artifact
+    }
+    
+    func getArtifact() -> Artifact {
+        return artifactOverride ?? artifact
     }
     
     /// Checks if witch has certain hex.
@@ -231,19 +240,14 @@ class Witch: Hashable {
         
         currhp = getModifiedBase().health
         
-        for hex in hexes {
-            removeHex(hex: hex)
-        }
+        hexes = []
+        manaUse = 2
+        
+        artifactOverride = nil
         
         for index in spells.indices {
             spells[index].useCounter = 0
         }
-    }
-    
-    /// Removes all hexes, refreshes all spells and restores half of the health of the witch
-    func revive() {
-        reset()
-        currhp = getModifiedBase().health/2
     }
     
     func hash(into hasher: inout Hasher) {

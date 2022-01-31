@@ -81,7 +81,7 @@ struct OverviewView: View {
                                 .frame(height: 60)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
-                                        BaseWitchesOverviewView(base: currentWitch.base).padding(.bottom, 5)
+                                        BaseWitchesOverviewView(base: currentWitch.getModifiedBase()).padding(.bottom, 5)
                                         ForEach(currentWitch.spells, id: \.self) { spell in
                                             DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol)
                                         }
