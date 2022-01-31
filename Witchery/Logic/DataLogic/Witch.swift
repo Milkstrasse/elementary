@@ -138,14 +138,7 @@ class Witch: Hashable {
                 break
         }
         
-        if hasHex(hexName: hex.name) && hex.name != Hexes.bombed.rawValue { //refresh duration of hex if already present (except bombs)
-            for index in hexes.indices {
-                if hexes[index].name == hex.name {
-                    hexes[index] = hex
-                    return true
-                }
-            }
-        } else if hexes.count < 3 { //witch can only have up to three hexes
+        if hexes.count < 3 { //witch can only have up to three hexes
             //checks if other hex or an artifact prevents the new hex
             if !hex.positive {
                 if hasHex(hexName: Hexes.blessed.rawValue) {
