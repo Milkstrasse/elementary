@@ -190,7 +190,7 @@ class Witch: Hashable {
     /// Removes an hex from the witch and reverts changes made by the hex
     /// - Parameter hex: The hex to be removed
     func removeHex(hex: Hex) {
-        if hexes[0].duration == 0 || hex.duration < 0 {
+        if hexes[0].duration == 0 || hex.duration < 0 || hexes.count == 1 {
             hexes.removeFirst()
         } else {
             hexes.remove(at: 1)
