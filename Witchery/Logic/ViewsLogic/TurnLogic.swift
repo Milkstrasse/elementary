@@ -182,9 +182,14 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "weatherFailed") + "\n"
             }
         } else {
-            if fightLogic!.isAbleToSwap(player: player) {
-                player.hasToSwap = true
-                return player.getCurrentWitch().name +  " flees the scene.\n"
+            switch player.usedMoves[0].spell.name {
+                case "minimize":
+                    if fightLogic!.isAbleToSwap(player: player) {
+                        player.hasToSwap = true
+                        return player.getCurrentWitch().name +  " flees the scene.\n"
+                    }
+                default:
+                    break
             }
             
             return Localization.shared.getTranslation(key: "fail") + "\n"
