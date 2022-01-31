@@ -17,12 +17,28 @@ struct LeftPlayerFightView: View {
     @Binding var gameOver: Bool
     
     @State var blink: Bool = false
+    @State var stopBlinking: Bool = false
     
     func calcWidth(witch: Witch) -> CGFloat {
         let percentage: CGFloat = CGFloat(witch.currhp)/CGFloat(witch.getModifiedBase().health)
         let width = round(170 * percentage)
         
         return width
+    }
+    
+    func blink(delay: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            blink = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                blink = false
+                
+                if !stopBlinking {
+                    let blinkInterval: Int = Int.random(in: 5 ... 10)
+                    blink(delay: TimeInterval(blinkInterval))
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -161,14 +177,11 @@ struct LeftPlayerFightView: View {
             })
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0.0 ..< 1.0)) {
-                Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
-                    blink = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        blink = false
-                    }
-                }
-            }
+            let blinkInterval: Int = Int.random(in: 5 ... 10)
+            blink(delay: TimeInterval(blinkInterval))
+        }
+        .onDisappear {
+            stopBlinking = true
         }
     }
 }

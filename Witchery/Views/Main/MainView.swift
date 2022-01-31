@@ -15,19 +15,41 @@ struct MainView: View {
     @State var overviewToggle: Bool = false
     @State var settingsToggle: Bool = false
     @State var infoToggle: Bool = false
+    @State var creditsToggle: Bool = false
     
     @State var transitionToggle: Bool = true
     
     @State var offsetX: CGFloat = -450
     
     @State var blink: Bool = false
+    @State var stopBlinking: Bool = false
+    
+    func blink(delay: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            blink = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                blink = false
+                
+                if !stopBlinking {
+                    let blinkInterval: Int = Int.random(in: 5 ... 10)
+                    blink(delay: TimeInterval(blinkInterval))
+                }
+            }
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottomTrailing) {
                 Image(blink ? currentWitch.name + "_blink" : currentWitch.name).resizable().frame(width: geometry.size.height * 0.95, height: geometry.size.height * 0.95).scaleEffect(1).aspectRatio(contentMode: .fit).offset(x: -geometry.size.height/4.5, y: 0).padding(.trailing, offsetX < 0 ? 0 : geometry.size.width/2.6).animation(.linear(duration: 0.2), value: offsetX)
                 HStack(alignment: .top, spacing: 5) {
-                    HStack(spacing: 5) {
+                    VStack(spacing: 5) {
+                        Button(Localization.shared.getTranslation(key: "overview")) {
+                            AudioPlayer.shared.playStandardSound()
+                            overviewToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 135))
                         Button(Localization.shared.getTranslation(key: "training")) {
                             AudioPlayer.shared.playStandardSound()
                             transitionToggle = true
@@ -36,34 +58,36 @@ struct MainView: View {
                             }
                         }
                         .buttonStyle(BasicButton(width: 135))
-                        Button("O") {
-                            AudioPlayer.shared.playStandardSound()
-                            overviewToggle = true
+                        HStack {
+                            Button(Localization.shared.getTranslation(key: "fight")) {
+                                AudioPlayer.shared.playStandardSound()
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                                }
+                            }
+                            .buttonStyle(BasicButton(width: 135))
                         }
-                        .buttonStyle(BasicButton(width: 40))
-                        Button("S") {
-                            AudioPlayer.shared.playStandardSound()
-                            settingsToggle = true
-                        }
-                        .buttonStyle(BasicButton(width: 40))
-                        Button("C") {
-                            AudioPlayer.shared.playStandardSound()
-                            infoToggle = true
-                        }
-                        .buttonStyle(BasicButton(width: 40))
                     }
                     .padding(.leading, offsetX < 0 ? 0 : -450).animation(.linear(duration: 0.2), value: offsetX)
                     Spacer()
                     VStack {
                         Spacer()
-                        Button(Localization.shared.getTranslation(key: "fight")) {
+                        Button("S") {
                             AudioPlayer.shared.playStandardSound()
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
-                            }
+                            settingsToggle = true
                         }
-                        .buttonStyle(BasicButton(width: 190, height: 50))
+                        .buttonStyle(BasicButton(width: 40))
+                        Button("I") {
+                            AudioPlayer.shared.playStandardSound()
+                            infoToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 40))
+                        Button("C") {
+                            AudioPlayer.shared.playStandardSound()
+                            creditsToggle = true
+                        }
+                        .buttonStyle(BasicButton(width: 40))
                     }
                 }
                 .padding(.all, 15)
@@ -72,7 +96,9 @@ struct MainView: View {
                 } else if settingsToggle {
                     SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
                 } else if infoToggle {
-                    CreditsView(infoToggle: $infoToggle, offsetX: $offsetX)
+                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
+                } else if creditsToggle {
+                    CreditsView(creditsToggle: $creditsToggle, offsetX: $offsetX)
                 }
             }
             .ignoresSafeArea(.all, edges: .bottom)
@@ -81,12 +107,11 @@ struct MainView: View {
         .onAppear {
             transitionToggle = false
             
-            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
-                blink = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    blink = false
-                }
-            }
+            let blinkInterval: Int = Int.random(in: 5 ... 10)
+            blink(delay: TimeInterval(blinkInterval))
+        }
+        .onDisappear {
+            stopBlinking = true
         }
     }
 }

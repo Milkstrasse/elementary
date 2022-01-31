@@ -1,14 +1,14 @@
 //
-//  CreditsView.swift
+//  InfoView.swift
 //  Witchery
 //
-//  Created by Janice Hablützel on 03.01.22.
+//  Created by Janice Hablützel on 31.01.22.
 //
 
 import SwiftUI
 
-struct CreditsView: View {
-    @Binding var creditsToggle: Bool
+struct InfoView: View {
+    @Binding var infoToggle: Bool
     @Binding var offsetX: CGFloat
     
     var body: some View {
@@ -26,7 +26,7 @@ struct CreditsView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .leading) {
                         Rectangle().fill(Color("outline")).frame(height: 1)
-                        CustomText(key: "credits", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                        CustomText(key: "info", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
@@ -35,9 +35,26 @@ struct CreditsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button"))
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Theo Allen"]), fontSize: 13).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "elements", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "each witch has her own element, her element and\nthe element of spells grants her more or less\npower against other witches depending on their\nelements.", fontSize: 13).frame(width: 280, alignment: .leading)
+                                }
+                                .padding(.all, 15)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                                VStack(spacing: 0) {
+                                    CustomText(text: "spells", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "spells are used to attack, heal or hex  witches.\nthey cost mana", fontSize: 13).frame(width: 280, alignment: .leading)
+                                }
+                                .padding(.all, 15)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                                VStack(spacing: 0) {
+                                    CustomText(text: "weather", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: "weather boost certain elements.", fontSize: 13).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
@@ -51,7 +68,7 @@ struct CreditsView: View {
                             AudioPlayer.shared.playCancelSound()
                             offsetX = -450
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                creditsToggle = false
+                                infoToggle = false
                             }
                         }
                         .buttonStyle(BasicButton(width: 40))
@@ -69,9 +86,9 @@ struct CreditsView: View {
     }
 }
 
-struct CreditsView_Previews: PreviewProvider {
+struct InfoView_Previews: PreviewProvider {
     static var previews: some View {
-        CreditsView(creditsToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        InfoView(infoToggle: Binding.constant(true), offsetX: Binding.constant(0))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }
