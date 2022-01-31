@@ -68,9 +68,9 @@ enum Hexes: String, CaseIterable {
             case .attackDrop:
                 return Hex(name: self.rawValue, symbol: 0xf6de, duration: duration, positive: false, opposite: .attackBoost)
             case .defenseBoost:
-                return Hex(name: self.rawValue, symbol: 0xf132, duration: duration, positive: true, opposite: .defenseDrop)
+                return Hex(name: self.rawValue, symbol: 0xf3ed, duration: duration, positive: true, opposite: .defenseDrop)
             case .defenseDrop:
-                return Hex(name: self.rawValue, symbol: 0xf132, duration: duration, positive: false, opposite: .defenseBoost)
+                return Hex(name: self.rawValue, symbol: 0xf3ed, duration: duration, positive: false, opposite: .defenseBoost)
             case .agilityBoost:
                 return Hex(name: self.rawValue, symbol: 0xf72e, duration: duration, positive: true, opposite: .agilityDrop)
             case .agilityDrop:
