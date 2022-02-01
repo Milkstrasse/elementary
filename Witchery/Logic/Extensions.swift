@@ -9,6 +9,8 @@ import SwiftUI
 
 //https://www.hackingwithswift.com/example-code/language/how-to-remove-duplicate-items-from-an-array
 extension Array where Element: Hashable {
+    /// Removes duplicates in an array. Example: Remove duplicate spells.
+    /// - Returns: Returns an array without duplicates
     func removingDuplicates() -> [Element] {
         var addedDict = [Element: Bool]()
 

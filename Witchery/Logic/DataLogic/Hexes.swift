@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Affects a witch during multiple rounds.
 class Hex: Hashable {
     let id = UUID()
     let name: String
@@ -18,6 +19,14 @@ class Hex: Hashable {
     
     let opposite: Hexes?
     
+    /// Creates a hex.
+    /// - Parameters:
+    ///   - name: The name of the hex
+    ///   - symbol: The symbol of the hex
+    ///   - duration: The duration of the hex
+    ///   - positive: If the hex has a positive effect
+    ///   - damageAmount: The amount of damage the hex does
+    ///   - opposite: The opposite of the hex if available
     init(name: String, symbol: UInt16, duration: Int, positive: Bool, damageAmount: Int = 0, opposite: Hexes? = nil) {
         self.name = name
         self.symbol = symbol
@@ -39,6 +48,7 @@ class Hex: Hashable {
     }
 }
 
+/// List of all possible hexes
 enum Hexes: String, CaseIterable {
     case attackBoost
     case attackDrop
@@ -61,6 +71,9 @@ enum Hexes: String, CaseIterable {
     case exhausted
     case restricted
     
+    /// Creates and returns a hex.
+    /// - Parameter duration: The duration of the hex
+    /// - Returns: Returns a hex
     func getHex(duration: Int = 3) -> Hex {
         switch self {
             case .attackBoost:
@@ -106,6 +119,8 @@ enum Hexes: String, CaseIterable {
         }
     }
     
+    /// Returns a random negative hex to create a curse.
+    /// - Returns: Returns a random negative hex
     static func getNegativeHex() -> Hex {
         var hex: Hex = Hexes.allCases[0].getHex()
         while hex.positive {
@@ -116,6 +131,7 @@ enum Hexes: String, CaseIterable {
     }
 }
 
+/// Weather hexes boost different elements during multiple rounds. This is the list containing all available weather hexes.
 enum Weather: String {
     case sandstorm
     case thunderstorm
@@ -125,6 +141,9 @@ enum Weather: String {
     case lightRain
     case drought
     
+    /// Creates and returns a weather hex.
+    /// - Parameter duration: The duration of the hex
+    /// - Returns: Returns a hex
     func getHex(duration: Int) -> Hex {
         switch self {
             case .sandstorm:

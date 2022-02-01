@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Contains all the important data of a player during a fight: their current team, the current witch and all the used moves.
 class Player: ObservableObject {
     let id: Int
     
@@ -18,6 +19,10 @@ class Player: ObservableObject {
     
     @Published var state: PlayerState
     
+    /// Creates a player with all the information to start a fight.
+    /// - Parameters:
+    ///   - id: The id determines if they are on the left or right
+    ///   - witches: The player's selected team of witches
     init(id: Int, witches: [Witch]) {
         self.id = id
         self.witches = witches
@@ -29,10 +34,14 @@ class Player: ObservableObject {
         state = PlayerState.neutral
     }
     
+    /// Returns the witch currently fighting.
+    /// - Returns: Returns the witch currently fighting
     func getCurrentWitch() -> Witch {
         return witches[currentWitchId]
     }
     
+    /// Changes the state of the player which will be reflected by the current witch with different images.
+    /// - Parameter state: The state the player will enter
     func setState(state: PlayerState) {
         self.state = state
         
@@ -53,6 +62,7 @@ class Player: ObservableObject {
     }
 }
 
+/// The different states a player can enter.
 enum PlayerState {
     case neutral
     case attacking

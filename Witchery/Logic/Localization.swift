@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Stores translations for a specific language and the names of all available languages.
 class Localization {
     static let shared: Localization = Localization()
     
@@ -14,6 +15,7 @@ class Localization {
     var translations: Dictionary<String, String> = [:]
     var currentLang: String = ""
     
+    /// Gets name of each language file in folder.
     func getLanguages() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Languages") {
             for url in urls {
@@ -22,6 +24,8 @@ class Localization {
         }
     }
     
+    /// Loads all translations of an language file.
+    /// - Parameter language: The name of the language file
     func loadLanguage(language: String) {
         if let url = Bundle.main.url(forResource: language, withExtension: "json", subdirectory: "Languages") {
             do {
@@ -37,6 +41,11 @@ class Localization {
         }
     }
     
+    /// Translates a text with parameters.
+    /// - Parameters:
+    ///   - key: The key to the  translation line in file
+    ///   - params: The optional additional data used for the translation
+    /// - Returns: Returns translated text
     func getTranslation(key: String, params: [String] = []) -> String {
         let translation: String? = translations[key]
         

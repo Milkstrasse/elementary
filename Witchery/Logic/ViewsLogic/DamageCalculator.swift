@@ -155,6 +155,14 @@ struct DamageCalculator {
         return dmg
     }
     
+    /// Calculates damage of an attack without the critical modifier. Used by the CPU to determine if an attack is a sure K.O
+    /// - Parameters:
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spell: The spell used to make the attack
+    ///   - spellElement: The element of the used spell
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns wether the attack is a guaranteed K.O.
     func willDefeatWitch(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
         var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
         
