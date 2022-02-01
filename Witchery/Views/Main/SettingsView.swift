@@ -20,6 +20,8 @@ struct SettingsView: View {
     @State var textIndex: Int = 2
     let textSpeeds: [String] = ["slow", "normal", "fast"]
     
+    /// Returns the index of the current language.
+    /// - Returns: Returns the index of the current language
     func getCurrentLang() -> Int {
         for index in Localization.shared.languages.indices {
             if Localization.shared.currentLang == Localization.shared.languages[index] {

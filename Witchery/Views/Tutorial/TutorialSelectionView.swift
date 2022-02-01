@@ -18,6 +18,8 @@ struct TutorialSelectionView: View {
     
     @State var transitionToggle: Bool = true
     
+    /// Creates and returns the logic that will be used int the upcoming fight.
+    /// - Returns: returns the logic that will be used int the upcoming fight.
     func createLogic() -> FightLogic {
         var lefts: [Witch] = []
         for witch in leftWitches {
@@ -36,6 +38,9 @@ struct TutorialSelectionView: View {
         return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)], hasCPUPlayer: true)
     }
     
+    /// Checks if selected teams contains atleast one witch.
+    /// - Parameter array: The selection of witches to check
+    /// - Returns: Returns wether atleast one witch was selected or not
     func isArrayEmpty(array: [Witch?]) -> Bool {
         for witch in array {
             if witch != nil {
@@ -46,6 +51,9 @@ struct TutorialSelectionView: View {
         return true
     }
     
+    /// Returns tutorial text to be displayed in the top text box.
+    /// - Parameter geoWidth: The width of the text box
+    /// - Returns: Returns tutorial text
     func getTopTutorialText(geoWidth: CGFloat) -> String {
         let text: String
         
@@ -61,6 +69,8 @@ struct TutorialSelectionView: View {
         return TextFitter.getFittedText(text: text, geoWidth: geoWidth)
     }
     
+    /// Returns tutorial text to be displayed in the bottom text box.
+    /// - Returns: Returns tutorial text
     func getBottomTutorialText() -> String {
         if tutorialCounter < 2 {
             return Localization.shared.getTranslation(key: "tutorial0")

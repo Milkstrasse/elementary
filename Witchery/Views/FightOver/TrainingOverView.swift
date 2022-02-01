@@ -19,6 +19,8 @@ struct TrainingOverView: View {
     
     @State var transitionToggle: Bool = true
     
+    /// Reset each witch in team to make them ready for a fight.
+    /// - Parameter witches: The array of witches that should be reset
     func resetWitches(witches: [Witch]) {
         for witch in witches {
             witch.reset()

@@ -20,6 +20,9 @@ struct RightFightView: View {
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
+    /// Calculates the width of a witch's health bar.
+    /// - Parameter witch: The current witch
+    /// - Returns: Returns the width of the health bar
     func calcWidth(witch: Witch) -> CGFloat {
         let percentage: CGFloat = CGFloat(witch.currhp)/CGFloat(witch.getModifiedBase().health)
         let width = round(170 * percentage)
@@ -27,6 +30,8 @@ struct RightFightView: View {
         return width
     }
     
+    /// Sends signal to blink.
+    /// - Parameter delay: The delay between blinks
     func blink(delay: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             blink = true

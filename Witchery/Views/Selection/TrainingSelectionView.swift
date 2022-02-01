@@ -16,6 +16,8 @@ struct TrainingSelectionView: View {
     
     @State var transitionToggle: Bool = true
     
+    /// Creates and returns the logic that will be used int the upcoming fight.
+    /// - Returns: returns the logic that will be used int the upcoming fight.
     func createLogic() -> FightLogic {
         var lefts: [Witch] = []
         for witch in leftWitches {
@@ -34,6 +36,7 @@ struct TrainingSelectionView: View {
         return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)], hasCPUPlayer: true)
     }
     
+    /// Selects random witches to create a team.
     func selectRandom() {
         var set = Set<Int>()
         let maxSize: Int = min(4, GlobalData.shared.witches.count)
@@ -50,6 +53,9 @@ struct TrainingSelectionView: View {
         }
     }
     
+    /// Checks if selected teams contains atleast one witch.
+    /// - Parameter array: The selection of witches to check
+    /// - Returns: Returns wether atleast one witch was selected or not
     func isArrayEmpty(array: [Witch?]) -> Bool {
         for witch in array {
             if witch != nil {

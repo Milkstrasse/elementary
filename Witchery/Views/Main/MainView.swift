@@ -24,6 +24,8 @@ struct MainView: View {
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
+    /// Sends signal to blink.
+    /// - Parameter delay: The delay between blinks
     func blink(delay: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             blink = true

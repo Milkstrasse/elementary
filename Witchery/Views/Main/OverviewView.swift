@@ -18,6 +18,8 @@ struct OverviewView: View {
     @Binding var overviewToggle: Bool
     @Binding var offsetX: CGFloat
     
+    /// Returns the amount of rows needed to display all relevant witches.
+    /// - Returns: Returns the amount of rows needed
     func getRowAmount() -> Int {
         if currentArray.count%3 > 0 {
             return currentArray.count/3 + 1
@@ -26,6 +28,9 @@ struct OverviewView: View {
         }
     }
     
+    /// Returns an array of witches depending on the current filter criteria.
+    /// - Parameter row: The current row
+    /// - Returns: Returns an filtered array of witches
     func getSubArray(row: Int) -> [Witch] {
         if (3 + row * 3) < currentArray.count {
             let rowArray = currentArray[row * 3 ..< 3 + row * 3]
@@ -36,6 +41,8 @@ struct OverviewView: View {
         }
     }
     
+    /// Applies filter critera and set the array of witches.
+    /// - Parameter element: The elemental criteria
     func setElementalArray(element: Element?) {
         if element == nil {
             currentArray = GlobalData.shared.witches
@@ -52,6 +59,9 @@ struct OverviewView: View {
         }
     }
     
+    /// Returns wether the witch is selected or not.
+    /// - Parameter witch: The witch in question
+    /// - Returns: Returns wether the witch is selected or not
     func isSelected(witch: Witch) -> Bool {
         if witchSelected {
             return witch.name == currentWitch.name

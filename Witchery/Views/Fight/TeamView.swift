@@ -15,7 +15,10 @@ struct TeamView: View {
     
     let geoHeight: CGFloat
     
-    func generateDescription(witch: Witch) -> String {
+    /// Generates and returns info to a spell.
+    /// - Parameter witch: The current witch
+    /// - Returns: Returns info to a spell
+    func generateInfo(witch: Witch) -> String {
         var text: String = "\(witch.currhp)/\(witch.getModifiedBase().health)HP - "
         
         var oppositePlayer: Player = fightLogic.players[0]
@@ -37,7 +40,7 @@ struct TeamView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                DetailedActionView(title: player.getCurrentWitch().name, description: generateDescription(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
                 ForEach(player.witches.indices) { index in
                     if index != player.currentWitchId {
                         Button(action: {
@@ -49,7 +52,7 @@ struct TeamView: View {
                                 currentSection = .options
                             }
                         }) {
-                            DetailedActionView(title: player.witches[index].name, description: generateDescription(witch: player.witches[index]), symbol: player.witches[index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                         .id(index + 1).opacity(player.witches[index].currhp == 0 ? 0.7 : 1.0).disabled(player.witches[index].currhp == 0)
                     }

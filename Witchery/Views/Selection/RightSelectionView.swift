@@ -18,6 +18,9 @@ struct RightSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
+    /// Returns wether the witch is selected or not.
+    /// - Parameter witch: The witch in question
+    /// - Returns: Returns wether the witch is selected or not
     func isSelected(witch: Witch?) -> Bool {
         if witch == nil {
             return false
@@ -32,6 +35,9 @@ struct RightSelectionView: View {
         return false
     }
     
+    /// Returns the index of the nature of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the nature of a witch
     func getNature(witch: Witch) -> Int {
         for index in GlobalData.shared.natures.indices {
             if witch.nature.name == GlobalData.shared.natures[index].name {
@@ -42,6 +48,9 @@ struct RightSelectionView: View {
         return 0
     }
     
+    /// Returns the index of the artifact of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the artifact of a witch
     func getArtifact(witch: Witch) -> Int {
         for index in Artifacts.allCases.indices {
             if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
