@@ -43,7 +43,7 @@ struct TutorialFightView: View {
             fightLogic.players[0].getCurrentWitch().reset()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(TrainingOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner(), tutorial: true).environmentObject(manager)))
+                manager.setView(view: AnyView(TrainingOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner(), isTutorial: true).environmentObject(manager)))
             }
         }
     }

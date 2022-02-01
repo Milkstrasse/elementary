@@ -81,7 +81,7 @@ struct SpellsView: View {
                                     }
                         })
                     }
-                    .id(index).disabled(tutorialCounter > 0 && index > 0)
+                    .id(index).opacity(tutorialCounter > 0 && index > 0 ? 0.5 : 1.0).disabled(tutorialCounter > 0 && index > 0)
                 }
             }
             .onAppear {

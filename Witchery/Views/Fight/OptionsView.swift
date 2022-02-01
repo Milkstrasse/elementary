@@ -27,14 +27,14 @@ struct OptionsView: View {
                 }) {
                     DetailedActionView(title: "spells", description: "spellsDescr", symbol: "0xf6de", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
-                .id(0).opacity(player.hasToSwap ? 0.7 : 1.0).disabled(tutorialCounter == 1 || tutorialCounter > 2)
+                .id(0).opacity(player.hasToSwap ? 0.7 : 1.0).opacity(tutorialCounter == 1 || tutorialCounter > 2 ? 0.5 : 1.0).disabled(player.hasToSwap || tutorialCounter == 1 || tutorialCounter > 2)
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
                     currentSection = .team
                 }) {
                     DetailedActionView(title: "coven", description: "covenDescr", symbol: "0xf500", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
-                .id(1).disabled(tutorialCounter%2 == 0 || tutorialCounter > 2)
+                .id(1).opacity(tutorialCounter%2 == 0 || tutorialCounter > 2 ? 0.5 : 1.0).disabled(tutorialCounter%2 == 0 || tutorialCounter > 2)
                 Button(action: {
                     AudioPlayer.shared.playCancelSound()
                     fightLogic.forfeit(player: player.id)
@@ -42,7 +42,7 @@ struct OptionsView: View {
                 }) {
                     DetailedActionView(title: "forfeit", description: "forfeitDescr", symbol: "0xf70c", width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                 }
-                .id(2).disabled(tutorialCounter >= 0 && tutorialCounter != 3)
+                .id(2).opacity(tutorialCounter >= 0 && tutorialCounter != 3 ? 0.5 : 1.0).disabled(tutorialCounter >= 0 && tutorialCounter != 3)
             }
             .onAppear {
                 value.scrollTo(0)

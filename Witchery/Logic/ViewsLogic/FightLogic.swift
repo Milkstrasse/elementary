@@ -11,6 +11,8 @@ import SwiftUI
 /// This is the main logic of the game. Stores all participating witches, determines the turn order and the amount of turns needed in each round, swaps witches , determines when the game is over and who has won.
 class FightLogic: ObservableObject {
     let hasCPUPlayer: Bool
+    let isTutorial: Bool
+    
     let players: [Player]
     
     var gameLogic: GameLogic = GameLogic()
@@ -18,13 +20,14 @@ class FightLogic: ObservableObject {
     var playerStack: [(player: Player, index: Int)] = []
     
     @Published var battling: Bool = false
-    @Published var battleLog: String = "let the fight begin"
+    @Published var battleLog: String
     @Published var gameOver: Bool = false
     
     @Published var weather: Hex?
     
-    init(players: [Player], hasCPUPlayer: Bool = false) {
+    init(players: [Player], hasCPUPlayer: Bool = false, isTutorial: Bool = false) {
         self.hasCPUPlayer = hasCPUPlayer
+        self.isTutorial = isTutorial
 
         self.players = players
         
@@ -52,6 +55,8 @@ class FightLogic: ObservableObject {
                 witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
             }
         }
+        
+        battleLog = isTutorial ? "click on next to continue" : "let the fight begin"
     }
     
     /// Checks if there are enough witches on both sides.

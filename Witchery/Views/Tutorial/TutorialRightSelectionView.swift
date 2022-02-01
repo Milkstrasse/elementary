@@ -45,7 +45,7 @@ struct TutorialRightSelectionView: View {
     }
     
     func isDisabled(index: Int) -> Bool {
-        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
             return false
         }
         
@@ -119,7 +119,7 @@ struct TutorialRightSelectionView: View {
                                 }) {
                                     SquareWitchView(witch: witches[index], isSelected: index == selectedSlot)
                                 }
-                                .disabled(isDisabled(index: index))
+                                .opacity(isDisabled(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -138,7 +138,7 @@ struct TutorialRightSelectionView: View {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
                                                 ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
-                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90)).opacity(0.5)
                                                 }
                                             }
                                             VStack(spacing: 5) {
@@ -153,7 +153,7 @@ struct TutorialRightSelectionView: View {
                                                     }) {
                                                         SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                     }
-                                                    .disabled(isWitchDisabled(witch: witch!))
+                                                    .opacity(isWitchDisabled(witch: witch!) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch!))
                                                 }
                                             }
                                         }
@@ -174,13 +174,15 @@ struct TutorialRightSelectionView: View {
                                                     selectionToggle = true
                                                     infoToggle = false
                                                 }
-                                                .buttonStyle(BasicButton(width: (geometry.size.height - 30)/3 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 - 5).disabled(true)
+                                                .buttonStyle(BasicButton(width: (geometry.size.height - 30)/3 - 5)).rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 - 5).opacity(0.5).disabled(true)
                                                 ZStack {
                                                     RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                     HStack(spacing: 0) {
                                                         Button("<") {
                                                             AudioPlayer.shared.playStandardSound()
-                                                            tutorialCounter = 4
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
                                                             
                                                             if selectedNature <= 0 {
                                                                 selectedNature = GlobalData.shared.natures.count - 1
@@ -194,7 +196,9 @@ struct TutorialRightSelectionView: View {
                                                         CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
                                                             AudioPlayer.shared.playStandardSound()
-                                                            tutorialCounter = 4
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
                                                             
                                                             if selectedNature >= GlobalData.shared.natures.count - 1 {
                                                                 selectedNature = 0
@@ -206,8 +210,9 @@ struct TutorialRightSelectionView: View {
                                                         }
                                                         .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
                                                     }
-                                                    .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2).disabled(tutorialCounter >= 5)
+                                                    .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2).disabled(tutorialCounter == 5)
                                                 }
+                                                .opacity(tutorialCounter == 5 ? 0.5 : 1.0)
                                             }
                                             BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
                                                 .padding(.trailing, 5)
@@ -219,28 +224,42 @@ struct TutorialRightSelectionView: View {
                                                 HStack(spacing: 0) {
                                                     Button("<") {
                                                         AudioPlayer.shared.playStandardSound()
-                                                        tutorialCounter = 5
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
                                                         
-                                                        selectedArtifact = 3
+                                                        if selectedArtifact <= 0 {
+                                                            selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
+                                                        } else {
+                                                            selectedArtifact -= 1
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                     VStack {
-                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Artifacts.getTutorialArtifactArray()[selectedArtifact].name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Artifacts.getTutorialArtifactArray()[selectedArtifact].description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
                                                         AudioPlayer.shared.playStandardSound()
-                                                        tutorialCounter = 5
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
                                                         
-                                                        selectedArtifact = 1
+                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
+                                                            selectedArtifact = 0
+                                                        } else {
+                                                            selectedArtifact += 1
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 }
-                                                .frame(width: geometry.size.height - 30, height: 60).disabled(tutorialCounter < 4 || tutorialCounter == 5)
+                                                .frame(width: geometry.size.height - 30, height: 60).disabled(tutorialCounter < 4)
                                             }
-                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            .opacity(tutorialCounter < 4 ? 0.5 : 1.0).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
                                         }
                                         .padding(.vertical, 15)
                                     }

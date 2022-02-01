@@ -30,4 +30,8 @@ enum Artifacts: String, CaseIterable {
     func getArtifact() -> Artifact {
         return Artifact(name: self.rawValue, description: self.rawValue + "Descr")
     }
+    
+    static func getTutorialArtifactArray() -> [Artifact] {
+        return [Artifacts.noArtifact.getArtifact(), Artifacts.amulet.getArtifact(), Artifacts.book.getArtifact(), Artifacts.charm.getArtifact(), Artifacts.cornucopia.getArtifact()]
+    }
 }
