@@ -20,7 +20,6 @@
 		328121C627A405530022A5D1 /* damaged3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121C327A405520022A5D1 /* damaged3.wav */; };
 		328121C727A405530022A5D1 /* damaged1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 328121C427A405520022A5D1 /* damaged1.wav */; };
 		B80D7CA5278345EC00DEB25F /* WitcheryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CA4278345EC00DEB25F /* WitcheryApp.swift */; };
-		B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CA8278345EE00DEB25F /* Assets.xcassets */; };
 		B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */; };
 		B80D7CB6278345EE00DEB25F /* WitcheryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CB5278345EE00DEB25F /* WitcheryTests.swift */; };
 		B80D7CCF2783508E00DEB25F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80D7CCE2783508E00DEB25F /* MainView.swift */; };
@@ -69,6 +68,7 @@
 		B898D92827A87325001B9137 /* TutorialFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92727A87325001B9137 /* TutorialFightView.swift */; };
 		B898D92A27A873CB001B9137 /* TutorialRightFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92927A873CB001B9137 /* TutorialRightFightView.swift */; };
 		B898D92E27A9B52C001B9137 /* TextFitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92D27A9B52C001B9137 /* TextFitter.swift */; };
+		B898D93027A9C09C001B9137 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B898D92F27A9C09C001B9137 /* Assets.xcassets */; };
 		B8CDEEBD2793647E0073F5B2 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */; };
 		B8CDEEBF279366120073F5B2 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */; };
 		B8CDEEC1279376710073F5B2 /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC0279376710073F5B2 /* TrainingView.swift */; };
@@ -107,7 +107,6 @@
 		328121C427A405520022A5D1 /* damaged1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged1.wav; sourceTree = "<group>"; };
 		B80D7CA1278345EC00DEB25F /* Witchery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Witchery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CA4278345EC00DEB25F /* WitcheryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitcheryApp.swift; sourceTree = "<group>"; };
-		B80D7CA8278345EE00DEB25F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B80D7CAB278345EE00DEB25F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B80D7CB1278345EE00DEB25F /* WitcheryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WitcheryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80D7CB5278345EE00DEB25F /* WitcheryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitcheryTests.swift; sourceTree = "<group>"; };
@@ -157,6 +156,7 @@
 		B898D92727A87325001B9137 /* TutorialFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFightView.swift; sourceTree = "<group>"; };
 		B898D92927A873CB001B9137 /* TutorialRightFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRightFightView.swift; sourceTree = "<group>"; };
 		B898D92D27A9B52C001B9137 /* TextFitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFitter.swift; sourceTree = "<group>"; };
+		B898D92F27A9C09C001B9137 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEC0279376710073F5B2 /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
@@ -202,9 +202,9 @@
 		328121AC27A285790022A5D1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				B898D92F27A9C09C001B9137 /* Assets.xcassets */,
 				328121C927A417D40022A5D1 /* Fonts */,
 				328121C827A417C40022A5D1 /* Audio */,
-				B80D7CA8278345EE00DEB25F /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -510,12 +510,12 @@
 				328121C527A405530022A5D1 /* damaged2.wav in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */,
-				B80D7CA9278345EE00DEB25F /* Assets.xcassets in Resources */,
 				328121C727A405530022A5D1 /* damaged1.wav in Resources */,
 				3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 				B898D91D27A6F921001B9137 /* healed1.wav in Resources */,
 				B898D91827A6F914001B9137 /* attack1.wav in Resources */,
 				B898D91727A6F914001B9137 /* attack3.wav in Resources */,
+				B898D93027A9C09C001B9137 /* Assets.xcassets in Resources */,
 				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

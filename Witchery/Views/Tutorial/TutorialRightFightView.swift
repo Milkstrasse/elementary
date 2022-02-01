@@ -29,26 +29,7 @@ struct TutorialRightFightView: View {
     }
     
     func getTutorialText(geoWidth: CGFloat) -> String {
-        let text: String
-        
-        switch tutorialCounter {
-            case 0:
-                text = "click on continue and then click on spells"
-            case 1:
-                text = "click on first spell"
-            case 2:
-                text = "big hit because element disadvantage. lets swap our witch out"
-            case 3:
-                text = "choose moira the plant witch. plant is effective against water. swap will cost a turn"
-            case 4:
-                text = "lets attack again. this time we will have advantage"
-            case 5:
-                text = "click on first spell if long press -> description"
-            case 6:
-                text = "see the difference? you learned the basics quit tutorial by clicking forfeit"
-            default:
-                text = ""
-        }
+        let text: String = Localization.shared.getTranslation(key: "tutorial\(tutorialCounter + 8)")
         
         return TextFitter.getFittedText(text: text, geoWidth: geoWidth)
     }

@@ -157,5 +157,21 @@
     "tremorDescr": "80% power",
     "wrathDescr": "95% power, own precision drops",
     
-    "creditBy": "{0} de {1}"
+    "creditBy": "{0} de {1}",
+    
+    "tutorial0": "click on + button to select witch",
+    "tutorial1": "select witch",
+    "tutorial2": "click on selected witch to edit her",
+    "tutorial3": "change her nature and observe how her stats change. each nature has drawbacks and benefits",
+    "tutorial4": "now scroll down to give her an artifact with special effects",
+    "tutorial5": "let's add another witch. you can have up to four witches in a team",
+    "tutorial6": "edit her to your liking and click on the witch when you are ready",
+    "tutorial7": "click on ready to start fight",
+    "tutorial8": "click on continue and then click on spells",
+    "tutorial9": "click on first spell",
+    "tutorial10": "big hit because element disadvantage. let's swap our witch out",
+    "tutorial11": "choose moira the plant witch. plant is effective against water. swap will cost a turn",
+    "tutorial12": "lets attack again. this time we will have advantage",
+    "tutorial13": "click on first spell if long press -> description",
+    "tutorial14": "see the difference? you learned the basics quit tutorial by clicking forfeit"
 }

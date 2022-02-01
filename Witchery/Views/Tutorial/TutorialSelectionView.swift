@@ -50,20 +50,12 @@ struct TutorialSelectionView: View {
         let text: String
         
         switch tutorialCounter {
-            case 1:
-                text = "select witch"
-            case 2:
-                text = "click on selected witch to edit her"
-            case 3:
-                text = "change her **nature** and observe how her stats change. each nature has drawbacks and benefits"
-            case 4:
-                text = "Now scroll down to give her an artifact with special effects"
             case 5, 6, 7:
-                text = "let's add another witch. you can have up to four witches in a team"
+                text = Localization.shared.getTranslation(key: "tutorial5")
             case 8:
-                text = "edit her to your liking and click on the witch when you are ready"
+                text = Localization.shared.getTranslation(key: "tutorial6")
             default:
-                text = ""
+                text = Localization.shared.getTranslation(key: "tutorial\(tutorialCounter)")
         }
         
         return TextFitter.getFittedText(text: text, geoWidth: geoWidth)
@@ -71,9 +63,9 @@ struct TutorialSelectionView: View {
     
     func getBottomTutorialText() -> String {
         if tutorialCounter < 2 {
-            return "click on + button to select witch"
+            return Localization.shared.getTranslation(key: "tutorial0")
         } else {
-            return "click on ready to start fight"
+            return Localization.shared.getTranslation(key: "tutorial7")
         }
     }
     
@@ -170,7 +162,7 @@ struct TutorialSelectionView: View {
                         RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                         RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                         ZStack {
-                            CustomText(text: getTopTutorialText(geoWidth: geometry.size.height + geometry.safeAreaInsets.bottom - 60), fontSize: 14).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                            CustomText(text: getTopTutorialText(geoWidth: geometry.size.height + geometry.safeAreaInsets.bottom - 70), fontSize: 14).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                         }
                         .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(-90))
                     }

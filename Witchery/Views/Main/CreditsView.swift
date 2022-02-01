@@ -35,6 +35,7 @@ struct CreditsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button"))
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["characters", "Shirazu Yomi"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Theo Allen"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)

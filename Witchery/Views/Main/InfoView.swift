@@ -48,6 +48,15 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button"))
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
+                                    CustomText(text: "elemental cycle", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                    Image("elements").resizable().frame(width: 280, height: 280)
+                                }
+                                .padding(.all, 15)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                                VStack(spacing: 0) {
                                     CustomText(text: "spells", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: TextFitter.getFittedText(text: "spells are used to attack, heal or hex  witches. they cost mana.", geoWidth: 275), fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
