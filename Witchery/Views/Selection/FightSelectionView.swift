@@ -19,6 +19,8 @@ struct FightSelectionView: View {
     
     @State var transitionToggle: Bool = true
     
+    /// Creates and returns the logic that will be used int the upcoming fight.
+    /// - Returns: returns the logic that will be used int the upcoming fight.
     func createLogic() -> FightLogic {
         var lefts: [Witch] = []
         for witch in leftWitches {
@@ -37,6 +39,9 @@ struct FightSelectionView: View {
         return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)])
     }
     
+    /// Checks if selected teams contains atleast one witch.
+    /// - Parameter array: The selection of witches to check
+    /// - Returns: Returns wether atleast one witch was selected or not
     func isArrayEmpty(array: [Witch?]) -> Bool {
         for witch in array {
             if witch != nil {
