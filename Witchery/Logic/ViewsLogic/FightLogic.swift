@@ -24,11 +24,16 @@ class FightLogic: ObservableObject {
     
     @Published var weather: Hex?
     
+    /// Creates the logic used for a fight.
+    /// - Parameters:
+    ///   - players: The player fighting against each other
+    ///   - hasCPUPlayer: If one of the players is the CPU
     init(players: [Player], hasCPUPlayer: Bool = false) {
         self.hasCPUPlayer = hasCPUPlayer
 
         self.players = players
         
+        //mirror artifact
         if players[0].getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
             players[0].getCurrentWitch().overrideArtifact(artifact: players[1].getCurrentWitch().getArtifact())
         }
@@ -36,6 +41,7 @@ class FightLogic: ObservableObject {
             players[1].getCurrentWitch().overrideArtifact(artifact: players[0].getCurrentWitch().getArtifact())
         }
         
+        //apply effect of artifact on "entering"
         if players[0].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
             players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
@@ -43,6 +49,7 @@ class FightLogic: ObservableObject {
             players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
         }
         
+        //apply permanent effect of artifact
         for witch in players[0].witches {
             if witch.getArtifact().name == Artifacts.corset.rawValue {
                 witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))

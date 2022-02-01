@@ -5,6 +5,7 @@
 //  Created by Janice Hablützel on 17.01.22.
 //
 
+/// Nature increases or decreases stats of a witch.
 struct Nature: Decodable {
     var name: String
     
@@ -19,6 +20,7 @@ struct Nature: Decodable {
         case healthMod, attackMod, defenseMod, agilityMod, precisionMod, resistanceMod
     }
     
+    /// Creates a basic nature without any stat changes.
     init() {
         name = "modest"
         
@@ -30,6 +32,8 @@ struct Nature: Decodable {
         resistanceMod = 0
     }
     
+    /// Creates a nature from JSON data.
+    /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         

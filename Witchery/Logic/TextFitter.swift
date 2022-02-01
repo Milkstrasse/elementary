@@ -7,7 +7,13 @@
 
 import SwiftUI
 
+/// Divides  strings to make them fit a text box.
 struct TextFitter {
+    /// Divides strings to make them fit a text box while avoiding splitting up words.
+    /// - Parameters:
+    ///   - text: The text that should fit
+    ///   - geoWidth: The width of the text box
+    /// - Returns: Returns a text that will fit the text box
     static func getFittedText(text: String, geoWidth: CGFloat) -> String {
         let cutOff: Int = Int(geoWidth/6)
         var textArray: [String] = []
@@ -20,7 +26,7 @@ struct TextFitter {
         
         var needsRedo: Int = finalizeText(textArray: &textArray)
         
-        while needsRedo > 0 {
+        while needsRedo > 0 { //word has been split up -> redo
             var txt: String = ""
             for index in needsRedo ..< textArray.count {
                 txt += textArray[index]
@@ -42,6 +48,11 @@ struct TextFitter {
         return String(finalText.dropLast())
     }
     
+    /// Creates first attempt at dividing the text to fit a certain width.
+    /// - Parameters:
+    ///   - text: The text that should fit
+    ///   - cutOff: The max length of a string
+    /// - Returns: Returns the text divided into an array
     static func createTextArray(text: String, cutOff: Int) -> [String] {
         var array: [String] = []
         
@@ -62,6 +73,9 @@ struct TextFitter {
         return array
     }
     
+    /// Cleans up text and checks for split words.
+    /// - Parameter textArray: The array containing the raw text
+    /// - Returns: Returns the index where word has been split
     static func finalizeText(textArray: inout [String]) -> Int {
         for index in textArray.indices {
             let textLine: String = textArray[index]

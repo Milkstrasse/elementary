@@ -7,6 +7,7 @@
 
 import AVFoundation
 
+/// Plays audio files.
 class AudioPlayer {
     static let shared: AudioPlayer = AudioPlayer()
     
@@ -19,19 +20,26 @@ class AudioPlayer {
     
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
+    /// Sets the volume for music.
+    /// - Parameter volume: The desired volume
     func setMusicVolume(volume: Float) {
         musicVolume = volume
         musicPlayer?.volume = musicVolume
     }
     
+    /// Sets the volume for sounds.
+    /// - Parameter volume: The desired volume
     func setSoundVolume(volume: Float) {
         soundVolume = volume
     }
     
+    /// Sets the volume for voices.
+    /// - Parameter volume: The desired volume
     func setVoiceVolume(volume: Float) {
         voiceVolume = volume
     }
     
+    /// Plays the background music outside of an fight.
     func playMenuMusic() {
         do {
             let path = Bundle.main.path(forResource: "AltusStratum.mp3", ofType: nil)!
@@ -47,6 +55,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays the background music during of an fight.
     func playBattleMusic() {
         do {
             let path = Bundle.main.path(forResource: "Avenger.mp3", ofType: nil)!
@@ -62,6 +71,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays a basic sound.
     func playStandardSound() {
         do {
             let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
@@ -75,6 +85,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays a confirm sound.
     func playConfirmSound() {
         do {
             let path = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
@@ -88,6 +99,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays a cancel sound.
     func playCancelSound() {
         do {
             let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
@@ -101,6 +113,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays an attack sound.
     func playAttackSound() {
         let index: Int = Int.random(in: 0 ..< 3)
         
@@ -116,6 +129,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays a hurt sound.
     func playHurtSound() {
         let index: Int = Int.random(in: 0 ..< 3)
         
@@ -131,6 +145,7 @@ class AudioPlayer {
         }
     }
     
+    /// Plays a healing sound.
     func playHealSound() {
         let index: Int = Int.random(in: 0 ..< 3)
         

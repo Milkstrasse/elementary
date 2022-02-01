@@ -70,6 +70,7 @@ struct SubSpell: Decodable {
         case power, range, chance, hex, weather, healAmount
     }
     
+    /// Creates placeholder sub spell.
     init() {
         power = 100
         range = 1

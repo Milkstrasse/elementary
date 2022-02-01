@@ -5,11 +5,13 @@
 //  Created by Janice Hablützel on 12.01.22.
 //
 
+/// Artifacts grant a witch all kind of different effects duuring a fight.
 struct Artifact {
     let name: String
     let description: String
 }
 
+/// List of all possible artifacts
 enum Artifacts: String, CaseIterable {
     case noArtifact
     case amulet
@@ -27,10 +29,14 @@ enum Artifacts: String, CaseIterable {
     case wand
     case lastWill
     
+    /// Creates and returns an artifact.
+    /// - Returns: Returns an artifact
     func getArtifact() -> Artifact {
         return Artifact(name: self.rawValue, description: self.rawValue + "Descr")
     }
     
+    /// Returns curated list of artifacts for the tutorial.
+    /// - Returns: Returns an array of artifacts
     static func getTutorialArtifactArray() -> [Artifact] {
         return [Artifacts.noArtifact.getArtifact(), Artifacts.amulet.getArtifact(), Artifacts.book.getArtifact(), Artifacts.charm.getArtifact(), Artifacts.cornucopia.getArtifact()]
     }
