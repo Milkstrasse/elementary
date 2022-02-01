@@ -40,7 +40,7 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "elements", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "each witch has her own element, her element and\nthe element of spells grants her more or less\npower against other witches depending on their\nelements.", fontSize: 14).frame(width: 280, alignment: .leading)
+                                    CustomText(text: TextFitter.getFittedText(text: "each witch has her own element, her element and the element of spells grants her more or less power against other witches depending on their elements.", geoWidth: 275), fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
@@ -49,7 +49,16 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "spells", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "spells are used to attack, heal or hex  witches.\nthey cost mana", fontSize: 14).frame(width: 280, alignment: .leading)
+                                    CustomText(text: TextFitter.getFittedText(text: "spells are used to attack, heal or hex  witches. they cost mana.", geoWidth: 275), fontSize: 14).frame(width: 280, alignment: .leading)
+                                }
+                                .padding(.all, 15)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                                VStack(spacing: 0) {
+                                    CustomText(text: "hexs", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: TextFitter.getFittedText(text: "hexes applies an effect on a witch for multiple turns. hexes can boost or reduce stats, deal damage or heal per round and more. a witch can have up to three hexes and can have multiples of the same hex.", geoWidth: 275), fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
@@ -58,7 +67,7 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "weather", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "weather boost certain elements.", fontSize: 14).frame(width: 280, alignment: .leading)
+                                    CustomText(text: TextFitter.getFittedText(text: "weather boost certain elements.", geoWidth: 275), fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }

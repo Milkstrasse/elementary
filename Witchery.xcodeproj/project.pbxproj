@@ -68,6 +68,7 @@
 		B898D92627A86691001B9137 /* TutorialRightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92527A86691001B9137 /* TutorialRightSelectionView.swift */; };
 		B898D92827A87325001B9137 /* TutorialFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92727A87325001B9137 /* TutorialFightView.swift */; };
 		B898D92A27A873CB001B9137 /* TutorialRightFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92927A873CB001B9137 /* TutorialRightFightView.swift */; };
+		B898D92E27A9B52C001B9137 /* TextFitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92D27A9B52C001B9137 /* TextFitter.swift */; };
 		B8CDEEBD2793647E0073F5B2 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */; };
 		B8CDEEBF279366120073F5B2 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */; };
 		B8CDEEC1279376710073F5B2 /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CDEEC0279376710073F5B2 /* TrainingView.swift */; };
@@ -155,6 +156,7 @@
 		B898D92527A86691001B9137 /* TutorialRightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRightSelectionView.swift; sourceTree = "<group>"; };
 		B898D92727A87325001B9137 /* TutorialFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFightView.swift; sourceTree = "<group>"; };
 		B898D92927A873CB001B9137 /* TutorialRightFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRightFightView.swift; sourceTree = "<group>"; };
+		B898D92D27A9B52C001B9137 /* TextFitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFitter.swift; sourceTree = "<group>"; };
 		B8CDEEBC2793647E0073F5B2 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEBE279366120073F5B2 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B8CDEEC0279376710073F5B2 /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				B81CC32E278A3C3500908195 /* Localization.swift */,
 				B80D7CF52785F90500DEB25F /* GlobalData.swift */,
 				328121A827A283470022A5D1 /* AudioPlayer.swift */,
+				B898D92D27A9B52C001B9137 /* TextFitter.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
+				B898D92E27A9B52C001B9137 /* TextFitter.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,
 				B898D92127A85852001B9137 /* InfoView.swift in Sources */,
 				B898D92627A86691001B9137 /* TutorialRightSelectionView.swift in Sources */,
