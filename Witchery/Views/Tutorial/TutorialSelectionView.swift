@@ -46,24 +46,105 @@ struct TutorialSelectionView: View {
         return true
     }
     
-    func getTopTutorialText() -> String {
+    func getTopTutorialText(geoWidth: CGFloat) -> String {
+        let cutOff: Int = Int(geoWidth/6)
+        
+        var text: String
+        var textArray: [String] = []
+        
         switch tutorialCounter {
             case 1:
-                return "select witch"
+                text = "select witch"
             case 2:
-                return "click on selected witch to edit her"
+                text = "click on selected witch to edit her"
             case 3:
-                return "change her **nature** and observe how her\nstats change. each nature has **drawbacks**\nand **benefits**"
+                text = "change her **nature** and observe how her stats change. each nature has drawbacks and benefits"
             case 4:
-                return "scroll down to give her an artifact with\n**special effects**"
+                text = "Now scroll down to give her an artifact with special effects"
             case 5, 6, 7:
-                return "add another witch. you can have up to four\nwitches in a team"
+                text = "let's add another witch. you can have up to four witches in a team"
             case 8:
-                return "edit her to her liking and click on the witch\nif you are ready"
+                text = "edit her to your liking and click on the witch when you are ready"
             default:
-                return ""
+                text = ""
         }
         
+        if text.count < cutOff {
+            return text
+        }
+        
+        textArray = createTextArray(text: text, cutOff: cutOff)
+        
+        var needsRedo: Int = finalizeText(textArray: &textArray)
+        
+        while needsRedo > 0 {
+            var txt: String = ""
+            for index in needsRedo ..< textArray.count {
+                txt += textArray[index]
+            }
+            
+            let array = createTextArray(text: txt, cutOff: cutOff)
+            for k in needsRedo ..< textArray.count {
+                textArray[k] = array[k - needsRedo]
+            }
+            
+            needsRedo = finalizeText(textArray: &textArray)
+        }
+        
+        var finalText: String = ""
+        for line in textArray {
+            finalText += line + "\n"
+        }
+        
+        return finalText
+    }
+    
+    func createTextArray(text: String, cutOff: Int) -> [String] {
+        var array: [String] = []
+        
+        var offset: Int = cutOff
+        var startIndex: String.Index = text.index(text.startIndex, offsetBy: offset - cutOff)
+        
+        while offset < text.count {
+            startIndex = text.index(text.startIndex, offsetBy: offset - cutOff)
+            let endIndex: String.Index = text.index(startIndex, offsetBy: cutOff)
+            array.append(String(text[startIndex ..< endIndex]))
+            
+            offset += cutOff
+        }
+        
+        startIndex = text.index(text.startIndex, offsetBy: offset - cutOff)
+        array.append(String(text[startIndex ..< text.endIndex]))
+        
+        return array
+    }
+    
+    func finalizeText(textArray: inout [String]) -> Int {
+        for index in textArray.indices {
+            let textLine: String = textArray[index]
+            if textLine.first == " " {
+                textArray[index] = String(textArray[index].dropFirst())
+            } else if index > 0 {
+                if textArray[index - 1].last != " " {
+                    var txt: String = ""
+                    let temp: [String] = textArray[index - 1].components(separatedBy: " ")
+                    for i in 0 ..< temp.count - 1 {
+                        txt.append(temp[i] + " ")
+                    }
+                    
+                    textArray[index - 1] = txt
+                    textArray[index] = temp.last! + textArray[index]
+                    
+                    return index
+                }
+                
+                if textLine.first == " " {
+                    textArray[index] = String(textArray[index].dropFirst())
+                }
+            }
+        }
+        
+        return 0
     }
     
     func getBottomTutorialText() -> String {
@@ -167,7 +248,7 @@ struct TutorialSelectionView: View {
                         RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                         RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                         ZStack {
-                            CustomText(text: getTopTutorialText(), fontSize: 14).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                            CustomText(text: getTopTutorialText(geoWidth: geometry.size.height + geometry.safeAreaInsets.bottom - 60), fontSize: 14).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                         }
                         .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 15).rotationEffect(.degrees(-90))
                     }

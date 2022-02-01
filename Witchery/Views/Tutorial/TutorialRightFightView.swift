@@ -28,25 +28,105 @@ struct TutorialRightFightView: View {
         return width
     }
     
-    func getTutorialText() -> String {
+    func getTutorialText(geoWidth: CGFloat) -> String {
+        let cutOff: Int = Int(geoWidth/6)
+        
+        var text: String
+        var textArray: [String] = []
+        
         switch tutorialCounter {
             case 0:
-                return "click on continue and then\nclick on spells"
+                text = "click on continue and then click on spells"
             case 1:
-                return "click on first spell"
+                text = "click on first spell"
             case 2:
-                return "big hit because element\ndisadvantage. lets swap our\nfire witch out"
+                text = "big hit because element disadvantage. lets swap our witch out"
             case 3:
-                return "choose moira the plant witch\nplant is effective against water\nswap will cost a turn"
+                text = "choose moira the plant witch. plant is effective against water. swap will cost a turn"
             case 4:
-                return "lets attack again. this time\nwe will have advantage"
+                text = "lets attack again. this time we will have advantage"
             case 5:
-                return "click on first spell\nif long press -> description"
+                text = "click on first spell if long press -> description"
             case 6:
-                return "see the difference?\nyou learned the basics\nquit tutorial by clicking forfeit"
+                text = "see the difference? you learned the basics quit tutorial by clicking forfeit"
             default:
-                return ""
+                text = ""
         }
+        
+        if text.count < cutOff {
+            return text
+        }
+        
+        textArray = createTextArray(text: text, cutOff: cutOff)
+        
+        var needsRedo: Int = finalizeText(textArray: &textArray)
+        
+        while needsRedo > 0 {
+            var txt: String = ""
+            for index in needsRedo ..< textArray.count {
+                txt += textArray[index]
+            }
+            
+            let array = createTextArray(text: txt, cutOff: cutOff)
+            for k in needsRedo ..< textArray.count {
+                textArray[k] = array[k - needsRedo]
+            }
+            
+            needsRedo = finalizeText(textArray: &textArray)
+        }
+        
+        var finalText: String = ""
+        for line in textArray {
+            finalText += line + "\n"
+        }
+        
+        return finalText
+    }
+    
+    func createTextArray(text: String, cutOff: Int) -> [String] {
+        var array: [String] = []
+        
+        var offset: Int = cutOff
+        var startIndex: String.Index = text.index(text.startIndex, offsetBy: offset - cutOff)
+        
+        while offset < text.count {
+            startIndex = text.index(text.startIndex, offsetBy: offset - cutOff)
+            let endIndex: String.Index = text.index(startIndex, offsetBy: cutOff)
+            array.append(String(text[startIndex ..< endIndex]))
+            
+            offset += cutOff
+        }
+        
+        startIndex = text.index(text.startIndex, offsetBy: offset - cutOff)
+        array.append(String(text[startIndex ..< text.endIndex]))
+        
+        return array
+    }
+    
+    func finalizeText(textArray: inout [String]) -> Int {
+        for index in textArray.indices {
+            let textLine: String = textArray[index]
+            if index > 0 {
+                if textArray[index - 1].last != " " {
+                    var txt: String = ""
+                    let temp: [String] = textArray[index - 1].components(separatedBy: " ")
+                    for i in 0 ..< temp.count - 1 {
+                        txt.append(temp[i] + " ")
+                    }
+                    
+                    textArray[index - 1] = txt
+                    textArray[index] = temp.last! + textArray[index]
+                    
+                    return index
+                }
+                
+                if textLine.first == " " {
+                    textArray[index] = String(textArray[index].dropFirst())
+                }
+            }
+        }
+        
+        return 0
     }
     
     func blink(delay: TimeInterval) {
@@ -211,7 +291,7 @@ struct TutorialRightFightView: View {
                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 90, height: 240)
                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 90, height: 240)
                     ZStack {
-                        CustomText(text: getTutorialText(), fontSize: 14).frame(width: 210, height: 60, alignment: .topLeading)
+                        CustomText(text: getTutorialText(geoWidth: 210), fontSize: 14).frame(width: 210, height: 60, alignment: .topLeading)
                     }
                     .frame(width: 60, height: 210).padding(.all, 15).rotationEffect(.degrees(-90))
                 }
