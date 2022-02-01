@@ -123,13 +123,19 @@ struct SquareWitchView: View {
     var witch: Witch?
     var isSelected: Bool
     
+    func createSymbol() -> String {
+        let icon: UInt16 = UInt16(Float64(witch!.element.symbol) ?? 0xf52d)
+        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+    }
+    
     var body: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("outline") : Color("button"))
             if witch != nil {
-                Image(witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
+                Text(createSymbol()).frame(width: 28, height: 28).font(.custom("Font Awesome 5 Free", size: 11)).foregroundColor(isSelected ? Color("background") : Color("outline"))
+                Image(witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(x: 10, y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
-                CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24)
+                CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24).frame(width: 70, height: 70)
             }
             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
         }
