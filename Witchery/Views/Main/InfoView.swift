@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct InfoView: View {
+    @EnvironmentObject var manager: ViewManager
+    
     @Binding var infoToggle: Bool
     @Binding var offsetX: CGFloat
+    
+    @Binding var transitionToggle: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -64,6 +68,14 @@ struct InfoView: View {
                     Spacer().frame(height: 10)
                     HStack(spacing: 5) {
                         Spacer()
+                        Button(Localization.shared.getTranslation(key: "tutorial")) {
+                            AudioPlayer.shared.playStandardSound()
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(TutorialSelectionView().environmentObject(manager)))
+                            }
+                        }
+                        .buttonStyle(BasicButton(width: 160))
                         Button("X") {
                             AudioPlayer.shared.playCancelSound()
                             offsetX = -450
@@ -88,7 +100,7 @@ struct InfoView: View {
 
 struct InfoView_Previews: PreviewProvider {
     static var previews: some View {
-        InfoView(infoToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        InfoView(infoToggle: Binding.constant(true), offsetX: Binding.constant(0), transitionToggle: Binding.constant(false))
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

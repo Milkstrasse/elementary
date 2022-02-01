@@ -251,7 +251,7 @@ struct LeftSelectionView: View {
 
 struct LeftSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftSelectionView(witches: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
+        LeftSelectionView(witches:Binding.constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

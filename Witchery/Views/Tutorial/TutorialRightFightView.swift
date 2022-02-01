@@ -310,7 +310,7 @@ struct TutorialRightFightView: View {
 
 struct TutorialRightFightView_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialRightFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), tutorialCounter: .constant(0), offsetX: 0, gameOver: .constant(false))
+        TutorialRightFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), tutorialCounter:Binding.constant(0), offsetX: 0, gameOver:Binding.constant(false))
             .ignoresSafeArea(.all, edges: .bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }

@@ -285,6 +285,6 @@ struct TutorialRightSelectionView: View {
 
 struct TutorialRightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        TutorialRightSelectionView(witches: .constant([nil, nil, nil, nil]), tutorialCounter: .constant(0)).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
+        TutorialRightSelectionView(witches:Binding.constant([nil, nil, nil, nil]), tutorialCounter:Binding.constant(0)).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
     }
 }

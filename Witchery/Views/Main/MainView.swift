@@ -50,14 +50,6 @@ struct MainView: View {
                             overviewToggle = true
                         }
                         .buttonStyle(BasicButton(width: 135))
-                        Button(Localization.shared.getTranslation(key: "tutorial")) {
-                            AudioPlayer.shared.playStandardSound()
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(TutorialSelectionView().environmentObject(manager)))
-                            }
-                        }
-                        .buttonStyle(BasicButton(width: 135))
                         Button(Localization.shared.getTranslation(key: "training")) {
                             AudioPlayer.shared.playStandardSound()
                             transitionToggle = true
@@ -86,7 +78,7 @@ struct MainView: View {
                             settingsToggle = true
                         }
                         .buttonStyle(BasicButton(width: 40))
-                        Button("I") {
+                        Button("?") {
                             AudioPlayer.shared.playStandardSound()
                             infoToggle = true
                         }
@@ -104,7 +96,7 @@ struct MainView: View {
                 } else if settingsToggle {
                     SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX)
                 } else if infoToggle {
-                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX)
+                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX, transitionToggle: $transitionToggle).environmentObject(manager)
                 } else if creditsToggle {
                     CreditsView(creditsToggle: $creditsToggle, offsetX: $offsetX)
                 }
