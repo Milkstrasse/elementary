@@ -28,6 +28,27 @@ struct TutorialRightFightView: View {
         return width
     }
     
+    func getTutorialText() -> String {
+        switch tutorialCounter {
+            case 0:
+                return "click on continue and then\nclick on spells"
+            case 1:
+                return "click on first spell"
+            case 2:
+                return "big hit because element\ndisadvantage. lets swap our\nfire witch out"
+            case 3:
+                return "choose moira the plant witch\nplant is effective against water\nswap will cost a turn"
+            case 4:
+                return "lets attack again. this time\nwe will have advantage"
+            case 5:
+                return "click on first spell\nif long press -> description"
+            case 6:
+                return "see the difference?\nyou learned the basics\nquit tutorial by clicking forfeit"
+            default:
+                return ""
+        }
+    }
+    
     func blink(delay: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             blink = true
@@ -141,7 +162,7 @@ struct TutorialRightFightView: View {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
                                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.battleLog, fontSize: 13).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        CustomText(text: fightLogic.battleLog, fontSize: 14).frame(width: geometry.size.height - 60, alignment: .leading)
                                     }
                                     .frame(height: 85).padding(.horizontal, 15)
                                 }
@@ -155,7 +176,6 @@ struct TutorialRightFightView: View {
                                             SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: player, tutorialCounter: tutorialCounter, geoHeight: geometry.size.height)
                                                 .onAppear {
                                                     tutorialCounter += 1
-                                                    print("\(tutorialCounter)")
                                                 }
                                         } else if currentSection == .team {
                                             TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: player, geoHeight: geometry.size.height)
@@ -170,7 +190,7 @@ struct TutorialRightFightView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
                                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                    CustomText(key: "waiting", fontSize: 13).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
+                                    CustomText(key: "waiting", fontSize: 14).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
                                 }
                                 .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }
@@ -182,9 +202,21 @@ struct TutorialRightFightView: View {
             .frame(width: geometry.size.width)
             .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
+                    tutorialCounter += 1
                     currentSection = .summary
                 }
             })
+            if !fightLogic.battling {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 90, height: 240)
+                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 90, height: 240)
+                    ZStack {
+                        CustomText(text: getTutorialText(), fontSize: 14).frame(width: 210, height: 60, alignment: .topLeading)
+                    }
+                    .frame(width: 60, height: 210).padding(.all, 15).rotationEffect(.degrees(-90))
+                }
+                .padding(.top, 15).offset(x: geometry.size.width - 315)
+            }
         }
         .onAppear {
             let blinkInterval: Int = Int.random(in: 5 ... 10)

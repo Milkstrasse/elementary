@@ -36,7 +36,7 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "elements", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "each witch has her own element, her element and\nthe element of spells grants her more or less\npower against other witches depending on their\nelements.", fontSize: 13).frame(width: 280, alignment: .leading)
+                                    CustomText(text: "each witch has her own element, her element and\nthe element of spells grants her more or less\npower against other witches depending on their\nelements.", fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
@@ -45,7 +45,7 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "spells", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "spells are used to attack, heal or hex  witches.\nthey cost mana", fontSize: 13).frame(width: 280, alignment: .leading)
+                                    CustomText(text: "spells are used to attack, heal or hex  witches.\nthey cost mana", fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
@@ -54,7 +54,7 @@ struct InfoView: View {
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
                                 VStack(spacing: 0) {
                                     CustomText(text: "weather", fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    CustomText(text: "weather boost certain elements.", fontSize: 13).frame(width: 280, alignment: .leading)
+                                    CustomText(text: "weather boost certain elements.", fontSize: 14).frame(width: 280, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }
