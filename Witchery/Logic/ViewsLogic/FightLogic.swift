@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 /// This is the main logic of the game. Stores all participating witches, determines the turn order and the amount of turns needed in each round, swaps witches , determines when the game is over and who has won.
 class FightLogic: ObservableObject {
