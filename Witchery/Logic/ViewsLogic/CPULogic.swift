@@ -67,7 +67,17 @@ struct CPULogic {
             let spellElement: Element = witch.spells[availableSpells[index]].element
             
             if witch.spells[availableSpells[index]].type == "attack" {
-                if spellElement.hasAdvantage(element: enemy.element) {
+                if spellElement.hasAdvantage(element: enemy.element) { //get most effective move
+                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                }
+            }
+        }
+        
+        for index in availableSpells.indices {
+            let spellElement: Element = witch.spells[availableSpells[index]].element
+            
+            if witch.spells[availableSpells[index]].type == "attack" { //get any effective move
+                if !spellElement.hasDisadvantage(element: enemy.element) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
