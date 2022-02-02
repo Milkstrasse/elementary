@@ -11,13 +11,14 @@ struct SettingsView: View {
     @Binding var settingsToggle: Bool
     @Binding var offsetX: CGFloat
     
-    @State var musicVolume: Int = 10
-    @State var soundVolume: Int = 10
-    @State var voiceVolume: Int = 10
+    @State var musicVolume: Int
+    @State var soundVolume: Int
+    @State var voiceVolume: Int
+    
+    @State var hapticToggle: Bool
     
     @State var langIndex: Int = 0
-    
-    @State var textIndex: Int = 2
+    @State var textIndex: Int
     let textSpeeds: [String] = ["slow", "normal", "fast"]
     
     /// Returns the index of the current language.
@@ -156,6 +157,28 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
+                                    CustomText(key: "haptic", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        hapticToggle = !hapticToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: hapticToggle ? "enabled" : "disabled", fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        hapticToggle = !hapticToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.horizontal, 15)
+                            }
+                            .padding(.bottom, 5)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
                                     CustomText(key: "language", fontSize: 14).frame(width: 100, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
@@ -240,6 +263,9 @@ struct SettingsView: View {
                             AudioPlayer.shared.setVoiceVolume(volume: 1.0)
                             voiceVolume = 10
                             
+                            AudioPlayer.shared.hapticToggle = true
+                            hapticToggle = true
+                            
                             GlobalData.shared.textSpeed = 2
                             textIndex = 2
                         }
@@ -251,6 +277,9 @@ struct SettingsView: View {
                             UserDefaults.standard.set(Float(musicVolume)/10, forKey: "music")
                             UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
                             UserDefaults.standard.set(Float(voiceVolume)/10, forKey: "voices")
+                            
+                            AudioPlayer.shared.hapticToggle = hapticToggle
+                            UserDefaults.standard.set(hapticToggle, forKey: "haptic")
                             
                             UserDefaults.standard.set(textIndex, forKey: "textSpeed")
                             
@@ -271,20 +300,14 @@ struct SettingsView: View {
         }
         .onAppear {
             offsetX = 0
-            
             langIndex = getCurrentLang()
-            musicVolume = Int(AudioPlayer.shared.musicVolume * 10)
-            soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
-            voiceVolume = Int(AudioPlayer.shared.voiceVolume * 10)
-            
-            textIndex = GlobalData.shared.textSpeed
         }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0), musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

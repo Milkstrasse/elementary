@@ -197,8 +197,7 @@ class FightLogic: ObservableObject {
                         timer.invalidate()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            let haptic = UISelectionFeedbackGenerator()
-                            haptic.selectionChanged()
+                            AudioPlayer.shared.playConfirmSound()
                             
                             gameLogic.setReady(player: 0, ready: false)
                             gameLogic.setReady(player: 1, ready: false)

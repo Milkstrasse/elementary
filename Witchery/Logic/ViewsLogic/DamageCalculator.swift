@@ -164,7 +164,7 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the attack is a guaranteed K.O.
     func willDefeatWitch(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
-        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
+        let dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
         
         let damage: Int = Int(round(dmg))
         

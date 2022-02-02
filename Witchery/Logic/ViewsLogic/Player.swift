@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// Contains all the important data of a player during a fight: their current team, the current witch and all the used moves.
 class Player: ObservableObject {
@@ -51,6 +52,11 @@ class Player: ObservableObject {
             case .attacking:
                 AudioPlayer.shared.playAttackSound()
             case .hurting:
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+            
                 AudioPlayer.shared.playHurtSound()
             case .healing:
                 AudioPlayer.shared.playHealSound()

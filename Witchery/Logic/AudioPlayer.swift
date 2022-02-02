@@ -18,6 +18,8 @@ class AudioPlayer {
     var voiceVolume: Float = 1.0
     var voicePlayer: AVAudioPlayer?
     
+    var hapticToggle: Bool = true
+    
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
     /// Sets the volume for music.
