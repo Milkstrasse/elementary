@@ -18,6 +18,7 @@ struct HexApplication {
     func applyHex(attacker: Witch, defender: Witch, spell: SubSpell) -> String {
         let chance: Int = Int.random(in: 0 ..< 100)
         if chance >= spell.chance + attacker.getModifiedBase().precision/8 {
+            print("no precision: \(chance)")
             return Localization.shared.getTranslation(key: "hexFailed") + "\n"
         }
         
