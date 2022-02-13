@@ -204,7 +204,7 @@ struct TutorialRightFightView: View {
                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 90, height: 240)
                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 90, height: 240)
                     ZStack {
-                        CustomText(text: getTutorialText(geoWidth: 210), fontSize: 14).frame(width: 210, height: 60, alignment: .topLeading)
+                        CustomText(text: getTutorialText(geoWidth: 210), fontSize: 14).frame(width: 205, height: 60, alignment: .topLeading)
                     }
                     .frame(width: 60, height: 210).padding(.all, 15).rotationEffect(.degrees(-90))
                 }

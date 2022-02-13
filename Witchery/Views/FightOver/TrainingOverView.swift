@@ -106,9 +106,9 @@ struct TrainingOverView: View {
                             RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height - 30)
                             ZStack {
                                 if !isTutorial {
-                                    CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                                 } else {
-                                    CustomText(text: "rematch if you want to play again", fontSize: 16).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(text: "click on rematch if you want to play again", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
                                 }
                             }
                             .frame(width: 80, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))
