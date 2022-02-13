@@ -131,6 +131,16 @@ class Witch: Hashable {
         return false
     }
     
+    func getHexDuration(hexName: String) -> Int {
+        for hex in hexes {
+            if hex.name == hexName {
+                return hex.duration
+            }
+        }
+        
+        return 0
+    }
+    
     /// Tries to to apply an hex to the witch
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not

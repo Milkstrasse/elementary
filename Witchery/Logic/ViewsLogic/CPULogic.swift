@@ -16,7 +16,7 @@ struct CPULogic {
     ///   - weather: The current weather of the fight
     ///   - isAbleToSwitch: Wether the witch can swap or not
     /// - Returns: Returns the best move
-    func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool) -> Move? {
+    func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
         //avoid fighting against enemy with advantage
         if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
             if !witch.hasHex(hexName: Hexes.chained.rawValue) {
@@ -33,11 +33,17 @@ struct CPULogic {
             }
         }
         
+        //no moves found
+        if availableSpells.isEmpty {
+            return Move(source: witch, target: -1, spell: witch.spells[0])
+        }
+        
         //have control over weather since the weather boosts certain attacks
-        for index in availableSpells.indices {
-            for spell in witch.spells[availableSpells[index]].spells {
-                if witch.spells[availableSpells[index]].typeID == 0 {
-                    if weather?.name != spell.weather! || weather?.duration == 1 {
+        var rndm: Int = Int.random(in: 0 ..< 3)
+        if rndm > 0 {
+            for index in availableSpells.indices {
+                if witch.spells[availableSpells[index]].typeID == 8 {
+                    if weather?.name != witch.spells[availableSpells[index]].spells[0].weather! || weather?.duration == 1 {
                         return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                     }
                 }
@@ -46,8 +52,8 @@ struct CPULogic {
         
         //top priority: find move that defeats the enemy witch!
         for index in availableSpells.indices {
-            if witch.spells[availableSpells[index]].typeID == 0 {
-                if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
+            if witch.spells[availableSpells[index]].typeID < 8 {
+                if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], subSpell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -62,29 +68,47 @@ struct CPULogic {
             }
         }
         
-        //main goal is to do damage
-        for index in availableSpells.indices {
-            let spellElement: Element = witch.spells[availableSpells[index]].element
-            
-            if witch.spells[availableSpells[index]].typeID == 0 {
-                if spellElement.hasAdvantage(element: target.getElement()) { //get most effective move
-                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+        //consider using shield
+        if target.getHexDuration(hexName: Hexes.poisoned.rawValue) > 1 || witch.getHexDuration(hexName: Hexes.healed.rawValue) > 1 {
+            if lastMove == nil || lastMove?.spell.typeID != 10 {
+                for index in availableSpells.indices {
+                    if witch.spells[availableSpells[index]].typeID == 10 {
+                        return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                    }
                 }
             }
         }
         
-        for index in availableSpells.indices {
-            let spellElement: Element = witch.spells[availableSpells[index]].element
-            
-            if witch.spells[availableSpells[index]].typeID == 0 { //get any effective move
-                if !spellElement.hasDisadvantage(element: target.getElement()) {
-                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+        //consider using a hex
+        rndm = Int.random(in: 0 ..< 3)
+        if rndm > 0 {
+            if witch.currhp > witch.getModifiedBase().health/4 * 3 {
+                for index in availableSpells.indices {
+                    if witch.spells[availableSpells[index]].typeID == 11 {
+                        if witch.spells[availableSpells[index]].spells[0].range == 0 && witch.hexes.count < 2 {
+                            return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                        } else if witch.spells[availableSpells[index]].spells[0].range == 1 && target.hexes.count < 2 {
+                            return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                        }
+                    }
                 }
             }
         }
         
-        //no good move has been found
-        return Move(source: witch, target: -1, spell: witch.spells[0])
+        //main goal is to do the most damage
+        var bestSpell: (Float, Int)
+        bestSpell = (calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[0]], weather: weather), 0)
+        
+        for index in 1 ..< availableSpells.count {
+            if witch.spells[availableSpells[index]].typeID < 8 {
+                let dmg: Float = calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], weather: weather)
+                if dmg > bestSpell.0 {
+                    bestSpell = (dmg, index)
+                }
+            }
+        }
+        
+        return Move(source: witch, target: -1, spell: witch.spells[bestSpell.1])
     }
     
     /// Determines the best witch to swap to for the CPU.
@@ -118,5 +142,23 @@ struct CPULogic {
         }
         
         return currentWitch + 1 //should be impossible to reach if everything works correctly
+    }
+    
+    func calcDamage(attacker: Witch, defender: Witch, spell: Spell, weather: Hex?) -> Float {
+        var dmg: Float
+        switch spell.typeID {
+            case 1:
+                dmg = Float(spell.spells[0].power)
+            case 3:
+                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: spell.spells[0].power + spell.useCounter * 5)
+            case 4:
+                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
+            case 5:
+                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.currhp)
+            default:
+                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather)
+        }
+        
+        return dmg
     }
 }

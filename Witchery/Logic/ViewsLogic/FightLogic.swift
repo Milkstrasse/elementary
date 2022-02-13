@@ -81,7 +81,7 @@ class FightLogic: ObservableObject {
                 swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), target: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]))
+            var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), target: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]), lastMove: players[0].usedMoves.first)
             
             if rndmMove == nil { //CPU wants to switch
                 rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()), spell: Spell())

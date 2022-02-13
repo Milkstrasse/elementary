@@ -185,8 +185,23 @@ struct DamageCalculator {
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the attack is a guaranteed K.O.
-    func willDefeatWitch(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
-        let dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell, spellElement: spellElement, weather: weather)
+    func willDefeatWitch(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?) -> Bool {
+        let dmg: Float
+        
+        switch spell.typeID {
+            case 1:
+                dmg = Float(subSpell.power)
+            case 2:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
+            case 3:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
+            case 4:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
+            case 5:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.currhp)
+            default:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
+        }
         
         let damage: Int = Int(round(dmg))
         
