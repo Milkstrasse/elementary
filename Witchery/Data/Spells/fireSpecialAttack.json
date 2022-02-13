@@ -1,0 +1,16 @@
+{
+  "element": "fire",
+  "typeID": 0,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 90,
+          "range": 1
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "precisionDrop"
+      }
+  ]
+}

@@ -19,12 +19,12 @@ struct DamageCalculator {
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> String {
+    func applyDamage(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool, usedEndure: Bool) -> String {
         var text: String = Localization.shared.getTranslation(key: "hit") + "\n"
         
         //determine actual target
         var target: Witch = defender
-        if spell.range == 0 {
+        if subSpell.range == 0 {
             target = attacker
         }
         
@@ -33,11 +33,30 @@ struct DamageCalculator {
         }
         
         //damage calculation
-        var dmg: Float = calcNonCriticalDamage(attacker: attacker, defender: target, spell: spell, spellElement: spellElement, weather: weather)
+        var dmg: Float
+        
+        switch spell.typeID {
+            case 1:
+                dmg = Float(subSpell.power)
+            case 2:
+                if usedShield {
+                    dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power * 2)
+                } else {
+                    dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
+                }
+            case 3:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
+            case 4:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
+            case 5:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.currhp)
+            default:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
+        }
         
         //multiply with critical modifier
         var chance: Int = Int.random(in: 0 ..< 100)
-        if chance < attacker.getModifiedBase().precision/8 {
+        if spell.typeID != 1 && chance < attacker.getModifiedBase().precision/8 {
             chance = Int.random(in: 0 ..< 100)
             
             if chance >= attacker.getModifiedBase().resistance/10 {
@@ -48,15 +67,15 @@ struct DamageCalculator {
         
         let damage: Int = Int(round(dmg))
         
-        if damage >= target.currhp { //prevent hp below 0
-            print(target.name + " lost \(damage)DMG.\n")
+        if usedEndure && target.currhp > 1 {
+            target.currhp = 1
+        } else if damage >= target.currhp { //prevent hp below 0
             target.currhp = 0
-            
-            return text
+        } else {
+            target.currhp -= damage
         }
         
         print(target.name + " lost \(damage)DMG.\n")
-        target.currhp -= damage
         return text
     }
     
@@ -70,16 +89,16 @@ struct DamageCalculator {
         var modifier: Float = 1
         
         //elemental modifier of witch
-        if attacker.element.hasAdvantage(element: defender.element) {
+        if attacker.getElement().hasAdvantage(element: defender.getElement()) {
             modifier *= 2
-        } else if attacker.element.hasDisadvantage(element: defender.element) {
+        } else if attacker.getElement().hasDisadvantage(element: defender.getElement()) {
             modifier *= 0.5
         }
         
         //elemental modifier of spell
-        if spellElement.hasAdvantage(element: defender.element) {
+        if spellElement.hasAdvantage(element: defender.getElement()) {
             modifier *= 2
-        } else if spellElement.hasDisadvantage(element: defender.element) {
+        } else if spellElement.hasDisadvantage(element: defender.getElement()) {
             modifier *= 0.5
         }
         
@@ -136,16 +155,19 @@ struct DamageCalculator {
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns the damage of the attack
-    func calcNonCriticalDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?) -> Float {
-        let attack: Float = Float(spell.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+    func calcNonCriticalDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
+        let attack: Float
+        if powerOverride > 0 {
+            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase().attack) * 16
+        } else {
+            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+        }
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
         
         //multiply with elemental modifier
-        if attacker.getArtifact().name != Artifacts.ring.rawValue && defender.getArtifact().name != Artifacts.ring.rawValue {
-            dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement)
-        }
+        dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement)
         
         //multiply with weather modifier
         if weather != nil {

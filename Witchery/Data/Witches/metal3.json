@@ -1,0 +1,17 @@
+{
+  "element": "metal",
+  "base": {
+      "health": 100,
+      "attack": 50,
+      "defense": 100,
+      "agility": 50,
+      "precision": 150,
+      "resistance": 50
+  },
+  "spells": [
+      "metalSimpleAttack",
+      "metalSpecial2Attack",
+      "confusion",
+      "protection"
+  ]
+}

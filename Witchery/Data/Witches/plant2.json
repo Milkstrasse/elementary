@@ -1,0 +1,17 @@
+{
+  "element": "plant",
+  "base": {
+      "health": 100,
+      "attack": 50,
+      "defense": 100,
+      "agility": 100,
+      "precision": 50,
+      "resistance": 100
+  },
+  "spells": [
+      "plantSimpleAttack",
+      "plantSpecial2Attack",
+      "changeElement",
+      "healingWish"
+  ]
+}

@@ -78,13 +78,13 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().element))
+                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), enemy: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]))
+            var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), target: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]))
             
             if rndmMove == nil { //CPU wants to switch
-                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().element), spell: Spell())
+                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()), spell: Spell())
             }
             
             players[0].usedMoves.insert(rndmMove!, at: 0)
@@ -166,8 +166,27 @@ class FightLogic: ObservableObject {
                 }
             }
             
+            let fasterPlayer: Int = getFasterPlayer()
+            
+            if player.usedMoves[0].spell.typeID == 20 { //player wants to copy enemies move
+                var oppositePlayer: Player = players[0]
+                if player.id == 0 {
+                    oppositePlayer = players[1]
+                }
+                
+                if fasterPlayer == oppositePlayer.id {
+                    if players[oppositePlayer.id].usedMoves[0].target < 0 {
+                        player.usedMoves[0] = players[oppositePlayer.id].usedMoves[0]
+                    }
+                } else if players[oppositePlayer.id].usedMoves.count > 1 {
+                    if players[oppositePlayer.id].usedMoves[1].target < 0 {
+                        player.usedMoves[0] = players[oppositePlayer.id].usedMoves[1]
+                    }
+                }
+            }
+            
             //adds faster player to playerStack
-            addMoveTurn(player: players[getFasterPlayer()])
+            addMoveTurn(player: players[fasterPlayer])
             
             var endRound: Bool = false
             
@@ -231,27 +250,21 @@ class FightLogic: ObservableObject {
             return 1
         }
         
-        //shielding moves have priority
-        if players[0].usedMoves[0].spell.type == "shield" {
+        //priority move goes first
+        if players[0].usedMoves[0].spell.priority > players[1].usedMoves[0].spell.priority {
             return 0
-        } else if players[1].usedMoves[0].spell.type == "shield" {
+        } else if players[0].usedMoves[0].spell.priority < players[1].usedMoves[0].spell.priority {
             return 1
         }
         
-        var fasterPlayer: Int
-        
         //determine priority with using the agility stat of the witches
         if players[0].getCurrentWitch().getModifiedBase().agility > players[1].getCurrentWitch().getModifiedBase().agility {
-            fasterPlayer = 0
+            return 0
         } else if players[1].getCurrentWitch().getModifiedBase().agility > players[0].getCurrentWitch().getModifiedBase().agility {
-            fasterPlayer = 1
-        } else if Bool.random() { //agility stat tie -> random player has priority
-            fasterPlayer = 0
-        } else {
-            fasterPlayer = 1
+            return 1
+        } else { //agility stat tie -> random player has priority
+            return Int.random(in: 0 ... 1)
         }
-        
-        return fasterPlayer
     }
     
     /// Adds turns to the current round of fighting.
@@ -398,6 +411,14 @@ class FightLogic: ObservableObject {
             if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 4)) {
                 text += Localization.shared.getTranslation(key: "becameHex", params: [player.getCurrentWitch().name, Hexes.blessed.rawValue]) + "\n"
             }
+        }
+        
+        if player.wishActivated && player.getCurrentWitch().currhp < player.getCurrentWitch().getModifiedBase().health {
+            player.getCurrentWitch().currhp = player.getCurrentWitch().getModifiedBase().health
+            
+            text += Localization.shared.getTranslation(key: "gainedHP", params: [player.getCurrentWitch().name]) + "\n"
+            
+            player.wishActivated = false
         }
         
         var oppositePlayer: Player = players[0]

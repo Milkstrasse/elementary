@@ -26,9 +26,9 @@ struct TeamView: View {
             oppositePlayer = fightLogic.players[1]
         }
         
-        if witch.element.hasAdvantage(element: oppositePlayer.getCurrentWitch().element) {
+        if witch.getElement().hasAdvantage(element: oppositePlayer.getCurrentWitch().getElement()) {
             text += Localization.shared.getTranslation(key: "veryEffective")
-        } else if witch.element.hasDisadvantage(element: oppositePlayer.getCurrentWitch().element) {
+        } else if witch.getElement().hasDisadvantage(element: oppositePlayer.getCurrentWitch().getElement()) {
             text += Localization.shared.getTranslation(key: "notVeryEffective")
         } else {
             text += Localization.shared.getTranslation(key: "effective")
@@ -40,7 +40,7 @@ struct TeamView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
                 ForEach(player.witches.indices) { index in
                     if index != player.currentWitchId {
                         Button(action: {
@@ -52,7 +52,7 @@ struct TeamView: View {
                                 currentSection = .options
                             }
                         }) {
-                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                         .id(index + 1).opacity(player.witches[index].currhp == 0 ? 0.7 : 1.0).disabled(player.witches[index].currhp == 0)
                     }

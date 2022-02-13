@@ -1,0 +1,13 @@
+{
+  "element": "aether",
+  "typeID": 11,
+  "uses": 15,
+  "spells": [
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 90,
+          "hex": "haunted"
+      }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "element": "fire",
+  "base": {
+      "health": 100,
+      "attack": 50,
+      "defense": 50,
+      "agility": 100,
+      "precision": 150,
+      "resistance": 50
+  },
+  "spells": [
+      "fireSimpleAttack",
+      "fireSpecialAttack",
+      "sunnyDay",
+      "poison"
+  ]
+}

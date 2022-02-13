@@ -1,0 +1,12 @@
+{
+  "element": "ground",
+  "typeID": 8,
+  "uses": 15,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "weather": "sandstorm"
+      }
+  ]
+}

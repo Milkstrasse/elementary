@@ -1,0 +1,17 @@
+{
+  "element": "wind",
+  "base": {
+      "health": 100,
+      "attack": 50,
+      "defense": 100,
+      "agility": 50,
+      "precision": 50,
+      "resistance": 150
+  },
+  "spells": [
+      "windSimpleAttack",
+      "windSpecial2Attack",
+      "bomb",
+      "endure"
+  ]
+}

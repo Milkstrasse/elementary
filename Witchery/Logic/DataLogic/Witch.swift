@@ -8,7 +8,8 @@
 /// Contains all the important data of a witch.
 class Witch: Hashable {
     let name: String
-    let element: Element
+    private let element: Element
+    private var elementOverride: Element?
     
     let data: WitchData
     
@@ -53,6 +54,24 @@ class Witch: Hashable {
         artifact = Artifacts.allCases[0].getArtifact()
     }
     
+    /// Returns the current element of a witch checking if the permanent element is overriden by another.
+    /// - Returns: Returns the current active element
+    func getElement() -> Element {
+        var currElement: Element = element
+        
+        if getArtifact().name == Artifacts.ring.rawValue {
+            currElement = Element()
+        }
+        
+        return elementOverride ?? currElement
+    }
+    
+    /// Changes the temporary element of a witch.
+    /// - Parameter artifact: The desired element
+    func overrideElement(newElement: Element) {
+        self.elementOverride = newElement
+    }
+    
     /// Calculates current stats of a witch taking the current nature and hexes of the witch into consideration.
     /// - Returns: Returns the current stats of a witch
     func getModifiedBase() -> Base {
@@ -94,7 +113,7 @@ class Witch: Hashable {
     }
     
     /// Returns the current artifact of a witch checking if the permanent artifact is overriden by another.
-    /// - Returns: Returns teh current active artifact
+    /// - Returns: Returns the current active artifact
     func getArtifact() -> Artifact {
         return artifactOverride ?? artifact
     }
@@ -235,18 +254,24 @@ class Witch: Hashable {
         }
     }
     
-    /// Removes all hexes, refreshes all spells and restores the health of the witch
-    func reset() {
+    func removeAllHexes() {
         attackMod = 0
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
         
-        currhp = getModifiedBase().health
-        
-        hexes = []
         manaUse = 2
         
+        hexes = []
+    }
+    
+    /// Removes all hexes, refreshes all spells and restores the health of the witch
+    func reset() {
+        currhp = getModifiedBase().health
+        
+        removeAllHexes()
+        
+        elementOverride = nil
         artifactOverride = nil
         
         for index in spells.indices {

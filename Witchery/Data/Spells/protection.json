@@ -1,6 +1,7 @@
 {
   "element": "aether",
-  "type": "shield",
+  "typeID": 10,
+  "priority": 10,
   "uses": 10,
   "spells": [
       {

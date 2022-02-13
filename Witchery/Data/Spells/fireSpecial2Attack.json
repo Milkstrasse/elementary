@@ -1,0 +1,11 @@
+{
+  "element": "fire",
+  "typeID": 1,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 45,
+          "range": 1
+      }
+  ]
+}

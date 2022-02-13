@@ -10,14 +10,15 @@ struct Spell: Decodable, Hashable {
     var name: String
     let element: Element
     
-    let type: String
+    let typeID: Int
+    let priority: Int
     
     let uses: Int
     var useCounter: Int = 0
     let spells: [SubSpell]
     
     enum CodingKeys: String, CodingKey {
-        case element, type, uses, spells
+        case element, typeID, priority, uses, spells
     }
     
     /// Creates placeholder spell.
@@ -25,7 +26,8 @@ struct Spell: Decodable, Hashable {
         name = "unknownSpell"
         element = Element()
         
-        type = "default"
+        typeID = 0
+        priority = 0
         
         uses = 10
         spells = [SubSpell()]
@@ -40,7 +42,8 @@ struct Spell: Decodable, Hashable {
         let elem = try container.decode(String.self, forKey: .element)
         element = GlobalData.shared.elements[elem] ?? Element()
         
-        type = try container.decode(String.self, forKey: .type)
+        typeID = try container.decode(Int.self, forKey: .typeID)
+        priority = try container.decodeIfPresent(Int.self, forKey: .priority) ?? 0
         
         uses = try container.decode(Int.self, forKey: .uses)
         spells = try container.decode([SubSpell].self, forKey: .spells)

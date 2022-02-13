@@ -17,6 +17,7 @@ class Player: ObservableObject {
     
     var usedMoves: [Move]
     var hasToSwap: Bool
+    var wishActivated: Bool
     
     @Published var state: PlayerState
     
@@ -31,6 +32,7 @@ class Player: ObservableObject {
         
         usedMoves = []
         hasToSwap = false
+        wishActivated = false
         
         state = PlayerState.neutral
     }

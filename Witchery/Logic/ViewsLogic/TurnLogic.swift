@@ -101,7 +101,7 @@ class TurnLogic {
         }
         
         //checks if shielding spell is used or another spell
-        if spell.type == "shield" {
+        if spell.typeID == 10 {
             let usedMoves: [Move] = player.usedMoves
             var text: String
         
@@ -131,10 +131,15 @@ class TurnLogic {
         }
         
         //checks if targeted user is successfully shielded or not
+        var usedShield: Bool = false
         if spell.spells[fightLogic!.playerStack[0].index - 1].range > 0 {
-            if oppositePlayer.usedMoves[0].spell.type == "shield" {
-                if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //attack was successfully blocked
-                    return Localization.shared.getTranslation(key: "fail") + "\n"
+            if oppositePlayer.usedMoves[0].spell.typeID == 10 {
+                if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //shield was successful
+                    if player.usedMoves[0].spell.typeID != 2 {
+                        return Localization.shared.getTranslation(key: "fail") + "\n"
+                    } else {
+                        usedShield = true
+                    }
                 }
             }
         }
@@ -153,7 +158,7 @@ class TurnLogic {
                 player.setState(state: PlayerState.hurting)
             }
             
-            return DamageCalculator.shared.applyDamage(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather)
+            return DamageCalculator.shared.applyDamage(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: spell, subSpell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather, usedShield: usedShield, usedEndure: oppositePlayer.usedMoves[0].spell.typeID == 16)
         } else if usedSpell.hex != nil { //hex adding spell
             return HexApplication.shared.applyHex(attacker: player.getCurrentWitch(), defender: oppositePlayer.getCurrentWitch(), spell: usedSpell)
         } else if usedSpell.healAmount > 0 {
@@ -175,16 +180,66 @@ class TurnLogic {
                 }
                 
                 return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
-            } else { //weather already active 0r invalid weather
+            } else { //weather already active or invalid weather
                 return Localization.shared.getTranslation(key: "weatherFailed") + "\n"
             }
         } else {
-            switch player.usedMoves[0].spell.name {
-                case "minimize":
+            switch player.usedMoves[0].spell.typeID {
+                case 6:
                     if fightLogic!.isAbleToSwap(player: player) {
                         player.hasToSwap = true
-                        return player.getCurrentWitch().name +  " flees the scene.\n"
+                        return player.getCurrentWitch().name +  " flEes tHe sceNe.\n"
                     }
+                case 7:
+                    player.getCurrentWitch().overrideElement(newElement: Element())
+                    return player.getCurrentWitch().name +  "'s elEment Was reMoved.\n"
+                case 12:
+                    if fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                        oppositePlayer.hasToSwap = true
+                        return oppositePlayer.getCurrentWitch().name +  " is fOrced oUt.\n"
+                    }
+                case 13:
+                    let hexes: [Hex] = player.getCurrentWitch().hexes
+                    player.getCurrentWitch().removeAllHexes()
+                    for hex in oppositePlayer.getCurrentWitch().hexes {
+                        player.getCurrentWitch().applyHex(hex: hex)
+                    }
+                
+                    oppositePlayer.getCurrentWitch().removeAllHexes()
+                    for hex in hexes {
+                        oppositePlayer.getCurrentWitch().applyHex(hex: hex)
+                    }
+                
+                    return "sWappEd heXes.\n"
+                case 14:
+                    oppositePlayer.getCurrentWitch().overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                    return oppositePlayer.getCurrentWitch().name +  "'s artiFact Was stoLen.\n"
+                case 15:
+                    oppositePlayer.getCurrentWitch().overrideElement(newElement: player.getCurrentWitch().getElement())
+                    return oppositePlayer.getCurrentWitch().name +  "'s elEment Was cHanged.\n"
+                case 16:
+                    return player.getCurrentWitch().name +  " wilL enDure.\n"
+                case 17:
+                    player.getCurrentWitch().removeAllHexes()
+                    oppositePlayer.getCurrentWitch().removeAllHexes()
+                    fightLogic?.weather = nil
+                
+                    return player.getCurrentWitch().name +  " clEared eVeryThing.\n"
+                case 18:
+                    player.wishActivated = true
+                    player.getCurrentWitch().currhp = 0
+                    player.hasToSwap = true
+                    return player.getCurrentWitch().name +  "'s faInted.\n"
+                case 19:
+                    let hexes: [Hex] = oppositePlayer.getCurrentWitch().hexes
+                    oppositePlayer.getCurrentWitch().removeAllHexes()
+                    for hex in hexes {
+                        if hex.opposite != nil {
+                            oppositePlayer.getCurrentWitch().applyHex(hex: hex.opposite!.getHex())
+                        }
+                    }
+                
+                    return oppositePlayer.getCurrentWitch().name +  "'s hExes inVertEd.\n"
                 default:
                     break
             }

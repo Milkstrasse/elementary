@@ -1,0 +1,17 @@
+{
+  "element": "water",
+  "base": {
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 50,
+      "precision": 50,
+      "resistance": 100
+  },
+  "spells": [
+      "waterSimpleAttack",
+      "waterElementAttack",
+      "healingWish",
+      "invertHexes"
+  ]
+}

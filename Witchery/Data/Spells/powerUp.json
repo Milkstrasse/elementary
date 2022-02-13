@@ -1,0 +1,17 @@
+{
+  "element": "electric",
+  "typeID": 11,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "attackBoost"
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "invigorated"
+      }
+  ]
+}

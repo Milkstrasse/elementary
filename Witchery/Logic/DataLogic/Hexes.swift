@@ -97,9 +97,9 @@ enum Hexes: String, CaseIterable {
             case .resistanceDrop:
                 return Hex(name: self.rawValue, symbol: 0xe05d, duration: duration, positive: false, opposite: .resistanceBoost)
             case .poisoned:
-                return Hex(name: self.rawValue, symbol: 0xf54c, duration: duration, positive: false, damageAmount: 10)
+                return Hex(name: self.rawValue, symbol: 0xf54c, duration: duration, positive: false, damageAmount: 10, opposite: .healed)
             case .healed:
-                return Hex(name: self.rawValue, symbol: 0xe05c, duration: duration, positive: true, damageAmount: -10)
+                return Hex(name: self.rawValue, symbol: 0xe05c, duration: duration, positive: true, damageAmount: -10, opposite: .poisoned)
             case .confused:
                 return Hex(name: self.rawValue, symbol: 0xf074, duration: duration, positive: false)
             case .bombed:
@@ -111,9 +111,9 @@ enum Hexes: String, CaseIterable {
             case .chained:
                 return Hex(name: self.rawValue, symbol: 0xf0c1, duration: duration, positive: false)
             case .invigorated:
-                return Hex(name: self.rawValue, symbol: 0xf102, duration: duration, positive: true)
+                return Hex(name: self.rawValue, symbol: 0xf102, duration: duration, positive: true, opposite: .exhausted)
             case .exhausted:
-                return Hex(name: self.rawValue, symbol: 0xf103, duration: duration, positive: false)
+                return Hex(name: self.rawValue, symbol: 0xf103, duration: duration, positive: false, opposite: .invigorated)
             case .restricted:
                 return Hex(name: self.rawValue, symbol: 0xf023, duration: duration, positive: false)
         }

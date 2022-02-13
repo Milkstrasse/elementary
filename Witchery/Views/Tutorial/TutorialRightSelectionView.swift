@@ -57,9 +57,9 @@ struct TutorialRightSelectionView: View {
     }
     
     func isWitchDisabled(witch: Witch) -> Bool {
-        if tutorialCounter == 1 && witch.element.name == "fire" {
+        if tutorialCounter == 1 && witch.getElement().name == "fire" {
             return false
-        } else if tutorialCounter == 6 && witch.element.name == "plant" {
+        } else if tutorialCounter == 6 && witch.getElement().name == "plant" {
             return false
         }
         

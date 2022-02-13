@@ -50,7 +50,7 @@ struct OverviewView: View {
             var elementals: [Witch] = []
             
             for witch in GlobalData.shared.witches {
-                if element!.name == witch.element.name {
+                if element!.name == witch.getElement().name {
                     elementals.append(witch)
                 }
             }

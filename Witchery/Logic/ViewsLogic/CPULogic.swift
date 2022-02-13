@@ -16,9 +16,9 @@ struct CPULogic {
     ///   - weather: The current weather of the fight
     ///   - isAbleToSwitch: Wether the witch can swap or not
     /// - Returns: Returns the best move
-    func getMove(witch: Witch, enemy: Witch, weather: Hex?, isAbleToSwitch: Bool) -> Move? {
+    func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool) -> Move? {
         //avoid fighting against enemy with advantage
-        if witch.element.hasDisadvantage(element: enemy.element) && isAbleToSwitch {
+        if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
             if !witch.hasHex(hexName: Hexes.chained.rawValue) {
                 return nil
             }
@@ -34,10 +34,10 @@ struct CPULogic {
         }
         
         //have control over weather since the weather boosts certain attacks
-        if weather == nil || weather?.duration == 1 {
-            for index in availableSpells.indices {
-                for spell in witch.spells[availableSpells[index]].spells {
-                    if spell.weather != nil {
+        for index in availableSpells.indices {
+            for spell in witch.spells[availableSpells[index]].spells {
+                if witch.spells[availableSpells[index]].typeID == 0 {
+                    if weather?.name != spell.weather! || weather?.duration == 1 {
                         return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                     }
                 }
@@ -46,8 +46,8 @@ struct CPULogic {
         
         //top priority: find move that defeats the enemy witch!
         for index in availableSpells.indices {
-            if witch.spells[availableSpells[index]].type == "attack" {
-                if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: enemy, spell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
+            if witch.spells[availableSpells[index]].typeID == 0 {
+                if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -56,7 +56,7 @@ struct CPULogic {
         //low health -> should heal
         if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.haunted.rawValue) {
             for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].type == "heal" {
+                if witch.spells[availableSpells[index]].typeID == 9 {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -66,8 +66,8 @@ struct CPULogic {
         for index in availableSpells.indices {
             let spellElement: Element = witch.spells[availableSpells[index]].element
             
-            if witch.spells[availableSpells[index]].type == "attack" {
-                if spellElement.hasAdvantage(element: enemy.element) { //get most effective move
+            if witch.spells[availableSpells[index]].typeID == 0 {
+                if spellElement.hasAdvantage(element: target.getElement()) { //get most effective move
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -76,8 +76,8 @@ struct CPULogic {
         for index in availableSpells.indices {
             let spellElement: Element = witch.spells[availableSpells[index]].element
             
-            if witch.spells[availableSpells[index]].type == "attack" { //get any effective move
-                if !spellElement.hasDisadvantage(element: enemy.element) {
+            if witch.spells[availableSpells[index]].typeID == 0 { //get any effective move
+                if !spellElement.hasDisadvantage(element: target.getElement()) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -95,7 +95,7 @@ struct CPULogic {
     /// - Returns: Returns the index of the best witch to swap to
     func getTarget(currentWitch: Int, witches: [Witch], enemyElement: Element) -> Int {
         for index in witches.indices {
-            if witches[index].element.hasAdvantage(element: enemyElement) && index != currentWitch {
+            if witches[index].getElement().hasAdvantage(element: enemyElement) && index != currentWitch {
                 if witches[index].currhp > 0 {
                     return index
                 }
@@ -103,7 +103,7 @@ struct CPULogic {
         }
         
         for index in witches.indices {
-            if !witches[index].element.hasDisadvantage(element: enemyElement) && index != currentWitch {
+            if !witches[index].getElement().hasDisadvantage(element: enemyElement) && index != currentWitch {
                 if witches[index].currhp > 0 {
                     return index
                 }

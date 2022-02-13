@@ -1,6 +1,6 @@
 {
-  "element": "fire",
-  "type": "special",
+  "element": "plant",
+  "typeID": 8,
   "uses": 15,
   "spells": [
       {
