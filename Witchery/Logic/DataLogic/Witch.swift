@@ -82,11 +82,11 @@ class Witch: Hashable {
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
         
-        if artifact.name == Artifacts.wand.rawValue && currhp < health/4 {
+        if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
             attack += 40
-        } else if artifact.name == Artifacts.charm.rawValue && currhp < health/4 {
+        } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
             defense += 40
-        } else if artifact.name == Artifacts.corset.rawValue {
+        } else if getArtifact().name == Artifacts.corset.rawValue {
             attack += 40
         }
         
@@ -109,6 +109,10 @@ class Witch: Hashable {
     /// Changes the temporary artifact of a witch.
     /// - Parameter artifact: The desired artifact
     func overrideArtifact(artifact: Artifact) {
+        if artifact.name == Artifacts.corset.rawValue {
+            removeHex(hex: Hexes.restricted.getHex())
+        }
+        
         self.artifactOverride = artifact
     }
     
@@ -232,10 +236,10 @@ class Witch: Hashable {
     /// Removes an hex from the witch and reverts changes made by the hex
     /// - Parameter hex: The hex to be removed
     func removeHex(hex: Hex) {
-        if hexes[0].duration == 0 || hex.duration < 0 {
-            hexes.removeFirst()
-        } else {
-            hexes.remove(at: 1)
+        for (index, currHex) in hexes.enumerated() {
+            if hex.name == currHex.name {
+                hexes.remove(at: index)
+            }
         }
         
         switch hex.name {
