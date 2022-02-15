@@ -11,7 +11,7 @@
   "spells": [
       "metalSimpleAttack",
       "metalSwapAttack",
-      "smog",
+      "haunt",
       "clearEffects"
   ]
 }

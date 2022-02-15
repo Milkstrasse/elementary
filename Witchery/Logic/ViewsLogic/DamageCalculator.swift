@@ -117,7 +117,7 @@ struct DamageCalculator {
                     return 1.5
                 }
             case Weather.thunderstorm.rawValue:
-                if spellElement == "water" || spellElement == "electric" {
+                if spellElement == "wind" || spellElement == "electric" {
                     return 1.5
                 }
             case Weather.sunnyDay.rawValue:
@@ -125,7 +125,7 @@ struct DamageCalculator {
                     return 1.5
                 }
             case Weather.smog.rawValue:
-                if spellElement == "metal" || spellElement == "wind" {
+                if spellElement == "metal" || spellElement == "water" {
                     return 1.5
                 }
             case Weather.mysticWeather.rawValue:

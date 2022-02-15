@@ -11,7 +11,7 @@
   "spells": [
       "plantSimpleAttack",
       "plantSpecial3Attack",
-      "haunt",
+      "lightRain",
       "removeArtifact"
   ]
 }
