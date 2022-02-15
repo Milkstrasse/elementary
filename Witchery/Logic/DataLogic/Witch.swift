@@ -241,7 +241,7 @@ class Witch: Hashable {
     /// - Parameter hex: The hex to be removed
     func removeHex(hex: Hex) {
         for (index, currHex) in hexes.enumerated() {
-            if hex.name == currHex.name {
+            if hex == currHex {
                 hexes.remove(at: index)
             }
         }

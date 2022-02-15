@@ -17,13 +17,6 @@ struct CPULogic {
     ///   - isAbleToSwitch: Wether the witch can swap or not
     /// - Returns: Returns the best move
     func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
-        //avoid fighting against enemy with advantage
-        if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
-            if !witch.hasHex(hexName: Hexes.chained.rawValue) {
-                return nil
-            }
-        }
-        
         //collect all useable spells
         var availableSpells: [Int] = []
         
@@ -44,24 +37,19 @@ struct CPULogic {
             }
         }
         
-        //have control over weather since the weather boosts certain attacks
-        var rndm: Int = Int.random(in: 0 ..< 3)
-        if rndm > 0 {
-            for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].typeID == 8 {
-                    if weather?.name != witch.spells[availableSpells[index]].spells[0].weather! || weather?.duration == 1 {
-                        return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
-                    }
-                }
-            }
-        }
-        
         //top priority: find move that defeats the enemy witch!
         for index in availableSpells.indices {
             if witch.spells[availableSpells[index]].typeID < 8 {
                 if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], subSpell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
+            }
+        }
+        
+        //avoid fighting against enemy with advantage
+        if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
+            if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+                return nil
             }
         }
         
@@ -74,8 +62,20 @@ struct CPULogic {
             }
         }
         
+        //have control over weather since the weather boosts certain attacks
+        var rndm: Int = Int.random(in: 0 ..< 3)
+        if rndm > 0 {
+            for index in availableSpells.indices {
+                if witch.spells[availableSpells[index]].typeID == 8 {
+                    if weather?.name != witch.spells[availableSpells[index]].spells[0].weather! {
+                        return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                    }
+                }
+            }
+        }
+        
         //consider using shield
-        if target.getHexDuration(hexName: Hexes.poisoned.rawValue) > 1 || witch.getHexDuration(hexName: Hexes.healed.rawValue) > 1 {
+        if target.getHexDuration(hexName: Hexes.poisoned.rawValue) > 0 || witch.getHexDuration(hexName: Hexes.healed.rawValue) > 0 {
             if lastMove == nil || lastMove?.spell.typeID != 10 {
                 for index in availableSpells.indices {
                     if witch.spells[availableSpells[index]].typeID == 10 {

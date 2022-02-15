@@ -42,10 +42,10 @@ class FightLogic: ObservableObject {
         
         //apply effect of artifact on "entering"
         if players[0].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
+            players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3))
         }
         if players[1].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4))
+            players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3))
         }
         
         //apply permanent effect of artifact
@@ -113,10 +113,7 @@ class FightLogic: ObservableObject {
         
         //adds move into the used moves collection
         if move.target < 0 { //move can be influenced by move changing hexes
-            if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
-                let randomMove: Move = Move(source: move.source, spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
-                player.usedMoves.insert(randomMove, at: 0)
-            } else if !player.usedMoves.isEmpty && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
+            if !player.usedMoves.isEmpty && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
                 if player.usedMoves[0].target < 0 {
                     player.usedMoves.insert(player.usedMoves[0], at: 0)
                 } else { //last move was a swap which can't be locked in
@@ -142,51 +139,8 @@ class FightLogic: ObservableObject {
             players[0].hasToSwap = false
             players[1].hasToSwap = false
             
-            //decrease counter of all hexes and remove if duration reached 0
-            if weather != nil {
-                weather!.duration -= 1
-                
-                if weather!.duration == 0 {
-                    weather = nil
-                }
-            }
-            
-            for hex in players[0].getCurrentWitch().hexes {
-                hex.duration -= 1
-                
-                if hex.duration == 0 {
-                    players[0].getCurrentWitch().removeHex(hex: hex)
-                }
-            }
-            for hex in players[1].getCurrentWitch().hexes {
-                hex.duration -= 1
-                
-                if hex.duration == 0 {
-                    players[1].getCurrentWitch().removeHex(hex: hex)
-                }
-            }
-            
-            let fasterPlayer: Int = getFasterPlayer()
-            
-            if player.usedMoves[0].spell.typeID == 20 { //player wants to copy enemies move
-                var oppositePlayer: Player = players[0]
-                if player.id == 0 {
-                    oppositePlayer = players[1]
-                }
-                
-                if fasterPlayer == oppositePlayer.id {
-                    if players[oppositePlayer.id].usedMoves[0].target < 0 {
-                        player.usedMoves[0] = players[oppositePlayer.id].usedMoves[0]
-                    }
-                } else if players[oppositePlayer.id].usedMoves.count > 1 {
-                    if players[oppositePlayer.id].usedMoves[1].target < 0 {
-                        player.usedMoves[0] = players[oppositePlayer.id].usedMoves[1]
-                    }
-                }
-            }
-            
             //adds faster player to playerStack
-            addMoveTurn(player: players[fasterPlayer])
+            addMoveTurn(player: players[getFasterPlayer()])
             
             var endRound: Bool = false
             
@@ -213,6 +167,30 @@ class FightLogic: ObservableObject {
                     
                     if playerStack.isEmpty {
                         timer.invalidate()
+                        
+                        //decrease counter of all hexes and remove if duration reached 0
+                        if weather != nil {
+                            weather!.duration -= 1
+                            
+                            if weather!.duration == 0 {
+                                weather = nil
+                            }
+                        }
+                        
+                        for hex in players[0].getCurrentWitch().hexes {
+                            hex.duration -= 1
+                            
+                            if hex.duration == 0 {
+                                players[0].getCurrentWitch().removeHex(hex: hex)
+                            }
+                        }
+                        for hex in players[1].getCurrentWitch().hexes {
+                            hex.duration -= 1
+                            
+                            if hex.duration == 0 {
+                                players[1].getCurrentWitch().removeHex(hex: hex)
+                            }
+                        }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             AudioPlayer.shared.playConfirmSound()
@@ -333,6 +311,20 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addMoveTurn(player: Player) {
+        if player.usedMoves[0].spell.typeID == 20 { //player wants to copy enemy's move
+            var oppositePlayer: Player = players[0]
+            if player.id == 0 {
+                oppositePlayer = players[1]
+            }
+            
+            if players[oppositePlayer.id].usedMoves[0].target < 0 {
+                player.usedMoves[0] = players[oppositePlayer.id].usedMoves[0]
+            }
+        } else if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
+            let randomMove: Move = Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
+            player.usedMoves[0] = randomMove
+        }
+        
         if player.usedMoves[0].target < 0 {
             for index in player.usedMoves[0].spell.spells.indices.reversed() {
                 playerStack.insert((player: player, index: index + 1), at: 0)
@@ -408,7 +400,7 @@ class FightLogic: ObservableObject {
         player.currentWitchId = target
         
         if applyHex {
-            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 4)) {
+            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 3)) {
                 text += Localization.shared.getTranslation(key: "becameHex", params: [player.getCurrentWitch().name, Hexes.blessed.rawValue]) + "\n"
             }
         }
@@ -429,14 +421,14 @@ class FightLogic: ObservableObject {
         if player.getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
             player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
             if player.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
+                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3)) {
                     text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentWitch().name, "attack"]) + "\n"
                 }
             }
         }
         
         if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            if player.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 4)) {
+            if player.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3)) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [player.getCurrentWitch().name, "attack"]) + "\n"
             }
         }
