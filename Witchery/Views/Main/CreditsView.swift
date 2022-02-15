@@ -39,6 +39,7 @@ struct CreditsView: View {
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Theo Allen"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["icons", "FontAwesome"]), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding(.all, 15)
                             }

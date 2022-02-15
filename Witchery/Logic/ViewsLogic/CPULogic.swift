@@ -35,7 +35,13 @@ struct CPULogic {
         
         //no moves found
         if availableSpells.isEmpty {
-            return Move(source: witch, target: -1, spell: witch.spells[0])
+            if isAbleToSwitch {
+                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+                    return nil
+                }
+            } else {
+                return Move(source: witch, target: -1, spell: witch.spells[0])
+            }
         }
         
         //have control over weather since the weather boosts certain attacks
