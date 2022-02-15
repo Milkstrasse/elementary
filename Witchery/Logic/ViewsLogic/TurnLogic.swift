@@ -24,7 +24,7 @@ class TurnLogic {
         
         let attacker: Witch = player.getCurrentWitch()
         
-        //witch faints and certain artifacts activate
+        //witch faints and certain artifacts can activate
         if attacker.currhp == 0 {
             if attacker.getArtifact().name == Artifacts.book.rawValue {
                 if player.id == 0 {
@@ -202,12 +202,12 @@ class TurnLogic {
                     let hexes: [Hex] = player.getCurrentWitch().hexes
                     player.getCurrentWitch().removeAllHexes()
                     for hex in oppositePlayer.getCurrentWitch().hexes {
-                        player.getCurrentWitch().applyHex(hex: hex)
+                        player.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
                     oppositePlayer.getCurrentWitch().removeAllHexes()
                     for hex in hexes {
-                        oppositePlayer.getCurrentWitch().applyHex(hex: hex)
+                        oppositePlayer.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
                     return "sWappEd heXes.\n"
@@ -235,7 +235,7 @@ class TurnLogic {
                     oppositePlayer.getCurrentWitch().removeAllHexes()
                     for hex in hexes {
                         if hex.opposite != nil {
-                            oppositePlayer.getCurrentWitch().applyHex(hex: hex.opposite!.getHex())
+                            oppositePlayer.getCurrentWitch().applyHex(hex: hex.opposite!.getHex(), resistable: false)
                         }
                     }
                 

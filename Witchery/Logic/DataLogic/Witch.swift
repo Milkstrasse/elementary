@@ -155,14 +155,14 @@ class Witch: Hashable {
     /// Tries to to apply an hex to the witch
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
-    func applyHex(hex: Hex) -> Bool {
+    func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
         if getArtifact().name == Artifacts.talisman.rawValue { //witch can't be hexed
             return false
         }
         
-        if !hex.positive && hex.duration >= 0 { //hex with -1 duration are created by an artifact
+        if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
-            if chance < getModifiedBase().resistance/10 { //chance hex will be resisted
+            if chance < getModifiedBase().resistance/10 {
                 return false
             }
         }

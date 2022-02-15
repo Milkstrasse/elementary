@@ -42,21 +42,18 @@ class FightLogic: ObservableObject {
         
         //apply effect of artifact on "entering"
         if players[0].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3))
+            players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
         }
         if players[1].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3))
+            players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
         }
         
         //apply permanent effect of artifact
-        for witch in players[0].witches {
-            if witch.getArtifact().name == Artifacts.corset.rawValue {
-                witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
-            }
-        }
-        for witch in players[1].witches {
-            if witch.getArtifact().name == Artifacts.corset.rawValue {
-                witch.applyHex(hex: Hexes.restricted.getHex(duration: -1))
+        for i in players.indices {
+            for witch in players[i].witches {
+                if witch.getArtifact().name == Artifacts.corset.rawValue {
+                    witch.applyHex(hex: Hexes.restricted.getHex(duration: -1), resistable: false)
+                }
             }
         }
         
@@ -400,7 +397,7 @@ class FightLogic: ObservableObject {
         player.currentWitchId = target
         
         if applyHex {
-            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(duration: 3)) {
+            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(), resistable: false) {
                 text += Localization.shared.getTranslation(key: "becameHex", params: [player.getCurrentWitch().name, Hexes.blessed.rawValue]) + "\n"
             }
         }
@@ -421,14 +418,14 @@ class FightLogic: ObservableObject {
         if player.getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
             player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
             if player.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3)) {
+                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex()) {
                     text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentWitch().name, "attack"]) + "\n"
                 }
             }
         }
         
         if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-            if player.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex(duration: 3)) {
+            if player.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex()) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [player.getCurrentWitch().name, "attack"]) + "\n"
             }
         }

@@ -42,56 +42,56 @@ struct HexApplication {
         //try to apply hex
         switch hex {
             case Hexes.attackBoost.rawValue:
-                if target.applyHex(hex: Hexes.attackBoost.getHex()) {
+                if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.attackDrop.rawValue:
-                if target.applyHex(hex: Hexes.attackDrop.getHex()) {
+                if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.defenseBoost.rawValue:
-                if target.applyHex(hex: Hexes.defenseBoost.getHex()) {
+                if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.defenseDrop.rawValue:
-                if target.applyHex(hex: Hexes.defenseDrop.getHex()) {
+                if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.agilityBoost.rawValue:
-                if target.applyHex(hex: Hexes.agilityBoost.getHex()) {
+                if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.agilityDrop.rawValue:
-                if target.applyHex(hex: Hexes.agilityDrop.getHex()) {
+                if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.precisionBoost.rawValue:
-                if target.applyHex(hex: Hexes.precisionBoost.getHex()) {
+                if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             case Hexes.precisionDrop.rawValue:
-                if target.applyHex(hex: Hexes.precisionDrop.getHex()) {
+                if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }
             default: //non stat hexes or unknown hex
                 if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
-                    if target.applyHex(hex: appliedHex) {
+                    if target.applyHex(hex: appliedHex, resistable: spell.range == 0 ? false : true) {
                         return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name]) + "\n"
                     } else {
                         return Localization.shared.getTranslation(key: "hexFailed") + "\n"
