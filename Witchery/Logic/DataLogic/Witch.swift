@@ -78,7 +78,7 @@ class Witch: Hashable {
         let health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + attackMod + nature.attackMod, 0)
         var defense: Int = max(base.defense + defenseMod + nature.defenseMod, 0)
-        let agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
+        var agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
         
@@ -86,6 +86,8 @@ class Witch: Hashable {
             attack += 40
         } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
             defense += 40
+        } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
+            agility += 40
         } else if getArtifact().name == Artifacts.corset.rawValue {
             attack += 40
         }
