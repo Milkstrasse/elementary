@@ -151,7 +151,7 @@ class Witch: Hashable {
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex) -> Bool {
-        if self.artifact.name == Artifacts.talisman.rawValue { //witch can't be hexed
+        if getArtifact().name == Artifacts.talisman.rawValue { //witch can't be hexed
             return false
         }
         
@@ -199,28 +199,30 @@ class Witch: Hashable {
             }
             
             hexes.append(hex) //hex has been added
-            hexes.sort {
-                $0.duration < $1.duration
+            
+            var bonus: Int = 0
+            if getArtifact().name == Artifacts.incense.rawValue {
+                bonus = 10
             }
             
             //makes changes to witch if neccessary
             switch hex.name {
                 case Hexes.attackBoost.rawValue:
-                    attackMod += 20
+                    attackMod += 20 + bonus
                 case Hexes.attackDrop.rawValue:
-                    attackMod -= 20
+                    attackMod -= 20 + bonus
                 case Hexes.defenseBoost.rawValue:
-                    defenseMod += 20
+                    defenseMod += 20 + bonus
                 case Hexes.defenseDrop.rawValue:
-                    defenseMod -= 20
+                    defenseMod -= 20 + bonus
                 case Hexes.agilityBoost.rawValue:
-                    agilityMod += 20
+                    agilityMod += 20 + bonus
                 case Hexes.agilityDrop.rawValue:
-                    agilityMod -= 20
+                    agilityMod -= 20 + bonus
                 case Hexes.precisionBoost.rawValue:
-                    precisionMod += 20
+                    precisionMod += 20 + bonus
                 case Hexes.precisionDrop.rawValue:
-                    precisionMod -= 20
+                    precisionMod -= 20 + bonus
                 case Hexes.invigorated.rawValue:
                     manaUse = 1
                 case Hexes.exhausted.rawValue:
