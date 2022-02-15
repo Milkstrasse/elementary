@@ -1,11 +1,17 @@
 {
   "element": "metal",
-  "typeID": 1,
-  "uses": 25,
+  "typeID": 0,
+  "uses": 20,
   "spells": [
       {
-          "power": 45,
+          "power": 75,
           "range": 1
+      },
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 10,
+          "hex": "attackDrop"
       }
   ]
 }

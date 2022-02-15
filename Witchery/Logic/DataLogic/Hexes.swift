@@ -9,7 +9,6 @@ import SwiftUI
 
 /// Affects a witch during multiple rounds.
 class Hex: Hashable {
-    let id = UUID()
     let name: String
     let symbol: UInt16
     var duration: Int
@@ -40,11 +39,12 @@ class Hex: Hashable {
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(name)
+        hasher.combine(duration)
     }
     
     static func == (lhs: Hex, rhs: Hex) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.name == rhs.name && lhs.duration == rhs.duration
     }
 }
 

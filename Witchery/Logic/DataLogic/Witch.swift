@@ -112,7 +112,12 @@ class Witch: Hashable {
     /// - Parameter artifact: The desired artifact
     func overrideArtifact(artifact: Artifact) {
         if artifact.name == Artifacts.corset.rawValue {
-            removeHex(hex: Hexes.restricted.getHex())
+            for hex in hexes {
+                if hex.name == Hexes.restricted.rawValue && hex.duration < 0 {
+                    removeHex(hex: hex)
+                    break
+                }
+            }
         }
         
         self.artifactOverride = artifact
@@ -243,6 +248,7 @@ class Witch: Hashable {
         for (index, currHex) in hexes.enumerated() {
             if hex == currHex {
                 hexes.remove(at: index)
+                break
             }
         }
         
