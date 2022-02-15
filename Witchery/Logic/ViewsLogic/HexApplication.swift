@@ -18,7 +18,6 @@ struct HexApplication {
     func applyHex(attacker: Witch, defender: Witch, spell: SubSpell) -> String {
         let chance: Int = Int.random(in: 0 ..< 100)
         if chance >= spell.chance + attacker.getModifiedBase().precision/8 {
-            print("no precision: \(chance)")
             return Localization.shared.getTranslation(key: "hexFailed") + "\n"
         }
         
@@ -86,6 +85,18 @@ struct HexApplication {
             case Hexes.precisionDrop.rawValue:
                 if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"]) + "\n"
+                } else {
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
+                }
+            case Hexes.resistanceBoost.rawValue:
+                if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"]) + "\n"
+                } else {
+                    return Localization.shared.getTranslation(key: "hexFailed") + "\n"
+                }
+            case Hexes.resistanceDrop.rawValue:
+                if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"]) + "\n"
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed") + "\n"
                 }

@@ -28,6 +28,7 @@ class Witch: Hashable {
     var defenseMod: Int = 0
     var agilityMod: Int = 0
     var precisionMod: Int = 0
+    var resistanceMod: Int = 0
     
     var manaUse: Int = 2
     
@@ -80,7 +81,7 @@ class Witch: Hashable {
         var defense: Int = max(base.defense + defenseMod + nature.defenseMod, 0)
         var agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
-        let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
+        let resistance: Int = max(base.resistance + resistanceMod + nature.resistanceMod, 0)
         
         if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
             attack += 40
@@ -214,29 +215,43 @@ class Witch: Hashable {
             switch hex.name {
                 case Hexes.attackBoost.rawValue:
                     attackMod += 20 + bonus
+                    return true
                 case Hexes.attackDrop.rawValue:
                     attackMod -= 20 + bonus
+                    return true
                 case Hexes.defenseBoost.rawValue:
                     defenseMod += 20 + bonus
+                    return true
                 case Hexes.defenseDrop.rawValue:
                     defenseMod -= 20 + bonus
+                    return true
                 case Hexes.agilityBoost.rawValue:
                     agilityMod += 20 + bonus
+                    return true
                 case Hexes.agilityDrop.rawValue:
                     agilityMod -= 20 + bonus
+                    return true
                 case Hexes.precisionBoost.rawValue:
                     precisionMod += 20 + bonus
+                    return true
                 case Hexes.precisionDrop.rawValue:
                     precisionMod -= 20 + bonus
+                    return true
+                case Hexes.resistanceBoost.rawValue:
+                    resistanceMod += 20 + bonus
+                    return true
+                case Hexes.resistanceDrop.rawValue:
+                    resistanceMod -= 20 + bonus
+                    return true
                 case Hexes.invigorated.rawValue:
                     manaUse = 1
+                    return true
                 case Hexes.exhausted.rawValue:
                     manaUse = 3
+                    return true
                 default:
-                    break
+                    return true
             }
-            
-            return true
         }
         
         return false

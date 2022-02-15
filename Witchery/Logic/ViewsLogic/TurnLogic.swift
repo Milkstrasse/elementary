@@ -34,7 +34,7 @@ class TurnLogic {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
                     }
                 } else {
-                    if fightLogic.players[0].getCurrentWitch().applyHex(hex: Hexes.haunted.getHex()) {
+                    if fightLogic.players[0].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
                         battleLog = attacker.name + " fainted and cursed " + fightLogic.players[0].getCurrentWitch().name + ".\n"
                     } else {
                         battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
