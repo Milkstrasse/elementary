@@ -152,7 +152,6 @@ struct SettingsView: View {
                                 }
                                 .padding(.horizontal, 15)
                             }
-                            .padding(.bottom, 5)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
