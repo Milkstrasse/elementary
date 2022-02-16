@@ -174,9 +174,9 @@ class TurnLogic {
             
             if newWeather != nil && fightLogic?.weather?.name != newWeather {
                 if player.getCurrentWitch().getArtifact().name == Artifacts.crystal.rawValue {
-                    fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
+                    fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 7)
                 } else {
-                    fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 3)
+                    fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 }
                 
                 return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
