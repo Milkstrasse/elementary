@@ -57,18 +57,8 @@ class Witch: Hashable {
     
     /// Returns the current element of a witch checking if the permanent element is overriden by another.
     /// - Returns: Returns the current active element
-    func getElement(ignoreOverride: Bool = false) -> Element {
-        if ignoreOverride {
-            return element
-        }
-        
-        var currElement: Element = element
-        
-        if getArtifact().name == Artifacts.ring.rawValue {
-            currElement = Element()
-        }
-        
-        return elementOverride ?? currElement
+    func getElement() -> Element {
+        return elementOverride ?? element
     }
     
     /// Changes the temporary element of a witch.

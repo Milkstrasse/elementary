@@ -21,10 +21,6 @@ struct SpellsView: View {
     @GestureState var isDetectingPress = false
     
     func getEffectiveness(spellElement: String) -> String {
-        if player.getCurrentWitch().getArtifact().name == Artifacts.ring.rawValue {
-            return "effective"
-        }
-        
         var modifier: Float
         let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
         

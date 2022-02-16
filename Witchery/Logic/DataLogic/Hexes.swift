@@ -105,7 +105,7 @@ enum Hexes: String, CaseIterable {
             case .bombed:
                 return Hex(name: self.rawValue, symbol: 0xf1e2, duration: duration, positive: false, damageAmount: 25)
             case .blessed:
-                return Hex(name: self.rawValue, symbol: 0xf4c2, duration: duration, positive: true)
+                return Hex(name: self.rawValue, symbol: 0xf665, duration: duration, positive: true)
             case .haunted:
                 return Hex(name: self.rawValue, symbol: 0xf05e, duration: duration, positive: false)
             case .chained:

@@ -124,7 +124,7 @@ struct SquareWitchView: View {
     var isSelected: Bool
     
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(witch!.getElement(ignoreOverride: true).symbol) ?? 0xf52d)
+        let icon: UInt16 = UInt16(Float64(witch!.getElement().symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
     }
     
