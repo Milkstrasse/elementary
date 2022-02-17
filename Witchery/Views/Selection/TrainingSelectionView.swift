@@ -38,18 +38,37 @@ struct TrainingSelectionView: View {
     
     /// Selects random witches to create a team.
     func selectRandom() {
-        var set = Set<Int>()
+        var witchSet = Set<Int>()
         let maxSize: Int = min(4, GlobalData.shared.witches.count)
         
-        while set.count < maxSize {
-            set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+        while witchSet.count < maxSize {
+            witchSet.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
         }
         
-        let rndm: [Int] = Array(set)
+        let rndmWitches: [Int] = Array(witchSet)
+        
+        var rndmArtifacts: [Int] = []
+        switch GlobalData.shared.artifactUse {
+            case 0:
+                while rndmArtifacts.count < maxSize {
+                    rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
+                }
+            case 1:
+                var artifactSet = Set<Int>()
+            
+                while artifactSet.count < maxSize {
+                    artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
+                }
+                rndmArtifacts = Array(artifactSet)
+            default:
+                break
+        }
         
         for index in 0 ..< maxSize {
-            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
-            leftWitches[index]?.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
+            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndmWitches[index]].data)
+            if GlobalData.shared.artifactUse != 2 {
+                leftWitches[index]?.setArtifact(artifact: rndmArtifacts[index])
+            }
         }
     }
     

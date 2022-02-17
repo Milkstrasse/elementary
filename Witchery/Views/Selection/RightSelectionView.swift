@@ -61,6 +61,22 @@ struct RightSelectionView: View {
         return 0
     }
     
+    func isArtifactInUse(artifact: Int) -> Bool {
+        if artifact == 0 {
+            return false
+        }
+        
+        for witch in witches {
+            if witch != nil {
+                if getArtifact(witch: witch!) == artifact {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
@@ -213,6 +229,16 @@ struct RightSelectionView: View {
                                                             selectedArtifact -= 1
                                                         }
                                                         
+                                                        if GlobalData.shared.artifactUse == 1{
+                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                                if selectedArtifact <= 0 {
+                                                                    selectedArtifact = Artifacts.allCases.count - 1
+                                                                } else {
+                                                                    selectedArtifact -= 1
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
@@ -229,13 +255,23 @@ struct RightSelectionView: View {
                                                             selectedArtifact += 1
                                                         }
                                                         
+                                                        if GlobalData.shared.artifactUse == 1{
+                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                                if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                    selectedArtifact = 0
+                                                                } else {
+                                                                    selectedArtifact += 1
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 }
                                                 .frame(width: geometry.size.height - 30, height: 60)
                                             }
-                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30).opacity(GlobalData.shared.artifactUse == 2 ? 0.5 : 1.0).disabled(GlobalData.shared.artifactUse == 2)
                                         }
                                         .padding(.vertical, 15)
                                     }

@@ -19,6 +19,7 @@ class GlobalData {
     var natures: [Nature] = []
     
     var textSpeed: Int = 2
+    var artifactUse: Int = 0
     
     /// Load data from folders.
     func loadData() {
