@@ -133,33 +133,30 @@ enum Hexes: String, CaseIterable {
 
 /// Weather hexes boost different elements during multiple rounds. This is the list containing all available weather hexes.
 enum Weather: String {
-    case sandstorm
-    case thunderstorm
-    case sunnyDay
-    case smog
-    case mysticWeather
-    case lightRain
+    case blizzard
     case drought
+    case fullMoon
+    case mysticWeather
+    case rain
+    case sandstorm
     
     /// Creates and returns a weather hex.
     /// - Parameter duration: The duration of the hex
     /// - Returns: Returns a hex
     func getHex(duration: Int) -> Hex {
         switch self {
-            case .sandstorm:
-                return Hex(name: self.rawValue, symbol: 0xf6c4, duration: duration, positive: true)
-            case .thunderstorm:
+            case .blizzard:
                 return Hex(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
-            case .sunnyDay:
+            case .drought:
                 return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
-            case .smog:
-                return Hex(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
+            case .fullMoon:
+                return Hex(name: self.rawValue, symbol: 0xf186, duration: duration, positive: true)
             case .mysticWeather:
                 return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
-            case .lightRain:
+            case .rain:
                 return Hex(name: self.rawValue, symbol: 0xf73d, duration: duration, positive: true)
-            case .drought:
-                return Hex(name: self.rawValue, symbol: 0xf5c7, duration: duration, positive: true)
+            case .sandstorm:
+                return Hex(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
         }
     }
 }

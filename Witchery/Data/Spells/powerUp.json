@@ -1,6 +1,6 @@
 {
-  "element": "electric",
-  "typeID": 11,
+  "element": "rock",
+  "typeID": 13,
   "uses": 25,
   "spells": [
       {

@@ -1,6 +1,6 @@
 {
-  "element": "fire",
-  "typeID": 11,
+  "element": "metal",
+  "typeID": 13,
   "uses": 15,
   "spells": [
       {

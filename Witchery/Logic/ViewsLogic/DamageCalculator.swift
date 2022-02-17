@@ -19,7 +19,7 @@ struct DamageCalculator {
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool, usedEndure: Bool) -> String {
+    func applyDamage(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
         var text: String = Localization.shared.getTranslation(key: "hit") + "\n"
         
         //determine actual target
@@ -50,6 +50,8 @@ struct DamageCalculator {
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
             case 5:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.currhp)
+            case 8:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
             default:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
         }
@@ -70,8 +72,6 @@ struct DamageCalculator {
         if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue {
             target.currhp = 1
             target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-        } else if usedEndure && target.currhp > 1 {
-            target.currhp = 1
         } else if damage >= target.currhp { //prevent hp below 0
             target.currhp = 0
         } else {
@@ -115,32 +115,28 @@ struct DamageCalculator {
     /// - Returns: Returns the received modifier
     func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
-            case Weather.sandstorm.rawValue:
-                if spellElement == "wind" || spellElement == "rock" {
-                    return 1.5
-                }
-            case Weather.thunderstorm.rawValue:
-                if spellElement == "wind" || spellElement == "electric" {
-                    return 1.5
-                }
-            case Weather.sunnyDay.rawValue:
-                if spellElement == "plant" || spellElement == "fire" {
-                    return 1.5
-                }
-            case Weather.smog.rawValue:
-                if spellElement == "metal" || spellElement == "water" {
-                    return 1.5
-                }
-            case Weather.mysticWeather.rawValue:
-                if spellElement == "metal" || spellElement == "electric" {
-                    return 1.5
-                }
-            case Weather.lightRain.rawValue:
-                if spellElement == "water" || spellElement == "plant" {
+            case Weather.blizzard.rawValue:
+                if spellElement == "snow" || spellElement == "wind" {
                     return 1.5
                 }
             case Weather.drought.rawValue:
-                if spellElement == "rock" || spellElement == "fire" {
+                if spellElement == "ground" || spellElement == "fire" {
+                    return 1.5
+                }
+            case Weather.fullMoon.rawValue:
+                if spellElement == "aether" {
+                    return 1.5
+                }
+            case Weather.mysticWeather.rawValue:
+                if spellElement == "electric" || spellElement == "metal" {
+                    return 1.5
+                }
+            case Weather.rain.rawValue:
+                if spellElement == "plant" || spellElement == "water" {
+                    return 1.5
+                }
+            case Weather.sandstorm.rawValue:
+                if spellElement == "decay" || spellElement == "rock" {
                     return 1.5
                 }
             default:
@@ -202,6 +198,8 @@ struct DamageCalculator {
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
             case 5:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: attacker.currhp)
+            case 8:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
             default:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
         }

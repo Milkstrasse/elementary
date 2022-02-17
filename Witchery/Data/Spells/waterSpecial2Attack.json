@@ -1,10 +1,10 @@
 {
   "element": "water",
-  "typeID": 2,
-  "uses": 15,
+  "typeID": 4,
+  "uses": 25,
   "spells": [
       {
-          "power": 40,
+          "power": 10,
           "range": 1
       }
   ]

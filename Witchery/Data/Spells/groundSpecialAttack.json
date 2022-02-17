@@ -1,10 +1,10 @@
 {
   "element": "ground",
-  "typeID": 4,
-  "uses": 20,
+  "typeID": 3,
+  "uses": 15,
   "spells": [
       {
-          "power": 10,
+          "power": 70,
           "range": 1
       }
   ]

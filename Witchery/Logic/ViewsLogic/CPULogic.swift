@@ -56,7 +56,7 @@ struct CPULogic {
         //low health -> should heal
         if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.haunted.rawValue) {
             for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].typeID == 9 {
+                if witch.spells[availableSpells[index]].typeID == 11 {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                 }
             }
@@ -66,7 +66,7 @@ struct CPULogic {
         var rndm: Int = Int.random(in: 0 ..< 3)
         if rndm > 0 {
             for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].typeID == 8 {
+                if witch.spells[availableSpells[index]].typeID == 10 {
                     if weather?.name != witch.spells[availableSpells[index]].spells[0].weather! {
                         return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                     }
@@ -76,9 +76,9 @@ struct CPULogic {
         
         //consider using shield
         if target.getHexDuration(hexName: Hexes.poisoned.rawValue) > 0 || witch.getHexDuration(hexName: Hexes.healed.rawValue) > 0 {
-            if lastMove == nil || lastMove?.spell.typeID != 10 {
+            if lastMove == nil || lastMove?.spell.typeID != 12 {
                 for index in availableSpells.indices {
-                    if witch.spells[availableSpells[index]].typeID == 10 {
+                    if witch.spells[availableSpells[index]].typeID == 12 {
                         return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                     }
                 }
@@ -90,9 +90,12 @@ struct CPULogic {
         if rndm > 0 {
             if witch.currhp > witch.getModifiedBase().health/4 * 3 {
                 for index in availableSpells.indices {
-                    if witch.spells[availableSpells[index]].typeID == 11 {
+                    if witch.spells[availableSpells[index]].typeID == 13 {
                         if witch.spells[availableSpells[index]].spells[0].range == 0 && witch.hexes.count < 2 {
-                            return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                            //spells without hex effect or prevent negative hexes
+                            if witch.getArtifact().name != Artifacts.talisman.rawValue && witch.getArtifact().name != Artifacts.amulet.rawValue {
+                                return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                            }
                         } else if witch.spells[availableSpells[index]].spells[0].range == 1 && target.hexes.count < 2 {
                             return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                         }

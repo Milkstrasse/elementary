@@ -1,17 +1,17 @@
 {
   "element": "fire",
   "base": {
-      "health": 50,
+      "health": 100,
       "attack": 100,
-      "defense": 50,
-      "agility": 50,
-      "precision": 150,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
       "resistance": 100
   },
   "spells": [
       "fireSimpleAttack",
-      "firePriorityAttack",
-      "powerUp",
-      "forceOut"
+      "fireSpecialAttack",
+      "bomb",
+      "protection"
   ]
 }

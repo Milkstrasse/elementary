@@ -1,6 +1,6 @@
 {
-  "element": "plant",
-  "typeID": 11,
+  "element": "ground",
+  "typeID": 13,
   "uses": 15,
   "spells": [
       {

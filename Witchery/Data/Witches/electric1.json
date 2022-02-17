@@ -1,17 +1,17 @@
 {
   "element": "electric",
   "base": {
-      "health": 50,
-      "attack": 150,
-      "defense": 50,
-      "agility": 150,
-      "precision": 50,
-      "resistance": 50
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
+      "resistance": 100
   },
   "spells": [
       "electricSimpleAttack",
-      "electricSwapAttack",
-      "thunderstorm",
-      "haunt"
+      "electricSpecialAttack",
+      "poison",
+      "speedUp"
   ]
 }

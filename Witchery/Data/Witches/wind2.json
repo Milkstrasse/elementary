@@ -2,16 +2,16 @@
   "element": "wind",
   "base": {
       "health": 100,
-      "attack": 50,
+      "attack": 100,
       "defense": 100,
-      "agility": 50,
-      "precision": 50,
-      "resistance": 150
+      "agility": 100,
+      "precision": 100,
+      "resistance": 100
   },
   "spells": [
       "windSimpleAttack",
       "windSpecial2Attack",
-      "bomb",
-      "endure"
+      "forceOut",
+      "swapHexes"
   ]
 }

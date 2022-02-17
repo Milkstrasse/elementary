@@ -3,15 +3,15 @@
   "base": {
       "health": 100,
       "attack": 100,
-      "defense": 50,
+      "defense": 100,
       "agility": 100,
-      "precision": 50,
+      "precision": 100,
       "resistance": 100
   },
   "spells": [
       "metalSimpleAttack",
-      "metalSpecialAttack",
-      "healingEffect",
-      "mysticWeather"
+      "metalPriorityAttack",
+      "mysticWeather",
+      "changeElement"
   ]
 }

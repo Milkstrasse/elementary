@@ -1,6 +1,6 @@
 {
-  "element": "wind",
-  "typeID": 12,
+  "element": "snow",
+  "typeID": 14,
   "uses": 15,
   "spells": [
       {

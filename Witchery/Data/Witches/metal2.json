@@ -1,17 +1,17 @@
 {
   "element": "metal",
   "base": {
-      "health": 50,
+      "health": 100,
       "attack": 100,
-      "defense": 150,
-      "agility": 50,
-      "precision": 50,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
       "resistance": 100
   },
   "spells": [
       "metalSimpleAttack",
-      "metalSwapAttack",
-      "haunt",
-      "clearEffects"
+      "metalSpecialAttack",
+      "protection",
+      "powerUp"
   ]
 }

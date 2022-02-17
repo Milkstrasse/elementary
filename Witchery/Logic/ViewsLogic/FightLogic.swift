@@ -234,9 +234,9 @@ class FightLogic: ObservableObject {
         
         //determine priority with using the agility stat of the witches
         if players[0].getCurrentWitch().getModifiedBase().agility > players[1].getCurrentWitch().getModifiedBase().agility {
-            return 0
+            return weather?.name == Weather.fullMoon.rawValue ? 1 : 0
         } else if players[1].getCurrentWitch().getModifiedBase().agility > players[0].getCurrentWitch().getModifiedBase().agility {
-            return 1
+            return weather?.name == Weather.fullMoon.rawValue ? 0 : 1
         } else { //agility stat tie -> random player has priority
             return Int.random(in: 0 ... 1)
         }
@@ -308,7 +308,7 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addMoveTurn(player: Player) {
-        if player.usedMoves[0].spell.typeID == 20 { //player wants to copy enemy's move
+        if player.usedMoves[0].spell.typeID == 9 { //player wants to copy enemy's move
             var oppositePlayer: Player = players[0]
             if player.id == 0 {
                 oppositePlayer = players[1]

@@ -1,17 +1,17 @@
 {
   "element": "wind",
   "base": {
-      "health": 50,
+      "health": 100,
       "attack": 100,
-      "defense": 50,
+      "defense": 100,
       "agility": 100,
-      "precision": 150,
-      "resistance": 50
+      "precision": 100,
+      "resistance": 100
   },
   "spells": [
       "windSimpleAttack",
       "windSpecialAttack",
-      "sandstorm",
-      "swapHexes"
+      "exhaustion",
+      "healingWish"
   ]
 }

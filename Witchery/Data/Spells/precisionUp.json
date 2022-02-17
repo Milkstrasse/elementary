@@ -1,6 +1,6 @@
 {
-  "element": "water",
-  "typeID": 11,
+  "element": "electric",
+  "typeID": 13,
   "uses": 25,
   "spells": [
       {

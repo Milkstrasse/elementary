@@ -1,16 +1,11 @@
 {
   "element": "plant",
-  "typeID": 0,
-  "uses": 20,
+  "typeID": 5,
+  "uses": 25,
   "spells": [
       {
-          "power": 70,
+          "power": 10,
           "range": 1
-      },
-      {
-          "power": 0,
-          "range": 0,
-          "hex": "invigorated"
       }
   ]
 }

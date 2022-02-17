@@ -1,16 +1,11 @@
 {
   "element": "wind",
-  "typeID": 0,
-  "uses": 20,
+  "typeID": 8,
+  "uses": 15,
   "spells": [
       {
-          "power": 75,
+          "power": 70,
           "range": 1
-      },
-      {
-          "power": 0,
-          "range": 1,
-          "hex": "resistanceDrop"
       }
   ]
 }

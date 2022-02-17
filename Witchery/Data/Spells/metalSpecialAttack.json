@@ -11,7 +11,7 @@
           "power": 0,
           "range": 1,
           "chance": 10,
-          "hex": "attackDrop"
+          "hex": "agilityDrop"
       }
   ]
 }

@@ -1,10 +1,10 @@
 {
   "element": "electric",
-  "typeID": 1,
+  "typeID": 4,
   "uses": 25,
   "spells": [
       {
-          "power": 45,
+          "power": 10,
           "range": 1
       }
   ]

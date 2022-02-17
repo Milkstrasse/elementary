@@ -1,17 +1,17 @@
 {
   "element": "ground",
   "base": {
-      "health": 50,
+      "health": 100,
       "attack": 100,
-      "defense": 50,
+      "defense": 100,
       "agility": 100,
       "precision": 100,
       "resistance": 100
   },
   "spells": [
       "groundSimpleAttack",
-      "groundSpecial2Attack",
-      "poison",
-      "precisionUp"
+      "groundSpecialAttack",
+      "defenseUp",
+      "forceOut"
   ]
 }
