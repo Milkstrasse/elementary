@@ -17,6 +17,29 @@ struct CPULogic {
     ///   - isAbleToSwitch: Wether the witch can swap or not
     /// - Returns: Returns the best move
     func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
+        //move can be influenced by move changing hexes
+        if witch.hasHex(hexName: Hexes.restricted.rawValue) {
+            if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
+                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+                    return nil
+                }
+            }
+            
+            if lastMove != nil && lastMove!.target < 0 {
+                return lastMove
+            }
+        } else if witch.hasHex(hexName: Hexes.confused.rawValue) {
+            if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
+                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+                    return nil
+                }
+            }
+            
+            let randomMove: Move = Move(source: witch, spell: witch.spells[Int.random(in: 0 ..< witch.spells.count)])
+            return randomMove
+        }
+        
+        
         //collect all useable spells
         var availableSpells: [Int] = []
         
