@@ -80,6 +80,8 @@
     "maskDescr": "Diminue **l'attaque** de l'adversaire",
     "mirror": "Miroir à main",
     "mirrorDescr": "**Copie** l'artefact de l'adversaire",
+    "potion": "Potion de soin",
+    "potionDescr": "**Guérit** 25% sur à faible PV",
     "ring": "Anneau béni",
     "ringDescr": "Protège du **K.O.** quand plein PV",
     "sevenLeague": "Bottes de sept lieues",

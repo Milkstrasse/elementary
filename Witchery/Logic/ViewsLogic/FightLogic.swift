@@ -347,6 +347,8 @@ class FightLogic: ObservableObject {
         
         if player.getCurrentWitch().getArtifact().name == Artifacts.cornucopia.rawValue {
             playerStack.insert((player: player, index: -10), at: 0)
+        } else if player.getCurrentWitch().getArtifact().name == Artifacts.potion.rawValue && player.getCurrentWitch().currhp <= player.getCurrentWitch().getModifiedBase().health/2 {
+            playerStack.insert((player: player, index: -15), at: 0)
         }
     }
     

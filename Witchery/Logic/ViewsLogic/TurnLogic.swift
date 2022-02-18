@@ -76,13 +76,24 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
             }
-        } else if fightLogic.playerStack[0].index < 0 {
+        } else if fightLogic.playerStack[0].index == -10 {
             if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
                 attacker.currhp = attacker.getModifiedBase().health
             } else {
                 attacker.currhp += attacker.getModifiedBase().health/16
             }
             
+            player.setState(state: PlayerState.healing)
+            
+            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+        } else if fightLogic.playerStack[0].index == -15 {
+            if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
+                attacker.currhp = attacker.getModifiedBase().health
+            } else {
+                attacker.currhp += attacker.getModifiedBase().health/4
+            }
+            
+            player.getCurrentWitch().overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
             player.setState(state: PlayerState.healing)
             
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
