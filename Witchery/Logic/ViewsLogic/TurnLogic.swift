@@ -52,6 +52,7 @@ class TurnLogic {
         //apply damage or healing of hexes
         if fightLogic.playerStack[0].index < 0 && fightLogic.playerStack[0].index > -10 {
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
+            print(damage)
             //damage can be positive or negative!
             
             if damage >= attacker.currhp {
@@ -65,7 +66,7 @@ class TurnLogic {
                 player.setState(state: PlayerState.hurting)
                 
                 return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
-            } else if damage < attacker.getModifiedBase().health - attacker.currhp {
+            } else if damage < attacker.currhp - attacker.getModifiedBase().health {
                 attacker.currhp = attacker.getModifiedBase().health
                 player.setState(state: PlayerState.healing)
                 
