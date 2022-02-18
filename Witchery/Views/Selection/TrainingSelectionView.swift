@@ -38,14 +38,22 @@ struct TrainingSelectionView: View {
     
     /// Selects random witches to create a team.
     func selectRandom() {
-        var witchSet = Set<Int>()
         let maxSize: Int = min(4, GlobalData.shared.witches.count)
         
-        while witchSet.count < maxSize {
-            witchSet.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+        var rndmWitches: [Int] = []
+        if GlobalData.shared.teamRestricted {
+            var witchSet = Set<Int>()
+            
+            while witchSet.count < maxSize {
+                witchSet.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+            }
+            
+            rndmWitches = Array(witchSet)
+        } else {
+            while rndmWitches.count < maxSize {
+                rndmWitches.append(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+            }
         }
-        
-        let rndmWitches: [Int] = Array(witchSet)
         
         var rndmArtifacts: [Int] = []
         switch GlobalData.shared.artifactUse {

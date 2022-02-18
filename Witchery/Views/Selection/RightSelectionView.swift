@@ -140,7 +140,7 @@ struct RightSelectionView: View {
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if !isSelected(witch: witch) {
+                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
                                                             witches[selectedSlot] = Witch(data: witch!.data)
                                                         }
                                                     }) {
@@ -153,7 +153,7 @@ struct RightSelectionView: View {
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if !isSelected(witch: witch) {
+                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
                                                             witches[selectedSlot] = Witch(data: witch!.data)
                                                         }
                                                     }) {

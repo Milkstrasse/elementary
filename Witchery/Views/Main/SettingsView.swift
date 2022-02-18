@@ -21,6 +21,7 @@ struct SettingsView: View {
     @State var textIndex: Int
     let textSpeeds: [String] = ["slow", "normal", "fast"]
     
+    @State var teamToggle: Bool
     @State var artifactIndex: Int
     let artifactsUse: [String] = ["unrestricted", "restricted", "disabled"]
     
@@ -225,8 +226,6 @@ struct SettingsView: View {
                                         } else {
                                             textIndex = textSpeeds.count
                                         }
-                                        
-                                        GlobalData.shared.textSpeed = textIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
@@ -240,14 +239,33 @@ struct SettingsView: View {
                                         } else {
                                             textIndex = 1
                                         }
-                                        
-                                        GlobalData.shared.textSpeed = textIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
                                 .padding(.leading, 15).padding(.trailing, 5)
                             }
                             .padding(.bottom, 5)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
+                                    CustomText(key: "teams", fontSize: 14).frame(width: 90, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        teamToggle = !teamToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: teamToggle ? "restricted" : "unrestricted", fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        teamToggle = !teamToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.leading, 15).padding(.trailing, 5)
+                            }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
@@ -261,8 +279,6 @@ struct SettingsView: View {
                                         } else {
                                             artifactIndex -= 1
                                         }
-                                        
-                                        GlobalData.shared.artifactUse = artifactIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
@@ -276,8 +292,6 @@ struct SettingsView: View {
                                         } else {
                                             artifactIndex += 1
                                         }
-                                        
-                                        GlobalData.shared.artifactUse = artifactIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
@@ -306,6 +320,8 @@ struct SettingsView: View {
                             GlobalData.shared.textSpeed = 2
                             textIndex = 2
                             
+                            GlobalData.shared.teamRestricted = true
+                            teamToggle = true
                             GlobalData.shared.artifactUse = 0
                             artifactIndex = 0
                         }
@@ -322,7 +338,10 @@ struct SettingsView: View {
                             UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             UserDefaults.standard.set(textIndex, forKey: "textSpeed")
                             
+                            UserDefaults.standard.set(teamToggle, forKey: "team")
+                            GlobalData.shared.teamRestricted = teamToggle
                             UserDefaults.standard.set(artifactIndex, forKey: "artifactUse")
+                            GlobalData.shared.artifactUse = artifactIndex
                             
                             offsetX = -450
                             
@@ -348,7 +367,7 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0), musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, artifactIndex: 0)
+        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0), musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamToggle: true, artifactIndex: 0)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

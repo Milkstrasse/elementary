@@ -47,6 +47,7 @@ struct WitcheryApp: App {
                                 UserDefaults.standard.set(1.0, forKey: "voices")
                                 UserDefaults.standard.set(true, forKey: "haptic")
                                 UserDefaults.standard.set(2, forKey: "textSpeed")
+                                UserDefaults.standard.set(true, forKey: "team")
                                 UserDefaults.standard.set(0, forKey: "artifactUse")
                             }
                             
@@ -63,6 +64,7 @@ struct WitcheryApp: App {
                             AudioPlayer.shared.hapticToggle = UserDefaults.standard.bool(forKey: "haptic")
                             GlobalData.shared.textSpeed = UserDefaults.standard.integer(forKey: "textSpeed")
                             
+                            GlobalData.shared.teamRestricted = UserDefaults.standard.bool(forKey: "team")
                             GlobalData.shared.artifactUse = UserDefaults.standard.integer(forKey: "artifactUse")
                             
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
