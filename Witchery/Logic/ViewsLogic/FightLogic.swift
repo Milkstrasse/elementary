@@ -48,7 +48,7 @@ class FightLogic: ObservableObject {
             players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
         }
         
-        battleLog = "let the fight begin"
+        battleLog = Localization.shared.getTranslation(key: "fightBegin")
     }
     
     /// Checks if there are enough witches on both sides.

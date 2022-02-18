@@ -74,7 +74,7 @@ struct TrainingOverView: View {
                                 if !isTutorial {
                                     CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                                 } else {
-                                    CustomText(text: "click on rematch if you want to play again", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: "tutorial15", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
                                 }
                             }
                             .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 10).rotationEffect(.degrees(90))
@@ -108,7 +108,7 @@ struct TrainingOverView: View {
                                 if !isTutorial {
                                     CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                                 } else {
-                                    CustomText(text: "click on rematch if you want to play again", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: "tutorial15", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
                                 }
                             }
                             .frame(width: 80, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))

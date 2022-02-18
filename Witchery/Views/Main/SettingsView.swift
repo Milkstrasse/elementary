@@ -23,7 +23,7 @@ struct SettingsView: View {
     
     @State var teamToggle: Bool
     @State var artifactIndex: Int
-    let artifactsUse: [String] = ["unrestricted", "restricted", "disabled"]
+    let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
     /// Returns the index of the current language.
     /// - Returns: Returns the index of the current language
@@ -249,14 +249,14 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "teams", fontSize: 14).frame(width: 90, alignment: .leading)
+                                    CustomText(key: "covens", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         teamToggle = !teamToggle
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: teamToggle ? "restricted" : "unrestricted", fontSize: 14)
+                                    CustomText(key: teamToggle ? "limited" : "unlimited", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()

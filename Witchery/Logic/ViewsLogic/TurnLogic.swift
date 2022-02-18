@@ -199,15 +199,15 @@ class TurnLogic {
                 case 6:
                     if fightLogic!.isAbleToSwap(player: player) {
                         player.hasToSwap = true
-                        return player.getCurrentWitch().name +  " flEes tHe sceNe.\n"
+                        return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentWitch().name]) + "\n"
                     }
                 case 7:
                     player.getCurrentWitch().overrideElement(newElement: Element())
-                    return player.getCurrentWitch().name +  "'s elEment Was reMoved.\n"
+                    return Localization.shared.getTranslation(key: "elementRemoved", params: [player.getCurrentWitch().name]) + "\n"
                 case 14:
                     if fightLogic!.isAbleToSwap(player: oppositePlayer) {
                         oppositePlayer.hasToSwap = true
-                        return oppositePlayer.getCurrentWitch().name +  " is fOrced oUt.\n"
+                        return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentWitch().name]) + "\n"
                     }
                 case 15:
                     let hexes: [Hex] = player.getCurrentWitch().hexes
@@ -222,27 +222,27 @@ class TurnLogic {
                         oppositePlayer.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
-                    return "sWappEd heXes.\n"
+                    return Localization.shared.getTranslation(key: "swappedHexes") + "\n"
                 case 16:
                     player.getCurrentWitch().removeAllHexes()
                     oppositePlayer.getCurrentWitch().removeAllHexes()
                 
-                    return player.getCurrentWitch().name +  " clEared eVeryThing.\n"
+                    return Localization.shared.getTranslation(key: "clearedHexes") + "\n"
                 case 17:
                     let artifact: Artifact = player.getCurrentWitch().getArtifact()
                 player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
                     oppositePlayer.getCurrentWitch().overrideArtifact(artifact: artifact)
                 
                 
-                    return player.getCurrentWitch().name +  " swApped aRtifaCts.\n"
+                    return Localization.shared.getTranslation(key: "swappedArtifacts") + "\n"
                 case 18:
                     oppositePlayer.getCurrentWitch().overrideElement(newElement: player.getCurrentWitch().getElement())
-                    return oppositePlayer.getCurrentWitch().name +  "'s elEment Was cHanged.\n"
+                return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentWitch().name, player.getCurrentWitch().getElement().name]) + "\n"
                 case 19:
                     player.wishActivated = true
                     player.getCurrentWitch().currhp = 0
                     player.hasToSwap = true
-                    return player.getCurrentWitch().name +  "'s faInted.\n"
+                return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name]) + "\n"
                 default:
                     break
             }
