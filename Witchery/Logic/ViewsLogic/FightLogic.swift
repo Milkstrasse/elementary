@@ -116,11 +116,11 @@ class FightLogic: ObservableObject {
                 } else { //last move was a swap which can't be locked in
                     player.usedMoves.insert(move, at: 0)
                 }
-            } else if player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) { //no moves have been made yet to be locked in
-                player.usedMoves.insert(move, at: 0)
             } else if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
                 let randomMove: Move = Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
                 player.usedMoves.insert(randomMove, at: 0)
+            } else {
+                player.usedMoves.insert(move, at: 0)
             }
         } else { //swapping move, can't be influenced by move changing hexes
             player.usedMoves.insert(move, at: 0)
