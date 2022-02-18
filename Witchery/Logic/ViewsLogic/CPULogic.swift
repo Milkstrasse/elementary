@@ -18,7 +18,7 @@ struct CPULogic {
     /// - Returns: Returns the best move
     func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
         //move can be influenced by move changing hexes
-        if witch.hasHex(hexName: Hexes.restricted.rawValue) {
+        if witch.hasHex(hexName: Hexes.restricted.rawValue) || witch.getArtifact().name == Artifacts.corset.rawValue {
             if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
                 if !witch.hasHex(hexName: Hexes.chained.rawValue) {
                     return nil

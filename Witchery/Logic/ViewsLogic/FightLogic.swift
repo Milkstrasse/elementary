@@ -48,15 +48,6 @@ class FightLogic: ObservableObject {
             players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
         }
         
-        //apply permanent effect of artifact
-        for i in players.indices {
-            for witch in players[i].witches {
-                if witch.getArtifact().name == Artifacts.corset.rawValue {
-                    witch.applyHex(hex: Hexes.restricted.getHex(duration: -1), resistable: false)
-                }
-            }
-        }
-        
         battleLog = "let the fight begin"
     }
     
@@ -111,6 +102,12 @@ class FightLogic: ObservableObject {
         //adds move into the used moves collection
         if move.target < 0 { //move can be influenced by move changing hexes
             if !player.usedMoves.isEmpty && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
+                if player.usedMoves[0].target < 0 {
+                    player.usedMoves.insert(player.usedMoves[0], at: 0)
+                } else { //last move was a swap which can't be locked in
+                    player.usedMoves.insert(move, at: 0)
+                }
+            } else if !player.usedMoves.isEmpty && player.getCurrentWitch().getArtifact().name == Artifacts.corset.rawValue {
                 if player.usedMoves[0].target < 0 {
                     player.usedMoves.insert(player.usedMoves[0], at: 0)
                 } else { //last move was a swap which can't be locked in

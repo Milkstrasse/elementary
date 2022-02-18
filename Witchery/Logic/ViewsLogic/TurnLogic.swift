@@ -200,24 +200,15 @@ class TurnLogic {
                     }
                 case 15:
                     let hexes: [Hex] = player.getCurrentWitch().hexes
-                    for hex in player.getCurrentWitch().hexes {
-                        if hex.duration > 0 {
-                            player.getCurrentWitch().removeHex(hex: hex)
-                        }
-                    }
+                
+                    player.getCurrentWitch().removeAllHexes()
                     for hex in oppositePlayer.getCurrentWitch().hexes {
                         player.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
-                    for hex in oppositePlayer.getCurrentWitch().hexes {
-                        if hex.duration > 0 {
-                            oppositePlayer.getCurrentWitch().removeHex(hex: hex)
-                        }
-                    }
+                    oppositePlayer.getCurrentWitch().removeAllHexes()
                     for hex in hexes {
-                        if hex.duration > 0 {
-                            oppositePlayer.getCurrentWitch().applyHex(hex: hex, resistable: false)
-                        }
+                        oppositePlayer.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
                     return "sWappEd heXes.\n"

@@ -106,15 +106,6 @@ class Witch: Hashable {
     /// Changes the temporary artifact of a witch.
     /// - Parameter artifact: The desired artifact
     func overrideArtifact(artifact: Artifact) {
-        if artifact.name == Artifacts.corset.rawValue {
-            for hex in hexes {
-                if hex.name == Hexes.restricted.rawValue && hex.duration < 0 {
-                    removeHex(hex: hex)
-                    break
-                }
-            }
-        }
-        
         self.artifactOverride = artifact
     }
     
@@ -166,7 +157,7 @@ class Witch: Hashable {
         switch hex.name {
             case Hexes.blessed.rawValue:
                 for hex in hexes {
-                    if !hex.positive && hex.duration >= 0 { //hex with -1 duration are permanent
+                    if !hex.positive {
                         removeHex(hex: hex)
                     }
                 }
