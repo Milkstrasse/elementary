@@ -110,7 +110,7 @@ struct CPULogic {
                 for index in availableSpells.indices {
                     if witch.spells[availableSpells[index]].typeID == 13 {
                         if witch.spells[availableSpells[index]].spells[0].range == 0 && witch.hexes.count < 2 {
-                            //spells without hex effect or prevent negative hexes
+                            //protect witch from negative hexes & useless move
                             if witch.getArtifact().name != Artifacts.talisman.rawValue && witch.getArtifact().name != Artifacts.amulet.rawValue {
                                 return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
                             }
