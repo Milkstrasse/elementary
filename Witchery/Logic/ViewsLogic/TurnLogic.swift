@@ -29,19 +29,19 @@ class TurnLogic {
             if attacker.getArtifact().name == Artifacts.book.rawValue {
                 if player.id == 0 {
                     if fightLogic.players[1].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
-                        battleLog = attacker.name + " fainted and cursed " + fightLogic.players[1].getCurrentWitch().name + ".\n"
+                        battleLog = attacker.name + " fAintEd and cuRsed " + fightLogic.players[1].getCurrentWitch().name + "."
                     } else {
-                        battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                        battleLog = attacker.name + " fAintEd and faIleD to cuRse " + fightLogic.players[1].getCurrentWitch().name + "."
                     }
                 } else {
                     if fightLogic.players[0].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
-                        battleLog = attacker.name + " fainted and cursed " + fightLogic.players[0].getCurrentWitch().name + ".\n"
+                        battleLog = attacker.name + " fAintEd and cuRsed " + fightLogic.players[0].getCurrentWitch().name + "."
                     } else {
-                        battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                        battleLog = attacker.name + " fAintEd and faIleD to cuRse " + fightLogic.players[0].getCurrentWitch().name + "."
                     }
                 }
             } else {
-                battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name]) + "\n"
+                battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
             }
             
             player.hasToSwap = true
@@ -59,22 +59,22 @@ class TurnLogic {
                 player.setState(state: PlayerState.hurting)
                 player.hasToSwap = true
                 
-                return Localization.shared.getTranslation(key: "namePerished", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "namePerished", params: [attacker.name])
             } else if damage > 0 {
                 attacker.currhp -= damage
                 player.setState(state: PlayerState.hurting)
                 
-                return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
             } else if damage < attacker.getModifiedBase().health - attacker.currhp {
                 attacker.currhp = attacker.getModifiedBase().health
                 player.setState(state: PlayerState.healing)
                 
-                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
             } else {
                 attacker.currhp -= damage
                 player.setState(state: PlayerState.healing)
                 
-                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
             }
         } else if fightLogic.playerStack[0].index == -10 {
             if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
@@ -85,7 +85,7 @@ class TurnLogic {
             
             player.setState(state: PlayerState.healing)
             
-            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
         } else if fightLogic.playerStack[0].index == -15 {
             if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
                 attacker.currhp = attacker.getModifiedBase().health
@@ -96,19 +96,19 @@ class TurnLogic {
             player.getCurrentWitch().overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
             player.setState(state: PlayerState.healing)
             
-            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name]) + "\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
         }
         
         let spell: Spell = player.usedMoves[0].spell
         
         if fightLogic.playerStack[0].index == 0 {
             player.setState(state: PlayerState.attacking)
-            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name]) + "\n"
+            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name])
         }
         
         //if witch has restriction hex and was forced to use spells with no uses
         if spell.useCounter >= spell.uses {
-            return Localization.shared.getTranslation(key: "fail") + "\n"
+            return Localization.shared.getTranslation(key: "fail")
         }
         
         //checks if shielding spell is used or another spell
@@ -118,9 +118,9 @@ class TurnLogic {
         
             //shield can't be used twice in a row -> failure
             if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
-                text = Localization.shared.getTranslation(key: "fail") + "\n"
+                text = Localization.shared.getTranslation(key: "fail")
             } else {
-                text = Localization.shared.getTranslation(key: "nameProtected", params: [attacker.name]) + "\n"
+                text = Localization.shared.getTranslation(key: "nameProtected", params: [attacker.name])
             }
             
             return text
@@ -147,7 +147,7 @@ class TurnLogic {
             if oppositePlayer.usedMoves[0].spell.typeID == 12 {
                 if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //shield was successful
                     if player.usedMoves[0].spell.typeID != 2 {
-                        return Localization.shared.getTranslation(key: "fail") + "\n"
+                        return Localization.shared.getTranslation(key: "fail")
                     } else {
                         usedShield = true
                     }
@@ -190,24 +190,24 @@ class TurnLogic {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 }
                 
-                return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name]) + "\n"
+                return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name])
             } else { //weather already active or invalid weather
-                return Localization.shared.getTranslation(key: "weatherFailed") + "\n"
+                return Localization.shared.getTranslation(key: "weatherFailed")
             }
         } else {
             switch player.usedMoves[0].spell.typeID {
                 case 6:
                     if fightLogic!.isAbleToSwap(player: player) {
                         player.hasToSwap = true
-                        return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentWitch().name]) + "\n"
+                        return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentWitch().name])
                     }
                 case 7:
                     player.getCurrentWitch().overrideElement(newElement: Element())
-                    return Localization.shared.getTranslation(key: "elementRemoved", params: [player.getCurrentWitch().name]) + "\n"
+                    return Localization.shared.getTranslation(key: "elementRemoved", params: [player.getCurrentWitch().name])
                 case 14:
                     if fightLogic!.isAbleToSwap(player: oppositePlayer) {
                         oppositePlayer.hasToSwap = true
-                        return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentWitch().name]) + "\n"
+                        return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentWitch().name])
                     }
                 case 15:
                     let hexes: [Hex] = player.getCurrentWitch().hexes
@@ -222,32 +222,32 @@ class TurnLogic {
                         oppositePlayer.getCurrentWitch().applyHex(hex: hex, resistable: false)
                     }
                 
-                    return Localization.shared.getTranslation(key: "swappedHexes") + "\n"
+                    return Localization.shared.getTranslation(key: "swappedHexes")
                 case 16:
                     player.getCurrentWitch().removeAllHexes()
                     oppositePlayer.getCurrentWitch().removeAllHexes()
                 
-                    return Localization.shared.getTranslation(key: "clearedHexes") + "\n"
+                    return Localization.shared.getTranslation(key: "clearedHexes")
                 case 17:
                     let artifact: Artifact = player.getCurrentWitch().getArtifact()
                 player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
                     oppositePlayer.getCurrentWitch().overrideArtifact(artifact: artifact)
                 
                 
-                    return Localization.shared.getTranslation(key: "swappedArtifacts") + "\n"
+                    return Localization.shared.getTranslation(key: "swappedArtifacts")
                 case 18:
                     oppositePlayer.getCurrentWitch().overrideElement(newElement: player.getCurrentWitch().getElement())
-                return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentWitch().name, player.getCurrentWitch().getElement().name]) + "\n"
+                return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentWitch().name, player.getCurrentWitch().getElement().name])
                 case 19:
                     player.wishActivated = true
                     player.getCurrentWitch().currhp = 0
                     player.hasToSwap = true
-                return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name]) + "\n"
+                return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name])
                 default:
                     break
             }
             
-            return Localization.shared.getTranslation(key: "fail") + "\n"
+            return Localization.shared.getTranslation(key: "fail")
         }
     }
     
@@ -274,9 +274,9 @@ class TurnLogic {
                 target.currhp += newHealth
             }
             
-            return Localization.shared.getTranslation(key: "gainedHP", params: [target.name]) + "\n"
+            return Localization.shared.getTranslation(key: "gainedHP", params: [target.name])
         }
         
-        return Localization.shared.getTranslation(key: "healFailed") + "\n"
+        return Localization.shared.getTranslation(key: "healFailed")
     }
 }

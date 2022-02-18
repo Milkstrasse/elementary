@@ -103,11 +103,11 @@
     "lastWillDescr": "**Protège** le successeur",
     
     "coven": "Coven",
-    "covenDescr": "covenDescr",
+    "covenDescr": "Sondez l'équipe et échangez des sorcières",
     "forfeit": "Forfait",
-    "forfeitDescr": "forfeitDescr",
+    "forfeitDescr": "Se rendre et mettre fin au combat",
     "spells": "Sorts",
-    "spellsDescr": "spellsDescr",
+    "spellsDescr": "Utilisez des sorts pour gagner la bataille",
     
     "hpBar": "{0}/{1}PV",
     "fightBegin": "Que le combat commence!",

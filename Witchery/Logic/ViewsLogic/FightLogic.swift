@@ -18,7 +18,7 @@ class FightLogic: ObservableObject {
     var playerStack: [(player: Player, index: Int)] = []
     
     @Published var battling: Bool = false
-    @Published var battleLog: String
+    @Published var battleLog: [String]
     @Published var gameOver: Bool = false
     
     @Published var weather: Hex?
@@ -48,7 +48,7 @@ class FightLogic: ObservableObject {
             players[0].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
         }
         
-        battleLog = Localization.shared.getTranslation(key: "fightBegin")
+        battleLog = [Localization.shared.getTranslation(key: "fightBegin")]
     }
     
     /// Checks if there are enough witches on both sides.
@@ -98,39 +98,12 @@ class FightLogic: ObservableObject {
         
         //marks player as ready
         gameLogic.setReady(player: player.id, ready: true)
-        
-        //adds move into the used moves collection
-        if move.target < 0 { //move can be influenced by move changing hexes
-            if !player.usedMoves.isEmpty && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
-                if player.usedMoves[0].target < 0 {
-                    player.usedMoves.insert(player.usedMoves[0], at: 0)
-                } else { //last move was a swap which can't be locked in
-                    player.usedMoves.insert(move, at: 0)
-                }
-            } else if !player.usedMoves.isEmpty && player.getCurrentWitch().getArtifact().name == Artifacts.corset.rawValue {
-                if player.usedMoves[0].target < 0 {
-                    player.usedMoves.insert(player.usedMoves[0], at: 0)
-                } else { //last move was a swap which can't be locked in
-                    player.usedMoves.insert(move, at: 0)
-                }
-            } else if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
-                let randomMove: Move = Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
-                player.usedMoves.insert(randomMove, at: 0)
-            } else {
-                player.usedMoves.insert(move, at: 0)
-            }
-        } else { //swapping move, can't be influenced by move changing hexes
-            player.usedMoves.insert(move, at: 0)
-        }
+        player.usedMoves.insert(move, at: 0)
         
         //fight begins
         if gameLogic.areBothReady() || hasCPUPlayer {
             battling = true
-            battleLog = Localization.shared.getTranslation(key: "loading")
-            
-            //increase useCounter of spells
-            players[0].usedMoves[0].useSpell(amount: players[0].getCurrentWitch().manaUse)
-            players[1].usedMoves[0].useSpell(amount: players[1].getCurrentWitch().manaUse)
+            battleLog = [Localization.shared.getTranslation(key: "loading")]
             
             //reset hasToSwap marker to prevent free swaps
             players[0].hasToSwap = false
@@ -152,7 +125,7 @@ class FightLogic: ObservableObject {
                     turns += 1
                     
                     if turns == 1 {
-                        battleLog = ""
+                        battleLog = []
                     }
                     
                     startTurn(player: currentPlayer)
@@ -308,24 +281,43 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     func addMoveTurn(player: Player) {
-        if player.usedMoves[0].spell.typeID == 9 { //player wants to copy enemy's move
-            var oppositePlayer: Player = players[0]
-            if player.id == 0 {
-                oppositePlayer = players[1]
+        //adds move into the used moves collection
+        if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
+            if player.usedMoves.count > 1 && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
+                if player.usedMoves[1].target < 0 { //last move was not a swap
+                    player.usedMoves[0] = player.usedMoves[1]
+                }
+            } else if player.usedMoves.count > 1 && player.getCurrentWitch().getArtifact().name == Artifacts.corset.rawValue {
+                if player.usedMoves[1].target < 0 { //last move was not a swap
+                    player.usedMoves[0] = player.usedMoves[1]
+                }
+            } else if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
+                let randomMove: Move = Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
+                player.usedMoves[0] = randomMove
             }
+        }
             
+        //increase useCounter of spells
+        player.usedMoves[0].useSpell(amount: player.getCurrentWitch().manaUse)
+        
+        var oppositePlayer: Player = players[0]
+        if player.id == 0 {
+            oppositePlayer = players[1]
+        }
+            
+        if player.usedMoves[0].spell.typeID == 9 { //player wants to copy enemy's move
             if players[oppositePlayer.id].usedMoves[0].target < 0 {
                 player.usedMoves[0] = players[oppositePlayer.id].usedMoves[0]
             }
         }
         
-        if player.usedMoves[0].target < 0 {
+        if player.usedMoves[0].target < 0 && oppositePlayer.getCurrentWitch().currhp > 0 {
             for index in player.usedMoves[0].spell.spells.indices.reversed() {
                 playerStack.insert((player: player, index: index + 1), at: 0)
             }
             
             playerStack.insert((player: player, index: 0), at: 0)
-        } else { //this is a swap not a spell
+        } else { //this is a swap or spell will fail
             playerStack.insert((player: player, index: 0), at: 0)
         }
     }
@@ -359,13 +351,13 @@ class FightLogic: ObservableObject {
         
         if player.usedMoves[0].target > -1 {
             if attacker.hasHex(hexName: Hexes.chained.rawValue) {
-                battleLog += Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]) + "\n"
+                battleLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
                 return
             }
             
-            battleLog += swapWitches(player: player, target: player.usedMoves[0].target)
+            battleLog.append(swapWitches(player: player, target: player.usedMoves[0].target))
         } else {
-            battleLog += TurnLogic.shared.startTurn(player: player, fightLogic: self)
+            battleLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
         }
     }
     
@@ -429,7 +421,7 @@ class FightLogic: ObservableObject {
             }
         }
                                                                                 
-        return text
+        return String(text.dropLast())
                                                                                 
     }
     

@@ -22,7 +22,7 @@ struct TeamView: View {
     /// - Parameter witch: The current witch
     /// - Returns: Returns info to a spell
     func generateInfo(witch: Witch) -> String {
-        var text: String = "\(witch.currhp)/\(witch.getModifiedBase().health)HP - "
+        var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(witch.currhp)", "\(witch.getModifiedBase().health)"]) + " - "
         
         if isDetectingPress {
             text += Localization.shared.getTranslation(key: witch.getArtifact().name)

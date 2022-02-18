@@ -20,7 +20,7 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
-        var text: String = Localization.shared.getTranslation(key: "hit") + "\n"
+        var text: String = Localization.shared.getTranslation(key: "hit")
         
         //determine actual target
         var target: Witch = defender
@@ -29,7 +29,7 @@ struct DamageCalculator {
         }
         
         if target.currhp == 0 { //target already fainted -> no target for spell
-            return Localization.shared.getTranslation(key: "fail") + "\n"
+            return Localization.shared.getTranslation(key: "fail")
         }
         
         //damage calculation
@@ -63,7 +63,7 @@ struct DamageCalculator {
             
             if chance >= attacker.getModifiedBase().resistance/10 {
                 dmg *= 1.5
-                text = Localization.shared.getTranslation(key: "criticalHit") + "\n"
+                text = Localization.shared.getTranslation(key: "criticalHit")
             }
         }
         

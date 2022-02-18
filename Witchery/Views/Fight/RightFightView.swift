@@ -47,6 +47,10 @@ struct RightFightView: View {
         }
     }
     
+    func getLogArray(text: String) -> [String] {
+        return text.components(separatedBy: "\n")
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
@@ -145,7 +149,14 @@ struct RightFightView: View {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
                                     RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        CustomText(text: fightLogic.battleLog, fontSize: 14).frame(width: geometry.size.height - 60, alignment: .leading)
+                                        ScrollViewReader { value in
+                                            ForEach(fightLogic.battleLog.indices, id: \.self) { index in
+                                                CustomText(text: fightLogic.battleLog[index], fontSize: 14).frame(width: geometry.size.height - 60, alignment: .leading).id(index)
+                                                    .onAppear {
+                                                        value.scrollTo(index, anchor: .bottom)
+                                                    }
+                                            }
+                                        }
                                     }
                                     .frame(height: 85).padding(.horizontal, 15)
                                 }
