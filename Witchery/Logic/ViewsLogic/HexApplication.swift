@@ -89,13 +89,13 @@ struct HexApplication {
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.resistanceBoost.rawValue:
-                if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.resistanceDrop.rawValue:
-                if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed")

@@ -206,7 +206,6 @@ struct CustomText: View {
 
 struct HexView: View {
     let hex: Hex
-    let battling: Bool
     var weather: Bool = false
     
     @State var opacity: Double = 1
@@ -245,18 +244,9 @@ struct HexView: View {
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5).fill(Color("background")).frame(width: 24, height: 24)
-            Group {
-                RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor()).frame(width: 24, height: 24)
-                RoundedRectangle(cornerRadius: 5).strokeBorder(getOutlineColor(), lineWidth: 1).frame(width: 24, height: 24)
-                Text(self.createSymbol()).frame(width: 24, height: 24).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(getFontColor())
-            }
-            .opacity(opacity).animation(.linear(duration: 0.5).repeatForever(autoreverses: true), value: opacity)
-        }
-        .onChange(of: battling) { _ in
-            if hex.duration == 1 {
-                opacity = 0
-            }
+            RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor()).frame(width: 24, height: 24)
+            RoundedRectangle(cornerRadius: 5).strokeBorder(getOutlineColor(), lineWidth: 1).frame(width: 24, height: 24)
+            Text(self.createSymbol()).frame(width: 24, height: 24).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(getFontColor())
         }
     }
 }
@@ -268,7 +258,7 @@ struct Views_Previews: PreviewProvider {
             RectangleWitchView(witch: exampleWitch, isSelected: false).frame(width: 100)
             SquareWitchView(witch: exampleWitch, isSelected: false)
             BaseWitchesOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100))
-            HexView(hex: Hex(name: "sample", symbol: 0xf6de, duration: 3, positive: true), battling: false)
+            HexView(hex: Hex(name: "sample", symbol: 0xf6de, duration: 3, positive: true))
         }
     }
 }

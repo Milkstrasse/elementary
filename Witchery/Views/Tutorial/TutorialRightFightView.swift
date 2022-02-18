@@ -95,10 +95,10 @@ struct TutorialRightFightView: View {
                                                 Rectangle().fill(Color("button")).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
-                                                        HexView(hex: hex, battling: fightLogic.battling)
+                                                        HexView(hex: hex)
                                                     }
                                                     if fightLogic.weather != nil {
-                                                        HexView(hex: fightLogic.weather!, battling: fightLogic.battling, weather: true)
+                                                        HexView(hex: fightLogic.weather!, weather: true)
                                                     }
                                                 }
                                                 .offset(x: -12, y: -12)
