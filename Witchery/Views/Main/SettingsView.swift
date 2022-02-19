@@ -25,6 +25,13 @@ struct SettingsView: View {
     @State var artifactIndex: Int
     let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
+    @GestureState var isMusicDecreasing = false
+    @GestureState var isMusicIncreasing = false
+    @GestureState var isSoundDecreasing = false
+    @GestureState var isSoundIncreasing = false
+    @GestureState var isVoicesDecreasing = false
+    @GestureState var isVoicesIncreasing = false
+    
     /// Returns the index of the current language.
     /// - Returns: Returns the index of the current language
     func getCurrentLang() -> Int {
@@ -63,30 +70,78 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "music", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
-                                        if musicVolume > 0 {
-                                            musicVolume -= 1
-                                        } else {
-                                            musicVolume = 10
-                                        }
-                                        
-                                        AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
-                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isMusicDecreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isMusicDecreasing == true {
+                                                if musicVolume > 0 {
+                                                    musicVolume -= 1
+                                                } else {
+                                                    musicVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isMusicDecreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if musicVolume > 0 {
+                                                    musicVolume -= 1
+                                                } else {
+                                                    musicVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                    })
                                     Spacer()
                                     CustomText(text: "\(musicVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
-                                        if musicVolume < 10 {
-                                            musicVolume += 1
-                                        } else {
-                                            musicVolume = 0
-                                        }
-                                        
-                                        AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
-                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isMusicIncreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isMusicIncreasing == true {
+                                                if musicVolume < 10 {
+                                                    musicVolume += 1
+                                                } else {
+                                                    musicVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isMusicIncreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if musicVolume < 10 {
+                                                    musicVolume += 1
+                                                } else {
+                                                    musicVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                    })
                                 }
                                 .padding(.leading, 15).padding(.trailing, 5)
                             }
@@ -96,30 +151,78 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "sound", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
-                                        if soundVolume > 0 {
-                                            soundVolume -= 1
-                                        } else {
-                                            soundVolume = 10
-                                        }
-                                        
-                                        AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
-                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isSoundDecreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isSoundDecreasing == true {
+                                                if soundVolume > 0 {
+                                                    soundVolume -= 1
+                                                } else {
+                                                    soundVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isSoundDecreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if soundVolume > 0 {
+                                                    soundVolume -= 1
+                                                } else {
+                                                    soundVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                    })
                                     Spacer()
                                     CustomText(text: "\(soundVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
-                                        if soundVolume < 10 {
-                                            soundVolume += 1
-                                        } else {
-                                            soundVolume = 0
-                                        }
-                                        
-                                        AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
-                                        AudioPlayer.shared.playStandardSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isSoundIncreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isSoundIncreasing == true {
+                                                if soundVolume < 10 {
+                                                    soundVolume += 1
+                                                } else {
+                                                    soundVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isSoundIncreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if soundVolume < 10 {
+                                                    soundVolume += 1
+                                                } else {
+                                                    soundVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                AudioPlayer.shared.playStandardSound()
+                                    })
                                 }
                                 .padding(.leading, 15).padding(.trailing, 5)
                             }
@@ -129,30 +232,78 @@ struct SettingsView: View {
                                 HStack {
                                     CustomText(key: "voices", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
-                                        if voiceVolume > 0 {
-                                            voiceVolume -= 1
-                                        } else {
-                                            voiceVolume = 10
-                                        }
-                                        
-                                        AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
-                                        AudioPlayer.shared.playHurtSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isVoicesDecreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isVoicesDecreasing == true {
+                                                if voiceVolume > 0 {
+                                                    voiceVolume -= 1
+                                                } else {
+                                                    voiceVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                AudioPlayer.shared.playHurtSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isVoicesDecreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if voiceVolume > 0 {
+                                                    voiceVolume -= 1
+                                                } else {
+                                                    voiceVolume = 10
+                                                }
+                                                
+                                                AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                AudioPlayer.shared.playHurtSound()
+                                    })
                                     Spacer()
                                     CustomText(text: "\(voiceVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
-                                        if voiceVolume < 10 {
-                                            voiceVolume += 1
-                                        } else {
-                                            voiceVolume = 0
-                                        }
-                                        
-                                        AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
-                                        AudioPlayer.shared.playHurtSound()
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .onChange(of: isVoicesIncreasing, perform: { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                            if self.isVoicesIncreasing == true {
+                                                if voiceVolume < 10 {
+                                                    voiceVolume += 1
+                                                } else {
+                                                    voiceVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                AudioPlayer.shared.playHurtSound()
+                                            } else {
+                                                timer.invalidate()
+                                            }
+                                        }
+                                    })
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: .infinity)
+                                            .updating($isVoicesIncreasing) { value, state, _ in state = value }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                if voiceVolume < 10 {
+                                                    voiceVolume += 1
+                                                } else {
+                                                    voiceVolume = 0
+                                                }
+                                                
+                                                AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                AudioPlayer.shared.playHurtSound()
+                                    })
                                 }
                                 .padding(.leading, 15).padding(.trailing, 5)
                             }
