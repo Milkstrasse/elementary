@@ -100,7 +100,7 @@ struct TrainingSelectionView: View {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("randomize") {
+                            Button(Localization.shared.getTranslation(key: "randomize")) {
                                 AudioPlayer.shared.playStandardSound()
                                 selectRandom()
                             }

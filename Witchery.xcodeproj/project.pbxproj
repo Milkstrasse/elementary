@@ -62,7 +62,7 @@
 		B898D91D27A6F921001B9137 /* healed1.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91A27A6F921001B9137 /* healed1.wav */; };
 		B898D91E27A6F921001B9137 /* healed2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91B27A6F921001B9137 /* healed2.wav */; };
 		B898D91F27A6F921001B9137 /* healed3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91C27A6F921001B9137 /* healed3.wav */; };
-		B898D92127A85852001B9137 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92027A85852001B9137 /* InfoView.swift */; };
+		B898D92127A85852001B9137 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92027A85852001B9137 /* HelpView.swift */; };
 		B898D92427A86293001B9137 /* TutorialSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92327A86293001B9137 /* TutorialSelectionView.swift */; };
 		B898D92627A86691001B9137 /* TutorialRightSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92527A86691001B9137 /* TutorialRightSelectionView.swift */; };
 		B898D92827A87325001B9137 /* TutorialFightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D92727A87325001B9137 /* TutorialFightView.swift */; };
@@ -150,7 +150,7 @@
 		B898D91A27A6F921001B9137 /* healed1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed1.wav; sourceTree = "<group>"; };
 		B898D91B27A6F921001B9137 /* healed2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed2.wav; sourceTree = "<group>"; };
 		B898D91C27A6F921001B9137 /* healed3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed3.wav; sourceTree = "<group>"; };
-		B898D92027A85852001B9137 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		B898D92027A85852001B9137 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		B898D92327A86293001B9137 /* TutorialSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSelectionView.swift; sourceTree = "<group>"; };
 		B898D92527A86691001B9137 /* TutorialRightSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialRightSelectionView.swift; sourceTree = "<group>"; };
 		B898D92727A87325001B9137 /* TutorialFightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialFightView.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				B80D7CDC27837A6400DEB25F /* OverviewView.swift */,
 				B80D7CD427835A8700DEB25F /* SettingsView.swift */,
 				B80D7CD82783771D00DEB25F /* CreditsView.swift */,
-				B898D92027A85852001B9137 /* InfoView.swift */,
+				B898D92027A85852001B9137 /* HelpView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -572,7 +572,7 @@
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
 				B898D92E27A9B52C001B9137 /* TextFitter.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,
-				B898D92127A85852001B9137 /* InfoView.swift in Sources */,
+				B898D92127A85852001B9137 /* HelpView.swift in Sources */,
 				B898D92627A86691001B9137 /* TutorialRightSelectionView.swift in Sources */,
 				B80D7CE527847BBA00DEB25F /* RightSelectionView.swift in Sources */,
 				B80D7D102788739200DEB25F /* OptionsView.swift in Sources */,

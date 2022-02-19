@@ -98,7 +98,7 @@ struct MainView: View {
                 } else if settingsToggle {
                     SettingsView(settingsToggle: $settingsToggle, offsetX: $offsetX, musicVolume: Int(AudioPlayer.shared.musicVolume * 10), soundVolume: Int(AudioPlayer.shared.soundVolume * 10), voiceVolume: Int(AudioPlayer.shared.voiceVolume * 10), hapticToggle: AudioPlayer.shared.hapticToggle, textIndex: GlobalData.shared.textSpeed, teamToggle: GlobalData.shared.teamRestricted, artifactIndex: GlobalData.shared.artifactUse)
                 } else if infoToggle {
-                    InfoView(infoToggle: $infoToggle, offsetX: $offsetX, transitionToggle: $transitionToggle).environmentObject(manager)
+                    HelpView(infoToggle: $infoToggle, offsetX: $offsetX, transitionToggle: $transitionToggle).environmentObject(manager)
                 } else if creditsToggle {
                     CreditsView(creditsToggle: $creditsToggle, offsetX: $offsetX)
                 }
