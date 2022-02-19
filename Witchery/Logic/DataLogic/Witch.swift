@@ -202,31 +202,31 @@ class Witch: Hashable {
                     attackMod += 20 + bonus
                     return true
                 case Hexes.attackDrop.rawValue:
-                    attackMod -= 20 + bonus
+                    attackMod -= 20 - bonus
                     return true
                 case Hexes.defenseBoost.rawValue:
                     defenseMod += 20 + bonus
                     return true
                 case Hexes.defenseDrop.rawValue:
-                    defenseMod -= 20 + bonus
+                    defenseMod -= 20 - bonus
                     return true
                 case Hexes.agilityBoost.rawValue:
                     agilityMod += 20 + bonus
                     return true
                 case Hexes.agilityDrop.rawValue:
-                    agilityMod -= 20 + bonus
+                    agilityMod -= 20 - bonus
                     return true
                 case Hexes.precisionBoost.rawValue:
                     precisionMod += 20 + bonus
                     return true
                 case Hexes.precisionDrop.rawValue:
-                    precisionMod -= 20 + bonus
+                    precisionMod -= 20 - bonus
                     return true
                 case Hexes.resistanceBoost.rawValue:
                     resistanceMod += 20 + bonus
                     return true
                 case Hexes.resistanceDrop.rawValue:
-                    resistanceMod -= 20 + bonus
+                    resistanceMod -= 20 - bonus
                     return true
                 case Hexes.invigorated.rawValue:
                     manaUse = 1
