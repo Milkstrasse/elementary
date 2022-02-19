@@ -48,7 +48,7 @@ struct TeamView: View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
                 DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
-                    .simultaneousGesture(
+                    .gesture(
                         LongPressGesture(minimumDuration: .infinity)
                             .updating($isDetectingPress) { value, state, _ in state = value }
                     )
