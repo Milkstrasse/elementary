@@ -32,14 +32,6 @@ class FightLogic: ObservableObject {
 
         self.players = players
         
-        //mirror artifact
-        if players[0].getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
-            players[0].getCurrentWitch().overrideArtifact(artifact: players[1].getCurrentWitch().getArtifact())
-        }
-        if players[1].getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
-            players[1].getCurrentWitch().overrideArtifact(artifact: players[0].getCurrentWitch().getArtifact())
-        }
-        
         //apply effect of artifact on "entering"
         if players[0].getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
             players[1].getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex())
@@ -376,9 +368,7 @@ class FightLogic: ObservableObject {
         var text: String
         var applyHex: Bool = false
         
-        if player.getCurrentWitch().getArtifact().name == Artifacts.lastWill.rawValue {
-            applyHex = true
-        } else if player.getCurrentWitch().getArtifact().name == Artifacts.grimoire.rawValue {
+        if player.getCurrentWitch().getArtifact().name == Artifacts.grimoire.rawValue {
             for hex in player.getCurrentWitch().hexes {
                 player.getCurrentWitch().removeHex(hex: hex)
             }
@@ -404,15 +394,6 @@ class FightLogic: ObservableObject {
         var oppositePlayer: Player = players[0]
         if player.id == 0 {
             oppositePlayer = players[1]
-        }
-        
-        if player.getCurrentWitch().getArtifact().name == Artifacts.mirror.rawValue {
-            player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
-            if player.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {
-                if oppositePlayer.getCurrentWitch().applyHex(hex: Hexes.attackDrop.getHex()) {
-                    text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentWitch().name, "attack"]) + "\n"
-                }
-            }
         }
         
         if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.mask.rawValue {

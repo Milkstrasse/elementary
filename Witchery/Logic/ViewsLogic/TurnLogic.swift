@@ -24,29 +24,10 @@ class TurnLogic {
         
         let attacker: Witch = player.getCurrentWitch()
         
-        //witch faints and certain artifacts can activate
+        //witch faints
         if attacker.currhp == 0 {
-            if attacker.getArtifact().name == Artifacts.book.rawValue {
-                if player.id == 0 {
-                    if fightLogic.players[1].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
-                        battleLog = attacker.name + " fAintEd and cuRsed " + fightLogic.players[1].getCurrentWitch().name + "."
-                    } else {
-                        battleLog = attacker.name + " fAintEd and faIleD to cuRse " + fightLogic.players[1].getCurrentWitch().name + "."
-                    }
-                } else {
-                    if fightLogic.players[0].getCurrentWitch().applyHex(hex: Hexes.getNegativeHex()) {
-                        battleLog = attacker.name + " fAintEd and cuRsed " + fightLogic.players[0].getCurrentWitch().name + "."
-                    } else {
-                        battleLog = attacker.name + " fAintEd and faIleD to cuRse " + fightLogic.players[0].getCurrentWitch().name + "."
-                    }
-                }
-            } else {
-                battleLog = Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
-            }
-            
             player.hasToSwap = true
-            
-            return battleLog
+            return Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
         }
         
         //apply damage or healing of hexes

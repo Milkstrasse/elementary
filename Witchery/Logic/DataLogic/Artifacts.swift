@@ -15,7 +15,6 @@ struct Artifact {
 enum Artifacts: String, CaseIterable {
     case noArtifact
     case amulet
-    case book
     case charm
     case cornucopia
     case corset
@@ -23,14 +22,12 @@ enum Artifacts: String, CaseIterable {
     case grimoire
     case incense
     case mask
-    case mirror
     case potion
     case ring
     case sevenLeague
     case talaria
     case talisman
     case wand
-    case lastWill
     
     /// Creates and returns an artifact.
     /// - Returns: Returns an artifact
@@ -41,6 +38,6 @@ enum Artifacts: String, CaseIterable {
     /// Returns curated list of artifacts for the tutorial.
     /// - Returns: Returns an array of artifacts
     static func getTutorialArtifactArray() -> [Artifact] {
-        return [Artifacts.noArtifact.getArtifact(), Artifacts.amulet.getArtifact(), Artifacts.book.getArtifact(), Artifacts.charm.getArtifact(), Artifacts.cornucopia.getArtifact()]
+        return [Artifacts.noArtifact.getArtifact(), Artifacts.amulet.getArtifact(), Artifacts.sevenLeague.getArtifact(), Artifacts.charm.getArtifact(), Artifacts.cornucopia.getArtifact()]
     }
 }
