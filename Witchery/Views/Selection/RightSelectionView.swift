@@ -61,6 +61,9 @@ struct RightSelectionView: View {
         return 0
     }
     
+    /// Check if a witch in the team already uses an artifact.
+    /// - Parameter artifact: The artifact in qustion
+    /// - Returns: Returns wether another witch already uses the artifact
     func isArtifactInUse(artifact: Int) -> Bool {
         if artifact == 0 {
             return false

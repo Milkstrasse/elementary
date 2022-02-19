@@ -11,7 +11,7 @@ import SwiftUI
 class TurnLogic {
     static let shared: TurnLogic = TurnLogic()
     
-    var fightLogic: FightLogic?
+    private var fightLogic: FightLogic?
     
     /// Starts the turn of the player. Determines whether witch uses their spell or an other action.
     /// - Parameters:
@@ -237,7 +237,7 @@ class TurnLogic {
     ///   - defender: The witch to be targeted
     ///   - spell: The spell used to make the attack
     /// - Returns: Returns a description of what occured during healing
-    func applyHealing(attacker: Witch, defender: Witch, spell: SubSpell) -> String {
+    private func applyHealing(attacker: Witch, defender: Witch, spell: SubSpell) -> String {
         var newHealth: Int
         
         //determine actual target

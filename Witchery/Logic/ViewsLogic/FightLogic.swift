@@ -9,12 +9,10 @@ import Foundation
 
 /// This is the main logic of the game. Stores all participating witches, determines the turn order and the amount of turns needed in each round, swaps witches , determines when the game is over and who has won.
 class FightLogic: ObservableObject {
-    let hasCPUPlayer: Bool
+    private var gameLogic: GameLogic = GameLogic()
     
+    private let hasCPUPlayer: Bool
     let players: [Player]
-    
-    var gameLogic: GameLogic = GameLogic()
-    
     var playerStack: [(player: Player, index: Int)] = []
     
     @Published var battling: Bool = false
@@ -182,7 +180,7 @@ class FightLogic: ObservableObject {
     
     /// Determines which player has priority.
     /// - Returns: Returns the index of the player with priority
-    func getFasterPlayer() -> Int {
+    private func getFasterPlayer() -> Int {
         //move has a target -> player wants to switch whis is a priority move
         if players[0].usedMoves[0].target > -1 {
             return 0
@@ -213,7 +211,7 @@ class FightLogic: ObservableObject {
     ///   - turns: The amount of turns in the current round
     ///   - firstTurns: The amount of turn the first player needed
     /// - Returns: Returns wether all necessary turns were determined or a future analysis is needed
-    func addTurns(currentPlayer: Player, turns: Int, firstTurns: Int) -> Bool {
+    private func addTurns(currentPlayer: Player, turns: Int, firstTurns: Int) -> Bool {
         if players[1].getCurrentWitch().currhp == 0 {
             playerStack.insert((player: players[1], index: 0), at: 0) //add turn to display faint message
             
@@ -272,7 +270,7 @@ class FightLogic: ObservableObject {
     
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
-    func addMoveTurn(player: Player) {
+    private func addMoveTurn(player: Player) {
         //adds move into the used moves collection
         if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
             if player.usedMoves.count > 1 && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
@@ -316,7 +314,7 @@ class FightLogic: ObservableObject {
     
     /// Adds turns depending on the hexes of the player to the current round of fighting.
     /// - Parameter player: The index of the player
-    func addHexTurns(player: Player) {
+    private func addHexTurns(player: Player) {
         if !player.getCurrentWitch().hexes.isEmpty {
             for index in player.getCurrentWitch().hexes.indices {
                 let hex: Hex = player.getCurrentWitch().hexes[index]
@@ -338,7 +336,7 @@ class FightLogic: ObservableObject {
     
     /// Starts the turn of a player.
     /// - Parameter player: The player
-    func startTurn(player: Player) {
+    private func startTurn(player: Player) {
         let attacker: Witch = player.getCurrentWitch()
         
         if player.usedMoves[0].target > -1 {
@@ -358,7 +356,7 @@ class FightLogic: ObservableObject {
     ///   - player: The player
     ///   - target: The index of the targeted witch
     /// - Returns: Returns the description of what occured during the swap
-    func swapWitches(player: Player, target: Int) -> String {
+    private func swapWitches(player: Player, target: Int) -> String {
         if player.witches[target].currhp == 0 {
             return ""
         }

@@ -7,7 +7,7 @@
 
 /// A move is an action made by a witch. Can either be a swap with another witch or a spell.
 struct Move {
-    let source: Witch
+    private let source: Witch
     let target: Int
     
     var spell: Spell

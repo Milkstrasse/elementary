@@ -7,7 +7,7 @@
 
 /// This is the logic used to track which players are ready for different actions, like starting a game, starting a new round  or when they want to end a game prematurely.
 struct GameLogic {
-    var readyPlayers: [Bool] = [false, false]
+    private var readyPlayers: [Bool] = [false, false]
     var forfeited: [Bool] = [false, false]
     
     /// Flags player as ready or not for starting a game, starting a new round or having a rematch.

@@ -24,11 +24,11 @@ class Witch: Hashable {
     private var artifact: Artifact
     private var artifactOverride: Artifact?
     
-    var attackMod: Int = 0
-    var defenseMod: Int = 0
-    var agilityMod: Int = 0
-    var precisionMod: Int = 0
-    var resistanceMod: Int = 0
+    private var attackMod: Int = 0
+    private var defenseMod: Int = 0
+    private var agilityMod: Int = 0
+    private var precisionMod: Int = 0
+    private var resistanceMod: Int = 0
     
     var manaUse: Int = 2
     
@@ -128,6 +128,9 @@ class Witch: Hashable {
         return false
     }
     
+    /// Get the duration of a certain hex.
+    /// - Parameter hexName: The name of the hex
+    /// - Returns: Returns the duration of the hex
     func getHexDuration(hexName: String) -> Int {
         for hex in hexes {
             if hex.name == hexName {
@@ -278,6 +281,7 @@ class Witch: Hashable {
         }
     }
     
+    /// Removes all hexes and reverts any changes made by the hexes
     func removeAllHexes() {
         attackMod = 0
         defenseMod = 0

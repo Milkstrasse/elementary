@@ -20,6 +20,9 @@ struct TutorialRightSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
+    /// Returns wether the witch is selected or not.
+    /// - Parameter witch: The witch in question
+    /// - Returns: Returns wether the witch is selected or not
     func isSelected(witch: Witch?) -> Bool {
         if witch == nil {
             return false
@@ -34,6 +37,9 @@ struct TutorialRightSelectionView: View {
         return false
     }
     
+    /// Returns the index of the nature of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the nature of a witch
     func getNature(witch: Witch) -> Int {
         for index in GlobalData.shared.natures.indices {
             if witch.nature.name == GlobalData.shared.natures[index].name {
@@ -44,6 +50,22 @@ struct TutorialRightSelectionView: View {
         return 0
     }
     
+    /// Returns the index of the artifact of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the artifact of a witch
+    func getArtifact(witch: Witch) -> Int {
+        for index in Artifacts.allCases.indices {
+            if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
+                return index
+            }
+        }
+        
+        return 0
+    }
+    
+    /// Check if the button is disabled.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the button is disabled or not
     func isDisabled(index: Int) -> Bool {
         if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
             return false
@@ -56,6 +78,9 @@ struct TutorialRightSelectionView: View {
         return tutorialCounter == 1 || tutorialCounter > 2
     }
     
+    /// Check if the witch is unselectable.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the witch is unselectable or not
     func isWitchDisabled(witch: Witch) -> Bool {
         if tutorialCounter == 1 && witch.getElement().name == "fire" {
             return false
@@ -64,16 +89,6 @@ struct TutorialRightSelectionView: View {
         }
         
         return true
-    }
-    
-    func getArtifact(witch: Witch) -> Int {
-        for index in Artifacts.allCases.indices {
-            if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
-                return index
-            }
-        }
-        
-        return 0
     }
     
     var body: some View {

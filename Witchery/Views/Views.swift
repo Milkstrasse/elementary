@@ -14,6 +14,8 @@ struct DetailedActionView: View {
     
     var width: CGFloat?
     
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
         let icon: UInt16 = UInt16(Float64(symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
@@ -43,6 +45,8 @@ struct RectangleWitchView: View {
     let witch: Witch
     var isSelected: Bool
     
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
         let icon: UInt16 = UInt16(Float64(witch.getElement().symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
@@ -123,6 +127,8 @@ struct SquareWitchView: View {
     var witch: Witch?
     var isSelected: Bool
     
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
         let icon: UInt16 = UInt16(Float64(witch!.getElement().symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
@@ -183,6 +189,9 @@ struct CustomText: View {
         self.isBold = isBold
     }
     
+    /// Returns wether the word should be bold or not.
+    /// - Parameter index: The current index of the word in a line
+    /// - Returns: Returns wether the word should be bold or not
     func isBold(index: Int) -> Bool {
         if isBold {
             return true
@@ -210,6 +219,8 @@ struct HexView: View {
     
     @State var opacity: Double = 1
     
+    /// Returns the appropiate background color.
+    /// - Returns: Returns the appropiate background color
     func getBackgroundColor() -> Color {
         if !hex.positive || weather {
             return Color("button")
@@ -218,6 +229,8 @@ struct HexView: View {
         }
     }
     
+    /// Returns the appropiate outline color.
+    /// - Returns: Returns the appropiate outline color
     func getOutlineColor() -> Color {
         if weather {
             return Color("highlight")
@@ -226,6 +239,8 @@ struct HexView: View {
         }
     }
     
+    /// Returns the appropiate font color.
+    /// - Returns: Returns the appropiate font color
     func getFontColor() -> Color {
         if weather {
             return Color("highlight")
@@ -238,6 +253,8 @@ struct HexView: View {
         }
     }
     
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
         return String(Character(UnicodeScalar(hex.symbol) ?? "\u{2718}"))
     }

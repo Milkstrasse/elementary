@@ -12,9 +12,10 @@ struct CPULogic {
     /// Determines the best move for the CPU.
     /// - Parameters:
     ///   - witch: The current witch
-    ///   - enemy: The current witch of the player
+    ///   - target: The current witch of the player
     ///   - weather: The current weather of the fight
     ///   - isAbleToSwitch: Wether the witch can swap or not
+    ///   - lastMove: The last move of the witch
     /// - Returns: Returns the best move
     func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
         //collect all useable spells
@@ -171,7 +172,14 @@ struct CPULogic {
         return currentWitch + 1 //should be impossible to reach if everything works correctly
     }
     
-    func calcDamage(attacker: Witch, defender: Witch, spell: Spell, weather: Hex?) -> Float {
+    /// Calculate the minimum damage of a spell.
+    /// - Parameters:
+    ///   - attacker: The witch that attacks
+    ///   - defender: The witch to be targeted
+    ///   - spell: The spell used to make the attack
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns the minimu damage of the spell
+    private func calcDamage(attacker: Witch, defender: Witch, spell: Spell, weather: Hex?) -> Float {
         var dmg: Float
         switch spell.typeID {
             case 1:

@@ -14,19 +14,17 @@ struct CPUSelectionView: View {
     var selectedArtifact: Int = 0
     
     var body: some View {
-        ZStack {
-            HStack {
+        HStack {
+            Spacer()
+            VStack {
                 Spacer()
-                VStack {
-                    Spacer()
-                    HStack(spacing: 5) {
-                        ForEach(0 ..< 4) { index in
-                            SquareWitchView(witch: witches[index], isSelected: false)
-                        }
+                HStack(spacing: 5) {
+                    ForEach(0 ..< 4) { index in
+                        SquareWitchView(witch: witches[index], isSelected: false)
                     }
-                    .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
-                    Spacer()
                 }
+                .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
+                Spacer()
             }
         }
     }

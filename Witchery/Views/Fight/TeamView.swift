@@ -18,9 +18,9 @@ struct TeamView: View {
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
-    /// Generates and returns info to a spell.
+    /// Generates and returns info on a witch.
     /// - Parameter witch: The current witch
-    /// - Returns: Returns info to a spell
+    /// - Returns: Returns generated info on a witch
     func generateInfo(witch: Witch) -> String {
         var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(witch.currhp)", "\(witch.getModifiedBase().health)"]) + " - "
         

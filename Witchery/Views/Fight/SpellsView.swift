@@ -20,6 +20,9 @@ struct SpellsView: View {
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
+    /// Returns the effectiveness of a spell against the current opponent.
+    /// - Parameter spellElement: The element of the spell
+    /// - Returns: Returns the effectiveness of a spell against the current opponent
     func getEffectiveness(spellElement: String) -> String {
         var modifier: Float
         let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
@@ -44,6 +47,11 @@ struct SpellsView: View {
         }
     }
     
+    /// Creates and returns a description fitting to a spell.
+    /// - Parameters:
+    ///   - spell: The spell in question
+    ///   - witch: The witch with the spell
+    /// - Returns: Returns a generated description for a spell
     func generateDescription(spell: Spell, witch: Witch) -> String {
         return "\(spell.uses - spell.useCounter)/\(spell.uses)MP - " + Localization.shared.getTranslation(key: getEffectiveness(spellElement: spell.element.name))
     }

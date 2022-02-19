@@ -9,7 +9,8 @@ import SwiftUI
 
 /// Affects a witch during multiple rounds.
 class Hex: Hashable {
-    let id = UUID()
+    private let id = UUID()
+    
     let name: String
     let symbol: UInt16
     var duration: Int

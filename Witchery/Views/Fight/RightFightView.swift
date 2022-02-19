@@ -47,10 +47,6 @@ struct RightFightView: View {
         }
     }
     
-    func getLogArray(text: String) -> [String] {
-        return text.components(separatedBy: "\n")
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             HStack {

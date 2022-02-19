@@ -16,8 +16,10 @@ struct DamageCalculator {
     ///   - attacker: The witch that attacks
     ///   - defender: The witch to be targeted
     ///   - spell: The spell used to make the attack
+    ///   - subSpell: The part of the spell used to make the attack
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
+    ///   - usedShield: Indicates wether the opponent used a shield successfully
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Witch, defender: Witch, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
         var text: String = Localization.shared.getTranslation(key: "hit")
@@ -113,7 +115,7 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     ///   - spellElement: The element of the used spell
     /// - Returns: Returns the received modifier
-    func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
+    private func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
             case Weather.blizzard.rawValue:
                 if spellElement == "snow" || spellElement == "wind" {
@@ -153,6 +155,7 @@ struct DamageCalculator {
     ///   - spell: The spell used to make the attack
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
+    ///   - powerOverride: The modification to the power of the spell
     /// - Returns: Returns the damage of the attack
     func calcNonCriticalDamage(attacker: Witch, defender: Witch, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
         let attack: Float
@@ -181,6 +184,7 @@ struct DamageCalculator {
     ///   - attacker: The witch that attacks
     ///   - defender: The witch to be targeted
     ///   - spell: The spell used to make the attack
+    ///   - subSpell: The part of the spell used to make the attack
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the attack is a guaranteed K.O.
