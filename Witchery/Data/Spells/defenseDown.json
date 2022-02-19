@@ -1,0 +1,19 @@
+{
+  "element": "wind",
+  "typeID": 13,
+  "uses": 15,
+  "spells": [
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 90,
+          "hex": "defenseDrop"
+      },
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 10,
+          "hex": "haunted"
+      }
+  ]
+}

@@ -13,16 +13,14 @@ struct SpellsView: View {
     let fightLogic: FightLogic
     let player: Player
     
+    var tutorialCounter: Int = -1
+    
     let geoHeight: CGFloat
     
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
     func getEffectiveness(spellElement: String) -> String {
-        if player.getCurrentWitch().getArtifact().name == Artifacts.ring.rawValue {
-            return "effective"
-        }
-        
         var modifier: Float
         let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
         
@@ -79,7 +77,7 @@ struct SpellsView: View {
                                     }
                         })
                     }
-                    .id(index)
+                    .id(index).opacity(tutorialCounter > 0 && index > 0 ? 0.5 : 1.0).disabled(tutorialCounter > 0 && index > 0)
                 }
             }
             .onAppear {
@@ -91,6 +89,6 @@ struct SpellsView: View {
 
 struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellsView(currentSection: .constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), geoHeight: 375)
+        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), geoHeight: 375)
     }
 }

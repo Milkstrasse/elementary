@@ -1,0 +1,17 @@
+{
+  "element": "rock",
+  "typeID": 13,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "attackBoost"
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "invigorated"
+      }
+  ]
+}

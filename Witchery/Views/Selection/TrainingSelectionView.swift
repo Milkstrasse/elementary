@@ -38,18 +38,45 @@ struct TrainingSelectionView: View {
     
     /// Selects random witches to create a team.
     func selectRandom() {
-        var set = Set<Int>()
         let maxSize: Int = min(4, GlobalData.shared.witches.count)
         
-        while set.count < maxSize {
-            set.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+        var rndmWitches: [Int] = []
+        if GlobalData.shared.teamRestricted {
+            var witchSet = Set<Int>()
+            
+            while witchSet.count < maxSize {
+                witchSet.insert(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+            }
+            
+            rndmWitches = Array(witchSet)
+        } else {
+            while rndmWitches.count < maxSize {
+                rndmWitches.append(Int.random(in: 0 ..< GlobalData.shared.witches.count))
+            }
         }
         
-        let rndm: [Int] = Array(set)
+        var rndmArtifacts: [Int] = []
+        switch GlobalData.shared.artifactUse {
+            case 0:
+                while rndmArtifacts.count < maxSize {
+                    rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
+                }
+            case 1:
+                var artifactSet = Set<Int>()
+            
+                while artifactSet.count < maxSize {
+                    artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
+                }
+                rndmArtifacts = Array(artifactSet)
+            default:
+                break
+        }
         
         for index in 0 ..< maxSize {
-            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndm[index]].data)
-            leftWitches[index]?.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
+            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndmWitches[index]].data)
+            if GlobalData.shared.artifactUse != 2 {
+                leftWitches[index]?.setArtifact(artifact: rndmArtifacts[index])
+            }
         }
     }
     
@@ -67,13 +94,13 @@ struct TrainingSelectionView: View {
     }
     
     var body: some View {
-        ZStack {
+        GeometryReader { geometry in
             ZStack {
                 HStack(spacing: 0) {
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
-                            Button("randomize") {
+                            Button(Localization.shared.getTranslation(key: "randomize")) {
                                 AudioPlayer.shared.playStandardSound()
                                 selectRandom()
                             }
@@ -129,10 +156,8 @@ struct TrainingSelectionView: View {
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
-            GeometryReader { geometry in
-                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                    .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
-            }
+            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+                .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

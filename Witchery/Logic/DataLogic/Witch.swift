@@ -8,7 +8,8 @@
 /// Contains all the important data of a witch.
 class Witch: Hashable {
     let name: String
-    let element: Element
+    private let element: Element
+    private var elementOverride: Element?
     
     let data: WitchData
     
@@ -27,6 +28,7 @@ class Witch: Hashable {
     var defenseMod: Int = 0
     var agilityMod: Int = 0
     var precisionMod: Int = 0
+    var resistanceMod: Int = 0
     
     var manaUse: Int = 2
     
@@ -53,21 +55,35 @@ class Witch: Hashable {
         artifact = Artifacts.allCases[0].getArtifact()
     }
     
+    /// Returns the current element of a witch checking if the permanent element is overriden by another.
+    /// - Returns: Returns the current active element
+    func getElement() -> Element {
+        return elementOverride ?? element
+    }
+    
+    /// Changes the temporary element of a witch.
+    /// - Parameter artifact: The desired element
+    func overrideElement(newElement: Element) {
+        self.elementOverride = newElement
+    }
+    
     /// Calculates current stats of a witch taking the current nature and hexes of the witch into consideration.
     /// - Returns: Returns the current stats of a witch
     func getModifiedBase() -> Base {
         let health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + attackMod + nature.attackMod, 0)
         var defense: Int = max(base.defense + defenseMod + nature.defenseMod, 0)
-        let agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
+        var agility: Int = max(base.agility + agilityMod + nature.agilityMod, 0)
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
-        let resistance: Int = max(base.resistance + nature.resistanceMod, 0)
+        let resistance: Int = max(base.resistance + resistanceMod + nature.resistanceMod, 0)
         
-        if artifact.name == Artifacts.wand.rawValue && currhp < health/4 {
+        if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
             attack += 40
-        } else if artifact.name == Artifacts.charm.rawValue && currhp < health/4 {
+        } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
             defense += 40
-        } else if artifact.name == Artifacts.corset.rawValue {
+        } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
+            agility += 40
+        } else if getArtifact().name == Artifacts.corset.rawValue {
             attack += 40
         }
         
@@ -94,7 +110,7 @@ class Witch: Hashable {
     }
     
     /// Returns the current artifact of a witch checking if the permanent artifact is overriden by another.
-    /// - Returns: Returns teh current active artifact
+    /// - Returns: Returns the current active artifact
     func getArtifact() -> Artifact {
         return artifactOverride ?? artifact
     }
@@ -112,17 +128,27 @@ class Witch: Hashable {
         return false
     }
     
+    func getHexDuration(hexName: String) -> Int {
+        for hex in hexes {
+            if hex.name == hexName {
+                return hex.duration
+            }
+        }
+        
+        return 0
+    }
+    
     /// Tries to to apply an hex to the witch
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
-    func applyHex(hex: Hex) -> Bool {
-        if self.artifact.name == Artifacts.talisman.rawValue { //witch can't be hexed
+    func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
+        if getArtifact().name == Artifacts.talisman.rawValue { //witch can't be hexed
             return false
         }
         
-        if !hex.positive && hex.duration >= 0 { //hex with -1 duration are created by an artifact
+        if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
-            if chance < getModifiedBase().resistance/10 { //chance hex will be resisted
+            if chance < getModifiedBase().resistance/10 {
                 return false
             }
         }
@@ -131,7 +157,7 @@ class Witch: Hashable {
         switch hex.name {
             case Hexes.blessed.rawValue:
                 for hex in hexes {
-                    if !hex.positive && hex.duration >= 0 { //hex with -1 duration are permanent
+                    if !hex.positive {
                         removeHex(hex: hex)
                     }
                 }
@@ -164,37 +190,53 @@ class Witch: Hashable {
             }
             
             hexes.append(hex) //hex has been added
-            hexes.sort {
-                $0.duration < $1.duration
+            
+            var bonus: Int = 0
+            if getArtifact().name == Artifacts.incense.rawValue {
+                bonus = 10
             }
             
             //makes changes to witch if neccessary
             switch hex.name {
                 case Hexes.attackBoost.rawValue:
-                    attackMod += 20
+                    attackMod += 20 + bonus
+                    return true
                 case Hexes.attackDrop.rawValue:
-                    attackMod -= 20
+                    attackMod -= 20 - bonus
+                    return true
                 case Hexes.defenseBoost.rawValue:
-                    defenseMod += 20
+                    defenseMod += 20 + bonus
+                    return true
                 case Hexes.defenseDrop.rawValue:
-                    defenseMod -= 20
+                    defenseMod -= 20 - bonus
+                    return true
                 case Hexes.agilityBoost.rawValue:
-                    agilityMod += 20
+                    agilityMod += 20 + bonus
+                    return true
                 case Hexes.agilityDrop.rawValue:
-                    agilityMod -= 20
+                    agilityMod -= 20 - bonus
+                    return true
                 case Hexes.precisionBoost.rawValue:
-                    precisionMod += 20
+                    precisionMod += 20 + bonus
+                    return true
                 case Hexes.precisionDrop.rawValue:
-                    precisionMod -= 20
+                    precisionMod -= 20 - bonus
+                    return true
+                case Hexes.resistanceBoost.rawValue:
+                    resistanceMod += 20 + bonus
+                    return true
+                case Hexes.resistanceDrop.rawValue:
+                    resistanceMod -= 20 - bonus
+                    return true
                 case Hexes.invigorated.rawValue:
                     manaUse = 1
+                    return true
                 case Hexes.exhausted.rawValue:
                     manaUse = 3
+                    return true
                 default:
-                    break
+                    return true
             }
-            
-            return true
         }
         
         return false
@@ -203,10 +245,11 @@ class Witch: Hashable {
     /// Removes an hex from the witch and reverts changes made by the hex
     /// - Parameter hex: The hex to be removed
     func removeHex(hex: Hex) {
-        if hexes[0].duration == 0 || hex.duration < 0 {
-            hexes.removeFirst()
-        } else {
-            hexes.remove(at: 1)
+        for (index, currHex) in hexes.enumerated() {
+            if hex == currHex {
+                hexes.remove(at: index)
+                break
+            }
         }
         
         switch hex.name {
@@ -235,18 +278,24 @@ class Witch: Hashable {
         }
     }
     
-    /// Removes all hexes, refreshes all spells and restores the health of the witch
-    func reset() {
+    func removeAllHexes() {
         attackMod = 0
         defenseMod = 0
         agilityMod = 0
         precisionMod = 0
         
-        currhp = getModifiedBase().health
-        
-        hexes = []
         manaUse = 2
         
+        hexes = []
+    }
+    
+    /// Removes all hexes, refreshes all spells and restores the health of the witch
+    func reset() {
+        currhp = getModifiedBase().health
+        
+        removeAllHexes()
+        
+        elementOverride = nil
         artifactOverride = nil
         
         for index in spells.indices {

@@ -1,0 +1,17 @@
+{
+  "element": "decay",
+  "base": {
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
+      "resistance": 100
+  },
+  "spells": [
+      "decaySimpleAttack",
+      "decaySpecialAttack",
+      "poison",
+      "protection"
+  ]
+}

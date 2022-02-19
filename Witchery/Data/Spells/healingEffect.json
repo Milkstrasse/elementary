@@ -1,0 +1,17 @@
+{
+  "element": "wind",
+  "typeID": 13,
+  "uses": 10,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "healed"
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "resistanceBoost"
+      }
+  ]
+}

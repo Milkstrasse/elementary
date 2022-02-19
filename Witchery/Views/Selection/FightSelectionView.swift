@@ -53,7 +53,7 @@ struct FightSelectionView: View {
     }
     
     var body: some View {
-        ZStack {
+        GeometryReader { geometry in
             ZStack {
                 HStack(spacing: 0) {
                     VStack {
@@ -142,10 +142,8 @@ struct FightSelectionView: View {
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
-            GeometryReader { geometry in
-                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                    .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
-            }
+            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+                .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

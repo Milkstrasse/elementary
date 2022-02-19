@@ -19,7 +19,7 @@ class ViewManager: ObservableObject {
     }
 }
 
-let exampleWitch: Witch = Witch(data: WitchData(name: "luna", element: "water", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+let exampleWitch: Witch = Witch(data: WitchData(name: "water1", element: "water", spells: ["unknownSpell"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 0, resistance: 100)))
 
 @main
 struct WitcheryApp: App {
@@ -45,7 +45,10 @@ struct WitcheryApp: App {
                                 UserDefaults.standard.set(1.0, forKey: "music")
                                 UserDefaults.standard.set(1.0, forKey: "sound")
                                 UserDefaults.standard.set(1.0, forKey: "voices")
+                                UserDefaults.standard.set(true, forKey: "haptic")
                                 UserDefaults.standard.set(2, forKey: "textSpeed")
+                                UserDefaults.standard.set(true, forKey: "team")
+                                UserDefaults.standard.set(0, forKey: "artifactUse")
                             }
                             
                             Localization.shared.getLanguages()
@@ -58,7 +61,11 @@ struct WitcheryApp: App {
                             
                             GlobalData.shared.loadData()
                             
+                            AudioPlayer.shared.hapticToggle = UserDefaults.standard.bool(forKey: "haptic")
                             GlobalData.shared.textSpeed = UserDefaults.standard.integer(forKey: "textSpeed")
+                            
+                            GlobalData.shared.teamRestricted = UserDefaults.standard.bool(forKey: "team")
+                            GlobalData.shared.artifactUse = UserDefaults.standard.integer(forKey: "artifactUse")
                             
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             isLoading = false

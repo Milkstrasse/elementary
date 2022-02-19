@@ -22,7 +22,7 @@ struct TrainingView: View {
             HStack {
                 CPUTrainingView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
                 Spacer()
-                RightPlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
+                RightFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
             }
             .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in

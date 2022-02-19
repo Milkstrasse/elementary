@@ -18,6 +18,9 @@ struct RightSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
+    /// Returns wether the witch is selected or not.
+    /// - Parameter witch: The witch in question
+    /// - Returns: Returns wether the witch is selected or not
     func isSelected(witch: Witch?) -> Bool {
         if witch == nil {
             return false
@@ -32,26 +35,9 @@ struct RightSelectionView: View {
         return false
     }
     
-    func getFirstHalf() -> [Witch?] {
-        if GlobalData.shared.witches.count%2 == 0 {
-            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2]
-            return Array(rowArray)
-        } else {
-            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2 + 1]
-            return Array(rowArray)
-        }
-    }
-    
-    func getSecondHalf() -> [Witch?] {
-        if GlobalData.shared.witches.count%2 == 0 {
-            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 ..< GlobalData.shared.witches.count]
-            return Array(rowArray)
-        } else {
-            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 + 1 ..< GlobalData.shared.witches.count]
-            return Array(rowArray)
-        }
-    }
-    
+    /// Returns the index of the nature of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the nature of a witch
     func getNature(witch: Witch) -> Int {
         for index in GlobalData.shared.natures.indices {
             if witch.nature.name == GlobalData.shared.natures[index].name {
@@ -62,6 +48,9 @@ struct RightSelectionView: View {
         return 0
     }
     
+    /// Returns the index of the artifact of a witch.
+    /// - Parameter witch: The selected witch
+    /// - Returns: Returns the index of the artifact of a witch
     func getArtifact(witch: Witch) -> Int {
         for index in Artifacts.allCases.indices {
             if witch.getArtifact().name == Artifacts.allCases[index].rawValue {
@@ -70,6 +59,22 @@ struct RightSelectionView: View {
         }
         
         return 0
+    }
+    
+    func isArtifactInUse(artifact: Int) -> Bool {
+        if artifact == 0 {
+            return false
+        }
+        
+        for witch in witches {
+            if witch != nil {
+                if getArtifact(witch: witch!) == artifact {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
     
     var body: some View {
@@ -131,11 +136,11 @@ struct RightSelectionView: View {
                                     ScrollView(.vertical, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                ForEach(self.getSecondHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if !isSelected(witch: witch) {
+                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
                                                             witches[selectedSlot] = Witch(data: witch!.data)
                                                         }
                                                     }) {
@@ -144,11 +149,11 @@ struct RightSelectionView: View {
                                                 }
                                             }
                                             VStack(spacing: 5) {
-                                                ForEach(self.getFirstHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if !isSelected(witch: witch) {
+                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
                                                             witches[selectedSlot] = Witch(data: witch!.data)
                                                         }
                                                     }) {
@@ -224,6 +229,16 @@ struct RightSelectionView: View {
                                                             selectedArtifact -= 1
                                                         }
                                                         
+                                                        if GlobalData.shared.artifactUse == 1{
+                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                                if selectedArtifact <= 0 {
+                                                                    selectedArtifact = Artifacts.allCases.count - 1
+                                                                } else {
+                                                                    selectedArtifact -= 1
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
@@ -240,13 +255,23 @@ struct RightSelectionView: View {
                                                             selectedArtifact += 1
                                                         }
                                                         
+                                                        if GlobalData.shared.artifactUse == 1{
+                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                                if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                    selectedArtifact = 0
+                                                                } else {
+                                                                    selectedArtifact += 1
+                                                                }
+                                                            }
+                                                        }
+                                                        
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
                                                 }
                                                 .frame(width: geometry.size.height - 30, height: 60)
                                             }
-                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
+                                            .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30).opacity(GlobalData.shared.artifactUse == 2 ? 0.5 : 1.0).disabled(GlobalData.shared.artifactUse == 2)
                                         }
                                         .padding(.vertical, 15)
                                     }
@@ -272,6 +297,6 @@ struct RightSelectionView: View {
 
 struct RightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        RightSelectionView(witches: .constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
+        RightSelectionView(witches:Binding.constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom).previewInterfaceOrientation(.landscapeLeft)
     }
 }

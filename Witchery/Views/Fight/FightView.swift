@@ -28,9 +28,9 @@ struct FightView: View {
     var body: some View {
         ZStack {
             HStack {
-                LeftPlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
+                LeftFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
                 Spacer()
-                RightPlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
+                RightFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
             }
             .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in

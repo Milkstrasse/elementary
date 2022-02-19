@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Loads and stores data from folders.
 class GlobalData {
     static let shared: GlobalData = GlobalData()
     
@@ -18,7 +19,10 @@ class GlobalData {
     var natures: [Nature] = []
     
     var textSpeed: Int = 2
+    var artifactUse: Int = 0
+    var teamRestricted: Bool = true
     
+    /// Load data from folders.
     func loadData() {
         loadElements()
         loadSpells()
@@ -26,6 +30,7 @@ class GlobalData {
         loadNatures()
     }
     
+    /// Load data from elements folder.
     func loadElements() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
             do {
@@ -45,6 +50,7 @@ class GlobalData {
         }
     }
     
+    /// Load data from spells folder.
     func loadSpells() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
             do {
@@ -63,6 +69,7 @@ class GlobalData {
         }
     }
     
+    /// Load data from witches folder.
     func loadWitches() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Witches") {
             do {
@@ -81,6 +88,7 @@ class GlobalData {
         }
     }
     
+    /// Load data from natures folder.
     func loadNatures() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
             do {
@@ -99,6 +107,32 @@ class GlobalData {
         }
     }
     
+    /// Returns the  first half of the list of all witches.
+    /// - Returns: Returns an array of witches
+    func getFirstHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.shared.witches[0 ..< GlobalData.shared.witches.count/2 + 1]
+            return Array(rowArray)
+        }
+    }
+    
+    /// Returns the second half of the list of all witches.
+    /// - Returns: Returns an array of witches
+    func getSecondHalf() -> [Witch?] {
+        if GlobalData.shared.witches.count%2 == 0 {
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 ..< GlobalData.shared.witches.count]
+            return Array(rowArray)
+        } else {
+            let rowArray = GlobalData.shared.witches[GlobalData.shared.witches.count/2 + 1 ..< GlobalData.shared.witches.count]
+            return Array(rowArray)
+        }
+    }
+    
+    /// Returns the amount of delay between the text.
+    /// - Returns: Returns the amount of delay between the text
     func getTextSpeed() -> Double {
         let x: Float = Float(textSpeed)
         let y: Float = 5 - x

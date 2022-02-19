@@ -1,7 +1,7 @@
 {
-  "element": "water",
-  "type": "heal",
-  "uses": 20,
+  "element": "aether",
+  "typeID": 11,
+  "uses": 15,
   "spells": [
       {
           "power": 0,

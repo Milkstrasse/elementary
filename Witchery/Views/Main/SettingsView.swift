@@ -11,14 +11,19 @@ struct SettingsView: View {
     @Binding var settingsToggle: Bool
     @Binding var offsetX: CGFloat
     
-    @State var musicVolume: Int = 10
-    @State var soundVolume: Int = 10
-    @State var voiceVolume: Int = 10
+    @State var musicVolume: Int
+    @State var soundVolume: Int
+    @State var voiceVolume: Int
+    
+    @State var hapticToggle: Bool
     
     @State var langIndex: Int = 0
-    
-    @State var textIndex: Int = 2
+    @State var textIndex: Int
     let textSpeeds: [String] = ["slow", "normal", "fast"]
+    
+    @State var teamToggle: Bool
+    @State var artifactIndex: Int
+    let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
     /// Returns the index of the current language.
     /// - Returns: Returns the index of the current language
@@ -56,7 +61,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "music", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "music", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         if musicVolume > 0 {
                                             musicVolume -= 1
@@ -83,13 +88,13 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.leading, 15).padding(.trailing, 5)
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "sound", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "sound", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         if soundVolume > 0 {
                                             soundVolume -= 1
@@ -116,13 +121,13 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.leading, 15).padding(.trailing, 5)
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "voices", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "voices", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         if voiceVolume > 0 {
                                             voiceVolume -= 1
@@ -149,14 +154,35 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.leading, 15).padding(.trailing, 5)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
+                                    CustomText(key: "haptic", fontSize: 14).frame(width: 90, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        hapticToggle = !hapticToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: hapticToggle ? "enabled" : "disabled", fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        hapticToggle = !hapticToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.leading, 15).padding(.trailing, 5)
                             }
                             .padding(.bottom, 5)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "language", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "language", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -185,13 +211,13 @@ struct SettingsView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.leading, 15).padding(.trailing, 5)
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
                                 RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
                                 HStack {
-                                    CustomText(key: "textSpeed", fontSize: 14).frame(width: 100, alignment: .leading)
+                                    CustomText(key: "textSpeed", fontSize: 14).frame(width: 90, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -200,8 +226,6 @@ struct SettingsView: View {
                                         } else {
                                             textIndex = textSpeeds.count
                                         }
-                                        
-                                        GlobalData.shared.textSpeed = textIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
@@ -215,12 +239,63 @@ struct SettingsView: View {
                                         } else {
                                             textIndex = 1
                                         }
-                                        
-                                        GlobalData.shared.textSpeed = textIndex
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                 }
-                                .padding(.horizontal, 15)
+                                .padding(.leading, 15).padding(.trailing, 5)
+                            }
+                            .padding(.bottom, 5)
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
+                                    CustomText(key: "covens", fontSize: 14).frame(width: 90, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        teamToggle = !teamToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: teamToggle ? "limited" : "unlimited", fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        teamToggle = !teamToggle
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.leading, 15).padding(.trailing, 5)
+                            }
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
+                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
+                                HStack {
+                                    CustomText(key: "artifacts", fontSize: 14).frame(width: 90, alignment: .leading)
+                                    Button("<") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        
+                                        if artifactIndex <= 0 {
+                                            artifactIndex = artifactsUse.count - 1
+                                        } else {
+                                            artifactIndex -= 1
+                                        }
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    Spacer()
+                                    CustomText(key: artifactsUse[artifactIndex], fontSize: 14)
+                                    Spacer()
+                                    Button(">") {
+                                        AudioPlayer.shared.playStandardSound()
+                                        
+                                        if artifactIndex >= artifactsUse.count - 1 {
+                                            artifactIndex = 0
+                                        } else {
+                                            artifactIndex += 1
+                                        }
+                                    }
+                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                }
+                                .padding(.leading, 15).padding(.trailing, 5)
                             }
                         }
                         .padding(.horizontal, 15)
@@ -230,8 +305,6 @@ struct SettingsView: View {
                         Spacer()
                         Button(Localization.shared.getTranslation(key: "reset")) {
                             AudioPlayer.shared.playStandardSound()
-                            Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
-                            langIndex = getCurrentLang()
                             
                             AudioPlayer.shared.setMusicVolume(volume: 1.0)
                             musicVolume = 10
@@ -239,20 +312,36 @@ struct SettingsView: View {
                             soundVolume = 10
                             AudioPlayer.shared.setVoiceVolume(volume: 1.0)
                             voiceVolume = 10
+                            AudioPlayer.shared.hapticToggle = true
+                            hapticToggle = true
                             
+                            Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
+                            langIndex = getCurrentLang()
                             GlobalData.shared.textSpeed = 2
                             textIndex = 2
+                            
+                            GlobalData.shared.teamRestricted = true
+                            teamToggle = true
+                            GlobalData.shared.artifactUse = 0
+                            artifactIndex = 0
                         }
                         .buttonStyle(BasicButton(width: 160))
                         Button("X") {
                             AudioPlayer.shared.playCancelSound()
                             
-                            UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             UserDefaults.standard.set(Float(musicVolume)/10, forKey: "music")
                             UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
                             UserDefaults.standard.set(Float(voiceVolume)/10, forKey: "voices")
+                            AudioPlayer.shared.hapticToggle = hapticToggle
+                            UserDefaults.standard.set(hapticToggle, forKey: "haptic")
                             
+                            UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
                             UserDefaults.standard.set(textIndex, forKey: "textSpeed")
+                            
+                            UserDefaults.standard.set(teamToggle, forKey: "team")
+                            GlobalData.shared.teamRestricted = teamToggle
+                            UserDefaults.standard.set(artifactIndex, forKey: "artifactUse")
+                            GlobalData.shared.artifactUse = artifactIndex
                             
                             offsetX = -450
                             
@@ -271,20 +360,14 @@ struct SettingsView: View {
         }
         .onAppear {
             offsetX = 0
-            
             langIndex = getCurrentLang()
-            musicVolume = Int(AudioPlayer.shared.musicVolume * 10)
-            soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
-            voiceVolume = Int(AudioPlayer.shared.voiceVolume * 10)
-            
-            textIndex = GlobalData.shared.textSpeed
         }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0))
+        SettingsView(settingsToggle: Binding.constant(true), offsetX: Binding.constant(0), musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamToggle: true, artifactIndex: 0)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

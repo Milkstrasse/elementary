@@ -57,7 +57,7 @@ struct CPUTrainingView: View {
                     } else if player.state == PlayerState.hurting {
                         Image(player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     } else {
-                        Image(player.getCurrentWitch().name + "_attacking").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
+                        Image(player.getCurrentWitch().name + "_attack").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     }
                     Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
@@ -93,10 +93,10 @@ struct CPUTrainingView: View {
                                                 Rectangle().fill(Color("button")).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
-                                                        HexView(hex: hex, battling: fightLogic.battling)
+                                                        HexView(hex: hex)
                                                     }
                                                     if fightLogic.weather != nil {
-                                                        HexView(hex: fightLogic.weather!, battling: fightLogic.battling, weather: true)
+                                                        HexView(hex: fightLogic.weather!, weather: true)
                                                     }
                                                 }
                                                 .offset(x: -12, y: -12)
@@ -150,7 +150,7 @@ struct CPUTrainingView: View {
 
 struct CPUTrainingView_Previews: PreviewProvider {
     static var previews: some View {
-        CPUTrainingView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver: .constant(false)).ignoresSafeArea(.all, edges: .bottom)
+        CPUTrainingView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver:Binding.constant(false)).ignoresSafeArea(.all, edges: .bottom)
             .previewInterfaceOrientation(.landscapeLeft)
     }
 }

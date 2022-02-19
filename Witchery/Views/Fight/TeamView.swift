@@ -15,23 +15,30 @@ struct TeamView: View {
     
     let geoHeight: CGFloat
     
+    @State var gestureStates: [Bool] = []
+    @GestureState var isDetectingPress = false
+    
     /// Generates and returns info to a spell.
     /// - Parameter witch: The current witch
     /// - Returns: Returns info to a spell
     func generateInfo(witch: Witch) -> String {
-        var text: String = "\(witch.currhp)/\(witch.getModifiedBase().health)HP - "
+        var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(witch.currhp)", "\(witch.getModifiedBase().health)"]) + " - "
         
-        var oppositePlayer: Player = fightLogic.players[0]
-        if player.id == 0 {
-            oppositePlayer = fightLogic.players[1]
-        }
-        
-        if witch.element.hasAdvantage(element: oppositePlayer.getCurrentWitch().element) {
-            text += Localization.shared.getTranslation(key: "veryEffective")
-        } else if witch.element.hasDisadvantage(element: oppositePlayer.getCurrentWitch().element) {
-            text += Localization.shared.getTranslation(key: "notVeryEffective")
+        if isDetectingPress {
+            text += Localization.shared.getTranslation(key: witch.getArtifact().name)
         } else {
-            text += Localization.shared.getTranslation(key: "effective")
+            var oppositePlayer: Player = fightLogic.players[0]
+            if player.id == 0 {
+                oppositePlayer = fightLogic.players[1]
+            }
+            
+            if witch.getElement().hasAdvantage(element: oppositePlayer.getCurrentWitch().getElement()) {
+                text += Localization.shared.getTranslation(key: "veryEffective")
+            } else if witch.getElement().hasDisadvantage(element: oppositePlayer.getCurrentWitch().getElement()) {
+                text += Localization.shared.getTranslation(key: "notVeryEffective")
+            } else {
+                text += Localization.shared.getTranslation(key: "effective")
+            }
         }
         
         return text
@@ -40,21 +47,33 @@ struct TeamView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+                    .gesture(
+                        LongPressGesture(minimumDuration: .infinity)
+                            .updating($isDetectingPress) { value, state, _ in state = value }
+                    )
                 ForEach(player.witches.indices) { index in
                     if index != player.currentWitchId {
                         Button(action: {
-                            if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentWitch(), target: index, spell: Spell())) {
-                                AudioPlayer.shared.playConfirmSound()
-                                currentSection = .waiting
-                            } else {
-                                AudioPlayer.shared.playStandardSound()
-                                currentSection = .options
-                            }
                         }) {
-                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].element.symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                         .id(index + 1).opacity(player.witches[index].currhp == 0 ? 0.7 : 1.0).disabled(player.witches[index].currhp == 0)
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: .infinity)
+                                .updating($isDetectingPress) { value, state, _ in state = value }
+                        )
+                        .highPriorityGesture(
+                            TapGesture()
+                                .onEnded { _ in
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentWitch(), target: index, spell: Spell())) {
+                                        AudioPlayer.shared.playConfirmSound()
+                                        currentSection = .waiting
+                                    } else {
+                                        AudioPlayer.shared.playStandardSound()
+                                        currentSection = .options
+                                    }
+                        })
                     }
                 }
             }
@@ -67,6 +86,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection: .constant(.team), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 0, witches: [exampleWitch]), geoHeight: 375)
+        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 0, witches: [exampleWitch]), geoHeight: 375)
     }
 }

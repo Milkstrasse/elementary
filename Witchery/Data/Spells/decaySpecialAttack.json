@@ -1,0 +1,15 @@
+{
+  "element": "decay",
+  "typeID": 7,
+  "uses": 5,
+  "spells": [
+      {
+          "power": 90,
+          "range": 1
+      },
+      {
+          "power": 0,
+          "range": 0
+      }
+  ]
+}
