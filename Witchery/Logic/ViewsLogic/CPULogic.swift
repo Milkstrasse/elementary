@@ -38,7 +38,13 @@ struct CPULogic {
             }
         }
         
-        if witch.getArtifact().name != Artifacts.corset.rawValue { //witch is restricted -> use best move
+        if witch.getArtifact().name == Artifacts.corset.rawValue || witch.hasHex(hexName: Hexes.restricted.rawValue) { //witch is restricted -> use best move
+            if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
+                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+                    return nil
+                }
+            }
+            
             var bestSpell: (Float, Int)
             bestSpell = (calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[0]], weather: weather), 0)
             
