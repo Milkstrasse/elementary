@@ -15,7 +15,7 @@ struct TextFitter {
     ///   - geoWidth: The width of the text box
     /// - Returns: Returns a text that will fit the text box
     static func getFittedText(text: String, geoWidth: CGFloat) -> String {
-        let cutOff: Int = Int(geoWidth/6)
+        let cutOff: Int = Int(geoWidth/8)
         var textArray: [String] = []
         
         if text.count < cutOff {
@@ -33,8 +33,12 @@ struct TextFitter {
             }
             
             let array = createTextArray(text: txt, cutOff: cutOff)
+            
             for k in needsRedo ..< textArray.count {
                 textArray[k] = array[k - needsRedo]
+            }
+            if needsRedo + array.count > textArray.count {
+                textArray.append(array.last!)
             }
             
             needsRedo = finalizeText(textArray: &textArray)
@@ -93,10 +97,6 @@ struct TextFitter {
                     textArray[index] = temp.last! + textArray[index]
                     
                     return index
-                }
-                
-                if textLine.first == " " {
-                    textArray[index] = String(textArray[index].dropFirst())
                 }
             }
         }

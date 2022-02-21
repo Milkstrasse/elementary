@@ -49,26 +49,28 @@ struct SettingsView: View {
             ZStack(alignment: .trailing) {
                 HStack(spacing: 0) {
                     Spacer()
-                    ZStack(alignment: .trailing) {
-                        Triangle().fill(Color("outline")).offset(x: -1)
-                        Triangle().fill(Color("background"))
-                    }
-                    Rectangle().fill(Color("background")).frame(width: 315 + geometry.safeAreaInsets.trailing)
+                    Triangle().fill(Color("panel"))
+                    Rectangle().fill(Color("panel")).frame(width: 315 + geometry.safeAreaInsets.trailing)
                 }
                 .offset(x: geometry.safeAreaInsets.trailing)
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .leading) {
-                        Rectangle().fill(Color("outline")).frame(height: 1)
-                        CustomText(key: "settings", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                        Rectangle().fill(Color("outline")).frame(height: 2)
+                        CustomText(key: "settings", fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("panel")).offset(x: 10)
                     }
                     .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 5) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "music", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(text: "\(musicVolume * 10)%", fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "music", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
@@ -104,8 +106,6 @@ struct SettingsView: View {
                                                 AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
                                                 AudioPlayer.shared.playStandardSound()
                                     })
-                                    Spacer()
-                                    CustomText(text: "\(musicVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                     }
@@ -147,9 +147,14 @@ struct SettingsView: View {
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "sound", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(text: "\(soundVolume * 10)%", fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "sound", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
@@ -185,8 +190,6 @@ struct SettingsView: View {
                                                 AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
                                                 AudioPlayer.shared.playStandardSound()
                                     })
-                                    Spacer()
-                                    CustomText(text: "\(soundVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                     }
@@ -228,9 +231,14 @@ struct SettingsView: View {
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "voices", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(text: "\(voiceVolume * 10)%", fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "voices", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
@@ -266,8 +274,6 @@ struct SettingsView: View {
                                                 AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
                                                 AudioPlayer.shared.playHurtSound()
                                     })
-                                    Spacer()
-                                    CustomText(text: "\(voiceVolume * 10)%", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                     }
@@ -309,16 +315,19 @@ struct SettingsView: View {
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "haptic", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(key: hapticToggle ? "enabled" : "disabled", fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "haptic", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         hapticToggle = !hapticToggle
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                    Spacer()
-                                    CustomText(key: hapticToggle ? "enabled" : "disabled", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
@@ -331,9 +340,14 @@ struct SettingsView: View {
                             .padding(.bottom, 5)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "language", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(key: Localization.shared.languages[langIndex], fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "language", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -346,8 +360,6 @@ struct SettingsView: View {
                                         Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                    Spacer()
-                                    CustomText(key: Localization.shared.languages[langIndex], fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
@@ -366,9 +378,14 @@ struct SettingsView: View {
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "textSpeed", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(key: textSpeeds[textIndex - 1], fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "textSpeed", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -379,8 +396,6 @@ struct SettingsView: View {
                                         }
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                    Spacer()
-                                    CustomText(key: textSpeeds[textIndex - 1], fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
@@ -398,16 +413,19 @@ struct SettingsView: View {
                             .padding(.bottom, 5)
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "covens", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(key: teamToggle ? "limited" : "unlimited", fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "covens", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         teamToggle = !teamToggle
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                    Spacer()
-                                    CustomText(key: teamToggle ? "limited" : "unlimited", fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
@@ -419,9 +437,14 @@ struct SettingsView: View {
                             }
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(height: 40)
-                                HStack {
-                                    CustomText(key: "artifacts", fontSize: 14).frame(width: 90, alignment: .leading)
+                                HStack(spacing: 0) {
+                                    Spacer().frame(width: 135)
+                                    Spacer()
+                                    CustomText(key: artifactsUse[artifactIndex], fontSize: smallFontSize)
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    CustomText(key: "artifacts", fontSize: smallFontSize).frame(width: 120, alignment: .leading)
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -432,8 +455,6 @@ struct SettingsView: View {
                                         }
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
-                                    Spacer()
-                                    CustomText(key: artifactsUse[artifactIndex], fontSize: 14)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()

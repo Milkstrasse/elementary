@@ -5,13 +5,13 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Font Awesome 5 Free-Solid-900.otf</string>
-		<string>Recoleta-Regular.ttf</string>
-		<string>Recoleta-Bold.ttf</string>
+		<string>KGMissKindyChunky.ttf</string>
+		<string>KGMissKindyMarker.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
-		<string>outline</string>
+		<string>panel</string>
 	</dict>
 </dict>
 </plist>

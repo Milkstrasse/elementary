@@ -20,7 +20,7 @@ struct CPUSelectionView: View {
                 Spacer()
                 HStack(spacing: 5) {
                     ForEach(0 ..< 4) { index in
-                        SquareWitchView(witch: witches[index], isSelected: false)
+                        SquareWitchView(witch: witches[index], isSelected: false, inverted: true)
                     }
                 }
                 .rotationEffect(.degrees(90)).frame(width: 70, height: 295)

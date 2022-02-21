@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3258B6CE27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */; };
-		3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */; };
-		3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */; };
 		328121A927A283470022A5D1 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328121A827A283470022A5D1 /* AudioPlayer.swift */; };
 		328121B527A29C210022A5D1 /* abs-pointer-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */; };
 		328121B727A29C380022A5D1 /* abs-confirm-1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */; };
@@ -52,6 +50,8 @@
 		B81CC32D2789D10A00908195 /* Natures in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32C2789D10A00908195 /* Natures */; };
 		B81CC32F278A3C3500908195 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC32E278A3C3500908195 /* Localization.swift */; };
 		B833891627C3BABF002C26E3 /* WitchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833891527C3BABE002C26E3 /* WitchData.swift */; };
+		B833892927C41C4D002C26E3 /* KGMissKindyChunky.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B833892727C41C4D002C26E3 /* KGMissKindyChunky.ttf */; };
+		B833892A27C41C4D002C26E3 /* KGMissKindyMarker.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B833892827C41C4D002C26E3 /* KGMissKindyMarker.ttf */; };
 		B852514F278CB15C00AD99BE /* HexApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852514E278CB15C00AD99BE /* HexApplication.swift */; };
 		B8525157278DD49D00AD99BE /* Hexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525156278DD49D00AD99BE /* Hexes.swift */; };
 		B8525159278EFF3900AD99BE /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525158278EFF3800AD99BE /* Artifacts.swift */; };
@@ -95,8 +95,6 @@
 /* Begin PBXFileReference section */
 		3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		3258B6CF27A06EC700746B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Recoleta-Regular.ttf"; sourceTree = "<group>"; };
-		3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Recoleta-Bold.ttf"; sourceTree = "<group>"; };
 		328121A827A283470022A5D1 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		328121B427A29C210022A5D1 /* abs-pointer-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-pointer-1.mp3"; sourceTree = "<group>"; };
 		328121B627A29C380022A5D1 /* abs-confirm-1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "abs-confirm-1.mp3"; sourceTree = "<group>"; };
@@ -141,6 +139,8 @@
 		B81CC32C2789D10A00908195 /* Natures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Natures; sourceTree = "<group>"; };
 		B81CC32E278A3C3500908195 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		B833891527C3BABE002C26E3 /* WitchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitchData.swift; sourceTree = "<group>"; };
+		B833892727C41C4D002C26E3 /* KGMissKindyChunky.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGMissKindyChunky.ttf; sourceTree = "<group>"; };
+		B833892827C41C4D002C26E3 /* KGMissKindyMarker.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGMissKindyMarker.ttf; sourceTree = "<group>"; };
 		B852514E278CB15C00AD99BE /* HexApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexApplication.swift; sourceTree = "<group>"; };
 		B8525156278DD49D00AD99BE /* Hexes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexes.swift; sourceTree = "<group>"; };
 		B8525158278EFF3800AD99BE /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
@@ -235,8 +235,8 @@
 		328121C927A417D40022A5D1 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3258B6D127A1E11C00746B2D /* Recoleta-Bold.ttf */,
-				3258B6D027A1E11C00746B2D /* Recoleta-Regular.ttf */,
+				B833892727C41C4D002C26E3 /* KGMissKindyChunky.ttf */,
+				B833892827C41C4D002C26E3 /* KGMissKindyMarker.ttf */,
 				3258B6CD27A06E4100746B2D /* Font Awesome 5 Free-Solid-900.otf */,
 			);
 			path = Fonts;
@@ -497,17 +497,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				B898D91E27A6F921001B9137 /* healed2.wav in Resources */,
+				B833892927C41C4D002C26E3 /* KGMissKindyChunky.ttf in Resources */,
 				328121B527A29C210022A5D1 /* abs-pointer-1.mp3 in Resources */,
 				328121C027A3F30C0022A5D1 /* Avenger.mp3 in Resources */,
 				B80D7D01278639BA00DEB25F /* Spells in Resources */,
 				328121B727A29C380022A5D1 /* abs-confirm-1.mp3 in Resources */,
 				B80D7CAC278345EE00DEB25F /* Preview Assets.xcassets in Resources */,
 				B80D7CF32785F86A00DEB25F /* Witches in Resources */,
+				B833892A27C41C4D002C26E3 /* KGMissKindyMarker.ttf in Resources */,
 				328121C627A405530022A5D1 /* damaged3.wav in Resources */,
 				B81CC32B2789A5E700908195 /* Elements in Resources */,
 				328121B927A29C890022A5D1 /* abs-cancel-1.mp3 in Resources */,
 				B898D91F27A6F921001B9137 /* healed3.wav in Resources */,
-				3258B6D327A1E11C00746B2D /* Recoleta-Bold.ttf in Resources */,
 				B81CC32D2789D10A00908195 /* Natures in Resources */,
 				B898D91927A6F914001B9137 /* attack2.wav in Resources */,
 				328121C527A405530022A5D1 /* damaged2.wav in Resources */,
@@ -519,7 +520,6 @@
 				B898D91827A6F914001B9137 /* attack1.wav in Resources */,
 				B898D91727A6F914001B9137 /* attack3.wav in Resources */,
 				B898D93027A9C09C001B9137 /* Assets.xcassets in Resources */,
-				3258B6D227A1E11C00746B2D /* Recoleta-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

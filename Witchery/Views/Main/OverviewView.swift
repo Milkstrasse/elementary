@@ -79,21 +79,21 @@ struct OverviewView: View {
                             AudioPlayer.shared.playStandardSound()
                             infoToggle = !infoToggle
                         }
-                        .buttonStyle(BasicButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         Spacer()
                         ZStack {
                             Color("background")
                             VStack(alignment: .leading, spacing: 0) {
                                 ZStack(alignment: .leading) {
-                                    Rectangle().fill(Color("outline")).frame(height: 1)
-                                    CustomText(key: currentWitch.name, fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                                    Rectangle().fill(Color("outline")).frame(height: 2)
+                                    CustomText(key: currentWitch.name, fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
                                 }
                                 .frame(height: 60)
                                 ScrollView(.vertical, showsIndicators: false) {
                                     VStack(spacing: 5) {
-                                        BaseWitchesOverviewView(base: currentWitch.getModifiedBase()).padding(.bottom, 5)
+                                        BaseWitchesOverviewView(base: currentWitch.getModifiedBase(), bgColor: Color("health")).padding(.bottom, 5)
                                         ForEach(currentWitch.spells, id: \.self) { spell in
-                                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol)
+                                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, inverted: true)
                                         }
                                     }
                                 }
@@ -106,17 +106,14 @@ struct OverviewView: View {
                 ZStack(alignment: .trailing) {
                     HStack(spacing: 0) {
                         Spacer()
-                        ZStack(alignment: .trailing) {
-                            Triangle().fill(Color("outline")).offset(x: -1)
-                            Triangle().fill(Color("background"))
-                        }
-                        Rectangle().fill(Color("background")).frame(width: 315 + geometry.safeAreaInsets.trailing)
+                        Triangle().fill(Color("panel"))
+                        Rectangle().fill(Color("panel")).frame(width: 315 + geometry.safeAreaInsets.trailing)
                     }
                     .offset(x: geometry.safeAreaInsets.trailing)
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack(alignment: .leading) {
-                            Rectangle().fill(Color("outline")).frame(height: 1)
-                            CustomText(key: "overview", fontSize: 18).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
+                            Rectangle().fill(Color("outline")).frame(height: 2)
+                            CustomText(key: "overview", fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("panel")).offset(x: 10)
                         }
                         .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                         ScrollView(.vertical, showsIndicators: false) {
@@ -145,7 +142,6 @@ struct OverviewView: View {
                             Spacer()
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 160, height: 40)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 160, height: 40)
                                 HStack {
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
@@ -160,7 +156,7 @@ struct OverviewView: View {
                                     }
                                     .buttonStyle(ClearBasicButton(width: 40, height: 40))
                                     Spacer()
-                                    CustomText(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name, fontSize: 14).frame(width: 65)
+                                    CustomText(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name, fontSize: smallFontSize).frame(width: 65)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()

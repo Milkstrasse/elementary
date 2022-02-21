@@ -36,7 +36,7 @@ struct WitcheryApp: App {
             ZStack {
                 Color("background").ignoresSafeArea()
                 if isLoading {
-                    Color("outline").onAppear {
+                    Color("panel").onAppear {
                         DispatchQueue.main.async {
                             var langCode = UserDefaults.standard.string(forKey: "lang")
                             if langCode == nil {

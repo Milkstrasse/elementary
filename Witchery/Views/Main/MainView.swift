@@ -51,7 +51,7 @@ struct MainView: View {
                             AudioPlayer.shared.playStandardSound()
                             overviewToggle = true
                         }
-                        .buttonStyle(BasicButton(width: 135))
+                        .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
                         Button(Localization.shared.getTranslation(key: "training")) {
                             AudioPlayer.shared.playStandardSound()
                             transitionToggle = true
@@ -59,7 +59,7 @@ struct MainView: View {
                                 manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
                             }
                         }
-                        .buttonStyle(BasicButton(width: 135))
+                        .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
                         HStack {
                             Button(Localization.shared.getTranslation(key: "fight")) {
                                 AudioPlayer.shared.playStandardSound()
@@ -68,7 +68,7 @@ struct MainView: View {
                                     manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135))
+                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
                         }
                     }
                     .padding(.leading, offsetX < 0 ? 0 : -450).animation(.linear(duration: 0.2), value: offsetX)
@@ -79,17 +79,17 @@ struct MainView: View {
                             AudioPlayer.shared.playStandardSound()
                             settingsToggle = true
                         }
-                        .buttonStyle(BasicButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         Button("?") {
                             AudioPlayer.shared.playStandardSound()
                             infoToggle = true
                         }
-                        .buttonStyle(BasicButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         Button("C") {
                             AudioPlayer.shared.playStandardSound()
                             creditsToggle = true
                         }
-                        .buttonStyle(BasicButton(width: 40))
+                        .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                     }
                 }
                 .padding(.all, 15)
@@ -104,7 +104,7 @@ struct MainView: View {
                 }
             }
             .ignoresSafeArea(.all, edges: .bottom)
-            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

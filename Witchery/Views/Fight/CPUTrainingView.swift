@@ -59,14 +59,12 @@ struct CPUTrainingView: View {
                     } else {
                         Image(player.getCurrentWitch().name + "_attack").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     }
-                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.leading, 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
-                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
                     HStack(spacing: 10) {
                         Group {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
-                                RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                CustomText(key: "waiting", fontSize: 14).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
+                                CustomText(key: "waiting", fontSize: smallFontSize).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                         }
@@ -76,8 +74,8 @@ struct CPUTrainingView: View {
                                 Spacer()
                                 ZStack(alignment: .bottomLeading) {
                                     HStack(spacing: 0) {
-                                        Triangle().fill(Color("outline")).frame(width: 21, height: 57)
-                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 57)
+                                        Triangle().fill(Color("outline")).frame(width: 21, height: 52)
+                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 52)
                                     }
                                     .padding(.bottom, 4).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
@@ -88,9 +86,9 @@ struct CPUTrainingView: View {
                                         }
                                         .padding(.leading, 24).offset(y: -5)
                                         HStack(spacing: 0) {
-                                            Triangle().fill(Color("button")).frame(width: 20, height: 55)
+                                            Triangle().fill(Color("outline")).frame(width: 20, height: 50)
                                             ZStack(alignment: .topTrailing) {
-                                                Rectangle().fill(Color("button")).frame(width: 190)
+                                                Rectangle().fill(Color("outline")).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
                                                         HexView(hex: hex)
@@ -102,24 +100,24 @@ struct CPUTrainingView: View {
                                                 .offset(x: -12, y: -12)
                                                 VStack(spacing: 0) {
                                                     HStack {
-                                                        CustomText(key: player.getCurrentWitch().name, fontSize: 16).lineLimit(1)
+                                                        CustomText(key: player.getCurrentWitch().name, fontColor: Color("background"), fontSize: mediumFontSize, isBold: true)
                                                         Spacer()
-                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontSize: 13)
+                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontColor: Color("background"), fontSize: tinyFontSize)
                                                     }
                                                     ZStack(alignment: .leading) {
-                                                        Rectangle().fill(Color("outline")).frame(height: 6)
+                                                        Rectangle().fill(Color("healthbar")).frame(height: 6)
                                                         Rectangle().fill(Color("health")).frame(width: calcWidth(witch: player.getCurrentWitch()), height: 6).animation(.default, value: player.getCurrentWitch().currhp)
                                                     }
                                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                                 }
-                                                .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
+                                                .padding(.trailing, 15).padding(.leading, 5).frame(height: 50)
                                             }
                                         }
-                                        .frame(height: 55)
+                                        .frame(height: 50)
                                     }
-                                    .frame(height: 75)
+                                    .frame(height: 70)
                                 }
-                                .rotationEffect(.degrees(90)).frame(width: 75, height: 210).offset(y: -offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
+                                .rotationEffect(.degrees(90)).frame(width: 70, height: 210).offset(y: -offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                             }
                             VStack(alignment: .leading) {
                                 ZStack {

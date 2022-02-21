@@ -80,7 +80,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: leftWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: leftWitches))
+                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: leftWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: leftWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -88,7 +88,7 @@ struct FightSelectionView: View {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         }
                         .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                     }
@@ -116,7 +116,7 @@ struct FightSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
+                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -124,7 +124,7 @@ struct FightSelectionView: View {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                         Spacer()
@@ -134,15 +134,15 @@ struct FightSelectionView: View {
                 HStack(spacing: 0) {
                     LeftSelectionView(witches: $leftWitches).disabled(leftReady)
                     ZStack {
-                        Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
-                        CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                        Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
+                        CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
                     RightSelectionView(witches: $rightWitches).disabled(rightReady)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
-            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

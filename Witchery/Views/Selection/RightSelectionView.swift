@@ -120,7 +120,7 @@ struct RightSelectionView: View {
                                         }
                                     }
                                 }) {
-                                    SquareWitchView(witch: witches[index], isSelected: index == selectedSlot)
+                                    SquareWitchView(witch: witches[index], isSelected: index == selectedSlot, inverted: true)
                                 }
                             }
                         }
@@ -131,9 +131,8 @@ struct RightSelectionView: View {
                 }
                 if selectionToggle || infoToggle {
                     HStack(spacing: 0) {
-                        Rectangle().fill(Color("outline")).frame(width: 1)
                         ZStack(alignment: .leading) {
-                            Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                            Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.trailing)
                             if selectionToggle {
                                 VStack {
                                     ScrollView(.vertical, showsIndicators: false) {
@@ -197,8 +196,8 @@ struct RightSelectionView: View {
                                                             
                                                             witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
-                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
-                                                        CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
+                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
+                                                        CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("button"), fontSize: smallFontSize).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
                                                             AudioPlayer.shared.playStandardSound()
                                                             
@@ -210,12 +209,12 @@ struct RightSelectionView: View {
                                                             
                                                             witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
-                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
+                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
                                                     }
                                                     .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                 }
                                             }
-                                            BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                            BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30, bgColor: Color("button")).rotationEffect(.degrees(-90)).frame(width: 85, height: geometry.size.height - 30)
                                                 .padding(.trailing, 5)
                                             ForEach(witches[selectedSlot]!.spells, id: \.self) { spell in
                                                 DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
@@ -244,10 +243,10 @@ struct RightSelectionView: View {
                                                         
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
                                                     VStack {
-                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("button"), fontSize: mediumFontSize, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("button"), fontSize: tinyFontSize).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
                                                         AudioPlayer.shared.playStandardSound()
@@ -270,7 +269,7 @@ struct RightSelectionView: View {
                                                         
                                                         witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
                                                 }
                                                 .frame(width: geometry.size.height - 30, height: 60)
                                             }
