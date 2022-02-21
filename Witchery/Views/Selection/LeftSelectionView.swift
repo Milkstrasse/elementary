@@ -18,6 +18,11 @@ struct LeftSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
+    @GestureState var isNatureDecreasing = false
+    @GestureState var isNatureIncreasing = false
+    @GestureState var isArtifactDecreasing = false
+    @GestureState var isArtifactIncreasing = false
+    
     /// Returns wether the witch is selected or not.
     /// - Parameter witch: The witch in question
     /// - Returns: Returns wether the witch is selected or not
@@ -187,30 +192,80 @@ struct LeftSelectionView: View {
                                                 RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if selectedNature <= 0 {
-                                                            selectedNature = GlobalData.shared.natures.count - 1
-                                                        } else {
-                                                            selectedNature -= 1
-                                                        }
-                                                        
-                                                        witches[selectedSlot]!.setNature(nature: selectedNature)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
+                                                    .onChange(of: isNatureDecreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isNatureDecreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedNature <= 0 {
+                                                                    selectedNature = GlobalData.shared.natures.count - 1
+                                                                } else {
+                                                                    selectedNature -= 1
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                            } else {
+                                                                timer.invalidate()
+                                                            }
+                                                        }
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isNatureDecreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedNature <= 0 {
+                                                                    selectedNature = GlobalData.shared.natures.count - 1
+                                                                } else {
+                                                                    selectedNature -= 1
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                    })
                                                     CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("button"), fontSize: smallFontSize).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                     Button(">") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if selectedNature >= GlobalData.shared.natures.count - 1 {
-                                                            selectedNature = 0
-                                                        } else {
-                                                            selectedNature += 1
-                                                        }
-                                                        
-                                                        witches[selectedSlot]!.setNature(nature: selectedNature)
                                                     }
                                                     .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
+                                                    .onChange(of: isNatureIncreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isNatureIncreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedNature >= GlobalData.shared.natures.count - 1 {
+                                                                    selectedNature = 0
+                                                                } else {
+                                                                    selectedNature += 1
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                            } else {
+                                                                timer.invalidate()
+                                                            }
+                                                        }
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isNatureIncreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedNature >= GlobalData.shared.natures.count - 1 {
+                                                                    selectedNature = 0
+                                                                } else {
+                                                                    selectedNature += 1
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                    })
                                                 }.rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                             }
                                         }
