@@ -366,7 +366,6 @@ class FightLogic: ObservableObject {
         player.hasToSwap = false //flag no longer necessary
         
         var text: String
-        var applyHex: Bool = false
         
         if player.getCurrentWitch().getArtifact().name == Artifacts.grimoire.rawValue {
             for hex in player.getCurrentWitch().hexes {
@@ -376,12 +375,6 @@ class FightLogic: ObservableObject {
         
         text = Localization.shared.getTranslation(key: "swapWith", params: [player.getCurrentWitch().name, player.witches[target].name]) + "\n"
         player.currentWitchId = target
-        
-        if applyHex {
-            if player.getCurrentWitch().applyHex(hex: Hexes.blessed.getHex(), resistable: false) {
-                text += Localization.shared.getTranslation(key: "becameHex", params: [player.getCurrentWitch().name, Hexes.blessed.rawValue]) + "\n"
-            }
-        }
         
         if player.wishActivated && player.getCurrentWitch().currhp < player.getCurrentWitch().getModifiedBase().health {
             player.getCurrentWitch().currhp = player.getCurrentWitch().getModifiedBase().health
