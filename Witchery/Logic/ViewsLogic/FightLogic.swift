@@ -273,18 +273,20 @@ class FightLogic: ObservableObject {
     private func addMoveTurn(player: Player) {
         //adds move into the used moves collection
         if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
-            if player.usedMoves.count > 1 && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
+            if player.getCurrentWitch().lastMove != nil && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
+                player.usedMoves[0] = player.getCurrentWitch().lastMove!
+            } else if player.getCurrentWitch().lastMove != nil && player.getCurrentWitch().getArtifact().name == Artifacts.corset.rawValue {
                 if player.usedMoves[1].target < 0 { //last move was not a swap
-                    player.usedMoves[0] = player.usedMoves[1]
-                }
-            } else if player.usedMoves.count > 1 && player.getCurrentWitch().getArtifact().name == Artifacts.corset.rawValue {
-                if player.usedMoves[1].target < 0 { //last move was not a swap
-                    player.usedMoves[0] = player.usedMoves[1]
+                    player.usedMoves[0] = player.getCurrentWitch().lastMove!
                 }
             } else if player.getCurrentWitch().hasHex(hexName: Hexes.confused.rawValue) {
                 let randomMove: Move = Move(source: player.getCurrentWitch(), spell: player.getCurrentWitch().spells[Int.random(in: 0 ..< player.getCurrentWitch().spells.count)])
                 player.usedMoves[0] = randomMove
             }
+            
+            player.getCurrentWitch().lastMove = player.usedMoves[0]
+        } else {
+            player.getCurrentWitch().lastMove = nil
         }
             
         //increase useCounter of spells

@@ -246,7 +246,7 @@ class TurnLogic {
             target = attacker
         }
         
-        if !target.hasHex(hexName: Hexes.haunted.rawValue) {
+        if !target.hasHex(hexName: Hexes.blocked.rawValue) {
             newHealth = target.getModifiedBase().health/(100/spell.healAmount)
             if newHealth >= (target.getModifiedBase().health - target.currhp) {
                 target.currhp = target.getModifiedBase().health

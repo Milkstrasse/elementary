@@ -51,6 +51,7 @@
 		B81CC32B2789A5E700908195 /* Elements in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32A2789A5E700908195 /* Elements */; };
 		B81CC32D2789D10A00908195 /* Natures in Resources */ = {isa = PBXBuildFile; fileRef = B81CC32C2789D10A00908195 /* Natures */; };
 		B81CC32F278A3C3500908195 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC32E278A3C3500908195 /* Localization.swift */; };
+		B833891627C3BABF002C26E3 /* WitchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833891527C3BABE002C26E3 /* WitchData.swift */; };
 		B852514F278CB15C00AD99BE /* HexApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852514E278CB15C00AD99BE /* HexApplication.swift */; };
 		B8525157278DD49D00AD99BE /* Hexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525156278DD49D00AD99BE /* Hexes.swift */; };
 		B8525159278EFF3900AD99BE /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525158278EFF3800AD99BE /* Artifacts.swift */; };
@@ -139,6 +140,7 @@
 		B81CC32A2789A5E700908195 /* Elements */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Elements; sourceTree = "<group>"; };
 		B81CC32C2789D10A00908195 /* Natures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Natures; sourceTree = "<group>"; };
 		B81CC32E278A3C3500908195 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		B833891527C3BABE002C26E3 /* WitchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitchData.swift; sourceTree = "<group>"; };
 		B852514E278CB15C00AD99BE /* HexApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexApplication.swift; sourceTree = "<group>"; };
 		B8525156278DD49D00AD99BE /* Hexes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexes.swift; sourceTree = "<group>"; };
 		B8525158278EFF3800AD99BE /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				B80D7CF7278635CC00DEB25F /* Witch.swift */,
+				B833891527C3BABE002C26E3 /* WitchData.swift */,
 				B8EAA7822788870900DD3813 /* Spell.swift */,
 				B81CC3282789A31800908195 /* Element.swift */,
 				B8525156278DD49D00AD99BE /* Hexes.swift */,
@@ -569,6 +572,7 @@
 				B81CC3292789A31800908195 /* Element.swift in Sources */,
 				B80D7D062787207C00DEB25F /* FightLogic.swift in Sources */,
 				B80D7CE12783A92300DEB25F /* FightSelectionView.swift in Sources */,
+				B833891627C3BABF002C26E3 /* WitchData.swift in Sources */,
 				B80D7CDD27837A6400DEB25F /* OverviewView.swift in Sources */,
 				B898D92E27A9B52C001B9137 /* TextFitter.swift in Sources */,
 				B80D7D03278707B700DEB25F /* FightOverView.swift in Sources */,

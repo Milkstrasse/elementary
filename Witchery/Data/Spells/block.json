@@ -7,7 +7,7 @@
           "power": 0,
           "range": 1,
           "chance": 90,
-          "hex": "haunted"
+          "hex": "blocked"
       }
   ]
 }

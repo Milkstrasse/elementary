@@ -79,7 +79,7 @@ struct CPULogic {
         }
         
         //low health -> should heal
-        if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.haunted.rawValue) {
+        if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.blocked.rawValue) {
             for index in availableSpells.indices {
                 if witch.spells[availableSpells[index]].typeID == 11 {
                     return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])

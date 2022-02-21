@@ -66,7 +66,7 @@ enum Hexes: String, CaseIterable {
     case confused
     case bombed
     case blessed
-    case haunted
+    case blocked
     case chained
     case invigorated
     case exhausted
@@ -107,7 +107,7 @@ enum Hexes: String, CaseIterable {
                 return Hex(name: self.rawValue, symbol: 0xf1e2, duration: 3, positive: false, damageAmount: 25)
             case .blessed:
                 return Hex(name: self.rawValue, symbol: 0xf665, duration: 3, positive: true)
-            case .haunted:
+            case .blocked:
                 return Hex(name: self.rawValue, symbol: 0xf05e, duration: 3, positive: false)
             case .chained:
                 return Hex(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
