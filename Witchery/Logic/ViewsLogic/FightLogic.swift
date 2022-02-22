@@ -159,7 +159,7 @@ class FightLogic: ObservableObject {
                             gameLogic.setReady(player: 1, ready: false)
                             //players are now able to choose their moves again
                             
-                            print(battleLog)
+                            //print(battleLog)
                             
                             battling = false
                         }
@@ -223,7 +223,7 @@ class FightLogic: ObservableObject {
             if currentPlayer.id == 0 { //witch fainted before they made their move
                 addHexTurns(player: players[0])
             } else {
-                if turns != firstTurns { //both players made their move
+                if turns >= firstTurns { //both players made their move
                     addHexTurns(player: players[0])
                 } else {
                     addMoveTurn(player: players[0])
@@ -242,7 +242,7 @@ class FightLogic: ObservableObject {
             if currentPlayer.id == 1 { //witch fainted before they made their move
                 addHexTurns(player: players[1])
             } else {
-                if turns != firstTurns { //both players made their move
+                if turns >= firstTurns { //both players made their move
                     addHexTurns(player: players[1])
                 } else {
                     addMoveTurn(player: players[1])
@@ -271,6 +271,7 @@ class FightLogic: ObservableObject {
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     private func addMoveTurn(player: Player) {
+        print("ADDING MOVES")
         //adds move into the used moves collection
         if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
             if player.getCurrentWitch().lastMove != nil && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
@@ -424,7 +425,6 @@ class FightLogic: ObservableObject {
     /// Checks if game is over.
     /// - Returns: Returns whether one of the teams only consists of fainted witches
     func isGameOver() -> Bool {
-        print("check game over")
         var counter: Int = 0
         for witch in players[0].witches {
             if witch.currhp > 0 {
