@@ -16,6 +16,7 @@ class Hex: Hashable {
     var duration: Int
     
     let positive: Bool
+    
     let damageAmount: Int
     
     let opposite: Hexes?

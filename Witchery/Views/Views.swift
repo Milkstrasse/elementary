@@ -266,7 +266,7 @@ struct HexView: View {
     /// - Returns: Returns the appropiate font color
     func getFontColor() -> Color {
         if weather {
-            return Color("background")
+            return Color("button")
         } else {
             return Color("outline")
         }

@@ -424,6 +424,7 @@ class FightLogic: ObservableObject {
     /// Checks if game is over.
     /// - Returns: Returns whether one of the teams only consists of fainted witches
     func isGameOver() -> Bool {
+        print("check game over")
         var counter: Int = 0
         for witch in players[0].witches {
             if witch.currhp > 0 {
