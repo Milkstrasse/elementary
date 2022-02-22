@@ -31,8 +31,8 @@ class TurnLogic {
         }
         
         //apply damage or healing of hexes
-        if fightLogic.playerStack[0].index < 0 && fightLogic.playerStack[0].index > -10 {
-            let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[abs(fightLogic.playerStack[0].index) - 1].damageAmount)
+        if fightLogic.playerQueue[0].index < 0 && fightLogic.playerQueue[0].index > -10 {
+            let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[abs(fightLogic.playerQueue[0].index) - 1].damageAmount)
             
             if damage >= attacker.currhp {
                 attacker.currhp = 0
@@ -56,7 +56,7 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
             }
-        } else if fightLogic.playerStack[0].index == -10 {
+        } else if fightLogic.playerQueue[0].index == -10 {
             if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
                 attacker.currhp = attacker.getModifiedBase().health
             } else {
@@ -66,7 +66,7 @@ class TurnLogic {
             player.setState(state: PlayerState.healing)
             
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
-        } else if fightLogic.playerStack[0].index == -15 {
+        } else if fightLogic.playerQueue[0].index == -15 {
             if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
                 attacker.currhp = attacker.getModifiedBase().health
             } else {
@@ -81,7 +81,7 @@ class TurnLogic {
         
         let spell: Spell = player.usedMoves[0].spell
         
-        if fightLogic.playerStack[0].index == 0 {
+        if fightLogic.playerQueue[0].index == 0 {
             player.setState(state: PlayerState.attacking)
             return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name])
         }
@@ -123,7 +123,7 @@ class TurnLogic {
         
         //checks if targeted user is successfully shielded or not
         var usedShield: Bool = false
-        if spell.spells[fightLogic!.playerStack[0].index - 1].range > 0 {
+        if spell.spells[fightLogic!.playerQueue[0].index - 1].range > 0 {
             if oppositePlayer.usedMoves[0].spell.typeID == 12 {
                 if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //shield was successful
                     if player.usedMoves[0].spell.typeID != 2 {
@@ -135,7 +135,7 @@ class TurnLogic {
             }
         }
         
-        let usedSpell: SubSpell = spell.spells[fightLogic!.playerStack[0].index - 1]
+        let usedSpell: SubSpell = spell.spells[fightLogic!.playerQueue[0].index - 1]
         
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack

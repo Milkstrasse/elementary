@@ -13,7 +13,7 @@ class FightLogic: ObservableObject {
     
     private let hasCPUPlayer: Bool
     let players: [Player]
-    var playerStack: [(player: Player, index: Int)] = []
+    var playerQueue: [(player: Player, index: Int)] = []
     
     @Published var battling: Bool = false
     @Published var battleLog: [String]
@@ -99,7 +99,7 @@ class FightLogic: ObservableObject {
             players[0].hasToSwap = false
             players[1].hasToSwap = false
             
-            //adds faster player to playerStack
+            //adds faster player to playerQueue
             addMoveTurn(player: players[getFasterPlayer()])
             
             var endRound: Bool = false
@@ -107,11 +107,11 @@ class FightLogic: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 var turns: Int = 0
                 //amount of turns first player needs to do their action
-                let firstTurns: Int = playerStack.count
+                let firstTurns: Int = playerQueue.count
                 
-                //processes all actions on playerStack
+                //processes all actions on playerQueue
                 Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { timer in
-                    let currentPlayer: Player = playerStack[0].player;
+                    let currentPlayer: Player = playerQueue[0].player;
                     turns += 1
                     
                     if turns == 1 {
@@ -119,13 +119,13 @@ class FightLogic: ObservableObject {
                     }
                     
                     startTurn(player: currentPlayer)
-                    playerStack.removeFirst()
+                    playerQueue.removeFirst()
                     
-                    if playerStack.isEmpty && !endRound { //adds new action if neccessary during the fight
+                    if playerQueue.isEmpty && !endRound { //adds new action if neccessary during the fight
                         endRound = addTurns(currentPlayer: currentPlayer, turns: turns, firstTurns: firstTurns)
                     }
                     
-                    if playerStack.isEmpty {
+                    if playerQueue.isEmpty {
                         timer.invalidate()
                         
                         //decrease counter of all hexes and remove if duration reached 0
@@ -212,66 +212,55 @@ class FightLogic: ObservableObject {
     ///   - firstTurns: The amount of turn the first player needed
     /// - Returns: Returns wether all necessary turns were determined or a future analysis is needed
     private func addTurns(currentPlayer: Player, turns: Int, firstTurns: Int) -> Bool {
-        if players[1].getCurrentWitch().currhp == 0 {
-            playerStack.insert((player: players[1], index: 0), at: 0) //add turn to display faint message
-            
-            if players[0].getCurrentWitch().currhp == 0 {
-                playerStack.insert((player: players[0], index: 0), at: 0) //add turn to display faint message
-                return true //both witches have fainted, round is over
-            }
-            
-            if currentPlayer.id == 0 { //witch fainted before they made their move
-                addHexTurns(player: players[0])
-            } else {
-                if turns >= firstTurns { //both players made their move
-                    addHexTurns(player: players[0])
+        if players[0].getCurrentWitch().currhp > 0 && players[1].getCurrentWitch().currhp > 0 {
+            if turns == firstTurns {
+                if currentPlayer.id == 0 {
+                    addMoveTurn(player: players[1])
                 } else {
                     addMoveTurn(player: players[0])
                 }
-            }
-            
-            return true //no further turns needed
-        } else if players[0].getCurrentWitch().currhp == 0 {
-            playerStack.insert((player: players[0], index: 0), at: 0) //add turn to display faint message
-            
-            if players[1].getCurrentWitch().currhp == 0 {
-                playerStack.insert((player: players[1], index: 0), at: 0) //add turn to display faint message
-                return true //both witches have fainted, round is over
-            }
-            
-            if currentPlayer.id == 1 { //witch fainted before they made their move
-                addHexTurns(player: players[1])
             } else {
-                if turns >= firstTurns { //both players made their move
-                    addHexTurns(player: players[1])
-                } else {
-                    addMoveTurn(player: players[1])
-                }
+                addHexTurns(player: players[0])
+                addHexTurns(player: players[1])
+                return true
             }
             
-            return true //no further turns needed
-        }
-        
-        if turns == firstTurns { //other player has not made their move yet
-            var oppositePlayer: Player = players[0]
-            if currentPlayer.id == 0 {
-                oppositePlayer = players[1]
-            }
-            
-            addMoveTurn(player: oppositePlayer)
             return false
-        } else { //both players made their move
-            addHexTurns(player: players[0])
-            addHexTurns(player: players[1])
         }
         
-        return true //no further turns needed
+        if players[0].getCurrentWitch().currhp == 0 && players[1].getCurrentWitch().currhp == 0 {
+            playerQueue.append((player: players[0], index: 0))
+            playerQueue.append((player: players[1], index: 0))
+            
+            return true
+        } else if players[0].getCurrentWitch().currhp == 0 {
+            playerQueue.append((player: players[0], index: 0))
+            
+            if currentPlayer.id == 0 && turns == firstTurns {
+                addMoveTurn(player: players[1])
+                addHexTurns(player: players[1])
+                return true
+            } else {
+                addHexTurns(player: players[1])
+                return true
+            }
+        } else if players[1].getCurrentWitch().currhp == 0 {
+            playerQueue.append((player: players[1], index: 0))
+            
+            if currentPlayer.id == 1 && turns == firstTurns {
+                addMoveTurn(player: players[0])
+                addHexTurns(player: players[0])
+                return true
+            } else {
+                addHexTurns(player: players[0])
+                return true
+            }
+        }
     }
     
     /// Adds turns depending on the move of the player to the current round of fighting.
     /// - Parameter player: The index of the player
     private func addMoveTurn(player: Player) {
-        print("ADDING MOVES")
         //adds move into the used moves collection
         if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
             if player.getCurrentWitch().lastMove != nil && player.getCurrentWitch().hasHex(hexName: Hexes.restricted.rawValue) {
@@ -305,13 +294,13 @@ class FightLogic: ObservableObject {
         }
         
         if player.usedMoves[0].target < 0 && oppositePlayer.getCurrentWitch().currhp > 0 {
-            for index in player.usedMoves[0].spell.spells.indices.reversed() {
-                playerStack.insert((player: player, index: index + 1), at: 0)
-            }
+            playerQueue.append((player: player, index: 0))
             
-            playerStack.insert((player: player, index: 0), at: 0)
+            for index in player.usedMoves[0].spell.spells.indices {
+                playerQueue.append((player: player, index: index + 1))
+            }
         } else { //this is a swap or spell will fail
-            playerStack.insert((player: player, index: 0), at: 0)
+            playerQueue.append((player: player, index: 0))
         }
     }
     
@@ -323,17 +312,17 @@ class FightLogic: ObservableObject {
                 let hex: Hex = player.getCurrentWitch().hexes[index]
                 
                 if hex.damageAmount != 0 && hex.name != Hexes.bombed.rawValue {
-                    playerStack.insert((player: player, index: -1 - index), at: 0)
+                    playerQueue.append((player: player, index: -1 - index))
                 } else if hex.name == Hexes.bombed.rawValue && hex.duration == 1 {
-                    playerStack.insert((player: player, index: -1 - index), at: 0)
+                    playerQueue.append((player: player, index: -1 - index))
                 }
             }
         }
         
         if player.getCurrentWitch().getArtifact().name == Artifacts.cornucopia.rawValue {
-            playerStack.insert((player: player, index: -10), at: 0)
+            playerQueue.append((player: player, index: -10))
         } else if player.getCurrentWitch().getArtifact().name == Artifacts.potion.rawValue && player.getCurrentWitch().currhp <= player.getCurrentWitch().getModifiedBase().health/2 {
-            playerStack.insert((player: player, index: -15), at: 0)
+            playerQueue.append((player: player, index: -15))
         }
     }
     
