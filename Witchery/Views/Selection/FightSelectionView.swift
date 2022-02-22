@@ -132,13 +132,13 @@ struct FightSelectionView: View {
                 }
                 .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
                 HStack(spacing: 0) {
-                    LeftSelectionView(witches: $leftWitches).disabled(leftReady)
+                    PlayerSelectionView(witches: $leftWitches, isLeft: true).disabled(leftReady)
                     ZStack {
                         Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
                         CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(witches: $rightWitches).disabled(rightReady)
+                    PlayerSelectionView(witches: $rightWitches, isLeft: false).disabled(rightReady)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }

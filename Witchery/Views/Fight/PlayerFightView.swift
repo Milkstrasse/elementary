@@ -1,5 +1,5 @@
 //
-//  LeftFightView.swift
+//  PlayerFightView.swift
 //  Witchery
 //
 //  Created by Janice Hablützel on 04.01.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LeftFightView: View {
+struct PlayerFightView: View {
     @ObservedObject var fightLogic: FightLogic
     @ObservedObject var player: Player
     
@@ -18,6 +18,8 @@ struct LeftFightView: View {
     
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
+    
+    let isInteractable: Bool
     
     /// Calculates the width of a witch's health bar.
     /// - Parameter witch: The current witch
@@ -59,7 +61,7 @@ struct LeftFightView: View {
                     } else {
                         Image(player.getCurrentWitch().name + "_attack").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90))
                     }
-                    Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.leading).offset(x: -geometry.safeAreaInsets.leading)
+                    Rectangle().fill(Color("panel")).frame(width: 175 + (player.id == 0 ? geometry.safeAreaInsets.leading : geometry.safeAreaInsets.trailing)).offset(x: player.id == 0 ? -geometry.safeAreaInsets.leading : -geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         Group {
                             if currentSection == .summary {
@@ -168,7 +170,7 @@ struct LeftFightView: View {
                                             }
                                         }
                                     }
-                                    .buttonStyle(ClearButton(width: 100, height: 35))
+                                    .buttonStyle(ClearButton(width: 100, height: 35)).disabled(!isInteractable)
                                 }
                                 .rotationEffect(.degrees(90)).frame(width: 35, height: 100).opacity(fightLogic.battling ? 0.7 : 1.0).disabled(fightLogic.battling)
                                 Spacer()                            }
@@ -179,6 +181,7 @@ struct LeftFightView: View {
                 Spacer()
             }
             .frame(width: geometry.size.width)
+            .rotationEffect(.degrees(player.id == 0 ? 0 : 180))
             .onReceive(fightLogic.$battling, perform: { battling in
                 if battling {
                     currentSection = .summary
@@ -195,9 +198,9 @@ struct LeftFightView: View {
     }
 }
 
-struct LeftFightView_Previews: PreviewProvider {
+struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver:Binding.constant(false)).ignoresSafeArea(.all, edges: .bottom)
+        PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver:Binding.constant(false), isInteractable: true).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }

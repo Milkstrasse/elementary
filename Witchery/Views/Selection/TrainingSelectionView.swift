@@ -152,7 +152,7 @@ struct TrainingSelectionView: View {
                         CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(witches: $rightWitches)
+                    PlayerSelectionView(witches: $rightWitches, isLeft: false)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }

@@ -1,5 +1,5 @@
 //
-//  LeftSelectionView.swift
+//  PlayerSelectionView.swift
 //  Witchery
 //
 //  Created by Janice Hablützel on 04.01.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LeftSelectionView: View {
+struct PlayerSelectionView: View {
     @Binding var witches: [Witch?]
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
@@ -22,6 +22,8 @@ struct LeftSelectionView: View {
     @GestureState var isNatureIncreasing = false
     @GestureState var isArtifactDecreasing = false
     @GestureState var isArtifactIncreasing = false
+    
+    let isLeft: Bool
     
     /// Returns wether the witch is selected or not.
     /// - Parameter witch: The witch in question
@@ -87,7 +89,7 @@ struct LeftSelectionView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .leading) {
                 HStack {
                     Spacer()
                     VStack {
@@ -134,11 +136,9 @@ struct LeftSelectionView: View {
                         Spacer()
                     }
                 }
-            }
-            if selectionToggle || infoToggle {
-                HStack(spacing: 0) {
+                if selectionToggle || infoToggle {
                     ZStack(alignment: .trailing) {
-                        Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.leading)
+                        Rectangle().fill(Color("panel")).frame(width: 175 + (isLeft ? geometry.safeAreaInsets.leading : geometry.safeAreaInsets.trailing))
                         if selectionToggle {
                             VStack {
                                 ScrollView(.vertical, showsIndicators: false) {
@@ -411,19 +411,20 @@ struct LeftSelectionView: View {
                             }
                         }
                     }
-                }
-                .offset(x: -geometry.safeAreaInsets.leading - offsetX).animation(.linear(duration: 0.2), value: offsetX)
-                .onAppear {
-                    offsetX = 0
+                    .offset(x: (isLeft ? -geometry.safeAreaInsets.leading : -geometry.safeAreaInsets.trailing) - offsetX).animation(.linear(duration: 0.2), value: offsetX)
+                    .onAppear {
+                        offsetX = 0
+                    }
                 }
             }
+            .rotationEffect(.degrees(isLeft ? 0 : 180))
         }
     }
 }
 
-struct LeftSelectionView_Previews: PreviewProvider {
+struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        LeftSelectionView(witches:Binding.constant([nil, nil, nil, nil])).ignoresSafeArea(.all, edges: .bottom)
+        PlayerSelectionView(witches:Binding.constant([nil, nil, nil, nil]), isLeft: false).ignoresSafeArea(.all, edges: .bottom)
 .previewInterfaceOrientation(.landscapeLeft)
     }
 }
