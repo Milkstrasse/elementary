@@ -63,7 +63,7 @@ struct DamageCalculator {
         if spell.typeID != 1 && chance < attacker.getModifiedBase().precision/8 {
             chance = Int.random(in: 0 ..< 100)
             
-            if chance >= attacker.getModifiedBase().resistance/10 {
+            if chance >= target.getModifiedBase().resistance/10 {
                 dmg *= 1.5
                 text = Localization.shared.getTranslation(key: "criticalHit")
             }
