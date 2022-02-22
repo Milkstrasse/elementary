@@ -256,6 +256,8 @@ class FightLogic: ObservableObject {
                 return true
             }
         }
+        
+        return false
     }
     
     /// Adds turns depending on the move of the player to the current round of fighting.
