@@ -153,7 +153,7 @@ struct CPULogic {
     /// - Returns: Returns the index of the best witch to swap to
     func getTarget(currentWitch: Int, witches: [Witch], enemyElement: Element) -> Int {
         for index in witches.indices {
-            if witches[index].getElement().hasAdvantage(element: enemyElement) && index != currentWitch {
+            if index != currentWitch && witches[index].getElement().hasAdvantage(element: enemyElement) {
                 if witches[index].currhp > 0 {
                     return index
                 }
@@ -161,7 +161,7 @@ struct CPULogic {
         }
         
         for index in witches.indices {
-            if !witches[index].getElement().hasDisadvantage(element: enemyElement) && index != currentWitch {
+            if index != currentWitch && !witches[index].getElement().hasDisadvantage(element: enemyElement) {
                 if witches[index].currhp > 0 {
                     return index
                 }
