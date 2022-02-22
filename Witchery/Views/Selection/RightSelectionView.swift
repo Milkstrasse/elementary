@@ -278,53 +278,123 @@ struct RightSelectionView: View {
                                                 RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: geometry.size.height - 30, height: 60)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if selectedArtifact <= 0 {
-                                                            selectedArtifact = Artifacts.allCases.count - 1
-                                                        } else {
-                                                            selectedArtifact -= 1
-                                                        }
-                                                        
-                                                        if GlobalData.shared.artifactUse == 1{
-                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                    }
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
+                                                    .onChange(of: isArtifactDecreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isArtifactDecreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
                                                                 if selectedArtifact <= 0 {
                                                                     selectedArtifact = Artifacts.allCases.count - 1
                                                                 } else {
                                                                     selectedArtifact -= 1
                                                                 }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1{
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact <= 0 {
+                                                                            selectedArtifact = Artifacts.allCases.count - 1
+                                                                        } else {
+                                                                            selectedArtifact -= 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                            } else {
+                                                                timer.invalidate()
                                                             }
                                                         }
-                                                        
-                                                        witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
-                                                    }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
-                                                    VStack {
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isArtifactDecreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedArtifact <= 0 {
+                                                                    selectedArtifact = Artifacts.allCases.count - 1
+                                                                } else {
+                                                                    selectedArtifact -= 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1{
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact <= 0 {
+                                                                            selectedArtifact = Artifacts.allCases.count - 1
+                                                                        } else {
+                                                                            selectedArtifact -= 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                    })
+                                                    VStack(spacing: -2) {
                                                         CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("button"), fontSize: mediumFontSize, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                         CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("button"), fontSize: tinyFontSize).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
-                                                            selectedArtifact = 0
-                                                        } else {
-                                                            selectedArtifact += 1
-                                                        }
-                                                        
-                                                        if GlobalData.shared.artifactUse == 1{
-                                                            while isArtifactInUse(artifact: selectedArtifact) {
+                                                    }
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
+                                                    .onChange(of: isArtifactIncreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isArtifactIncreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
                                                                 if selectedArtifact >= Artifacts.allCases.count - 1 {
                                                                     selectedArtifact = 0
                                                                 } else {
                                                                     selectedArtifact += 1
                                                                 }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1{
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                            selectedArtifact = 0
+                                                                        } else {
+                                                                            selectedArtifact += 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                            } else {
+                                                                timer.invalidate()
                                                             }
                                                         }
-                                                        
-                                                        witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
-                                                    }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isArtifactIncreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                    selectedArtifact = 0
+                                                                } else {
+                                                                    selectedArtifact += 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1{
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                            selectedArtifact = 0
+                                                                        } else {
+                                                                            selectedArtifact += 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                    })
                                                 }
                                                 .frame(width: geometry.size.height - 30, height: 60)
                                             }

@@ -9,7 +9,7 @@
       },
       {
           "power": 0,
-          "range": 1,
+          "range": 0,
           "chance": 20,
           "hex": "invigorated"
       }
