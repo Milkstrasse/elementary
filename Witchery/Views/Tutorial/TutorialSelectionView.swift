@@ -166,7 +166,7 @@ struct TutorialSelectionView: View {
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
-            Rectangle().fill(Color("background")).opacity(0.5).frame(width: geometry.size.width/2 + geometry.safeAreaInsets.leading + 30).ignoresSafeArea()
+            Rectangle().fill(Color("background")).opacity(tutorialCounter > 8 ? 0 : 0.5).frame(width: geometry.size.width/2 + geometry.safeAreaInsets.leading + 30).ignoresSafeArea()
             Rectangle().fill(Color("background")).frame(width: geometry.size.width/2 + geometry.safeAreaInsets.trailing + 30).opacity(0.5).zIndex(-1).offset(x: geometry.size.width/2 + geometry.safeAreaInsets.trailing + 30).ignoresSafeArea()
             if tutorialCounter > 0 && tutorialCounter < 9 {
                 HStack {

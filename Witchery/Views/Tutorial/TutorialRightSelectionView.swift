@@ -83,6 +83,25 @@ struct TutorialRightSelectionView: View {
         return tutorialCounter == 1 || tutorialCounter > 2
     }
     
+    /// Check if the button is opaque.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the button is opaque or not
+    func isOpaque(index: Int) -> Bool {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
+            return false
+        }
+        
+        if tutorialCounter > 8 {
+            return false
+        }
+        
+        if index > 0 {
+            return true
+        }
+        
+        return tutorialCounter == 1 || tutorialCounter > 2
+    }
+    
     /// Check if the witch is unselectable.
     /// - Parameter index: The current index of the tutorial
     /// - Returns: Returns wether the witch is unselectable or not
@@ -158,7 +177,7 @@ struct TutorialRightSelectionView: View {
                                 }) {
                                     SquareWitchView(witch: witches[index], isSelected: index == selectedSlot, inverted: true)
                                 }
-                                .opacity(isDisabled(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
+                                .opacity(isOpaque(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
