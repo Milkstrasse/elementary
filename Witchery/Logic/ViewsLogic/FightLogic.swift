@@ -197,9 +197,9 @@ class FightLogic: ObservableObject {
         
         //determine priority with using the agility stat of the witches
         if players[0].getCurrentWitch().getModifiedBase().agility > players[1].getCurrentWitch().getModifiedBase().agility {
-            return weather?.name == Weather.fullMoon.rawValue ? 1 : 0
+            return 0
         } else if players[1].getCurrentWitch().getModifiedBase().agility > players[0].getCurrentWitch().getModifiedBase().agility {
-            return weather?.name == Weather.fullMoon.rawValue ? 0 : 1
+            return 1
         } else { //agility stat tie -> random player has priority
             return Int.random(in: 0 ... 1)
         }

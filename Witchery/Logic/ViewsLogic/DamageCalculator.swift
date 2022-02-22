@@ -118,7 +118,7 @@ struct DamageCalculator {
     private func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
             case Weather.blizzard.rawValue:
-                if spellElement == "snow" || spellElement == "wind" {
+                if spellElement == "ice" || spellElement == "wind" {
                     return 1.5
                 }
             case Weather.drought.rawValue:
@@ -126,7 +126,7 @@ struct DamageCalculator {
                     return 1.5
                 }
             case Weather.fullMoon.rawValue:
-                if spellElement == "aether" {
+                if spellElement == "aether" || spellElement == "wood" {
                     return 1.5
                 }
             case Weather.mysticWeather.rawValue:

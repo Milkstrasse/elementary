@@ -1,5 +1,5 @@
 {
-  "element": "snow",
+  "element": "ice",
   "base": {
       "health": 100,
       "attack": 100,
@@ -9,8 +9,8 @@
       "resistance": 100
   },
   "spells": [
-      "snowSimpleAttack",
-      "snowSpecialAttack",
+      "iceSimpleAttack",
+      "iceSpecialAttack",
       "blizzard",
       "block"
   ]

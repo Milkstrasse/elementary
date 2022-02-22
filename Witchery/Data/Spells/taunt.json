@@ -1,6 +1,7 @@
 {
-  "element": "ice",
-  "typeID": 9,
+  "element": "fire",
+  "typeID": 20,
+  "priority": 10,
   "uses": 10,
   "spells": [
       {

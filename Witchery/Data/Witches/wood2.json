@@ -1,5 +1,5 @@
 {
-  "element": "snow",
+  "element": "wood",
   "base": {
       "health": 100,
       "attack": 100,
@@ -9,9 +9,9 @@
       "resistance": 100
   },
   "spells": [
-      "snowSimpleAttack",
-      "snowSpecial2Attack",
-      "defenseDown",
-      "swapArtifacts"
+      "woodSimpleAttack",
+      "woodSpecialAttack",
+      "taunt",
+      "attackDown"
   ]
 }

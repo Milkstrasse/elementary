@@ -44,7 +44,7 @@ struct HelpView: View {
                                 RoundedRectangle(cornerRadius: 5).fill(Color("button"))
                                 VStack(spacing: 0) {
                                     CustomText(key: "help2", fontSize: mediumFontSize, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                    Image("elements").resizable().frame(width: 280, height: 280)
+                                    //Image("elements").resizable().frame(width: 280, height: 280)
                                 }
                                 .padding(.all, 15)
                             }

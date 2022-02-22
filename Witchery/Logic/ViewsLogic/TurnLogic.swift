@@ -86,27 +86,12 @@ class TurnLogic {
             return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name])
         }
         
-        //if witch has restriction hex and was forced to use spells with no uses
+        //if witch was forced to use spells with no uses
         if spell.useCounter >= spell.uses {
             return Localization.shared.getTranslation(key: "fail")
         }
         
-        //checks if shielding spell is used or another spell
-        if spell.typeID == 12 {
-            let usedMoves: [Move] = player.usedMoves
-            var text: String
-        
-            //shield can't be used twice in a row -> failure
-            if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
-                text = Localization.shared.getTranslation(key: "fail")
-            } else {
-                text = Localization.shared.getTranslation(key: "nameProtected", params: [attacker.name])
-            }
-            
-            return text
-        } else {
-            return attack(player: player, spell: spell)
-        }
+        return attack(player: player, spell: spell)
     }
     
     /// Witch uses their spell to attack, heal or to do another action.
@@ -133,6 +118,8 @@ class TurnLogic {
                     }
                 }
             }
+        } else if oppositePlayer.usedMoves[0].spell.typeID == 20 && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
+            return Localization.shared.getTranslation(key: "fail")
         }
         
         let usedSpell: SubSpell = spell.spells[fightLogic!.playerQueue[0].index - 1]
@@ -184,6 +171,15 @@ class TurnLogic {
                 case 7:
                     player.getCurrentWitch().overrideElement(newElement: Element())
                     return Localization.shared.getTranslation(key: "elementRemoved", params: [player.getCurrentWitch().name])
+                case 12:
+                    let usedMoves: [Move] = player.usedMoves
+                
+                    //shield can't be used twice in a row -> failure
+                    if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
+                        return Localization.shared.getTranslation(key: "fail")
+                    } else {
+                        return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentWitch().name])
+                    }
                 case 14:
                     if fightLogic!.isAbleToSwap(player: oppositePlayer) {
                         oppositePlayer.hasToSwap = true
@@ -210,19 +206,21 @@ class TurnLogic {
                     return Localization.shared.getTranslation(key: "clearedHexes")
                 case 17:
                     let artifact: Artifact = player.getCurrentWitch().getArtifact()
-                player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
+                    player.getCurrentWitch().overrideArtifact(artifact: oppositePlayer.getCurrentWitch().getArtifact())
                     oppositePlayer.getCurrentWitch().overrideArtifact(artifact: artifact)
-                
                 
                     return Localization.shared.getTranslation(key: "swappedArtifacts")
                 case 18:
                     oppositePlayer.getCurrentWitch().overrideElement(newElement: player.getCurrentWitch().getElement())
-                return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentWitch().name, player.getCurrentWitch().getElement().name])
+                    return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentWitch().name, player.getCurrentWitch().getElement().name])
                 case 19:
                     player.wishActivated = true
                     player.getCurrentWitch().currhp = 0
                     player.hasToSwap = true
-                return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name])
+                
+                    return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name])
+                case 20:
+                    return oppositePlayer.getCurrentWitch().name + " wAs prOvoKed!"
                 default:
                     break
             }

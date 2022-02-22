@@ -1,5 +1,5 @@
 {
-  "element": "ice",
+  "element": "wood",
   "typeID": 0,
   "uses": 20,
   "spells": [
@@ -11,7 +11,7 @@
           "power": 0,
           "range": 0,
           "chance": 20,
-          "hex": "invigorated"
+          "hex": "agilityBoost"
       }
   ]
 }

@@ -1,8 +1,11 @@
 {
     "symbol": "0xf52d",
     "strengths": [
-        "decay"
+        "decay",
+        "metal"
     ],
     "weaknesses": [
+        "wind",
+        "wood"
     ]
 }
