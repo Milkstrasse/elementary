@@ -220,7 +220,7 @@ class TurnLogic {
                 
                     return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentWitch().name])
                 case 20:
-                    return oppositePlayer.getCurrentWitch().name + " wAs prOvoKed!"
+                    return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentWitch().name])
                 default:
                     break
             }
