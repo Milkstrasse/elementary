@@ -55,7 +55,7 @@ struct RectangleWitchView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("healthbar") : Color("button")).frame(height: 125)
-            Image(witch.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
+            Image(fileName: witch.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
             Text(createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(isSelected ? Color("button") : Color("outline"))
         }
         .clipShape(RoundedRectangle(cornerRadius: 5)).contentShape(Rectangle())
@@ -171,7 +171,7 @@ struct SquareWitchView: View {
             RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor())
             if witch != nil {
                 Text(createSymbol()).frame(width: 28, height: 28).font(.custom("Font Awesome 5 Free", size: 11)).foregroundColor(getFontColor())
-                Image(witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(x: 10, y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
+                Image(fileName: witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(x: 10, y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24).frame(width: 70, height: 70)
             }

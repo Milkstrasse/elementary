@@ -54,6 +54,7 @@ class SaveLogic {
                 
                 if let url = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
                     do {
+                        try SaveLogic.fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
                         try SaveLogic.fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
                         try SaveLogic.fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
                         try SaveLogic.fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
@@ -165,8 +166,8 @@ class SaveLogic {
                         }
                     }
                     
-                    //can't add new witches because assets
-                    //GlobalData.shared.witches.append(Witch(data: witchData))
+                    //new custom witch
+                    GlobalData.shared.witches.append(Witch(data: witchData))
                 } catch {
                     print("error: \(error)")
                 }
@@ -176,15 +177,17 @@ class SaveLogic {
     
     func addTranslations(language: String) -> [String:String]  {
         if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            do {
-                let url = URL.init(fileURLWithPath: mainURL.path + "/mods/languages/" + language + ".json")
-
-                let data = try Data(contentsOf: url)
-                let translations: [String:String] = try JSONDecoder().decode([String:String].self, from: data)
-                
-                return translations
-            } catch {
-                print("error: \(error)")
+            let url = URL.init(fileURLWithPath: mainURL.path + "/mods/languages/" + language + ".json")
+            
+            if SaveLogic.fileManager.fileExists(atPath: url.path) {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let translations: [String:String] = try JSONDecoder().decode([String:String].self, from: data)
+                    
+                    return translations
+                } catch {
+                    print("error: \(error)")
+                }
             }
         }
         

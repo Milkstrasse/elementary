@@ -49,6 +49,7 @@
 		B81CC32F278A3C3500908195 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CC32E278A3C3500908195 /* Localization.swift */; };
 		B81F1A4227C79D5D0020CBA5 /* SaveLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81F1A4127C79D5D0020CBA5 /* SaveLogic.swift */; };
 		B81F1A4427C79F1C0020CBA5 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81F1A4327C79F1C0020CBA5 /* SaveData.swift */; };
+		B81F1A6F27C803D80020CBA5 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = B81F1A6E27C803D80020CBA5 /* Assets */; };
 		B833891627C3BABF002C26E3 /* WitchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B833891527C3BABE002C26E3 /* WitchData.swift */; };
 		B833892927C41C4D002C26E3 /* KGMissKindyChunky.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B833892727C41C4D002C26E3 /* KGMissKindyChunky.ttf */; };
 		B833892A27C41C4D002C26E3 /* KGMissKindyMarker.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B833892827C41C4D002C26E3 /* KGMissKindyMarker.ttf */; };
@@ -137,6 +138,7 @@
 		B81CC32E278A3C3500908195 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		B81F1A4127C79D5D0020CBA5 /* SaveLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveLogic.swift; sourceTree = "<group>"; };
 		B81F1A4327C79F1C0020CBA5 /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
+		B81F1A6E27C803D80020CBA5 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		B833891527C3BABE002C26E3 /* WitchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitchData.swift; sourceTree = "<group>"; };
 		B833892727C41C4D002C26E3 /* KGMissKindyChunky.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGMissKindyChunky.ttf; sourceTree = "<group>"; };
 		B833892827C41C4D002C26E3 /* KGMissKindyMarker.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGMissKindyMarker.ttf; sourceTree = "<group>"; };
@@ -199,17 +201,6 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		328121AC27A285790022A5D1 /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				B898D92F27A9C09C001B9137 /* Assets.xcassets */,
-				328121C827A417C40022A5D1 /* Audio */,
-				B80D7CF12785F85200DEB25F /* Data */,
-				328121C927A417D40022A5D1 /* Fonts */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
 		328121C827A417C40022A5D1 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,7 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				3258B6CF27A06EC700746B2D /* Info.plist */,
-				328121AC27A285790022A5D1 /* Assets */,
+				B80D7CF12785F85200DEB25F /* Data */,
 				B80D7D0427871EF500DEB25F /* Logic */,
 				B80D7CA4278345EC00DEB25F /* WitcheryApp.swift */,
 				B80D7CD32783539000DEB25F /* Views */,
@@ -314,7 +305,11 @@
 		B80D7CF12785F85200DEB25F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B81F1A6E27C803D80020CBA5 /* Assets */,
+				B898D92F27A9C09C001B9137 /* Assets.xcassets */,
+				328121C827A417C40022A5D1 /* Audio */,
 				B81CC32A2789A5E700908195 /* Elements */,
+				328121C927A417D40022A5D1 /* Fonts */,
 				B80D7D0B27882EA800DEB25F /* Languages */,
 				B81CC32C2789D10A00908195 /* Natures */,
 				B80D7D00278639BA00DEB25F /* Spells */,
@@ -516,6 +511,7 @@
 				B898D91F27A6F921001B9137 /* healed3.wav in Resources */,
 				B81CC32D2789D10A00908195 /* Natures in Resources */,
 				B898D91927A6F914001B9137 /* attack2.wav in Resources */,
+				B81F1A6F27C803D80020CBA5 /* Assets in Resources */,
 				328121C527A405530022A5D1 /* damaged2.wav in Resources */,
 				B80D7D0C27882EA800DEB25F /* Languages in Resources */,
 				328121BD27A2EA940022A5D1 /* AltusStratum.mp3 in Resources */,
