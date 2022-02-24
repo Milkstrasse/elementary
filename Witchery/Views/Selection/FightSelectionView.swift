@@ -25,6 +25,9 @@ struct FightSelectionView: View {
         var lefts: [Witch] = []
         for witch in leftWitches {
             if witch != nil {
+                if GlobalData.shared.artifactUse == 2 {
+                    witch?.setArtifact(artifact: 0)
+                }
                 lefts.append(witch!)
             }
         }
@@ -32,6 +35,9 @@ struct FightSelectionView: View {
         var rights: [Witch] = []
         for witch in rightWitches {
             if witch != nil {
+                if GlobalData.shared.artifactUse == 2 {
+                    witch?.setArtifact(artifact: 0)
+                }
                 rights.append(witch!)
             }
         }

@@ -120,7 +120,7 @@ struct OverviewView: View {
                             VStack(spacing: 8) {
                                 ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
                                     HStack(spacing: 8) {
-                                        ForEach(self.getSubArray(row: row), id: \.name) { witch in
+                                        ForEach(self.getSubArray(row: row), id: \.self) { witch in
                                             Button(action: {
                                                 AudioPlayer.shared.playConfirmSound()
                                                 witchSelected = true

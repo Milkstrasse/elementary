@@ -501,19 +501,14 @@ struct SettingsView: View {
                         Button("X") {
                             AudioPlayer.shared.playCancelSound()
                             
-                            UserDefaults.standard.set(Float(musicVolume)/10, forKey: "music")
-                            UserDefaults.standard.set(Float(soundVolume)/10, forKey: "sound")
-                            UserDefaults.standard.set(Float(voiceVolume)/10, forKey: "voices")
                             AudioPlayer.shared.hapticToggle = hapticToggle
-                            UserDefaults.standard.set(hapticToggle, forKey: "haptic")
                             
-                            UserDefaults.standard.set(Localization.shared.languages[langIndex], forKey: "lang")
-                            UserDefaults.standard.set(textIndex, forKey: "textSpeed")
-                            
-                            UserDefaults.standard.set(teamToggle, forKey: "team")
                             GlobalData.shared.teamRestricted = teamToggle
-                            UserDefaults.standard.set(artifactIndex, forKey: "artifactUse")
                             GlobalData.shared.artifactUse = artifactIndex
+                            
+                            DispatchQueue.main.async {
+                                SaveLogic.shared.save()
+                            }
                             
                             offsetX = -450
                             

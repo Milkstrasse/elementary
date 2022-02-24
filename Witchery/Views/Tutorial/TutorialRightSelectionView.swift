@@ -34,7 +34,7 @@ struct TutorialRightSelectionView: View {
         }
         
         for selectedWitch in witches {
-            if witch?.name == selectedWitch?.name {
+            if selectedWitch != nil && witch! == selectedWitch! {
                 return true
             }
         }
@@ -194,23 +194,23 @@ struct TutorialRightSelectionView: View {
                                     ScrollView(.vertical, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { witch in
                                                     SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90)).opacity(0.5)
                                                 }
                                             }
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         tutorialCounter += 1
                                                         
                                                         if !isSelected(witch: witch) {
-                                                            witches[selectedSlot] = Witch(data: witch!.data)
+                                                            witches[selectedSlot] = Witch(data: witch.data)
                                                         }
                                                     }) {
                                                         SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                     }
-                                                    .opacity(isWitchDisabled(witch: witch!) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch!))
+                                                    .opacity(isWitchDisabled(witch: witch) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch))
                                                 }
                                             }
                                         }
@@ -356,7 +356,7 @@ struct TutorialRightSelectionView: View {
                                                                     selectedArtifact -= 1
                                                                 }
                                                                 
-                                                                if GlobalData.shared.artifactUse == 1{
+                                                                if GlobalData.shared.artifactUse == 1 {
                                                                     while isArtifactInUse(artifact: selectedArtifact) {
                                                                         if selectedArtifact <= 0 {
                                                                             selectedArtifact = Artifacts.allCases.count - 1
@@ -391,7 +391,7 @@ struct TutorialRightSelectionView: View {
                                                                     selectedArtifact -= 1
                                                                 }
                                                                 
-                                                                if GlobalData.shared.artifactUse == 1{
+                                                                if GlobalData.shared.artifactUse == 1 {
                                                                     while isArtifactInUse(artifact: selectedArtifact) {
                                                                         if selectedArtifact <= 0 {
                                                                             selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
@@ -427,7 +427,7 @@ struct TutorialRightSelectionView: View {
                                                                     selectedArtifact += 1
                                                                 }
                                                                 
-                                                                if GlobalData.shared.artifactUse == 1{
+                                                                if GlobalData.shared.artifactUse == 1 {
                                                                     while isArtifactInUse(artifact: selectedArtifact) {
                                                                         if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                                             selectedArtifact = 0
@@ -464,7 +464,7 @@ struct TutorialRightSelectionView: View {
                                                                     selectedArtifact += 1
                                                                 }
                                                                 
-                                                                if GlobalData.shared.artifactUse == 1{
+                                                                if GlobalData.shared.artifactUse == 1 {
                                                                     while isArtifactInUse(artifact: selectedArtifact) {
                                                                         if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                                             selectedArtifact = 0

@@ -37,7 +37,22 @@ class Localization {
                 print("error: \(error)")
             }
             
+            translations.merge(SaveLogic.shared.addTranslations(language: language)) {(_, new) in new}
+            
             print("loaded: \(translations.count) strings")
+        }
+    }
+    
+    func loadCurrentLanguage() {
+        if let url = Bundle.main.url(forResource: currentLang, withExtension: "json", subdirectory: "Languages") {
+            do {
+                let data = try Data(contentsOf: url)
+                translations = try JSONDecoder().decode([String:String].self, from: data)
+            } catch {
+                print("error: \(error)")
+            }
+            
+            translations.merge(SaveLogic.shared.addTranslations(language: currentLang)) {(_, new) in new}
         }
     }
     

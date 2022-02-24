@@ -29,6 +29,9 @@ struct TrainingSelectionView: View {
         var rights: [Witch] = []
         for witch in rightWitches {
             if witch != nil {
+                if GlobalData.shared.artifactUse == 2 {
+                    witch?.setArtifact(artifact: 0)
+                }
                 rights.append(witch!)
             }
         }

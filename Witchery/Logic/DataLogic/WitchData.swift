@@ -45,11 +45,64 @@ struct WitchData: Decodable {
 }
 
 /// Contains all base stat values of a witch.
-struct Base: Decodable {
+struct Base: Codable {
     let health: Int
     let attack: Int
     let defense: Int
     let agility: Int
     let precision: Int
     let resistance: Int
+}
+
+struct SavedWitchData: Codable, Equatable {
+    let name: String
+    let element: String
+    let spells: [String]
+    
+    let nature: String
+    let artifact: String
+    
+    let base: Base
+    
+    init(witch: Witch) {
+        name = witch.name
+        element = witch.getElement().name
+        spells = witch.data.spells
+        
+        nature = witch.nature.name
+        artifact = witch.getArtifact().name
+        
+        base = witch.base
+    }
+    
+    func toWitch() -> Witch {
+        let witch: Witch = Witch(data: WitchData(name: name, element: element, spells: spells, base: base))
+        for nat in GlobalData.shared.natures {
+            if nat.name == nature {
+                witch.nature = nat
+                break
+            }
+        }
+        
+        for (index, artfct) in Artifacts.allCases.enumerated() {
+            if artfct.rawValue == artifact {
+                witch.setArtifact(artifact: index)
+                return witch
+            }
+        }
+        
+        return witch
+    }
+    
+    static func == (lhs: SavedWitchData, rhs: SavedWitchData) -> Bool {
+        if lhs.name == rhs.name {
+            if lhs.nature == rhs.nature {
+                if lhs.artifact == rhs.artifact {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
 }

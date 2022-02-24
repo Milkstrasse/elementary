@@ -34,7 +34,7 @@ struct PlayerSelectionView: View {
         }
         
         for selectedWitch in witches {
-            if witch?.name == selectedWitch?.name {
+            if selectedWitch != nil && witch! == selectedWitch! {
                 return true
             }
         }
@@ -140,16 +140,48 @@ struct PlayerSelectionView: View {
                     ZStack(alignment: .trailing) {
                         Rectangle().fill(Color("panel")).frame(width: 175 + (isLeft ? geometry.safeAreaInsets.leading : geometry.safeAreaInsets.trailing))
                         if selectionToggle {
-                            VStack {
+                            VStack(spacing: 0) {
                                 ScrollView(.vertical, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 5) {
                                         VStack(spacing: 5) {
-                                            ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
+                                            ForEach(GlobalData.shared.getSecondSavedHalf(), id: \.self) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
                                                     if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                        witches[selectedSlot] = Witch(data: witch!.data)
+                                                        witches[selectedSlot] = witch
+                                                    }
+                                                }) {
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
+                                                }
+                                            }
+                                        }
+                                        if GlobalData.shared.savedWitches.count == 1 {
+                                            Spacer().frame(width: 70, height: 70)
+                                        }
+                                        VStack(spacing: 5) {
+                                            ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { witch in
+                                                Button(action: {
+                                                    AudioPlayer.shared.playStandardSound()
+                                                    
+                                                    if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
+                                                        witches[selectedSlot] = witch
+                                                    }
+                                                }) {
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .padding(.bottom, GlobalData.shared.savedWitches.isEmpty ? 0 : 5)
+                                    HStack(alignment: .top, spacing: 5) {
+                                        VStack(spacing: 5) {
+                                            ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { witch in
+                                                Button(action: {
+                                                    AudioPlayer.shared.playStandardSound()
+                                                    
+                                                    if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
+                                                        witches[selectedSlot] = Witch(data: witch.data)
                                                     }
                                                 }) {
                                                     SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
@@ -157,12 +189,12 @@ struct PlayerSelectionView: View {
                                             }
                                         }
                                         VStack(spacing: 5) {
-                                            ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
+                                            ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { witch in
                                                 Button(action: {
                                                     AudioPlayer.shared.playStandardSound()
                                                     
                                                     if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                        witches[selectedSlot] = Witch(data: witch!.data)
+                                                        witches[selectedSlot] = Witch(data: witch.data)
                                                     }
                                                 }) {
                                                     SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
@@ -291,7 +323,7 @@ struct PlayerSelectionView: View {
                                                                 selectedArtifact -= 1
                                                             }
                                                             
-                                                            if GlobalData.shared.artifactUse == 1{
+                                                            if GlobalData.shared.artifactUse == 1 {
                                                                 while isArtifactInUse(artifact: selectedArtifact) {
                                                                     if selectedArtifact <= 0 {
                                                                         selectedArtifact = Artifacts.allCases.count - 1
@@ -322,7 +354,7 @@ struct PlayerSelectionView: View {
                                                                 selectedArtifact -= 1
                                                             }
                                                             
-                                                            if GlobalData.shared.artifactUse == 1{
+                                                            if GlobalData.shared.artifactUse == 1 {
                                                                 while isArtifactInUse(artifact: selectedArtifact) {
                                                                     if selectedArtifact <= 0 {
                                                                         selectedArtifact = Artifacts.allCases.count - 1
@@ -352,7 +384,7 @@ struct PlayerSelectionView: View {
                                                                 selectedArtifact += 1
                                                             }
                                                             
-                                                            if GlobalData.shared.artifactUse == 1{
+                                                            if GlobalData.shared.artifactUse == 1 {
                                                                 while isArtifactInUse(artifact: selectedArtifact) {
                                                                     if selectedArtifact >= Artifacts.allCases.count - 1 {
                                                                         selectedArtifact = 0
@@ -383,7 +415,7 @@ struct PlayerSelectionView: View {
                                                                 selectedArtifact += 1
                                                             }
                                                             
-                                                            if GlobalData.shared.artifactUse == 1{
+                                                            if GlobalData.shared.artifactUse == 1 {
                                                                 while isArtifactInUse(artifact: selectedArtifact) {
                                                                     if selectedArtifact >= Artifacts.allCases.count - 1 {
                                                                         selectedArtifact = 0
@@ -399,6 +431,21 @@ struct PlayerSelectionView: View {
                                             .frame(width: geometry.size.height - 30, height: 60)
                                         }
                                         .rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30).opacity(GlobalData.shared.artifactUse == 2 ? 0.5 : 1.0).disabled(GlobalData.shared.artifactUse == 2)
+                                        Button(GlobalData.shared.isSaved(witch: SavedWitchData(witch: witches[selectedSlot]!)) ? Localization.shared.getTranslation(key: "remove") : Localization.shared.getTranslation(key: "save")) {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            let witch: SavedWitchData = SavedWitchData(witch: witches[selectedSlot]!)
+                                            if GlobalData.shared.isSaved(witch: witch) {
+                                                GlobalData.shared.removeWitch(witch: witch)
+                                            } else {
+                                                GlobalData.shared.saveWitch(witch: witch)
+                                            }
+                                            
+                                            DispatchQueue.main.async {
+                                                SaveLogic.shared.save()
+                                            }
+                                        }
+                                        .buttonStyle(BasicButton(width: geometry.size.height - 30)).rotationEffect(.degrees(-90)).frame(width: 40, height: geometry.size.height - 30)
                                     }
                                     .padding(.vertical, 15)
                                 }
