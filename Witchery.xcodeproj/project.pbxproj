@@ -253,13 +253,13 @@
 		B80D7CA3278345EC00DEB25F /* Witchery */ = {
 			isa = PBXGroup;
 			children = (
-				3258B6CF27A06EC700746B2D /* Info.plist */,
 				B80D7CF12785F85200DEB25F /* Data */,
+				3258B6CF27A06EC700746B2D /* Info.plist */,
 				B80D7D0427871EF500DEB25F /* Logic */,
-				B80D7CA4278345EC00DEB25F /* WitcheryApp.swift */,
-				B80D7CD32783539000DEB25F /* Views */,
-				B80D7CD02783534700DEB25F /* UIStyles */,
 				B80D7CAA278345EE00DEB25F /* Preview Content */,
+				B80D7CD02783534700DEB25F /* UIStyles */,
+				B80D7CD32783539000DEB25F /* Views */,
+				B80D7CA4278345EC00DEB25F /* WitcheryApp.swift */,
 			);
 			path = Witchery;
 			sourceTree = "<group>";
