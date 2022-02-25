@@ -67,10 +67,13 @@ struct CPULogic {
         }
         
         //target will switch?
-        if defender.getElement().hasDisadvantage(element: attacker.getElement()) && target.isAbleToSwap() {
-            let newWitch: Int = getTarget(currentWitch: target.currentWitchId, witches: target.witches, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap)
-            if newWitch != target.currentWitchId {
-                defender = target.witches[newWitch]
+        var rndm: Int = Int.random(in: 0 ..< 2)
+        if rndm > 0 {
+            if defender.getElement().hasDisadvantage(element: attacker.getElement()) && target.isAbleToSwap() {
+                let newWitch: Int = getTarget(currentWitch: target.currentWitchId, witches: target.witches, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap)
+                if newWitch != target.currentWitchId {
+                    defender = target.witches[newWitch]
+                }
             }
         }
         
@@ -100,7 +103,7 @@ struct CPULogic {
         }
         
         //have control over weather since the weather boosts certain attacks
-        var rndm: Int = Int.random(in: 0 ..< 3)
+        rndm = Int.random(in: 0 ..< 3)
         if rndm > 0 {
             for index in availableSpells.indices {
                 if attacker.spells[availableSpells[index]].typeID == 10 {
