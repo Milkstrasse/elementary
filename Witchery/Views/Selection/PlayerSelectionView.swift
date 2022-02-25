@@ -157,7 +157,7 @@ struct PlayerSelectionView: View {
                                             }
                                         }
                                         if GlobalData.shared.savedWitches.count == 1 {
-                                            Spacer().frame(width: 70, height: 70)
+                                            Spacer().frame(width: 65, height: 65)
                                         }
                                         VStack(spacing: 5) {
                                             ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { witch in
