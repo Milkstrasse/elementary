@@ -129,7 +129,7 @@ class TurnLogic {
             if usedSpell.range == 1 {
                 oppositePlayer.setState(state: PlayerState.hurting)
                 
-                if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.talaria.rawValue && fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                if oppositePlayer.getCurrentWitch().getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap() {
                     oppositePlayer.hasToSwap = true
                 }
             } else {
@@ -164,7 +164,7 @@ class TurnLogic {
         } else {
             switch player.usedMoves[0].spell.typeID {
                 case 6:
-                    if fightLogic!.isAbleToSwap(player: player) {
+                    if player.isAbleToSwap() {
                         player.hasToSwap = true
                         return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentWitch().name])
                     }
@@ -181,7 +181,7 @@ class TurnLogic {
                         return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentWitch().name])
                     }
                 case 14:
-                    if fightLogic!.isAbleToSwap(player: oppositePlayer) {
+                    if oppositePlayer.isAbleToSwap() {
                         oppositePlayer.hasToSwap = true
                         return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentWitch().name])
                     }

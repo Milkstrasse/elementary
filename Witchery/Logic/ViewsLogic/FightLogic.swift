@@ -78,13 +78,13 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()))
+                swapWitches(player: players[0], target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement(), hasToSwap: true))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(witch: players[0].getCurrentWitch(), target: players[1].getCurrentWitch(), weather: weather, isAbleToSwitch: isAbleToSwap(player: players[0]), lastMove: players[0].usedMoves.first)
+            var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastMove: players[0].usedMoves.first)
             
             if rndmMove == nil { //CPU wants to switch
-                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement()), spell: Spell())
+                rndmMove = Move(source: players[0].getCurrentWitch(), target: CPULogic.shared.getTarget(currentWitch: players[0].currentWitchId, witches: players[0].witches, enemyElement: players[1].getCurrentWitch().getElement(), hasToSwap: true), spell: Spell())
             }
             
             players[0].usedMoves.insert(rndmMove!, at: 0)
@@ -389,28 +389,6 @@ class FightLogic: ObservableObject {
                                                                                 
         return String(text.dropLast())
                                                                                 
-    }
-    
-    /// Checks if witch can swap within their team.
-    /// - Parameter player: The player
-    /// - Returns: Returns whether the witch can swap in their team
-    func isAbleToSwap(player: Player) -> Bool {
-        if player.getCurrentWitch().hasHex(hexName: Hexes.chained.rawValue) {
-            return false
-        }
-        
-        var counter: Int = 0
-        for witch in player.witches {
-            if witch.currhp > 0 {
-                counter += 1
-            }
-        }
-        
-        if counter >= 2 { //enough witches are alive to make a swap
-            return true
-        } else {
-            return false
-        }
     }
     
     /// Checks if game is over.

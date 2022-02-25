@@ -68,6 +68,28 @@ class Player: ObservableObject {
             self.state = .neutral
         }
     }
+    
+    /// Checks if witch can swap within their team.
+    /// - Parameter player: The player
+    /// - Returns: Returns whether the witch can swap in their team
+    func isAbleToSwap() -> Bool {
+        if getCurrentWitch().hasHex(hexName: Hexes.chained.rawValue) {
+            return false
+        }
+        
+        var counter: Int = 0
+        for witch in witches {
+            if witch.currhp > 0 {
+                counter += 1
+            }
+        }
+        
+        if counter >= 2 { //enough witches are alive to make a swap
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 /// The different states a player can enter.
