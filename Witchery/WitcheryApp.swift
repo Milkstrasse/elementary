@@ -36,7 +36,7 @@ struct WitcheryApp: App {
             ZStack {
                 Color("background").ignoresSafeArea()
                 if isLoading {
-                    Color("panel").onAppear {
+                    Color("panel").ignoresSafeArea().onAppear {
                         DispatchQueue.main.async {
                             GlobalData.shared.loadData()
                             SaveLogic.shared.load()
