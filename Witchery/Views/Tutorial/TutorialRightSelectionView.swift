@@ -194,12 +194,12 @@ struct TutorialRightSelectionView: View {
                                     ScrollView(.vertical, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { witch in
+                                                ForEach(GlobalData.shared.getSecondTutorialHalf(), id: \.self) { witch in
                                                     SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90)).opacity(0.5)
                                                 }
                                             }
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { witch in
+                                                ForEach(GlobalData.shared.getFirstTutorialHalf(), id: \.self) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         tutorialCounter += 1

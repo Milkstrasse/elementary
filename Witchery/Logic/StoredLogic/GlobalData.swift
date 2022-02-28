@@ -15,9 +15,11 @@ class GlobalData {
     var elementArray: [Element] = []
     
     var spells: Dictionary<String, Spell> = [:]
+    var natures: [Nature] = []
+    
     var witches: [Witch] = []
     var savedWitches: [SavedWitchData] = []
-    var natures: [Nature] = []
+    var tutorialWitches: [Witch] = []
     
     var textSpeed: Int = 2
     var artifactUse: Int = 0
@@ -106,6 +108,29 @@ class GlobalData {
             
             print("loaded: \(natures.count) natures")
         }
+    }
+
+    
+    func getFirstTutorialHalf() -> [Witch] {
+        let witch1: Witch = Witch(data: WitchData(name: "fire1", element: "fire", spells: ["fireSimpleAttack", "fireSpecialAttack", "drought", "restoration"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch2: Witch = Witch(data: WitchData(name: "aether1", element: "aether", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch3: Witch = Witch(data: WitchData(name: "plant1", element: "plant", spells: ["plantSimpleAttack", "plantSpecialAttack", "poison", "attackDown"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch4: Witch = Witch(data: WitchData(name: "wind1", element: "wind", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch5: Witch = Witch(data: WitchData(name: "decay1", element: "decay", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch6: Witch = Witch(data: WitchData(name: "rock1", element: "rock", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        
+        return [witch1, witch2, witch3, witch4, witch5, witch6]
+    }
+    
+    func getSecondTutorialHalf() -> [Witch] {
+        let witch1: Witch = Witch(data: WitchData(name: "electric1", element: "electric", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch2: Witch = Witch(data: WitchData(name: "metal1", element: "metal", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch3: Witch = Witch(data: WitchData(name: "wood1", element: "wood", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch4: Witch = Witch(data: WitchData(name: "ice1", element: "ice", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch5: Witch = Witch(data: WitchData(name: "water1", element: "water", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        let witch6: Witch = Witch(data: WitchData(name: "ground1", element: "ground", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
+        
+        return [witch1, witch2, witch3, witch4, witch5, witch6]
     }
     
     /// Returns the  first half of the list of all witches.
