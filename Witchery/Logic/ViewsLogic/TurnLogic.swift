@@ -168,9 +168,6 @@ class TurnLogic {
                         player.hasToSwap = true
                         return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentWitch().name])
                     }
-                case 7:
-                    player.getCurrentWitch().overrideElement(newElement: Element())
-                    return Localization.shared.getTranslation(key: "elementRemoved", params: [player.getCurrentWitch().name])
                 case 12:
                     let usedMoves: [Move] = player.usedMoves
                 

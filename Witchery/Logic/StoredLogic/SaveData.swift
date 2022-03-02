@@ -5,6 +5,7 @@
 //  Created by Janice Hablützel on 24.02.22.
 //
 
+/// Contains all values of a save file.
 struct SaveData: Codable {
     let langCode: String
     

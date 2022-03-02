@@ -37,12 +37,14 @@ class Localization {
                 print("error: \(error)")
             }
             
+            //add found translations to existing ones and override old value with new
             translations.merge(SaveLogic.shared.addTranslations(language: language)) {(_, new) in new}
             
             print("loaded: \(translations.count) strings")
         }
     }
     
+    /// Loads all translations of the current language file.
     func loadCurrentLanguage() {
         if let url = Bundle.main.url(forResource: currentLang, withExtension: "json", subdirectory: "Languages") {
             do {
@@ -52,6 +54,7 @@ class Localization {
                 print("error: \(error)")
             }
             
+            //add found translations to existing ones and override old value with new
             translations.merge(SaveLogic.shared.addTranslations(language: currentLang)) {(_, new) in new}
         }
     }

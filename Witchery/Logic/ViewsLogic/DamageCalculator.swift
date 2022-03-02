@@ -52,6 +52,8 @@ struct DamageCalculator {
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
             case 5:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
+            case 7:
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: -1)
             case 8:
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
             default:
@@ -161,9 +163,12 @@ struct DamageCalculator {
         let attack: Float
         if powerOverride > 0 {
             attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase().attack) * 16
-        } else {
+        } else if powerOverride == 0 {
             attack = Float(spell.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+        } else {
+            attack = Float(spell.power)/100 * Float(defender.getModifiedBase().attack) * 16
         }
+        
         let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense

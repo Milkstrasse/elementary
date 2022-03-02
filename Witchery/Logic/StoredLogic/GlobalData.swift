@@ -111,6 +111,8 @@ class GlobalData {
     }
 
     
+    /// Creates an array of witches for the tutorial.
+    /// - Returns: A curated selection of witches
     func getFirstTutorialHalf() -> [Witch] {
         let witch1: Witch = Witch(data: WitchData(name: "fire1", element: "fire", spells: ["fireSimpleAttack", "fireSpecialAttack", "drought", "restoration"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
         let witch2: Witch = Witch(data: WitchData(name: "aether1", element: "aether", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
@@ -122,6 +124,8 @@ class GlobalData {
         return [witch1, witch2, witch3, witch4, witch5, witch6]
     }
     
+    /// Creates an array of witches for the tutorial.
+    /// - Returns: A curated selection of witches
     func getSecondTutorialHalf() -> [Witch] {
         let witch1: Witch = Witch(data: WitchData(name: "electric1", element: "electric", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
         let witch2: Witch = Witch(data: WitchData(name: "metal1", element: "metal", spells: [], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
@@ -133,7 +137,7 @@ class GlobalData {
         return [witch1, witch2, witch3, witch4, witch5, witch6]
     }
     
-    /// Returns the  first half of the list of all witches.
+    /// Returns the first half of the list of all witches.
     /// - Returns: Returns an array of witches
     func getFirstHalf() -> [Witch] {
         if witches.count%2 == 0 {
@@ -167,6 +171,8 @@ class GlobalData {
         return round(100 * speed)/100
     }
     
+    /// Store witch in favourites.
+    /// - Parameter witch: The witch to be stored
     func saveWitch(witch: SavedWitchData) {
         if savedWitches.count < 8 {
             if !isSaved(witch: witch) {
@@ -175,6 +181,8 @@ class GlobalData {
         }
     }
     
+    /// Remove witch from favourites.
+    /// - Parameter witch: The witch to be removed
     func removeWitch(witch: SavedWitchData) {
         for (index, savedWitch) in savedWitches.enumerated() {
             if witch == savedWitch {
@@ -184,6 +192,8 @@ class GlobalData {
         }
     }
     
+    /// Check if witch has already been stored in favourites.
+    /// - Parameter witch: The desired witch
     func isSaved(witch: SavedWitchData) -> Bool {
         for savedWitch in savedWitches {
             if witch == savedWitch {
@@ -194,6 +204,8 @@ class GlobalData {
         return false
     }
     
+    /// Returns the first half of the list of all favourited witches.
+    /// - Returns: Returns an array of witches
     func getFirstSavedHalf() -> [Witch] {
         var array: [Witch] = []
         
@@ -212,6 +224,8 @@ class GlobalData {
         return array
     }
     
+    /// Returns the second half of the list of all favourited witches.
+    /// - Returns: Returns an array of witches
     func getSecondSavedHalf() -> [Witch] {
         var array: [Witch] = []
         

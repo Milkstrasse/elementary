@@ -54,6 +54,7 @@ struct Base: Codable {
     let resistance: Int
 }
 
+/// Contains all the data of a witch. This struct is used to save a witch in favourites.
 struct SavedWitchData: Codable, Equatable {
     let name: String
     let element: String
@@ -64,6 +65,8 @@ struct SavedWitchData: Codable, Equatable {
     
     let base: Base
     
+    /// Stores data of a witch.
+    /// - Parameter witch: The desired witch
     init(witch: Witch) {
         name = witch.name
         element = witch.getElement().name
@@ -75,6 +78,8 @@ struct SavedWitchData: Codable, Equatable {
         base = witch.base
     }
     
+    /// Creates which from data.
+    /// - Returns: Returns the witch crated by the data
     func toWitch() -> Witch {
         let witch: Witch = Witch(data: WitchData(name: name, element: element, spells: spells, base: base))
         for nat in GlobalData.shared.natures {

@@ -8,12 +8,14 @@
 import Foundation
 import SwiftUI
 
+/// Saves data in a file and loads this data.
 class SaveLogic {
     static let shared: SaveLogic = SaveLogic()
     
     static let fileManager: FileManager = FileManager.default
     static let fileName: String = "SavedData.json"
     
+    /// Save data into save file
     func save() {
         let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamRestricted, artifactUse: GlobalData.shared.artifactUse, savedWitches: GlobalData.shared.savedWitches)
         
@@ -27,6 +29,7 @@ class SaveLogic {
         }
     }
     
+    /// Loads and stores the data of the save file.
     func load() {
         if let url = makeURL(forFileNamed: SaveLogic.fileName) {
             if SaveLogic.fileManager.fileExists(atPath: url.path) {
@@ -48,7 +51,7 @@ class SaveLogic {
                 } catch {
                     print("error: \(error)")
                 }
-            } else {
+            } else { //no save file found -> create file and necessary folders
                 let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
                 Localization.shared.currentLang = langCode
                 
@@ -71,6 +74,9 @@ class SaveLogic {
         overwrite()
     }
     
+    /// Get the URL to the correct location of a file.
+    /// - Parameter fileName: The name of the file
+    /// - Returns: Returns the URL to the location of the file
     private func makeURL(forFileNamed fileName: String) -> URL? {
         if let url = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             return url.appendingPathComponent(fileName)
@@ -78,7 +84,7 @@ class SaveLogic {
             return nil
         }
     }
-    
+
     private func overwrite() {
         overwriteElements()
         overwriteSpells()
@@ -103,7 +109,7 @@ class SaveLogic {
                     var elementData = try JSONDecoder().decode(Element.self, from: data)
                     elementData.name = url.deletingPathExtension().lastPathComponent
                     
-                    if GlobalData.shared.elements[elementData.name] == nil {
+                    if GlobalData.shared.elements[elementData.name] == nil { //adds new element
                         GlobalData.shared.elementArray.append(elementData)
                     }
                     
@@ -133,6 +139,7 @@ class SaveLogic {
                     var spellData = try JSONDecoder().decode(Spell.self, from: data)
                     spellData.name = url.deletingPathExtension().lastPathComponent
                     
+                    //adds new spell or replaces spell
                     GlobalData.shared.spells.updateValue(spellData, forKey: spellData.name)
                 } catch {
                     print("error: \(error)")
@@ -161,12 +168,12 @@ class SaveLogic {
                     
                     for (index, witch) in GlobalData.shared.witches.enumerated() {
                         if witch.data.name == witchData.name {
-                            GlobalData.shared.witches[index] = Witch(data: witchData)
+                            GlobalData.shared.witches[index] = Witch(data: witchData) //replaces witch
                             return
                         }
                     }
                     
-                    //new custom witch
+                    //adds new witch
                     GlobalData.shared.witches.append(Witch(data: witchData))
                 } catch {
                     print("error: \(error)")
