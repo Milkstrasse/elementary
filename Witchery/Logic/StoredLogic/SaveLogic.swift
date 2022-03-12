@@ -5,7 +5,6 @@
 //  Created by Janice Hablützel on 24.02.22.
 //
 
-import Foundation
 import SwiftUI
 
 /// Saves data in a file and loads this data.
