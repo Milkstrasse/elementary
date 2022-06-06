@@ -82,10 +82,7 @@ struct TextFitter {
     /// - Returns: Returns the index where word has been split
     static func finalizeText(textArray: inout [String]) -> Int {
         for index in textArray.indices {
-            let textLine: String = textArray[index]
-            if textLine.first == " " {
-                textArray[index] = String(textArray[index].dropFirst())
-            } else if index > 0 {
+            if index > 0 {
                 if textArray[index - 1].last != " " {
                     var txt: String = ""
                     let temp: [String] = textArray[index - 1].components(separatedBy: " ")
@@ -98,6 +95,13 @@ struct TextFitter {
                     
                     return index
                 }
+            }
+        }
+        
+        for index in textArray.indices {
+            let textLine: String = textArray[index]
+            if textLine.first == " " {
+                textArray[index] = String(textArray[index].dropFirst())
             }
         }
         
