@@ -38,7 +38,7 @@ struct TrainingOverView: View {
                             ForEach(leftWitches, id: \.self) { witch in
                                 SquareWitchView(witch: witch, isSelected: false, inverted: true)
                             }
-                            ForEach(0 ..< 4 - leftWitches.count) { index in
+                            ForEach(0 ..< 4 - leftWitches.count, id:\.self) { index in
                                 SquareWitchView(witch: nil, isSelected: false, inverted: true)
                             }
                         }
@@ -56,7 +56,7 @@ struct TrainingOverView: View {
                             ForEach(rightWitches, id: \.self) { witch in
                                 SquareWitchView(witch: witch, isSelected: false, inverted: true)
                             }
-                            ForEach(0 ..< 4 - rightWitches.count) { index in
+                            ForEach(0 ..< 4 - rightWitches.count, id:\.self) { index in
                                 SquareWitchView(witch: nil, isSelected: false, inverted: true)
                             }
                         }

@@ -110,7 +110,7 @@ class FightLogic: ObservableObject {
                 let firstTurns: Int = playerQueue.count
                 
                 //processes all actions on playerQueue
-                Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { timer in
+                Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { [self] timer in
                     let currentPlayer: Player = playerQueue[0].player;
                     turns += 1
                     
@@ -152,7 +152,7 @@ class FightLogic: ObservableObject {
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                             AudioPlayer.shared.playConfirmSound()
                             
                             gameLogic.setReady(player: 0, ready: false)
@@ -351,7 +351,7 @@ class FightLogic: ObservableObject {
     ///   - target: The index of the targeted witch
     /// - Returns: Returns the description of what occured during the swap
     private func swapWitches(player: Player, target: Int) -> String {
-        if player.witches[target].currhp == 0 {
+        if player.witches[target].currhp == 0 || player.witches[target] == player.getCurrentWitch() {
             return ""
         }
         
