@@ -39,6 +39,8 @@ class FightLogic: ObservableObject {
         }
         
         battleLog = [Localization.shared.getTranslation(key: "fightBegin")]
+        
+        BattleLog.shared.generatePlayerInfo(player1Witches: players[0].witches, player2Witches: players[1].witches)
     }
     
     /// Checks if there are enough witches on both sides.
@@ -109,6 +111,8 @@ class FightLogic: ObservableObject {
                 //amount of turns first player needs to do their action
                 let firstTurns: Int = playerQueue.count
                 
+                print(firstTurns)
+                
                 //processes all actions on playerQueue
                 Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { [self] timer in
                     let currentPlayer: Player = playerQueue[0].player;
@@ -159,9 +163,9 @@ class FightLogic: ObservableObject {
                             gameLogic.setReady(player: 1, ready: false)
                             //players are now able to choose their moves again
                             
-                            //print(battleLog)
-                            
                             battling = false
+                            
+                            BattleLog.shared.addBattleLog(log: battleLog, currentWitch1: players[0].getCurrentWitch(), currentWitch2: players[1].getCurrentWitch(), weather: weather)
                         }
                     }
                 }
@@ -351,7 +355,7 @@ class FightLogic: ObservableObject {
     ///   - target: The index of the targeted witch
     /// - Returns: Returns the description of what occured during the swap
     private func swapWitches(player: Player, target: Int) -> String {
-        if player.witches[target].currhp == 0 || player.witches[target] == player.getCurrentWitch() {
+        if player.witches[target].currhp == 0 || player.witches[target] == player.getCurrentWitch() { //temporary fix to double swap in same round
             return ""
         }
         
@@ -423,6 +427,8 @@ class FightLogic: ObservableObject {
     /// Determines the winner of the game. Currently no draws possible.
     /// - Returns: Returns the id of the winning player
     func getWinner() -> Int {
+        SaveLogic.shared.saveBattle()
+        
         //player who has forfeited loses automatically
         if gameLogic.forfeited[0] {
             return 1

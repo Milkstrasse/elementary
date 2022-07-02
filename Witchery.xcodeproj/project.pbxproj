@@ -57,6 +57,7 @@
 		B8525157278DD49D00AD99BE /* Hexes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525156278DD49D00AD99BE /* Hexes.swift */; };
 		B8525159278EFF3900AD99BE /* Artifacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8525158278EFF3800AD99BE /* Artifacts.swift */; };
 		B852515F279189D400AD99BE /* TurnLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852515E279189D400AD99BE /* TurnLogic.swift */; };
+		B85793D72870DCAA007663D9 /* BattleLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85793D62870DCAA007663D9 /* BattleLog.swift */; };
 		B898D91327A6C1E8001B9137 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B898D91227A6C1E8001B9137 /* Player.swift */; };
 		B898D91727A6F914001B9137 /* attack3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91427A6F914001B9137 /* attack3.wav */; };
 		B898D91827A6F914001B9137 /* attack1.wav in Resources */ = {isa = PBXBuildFile; fileRef = B898D91527A6F914001B9137 /* attack1.wav */; };
@@ -146,6 +147,7 @@
 		B8525156278DD49D00AD99BE /* Hexes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hexes.swift; sourceTree = "<group>"; };
 		B8525158278EFF3800AD99BE /* Artifacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artifacts.swift; sourceTree = "<group>"; };
 		B852515E279189D400AD99BE /* TurnLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnLogic.swift; sourceTree = "<group>"; };
+		B85793D62870DCAA007663D9 /* BattleLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleLog.swift; sourceTree = "<group>"; };
 		B898D91227A6C1E8001B9137 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B898D91427A6F914001B9137 /* attack3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack3.wav; sourceTree = "<group>"; };
 		B898D91527A6F914001B9137 /* attack1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack1.wav; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				B81CC32E278A3C3500908195 /* Localization.swift */,
 				B81F1A4327C79F1C0020CBA5 /* SaveData.swift */,
 				B81F1A4127C79D5D0020CBA5 /* SaveLogic.swift */,
+				B85793D62870DCAA007663D9 /* BattleLog.swift */,
 			);
 			path = StoredLogic;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				B898D92427A86293001B9137 /* TutorialSelectionView.swift in Sources */,
 				B8525157278DD49D00AD99BE /* Hexes.swift in Sources */,
 				B8CDEEBD2793647E0073F5B2 /* TrainingSelectionView.swift in Sources */,
+				B85793D72870DCAA007663D9 /* BattleLog.swift in Sources */,
 				B8EAA7892788D5B200DD3813 /* DamageCalculator.swift in Sources */,
 				B898D91327A6C1E8001B9137 /* Player.swift in Sources */,
 				328121A927A283470022A5D1 /* AudioPlayer.swift in Sources */,

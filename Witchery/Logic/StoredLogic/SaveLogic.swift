@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-/// Saves data in a file and loads this data.
+/// Saves data into a file and loads this data.
 class SaveLogic {
     static let shared: SaveLogic = SaveLogic()
     
     static let fileManager: FileManager = FileManager.default
-    static let fileName: String = "SavedData.json"
+    static let fileName: String = "savedData.json"
     
-    /// Save data into save file
+    /// Save data into save file.
     func save() {
         let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamRestricted, artifactUse: GlobalData.shared.artifactUse, savedWitches: GlobalData.shared.savedWitches)
         
@@ -71,6 +71,17 @@ class SaveLogic {
         }
         
         overwrite()
+    }
+    
+    /// Save latest battle data into save file
+    func saveBattle() {
+        do {
+            if let url = makeURL(forFileNamed: BattleLog.fileName) {
+                try BattleLog.shared.battleLog.write(to: url, atomically: true, encoding: .utf8)
+            }
+        } catch {
+            print("error: \(error)")
+        }
     }
     
     /// Get the URL to the correct location of a file.
