@@ -40,13 +40,13 @@ class BattleLog {
     /// - Parameter witch: The desired witch
     private func generateWitchInfo(witch: Witch) {
         battleLog += " - " + witch.name + ": "
-        battleLog += "\(witch.currhp), \(witch.getModifiedBase().attack), \(witch.getModifiedBase().defense), \(witch.getModifiedBase().agility), \(witch.getModifiedBase().precision), \(witch.getModifiedBase().resistance)"
-        battleLog += " + " + witch.getArtifact().name
+        battleLog += "\(witch.currhp)/\(witch.getModifiedBase().health), \(witch.getModifiedBase().attack), \(witch.getModifiedBase().defense), \(witch.getModifiedBase().agility), \(witch.getModifiedBase().precision), \(witch.getModifiedBase().resistance)"
+        battleLog += " + " + Localization.shared.getTranslation(key: witch.getArtifact().name)
         
         if !witch.hexes.isEmpty {
             battleLog += "\n"
             for hex in witch.hexes {
-                battleLog += "#" + hex.name + " "
+                battleLog += "#" + Localization.shared.getTranslation(key: hex.name) + " "
             }
         }
     }
@@ -65,7 +65,7 @@ class BattleLog {
         }
         
         battleLog += "\n"
-        battleLog += "weather: " + (weather?.name ?? "-")
+        battleLog += Localization.shared.getTranslation(key: "weather") + ": " + Localization.shared.getTranslation(key: weather?.name ?? "-")
         battleLog += "\n"
         
         battleLog += "\n"
