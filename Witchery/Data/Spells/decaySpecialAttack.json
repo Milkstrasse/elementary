@@ -4,12 +4,8 @@
   "uses": 5,
   "spells": [
       {
-          "power": 90,
+          "power": 80,
           "range": 1
-      },
-      {
-          "power": 0,
-          "range": 0
       }
   ]
 }

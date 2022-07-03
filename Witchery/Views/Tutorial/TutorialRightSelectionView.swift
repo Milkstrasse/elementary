@@ -20,6 +20,11 @@ struct TutorialRightSelectionView: View {
     
     @State var offsetX: CGFloat = 175
     
+    @GestureState var isNatureDecreasing = false
+    @GestureState var isNatureIncreasing = false
+    @GestureState var isArtifactDecreasing = false
+    @GestureState var isArtifactIncreasing = false
+    
     /// Returns wether the witch is selected or not.
     /// - Parameter witch: The witch in question
     /// - Returns: Returns wether the witch is selected or not
@@ -29,7 +34,7 @@ struct TutorialRightSelectionView: View {
         }
         
         for selectedWitch in witches {
-            if witch?.name == selectedWitch?.name {
+            if selectedWitch != nil && witch! == selectedWitch! {
                 return true
             }
         }
@@ -78,6 +83,25 @@ struct TutorialRightSelectionView: View {
         return tutorialCounter == 1 || tutorialCounter > 2
     }
     
+    /// Check if the button is opaque.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the button is opaque or not
+    func isOpaque(index: Int) -> Bool {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
+            return false
+        }
+        
+        if tutorialCounter > 8 {
+            return false
+        }
+        
+        if index > 0 {
+            return true
+        }
+        
+        return tutorialCounter == 1 || tutorialCounter > 2
+    }
+    
     /// Check if the witch is unselectable.
     /// - Parameter index: The current index of the tutorial
     /// - Returns: Returns wether the witch is unselectable or not
@@ -89,6 +113,25 @@ struct TutorialRightSelectionView: View {
         }
         
         return true
+    }
+    
+    /// Check if a witch in the team already uses an artifact.
+    /// - Parameter artifact: The artifact in qustion
+    /// - Returns: Returns wether another witch already uses the artifact
+    func isArtifactInUse(artifact: Int) -> Bool {
+        if artifact == 0 {
+            return false
+        }
+        
+        for witch in witches {
+            if witch != nil {
+                if getArtifact(witch: witch!) == artifact {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
     
     var body: some View {
@@ -132,9 +175,9 @@ struct TutorialRightSelectionView: View {
                                         }
                                     }
                                 }) {
-                                    SquareWitchView(witch: witches[index], isSelected: index == selectedSlot)
+                                    SquareWitchView(witch: witches[index], isSelected: index == selectedSlot, inverted: true)
                                 }
-                                .opacity(isDisabled(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
+                                .opacity(isOpaque(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -144,31 +187,30 @@ struct TutorialRightSelectionView: View {
                 }
                 if selectionToggle || infoToggle {
                     HStack(spacing: 0) {
-                        Rectangle().fill(Color("outline")).frame(width: 1)
                         ZStack(alignment: .leading) {
-                            Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.trailing)
+                            Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.trailing)
                             if selectionToggle {
                                 VStack {
                                     ScrollView(.vertical, showsIndicators: false) {
                                         HStack(alignment: .top, spacing: 5) {
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getSecondHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getSecondTutorialHalf(), id: \.self) { witch in
                                                     SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90)).opacity(0.5)
                                                 }
                                             }
                                             VStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getFirstHalf(), id: \.?.name) { witch in
+                                                ForEach(GlobalData.shared.getFirstTutorialHalf(), id: \.self) { witch in
                                                     Button(action: {
                                                         AudioPlayer.shared.playStandardSound()
                                                         tutorialCounter += 1
                                                         
                                                         if !isSelected(witch: witch) {
-                                                            witches[selectedSlot] = Witch(data: witch!.data)
+                                                            witches[selectedSlot] = Witch(data: witch.data)
                                                         }
                                                     }) {
                                                         SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).rotationEffect(.degrees(90))
                                                     }
-                                                    .opacity(isWitchDisabled(witch: witch!) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch!))
+                                                    .opacity(isWitchDisabled(witch: witch) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch))
                                                 }
                                             }
                                         }
@@ -194,42 +236,101 @@ struct TutorialRightSelectionView: View {
                                                     RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: 40, height: (geometry.size.height - 30)/3 * 2)
                                                     HStack(spacing: 0) {
                                                         Button("<") {
-                                                            AudioPlayer.shared.playStandardSound()
-                                                            if tutorialCounter < 5 {
-                                                                tutorialCounter = 4
-                                                            }
-                                                            
-                                                            if selectedNature <= 0 {
-                                                                selectedNature = GlobalData.shared.natures.count - 1
-                                                            } else {
-                                                                selectedNature -= 1
-                                                            }
-                                                            
-                                                            witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
-                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
-                                                        CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("background"), fontSize: 14).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
+                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
+                                                        .onChange(of: isNatureDecreasing, perform: { _ in
+                                                            Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                                if self.isNatureDecreasing == true {
+                                                                    if tutorialCounter < 5 {
+                                                                        tutorialCounter = 4
+                                                                    }
+                                                                    
+                                                                    AudioPlayer.shared.playStandardSound()
+                                                                    
+                                                                    if selectedNature <= 0 {
+                                                                        selectedNature = GlobalData.shared.natures.count - 1
+                                                                    } else {
+                                                                        selectedNature -= 1
+                                                                    }
+                                                                    
+                                                                    witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                                } else {
+                                                                    timer.invalidate()
+                                                                }
+                                                            }
+                                                        })
+                                                        .simultaneousGesture(
+                                                            LongPressGesture(minimumDuration: .infinity)
+                                                                .updating($isNatureDecreasing) { value, state, _ in state = value }
+                                                        )
+                                                        .highPriorityGesture(
+                                                            TapGesture()
+                                                                .onEnded { _ in
+                                                                    AudioPlayer.shared.playStandardSound()
+                                                                    
+                                                                    if tutorialCounter < 5 {
+                                                                        tutorialCounter = 4
+                                                                    }
+                                                                    
+                                                                    if selectedNature <= 0 {
+                                                                        selectedNature = GlobalData.shared.natures.count - 1
+                                                                    } else {
+                                                                        selectedNature -= 1
+                                                                    }
+                                                                    
+                                                                    witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                        })
+                                                        CustomText(key: GlobalData.shared.natures[selectedNature].name, fontColor: Color("button"), fontSize: smallFontSize).frame(width: (geometry.size.height - 30)/3 * 2 - 80)
                                                         Button(">") {
-                                                            AudioPlayer.shared.playStandardSound()
-                                                            if tutorialCounter < 5 {
-                                                                tutorialCounter = 4
-                                                            }
-                                                            
-                                                            if selectedNature >= GlobalData.shared.natures.count - 1 {
-                                                                selectedNature = 0
-                                                            } else {
-                                                                selectedNature += 1
-                                                            }
-                                                            
-                                                            witches[selectedSlot]!.setNature(nature: selectedNature)
                                                         }
-                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("background")))
+                                                        .buttonStyle(ClearBasicButton(width: 40, height: 40, fontColor: Color("button")))
+                                                        .onChange(of: isNatureIncreasing, perform: { _ in
+                                                            Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                                if self.isNatureIncreasing == true {
+                                                                    AudioPlayer.shared.playStandardSound()
+                                                                    
+                                                                    if tutorialCounter < 5 {
+                                                                        tutorialCounter = 4
+                                                                    }
+                                                                    
+                                                                    if selectedNature >= GlobalData.shared.natures.count - 1 {
+                                                                        selectedNature = 0
+                                                                    } else {
+                                                                        selectedNature += 1
+                                                                    }
+                                                                    
+                                                                    witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                                } else {
+                                                                    timer.invalidate()
+                                                                }
+                                                            }
+                                                        })
+                                                        .simultaneousGesture(
+                                                            LongPressGesture(minimumDuration: .infinity)
+                                                                .updating($isNatureIncreasing) { value, state, _ in state = value }
+                                                        )
+                                                        .highPriorityGesture(
+                                                            TapGesture()
+                                                                .onEnded { _ in
+                                                                    AudioPlayer.shared.playStandardSound()
+                                                                    
+                                                                    if tutorialCounter < 5 {
+                                                                        tutorialCounter = 4
+                                                                    }
+                                                                    
+                                                                    if selectedNature >= GlobalData.shared.natures.count - 1 {
+                                                                        selectedNature = 0
+                                                                    } else {
+                                                                        selectedNature += 1
+                                                                    }
+                                                                    
+                                                                    witches[selectedSlot]!.setNature(nature: selectedNature)
+                                                        })
                                                     }
                                                     .rotationEffect(.degrees(-90)).frame(width: 40, height: (geometry.size.height - 30)/3 * 2).disabled(tutorialCounter == 5)
-                                                }
-                                                .opacity(tutorialCounter == 5 ? 0.5 : 1.0)
+                                                }.opacity(tutorialCounter == 5 ? 0.5 : 1.0)
                                             }
-                                            BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 75, height: geometry.size.height - 30)
+                                            BaseWitchesOverviewView(base: witches[selectedSlot]!.getModifiedBase(), width: geometry.size.height - 30, bgColor: Color("button")).rotationEffect(.degrees(-90)).frame(width: 85, height: geometry.size.height - 30)
                                                 .padding(.trailing, 5)
                                             ForEach(witches[selectedSlot]!.spells, id: \.self) { spell in
                                                 DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, width: geometry.size.height - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geometry.size.height - 30)
@@ -238,39 +339,143 @@ struct TutorialRightSelectionView: View {
                                                 RoundedRectangle(cornerRadius: 5).fill(Color("outline")).frame(width: geometry.size.height - 30, height: 60)
                                                 HStack(spacing: 0) {
                                                     Button("<") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        if tutorialCounter < 6 {
-                                                            tutorialCounter = 5
-                                                        }
-                                                        
-                                                        if selectedArtifact <= 0 {
-                                                            selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
-                                                        } else {
-                                                            selectedArtifact -= 1
-                                                        }
-                                                        
-                                                        witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
-                                                    VStack {
-                                                        CustomText(key: Artifacts.getTutorialArtifactArray()[selectedArtifact].name, fontColor: Color("background"), fontSize: 16, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
-                                                        CustomText(key: Artifacts.getTutorialArtifactArray()[selectedArtifact].description, fontColor: Color("background"), fontSize: 13).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
+                                                    .onChange(of: isArtifactDecreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isArtifactDecreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if tutorialCounter < 6 {
+                                                                    tutorialCounter = 5
+                                                                }
+                                                                
+                                                                if selectedArtifact <= 0 {
+                                                                    selectedArtifact = Artifacts.allCases.count - 1
+                                                                } else {
+                                                                    selectedArtifact -= 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1 {
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact <= 0 {
+                                                                            selectedArtifact = Artifacts.allCases.count - 1
+                                                                        } else {
+                                                                            selectedArtifact -= 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                            } else {
+                                                                timer.invalidate()
+                                                            }
+                                                        }
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isArtifactDecreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if tutorialCounter < 6 {
+                                                                    tutorialCounter = 5
+                                                                }
+                                                                
+                                                                if selectedArtifact <= 0 {
+                                                                    selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
+                                                                } else {
+                                                                    selectedArtifact -= 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1 {
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact <= 0 {
+                                                                            selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
+                                                                        } else {
+                                                                            selectedArtifact -= 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                    })
+                                                    VStack(spacing: -2) {
+                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().name, fontColor: Color("button"), fontSize: mediumFontSize, isBold: true).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
+                                                        CustomText(key: Artifacts.allCases[selectedArtifact].getArtifact().description, fontColor: Color("button"), fontSize: tinyFontSize).frame(width: geometry.size.height - 90 - 30, alignment: .leading)
                                                     }
                                                     Button(">") {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        if tutorialCounter < 6 {
-                                                            tutorialCounter = 5
-                                                        }
-                                                        
-                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
-                                                            selectedArtifact = 0
-                                                        } else {
-                                                            selectedArtifact += 1
-                                                        }
-                                                        
-                                                        witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                                     }
-                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("background")))
+                                                    .buttonStyle(ClearBasicButton(width: 40, height: 60, fontColor: Color("button")))
+                                                    .onChange(of: isArtifactIncreasing, perform: { _ in
+                                                        Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                            if self.isArtifactIncreasing == true {
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if tutorialCounter < 6 {
+                                                                    tutorialCounter = 5
+                                                                }
+                                                                
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
+                                                                    selectedArtifact = 0
+                                                                } else {
+                                                                    selectedArtifact += 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1 {
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
+                                                                            selectedArtifact = 0
+                                                                        } else {
+                                                                            selectedArtifact += 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                            } else {
+                                                                timer.invalidate()
+                                                            }
+                                                        }
+                                                    })
+                                                    .simultaneousGesture(
+                                                        LongPressGesture(minimumDuration: .infinity)
+                                                            .updating($isArtifactIncreasing) { value, state, _ in state = value }
+                                                    )
+                                                    .highPriorityGesture(
+                                                        TapGesture()
+                                                            .onEnded { _ in
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if tutorialCounter < 6 {
+                                                                    tutorialCounter = 5
+                                                                }
+                                                                
+                                                                AudioPlayer.shared.playStandardSound()
+                                                                
+                                                                if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
+                                                                    selectedArtifact = 0
+                                                                } else {
+                                                                    selectedArtifact += 1
+                                                                }
+                                                                
+                                                                if GlobalData.shared.artifactUse == 1 {
+                                                                    while isArtifactInUse(artifact: selectedArtifact) {
+                                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
+                                                                            selectedArtifact = 0
+                                                                        } else {
+                                                                            selectedArtifact += 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                                witches[selectedSlot]!.setArtifact(artifact: selectedArtifact)
+                                                    })
                                                 }
                                                 .frame(width: geometry.size.height - 30, height: 60).disabled(tutorialCounter < 4)
                                             }

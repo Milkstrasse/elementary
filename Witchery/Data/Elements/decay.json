@@ -1,10 +1,11 @@
 {
     "symbol": "0xf252",
     "strengths": [
-        "aether",
-        "snow"
+        "plant",
+        "wood"
     ],
     "weaknesses": [
+        "aether",
         "metal"
     ]
 }

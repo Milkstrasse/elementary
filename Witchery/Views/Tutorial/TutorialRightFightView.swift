@@ -63,36 +63,35 @@ struct TutorialRightFightView: View {
                 Spacer()
                 ZStack(alignment: .bottomTrailing) {
                     if player.state == PlayerState.neutral {
-                        Image(blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
+                        Image(fileName: blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90)).animation(.easeOut(duration: 0.3), value: offsetX)
                     } else if player.state == PlayerState.healing {
-                        Image(player.getCurrentWitch().name + "_happy").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
+                        Image(fileName: player.getCurrentWitch().name + "_happy").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
                     } else if player.state == PlayerState.hurting {
-                        Image(player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
+                        Image(fileName: player.getCurrentWitch().name + "_hurt").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
                     } else {
-                        Image(player.getCurrentWitch().name + "_attack").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
+                        Image(fileName: player.getCurrentWitch().name + "_attack").resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(-90))
                     }
-                    Rectangle().fill(Color("outline")).frame(width: 1).padding(.trailing, 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
-                    Rectangle().fill(Color("background")).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
+                    Rectangle().fill(Color("panel")).frame(width: 175 + geometry.safeAreaInsets.trailing).offset(x: geometry.safeAreaInsets.trailing)
                     HStack(spacing: 10) {
                         ZStack(alignment: .trailing) {
                             VStack(alignment: .trailing) {
                                 ZStack(alignment: .bottomLeading) {
                                     HStack(spacing: 0) {
-                                        Triangle().fill(Color("outline")).frame(width: 21, height: 57)
-                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 57)
+                                        Triangle().fill(Color("outline")).frame(width: 21, height: 52)
+                                        Rectangle().fill(Color("outline")).frame(width: 190, height: 52)
                                     }
                                     .padding(.bottom, 4).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
-                                            ForEach(player.witches.indices) { index in
+                                            ForEach(player.witches.indices, id:\.self) { index in
                                                 Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(player.witches[index].currhp == 0 ? 0.5 : 1)
                                             }
                                         }
                                         .padding(.leading, 24).offset(y: -5)
                                         HStack(spacing: 0) {
-                                            Triangle().fill(Color("button")).frame(width: 20, height: 55)
+                                            Triangle().fill(Color("outline")).frame(width: 20, height: 50)
                                             ZStack(alignment: .topTrailing) {
-                                                Rectangle().fill(Color("button")).frame(width: 190)
+                                                Rectangle().fill(Color("outline")).frame(width: 190)
                                                 HStack(spacing: 5) {
                                                     ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
                                                         HexView(hex: hex)
@@ -104,24 +103,24 @@ struct TutorialRightFightView: View {
                                                 .offset(x: -12, y: -12)
                                                 VStack(spacing: 0) {
                                                     HStack {
-                                                        CustomText(key: player.getCurrentWitch().name, fontSize: 16).lineLimit(1)
+                                                        CustomText(key: player.getCurrentWitch().name, fontColor: Color("background"), fontSize: mediumFontSize, isBold: true).lineLimit(1)
                                                         Spacer()
-                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontSize: 13)
+                                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontColor: Color("background"), fontSize: tinyFontSize)
                                                     }
                                                     ZStack(alignment: .leading) {
-                                                        Rectangle().fill(Color("outline")).frame(height: 6)
+                                                        Rectangle().fill(Color("healthbar")).frame(height: 6)
                                                         Rectangle().fill(Color("health")).frame(width: calcWidth(witch: player.getCurrentWitch()), height: 6).animation(.default, value: player.getCurrentWitch().currhp)
                                                     }
                                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                                 }
-                                                .padding(.trailing, 15).padding(.leading, 5).frame(height: 55)
+                                                .padding(.trailing, 15).padding(.leading, 5).frame(height: 50)
                                             }
                                         }
-                                        .frame(height: 55)
+                                        .frame(height: 50)
                                     }
-                                    .frame(height: 75)
+                                    .frame(height: 70)
                                 }
-                                .rotationEffect(.degrees(-90)).frame(width: 75, height: 210).offset(y: offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
+                                .rotationEffect(.degrees(-90)).frame(width: 70, height: 210).offset(y: offsetX).animation(.easeOut(duration: 0.3).delay(0.1), value: offsetX)
                                 Spacer()
                             }
                             VStack(alignment: .trailing) {
@@ -153,11 +152,10 @@ struct TutorialRightFightView: View {
                             if currentSection == .summary {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
-                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
                                     ScrollView(.vertical, showsIndicators: false) {
                                         ScrollViewReader { value in
                                             ForEach(fightLogic.battleLog.indices, id: \.self) { index in
-                                                CustomText(text: fightLogic.battleLog[index], fontSize: 14).frame(width: geometry.size.height - 60, alignment: .leading).id(index)
+                                                CustomText(text: fightLogic.battleLog[index], fontSize: smallFontSize).frame(width: geometry.size.height - 60, alignment: .leading).id(index)
                                                     .onAppear {
                                                         value.scrollTo(index, anchor: .bottom)
                                                     }
@@ -189,8 +187,7 @@ struct TutorialRightFightView: View {
                             } else {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
-                                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: geometry.size.height - 30, height: 115)
-                                    CustomText(key: "waiting", fontSize: 14).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
+                                    CustomText(key: "waiting", fontSize: smallFontSize).frame(width: geometry.size.height - 60, height: 85, alignment: .topLeading).padding(.horizontal, 15)
                                 }
                                 .rotationEffect(.degrees(-90)).frame(width: 115, height: geometry.size.height - 30)
                             }
@@ -208,14 +205,16 @@ struct TutorialRightFightView: View {
             })
             if !fightLogic.battling {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 90, height: 240)
-                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 90, height: 240)
+                    RoundedRectangle(cornerRadius: 5).fill(Color("health")).frame(width: 95, height: 240)
                     ZStack {
-                        CustomText(text: getTutorialText(geoWidth: 200), fontSize: 14).frame(width: 210, height: 60, alignment: .topLeading)
+                        ScrollView(.vertical, showsIndicators: false) {
+                            CustomText(text: getTutorialText(geoWidth: 215), fontSize: smallFontSize).frame(width: 210, height: 75, alignment: .topLeading)
+                        }
+                        .frame(width: 210, height: 65)
                     }
-                    .frame(width: 60, height: 210).padding(.all, 15).rotationEffect(.degrees(-90))
+                    .frame(width: 65, height: 210).padding(.all, 15).rotationEffect(.degrees(-90))
                 }
-                .padding(.top, 15).offset(x: geometry.size.width - 315)
+                .padding(.top, 15).offset(x: geometry.size.width - 320)
             }
         }
         .onAppear {

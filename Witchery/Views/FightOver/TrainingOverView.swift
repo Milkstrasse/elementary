@@ -36,28 +36,28 @@ struct TrainingOverView: View {
                         Spacer()
                         HStack(spacing: 5) {
                             ForEach(leftWitches, id: \.self) { witch in
-                                SquareWitchView(witch: witch, isSelected: false)
+                                SquareWitchView(witch: witch, isSelected: false, inverted: true)
                             }
-                            ForEach(0 ..< 4 - leftWitches.count) { index in
-                                SquareWitchView(witch: nil, isSelected: false)
+                            ForEach(0 ..< 4 - leftWitches.count, id:\.self) { index in
+                                SquareWitchView(witch: nil, isSelected: false, inverted: true)
                             }
                         }
                         .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
                         Spacer()
                     }
                     ZStack {
-                        Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
-                        CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                        Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
+                        CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
                     VStack {
                         Spacer()
                         HStack(spacing: 5) {
                             ForEach(rightWitches, id: \.self) { witch in
-                                SquareWitchView(witch: witch, isSelected: false)
+                                SquareWitchView(witch: witch, isSelected: false, inverted: true)
                             }
-                            ForEach(0 ..< 4 - rightWitches.count) { index in
-                                SquareWitchView(witch: nil, isSelected: false)
+                            ForEach(0 ..< 4 - rightWitches.count, id:\.self) { index in
+                                SquareWitchView(witch: nil, isSelected: false, inverted: true)
                             }
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 70, height: 295)
@@ -68,13 +68,12 @@ struct TrainingOverView: View {
                 HStack(spacing: 0) {
                     ZStack(alignment: .leading) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("health")).frame(width: 110, height: geometry.size.height + geometry.safeAreaInsets.bottom - 30)
                             ZStack {
                                 if !isTutorial {
-                                    CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: winner == 0 ? "won game" : "lost game", fontSize: mediumFontSize).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                                 } else {
-                                    CustomText(key: "tutorial15", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: "tutorial15", fontSize: smallFontSize).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
                                 }
                             }
                             .frame(width: 80, height: geometry.size.height + geometry.safeAreaInsets.bottom - 60).padding(.all, 10).rotationEffect(.degrees(90))
@@ -85,7 +84,7 @@ struct TrainingOverView: View {
                             HStack(spacing: 5) {
                                 Button(Localization.shared.getTranslation(key: "rematch")) {
                                 }
-                                .buttonStyle(BasicButton(width: 135)).opacity(0.7).disabled(true)
+                                .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(0.7).disabled(true)
                                 Button("X") {
                                     AudioPlayer.shared.playCancelSound()
                                     transitionToggle = true
@@ -93,7 +92,7 @@ struct TrainingOverView: View {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                     }
                                 }
-                                .buttonStyle(BasicButton(width: 40))
+                                .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                             }
                             .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                         }
@@ -102,13 +101,12 @@ struct TrainingOverView: View {
                     Spacer()
                     ZStack(alignment: .trailing) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 110, height: geometry.size.height - 30)
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1).frame(width: 110, height: geometry.size.height - 30)
+                            RoundedRectangle(cornerRadius: 5).fill(Color("health")).frame(width: 110, height: geometry.size.height - 30)
                             ZStack {
                                 if !isTutorial {
-                                    CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: 16).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: winner == 1 ? "won game" : "lost game", fontSize: mediumFontSize).frame(width: geometry.size.height + geometry.safeAreaInsets.bottom - 60, height: 80, alignment: .topLeading)
                                 } else {
-                                    CustomText(key: "tutorial15", fontSize: 14).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
+                                    CustomText(key: "tutorial15", fontSize: smallFontSize).frame(width: geometry.size.height - 60, height: 80, alignment: .topLeading)
                                 }
                             }
                             .frame(width: 80, height: geometry.size.height - 60).padding(.all, 15).rotationEffect(.degrees(-90))
@@ -131,7 +129,7 @@ struct TrainingOverView: View {
                                         }
                                     }
                                 }
-                                .buttonStyle(BasicButton(width: 135))
+                                .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
                                 Button("X") {
                                     AudioPlayer.shared.playCancelSound()
                                     transitionToggle = true
@@ -139,7 +137,7 @@ struct TrainingOverView: View {
                                         manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                     }
                                 }
-                                .buttonStyle(BasicButton(width: 40))
+                                .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                             }
                             .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                             Spacer()
@@ -150,7 +148,7 @@ struct TrainingOverView: View {
                 .frame(height: geometry.size.height + geometry.safeAreaInsets.bottom)
             }
             .ignoresSafeArea(.all, edges: .bottom)
-            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

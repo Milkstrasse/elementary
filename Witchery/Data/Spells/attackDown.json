@@ -1,0 +1,13 @@
+{
+  "element": "rock",
+  "typeID": 13,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 90,
+          "hex": "attackDrop"
+      }
+  ]
+}

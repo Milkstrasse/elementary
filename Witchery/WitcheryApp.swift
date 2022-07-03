@@ -19,7 +19,7 @@ class ViewManager: ObservableObject {
     }
 }
 
-let exampleWitch: Witch = Witch(data: WitchData(name: "water1", element: "water", spells: ["unknownSpell"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 0, resistance: 100)))
+let exampleWitch: Witch = Witch(data: WitchData(name: "water1", element: "water", spells: ["waterSimpleAttack"], base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100)))
 
 @main
 struct WitcheryApp: App {
@@ -36,36 +36,15 @@ struct WitcheryApp: App {
             ZStack {
                 Color("background").ignoresSafeArea()
                 if isLoading {
-                    Color("outline").onAppear {
+                    Color("panel").ignoresSafeArea().onAppear {
                         DispatchQueue.main.async {
-                            var langCode = UserDefaults.standard.string(forKey: "lang")
-                            if langCode == nil {
-                                langCode = String(Locale.preferredLanguages[0].prefix(2))
-                                UserDefaults.standard.set(langCode, forKey: "lang")
-                                UserDefaults.standard.set(1.0, forKey: "music")
-                                UserDefaults.standard.set(1.0, forKey: "sound")
-                                UserDefaults.standard.set(1.0, forKey: "voices")
-                                UserDefaults.standard.set(true, forKey: "haptic")
-                                UserDefaults.standard.set(2, forKey: "textSpeed")
-                                UserDefaults.standard.set(true, forKey: "team")
-                                UserDefaults.standard.set(0, forKey: "artifactUse")
-                            }
+                            GlobalData.shared.loadData()
+                            SaveLogic.shared.load()
                             
                             Localization.shared.getLanguages()
-                            Localization.shared.loadLanguage(language: langCode!)
+                            Localization.shared.loadCurrentLanguage()
                             
-                            AudioPlayer.shared.setSoundVolume(volume: UserDefaults.standard.float(forKey: "sound"))
-                            AudioPlayer.shared.setVoiceVolume(volume: UserDefaults.standard.float(forKey: "voices"))
-                            AudioPlayer.shared.setMusicVolume(volume: UserDefaults.standard.float(forKey: "music"))
                             AudioPlayer.shared.playMenuMusic()
-                            
-                            GlobalData.shared.loadData()
-                            
-                            AudioPlayer.shared.hapticToggle = UserDefaults.standard.bool(forKey: "haptic")
-                            GlobalData.shared.textSpeed = UserDefaults.standard.integer(forKey: "textSpeed")
-                            
-                            GlobalData.shared.teamRestricted = UserDefaults.standard.bool(forKey: "team")
-                            GlobalData.shared.artifactUse = UserDefaults.standard.integer(forKey: "artifactUse")
                             
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             isLoading = false

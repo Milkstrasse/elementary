@@ -1,15 +1,15 @@
 {
-  "element": "snow",
+  "element": "ice",
   "typeID": 0,
   "uses": 20,
   "spells": [
       {
-          "power": 75,
+          "power": 85,
           "range": 1
       },
       {
           "power": 0,
-          "range": 1,
+          "range": 0,
           "chance": 20,
           "hex": "invigorated"
       }

@@ -20,13 +20,13 @@ struct TrainingView: View {
     var body: some View {
         ZStack {
             HStack {
-                CPUTrainingView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver)
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver, isInteractable: false)
                 Spacer()
-                RightFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver)
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver, isInteractable: true)
             }
             .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in
-                ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65)
+                ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65)
                     .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }

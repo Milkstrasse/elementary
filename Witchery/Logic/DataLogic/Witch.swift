@@ -6,14 +6,14 @@
 //
 
 /// Contains all the important data of a witch.
-class Witch: Hashable {
+class Witch: Hashable, Equatable {
     let name: String
     private let element: Element
     private var elementOverride: Element?
     
     let data: WitchData
     
-    private let base: Base
+    let base: Base
     var currhp: Int
     
     var hexes: [Hex] = []
@@ -313,6 +313,14 @@ class Witch: Hashable {
     }
     
     static func == (lhs: Witch, rhs: Witch) -> Bool {
-        return lhs.name == rhs.name
+        if lhs.name == rhs.name {
+            if lhs.nature.name == rhs.nature.name {
+                if lhs.artifact.name == rhs.artifact.name {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
 }

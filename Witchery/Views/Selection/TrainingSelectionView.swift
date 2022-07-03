@@ -29,6 +29,9 @@ struct TrainingSelectionView: View {
         var rights: [Witch] = []
         for witch in rightWitches {
             if witch != nil {
+                if GlobalData.shared.artifactUse == 2 {
+                    witch?.setArtifact(artifact: 0)
+                }
                 rights.append(witch!)
             }
         }
@@ -104,7 +107,7 @@ struct TrainingSelectionView: View {
                                 AudioPlayer.shared.playStandardSound()
                                 selectRandom()
                             }
-                            .buttonStyle(BasicButton(width: 135))
+                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -112,7 +115,7 @@ struct TrainingSelectionView: View {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         }
                         .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
                     }
@@ -130,7 +133,7 @@ struct TrainingSelectionView: View {
                                     }
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
+                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
                             Button("X") {
                                 AudioPlayer.shared.playCancelSound()
                                 transitionToggle = true
@@ -138,7 +141,7 @@ struct TrainingSelectionView: View {
                                     manager.setView(view: AnyView(MainView().environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40))
+                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
                         Spacer()
@@ -148,15 +151,15 @@ struct TrainingSelectionView: View {
                 HStack(spacing: 0) {
                     CPUSelectionView(witches: leftWitches)
                     ZStack {
-                        Rectangle().fill(Color("outline")).frame(width: 1).padding(.vertical, 15)
-                        CustomText(text: "X", fontSize: 18).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                        Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
+                        CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
                     }
                     .frame(width: 60)
-                    RightSelectionView(witches: $rightWitches)
+                    PlayerSelectionView(witches: $rightWitches, isLeft: false)
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
             }
-            ZigZag().fill(Color("outline")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

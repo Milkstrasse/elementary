@@ -19,3 +19,22 @@ extension Array where Element: Hashable {
         }
     }
 }
+
+extension Image {
+    /// Creates image from png saved in folder.
+    /// - Parameter fileName: The name of the png image
+    init(fileName: String) {
+        if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let url = URL.init(fileURLWithPath: mainURL.path + "/mods/assets/" + fileName + ".png")
+            if SaveLogic.fileManager.fileExists(atPath: url.path) {
+                self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
+            } else if let url = Bundle.main.url(forResource: fileName, withExtension: "png", subdirectory: "Assets") {
+                self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
+            } else {
+                self.init(uiImage: UIImage())
+            }
+        } else {
+            self.init(uiImage: UIImage())
+        }
+    }
+}

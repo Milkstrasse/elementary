@@ -7,12 +7,13 @@
     "electric": "Électrik",
     "fire": "Feu",
     "ground": "Sol",
+    "ice": "Glace",
     "metal": "Métal",
     "plant": "Plante",
     "rock": "Roche",
-    "snow": "Neige",
     "water": "Eau",
     "wind": "Vent",
+    "wood": "Bois",
     
     "health": "Santé",
     "attack": "Attaque",
@@ -100,11 +101,11 @@
     "wandDescr": "Augmente **attaque** à faible PV",
     
     "coven": "Coven",
-    "covenDescr": "Sondez l'équipe et échangez des sorcières",
+    "covenDescr": "Échangez les sorcières de votre équipe",
     "forfeit": "Forfait",
     "forfeitDescr": "Se rendre et mettre fin au combat",
     "spells": "Sorts",
-    "spellsDescr": "Utilisez des sorts pour gagner la bataille",
+    "spellsDescr": "Utilisez la magie pour combattre",
     
     "hpBar": "{0}/{1}PV",
     "fightBegin": "Que le combat commence!",
@@ -128,11 +129,11 @@
     "namePerished": "{0} a périe.",
     "retreated": "{0} s'est retirée.",
     "elementChanged": "L'élément de {0} est maintenant {1}.",
-    "elementRemoved": "L'élément de {0} a été supprimé",
     "forcedOut": "{0} a été expulsée.",
     "swappedArtifacts": "Les artefacts ont été échangés.",
     "clearedHexes": "Les sortilèges ont été supprimés.",
     "swappedHexes": "Les sortilèges ont été échangés.",
+    "nameProvoked": "{0} a été provoquée.",
     
     "superEffective": "Super efficace",
     "veryEffective": "Très efficace",
@@ -151,7 +152,7 @@
     "exhausted": "épuisée",
     "restricted": "restreinte",
     
-    "creditBy": "{0} de {1}",
+    "creditBy": "**{0}** de {1}",
     
     "help1": "Éléments",
     "help1Descr": "chaque sorcière a son propre élément, son élément et l'élément du sort lui donne plus ou moins de pouvoir contre les autres sorcières.",

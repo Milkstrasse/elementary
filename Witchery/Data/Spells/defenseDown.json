@@ -8,12 +8,6 @@
           "range": 1,
           "chance": 90,
           "hex": "defenseDrop"
-      },
-      {
-          "power": 0,
-          "range": 1,
-          "chance": 10,
-          "hex": "blocked"
       }
   ]
 }

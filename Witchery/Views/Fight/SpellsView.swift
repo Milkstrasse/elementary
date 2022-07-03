@@ -59,7 +59,7 @@ struct SpellsView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                ForEach(player.getCurrentWitch().spells.indices) { index in
+                ForEach(player.getCurrentWitch().spells.indices, id:\.self) { index in
                     Button(action: {
                     }) {
                         ZStack {

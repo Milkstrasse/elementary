@@ -53,7 +53,7 @@ struct TeamView: View {
                         LongPressGesture(minimumDuration: .infinity)
                             .updating($isDetectingPress) { value, state, _ in state = value }
                     )
-                ForEach(player.witches.indices) { index in
+                ForEach(player.witches.indices, id:\.self) { index in
                     if index != player.currentWitchId {
                         Button(action: {
                         }) {

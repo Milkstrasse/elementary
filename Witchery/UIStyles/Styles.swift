@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+let tinyFontSize: CGFloat = 13
+let smallFontSize: CGFloat = 14
+let mediumFontSize: CGFloat = 16
+let largeFontSize: CGFloat = 18
+
 struct BasicButton: ButtonStyle {
     var width: CGFloat
     var height: CGFloat = 40
+    
+    var bgColor: Color = Color("button")
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -17,11 +24,10 @@ struct BasicButton: ButtonStyle {
             .offset(x: width == height ? 0 : 15)
             .background(content: {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 5).fill(Color("button"))
-                    RoundedRectangle(cornerRadius: 5).strokeBorder(Color("outline"), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 5).fill(bgColor)
                 }
             })
-            .font(.custom("Recoleta-Regular", size: 14))
+            .font(.custom("KGMissKindyChunky", size: smallFontSize))
             .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
@@ -37,7 +43,7 @@ struct ClearBasicButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height)
-            .font(.custom("Recoleta-Regular", size: 14))
+            .font(.custom("KGMissKindyChunky", size: smallFontSize))
             .foregroundColor(fontColor)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
@@ -52,7 +58,7 @@ struct ClearButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height, alignment: .bottomLeading)
-            .font(.custom("Recoleta-Regular", size: 14))
+            .font(.custom("KGMissKindyChunky", size: smallFontSize))
             .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)

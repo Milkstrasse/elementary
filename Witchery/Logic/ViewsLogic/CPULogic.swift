@@ -17,94 +17,109 @@ struct CPULogic {
     ///   - isAbleToSwitch: Wether the witch can swap or not
     ///   - lastMove: The last move of the witch
     /// - Returns: Returns the best move
-    func getMove(witch: Witch, target: Witch, weather: Hex?, isAbleToSwitch: Bool, lastMove: Move?) -> Move? {
+    func getMove(player: Player, target: Player, weather: Hex?, lastMove: Move?) -> Move? {
+        let attacker: Witch = player.getCurrentWitch()
+        var defender: Witch = target.getCurrentWitch()
+        
         //collect all useable spells
         var availableSpells: [Int] = []
         
-        for index in witch.spells.indices {
-            if witch.spells[index].useCounter + witch.manaUse <= witch.spells[index].uses {
+        for index in attacker.spells.indices {
+            if attacker.spells[index].useCounter + attacker.manaUse <= attacker.spells[index].uses {
                 availableSpells.append(index)
             }
         }
         
         //no moves found
         if availableSpells.isEmpty {
-            if isAbleToSwitch {
-                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+            if player.isAbleToSwap() {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentWitch: player.currentWitchId, witches: player.witches, enemyElement: defender.getElement(), hasToSwap: false) != player.currentWitchId {
                     return nil
                 }
             } else {
-                return Move(source: witch, target: -1, spell: witch.spells[0])
+                return Move(source: attacker, target: -1, spell: attacker.spells[0])
             }
         }
         
-        if witch.getArtifact().name == Artifacts.corset.rawValue || witch.hasHex(hexName: Hexes.restricted.rawValue) { //witch is restricted -> use best move
-            if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
-                if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+        //witch is restricted -> use best move
+        if attacker.getArtifact().name == Artifacts.corset.rawValue || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
+            if attacker.getElement().hasDisadvantage(element: defender.getElement()) && player.isAbleToSwap() {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentWitch: player.currentWitchId, witches: player.witches, enemyElement: defender.getElement(), hasToSwap: false) != player.currentWitchId {
                     return nil
                 }
             }
             
             var bestSpell: (Float, Int)
-            bestSpell = (calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[0]], weather: weather), 0)
+            bestSpell = (calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[0]], weather: weather), 0)
             
             for index in 1 ..< availableSpells.count {
-                if witch.spells[availableSpells[index]].typeID < 9 {
-                    let dmg: Float = calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], weather: weather)
+                if attacker.spells[availableSpells[index]].typeID < 9 {
+                    let dmg: Float = calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], weather: weather)
                     if dmg > bestSpell.0 {
                         bestSpell = (dmg, index)
                     }
                 }
             }
             
-            if  witch.spells[bestSpell.1].typeID < 9 {
-                return Move(source: witch, target: -1, spell: witch.spells[bestSpell.1])
+            if  attacker.spells[bestSpell.1].typeID < 9 {
+                return Move(source: attacker, target: -1, spell: attacker.spells[bestSpell.1])
+            }
+        }
+        
+        //target will switch?
+        var rndm: Int = Int.random(in: 0 ..< 2)
+        if rndm > 0 {
+            if defender.getElement().hasDisadvantage(element: attacker.getElement()) && target.isAbleToSwap() {
+                let newWitch: Int = getTarget(currentWitch: target.currentWitchId, witches: target.witches, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap)
+                if newWitch != target.currentWitchId {
+                    defender = target.witches[newWitch]
+                }
             }
         }
         
         //top priority: find move that defeats the enemy witch!
         for index in availableSpells.indices {
-            if witch.spells[availableSpells[index]].typeID < 9 {
-                if DamageCalculator.shared.willDefeatWitch(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], subSpell: witch.spells[availableSpells[index]].spells[0], spellElement: witch.spells[availableSpells[index]].element, weather: weather) {
-                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+            if attacker.spells[availableSpells[index]].typeID < 9 {
+                if DamageCalculator.shared.willDefeatWitch(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], subSpell: attacker.spells[availableSpells[index]].spells[0], spellElement: attacker.spells[availableSpells[index]].element, weather: weather) {
+                    return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                 }
             }
         }
         
         //avoid fighting against enemy with advantage
-        if witch.getElement().hasDisadvantage(element: target.getElement()) && isAbleToSwitch {
-            if !witch.hasHex(hexName: Hexes.chained.rawValue) {
+        if attacker.getElement().hasDisadvantage(element: defender.getElement()) && player.isAbleToSwap() {
+            if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentWitch: player.currentWitchId, witches: player.witches, enemyElement: defender.getElement(), hasToSwap: false) != player.currentWitchId {
                 return nil
             }
         }
         
         //low health -> should heal
-        if witch.currhp <= witch.getModifiedBase().health/3 && !witch.hasHex(hexName: Hexes.blocked.rawValue) {
+        if attacker.currhp <= attacker.getModifiedBase().health/3 && !attacker.hasHex(hexName: Hexes.blocked.rawValue) {
             for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].typeID == 11 {
-                    return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                if attacker.spells[availableSpells[index]].typeID == 11 {
+                    return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                 }
             }
         }
         
         //have control over weather since the weather boosts certain attacks
-        var rndm: Int = Int.random(in: 0 ..< 3)
+        rndm = Int.random(in: 0 ..< 3)
         if rndm > 0 {
             for index in availableSpells.indices {
-                if witch.spells[availableSpells[index]].typeID == 10 {
-                    if weather?.name != witch.spells[availableSpells[index]].spells[0].weather! {
-                        return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                if attacker.spells[availableSpells[index]].typeID == 10 {
+                    if weather?.name != attacker.spells[availableSpells[index]].spells[0].weather! {
+                        return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                     }
                 }
             }
         }
         
         //consider using shield
-        if target.getHexDuration(hexName: Hexes.poisoned.rawValue) > 0 || witch.getHexDuration(hexName: Hexes.healed.rawValue) > 0 {
+        if defender.getHexDuration(hexName: Hexes.poisoned.rawValue) > 0 || attacker.getHexDuration(hexName: Hexes.healed.rawValue) > 0 {
             if lastMove == nil || lastMove?.spell.typeID != 12 {
                 for index in availableSpells.indices {
-                    if witch.spells[availableSpells[index]].typeID == 12 {
-                        return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                    if attacker.spells[availableSpells[index]].typeID == 12 {
+                        return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                     }
                 }
             }
@@ -113,16 +128,16 @@ struct CPULogic {
         //consider using a hex
         rndm = Int.random(in: 0 ..< 3)
         if rndm > 0 {
-            if witch.currhp > witch.getModifiedBase().health/4 * 3 {
+            if attacker.currhp > attacker.getModifiedBase().health/4 * 3 {
                 for index in availableSpells.indices {
-                    if witch.spells[availableSpells[index]].typeID == 13 {
-                        if witch.spells[availableSpells[index]].spells[0].range == 0 && witch.hexes.count < 2 {
+                    if attacker.spells[availableSpells[index]].typeID == 13 {
+                        if attacker.spells[availableSpells[index]].spells[0].range == 0 && attacker.hexes.count < 2 {
                             //protect witch from negative hexes & useless move
-                            if witch.getArtifact().name != Artifacts.talisman.rawValue && witch.getArtifact().name != Artifacts.amulet.rawValue {
-                                return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                            if attacker.getArtifact().name != Artifacts.talisman.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
+                                return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                             }
-                        } else if witch.spells[availableSpells[index]].spells[0].range == 1 && target.hexes.count < 2 {
-                            return Move(source: witch, target: -1, spell: witch.spells[availableSpells[index]])
+                        } else if attacker.spells[availableSpells[index]].spells[0].range == 1 && defender.hexes.count < 2 {
+                            return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                         }
                     }
                 }
@@ -131,18 +146,18 @@ struct CPULogic {
         
         //main goal is to do the most damage
         var bestSpell: (Float, Int)
-        bestSpell = (calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[0]], weather: weather), 0)
+        bestSpell = (calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[0]], weather: weather), 0)
         
         for index in 1 ..< availableSpells.count {
-            if witch.spells[availableSpells[index]].typeID < 9 {
-                let dmg: Float = calcDamage(attacker: witch, defender: target, spell: witch.spells[availableSpells[index]], weather: weather)
+            if attacker.spells[availableSpells[index]].typeID < 9 {
+                let dmg: Float = calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], weather: weather)
                 if dmg > bestSpell.0 {
                     bestSpell = (dmg, index)
                 }
             }
         }
         
-        return Move(source: witch, target: -1, spell: witch.spells[bestSpell.1])
+        return Move(source: attacker, target: -1, spell: attacker.spells[bestSpell.1])
     }
     
     /// Determines the best witch to swap to for the CPU.
@@ -151,9 +166,9 @@ struct CPULogic {
     ///   - witches: The current team
     ///   - enemyElement: The element of the enemy witch
     /// - Returns: Returns the index of the best witch to swap to
-    func getTarget(currentWitch: Int, witches: [Witch], enemyElement: Element) -> Int {
+    func getTarget(currentWitch: Int, witches: [Witch], enemyElement: Element, hasToSwap: Bool) -> Int {
         for index in witches.indices {
-            if witches[index].getElement().hasAdvantage(element: enemyElement) && index != currentWitch {
+            if index != currentWitch && witches[index].getElement().hasAdvantage(element: enemyElement) {
                 if witches[index].currhp > 0 {
                     return index
                 }
@@ -161,21 +176,23 @@ struct CPULogic {
         }
         
         for index in witches.indices {
-            if !witches[index].getElement().hasDisadvantage(element: enemyElement) && index != currentWitch {
+            if index != currentWitch && !witches[index].getElement().hasDisadvantage(element: enemyElement) {
                 if witches[index].currhp > 0 {
                     return index
                 }
             }
         }
         
-        //no good witch was found, find any witch who hasn't fainted
-        for index in witches.indices {
-            if index != currentWitch && witches[index].currhp > 0 {
-                return index
+        if hasToSwap {
+            //no good witch was found, find any witch who hasn't fainted
+            for index in witches.indices {
+                if index != currentWitch && witches[index].currhp > 0 {
+                    return index
+                }
             }
         }
         
-        return currentWitch + 1 //should be impossible to reach if everything works correctly
+        return currentWitch //should be impossible to reach if everything works correctly
     }
     
     /// Calculate the minimum damage of a spell.
