@@ -13,8 +13,6 @@ struct TeamView: View {
     @ObservedObject var fightLogic: FightLogic
     @ObservedObject var player: Player
     
-    let geoHeight: CGFloat
-    
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
@@ -46,18 +44,18 @@ struct TeamView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            HStack(spacing: 5) {
-                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+            VStack(spacing: 5) {
+                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol).padding(.bottom, 5).id(0)
                     .onTapGesture {}
                     .gesture(
                         LongPressGesture(minimumDuration: .infinity)
                             .updating($isDetectingPress) { value, state, _ in state = value }
                     )
-                ForEach(player.witches.indices, id:\.self) { index in
+                ForEach(player.witches.indices, id: \.self) { index in
                     if index != player.currentWitchId {
                         Button(action: {
                         }) {
-                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].getElement().symbol)
                         }
                         .id(index + 1).opacity(player.witches[index].currhp == 0 ? 0.7 : 1.0).disabled(player.witches[index].currhp == 0)
                         .simultaneousGesture(
@@ -78,6 +76,7 @@ struct TeamView: View {
                     }
                 }
             }
+            .padding(.horizontal, 15)
             .onAppear {
                 value.scrollTo(0)
             }
@@ -87,6 +86,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 0, witches: [exampleWitch]), geoHeight: 375)
+        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 0, witches: [exampleWitch]))
     }
 }

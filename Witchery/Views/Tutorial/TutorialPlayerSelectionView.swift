@@ -1,14 +1,16 @@
 //
-//  PlayerSelectionView.swift
+//  TutorialPlayerSelectionView.swift
 //  Witchery
 //
-//  Created by Janice Hablützel on 04.01.22.
+//  Created by Janice Hablützel on 31.01.22.
 //
 
 import SwiftUI
 
-struct PlayerSelectionView: View {
+struct TutorialPlayerSelectionView: View {
     @Binding var witches: [Witch?]
+    @Binding var tutorialCounter: Int
+    
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
     @State var selectedArtifact: Int = 0
@@ -22,8 +24,6 @@ struct PlayerSelectionView: View {
     @GestureState var isNatureIncreasing = false
     @GestureState var isArtifactDecreasing = false
     @GestureState var isArtifactIncreasing = false
-    
-    let isTop: Bool
     
     /// Returns wether the witch is selected or not.
     /// - Parameter witch: The witch in question
@@ -68,6 +68,53 @@ struct PlayerSelectionView: View {
         return 0
     }
     
+    /// Check if the button is disabled.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the button is disabled or not
+    func isDisabled(index: Int) -> Bool {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
+            return false
+        }
+        
+        if index > 0 {
+            return true
+        }
+        
+        return tutorialCounter == 1 || tutorialCounter > 2
+    }
+    
+    /// Check if the button is opaque.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the button is opaque or not
+    func isOpaque(index: Int) -> Bool {
+        if index == 1 && tutorialCounter == 5 || index == 1 && tutorialCounter == 7 || index == 1 && tutorialCounter == 8 {
+            return false
+        }
+        
+        if tutorialCounter > 8 {
+            return false
+        }
+        
+        if index > 0 {
+            return true
+        }
+        
+        return tutorialCounter == 1 || tutorialCounter > 2
+    }
+    
+    /// Check if the witch is unselectable.
+    /// - Parameter index: The current index of the tutorial
+    /// - Returns: Returns wether the witch is unselectable or not
+    func isWitchDisabled(witch: Witch) -> Bool {
+        if tutorialCounter == 1 && witch.getElement().name == "fire" {
+            return false
+        } else if tutorialCounter == 6 && witch.getElement().name == "plant" {
+            return false
+        }
+        
+        return true
+    }
+    
     /// Check if a witch in the team already uses an artifact.
     /// - Parameter artifact: The artifact in qustion
     /// - Returns: Returns wether another witch already uses the artifact
@@ -96,6 +143,7 @@ struct PlayerSelectionView: View {
                         ForEach(0 ..< 4) { index in
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()
+                                tutorialCounter += 1
                                 
                                 if selectedSlot == index {
                                     if selectionToggle && witches[index] != nil {
@@ -128,6 +176,7 @@ struct PlayerSelectionView: View {
                             }) {
                                 SquareWitchView(witch: witches[index], isSelected: index == selectedSlot, inverted: true)
                             }
+                            .opacity(isOpaque(index: index) ? 0.5 : 1.0).disabled(isDisabled(index: index))
                         }
                         Spacer()
                     }
@@ -138,66 +187,25 @@ struct PlayerSelectionView: View {
                         Rectangle().fill(Color("panel"))
                         if selectionToggle {
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 10) {
-                                    if !GlobalData.shared.savedWitches.isEmpty {
-                                        VStack(alignment: .leading, spacing: 5) {
-                                            HStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { witch in
-                                                    Button(action: {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                            witches[selectedSlot] = witch
-                                                        }
-                                                    }) {
-                                                        SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
-                                                    }
+                                VStack(alignment: .leading, spacing: 5) {
+                                    HStack(spacing: 5) {
+                                        ForEach(GlobalData.shared.getFirstTutorialHalf(), id: \.self) { witch in
+                                            Button(action: {
+                                                AudioPlayer.shared.playStandardSound()
+                                                tutorialCounter += 1
+                                                
+                                                if !isSelected(witch: witch) {
+                                                    witches[selectedSlot] = Witch(data: witch.data)
                                                 }
+                                            }) {
+                                                SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
                                             }
-                                            HStack(spacing: 5) {
-                                                ForEach(GlobalData.shared.getSecondSavedHalf(), id: \.self) { witch in
-                                                    Button(action: {
-                                                        AudioPlayer.shared.playStandardSound()
-                                                        
-                                                        if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                            witches[selectedSlot] = witch
-                                                        }
-                                                    }) {
-                                                        SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
-                                                    }
-                                                }
-                                            }
-                                            if GlobalData.shared.savedWitches.count == 1 {
-                                                Spacer().frame(width: 65, height: 65)
-                                            }
+                                            .opacity(isWitchDisabled(witch: witch) ? 0.5 : 1.0).disabled(isWitchDisabled(witch: witch))
                                         }
                                     }
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        HStack(spacing: 5) {
-                                            ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { witch in
-                                                Button(action: {
-                                                    AudioPlayer.shared.playStandardSound()
-                                                    
-                                                    if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                        witches[selectedSlot] = Witch(data: witch.data)
-                                                    }
-                                                }) {
-                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
-                                                }
-                                            }
-                                        }
-                                        HStack(spacing: 5) {
-                                            ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { witch in
-                                                Button(action: {
-                                                    AudioPlayer.shared.playStandardSound()
-                                                    
-                                                    if !isSelected(witch: witch) || !GlobalData.shared.teamRestricted {
-                                                        witches[selectedSlot] = Witch(data: witch.data)
-                                                    }
-                                                }) {
-                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
-                                                }
-                                            }
+                                    HStack(spacing: 5) {
+                                        ForEach(GlobalData.shared.getSecondTutorialHalf(), id: \.self) { witch in
+                                            SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch)).opacity(0.5)
                                         }
                                     }
                                 }
@@ -217,6 +225,10 @@ struct PlayerSelectionView: View {
                                                 .onChange(of: isNatureDecreasing, perform: { _ in
                                                     Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
                                                         if self.isNatureDecreasing == true {
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
+                                                            
                                                             AudioPlayer.shared.playStandardSound()
                                                             
                                                             if selectedNature <= 0 {
@@ -240,6 +252,10 @@ struct PlayerSelectionView: View {
                                                         .onEnded { _ in
                                                             AudioPlayer.shared.playStandardSound()
                                                             
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
+                                                            
                                                             if selectedNature <= 0 {
                                                                 selectedNature = GlobalData.shared.natures.count - 1
                                                             } else {
@@ -256,6 +272,10 @@ struct PlayerSelectionView: View {
                                                     Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
                                                         if self.isNatureIncreasing == true {
                                                             AudioPlayer.shared.playStandardSound()
+                                                            
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
                                                             
                                                             if selectedNature >= GlobalData.shared.natures.count - 1 {
                                                                 selectedNature = 0
@@ -278,6 +298,10 @@ struct PlayerSelectionView: View {
                                                         .onEnded { _ in
                                                             AudioPlayer.shared.playStandardSound()
                                                             
+                                                            if tutorialCounter < 5 {
+                                                                tutorialCounter = 4
+                                                            }
+                                                            
                                                             if selectedNature >= GlobalData.shared.natures.count - 1 {
                                                                 selectedNature = 0
                                                             } else {
@@ -287,7 +311,9 @@ struct PlayerSelectionView: View {
                                                             witches[selectedSlot]!.setNature(nature: selectedNature)
                                                 })
                                             }
+                                            .disabled(tutorialCounter == 5)
                                         }
+                                        .opacity(tutorialCounter == 5 ? 0.5 : 1.0)
                                         Button(Localization.shared.getTranslation(key: "remove")) {
                                             AudioPlayer.shared.playStandardSound()
                                             witches[selectedSlot] = nil
@@ -295,7 +321,7 @@ struct PlayerSelectionView: View {
                                             selectionToggle = true
                                             infoToggle = false
                                         }
-                                        .buttonStyle(BasicButton(width: (geometry.size.width - 30)/3 - 5))
+                                        .buttonStyle(BasicButton(width: (geometry.size.width - 30)/3 - 5)).opacity(0.5).disabled(true)
                                     }
                                     .padding(.horizontal, 15)
                                     BaseWitchOverviewView(base: witches[selectedSlot]!.getModifiedBase(), bgColor: Color("button")).padding(.horizontal, 15)
@@ -313,6 +339,10 @@ struct PlayerSelectionView: View {
                                                 Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
                                                     if self.isArtifactDecreasing == true {
                                                         AudioPlayer.shared.playStandardSound()
+                                                        
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
                                                         
                                                         if selectedArtifact <= 0 {
                                                             selectedArtifact = Artifacts.allCases.count - 1
@@ -345,8 +375,12 @@ struct PlayerSelectionView: View {
                                                     .onEnded { _ in
                                                         AudioPlayer.shared.playStandardSound()
                                                         
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
+                                                        
                                                         if selectedArtifact <= 0 {
-                                                            selectedArtifact = Artifacts.allCases.count - 1
+                                                            selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
                                                         } else {
                                                             selectedArtifact -= 1
                                                         }
@@ -354,7 +388,7 @@ struct PlayerSelectionView: View {
                                                         if GlobalData.shared.artifactUse == 1 {
                                                             while isArtifactInUse(artifact: selectedArtifact) {
                                                                 if selectedArtifact <= 0 {
-                                                                    selectedArtifact = Artifacts.allCases.count - 1
+                                                                    selectedArtifact = Artifacts.getTutorialArtifactArray().count - 1
                                                                 } else {
                                                                     selectedArtifact -= 1
                                                                 }
@@ -375,7 +409,13 @@ struct PlayerSelectionView: View {
                                                     if self.isArtifactIncreasing == true {
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
+                                                        
+                                                        AudioPlayer.shared.playStandardSound()
+                                                        
+                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                             selectedArtifact = 0
                                                         } else {
                                                             selectedArtifact += 1
@@ -383,7 +423,7 @@ struct PlayerSelectionView: View {
                                                         
                                                         if GlobalData.shared.artifactUse == 1 {
                                                             while isArtifactInUse(artifact: selectedArtifact) {
-                                                                if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                                     selectedArtifact = 0
                                                                 } else {
                                                                     selectedArtifact += 1
@@ -406,7 +446,13 @@ struct PlayerSelectionView: View {
                                                     .onEnded { _ in
                                                         AudioPlayer.shared.playStandardSound()
                                                         
-                                                        if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                        if tutorialCounter < 6 {
+                                                            tutorialCounter = 5
+                                                        }
+                                                        
+                                                        AudioPlayer.shared.playStandardSound()
+                                                        
+                                                        if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                             selectedArtifact = 0
                                                         } else {
                                                             selectedArtifact += 1
@@ -414,7 +460,7 @@ struct PlayerSelectionView: View {
                                                         
                                                         if GlobalData.shared.artifactUse == 1 {
                                                             while isArtifactInUse(artifact: selectedArtifact) {
-                                                                if selectedArtifact >= Artifacts.allCases.count - 1 {
+                                                                if selectedArtifact >= Artifacts.getTutorialArtifactArray().count - 1 {
                                                                     selectedArtifact = 0
                                                                 } else {
                                                                     selectedArtifact += 1
@@ -427,22 +473,7 @@ struct PlayerSelectionView: View {
                                         }
                                         .frame(height: 60)
                                     }
-                                    .opacity(GlobalData.shared.artifactUse == 2 ? 0.5 : 1.0).disabled(GlobalData.shared.artifactUse == 2).padding(.horizontal, 15)
-                                    Button(GlobalData.shared.isSaved(witch: SavedWitchData(witch: witches[selectedSlot]!)) ? Localization.shared.getTranslation(key: "remove") : Localization.shared.getTranslation(key: "save")) {
-                                        AudioPlayer.shared.playStandardSound()
-                                        
-                                        let witch: SavedWitchData = SavedWitchData(witch: witches[selectedSlot]!)
-                                        if GlobalData.shared.isSaved(witch: witch) {
-                                            GlobalData.shared.removeWitch(witch: witch)
-                                        } else {
-                                            GlobalData.shared.saveWitch(witch: witch)
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            SaveLogic.shared.save()
-                                        }
-                                    }
-                                    .buttonStyle(BasicButton(width: geometry.size.width - 30))
+                                    .opacity(tutorialCounter < 4 ? 0.5 : 1.0).padding(.horizontal, 15)
                                 }
                                 .frame(height: 145).padding(.top, 15).clipped()
                             }
@@ -452,19 +483,18 @@ struct PlayerSelectionView: View {
                             }
                         }
                     }
-                    .frame(height: 175 + (isTop ? geometry.safeAreaInsets.top : geometry.safeAreaInsets.bottom)).offset(y: (isTop ? geometry.safeAreaInsets.top : geometry.safeAreaInsets.bottom) + offsetY).animation(.linear(duration: 0.2), value: offsetY)
+                    .frame(height: 175 + geometry.safeAreaInsets.bottom).offset(y: geometry.safeAreaInsets.bottom + offsetY).animation(.linear(duration: 0.2), value: offsetY)
                     .onAppear {
                         offsetY = 0
                     }
                 }
             }
-            .rotationEffect(isTop ? .degrees(180) : .degrees(0))
         }
     }
 }
 
-struct PlayerSelectionView_Previews: PreviewProvider {
+struct TutorialPlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(witches:Binding.constant([nil, nil, nil, nil]), isTop: false).ignoresSafeArea(.all, edges: .bottom)
+        TutorialPlayerSelectionView(witches:Binding.constant([nil, nil, nil, nil]), tutorialCounter:Binding.constant(0))
     }
 }

@@ -34,7 +34,7 @@ struct WitcheryApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                Color("background").ignoresSafeArea()
+                Color.purple.ignoresSafeArea()
                 if isLoading {
                     Color("panel").ignoresSafeArea().onAppear {
                         DispatchQueue.main.async {

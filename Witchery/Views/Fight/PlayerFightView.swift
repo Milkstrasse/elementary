@@ -50,7 +50,127 @@ struct PlayerFightView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            HStack {
+            ZStack(alignment: .bottomTrailing) {
+                if player.state == PlayerState.neutral {
+                    Image(fileName: blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: -geometry.size.width/12 + offsetX, y: -175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).animation(.easeOut(duration: 0.3), value: offsetX)
+                } else if player.state == PlayerState.healing {
+                    Image(fileName: player.getCurrentWitch().name + "_happy").resizable().frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: -geometry.size.width/12 + offsetX, y: -175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                } else if player.state == PlayerState.hurting {
+                    Image(fileName: player.getCurrentWitch().name + "_hurt").resizable().frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: -geometry.size.width/12 + offsetX, y: -175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                } else {
+                    Image(fileName: player.getCurrentWitch().name + "_attack").resizable().frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: -geometry.size.width/12 + offsetX, y: -175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                }
+                VStack {
+                    Spacer()
+                    ZStack(alignment: .top) {
+                        Rectangle().fill(Color.red)
+                        HStack(spacing: 0) {
+                            ZStack(alignment: .topLeading) {
+                                Rectangle().frame(height: 50)
+                                HStack(spacing: 5) {
+                                    Spacer()
+                                    ForEach(player.witches.indices, id:\.self) { index in
+                                        Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(player.witches[index].currhp == 0 ? 0.5 : 1)
+                                    }
+                                }
+                                .offset(x: -4, y: -15)
+                                HStack(spacing: 5) {
+                                    ForEach(player.getCurrentWitch().hexes, id: \.self) { hex in
+                                        HexView(hex: hex)
+                                    }
+                                    if fightLogic.weather != nil {
+                                        HexView(hex: fightLogic.weather!, weather: true)
+                                    }
+                                }
+                                .padding(.leading, 15).offset(y: -12)
+                                VStack(spacing: 0) {
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentWitch().currhp)", "\(player.getCurrentWitch().getModifiedBase().health)"]), fontColor: Color("background"), fontSize: tinyFontSize)
+                                        Spacer()
+                                        CustomText(key: player.getCurrentWitch().name, fontColor: Color("background"), fontSize: mediumFontSize, isBold: true)
+                                    }
+                                    ZStack(alignment: .leading) {
+                                        Rectangle().fill(Color("healthbar")).frame(height: 6)
+                                        Rectangle().fill(Color("health")).frame(width: calcWidth(witch: player.getCurrentWitch()), height: 6).animation(.default, value: player.getCurrentWitch().currhp)
+                                    }
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                }
+                                .frame(width: 170, height: 50).padding(.leading, 15)
+                            }
+                            .frame(width: 190)
+                            Triangle().frame(width: 50, height: 50)
+                            Spacer()
+                        }
+                        .offset(y: -25)
+                        Group {
+                            if currentSection == .summary {
+                                ZStack() {
+                                    RoundedRectangle(cornerRadius: 5).fill(Color("button"))
+                                    ScrollView(.vertical, showsIndicators: false) {
+                                        ScrollViewReader { value in
+                                            ForEach(fightLogic.battleLog.indices, id: \.self) { index in
+                                                CustomText(text: fightLogic.battleLog[index], fontSize: smallFontSize).frame(width: geometry.size.width - 60, alignment: .topLeading).padding(.horizontal, 15).id(index)
+                                                    .onAppear {
+                                                        value.scrollTo(index, anchor: .bottom)
+                                                    }
+                                            }
+                                        }
+                                    }
+                                    .padding(.vertical, 15)
+                                }
+                                .frame(height: 115).padding(.horizontal, 15)
+                            } else if currentSection != .waiting {
+                                ScrollView(.vertical, showsIndicators: false) {
+                                    if currentSection == .options {
+                                        OptionsView(currentSection: $currentSection, gameOver: $gameOver, fightLogic: fightLogic, player: player)
+                                    } else if currentSection == .spells {
+                                        SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
+                                    } else if currentSection == .team {
+                                        TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
+                                    }
+                                }
+                                .frame(height: 115).clipped()
+                            } else {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.height - 30, height: 115)
+                                    CustomText(key: "waiting", fontSize: smallFontSize).frame(width: geometry.size.width - 60, alignment: .topLeading).padding(.all, 15)
+                                }
+                                .frame(height: 115)
+                            }
+                        }
+                        .padding(.top, 45)
+                        HStack {
+                            Spacer()
+                            Button(currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back")) {
+                                AudioPlayer.shared.playStandardSound()
+                                
+                                if fightLogic.isGameOver() {
+                                    gameOver = true
+                                } else {
+                                    if currentSection == .options {
+                                        currentSection = .summary
+                                    } else {
+                                        if currentSection == .waiting {
+                                            fightLogic.undoMove(player: player)
+                                        }
+                                        currentSection = .options
+                                    }
+                                }
+                            }
+                            .buttonStyle(ClearButton(width: 100, height: 35)).disabled(!isInteractable)
+                        }
+                        .padding(.horizontal, 15).opacity(fightLogic.battling ? 0.7 : 1.0).disabled(fightLogic.battling)
+                    }
+                    .frame(height: 175 + (player.id == 0 ? geometry.safeAreaInsets.top : geometry.safeAreaInsets.bottom)).offset(y: player.id == 0 ? geometry.safeAreaInsets.top : geometry.safeAreaInsets.bottom)
+                }
+            }
+            .rotationEffect(.degrees(player.id == 0 ? 180 : 0))
+            .onReceive(fightLogic.$battling, perform: { battling in
+                if battling {
+                    currentSection = .summary
+                }
+            })
+            /*HStack {
                 ZStack(alignment: .topLeading) {
                     if player.state == PlayerState.neutral {
                         Image(fileName: blink ? player.getCurrentWitch().name + "_blink" : player.getCurrentWitch().name).resizable().scaleEffect(1.1).frame(width: geometry.size.width/1.5, height: geometry.size.width/1.5).offset(x: 40 + offsetX, y: -185).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotationEffect(.degrees(90)).animation(.easeOut(duration: 0.3), value: offsetX)
@@ -186,7 +306,7 @@ struct PlayerFightView: View {
                 if battling {
                     currentSection = .summary
                 }
-            })
+            })*/
         }
         .onAppear {
             let blinkInterval: Int = Int.random(in: 5 ... 10)
@@ -200,7 +320,6 @@ struct PlayerFightView: View {
 
 struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver:Binding.constant(false), isInteractable: true).ignoresSafeArea(.all, edges: .bottom)
-.previewInterfaceOrientation(.landscapeLeft)
+        PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), offsetX: 0, gameOver:Binding.constant(false), isInteractable: true)
     }
 }

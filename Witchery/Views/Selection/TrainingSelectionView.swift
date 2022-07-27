@@ -11,32 +11,32 @@ struct TrainingSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    @State var leftWitches: [Witch?] = [nil, nil, nil, nil]
-    @State var rightWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var topWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var bottomWitches: [Witch?] = [nil, nil, nil, nil]
     
     @State var transitionToggle: Bool = true
     
     /// Creates and returns the logic that will be used int the upcoming fight.
     /// - Returns: returns the logic that will be used int the upcoming fight.
     func createLogic() -> FightLogic {
-        var lefts: [Witch] = []
-        for witch in leftWitches {
+        var tops: [Witch] = []
+        for witch in topWitches {
             if witch != nil {
-                lefts.append(witch!)
+                tops.append(witch!)
             }
         }
         
-        var rights: [Witch] = []
-        for witch in rightWitches {
+        var bottoms: [Witch] = []
+        for witch in bottomWitches {
             if witch != nil {
                 if GlobalData.shared.artifactUse == 2 {
                     witch?.setArtifact(artifact: 0)
                 }
-                rights.append(witch!)
+                bottoms.append(witch!)
             }
         }
         
-        return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)], hasCPUPlayer: true)
+        return FightLogic(players: [Player(id: 0, witches: tops), Player(id: 1, witches: bottoms)], hasCPUPlayer: true)
     }
     
     /// Selects random witches to create a team.
@@ -76,9 +76,9 @@ struct TrainingSelectionView: View {
         }
         
         for index in 0 ..< maxSize {
-            leftWitches[index] = Witch(data: GlobalData.shared.witches[rndmWitches[index]].data)
+            topWitches[index] = Witch(data: GlobalData.shared.witches[rndmWitches[index]].data)
             if GlobalData.shared.artifactUse != 2 {
-                leftWitches[index]?.setArtifact(artifact: rndmArtifacts[index])
+                topWitches[index]?.setArtifact(artifact: rndmArtifacts[index])
             }
         }
     }
@@ -98,69 +98,60 @@ struct TrainingSelectionView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                HStack(spacing: 0) {
-                    VStack {
-                        Spacer()
-                        HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "randomize")) {
-                                AudioPlayer.shared.playStandardSound()
-                                selectRandom()
-                            }
-                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health")))
-                            Button("X") {
-                                AudioPlayer.shared.playCancelSound()
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
-                        }
-                        .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
-                    }
+            VStack(spacing: 0) {
+                HStack(spacing: 5) {
                     Spacer()
-                    VStack {
-                        HStack(spacing: 5) {
-                            Button(Localization.shared.getTranslation(key: "ready")) {
-                                AudioPlayer.shared.playConfirmSound()
-                                let fightLogic: FightLogic = createLogic()
-                                
-                                if fightLogic.isValid() {
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
-                                    }
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
-                            Button("X") {
-                                AudioPlayer.shared.playCancelSound()
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
+                    Button(Localization.shared.getTranslation(key: "randomize")) {
+                        AudioPlayer.shared.playStandardSound()
+                        selectRandom()
+                    }
+                    .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: topWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: topWitches))
+                    Button("X") {
+                        AudioPlayer.shared.playCancelSound()
+                        transitionToggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
-                        Spacer()
                     }
+                    .buttonStyle(BasicButton(width: 45))
                 }
-                .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
-                HStack(spacing: 0) {
-                    CPUSelectionView(witches: leftWitches)
-                    ZStack {
-                        Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
-                        CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                .rotationEffect(.degrees(180))
+                Spacer()
+                HStack(spacing: 5) {
+                    Spacer()
+                    Button(Localization.shared.getTranslation(key: "ready")) {
+                        AudioPlayer.shared.playConfirmSound()
+                        let fightLogic: FightLogic = createLogic()
+                        
+                        if fightLogic.isValid() {
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                            }
+                        }
                     }
-                    .frame(width: 60)
-                    PlayerSelectionView(witches: $rightWitches, isLeft: false)
+                    .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: bottomWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: bottomWitches))
+                    Button("X") {
+                        AudioPlayer.shared.playCancelSound()
+                        transitionToggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                        }
+                    }
+                    .buttonStyle(BasicButton(width: 45))
                 }
-                .ignoresSafeArea(.all, edges: .bottom)
             }
-            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            .padding(.all, 15)
+            VStack(spacing: 0) {
+                CPUSelectionView(witches: topWitches)
+                ZStack {
+                    Rectangle().fill(Color("highlight")).frame(height: 2)
+                    CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color.purple)
+                }
+                .padding(.all, 15)
+                PlayerSelectionView(witches: $bottomWitches, isTop: false)
+            }
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 65).rotationEffect(.degrees(180)).offset(y: transitionToggle ? 0 : -geometry.size.height - geometry.safeAreaInsets.top - geometry.safeAreaInsets.bottom - 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false
@@ -172,6 +163,5 @@ struct TrainingSelectionView: View {
 struct TrainingSelectionView_Previews: PreviewProvider {
     static var previews: some View {
         TrainingSelectionView()
-.previewInterfaceOrientation(.landscapeLeft)
     }
 }

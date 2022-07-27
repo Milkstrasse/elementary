@@ -14,25 +14,22 @@ struct CPUSelectionView: View {
     var selectedArtifact: Int = 0
     
     var body: some View {
-        HStack {
-            Spacer()
-            VStack {
+        VStack {
+            HStack(spacing: 5) {
                 Spacer()
-                HStack(spacing: 5) {
-                    ForEach(0 ..< 4) { index in
-                        SquareWitchView(witch: witches[index], isSelected: false, inverted: true)
-                    }
+                ForEach(0 ..< 4) { index in
+                    SquareWitchView(witch: witches[index], isSelected: false, inverted: true)
                 }
-                .rotationEffect(.degrees(90)).frame(width: 70, height: 295)
                 Spacer()
             }
+            Spacer()
         }
+        .rotationEffect(.degrees(180))
     }
 }
 
 struct CPUSelectionView_Previews: PreviewProvider {
     static var previews: some View {
         CPUSelectionView(witches: [nil, nil, nil, nil])
-.previewInterfaceOrientation(.landscapeLeft)
     }
 }

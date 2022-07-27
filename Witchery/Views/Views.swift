@@ -7,12 +7,39 @@
 
 import SwiftUI
 
+struct MenuActionView: View {
+    let title: String
+    let description: String
+    let symbol: String
+    
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
+    func createSymbol() -> String {
+        let icon: UInt16 = UInt16(Float64(symbol) ?? 0xf52d)
+        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+    }
+    
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            RoundedRectangle(cornerRadius: 5).fill(Color(red: 0.24, green: 0.22, blue: 0.35))
+            HStack(spacing: 0) {
+                Text(createSymbol()).frame(width: 60, height: 60).font(.custom("Font Awesome 5 Free", size: 18)).foregroundColor(Color.white)
+                VStack(alignment: .leading, spacing: -2) {
+                    Text(title).foregroundColor(Color.white)
+                    Text(description).foregroundColor(Color.white)
+                }
+                Spacer()
+            }
+        }
+        .frame(height: 60)
+    }
+}
+
 struct DetailedActionView: View {
     let title: String
     let description: String
     let symbol: String
     
-    var width: CGFloat?
     var inverted: Bool = false
     
     /// Converts a symbol to the correct display format.
@@ -37,35 +64,58 @@ struct DetailedActionView: View {
                 Text(createSymbol()).frame(width: 60, height: 60).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(Color("outline"))
             }
         }
-        .frame(width: width, height: 60)
+        .frame(height: 60)
     }
 }
 
-struct RectangleWitchView: View {
-    let witch: Witch
+struct SquareWitchView: View {
+    var witch: Witch?
     var isSelected: Bool
+    
+    var size: CGFloat = 70
+    
+    var inverted: Bool = false
     
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(witch.getElement().symbol) ?? 0xf52d)
+        let icon: UInt16 = UInt16(Float64(witch!.getElement().symbol) ?? 0xf52d)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
     }
     
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            RoundedRectangle(cornerRadius: 5).fill(isSelected ? Color("healthbar") : Color("button")).frame(height: 125)
-            Image(fileName: witch.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).frame(height: 125).offset(y: 0)
-            Text(createSymbol()).frame(width: 30, height: 30).font(.custom("Font Awesome 5 Free", size: 13)).foregroundColor(isSelected ? Color("button") : Color("outline"))
+    /// Returns the appropiate background color.
+    /// - Returns: Returns the appropiate background color
+    func getBackgroundColor() -> Color {
+        if isSelected {
+            return Color.red
+        } else {
+            return Color.blue
         }
-        .clipShape(RoundedRectangle(cornerRadius: 5)).contentShape(Rectangle())
+    }
+    
+    /// Returns the appropiate font color.
+    /// - Returns: Returns the appropiate font color
+    func getFontColor() -> Color {
+        return Color.white
+    }
+    
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor())
+            if witch != nil {
+                Text(createSymbol()).frame(width: 28, height: 28).font(.custom("Font Awesome 5 Free", size: 11)).foregroundColor(getFontColor())
+                Image(fileName: witch!.name).resizable().aspectRatio(contentMode: .fit).offset(x: 5, y: 0).clipShape(RoundedRectangle(cornerRadius: 5))
+            } else {
+                CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24).frame(width: size, height: size)
+            }
+        }
+        .frame(width: size, height: size).contentShape(Rectangle())
     }
 }
 
-struct BaseWitchesOverviewView: View {
+struct BaseWitchOverviewView: View {
     let base: Base
     
-    var width: CGFloat?
     var bgColor: Color
     
     var body: some View {
@@ -117,66 +167,6 @@ struct BaseWitchesOverviewView: View {
                 .padding(.horizontal, 15)
             }
         }
-        .frame(width: width)
-    }
-}
-
-struct SquareWitchView: View {
-    var witch: Witch?
-    var isSelected: Bool
-    
-    var inverted: Bool = false
-    
-    /// Converts a symbol to the correct display format.
-    /// - Returns: Returns the symbol in the correct format
-    func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(witch!.getElement().symbol) ?? 0xf52d)
-        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
-    }
-    
-    /// Returns the appropiate background color.
-    /// - Returns: Returns the appropiate background color
-    func getBackgroundColor() -> Color {
-        if isSelected {
-            if inverted {
-                return Color("highlight")
-            } else {
-                return Color("healthbar")
-            }
-        } else {
-            if inverted {
-                return Color("health")
-            } else {
-                return Color("button")
-            }
-        }
-    }
-    
-    /// Returns the appropiate font color.
-    /// - Returns: Returns the appropiate font color
-    func getFontColor() -> Color {
-        if isSelected {
-            if inverted {
-                return Color("health")
-            } else {
-                return Color("button")
-            }
-        } else {
-            return Color("outline")
-        }
-    }
-    
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 5).fill(getBackgroundColor())
-            if witch != nil {
-                Text(createSymbol()).frame(width: 28, height: 28).font(.custom("Font Awesome 5 Free", size: 11)).foregroundColor(getFontColor())
-                Image(fileName: witch!.name).resizable().scaleEffect(1.3).aspectRatio(contentMode: .fit).offset(x: 10, y: -10).clipShape(RoundedRectangle(cornerRadius: 5))
-            } else {
-                CustomText(text: "+", fontColor: isSelected ? Color("background") : Color("outline"), fontSize: 24).frame(width: 70, height: 70)
-            }
-        }
-        .frame(width: 70, height: 70).contentShape(Rectangle())
     }
 }
 
@@ -290,9 +280,8 @@ struct Views_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             DetailedActionView(title: "Title", description: "Description", symbol: "#")
-            RectangleWitchView(witch: exampleWitch, isSelected: false).frame(width: 100)
             SquareWitchView(witch: exampleWitch, isSelected: false)
-            BaseWitchesOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100), bgColor: Color("button"))
+            BaseWitchOverviewView(base: Base(health: 100, attack: 100, defense: 100, agility: 100, precision: 100, resistance: 100), bgColor: Color("button"))
             HexView(hex: Hex(name: "sample", symbol: 0xf6de, duration: 3, positive: true))
         }
     }

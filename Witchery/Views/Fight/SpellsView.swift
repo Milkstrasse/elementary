@@ -15,8 +15,6 @@ struct SpellsView: View {
     
     var tutorialCounter: Int = -1
     
-    let geoHeight: CGFloat
-    
     @State var gestureStates: [Bool] = []
     @GestureState var isDetectingPress = false
     
@@ -58,18 +56,17 @@ struct SpellsView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            HStack(spacing: 5) {
+            VStack(spacing: 5) {
                 ForEach(player.getCurrentWitch().spells.indices, id:\.self) { index in
                     Button(action: {
                     }) {
                         ZStack {
                             if isDetectingPress {
-                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: player.getCurrentWitch().spells[index].name + "Descr", symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
+                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: player.getCurrentWitch().spells[index].name + "Descr", symbol: player.getCurrentWitch().spells[index].element.symbol)
                             } else {
-                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: generateDescription(spell: player.getCurrentWitch().spells[index], witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
+                                DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: generateDescription(spell: player.getCurrentWitch().spells[index], witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().spells[index].element.symbol)
                             }
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         .simultaneousGesture(
                             LongPressGesture(minimumDuration: .infinity)
                                 .updating($isDetectingPress) { value, state, _ in state = value }
@@ -88,6 +85,7 @@ struct SpellsView: View {
                     .id(index).opacity(tutorialCounter > 0 && index > 0 ? 0.5 : 1.0).disabled(tutorialCounter > 0 && index > 0)
                 }
             }
+            .padding(.horizontal, 15)
             .onAppear {
                 value.scrollTo(0)
             }
@@ -97,6 +95,6 @@ struct SpellsView: View {
 
 struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]), geoHeight: 375)
+        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]), player: Player(id: 1, witches: [exampleWitch]))
     }
 }

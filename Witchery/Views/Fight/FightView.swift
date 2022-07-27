@@ -27,15 +27,13 @@ struct FightView: View {
     
     var body: some View {
         ZStack {
-            HStack {
+            VStack {
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], offsetX: offsetX, gameOver: $gameOver, isInteractable: true)
                 Spacer()
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], offsetX: offsetX, gameOver: $gameOver, isInteractable: true)
             }
-            .ignoresSafeArea(.all, edges: .bottom)
             GeometryReader { geometry in
-                ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65)
-                    .offset(y: transitionToggle ? -65 : geometry.size.height + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+                ZigZag().fill(Color("panel")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 65).offset(y: transitionToggle ? -65 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
             }
         }
         .onAppear {
@@ -48,7 +46,7 @@ struct FightView: View {
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightOverView(leftWitches: fightLogic.players[0].witches, rightWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(FightOverView(topWitches: fightLogic.players[0].witches, bottomWitches: fightLogic.players[1].witches, winner: fightLogic.getWinner()).environmentObject(manager)))
             }
         }
     }
@@ -57,6 +55,5 @@ struct FightView: View {
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
         FightView(fightLogic: FightLogic(players: [Player(id: 0, witches: [exampleWitch]), Player(id: 1, witches: [exampleWitch])]))
-.previewInterfaceOrientation(.landscapeLeft)
     }
 }

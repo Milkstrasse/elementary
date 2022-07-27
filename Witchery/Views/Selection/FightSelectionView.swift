@@ -11,38 +11,38 @@ struct FightSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
-    @State var leftWitches: [Witch?] = [nil, nil, nil, nil]
-    @State var rightWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var topWitches: [Witch?] = [nil, nil, nil, nil]
+    @State var bottomWitches: [Witch?] = [nil, nil, nil, nil]
     
-    @State var leftReady: Bool = false
-    @State var rightReady: Bool = false
+    @State var topReady: Bool = false
+    @State var bottomReady: Bool = false
     
     @State var transitionToggle: Bool = true
     
     /// Creates and returns the logic that will be used int the upcoming fight.
     /// - Returns: returns the logic that will be used int the upcoming fight.
     func createLogic() -> FightLogic {
-        var lefts: [Witch] = []
-        for witch in leftWitches {
+        var tops: [Witch] = []
+        for witch in topWitches {
             if witch != nil {
                 if GlobalData.shared.artifactUse == 2 {
                     witch?.setArtifact(artifact: 0)
                 }
-                lefts.append(witch!)
+                tops.append(witch!)
             }
         }
         
-        var rights: [Witch] = []
-        for witch in rightWitches {
+        var bottoms: [Witch] = []
+        for witch in bottomWitches {
             if witch != nil {
                 if GlobalData.shared.artifactUse == 2 {
                     witch?.setArtifact(artifact: 0)
                 }
-                rights.append(witch!)
+                bottoms.append(witch!)
             }
         }
         
-        return FightLogic(players: [Player(id: 0, witches: lefts), Player(id: 1, witches: rights)])
+        return FightLogic(players: [Player(id: 0, witches: tops), Player(id: 1, witches: bottoms)])
     }
     
     /// Checks if selected teams contains atleast one witch.
@@ -60,96 +60,87 @@ struct FightSelectionView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                HStack(spacing: 0) {
-                    VStack {
-                        Spacer()
-                        HStack(spacing: 5) {
-                            Button(leftReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready")) {
-                                if !leftReady {
-                                    AudioPlayer.shared.playConfirmSound()
-                                } else {
-                                    AudioPlayer.shared.playCancelSound()
-                                }
-                                
-                                leftReady = !leftReady
-                                gameLogic.setReady(player: 0, ready: leftReady)
-                                
-                                if gameLogic.areBothReady() {
-                                    let fightLogic: FightLogic = createLogic()
-                                    
-                                    if fightLogic.isValid() {
-                                        transitionToggle = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
-                                        }
-                                    }
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: leftWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: leftWitches))
-                            Button("X") {
-                                AudioPlayer.shared.playCancelSound()
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
-                        }
-                        .rotationEffect(.degrees(90)).frame(width: 40, height: 180)
-                    }
+            VStack(spacing: 0) {
+                HStack(spacing: 5) {
                     Spacer()
-                    VStack {
-                        HStack(spacing: 5) {
-                            Button(rightReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready")) {
-                                if !rightReady {
-                                    AudioPlayer.shared.playConfirmSound()
-                                } else {
-                                    AudioPlayer.shared.playCancelSound()
-                                }
-                                
-                                rightReady = !rightReady
-                                gameLogic.setReady(player: 1, ready: rightReady)
-                                
-                                if gameLogic.areBothReady() {
-                                    let fightLogic: FightLogic = createLogic()
-                                    
-                                    if fightLogic.isValid() {
-                                        transitionToggle = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                            manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
-                                        }
-                                    }
-                                }
-                            }
-                            .buttonStyle(BasicButton(width: 135, bgColor: Color("health"))).opacity(isArrayEmpty(array: rightWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: rightWitches))
-                            Button("X") {
-                                AudioPlayer.shared.playCancelSound()
+                    Button(topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready")) {
+                        if !topReady {
+                            AudioPlayer.shared.playConfirmSound()
+                        } else {
+                            AudioPlayer.shared.playCancelSound()
+                        }
+                        
+                        topReady = !topReady
+                        gameLogic.setReady(player: 0, ready: topReady)
+                        
+                        if gameLogic.areBothReady() {
+                            let fightLogic: FightLogic = createLogic()
+                            
+                            if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
                         }
-                        .rotationEffect(.degrees(-90)).frame(width: 40, height: 180)
-                        Spacer()
                     }
-                }
-                .padding(.all, 15).ignoresSafeArea(.all, edges: .bottom)
-                HStack(spacing: 0) {
-                    PlayerSelectionView(witches: $leftWitches, isLeft: true).disabled(leftReady)
-                    ZStack {
-                        Rectangle().fill(Color("highlight")).frame(width: 2).padding(.vertical, 15)
-                        CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).rotationEffect(.degrees(90))
+                    .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: topWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: topWitches))
+                    Button("X") {
+                        AudioPlayer.shared.playCancelSound()
+                        transitionToggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                        }
                     }
-                    .frame(width: 60)
-                    PlayerSelectionView(witches: $rightWitches, isLeft: false).disabled(rightReady)
+                    .buttonStyle(BasicButton(width: 45))
                 }
-                .ignoresSafeArea(.all, edges: .bottom)
+                .rotationEffect(.degrees(180))
+                Spacer()
+                HStack(spacing: 5) {
+                    Spacer()
+                    Button(bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready")) {
+                        if !bottomReady {
+                            AudioPlayer.shared.playConfirmSound()
+                        } else {
+                            AudioPlayer.shared.playCancelSound()
+                        }
+                        
+                        bottomReady = !bottomReady
+                        gameLogic.setReady(player: 1, ready: bottomReady)
+                        
+                        if gameLogic.areBothReady() {
+                            let fightLogic: FightLogic = createLogic()
+                            
+                            if fightLogic.isValid() {
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                }
+                            }
+                        }
+                    }
+                    .buttonStyle(BasicButton(width: 135)).opacity(isArrayEmpty(array: bottomWitches) ? 0.7 : 1.0).disabled(isArrayEmpty(array: bottomWitches))
+                    Button("X") {
+                        AudioPlayer.shared.playCancelSound()
+                        transitionToggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                        }
+                    }
+                    .buttonStyle(BasicButton(width: 45))
+                }
             }
-            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + 65).rotationEffect(.degrees(180))
-                .offset(y: transitionToggle ? -65 : -(geometry.size.height + 65)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            .padding(.all, 15)
+            VStack(spacing: 0) {
+                PlayerSelectionView(witches: $topWitches, isTop: true).disabled(topReady)
+                ZStack {
+                    Rectangle().fill(Color("highlight")).frame(height: 2)
+                    CustomText(text: "X", fontColor: Color("highlight"), fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color.purple)
+                }
+                .padding(.all, 15)
+                PlayerSelectionView(witches: $bottomWitches, isTop: false).disabled(bottomReady)
+            }
+            ZigZag().fill(Color("panel")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 65).rotationEffect(.degrees(180)).offset(y: transitionToggle ? 0 : -geometry.size.height - geometry.safeAreaInsets.top - geometry.safeAreaInsets.bottom - 65).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false
@@ -160,6 +151,5 @@ struct FightSelectionView: View {
 struct FightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
         FightSelectionView()
-.previewInterfaceOrientation(.landscapeRight)
     }
 }

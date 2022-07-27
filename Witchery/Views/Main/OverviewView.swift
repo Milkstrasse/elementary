@@ -15,16 +15,16 @@ struct OverviewView: View {
     @State var currentArray: [Witch] = GlobalData.shared.witches
     @State var currentElement: Int = -1
     
-    @Binding var overviewToggle: Bool
     @Binding var offsetX: CGFloat
+    @Binding var overviewToggle: Bool
     
     /// Returns the amount of rows needed to display all relevant witches.
     /// - Returns: Returns the amount of rows needed
     func getRowAmount() -> Int {
-        if currentArray.count%3 > 0 {
-            return currentArray.count/3 + 1
+        if currentArray.count%4 > 0 {
+            return currentArray.count/4 + 1
         } else {
-            return currentArray.count/3
+            return currentArray.count/4
         }
     }
     
@@ -32,11 +32,11 @@ struct OverviewView: View {
     /// - Parameter row: The current row
     /// - Returns: Returns an filtered array of witches
     func getSubArray(row: Int) -> [Witch] {
-        if (3 + row * 3) < currentArray.count {
-            let rowArray = currentArray[row * 3 ..< 3 + row * 3]
+        if (4 + row * 4) < currentArray.count {
+            let rowArray = currentArray[row * 4 ..< 4 + row * 4]
             return Array(rowArray)
         } else {
-            let rowArray = currentArray[row * 3 ..< currentArray.count]
+            let rowArray = currentArray[row * 4 ..< currentArray.count]
             return Array(rowArray)
         }
     }
@@ -72,64 +72,46 @@ struct OverviewView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack(alignment: .top) {
-                if witchSelected {
-                    HStack(alignment: .top) {
-                        Button(infoToggle ? "X" : "?") {
-                            AudioPlayer.shared.playStandardSound()
-                            infoToggle = !infoToggle
+            VStack(alignment: .leading) {
+                Button(infoToggle ? "X" : "?") {
+                    if infoToggle {
+                        AudioPlayer.shared.playCancelSound()
+                        offsetX = offsetX/2
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            infoToggle = false
                         }
-                        .buttonStyle(BasicButton(width: 40, bgColor: Color("health")))
-                        Spacer()
-                        ZStack {
-                            Color("background")
-                            VStack(alignment: .leading, spacing: 0) {
-                                ZStack(alignment: .leading) {
-                                    Rectangle().fill(Color("outline")).frame(height: 2)
-                                    CustomText(key: currentWitch.name, fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("background")).offset(x: 10)
-                                }
-                                .frame(height: 60)
-                                ScrollView(.vertical, showsIndicators: false) {
-                                    VStack(spacing: 5) {
-                                        BaseWitchesOverviewView(base: currentWitch.getModifiedBase(), bgColor: Color("health")).padding(.bottom, 5)
-                                        ForEach(currentWitch.spells, id: \.self) { spell in
-                                            DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, inverted: true)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .frame(width: geometry.size.height - 30).offset(x: infoToggle ? 0 : 225).animation(.linear(duration: 0.2), value: infoToggle)
+                    } else {
+                        AudioPlayer.shared.playStandardSound()
+                        infoToggle = true
                     }
-                    .padding(.all, 15)
                 }
-                ZStack(alignment: .trailing) {
-                    HStack(spacing: 0) {
-                        Spacer()
-                        Triangle().fill(Color("panel"))
-                        Rectangle().fill(Color("panel")).frame(width: 315 + geometry.safeAreaInsets.trailing)
-                    }
-                    .offset(x: geometry.safeAreaInsets.trailing)
-                    VStack(alignment: .leading, spacing: 0) {
-                        ZStack(alignment: .leading) {
-                            Rectangle().fill(Color("outline")).frame(height: 2)
-                            CustomText(key: "overview", fontSize: largeFontSize, isBold: true).padding(.horizontal, 10).background(Color("panel")).offset(x: 10)
-                        }
-                        .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
+                .buttonStyle(BasicButton(width: 45))
+                .padding(.all, 15)
+                Spacer()
+                ZStack {
+                    VStack(spacing: 10) {
+                        Text(Localization.shared.getTranslation(key: "overview")).foregroundColor(Color.white).frame(maxWidth: .infinity, alignment: .leading).frame(height: 60)
+                            .padding(.horizontal, 15)
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: 8) {
+                            VStack(spacing: 10) {
                                 ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
-                                    HStack(spacing: 8) {
+                                    HStack(spacing: 10) {
                                         ForEach(self.getSubArray(row: row), id: \.self) { witch in
                                             Button(action: {
                                                 AudioPlayer.shared.playConfirmSound()
                                                 witchSelected = true
                                                 currentWitch = witch
                                             }) {
-                                                RectangleWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
+                                                Button(action: {
+                                                    AudioPlayer.shared.playConfirmSound()
+                                                    witchSelected = true
+                                                    currentWitch = witch
+                                                }) {
+                                                    SquareWitchView(witch: witch, isSelected: self.isSelected(witch: witch), size: (geometry.size.width - 60)/4)
+                                                }
                                             }
                                         }
-                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count, id:\.self) { _ in
+                                        ForEach(0 ..< 4 - self.getSubArray(row: row).count, id:\.self) { _ in
                                             Color.clear
                                         }
                                     }
@@ -137,11 +119,9 @@ struct OverviewView: View {
                             }
                             .padding(.horizontal, 15)
                         }
-                        Spacer().frame(height: 10)
-                        HStack(spacing: 5) {
-                            Spacer()
+                        HStack(spacing: 10) {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: 160, height: 40)
+                                RoundedRectangle(cornerRadius: 5).fill(Color("button")).frame(width: geometry.size.width - 85, height: 45)
                                 HStack {
                                     Button("<") {
                                         AudioPlayer.shared.playStandardSound()
@@ -154,9 +134,9 @@ struct OverviewView: View {
                                         
                                         setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
-                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 45, height: 45))
                                     Spacer()
-                                    CustomText(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name, fontSize: smallFontSize).frame(width: 65)
+                                    Text(currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).frame(width: 90)
                                     Spacer()
                                     Button(">") {
                                         AudioPlayer.shared.playStandardSound()
@@ -169,37 +149,52 @@ struct OverviewView: View {
                                         
                                         setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
                                     }
-                                    .buttonStyle(ClearBasicButton(width: 40, height: 40))
+                                    .buttonStyle(ClearBasicButton(width: 45, height: 45))
                                 }
-                                .frame(width: 145)
                             }
-                            Button("X") {
+                            Button(Localization.shared.getTranslation(key: "X")) {
                                 AudioPlayer.shared.playCancelSound()
                                 witchSelected = false
-                                offsetX = -450
+                                offsetX = 0
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     overviewToggle = false
                                 }
                             }
-                            .buttonStyle(BasicButton(width: 40))
+                            .buttonStyle(BasicButton(width: 45))
                         }
-                        .padding(.trailing, 15)
+                        .padding(.horizontal, 15)
                     }
-                    .frame(width: 340).padding(.vertical, 15)
+                    .padding(.vertical, 15).offset(x: geometry.size.width - offsetX).animation(.linear(duration: 0.2), value: offsetX).frame(height: 355)
+                    if infoToggle {
+                        VStack(spacing: 10) {
+                            Text(Localization.shared.getTranslation(key: currentWitch.name)).foregroundColor(Color.white).frame(maxWidth: .infinity, alignment: .leading).frame(height: 60)
+                                .padding(.horizontal, 15)
+                            ScrollView(.vertical, showsIndicators: false) {
+                                VStack(spacing: 5) {
+                                    BaseWitchOverviewView(base: currentWitch.getModifiedBase(), bgColor: Color("health")).padding(.bottom, 5)
+                                    ForEach(currentWitch.spells, id: \.self) { spell in
+                                        DetailedActionView(title: spell.name, description: spell.name + "Descr", symbol: spell.element.symbol, inverted: true)
+                                    }
+                                }
+                                .padding(.horizontal, 15)
+                            }
+                        }
+                        .padding(.vertical, 15).offset(x: 2 * geometry.size.width - offsetX).animation(.linear(duration: 0.2), value: offsetX).frame(height: 355)
+                        .onAppear {
+                            offsetX = 2 * offsetX
+                        }
+                    }
                 }
-                .padding(.trailing, offsetX).animation(.linear(duration: 0.2), value: offsetX).offset(x: infoToggle ? 316 + geometry.safeAreaInsets.trailing + geometry.size.height/2.75 : 0).animation(.linear(duration: 0.2), value: infoToggle)
             }
-            .ignoresSafeArea(.all, edges: .bottom)
-        }
-        .onAppear {
-            offsetX = 0
+            .onAppear {
+                offsetX = geometry.size.width
+            }
         }
     }
 }
 
-struct WitchesOverviewView_Previews: PreviewProvider {
+struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView(currentWitch: Binding.constant(exampleWitch), overviewToggle: Binding.constant(true), offsetX: Binding.constant(0))
-.previewInterfaceOrientation(.landscapeLeft)
+        OverviewView(currentWitch: Binding.constant(exampleWitch), offsetX: Binding.constant(0), overviewToggle: Binding.constant(true))
     }
 }

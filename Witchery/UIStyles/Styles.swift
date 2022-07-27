@@ -14,9 +14,7 @@ let largeFontSize: CGFloat = 18
 
 struct BasicButton: ButtonStyle {
     var width: CGFloat
-    var height: CGFloat = 40
-    
-    var bgColor: Color = Color("button")
+    var height: CGFloat = 45
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -24,11 +22,10 @@ struct BasicButton: ButtonStyle {
             .offset(x: width == height ? 0 : 15)
             .background(content: {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 5).fill(bgColor)
+                    RoundedRectangle(cornerRadius: 5).fill(Color(red: 0.24, green: 0.22, blue: 0.35))
                 }
             })
-            .font(.custom("KGMissKindyChunky", size: smallFontSize))
-            .foregroundColor(Color("outline"))
+            .foregroundColor(Color.white)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
@@ -36,14 +33,13 @@ struct BasicButton: ButtonStyle {
 
 struct ClearBasicButton: ButtonStyle {
     var width: CGFloat
-    var height: CGFloat
+    var height: CGFloat = 45
     
     var fontColor: Color = Color("outline")
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: width, height: height)
-            .font(.custom("KGMissKindyChunky", size: smallFontSize))
             .foregroundColor(fontColor)
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
@@ -57,7 +53,7 @@ struct ClearButton: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: width, height: height, alignment: .bottomLeading)
+            .frame(width: width, height: height, alignment: .bottomTrailing)
             .font(.custom("KGMissKindyChunky", size: smallFontSize))
             .foregroundColor(Color("outline"))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
