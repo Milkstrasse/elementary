@@ -69,7 +69,7 @@ struct PlayerFightView: View {
                                 Rectangle().frame(height: 50)
                                 HStack(spacing: 5) {
                                     Spacer()
-                                    ForEach(player.witches.indices, id:\.self) { index in
+                                    ForEach(player.witches.indices, id: \.self) { index in
                                         Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(player.witches[index].currhp == 0 ? 0.5 : 1)
                                     }
                                 }
@@ -233,7 +233,7 @@ struct PlayerFightView: View {
                                     .padding(.bottom, 4).offset(x: -1).frame(width: 210)
                                     VStack(alignment: .leading, spacing: 0) {
                                         HStack(spacing: 5) {
-                                            ForEach(player.witches.indices, id:\.self) { index in
+                                            ForEach(player.witches.indices, id:  \.self) { index in
                                                 Circle().fill(Color("outline")).frame(width: 10, height: 10).opacity(player.witches[index].currhp == 0 ? 0.5 : 1)
                                             }
                                         }

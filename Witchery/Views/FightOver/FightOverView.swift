@@ -80,7 +80,7 @@ struct FightOverView: View {
                     ForEach(topWitches, id: \.self) { witch in
                         SquareWitchView(witch: witch, isSelected: false, inverted: true)
                     }
-                    ForEach(0 ..< 4 - topWitches.count, id:\.self) { index in
+                    ForEach(0 ..< 4 - topWitches.count, id:  \.self) { index in
                         SquareWitchView(witch: nil, isSelected: false, inverted: true)
                     }
                     Spacer()
@@ -96,7 +96,7 @@ struct FightOverView: View {
                     ForEach(bottomWitches, id: \.self) { witch in
                         SquareWitchView(witch: witch, isSelected: false, inverted: true)
                     }
-                    ForEach(0 ..< 4 - bottomWitches.count, id:\.self) { index in
+                    ForEach(0 ..< 4 - bottomWitches.count, id:  \.self) { index in
                         SquareWitchView(witch: nil, isSelected: false, inverted: true)
                     }
                     Spacer()

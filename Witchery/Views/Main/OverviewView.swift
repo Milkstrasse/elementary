@@ -94,7 +94,7 @@ struct OverviewView: View {
                             .padding(.horizontal, 15)
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 10) {
-                                ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
+                                ForEach(0 ..< self.getRowAmount(), id:  \.self) { row in
                                     HStack(spacing: 10) {
                                         ForEach(self.getSubArray(row: row), id: \.self) { witch in
                                             Button(action: {
@@ -111,7 +111,7 @@ struct OverviewView: View {
                                                 }
                                             }
                                         }
-                                        ForEach(0 ..< 4 - self.getSubArray(row: row).count, id:\.self) { _ in
+                                        ForEach(0 ..< 4 - self.getSubArray(row: row).count, id:  \.self) { _ in
                                             Color.clear
                                         }
                                     }
