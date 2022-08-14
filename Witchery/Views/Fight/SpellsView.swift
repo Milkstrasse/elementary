@@ -17,8 +17,8 @@ struct SpellsView: View {
     
     let geoHeight: CGFloat
     
-    @State var gestureStates: [Bool] = []
-    @GestureState var isDetectingPress = false
+    @State var isDetectingPress: Bool = false
+    @State var selectIndex: Int = -1
     
     /// Returns the effectiveness of a spell against the current opponent.
     /// - Parameter spellElement: The element of the spell
@@ -59,11 +59,11 @@ struct SpellsView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                ForEach(player.getCurrentWitch().spells.indices, id:\.self) { index in
+                ForEach(player.getCurrentWitch().spells.indices, id: \.self) { index in
                     Button(action: {
                     }) {
                         ZStack {
-                            if isDetectingPress {
+                            if isDetectingPress && selectIndex == index {
                                 DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: player.getCurrentWitch().spells[index].name + "Descr", symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
                             } else {
                                 DetailedActionView(title: player.getCurrentWitch().spells[index].name, description: generateDescription(spell: player.getCurrentWitch().spells[index], witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().spells[index].element.symbol, width: geoHeight - 30)
@@ -71,8 +71,19 @@ struct SpellsView: View {
                         }
                         .rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         .simultaneousGesture(
-                            LongPressGesture(minimumDuration: .infinity)
-                                .updating($isDetectingPress) { value, state, _ in state = value }
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    if selectIndex < 0 {
+                                        selectIndex = index
+                                    }
+                                    
+                                    isDetectingPress = true
+                                }
+                                .onEnded({ _ in
+                                    selectIndex = -1
+                                    
+                                    isDetectingPress = false
+                                })
                         )
                         .highPriorityGesture(
                             TapGesture()

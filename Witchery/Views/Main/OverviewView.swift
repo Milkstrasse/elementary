@@ -118,7 +118,7 @@ struct OverviewView: View {
                         .frame(height: 60).padding(.horizontal, 15).padding(.leading, 10)
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 8) {
-                                ForEach(0 ..< self.getRowAmount(), id:\.self) { row in
+                                ForEach(0 ..< self.getRowAmount(), id: \.self) { row in
                                     HStack(spacing: 8) {
                                         ForEach(self.getSubArray(row: row), id: \.self) { witch in
                                             Button(action: {
@@ -129,7 +129,7 @@ struct OverviewView: View {
                                                 RectangleWitchView(witch: witch, isSelected: self.isSelected(witch: witch))
                                             }
                                         }
-                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count, id:\.self) { _ in
+                                        ForEach(0 ..< 3 - self.getSubArray(row: row).count, id: \.self) { _ in
                                             Color.clear
                                         }
                                     }

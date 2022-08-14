@@ -15,16 +15,16 @@ struct TeamView: View {
     
     let geoHeight: CGFloat
     
-    @State var gestureStates: [Bool] = []
-    @GestureState var isDetectingPress = false
+    @State var isDetectingPress: Bool = false
+    @State var selectIndex: Int = -1
     
     /// Generates and returns info on a witch.
     /// - Parameter witch: The current witch
     /// - Returns: Returns generated info on a witch
-    func generateInfo(witch: Witch) -> String {
+    func generateInfo(witch: Witch, index: Int) -> String {
         var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(witch.currhp)", "\(witch.getModifiedBase().health)"]) + " - "
         
-        if isDetectingPress {
+        if isDetectingPress && selectIndex == index {
             text += Localization.shared.getTranslation(key: witch.getArtifact().name)
         } else {
             var oppositePlayer: Player = fightLogic.players[0]
@@ -47,22 +47,44 @@ struct TeamView: View {
     var body: some View {
         ScrollViewReader { value in
             HStack(spacing: 5) {
-                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch()), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
+                DetailedActionView(title: player.getCurrentWitch().name, description: generateInfo(witch: player.getCurrentWitch(), index: 0), symbol: player.getCurrentWitch().getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30).padding(.trailing, 5).id(0)
                     .onTapGesture {}
                     .gesture(
-                        LongPressGesture(minimumDuration: .infinity)
-                            .updating($isDetectingPress) { value, state, _ in state = value }
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                if selectIndex < 0 {
+                                    selectIndex = 0
+                                }
+                                
+                                isDetectingPress = true
+                            }
+                            .onEnded({ _ in
+                                selectIndex = -1
+                                
+                                isDetectingPress = false
+                            })
                     )
-                ForEach(player.witches.indices, id:\.self) { index in
+                ForEach(player.witches.indices, id: \.self) { index in
                     if index != player.currentWitchId {
                         Button(action: {
                         }) {
-                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index]), symbol: player.witches[index].getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
+                            DetailedActionView(title: player.witches[index].name, description: generateInfo(witch: player.witches[index], index: index), symbol: player.witches[index].getElement().symbol, width: geoHeight - 30).rotationEffect(.degrees(-90)).frame(width: 60, height: geoHeight - 30)
                         }
                         .id(index + 1).opacity(player.witches[index].currhp == 0 ? 0.7 : 1.0).disabled(player.witches[index].currhp == 0)
                         .simultaneousGesture(
-                            LongPressGesture(minimumDuration: .infinity)
-                                .updating($isDetectingPress) { value, state, _ in state = value }
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { value in
+                                    if selectIndex < 0 {
+                                        selectIndex = index
+                                    }
+                                    
+                                    isDetectingPress = true
+                                }
+                                .onEnded({ _ in
+                                    selectIndex = -1
+                                    
+                                    isDetectingPress = false
+                                })
                         )
                         .highPriorityGesture(
                             TapGesture()
