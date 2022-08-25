@@ -73,11 +73,13 @@ struct DamageCalculator {
         
         let damage: Int = Int(round(dmg))
         
-        if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue {
-            target.currhp = 1
-            target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-        } else if damage >= target.currhp { //prevent hp below 0
-            target.currhp = 0
+        if damage >= target.currhp { //prevent hp below 0
+            if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue {
+                target.currhp = 1
+                target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+            } else {
+                target.currhp = 0
+            }
         } else {
             target.currhp -= damage
         }
