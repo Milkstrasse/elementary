@@ -318,6 +318,8 @@ class FightLogic: ObservableObject {
             
             if player.getCurrentFighter().getArtifact().name == Artifacts.sword.rawValue && player.usedMoves[0].spell.typeID < 10 {
                 playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
+            } else if  oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.helmet.rawValue && player.usedMoves[0].spell.typeID < 10 {
+                playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
             }
         } else { //this is a swap or spell will fail
             playerQueue.append((player: player, index: 0))

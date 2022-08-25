@@ -20,6 +20,7 @@ enum Artifacts: String, CaseIterable {
     case corset
     case crystal
     case grimoire
+    case helmet
     case incense
     case mask
     case potion
