@@ -1,0 +1,92 @@
+//
+//  InfoView.swift
+//  Elementary
+//
+//  Created by Janice Hablützel on 25.08.22.
+//
+
+import SwiftUI
+
+struct InfoView: View {
+    let fightLogic: FightLogic
+    let player: Player
+    
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
+    func createSymbol(symbol: UInt16) -> String {
+        return String(Character(UnicodeScalar(symbol) ?? "\u{2718}"))
+    }
+    
+    var body: some View {
+        ScrollViewReader { value in
+            VStack(spacing: innerPadding) {
+                ZStack {
+                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    VStack(alignment: .leading, spacing: 2) {
+                        CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: 16, isBold: true)
+                        ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
+                            HStack {
+                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative"))
+                                CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: 14)
+                                Spacer()
+                            }
+                        }
+                        if player.getCurrentFighter().hexes.isEmpty {
+                            HStack {
+                                CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: 14)
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding(.all, innerPadding)
+                }
+                .id(0)
+                ZStack {
+                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    VStack(alignment: .leading, spacing: 2) {
+                        CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().name).uppercased(), fontSize: 16, isBold: true)
+                        ForEach(fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes, id: \.self) { hex in
+                            HStack {
+                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative"))
+                                CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: 14)
+                                Spacer()
+                            }
+                        }
+                        if fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes.isEmpty {
+                            HStack {
+                                CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: 14)
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding(.all, innerPadding)
+                }
+                ZStack {
+                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    VStack(alignment: .leading, spacing: 2) {
+                        CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: 16, isBold: true)
+                        HStack {
+                            if let weather = fightLogic.weather {
+                                Text(createSymbol(symbol: weather.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                                CustomText(text: Localization.shared.getTranslation(key: weather.name + "Descr"), fontSize: 14)
+                            } else {
+                                CustomText(text: Localization.shared.getTranslation(key: "noWeather"), fontSize: 14)
+                            }
+                            Spacer()
+                        }
+                    }
+                    .padding(.all, innerPadding)
+                }
+            }
+            .onAppear {
+                value.scrollTo(0)
+            }
+        }
+    }
+}
+
+struct InfoView_Previews: PreviewProvider {
+    static var previews: some View {
+        InfoView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 1, fighters: [exampleFighter]))
+    }
+}

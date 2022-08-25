@@ -1,0 +1,47 @@
+//
+//  Move.swift
+//  Elementary
+//
+//  Created by Janice Hablützel on 17.01.22.
+//
+
+/// A move is an action made by a fighter. Can either be a swap with another fighter or a spell.
+struct Move {
+    private let source: Fighter
+    let target: Int
+    
+    var spell: Spell
+    
+    /// Creates a move.
+    /// - Parameters:
+    ///   - source: The fighter that made the move
+    ///   - target: The target for a swap, set to -1 if the move is not a swap
+    ///   - spell: The spell used to make the move, set to placeholder spell f the move is a swap
+    init(source: Fighter, target: Int = -1, spell: Spell = Spell()) {
+        self.source = source
+        self.target = target
+        
+        self.spell = spell
+    }
+    
+    /// Mana is subtracted from the spell.
+    /// - Parameter amount: The amount of mana used on the spell
+    mutating func useSpell(amount: Int) {
+        if spell == Spell() { //hints that move was a swap -> no need to increase counter
+            return
+        }
+        
+        //find index of spell since spells cannot be mutated directly
+        var spellIndex: Int = 0
+        for sourceSpell in source.spells {
+            if sourceSpell == spell {
+                break
+            }
+            
+            spellIndex += 1
+        }
+        
+        spell.useCounter += amount
+        source.spells[spellIndex] = spell
+    }
+}
