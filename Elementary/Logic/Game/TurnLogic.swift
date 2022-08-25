@@ -100,6 +100,23 @@ class TurnLogic {
     ///   - spell: The spell used to make the attack
     /// - Returns: Returns a description of what occured during the player's attack
     private func attack(player: Player, spell: Spell) -> String {
+        //recoil damage from sword artifact
+        if fightLogic!.playerQueue[0].index > spell.spells.count {
+            player.setState(state: PlayerState.hurting)
+            let target: Fighter = player.getCurrentFighter()
+            let damage: Int = target.getModifiedBase().health/10
+            
+            if damage >= target.currhp { //prevent hp below 0
+                target.currhp = 0
+            } else {
+                target.currhp -= damage
+            }
+            
+            print(target.name + " lost \(damage)DMG.\n")
+            
+            return Localization.shared.getTranslation(key: "hit")
+        }
+        
         //determine actual target
         var oppositePlayer: Player = fightLogic!.players[0]
         if player.id == 0 {

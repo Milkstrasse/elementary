@@ -84,7 +84,7 @@ class Fighter: Hashable, Equatable {
             defense += 40
         } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
             agility += 40
-        } else if getArtifact().name == Artifacts.corset.rawValue {
+        } else if getArtifact().name == Artifacts.corset.rawValue || getArtifact().name == Artifacts.sword.rawValue {
             attack += 40
         }
         
