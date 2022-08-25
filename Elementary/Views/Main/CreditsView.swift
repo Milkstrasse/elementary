@@ -69,7 +69,7 @@ struct CreditsView: View {
                                     .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 VStack(spacing: 2) {
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["icons", "FontAwesome"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["font", "Kimberly Geswein"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["font", "Christian Robertson"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                 }
                                 .padding(.all, innerPadding)
                             }
