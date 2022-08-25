@@ -66,7 +66,7 @@ struct TeamView: View {
                     if index != player.currentFighterId {
                         Button(action: {
                         }) {
-                            ActionView(titleKey: player.getCurrentFighter().name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.getCurrentFighter().getElement().symbol, color: Color(hex: player.getCurrentFighter().getElement().color))
+                            ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
                         }
                         .id(index + 1).opacity(player.fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(player.fighters[index].currhp == 0)
                         .simultaneousGesture(

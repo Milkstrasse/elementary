@@ -5,7 +5,7 @@
 //  Created by Janice Hablützel on 12.01.22.
 //
 
-/// Artifacts grant a fighter all kind of different effects duuring a fight.
+/// Artifacts grant a fighter all kind of different effects during a fight.
 struct Artifact {
     let name: String
     let description: String

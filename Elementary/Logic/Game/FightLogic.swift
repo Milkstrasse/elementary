@@ -32,10 +32,11 @@ class FightLogic: ObservableObject {
         
         //apply effect of artifact on "entering"
         if players[0].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex())
+            players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false)
         }
+        
         if players[1].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex())
+            players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false)
         }
         
         battleLog = [Localization.shared.getTranslation(key: "fightBegin")]
@@ -383,9 +384,11 @@ class FightLogic: ObservableObject {
             oppositePlayer = players[1]
         }
         
-        if oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            if player.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex()) {
-                text += Localization.shared.getTranslation(key: "statDecreased", params: [player.getCurrentFighter().name, "attack"]) + "\n"
+        if player.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
+            if oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
+                text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
+            } else {
+                text += Localization.shared.getTranslation(key: "hexFailed")
             }
         }
                                                                                 
