@@ -20,7 +20,6 @@ class TurnLogic {
     /// - Returns: Returns a description of what occured during the player's turn
     func startTurn(player: Player, fightLogic: FightLogic) -> String {
         self.fightLogic = fightLogic
-        var battleLog: String
         
         let attacker: Fighter = player.getCurrentFighter()
         

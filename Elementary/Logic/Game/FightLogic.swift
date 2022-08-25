@@ -16,6 +16,7 @@ class FightLogic: ObservableObject {
     var playerQueue: [(player: Player, index: Int)] = []
     
     @Published var battling: Bool = false
+    var backupLog: [String]
     @Published var battleLog: [String]
     @Published var gameOver: Bool = false
     
@@ -27,16 +28,21 @@ class FightLogic: ObservableObject {
     ///   - hasCPUPlayer: If one of the players is the CPU
     init(players: [Player], hasCPUPlayer: Bool = false) {
         self.hasCPUPlayer = hasCPUPlayer
+        backupLog = []
 
         self.players = players
         
         //apply effect of artifact on "entering"
         if players[0].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false)
+            if players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
+                backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [players[1].getCurrentFighter().name, "attack"]))
+            }
         }
         
         if players[1].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false)
+            if players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
+                backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [players[0].getCurrentFighter().name, "attack"]))
+            }
         }
         
         battleLog = [Localization.shared.getTranslation(key: "fightBegin")]
@@ -67,7 +73,7 @@ class FightLogic: ObservableObject {
         if player.hasToSwap { //fighter either fainted or has special artifact to swap
             if !player.getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) || player.getCurrentFighter().currhp == 0 {
                 if move.target > -1 {
-                    swapFighters(player: player, target: move.target)
+                    backupLog.append(swapFighters(player: player, target: move.target))
                 }
                 
                 return false //action is free, new fighter can make a move
@@ -81,7 +87,7 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true))
+                backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true)))
             }
             
             var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastMove: players[0].usedMoves.first)
@@ -108,63 +114,68 @@ class FightLogic: ObservableObject {
             var endRound: Bool = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                var turns: Int = 0
+                var turns: Int = -1
                 //amount of turns first player needs to do their action
                 let firstTurns: Int = playerQueue.count
                 
                 //processes all actions on playerQueue
                 Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { [self] timer in
-                    let currentPlayer: Player = playerQueue[0].player;
-                    turns += 1
-                    
-                    if turns == 1 {
+                    if turns < 0 {
                         battleLog = []
+                        turns = 0
                     }
                     
-                    startTurn(player: currentPlayer)
-                    playerQueue.removeFirst()
-                    
-                    if playerQueue.isEmpty && !endRound { //adds new action if neccessary during the fight
-                        endRound = addTurns(currentPlayer: currentPlayer, turns: turns, firstTurns: firstTurns)
-                    }
-                    
-                    if playerQueue.isEmpty {
-                        timer.invalidate()
+                    if !backupLog.isEmpty {
+                        battleLog.append(backupLog.removeFirst())
+                    } else {
+                        let currentPlayer: Player = playerQueue[0].player;
+                        turns += 1
                         
-                        //decrease counter of all hexes and remove if duration reached 0
-                        if weather != nil {
-                            weather!.duration -= 1
-                            
-                            if weather!.duration == 0 {
-                                weather = nil
-                            }
+                        startTurn(player: currentPlayer)
+                        playerQueue.removeFirst()
+                        
+                        if playerQueue.isEmpty && !endRound { //adds new action if neccessary during the fight
+                            endRound = addTurns(currentPlayer: currentPlayer, turns: turns, firstTurns: firstTurns)
                         }
                         
-                        for hex in players[0].getCurrentFighter().hexes {
-                            hex.duration -= 1
+                        if playerQueue.isEmpty {
+                            timer.invalidate()
                             
-                            if hex.duration == 0 {
-                                players[0].getCurrentFighter().removeHex(hex: hex)
+                            //decrease counter of all hexes and remove if duration reached 0
+                            if weather != nil {
+                                weather!.duration -= 1
+                                
+                                if weather!.duration == 0 {
+                                    weather = nil
+                                }
                             }
-                        }
-                        for hex in players[1].getCurrentFighter().hexes {
-                            hex.duration -= 1
                             
-                            if hex.duration == 0 {
-                                players[1].getCurrentFighter().removeHex(hex: hex)
+                            for hex in players[0].getCurrentFighter().hexes {
+                                hex.duration -= 1
+                                
+                                if hex.duration == 0 {
+                                    players[0].getCurrentFighter().removeHex(hex: hex)
+                                }
                             }
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                            AudioPlayer.shared.playConfirmSound()
+                            for hex in players[1].getCurrentFighter().hexes {
+                                hex.duration -= 1
+                                
+                                if hex.duration == 0 {
+                                    players[1].getCurrentFighter().removeHex(hex: hex)
+                                }
+                            }
                             
-                            gameLogic.setReady(player: 0, ready: false)
-                            gameLogic.setReady(player: 1, ready: false)
-                            //players are now able to choose their moves again
-                            
-                            battling = false
-                            
-                            BattleLog.shared.addBattleLog(log: battleLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                                AudioPlayer.shared.playConfirmSound()
+                                
+                                gameLogic.setReady(player: 0, ready: false)
+                                gameLogic.setReady(player: 1, ready: false)
+                                //players are now able to choose their moves again
+                                
+                                battling = false
+                                
+                                BattleLog.shared.addBattleLog(log: battleLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
+                            }
                         }
                     }
                 }

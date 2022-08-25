@@ -138,6 +138,7 @@ struct FightOverView: View {
         }
         .onAppear {
             transitionToggle = false
+            AudioPlayer.shared.playMenuMusic()
         }
     }
 }
