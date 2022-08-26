@@ -18,6 +18,7 @@ class Player: ObservableObject {
     var usedMoves: [Move]
     var hasToSwap: Bool
     var wishActivated: Bool
+    var tauntCounter: Int
     
     @Published var state: PlayerState
     
@@ -33,6 +34,7 @@ class Player: ObservableObject {
         usedMoves = []
         hasToSwap = false
         wishActivated = false
+        tauntCounter = 0
         
         state = PlayerState.neutral
     }

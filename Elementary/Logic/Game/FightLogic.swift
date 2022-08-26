@@ -165,6 +165,13 @@ class FightLogic: ObservableObject {
                                 }
                             }
                             
+                            if players[0].tauntCounter > 0 {
+                                players[0].tauntCounter -= 1
+                            }
+                            if players[1].tauntCounter > 0 {
+                                players[1].tauntCounter -= 1
+                            }
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                                 AudioPlayer.shared.playConfirmSound()
                                 

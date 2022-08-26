@@ -134,7 +134,9 @@ class TurnLogic {
                     }
                 }
             }
-        } else if oppositePlayer.usedMoves[0].spell.typeID == 20 && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
+        }
+        
+        if player.tauntCounter > 0 && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
             return Localization.shared.getTranslation(key: "fail")
         }
         
@@ -233,6 +235,7 @@ class TurnLogic {
                 
                     return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])
                 case 20:
+                    oppositePlayer.tauntCounter = 3
                     return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
                 default:
                     break
