@@ -12,6 +12,6 @@
       "woodSimpleAttack",
       "woodSpecialAttack",
       "trap",
-      "taunt"
+      "block"
   ]
 }
