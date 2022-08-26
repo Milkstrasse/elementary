@@ -15,7 +15,7 @@ struct Spell: Decodable, Hashable {
     
     let uses: Int
     var useCounter: Int = 0
-    let spells: [SubSpell]
+    var spells: [SubSpell]
     
     enum CodingKeys: String, CodingKey {
         case element, typeID, priority, uses, spells
@@ -67,7 +67,7 @@ struct SubSpell: Decodable {
     let hex: String?
     let weather: String?
     
-    let healAmount: Int
+    var healAmount: Int
     
     enum CodingKeys: String, CodingKey {
         case power, range, chance, hex, weather, healAmount

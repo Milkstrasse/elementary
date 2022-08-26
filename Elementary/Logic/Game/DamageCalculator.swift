@@ -21,7 +21,7 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     ///   - usedShield: Indicates wether the opponent used a shield successfully
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Fighter, defender: Fighter, spell: Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
+    func applyDamage(attacker: Fighter, defender: Fighter, spell: inout Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
         var text: String = Localization.shared.getTranslation(key: "hit")
         
         //determine actual target
@@ -82,6 +82,14 @@ struct DamageCalculator {
             }
         } else {
             target.currhp -= damage
+        }
+        
+        if spell.typeID == 9 {
+            var healAmount: Float = max(Float(damage) * 0.75, 1)
+            healAmount = 100/(Float(attacker.getModifiedBase().health)/healAmount)
+            healAmount = roundf(healAmount)
+            
+            spell.spells[spell.spells.count - 1].healAmount = Int(healAmount)
         }
         
         print(target.name + " lost \(damage)DMG.\n")

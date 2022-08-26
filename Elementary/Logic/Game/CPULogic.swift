@@ -53,7 +53,7 @@ struct CPULogic {
             bestSpell = (calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[0]], weather: weather), 0)
             
             for index in 1 ..< availableSpells.count {
-                if attacker.spells[availableSpells[index]].typeID < 9 {
+                if attacker.spells[availableSpells[index]].typeID < 10 {
                     let dmg: Float = calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], weather: weather)
                     if dmg > bestSpell.0 {
                         bestSpell = (dmg, index)
@@ -61,12 +61,12 @@ struct CPULogic {
                 }
             }
             
-            if  attacker.spells[bestSpell.1].typeID < 9 {
+            if  attacker.spells[bestSpell.1].typeID < 10 {
                 return Move(source: attacker, target: -1, spell: attacker.spells[bestSpell.1])
             }
         }
         
-        //target will switch?
+        //predict if target will swap
         var rndm: Int = Int.random(in: 0 ..< 2)
         if rndm > 0 {
             if defender.getElement().hasDisadvantage(element: attacker.getElement()) && target.isAbleToSwap() {
@@ -79,7 +79,7 @@ struct CPULogic {
         
         //top priority: find move that defeats the enemy fighter!
         for index in availableSpells.indices {
-            if attacker.spells[availableSpells[index]].typeID < 9 {
+            if attacker.spells[availableSpells[index]].typeID < 10 {
                 if DamageCalculator.shared.willDefeatFighter(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], subSpell: attacker.spells[availableSpells[index]].spells[0], spellElement: attacker.spells[availableSpells[index]].element, weather: weather) {
                     return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                 }
@@ -87,6 +87,13 @@ struct CPULogic {
         }
         
         //avoid fighting against enemy with advantage
+        for index in availableSpells { //force out
+            if attacker.spells[availableSpells[index]].typeID == 15 {
+                return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
+            }
+        }
+        
+        //swap
         if attacker.getElement().hasDisadvantage(element: defender.getElement()) && player.isAbleToSwap() {
             if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false) != player.currentFighterId {
                 return nil
@@ -96,7 +103,7 @@ struct CPULogic {
         //low health -> should heal
         if attacker.currhp <= attacker.getModifiedBase().health/3 && !attacker.hasHex(hexName: Hexes.blocked.rawValue) {
             for index in availableSpells.indices {
-                if attacker.spells[availableSpells[index]].typeID == 11 {
+                if attacker.spells[availableSpells[index]].typeID == 12 {
                     return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                 }
             }
@@ -106,7 +113,7 @@ struct CPULogic {
         rndm = Int.random(in: 0 ..< 3)
         if rndm > 0 {
             for index in availableSpells.indices {
-                if attacker.spells[availableSpells[index]].typeID == 10 {
+                if attacker.spells[availableSpells[index]].typeID == 11 {
                     if weather?.name != attacker.spells[availableSpells[index]].spells[0].weather! {
                         return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                     }
@@ -118,7 +125,7 @@ struct CPULogic {
         if defender.getHexDuration(hexName: Hexes.poisoned.rawValue) > 0 || attacker.getHexDuration(hexName: Hexes.healed.rawValue) > 0 {
             if lastMove == nil || lastMove?.spell.typeID != 12 {
                 for index in availableSpells.indices {
-                    if attacker.spells[availableSpells[index]].typeID == 12 {
+                    if attacker.spells[availableSpells[index]].typeID == 13 {
                         return Move(source: attacker, target: -1, spell: attacker.spells[availableSpells[index]])
                     }
                 }
@@ -130,7 +137,7 @@ struct CPULogic {
         if rndm > 0 {
             if attacker.currhp > attacker.getModifiedBase().health/4 * 3 {
                 for index in availableSpells.indices {
-                    if attacker.spells[availableSpells[index]].typeID == 13 {
+                    if attacker.spells[availableSpells[index]].typeID == 14 {
                         if attacker.spells[availableSpells[index]].spells[0].range == 0 && attacker.hexes.count < 2 {
                             //protect fighter from negative hexes & useless move
                             if attacker.getArtifact().name != Artifacts.talisman.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
@@ -149,7 +156,7 @@ struct CPULogic {
         bestSpell = (calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[0]], weather: weather), 0)
         
         for index in 1 ..< availableSpells.count {
-            if attacker.spells[availableSpells[index]].typeID < 9 {
+            if attacker.spells[availableSpells[index]].typeID < 10 {
                 let dmg: Float = calcDamage(attacker: attacker, defender: defender, spell: attacker.spells[availableSpells[index]], weather: weather)
                 if dmg > bestSpell.0 {
                     bestSpell = (dmg, index)

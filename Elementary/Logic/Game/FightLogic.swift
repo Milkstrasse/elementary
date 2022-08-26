@@ -310,7 +310,7 @@ class FightLogic: ObservableObject {
             oppositePlayer = players[1]
         }
             
-        if player.usedMoves[0].spell.typeID == 9 { //player wants to copy enemy's move
+        if player.usedMoves[0].spell.typeID == 10 { //player wants to copy enemy's move
             if players[oppositePlayer.id].usedMoves[0].target < 0 {
                 player.usedMoves[0] = players[oppositePlayer.id].usedMoves[0]
             }
