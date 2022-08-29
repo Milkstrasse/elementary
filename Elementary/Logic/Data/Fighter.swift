@@ -147,10 +147,6 @@ class Fighter: Hashable, Equatable {
     /// - Parameter hex: The desired hex
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
-        if getArtifact().name == Artifacts.talisman.rawValue { //fighter can't be hexed
-            return false
-        }
-        
         if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < getModifiedBase().resistance/10 {
@@ -198,40 +194,40 @@ class Fighter: Hashable, Equatable {
             
             var bonus: Int = 0
             if getArtifact().name == Artifacts.incense.rawValue {
-                bonus = 10
+                bonus = 15
             }
             
             //makes changes to fighter if neccessary
             switch hex.name {
                 case Hexes.attackBoost.rawValue:
-                    attackMod += (20 + bonus)
+                    attackMod += (25 + bonus)
                     return true
                 case Hexes.attackDrop.rawValue:
-                    attackMod -= (20 + bonus)
+                    attackMod -= (25 + bonus)
                     return true
                 case Hexes.defenseBoost.rawValue:
-                    defenseMod += (20 + bonus)
+                    defenseMod += (25 + bonus)
                     return true
                 case Hexes.defenseDrop.rawValue:
-                    defenseMod -= (20 + bonus)
+                    defenseMod -= (25 + bonus)
                     return true
                 case Hexes.agilityBoost.rawValue:
-                    agilityMod += (20 + bonus)
+                    agilityMod += (25 + bonus)
                     return true
                 case Hexes.agilityDrop.rawValue:
-                    agilityMod -= (20 + bonus)
+                    agilityMod -= (25 + bonus)
                     return true
                 case Hexes.precisionBoost.rawValue:
-                    precisionMod += (20 + bonus)
+                    precisionMod += (25 + bonus)
                     return true
                 case Hexes.precisionDrop.rawValue:
-                    precisionMod -= (20 + bonus)
+                    precisionMod -= (25 + bonus)
                     return true
                 case Hexes.resistanceBoost.rawValue:
-                    resistanceMod += (20 + bonus)
+                    resistanceMod += (25 + bonus)
                     return true
                 case Hexes.resistanceDrop.rawValue:
-                    resistanceMod -= (20 + bonus)
+                    resistanceMod -= (25 + bonus)
                     return true
                 case Hexes.invigorated.rawValue:
                     manaUse = 1

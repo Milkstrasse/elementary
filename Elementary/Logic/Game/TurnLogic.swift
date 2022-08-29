@@ -181,58 +181,64 @@ class TurnLogic {
             }
         } else {
             switch player.usedMoves[0].spell.typeID {
-                case 6:
-                    if player.isAbleToSwap() {
-                        player.hasToSwap = true
-                        return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentFighter().name])
-                    }
-                case 13:
-                    let usedMoves: [Move] = player.usedMoves
-                
-                    //shield can't be used twice in a row -> failure
-                    if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
-                        return Localization.shared.getTranslation(key: "fail")
-                    } else {
-                        return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentFighter().name])
-                    }
-                case 15:
-                    if oppositePlayer.isAbleToSwap() {
-                        oppositePlayer.hasToSwap = true
-                        return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentFighter().name])
-                    }
-                case 16:
-                    let hexes: [Hex] = player.getCurrentFighter().hexes
-                
-                    player.getCurrentFighter().removeAllHexes()
-                    for hex in oppositePlayer.getCurrentFighter().hexes {
-                        player.getCurrentFighter().applyHex(hex: hex, resistable: false)
-                    }
-                
-                    oppositePlayer.getCurrentFighter().removeAllHexes()
-                    for hex in hexes {
-                        oppositePlayer.getCurrentFighter().applyHex(hex: hex, resistable: false)
-                    }
-                
-                    return Localization.shared.getTranslation(key: "swappedHexes")
-                case 17:
-                    player.getCurrentFighter().removeAllHexes()
-                    oppositePlayer.getCurrentFighter().removeAllHexes()
-                
-                    return Localization.shared.getTranslation(key: "clearedHexes")
-                case 18:
-                    oppositePlayer.getCurrentFighter().overrideElement(newElement: player.getCurrentFighter().getElement())
-                    return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentFighter().name, player.getCurrentFighter().getElement().name])
-                case 19:
-                    player.wishActivated = true
-                    player.getCurrentFighter().currhp = 0
+            case 6:
+                if player.isAbleToSwap() {
                     player.hasToSwap = true
+                    return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentFighter().name])
+                }
+            case 13:
+                let usedMoves: [Move] = player.usedMoves
                 
-                    return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])
-                case 20:
-                    oppositePlayer.getCurrentFighter().tauntCounter = 3
-                    return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
-                default:
-                    break
+                //shield can't be used twice in a row -> failure
+                if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
+                    return Localization.shared.getTranslation(key: "fail")
+                } else {
+                    return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentFighter().name])
+                }
+            case 15:
+                if oppositePlayer.isAbleToSwap() {
+                    oppositePlayer.hasToSwap = true
+                    return Localization.shared.getTranslation(key: "forcedOut", params: [oppositePlayer.getCurrentFighter().name])
+                }
+            case 16:
+                let hexes: [Hex] = player.getCurrentFighter().hexes
+                
+                player.getCurrentFighter().removeAllHexes()
+                for hex in oppositePlayer.getCurrentFighter().hexes {
+                    player.getCurrentFighter().applyHex(hex: hex, resistable: false)
+                }
+                
+                oppositePlayer.getCurrentFighter().removeAllHexes()
+                for hex in hexes {
+                    oppositePlayer.getCurrentFighter().applyHex(hex: hex, resistable: false)
+                }
+                
+                return Localization.shared.getTranslation(key: "swappedHexes")
+            case 17:
+                player.getCurrentFighter().removeAllHexes()
+                oppositePlayer.getCurrentFighter().removeAllHexes()
+                
+                return Localization.shared.getTranslation(key: "clearedHexes")
+            case 18:
+                oppositePlayer.getCurrentFighter().overrideElement(newElement: player.getCurrentFighter().getElement())
+                return Localization.shared.getTranslation(key: "elementChanged", params: [oppositePlayer.getCurrentFighter().name, player.getCurrentFighter().getElement().name])
+            case 19:
+                player.wishActivated = true
+                player.getCurrentFighter().currhp = 0
+                player.hasToSwap = true
+                
+                return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])
+            case 20:
+                oppositePlayer.getCurrentFighter().tauntCounter = 3
+                return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
+            case 21:
+                let artifact: Artifact = player.getCurrentFighter().getArtifact()
+                player.getCurrentFighter().overrideArtifact(artifact: oppositePlayer.getCurrentFighter().getArtifact())
+                oppositePlayer.getCurrentFighter().overrideArtifact(artifact: artifact)
+                
+                return Localization.shared.getTranslation(key: "swappedArtifacts")
+            default:
+                break
             }
             
             return Localization.shared.getTranslation(key: "fail")

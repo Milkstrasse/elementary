@@ -101,7 +101,7 @@
     "talaria": "Sandales ailées",
     "talariaDescr": "**Échange** après avoir été touché",
     "talisman": "Talisman magique",
-    "talismanDescr": "Protège contre **les sortilèges**",
+    "talismanDescr": "Renvoie **les sortilèges**",
     "wand": "Baguette de Sureau",
     "wandDescr": "Augmente **attaque** à faible PV",
     
@@ -171,6 +171,7 @@
     "clearedHexes": "Les sortilèges ont été supprimés.",
     "swappedHexes": "Les sortilèges ont été échangés.",
     "nameProvoked": "{0} a été provoquée.",
+    "swappedArtifacts": "Les artefacts ont été échangés.",
     
     "superEffective": "Super efficace",
     "veryEffective": "Très efficace",

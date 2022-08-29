@@ -25,7 +25,7 @@ struct HexApplication {
         
         //determine actual target
         var target: Fighter = defender
-        if spell.range == 0 {
+        if spell.range == 0 || defender.getArtifact().name == Artifacts.talisman.rawValue {
             target = attacker
         }
         
