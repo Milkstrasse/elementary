@@ -18,6 +18,7 @@ struct HexApplication {
     func applyHex(attacker: Fighter, defender: Fighter, spell: SubSpell) -> String {
         let chance: Int = Int.random(in: 0 ..< 100)
         if chance >= spell.chance + attacker.getModifiedBase().precision/8 {
+            AudioPlayer.shared.playCancelSound()
             return Localization.shared.getTranslation(key: "hexFailed")
         }
         
@@ -42,72 +43,94 @@ struct HexApplication {
         switch hex {
             case Hexes.attackBoost.rawValue:
                 if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.attackDrop.rawValue:
                 if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.defenseBoost.rawValue:
                 if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.defenseDrop.rawValue:
                 if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.agilityBoost.rawValue:
                 if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"])
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.agilityDrop.rawValue:
                 if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.precisionBoost.rawValue:
                 if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.precisionDrop.rawValue:
                 if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.resistanceBoost.rawValue:
                 if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             case Hexes.resistanceDrop.rawValue:
                 if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+                    AudioPlayer.shared.playConfirmSound()
                     return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
             default: //non stat hexes or unknown hex
                 if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
                     if target.applyHex(hex: appliedHex, resistable: spell.range == 0 ? false : true) {
+                        AudioPlayer.shared.playConfirmSound()
                         return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name])
                     } else {
+                        AudioPlayer.shared.playCancelSound()
                         return Localization.shared.getTranslation(key: "hexFailed")
                     }
                 } else {
+                    AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
         }

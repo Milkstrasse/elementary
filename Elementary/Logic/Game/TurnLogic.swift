@@ -175,12 +175,14 @@ class TurnLogic {
                     fightLogic!.weather = Weather(rawValue: usedSpell.weather!)?.getHex(duration: 5)
                 }
                 
+                AudioPlayer.shared.playConfirmSound()
                 return Localization.shared.getTranslation(key: "weatherChanged", params: [fightLogic!.weather!.name])
             } else { //weather already active or invalid weather
+                AudioPlayer.shared.playCancelSound()
                 return Localization.shared.getTranslation(key: "weatherFailed")
             }
         } else {
-            switch player.usedMoves[0].spell.typeID {
+            switch spell.typeID {
             case 6:
                 if player.isAbleToSwap() {
                     player.hasToSwap = true

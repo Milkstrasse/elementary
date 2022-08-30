@@ -173,7 +173,7 @@ class FightLogic: ObservableObject {
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                                AudioPlayer.shared.playConfirmSound()
+                                AudioPlayer.shared.playStandardSound()
                                 
                                 gameLogic.setReady(player: 0, ready: false)
                                 gameLogic.setReady(player: 1, ready: false)

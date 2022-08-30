@@ -320,7 +320,7 @@ struct SettingsView: View {
                                                         voiceVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(musicVolume)/10)
+                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
                                                     AudioPlayer.shared.playHurtSound()
                                         })
                                     }

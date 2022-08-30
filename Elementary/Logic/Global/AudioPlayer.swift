@@ -44,7 +44,7 @@ class AudioPlayer {
     /// Plays the background music outside of an fight.
     func playMenuMusic() {
         do {
-            let path = Bundle.main.path(forResource: "AltusStratum.mp3", ofType: nil)!
+            let path = Bundle.main.path(forResource: "LudumDare30-Track6.wav", ofType: nil)!
             let url = URL(fileURLWithPath: path)
             
             musicPlayer = try AVAudioPlayer(contentsOf: url)
@@ -60,7 +60,7 @@ class AudioPlayer {
     /// Plays the background music during of an fight.
     func playBattleMusic() {
         do {
-            let path = Bundle.main.path(forResource: "Avenger.mp3", ofType: nil)!
+            let path = Bundle.main.path(forResource: "LudumDare28-Track3.wav", ofType: nil)!
             let url = URL(fileURLWithPath: path)
             
             musicPlayer = try AVAudioPlayer(contentsOf: url)
@@ -80,7 +80,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume
+            soundPlayer?.volume = soundVolume * 0.7
             soundPlayer?.play()
         } catch {
             print("\(error)")
@@ -94,7 +94,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume
+            soundPlayer?.volume = soundVolume * 0.7
             soundPlayer?.play()
         } catch {
             print("\(error)")
@@ -108,7 +108,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume
+            soundPlayer?.volume = soundVolume * 0.7
             soundPlayer?.play()
         } catch {
             print("\(error)")
