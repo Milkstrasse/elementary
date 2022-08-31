@@ -90,7 +90,7 @@ class TurnLogic {
             return Localization.shared.getTranslation(key: "fail")
         }
         
-        return attack(player: player, spell: &player.usedMoves[0].spell)
+        return attack(player: player, usedMoves: player.usedMoves)
     }
     
     /// Fighter uses their spell to attack, heal or to do another action.
@@ -98,7 +98,9 @@ class TurnLogic {
     ///   - player: The player
     ///   - spell: The spell used to make the attack
     /// - Returns: Returns a description of what occured during the player's attack
-    private func attack(player: Player, spell: inout Spell) -> String {
+    private func attack(player: Player, usedMoves: [Move]) -> String {
+        var spell: Spell = usedMoves[0].spell
+        
         //recoil damage from sword artifact
         if fightLogic!.playerQueue[0].index > spell.spells.count {
             player.setState(state: PlayerState.hurting)
@@ -192,7 +194,7 @@ class TurnLogic {
                 let usedMoves: [Move] = player.usedMoves
                 
                 //shield can't be used twice in a row -> failure
-                if usedMoves.count > 1 && usedMoves[0].spell.name == usedMoves[1].spell.name {
+                if usedMoves.count > 1 && spell.name == usedMoves[1].spell.name {
                     return Localization.shared.getTranslation(key: "fail")
                 } else {
                     return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentFighter().name])
