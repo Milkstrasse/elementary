@@ -60,7 +60,7 @@ struct CreditsView: View {
                                 VStack(spacing: 2) {
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                     CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Theo Allen"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Ben Burnes"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                 }
                                 .padding(.all, innerPadding)
                             }

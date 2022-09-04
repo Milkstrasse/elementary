@@ -48,7 +48,7 @@ struct HelpView: View {
                     .padding([.top, .leading], outerPadding)
                     ScrollViewReader { value in
                         ScrollView(.vertical, showsIndicators: false) {
-                            HStack(spacing: outerPadding) {
+                            HStack(alignment: .top, spacing: outerPadding) {
                                 VStack(alignment: .leading, spacing: innerPadding) {
                                     ForEach(0 ..< 4) { index in
                                         ZStack {
@@ -60,7 +60,7 @@ struct HelpView: View {
                                             }
                                             .padding(.all, innerPadding)
                                         }
-                                        .id(index)
+                                        .id(index).fixedSize()
                                     }
                                 }
                                 ElementalChartView().frame(width: geometry.size.width - 2 * outerPadding)
