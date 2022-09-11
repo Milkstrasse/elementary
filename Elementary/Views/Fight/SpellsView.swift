@@ -30,16 +30,16 @@ struct SpellsView: View {
         }
         
         switch modifier {
-            case 4.0:
-                return "superEffective"
-            case 2.0:
-                return "veryEffective"
-            case 0.5:
-                return "notVeryEffective"
-            case 0.25:
-                return "notEffective"
-            default:
-                return "effective"
+        case 4.0:
+            return "superEffective"
+        case 2.0:
+            return "veryEffective"
+        case 0.5:
+            return "notVeryEffective"
+        case 0.25:
+            return "notEffective"
+        default:
+            return "effective"
         }
     }
     
@@ -89,7 +89,7 @@ struct SpellsView: View {
                                     } else {
                                         AudioPlayer.shared.playStandardSound()
                                     }
-                        })
+                                })
                     }
                     .id(index)
                 }

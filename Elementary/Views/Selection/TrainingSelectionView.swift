@@ -60,19 +60,19 @@ struct TrainingSelectionView: View {
         
         var rndmArtifacts: [Int] = []
         switch GlobalData.shared.artifactUse {
-            case 0:
-                while rndmArtifacts.count < maxSize {
-                    rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
-                }
-            case 1:
-                var artifactSet = Set<Int>()
+        case 0:
+            while rndmArtifacts.count < maxSize {
+                rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
+            }
+        case 1:
+            var artifactSet = Set<Int>()
             
-                while artifactSet.count < maxSize {
-                    artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
-                }
-                rndmArtifacts = Array(artifactSet)
-            default:
-                break
+            while artifactSet.count < maxSize {
+                artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
+            }
+            rndmArtifacts = Array(artifactSet)
+        default:
+            break
         }
         
         for index in 0 ..< maxSize {

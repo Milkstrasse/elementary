@@ -155,26 +155,26 @@ class Fighter: Hashable, Equatable {
         
         //checks if hex removes other hexes
         switch hex.name {
-            case Hexes.blessed.rawValue:
-                for hex in hexes {
-                    if !hex.positive {
-                        removeHex(hex: hex)
-                    }
-                }
-            case Hexes.blocked.rawValue:
-                if hasHex(hexName: Hexes.healed.rawValue) {
+        case Hexes.blessed.rawValue:
+            for hex in hexes {
+                if !hex.positive {
                     removeHex(hex: hex)
                 }
-            case Hexes.invigorated.rawValue:
-                if hasHex(hexName: Hexes.exhausted.rawValue) {
-                    removeHex(hex: hex)
-                }
-            case Hexes.exhausted.rawValue:
-                if hasHex(hexName: Hexes.invigorated.rawValue) {
-                    removeHex(hex: hex)
-                }
-            default:
-                break
+            }
+        case Hexes.blocked.rawValue:
+            if hasHex(hexName: Hexes.healed.rawValue) {
+                removeHex(hex: hex)
+            }
+        case Hexes.invigorated.rawValue:
+            if hasHex(hexName: Hexes.exhausted.rawValue) {
+                removeHex(hex: hex)
+            }
+        case Hexes.exhausted.rawValue:
+            if hasHex(hexName: Hexes.invigorated.rawValue) {
+                removeHex(hex: hex)
+            }
+        default:
+            break
         }
         
         if hexes.count < 3 { //fighter can only have up to three hexes
@@ -198,44 +198,44 @@ class Fighter: Hashable, Equatable {
             
             //makes changes to fighter if neccessary
             switch hex.name {
-                case Hexes.attackBoost.rawValue:
-                    attackMod += (25 + bonus)
-                    return true
-                case Hexes.attackDrop.rawValue:
-                    attackMod -= (25 + bonus)
-                    return true
-                case Hexes.defenseBoost.rawValue:
-                    defenseMod += (25 + bonus)
-                    return true
-                case Hexes.defenseDrop.rawValue:
-                    defenseMod -= (25 + bonus)
-                    return true
-                case Hexes.agilityBoost.rawValue:
-                    agilityMod += (25 + bonus)
-                    return true
-                case Hexes.agilityDrop.rawValue:
-                    agilityMod -= (25 + bonus)
-                    return true
-                case Hexes.precisionBoost.rawValue:
-                    precisionMod += (25 + bonus)
-                    return true
-                case Hexes.precisionDrop.rawValue:
-                    precisionMod -= (25 + bonus)
-                    return true
-                case Hexes.resistanceBoost.rawValue:
-                    resistanceMod += (25 + bonus)
-                    return true
-                case Hexes.resistanceDrop.rawValue:
-                    resistanceMod -= (25 + bonus)
-                    return true
-                case Hexes.invigorated.rawValue:
-                    manaUse = 1
-                    return true
-                case Hexes.exhausted.rawValue:
-                    manaUse = 3
-                    return true
-                default:
-                    return true
+            case Hexes.attackBoost.rawValue:
+                attackMod += (25 + bonus)
+                return true
+            case Hexes.attackDrop.rawValue:
+                attackMod -= (25 + bonus)
+                return true
+            case Hexes.defenseBoost.rawValue:
+                defenseMod += (25 + bonus)
+                return true
+            case Hexes.defenseDrop.rawValue:
+                defenseMod -= (25 + bonus)
+                return true
+            case Hexes.agilityBoost.rawValue:
+                agilityMod += (25 + bonus)
+                return true
+            case Hexes.agilityDrop.rawValue:
+                agilityMod -= (25 + bonus)
+                return true
+            case Hexes.precisionBoost.rawValue:
+                precisionMod += (25 + bonus)
+                return true
+            case Hexes.precisionDrop.rawValue:
+                precisionMod -= (25 + bonus)
+                return true
+            case Hexes.resistanceBoost.rawValue:
+                resistanceMod += (25 + bonus)
+                return true
+            case Hexes.resistanceDrop.rawValue:
+                resistanceMod -= (25 + bonus)
+                return true
+            case Hexes.invigorated.rawValue:
+                manaUse = 1
+                return true
+            case Hexes.exhausted.rawValue:
+                manaUse = 3
+                return true
+            default:
+                return true
             }
         }
         
@@ -253,28 +253,28 @@ class Fighter: Hashable, Equatable {
         }
         
         switch hex.name {
-            case Hexes.attackBoost.rawValue:
-                attackMod -= 20
-            case Hexes.attackDrop.rawValue:
-                attackMod += 20
-            case Hexes.defenseBoost.rawValue:
-                defenseMod -= 20
-            case Hexes.defenseDrop.rawValue:
-                defenseMod += 20
-            case Hexes.agilityBoost.rawValue:
-                agilityMod -= 20
-            case Hexes.agilityDrop.rawValue:
-                agilityMod += 20
-            case Hexes.precisionBoost.rawValue:
-                precisionMod -= 20
-            case Hexes.precisionDrop.rawValue:
-                precisionMod += 20
-            case Hexes.invigorated.rawValue:
-                manaUse = 2
-            case Hexes.exhausted.rawValue:
-                manaUse = 2
-            default:
-                break
+        case Hexes.attackBoost.rawValue:
+            attackMod -= 20
+        case Hexes.attackDrop.rawValue:
+            attackMod += 20
+        case Hexes.defenseBoost.rawValue:
+            defenseMod -= 20
+        case Hexes.defenseDrop.rawValue:
+            defenseMod += 20
+        case Hexes.agilityBoost.rawValue:
+            agilityMod -= 20
+        case Hexes.agilityDrop.rawValue:
+            agilityMod += 20
+        case Hexes.precisionBoost.rawValue:
+            precisionMod -= 20
+        case Hexes.precisionDrop.rawValue:
+            precisionMod += 20
+        case Hexes.invigorated.rawValue:
+            manaUse = 2
+        case Hexes.exhausted.rawValue:
+            manaUse = 2
+        default:
+            break
         }
     }
     

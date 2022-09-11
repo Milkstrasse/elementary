@@ -38,26 +38,26 @@ struct DamageCalculator {
         var dmg: Float
         
         switch spell.typeID {
-            case 1:
-                dmg = Float(subSpell.power)
-            case 2:
-                if usedShield {
-                    dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power * 2)
-                } else {
-                    dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
-                }
-            case 3:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
-            case 4:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
-            case 5:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
-            case 7:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: -1)
-            case 8:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
-            default:
+        case 1:
+            dmg = Float(subSpell.power)
+        case 2:
+            if usedShield {
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power * 2)
+            } else {
                 dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
+            }
+        case 3:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
+        case 4:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
+        case 5:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
+        case 7:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: -1)
+        case 8:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
+        default:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
         }
         
         //multiply with critical modifier
@@ -129,32 +129,32 @@ struct DamageCalculator {
     /// - Returns: Returns the received modifier
     private func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
-            case Weather.blizzard.rawValue:
-                if spellElement == "ice" || spellElement == "wind" {
-                    return 1.5
-                }
-            case Weather.drought.rawValue:
-                if spellElement == "ground" || spellElement == "fire" {
-                    return 1.5
-                }
-            case Weather.fullMoon.rawValue:
-                if spellElement == "aether" || spellElement == "wood" {
-                    return 1.5
-                }
-            case Weather.mysticWeather.rawValue:
-                if spellElement == "electric" || spellElement == "metal" {
-                    return 1.5
-                }
-            case Weather.rain.rawValue:
-                if spellElement == "plant" || spellElement == "water" {
-                    return 1.5
-                }
-            case Weather.sandstorm.rawValue:
-                if spellElement == "decay" || spellElement == "rock" {
-                    return 1.5
-                }
-            default:
-                return 1
+        case Weather.blizzard.rawValue:
+            if spellElement == "ice" || spellElement == "wind" {
+                return 1.5
+            }
+        case Weather.drought.rawValue:
+            if spellElement == "ground" || spellElement == "fire" {
+                return 1.5
+            }
+        case Weather.fullMoon.rawValue:
+            if spellElement == "aether" || spellElement == "wood" {
+                return 1.5
+            }
+        case Weather.mysticWeather.rawValue:
+            if spellElement == "electric" || spellElement == "metal" {
+                return 1.5
+            }
+        case Weather.rain.rawValue:
+            if spellElement == "plant" || spellElement == "water" {
+                return 1.5
+            }
+        case Weather.sandstorm.rawValue:
+            if spellElement == "decay" || spellElement == "rock" {
+                return 1.5
+            }
+        default:
+            return 1
         }
         
         return 1
@@ -207,18 +207,18 @@ struct DamageCalculator {
         let dmg: Float
         
         switch spell.typeID {
-            case 1:
-                dmg = Float(subSpell.power)
-            case 3:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
-            case 4:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
-            case 5:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
-            case 8:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
-            default:
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
+        case 1:
+            dmg = Float(subSpell.power)
+        case 3:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
+        case 4:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
+        case 5:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
+        case 8:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
+        default:
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
         }
         
         let damage: Int = Int(round(dmg))

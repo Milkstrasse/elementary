@@ -49,19 +49,19 @@ class Player: ObservableObject {
         self.state = state
         
         switch state {
-            case .neutral:
-                break
-            case .attacking:
-                AudioPlayer.shared.playAttackSound()
-            case .hurting:
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
+        case .neutral:
+            break
+        case .attacking:
+            AudioPlayer.shared.playAttackSound()
+        case .hurting:
+            if AudioPlayer.shared.hapticToggle {
+                let haptic = UIImpactFeedbackGenerator(style: .medium)
+                haptic.impactOccurred()
+            }
             
-                AudioPlayer.shared.playHurtSound()
-            case .healing:
-                AudioPlayer.shared.playHealSound()
+            AudioPlayer.shared.playHurtSound()
+        case .healing:
+            AudioPlayer.shared.playHealSound()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + GlobalData.shared.getTextSpeed()/2) {

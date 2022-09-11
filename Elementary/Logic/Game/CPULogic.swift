@@ -212,16 +212,16 @@ struct CPULogic {
     private func calcDamage(attacker: Fighter, defender: Fighter, spell: Spell, weather: Hex?) -> Float {
         var dmg: Float
         switch spell.typeID {
-            case 1:
-                dmg = Float(spell.spells[0].power)
-            case 3:
-                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: spell.spells[0].power + spell.useCounter * 5)
-            case 4:
-                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
-            case 5:
-                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.currhp)
-            default:
-                dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather)
+        case 1:
+            dmg = Float(spell.spells[0].power)
+        case 3:
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: spell.spells[0].power + spell.useCounter * 5)
+        case 4:
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
+        case 5:
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.currhp)
+        default:
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.spells[0], spellElement: spell.element, weather: weather)
         }
         
         return dmg
