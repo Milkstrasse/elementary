@@ -72,52 +72,55 @@ enum Hexes: String, CaseIterable {
     case invigorated
     case exhausted
     case restricted
+    case taunted
     
     /// Creates and returns a hex.
     /// - Parameter duration: The duration of the hex
     /// - Returns: Returns a hex
     func getHex() -> Hex {
         switch self {
-            case .attackBoost:
-                return Hex(name: self.rawValue, symbol: 0xf6de, duration: 5, positive: true, opposite: .attackDrop)
-            case .attackDrop:
-                return Hex(name: self.rawValue, symbol: 0xf6de, duration: 5, positive: false, opposite: .attackBoost)
-            case .defenseBoost:
-                return Hex(name: self.rawValue, symbol: 0xf3ed, duration: 5, positive: true, opposite: .defenseDrop)
-            case .defenseDrop:
-                return Hex(name: self.rawValue, symbol: 0xf3ed, duration: 5, positive: false, opposite: .defenseBoost)
-            case .agilityBoost:
-                return Hex(name: self.rawValue, symbol: 0xf72e, duration: 5, positive: true, opposite: .agilityDrop)
-            case .agilityDrop:
-                return Hex(name: self.rawValue, symbol: 0xf72e, duration: 5, positive: false, opposite: .agilityBoost)
-            case .precisionBoost:
-                return Hex(name: self.rawValue, symbol: 0xf05b, duration: 5, positive: true, opposite: .precisionDrop)
-            case .precisionDrop:
-                return Hex(name: self.rawValue, symbol: 0xf05b, duration: 5, positive: false, opposite: .precisionBoost)
-            case .resistanceBoost:
-                return Hex(name: self.rawValue, symbol: 0xe05d, duration: 5, positive: true, opposite: .resistanceDrop)
-            case .resistanceDrop:
-                return Hex(name: self.rawValue, symbol: 0xe05d, duration: 5, positive: false, opposite: .resistanceBoost)
-            case .poisoned:
-                return Hex(name: self.rawValue, symbol: 0xf54c, duration: 3, positive: false, damageAmount: 10, opposite: .healed)
-            case .healed:
-                return Hex(name: self.rawValue, symbol: 0xe05c, duration: 3, positive: true, damageAmount: -10, opposite: .poisoned)
-            case .confused:
-                return Hex(name: self.rawValue, symbol: 0xf074, duration: 3, positive: false)
-            case .bombed:
-                return Hex(name: self.rawValue, symbol: 0xf1e2, duration: 3, positive: false, damageAmount: 25)
-            case .blessed:
-                return Hex(name: self.rawValue, symbol: 0xf665, duration: 3, positive: true)
-            case .blocked:
-                return Hex(name: self.rawValue, symbol: 0xf05e, duration: 3, positive: false)
-            case .chained:
-                return Hex(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
-            case .invigorated:
-                return Hex(name: self.rawValue, symbol: 0xf102, duration: 3, positive: true, opposite: .exhausted)
-            case .exhausted:
-                return Hex(name: self.rawValue, symbol: 0xf103, duration: 3, positive: false, opposite: .invigorated)
-            case .restricted:
-                return Hex(name: self.rawValue, symbol: 0xf023, duration: 3, positive: false)
+        case .attackBoost:
+            return Hex(name: self.rawValue, symbol: 0xf6de, duration: 5, positive: true, opposite: .attackDrop)
+        case .attackDrop:
+            return Hex(name: self.rawValue, symbol: 0xf6de, duration: 5, positive: false, opposite: .attackBoost)
+        case .defenseBoost:
+            return Hex(name: self.rawValue, symbol: 0xf3ed, duration: 5, positive: true, opposite: .defenseDrop)
+        case .defenseDrop:
+            return Hex(name: self.rawValue, symbol: 0xf3ed, duration: 5, positive: false, opposite: .defenseBoost)
+        case .agilityBoost:
+            return Hex(name: self.rawValue, symbol: 0xf72e, duration: 5, positive: true, opposite: .agilityDrop)
+        case .agilityDrop:
+            return Hex(name: self.rawValue, symbol: 0xf72e, duration: 5, positive: false, opposite: .agilityBoost)
+        case .precisionBoost:
+            return Hex(name: self.rawValue, symbol: 0xf05b, duration: 5, positive: true, opposite: .precisionDrop)
+        case .precisionDrop:
+            return Hex(name: self.rawValue, symbol: 0xf05b, duration: 5, positive: false, opposite: .precisionBoost)
+        case .resistanceBoost:
+            return Hex(name: self.rawValue, symbol: 0xe05d, duration: 5, positive: true, opposite: .resistanceDrop)
+        case .resistanceDrop:
+            return Hex(name: self.rawValue, symbol: 0xe05d, duration: 5, positive: false, opposite: .resistanceBoost)
+        case .poisoned:
+            return Hex(name: self.rawValue, symbol: 0xf54c, duration: 3, positive: false, damageAmount: 10, opposite: .healed)
+        case .healed:
+            return Hex(name: self.rawValue, symbol: 0xe05c, duration: 3, positive: true, damageAmount: -10, opposite: .poisoned)
+        case .confused:
+            return Hex(name: self.rawValue, symbol: 0xf074, duration: 3, positive: false)
+        case .bombed:
+            return Hex(name: self.rawValue, symbol: 0xf1e2, duration: 3, positive: false, damageAmount: 25)
+        case .blessed:
+            return Hex(name: self.rawValue, symbol: 0xf665, duration: 3, positive: true)
+        case .blocked:
+            return Hex(name: self.rawValue, symbol: 0xf05e, duration: 3, positive: false)
+        case .chained:
+            return Hex(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
+        case .invigorated:
+            return Hex(name: self.rawValue, symbol: 0xf102, duration: 3, positive: true, opposite: .exhausted)
+        case .exhausted:
+            return Hex(name: self.rawValue, symbol: 0xf103, duration: 3, positive: false, opposite: .invigorated)
+        case .restricted:
+            return Hex(name: self.rawValue, symbol: 0xf023, duration: 3, positive: false)
+        case .taunted:
+            return Hex(name: self.rawValue, symbol: 0xf06d, duration: 3, positive: false)
         }
     }
     
@@ -147,18 +150,18 @@ enum Weather: String {
     /// - Returns: Returns a hex
     func getHex(duration: Int) -> Hex {
         switch self {
-            case .blizzard:
-                return Hex(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
-            case .drought:
-                return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
-            case .fullMoon:
-                return Hex(name: self.rawValue, symbol: 0xf186, duration: duration, positive: true)
-            case .mysticWeather:
-                return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
-            case .rain:
-                return Hex(name: self.rawValue, symbol: 0xf73d, duration: duration, positive: true)
-            case .sandstorm:
-                return Hex(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
+        case .blizzard:
+            return Hex(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
+        case .drought:
+            return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
+        case .fullMoon:
+            return Hex(name: self.rawValue, symbol: 0xf186, duration: duration, positive: true)
+        case .mysticWeather:
+            return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
+        case .rain:
+            return Hex(name: self.rawValue, symbol: 0xf73d, duration: duration, positive: true)
+        case .sandstorm:
+            return Hex(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
         }
     }
 }

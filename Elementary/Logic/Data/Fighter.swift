@@ -20,7 +20,6 @@ class Fighter: Hashable, Equatable {
     
     var spells: [Spell]
     var lastMove: Move?
-    var tauntCounter: Int = 0
     
     var nature: Nature
     private var artifact: Artifact
@@ -294,7 +293,6 @@ class Fighter: Hashable, Equatable {
     /// Removes all hexes, refreshes all spells and restores the health of the fighter
     func reset() {
         currhp = getModifiedBase().health
-        tauntCounter = 0
         
         removeAllHexes()
         

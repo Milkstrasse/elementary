@@ -157,19 +157,13 @@ class FightLogic: ObservableObject {
                                     players[0].getCurrentFighter().removeHex(hex: hex)
                                 }
                             }
+                            
                             for hex in players[1].getCurrentFighter().hexes {
                                 hex.duration -= 1
                                 
                                 if hex.duration == 0 {
                                     players[1].getCurrentFighter().removeHex(hex: hex)
                                 }
-                            }
-                            
-                            if players[0].getCurrentFighter().tauntCounter > 0 {
-                                players[0].getCurrentFighter().tauntCounter -= 1
-                            }
-                            if players[1].getCurrentFighter().tauntCounter > 0 {
-                                players[1].getCurrentFighter().tauntCounter -= 1
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
@@ -396,8 +390,6 @@ class FightLogic: ObservableObject {
                 player.getCurrentFighter().removeHex(hex: hex)
             }
         }
-        
-        player.getCurrentFighter().tauntCounter = 0
         
         text = Localization.shared.getTranslation(key: "swapWith", params: [player.getCurrentFighter().name, player.fighters[target].name]) + "\n"
         player.currentFighterId = target

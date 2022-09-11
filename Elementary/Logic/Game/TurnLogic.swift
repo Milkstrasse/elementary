@@ -138,7 +138,7 @@ class TurnLogic {
             }
         }
         
-        if player.getCurrentFighter().tauntCounter > 0 && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
+        if player.getCurrentFighter().hasHex(hexName: Hexes.taunted.rawValue) && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
             return Localization.shared.getTranslation(key: "fail")
         }
         
@@ -233,8 +233,9 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])
             case 20:
-                oppositePlayer.getCurrentFighter().tauntCounter = 3
-                return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
+                if oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.taunted.getHex(), resistable: false) {
+                    return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
+                }
             case 21:
                 let artifact: Artifact = player.getCurrentFighter().getArtifact()
                 player.getCurrentFighter().overrideArtifact(artifact: oppositePlayer.getCurrentFighter().getArtifact())
