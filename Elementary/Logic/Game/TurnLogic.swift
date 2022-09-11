@@ -233,10 +233,6 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])
             case 20:
-                if oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.taunted.getHex(), resistable: false) {
-                    return Localization.shared.getTranslation(key: "nameProvoked", params: [oppositePlayer.getCurrentFighter().name])
-                }
-            case 21:
                 let artifact: Artifact = player.getCurrentFighter().getArtifact()
                 player.getCurrentFighter().overrideArtifact(artifact: oppositePlayer.getCurrentFighter().getArtifact())
                 oppositePlayer.getCurrentFighter().overrideArtifact(artifact: artifact)
