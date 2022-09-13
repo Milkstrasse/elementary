@@ -140,7 +140,7 @@ enum Hexes: String, CaseIterable {
 enum Weather: String {
     case blizzard
     case drought
-    case fullMoon
+    case overcastSky
     case mysticWeather
     case rain
     case sandstorm
@@ -154,8 +154,8 @@ enum Weather: String {
             return Hex(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
         case .drought:
             return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
-        case .fullMoon:
-            return Hex(name: self.rawValue, symbol: 0xf186, duration: duration, positive: true)
+        case .overcastSky:
+            return Hex(name: self.rawValue, symbol: 0xf6c3, duration: duration, positive: true)
         case .mysticWeather:
             return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
         case .rain:

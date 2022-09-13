@@ -11,7 +11,7 @@
   "spells": [
       "waterSimpleAttack",
       "waterSpecialAttack",
-      "rain",
+      "lightRain",
       "swapHexes"
   ]
 }

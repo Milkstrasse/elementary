@@ -137,7 +137,7 @@ struct DamageCalculator {
             if spellElement == "ground" || spellElement == "fire" {
                 return 1.5
             }
-        case Weather.fullMoon.rawValue:
+        case Weather.overcastSky.rawValue:
             if spellElement == "aether" || spellElement == "wood" {
                 return 1.5
             }

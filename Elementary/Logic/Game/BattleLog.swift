@@ -65,7 +65,7 @@ class BattleLog {
         }
         
         battleLog += "\n"
-        battleLog += Localization.shared.getTranslation(key: "weather") + ": " + Localization.shared.getTranslation(key: weather?.name ?? "-")
+        battleLog += Localization.shared.getTranslation(key: weather?.name ?? "clearSkies")
         battleLog += "\n"
         
         battleLog += "\n"

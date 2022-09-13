@@ -136,13 +136,13 @@
     "exhaustedDescr": "Augmente **le coût**",
     "restrictedDescr": "Seul le dernier sort peut être utilisé",
     
-    "weather": "Météo",
+    "clearSkies": "Ciel clair",
     "noWeather": "Aucun effet",
     "blizzardDescr": "Augmente **glace** & **vent**",
     "droughtDescr": "Augmente **sol** & **feu**",
-    "fullMoonDescr": "Augmente **éther** & **bois**",
+    "overcastSkyDescr": "Augmente **éther** & **bois**",
     "mysticWeatherDescr": "Augmente **électrik** & **métal**",
-    "rainDescr": "Augmente **plante** & **eau**",
+    "lightRainDescr": "Augmente **plante** & **eau**",
     "sandstormDescr": "Augmente **roche** & **carie**",
     
     "hpBar": "{0}/{1}PV",

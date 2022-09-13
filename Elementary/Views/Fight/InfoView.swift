@@ -64,7 +64,7 @@ struct InfoView: View {
                 ZStack {
                     Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                     VStack(alignment: .leading, spacing: 2) {
-                        CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: 16, isBold: true)
+                        CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: 16, isBold: true)
                         HStack(spacing: 0) {
                             if let weather = fightLogic.weather {
                                 Text(createSymbol(symbol: weather.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white).fixedSize().frame(width: 25)
