@@ -23,21 +23,21 @@ struct ElementalChartView: View {
                         if let temp = GlobalData.shared.elements[element.weaknesses[index]] {
                             ZStack {
                                 Rectangle().fill(Color(hex: temp.color))
-                                Text(createSymbol(symbol: temp.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                                Text(createSymbol(symbol: temp.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                             }
                         }
                     }
-                    Text(createSymbol(symbol:"0xf061")).frame(maxWidth: .infinity).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                    Text(createSymbol(symbol:"0xf061")).frame(maxWidth: .infinity).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                     ZStack {
                         Rectangle().fill(Color(hex: element.color))
-                        Text(createSymbol(symbol: element.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                        Text(createSymbol(symbol: element.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                     }
-                    Text(createSymbol(symbol:"0xf061")).frame(maxWidth: .infinity).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                    Text(createSymbol(symbol:"0xf061")).frame(maxWidth: .infinity).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                     ForEach(element.strengths.indices, id: \.self) { index in
                         if let temp = GlobalData.shared.elements[element.strengths[index]] {
                             ZStack {
                                 Rectangle().fill(Color(hex: temp.color))
-                                Text(createSymbol(symbol: temp.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                                Text(createSymbol(symbol: temp.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                             }
                         }
                     }

@@ -74,7 +74,7 @@ struct DamageCalculator {
         let damage: Int = Int(round(dmg))
         
         if damage >= target.currhp { //prevent hp below 0
-            if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue {
+            if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
                 target.currhp = 1
                 target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
             } else {
@@ -102,21 +102,25 @@ struct DamageCalculator {
     ///   - defender: The fighter to be targeted
     ///   - spellElement: The element of the used spell
     /// - Returns: Returns the received modifier
-    func getElementalModifier(attacker: Fighter, defender: Fighter, spellElement: Element) -> Float {
+    func getElementalModifier(attacker: Fighter, defender: Fighter, spellElement: Element, weather: Hex?) -> Float {
         var modifier: Float = 1
         
-        //elemental modifier of fighter
-        if attacker.getElement().hasAdvantage(element: defender.getElement()) {
-            modifier *= 2
-        } else if attacker.getElement().hasDisadvantage(element: defender.getElement()) {
-            modifier *= 0.5
-        }
-        
-        //elemental modifier of spell
-        if spellElement.hasAdvantage(element: defender.getElement()) {
-            modifier *= 2
-        } else if spellElement.hasDisadvantage(element: defender.getElement()) {
-            modifier *= 0.5
+        if weather?.name == Weather.denseFog.rawValue {
+            return modifier
+        } else {
+            //elemental modifier of fighter
+            if attacker.getElement().hasAdvantage(element: defender.getElement(), weather: weather) {
+                modifier *= 2
+            } else if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) {
+                modifier *= 0.5
+            }
+            
+            //elemental modifier of spell
+            if spellElement.hasAdvantage(element: defender.getElement(), weather: weather) {
+                modifier *= 2
+            } else if spellElement.hasDisadvantage(element: defender.getElement(), weather: weather) {
+                modifier *= 0.5
+            }
         }
         
         return modifier
@@ -129,28 +133,28 @@ struct DamageCalculator {
     /// - Returns: Returns the received modifier
     private func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
-        case Weather.blizzard.rawValue:
+        case Weather.snowstorm.rawValue:
             if spellElement == "ice" || spellElement == "wind" {
                 return 1.5
             }
-        case Weather.drought.rawValue:
-            if spellElement == "ground" || spellElement == "fire" {
+        case Weather.sunnyDay.rawValue:
+            if spellElement == "fire" || spellElement == "wood" {
                 return 1.5
             }
         case Weather.overcastSky.rawValue:
-            if spellElement == "aether" || spellElement == "wood" {
+            if spellElement == "aether" || spellElement == "decay" {
                 return 1.5
             }
         case Weather.mysticWeather.rawValue:
             if spellElement == "electric" || spellElement == "metal" {
                 return 1.5
             }
-        case Weather.rain.rawValue:
+        case Weather.lightRain.rawValue:
             if spellElement == "plant" || spellElement == "water" {
                 return 1.5
             }
         case Weather.sandstorm.rawValue:
-            if spellElement == "decay" || spellElement == "rock" {
+            if spellElement == "ground" || spellElement == "rock" {
                 return 1.5
             }
         default:
@@ -172,19 +176,19 @@ struct DamageCalculator {
     func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
         let attack: Float
         if powerOverride > 0 {
-            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase().attack) * 16
+            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 16
         } else if powerOverride == 0 {
-            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase().attack) * 16
+            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 16
         } else {
-            attack = Float(spell.power)/100 * Float(defender.getModifiedBase().attack) * 16
+            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * 16
         }
         
-        let defense: Float = max(Float(defender.getModifiedBase().defense), 1.0) //prevent division by zero
+        let defense: Float = max(Float(defender.getModifiedBase(weather: weather).defense), 1.0) //prevent division by zero
         
         var dmg: Float = attack/defense
         
         //multiply with elemental modifier
-        dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement)
+        dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement, weather: weather)
         
         //multiply with weather modifier
         if weather != nil {

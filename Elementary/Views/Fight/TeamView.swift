@@ -30,9 +30,9 @@ struct TeamView: View {
                 oppositePlayer = fightLogic.players[1]
             }
             
-            if fighter.getElement().hasAdvantage(element: oppositePlayer.getCurrentFighter().getElement()) {
+            if fighter.getElement().hasAdvantage(element: oppositePlayer.getCurrentFighter().getElement(), weather: fightLogic.weather) {
                 text += Localization.shared.getTranslation(key: "veryEffective")
-            } else if fighter.getElement().hasDisadvantage(element: oppositePlayer.getCurrentFighter().getElement()) {
+            } else if fighter.getElement().hasDisadvantage(element: oppositePlayer.getCurrentFighter().getElement(), weather: fightLogic.weather) {
                 text += Localization.shared.getTranslation(key: "notVeryEffective")
             } else {
                 text += Localization.shared.getTranslation(key: "effective")

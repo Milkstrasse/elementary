@@ -149,7 +149,7 @@ class TurnLogic {
             if usedSpell.range == 1 {
                 oppositePlayer.setState(state: PlayerState.hurting)
                 
-                if oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap() {
+                if oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap() && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue {
                     oppositePlayer.hasToSwap = true
                 }
             } else {
@@ -158,7 +158,11 @@ class TurnLogic {
             
             return DamageCalculator.shared.applyDamage(attacker: player.getCurrentFighter(), defender: oppositePlayer.getCurrentFighter(), spell: &spell, subSpell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather, usedShield: usedShield)
         } else if usedSpell.hex != nil { //hex adding spell
-            return HexApplication.shared.applyHex(attacker: player.getCurrentFighter(), defender: oppositePlayer.getCurrentFighter(), spell: usedSpell)
+            if fightLogic?.weather?.name == Weather.springWeather.rawValue {
+                return Localization.shared.getTranslation(key: "hexFailed")
+            } else {
+                return HexApplication.shared.applyHex(attacker: player.getCurrentFighter(), defender: oppositePlayer.getCurrentFighter(), spell: usedSpell, weather: fightLogic?.weather)
+            }
         } else if usedSpell.healAmount > 0 {
             if usedSpell.range == 0 {
                 player.setState(state: PlayerState.healing)

@@ -12,6 +12,12 @@
       "woodSimpleAttack",
       "woodSpecialAttack",
       "trap",
-      "block"
+      "block",
+      "magneticStorm",
+      "volcanicStorm",
+      "springWeather",
+      "denseFog",
+      "extremeHeat",
+      "heavyStorm"
   ]
 }

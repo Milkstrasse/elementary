@@ -138,8 +138,8 @@
     
     "clearSkies": "Ciel clair",
     "noWeather": "Aucun effet",
-    "blizzardDescr": "Augmente **glace** & **vent**",
-    "droughtDescr": "Augmente **sol** & **feu**",
+    "snowstormDescr": "Augmente **glace** & **vent**",
+    "sunnyDayDescr": "Augmente **sol** & **feu**",
     "overcastSkyDescr": "Augmente **éther** & **bois**",
     "mysticWeatherDescr": "Augmente **électrik** & **métal**",
     "lightRainDescr": "Augmente **plante** & **eau**",

@@ -27,7 +27,6 @@
 		B8631A8228AFA05700222E54 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A7A28AFA05700222E54 /* Element.swift */; };
 		B8631A8528AFA0E900222E54 /* BattleLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A8428AFA0E900222E54 /* BattleLog.swift */; };
 		B8631A8828AFA18900222E54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A8728AFA18900222E54 /* MainView.swift */; };
-		B8631A8B28AFA26000222E54 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8631A8A28AFA26000222E54 /* Font Awesome 5 Free-Solid-900.otf */; };
 		B8631A8E28AFA28100222E54 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8631A8C28AFA28100222E54 /* RobotoCondensed-Regular.ttf */; };
 		B8631A8F28AFA28100222E54 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8631A8D28AFA28100222E54 /* RobotoCondensed-Bold.ttf */; };
 		B8631A9E28AFA3D100222E54 /* damaged1.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8631A9028AFA3D000222E54 /* damaged1.wav */; };
@@ -50,6 +49,7 @@
 		B8631AB928AFD31900222E54 /* FighterViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB828AFD31900222E54 /* FighterViews.swift */; };
 		B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* Parameters.swift */; };
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
+		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
 		B88D9F9128B3E22100AAC683 /* FightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9028B3E22100AAC683 /* FightView.swift */; };
 		B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */; };
 		B88D9F9528B3E3EA00AAC683 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */; };
@@ -106,7 +106,6 @@
 		B8631A8428AFA0E900222E54 /* BattleLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleLog.swift; sourceTree = "<group>"; };
 		B8631A8728AFA18900222E54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B8631A8928AFA1B000222E54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		B8631A8A28AFA26000222E54 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		B8631A8C28AFA28100222E54 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		B8631A8D28AFA28100222E54 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
 		B8631A9028AFA3D000222E54 /* damaged1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged1.wav; sourceTree = "<group>"; };
@@ -129,6 +128,7 @@
 		B8631AB828AFD31900222E54 /* FighterViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterViews.swift; sourceTree = "<group>"; };
 		B8631ABA28AFEB2800222E54 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
+		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
 		B88D9F9028B3E22100AAC683 /* FightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightView.swift; sourceTree = "<group>"; };
 		B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
@@ -355,7 +355,7 @@
 		B8B0F4A328AF975B00AA245B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				B8631A8A28AFA26000222E54 /* Font Awesome 5 Free-Solid-900.otf */,
+				B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */,
 				B8631A8D28AFA28100222E54 /* RobotoCondensed-Bold.ttf */,
 				B8631A8C28AFA28100222E54 /* RobotoCondensed-Regular.ttf */,
 			);
@@ -454,12 +454,12 @@
 			files = (
 				B8631AAB28AFA3D100222E54 /* healed2.wav in Resources */,
 				B8A60BF428BE43A4007B948B /* LudumDare28-Track3.wav in Resources */,
-				B8631A8B28AFA26000222E54 /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 				B8B0F49B28AF972000AA245B /* Preview Assets.xcassets in Resources */,
 				B8631A6128AF984E00222E54 /* Spells in Resources */,
 				B8631A5B28AF97D800222E54 /* Elements in Resources */,
 				B8B0F4A728AF97AA00AA245B /* Assets in Resources */,
 				B8631AA228AFA3D100222E54 /* abs-cancel-1.mp3 in Resources */,
+				B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */,
 				B8631A5F28AF984900222E54 /* Natures in Resources */,
 				B8631AA728AFA3D100222E54 /* damaged2.wav in Resources */,
 				B8631AA428AFA3D100222E54 /* healed3.wav in Resources */,

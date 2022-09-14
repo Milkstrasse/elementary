@@ -14,8 +14,9 @@ struct HexApplication {
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
     ///   - spell: The spell used to make the attack
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the application of the hex
-    func applyHex(attacker: Fighter, defender: Fighter, spell: SubSpell) -> String {
+    func applyHex(attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?) -> String {
         var hex: String? = spell.hex
         
         if hex != Hexes.taunted.rawValue {
@@ -28,11 +29,11 @@ struct HexApplication {
         
         //determine actual target
         var target: Fighter = defender
-        if spell.range == 0 || defender.getArtifact().name == Artifacts.talisman.rawValue {
+        if spell.range == 0 || (defender.getArtifact().name == Artifacts.talisman.rawValue && weather?.name != Weather.volcanicStorm.rawValue) {
             target = attacker
         }
         
-        if target.getArtifact().name == Artifacts.amulet.rawValue { //get opposite hex
+        if target.getArtifact().name == Artifacts.amulet.rawValue && weather?.name != Weather.volcanicStorm.rawValue { //get opposite hex
             if hex != nil {
                 hex = Hexes(rawValue: hex!)?.getHex().opposite?.rawValue
                 if hex == nil {

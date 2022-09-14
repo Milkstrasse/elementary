@@ -42,16 +42,32 @@ struct Element: Decodable {
     }
     
     /// Checks if element is strong against the compared element.
-    /// - Parameter element: The element to compare to
+    /// - Parameters:
+    ///   - element: The element to compare to
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the element is strong against the compared element
-    func hasAdvantage(element: Element) -> Bool {
-        return strengths.contains(element.name)
+    func hasAdvantage(element: Element, weather: Hex?) -> Bool {
+        if weather?.name == Weather.magneticStorm.rawValue { //flips elements
+            return weaknesses.contains(element.name)
+        } else if weather?.name == Weather.denseFog.rawValue {
+            return false
+        } else {
+            return strengths.contains(element.name)
+        }
     }
     
     /// Checks if element is weak against the compared element.
-    /// - Parameter element: The element to compare to
+    /// - Parameters:
+    ///   - element: The element to compare to
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the element is weak against the compared element
-    func hasDisadvantage(element: Element) -> Bool {
-        return weaknesses.contains(element.name)
+    func hasDisadvantage(element: Element, weather: Hex?) -> Bool {
+        if weather?.name == Weather.magneticStorm.rawValue { //flips elements
+            return strengths.contains(element.name)
+        } else if weather?.name == Weather.denseFog.rawValue {
+            return false
+        } else {
+            return weaknesses.contains(element.name)
+        }
     }
 }

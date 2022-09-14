@@ -31,7 +31,7 @@ struct RectanglePortraitView: View {
                 }
                 HStack {
                     Spacer()
-                    Text(createSymbol()).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white)
+                    Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
                 }
                 .padding([.trailing, .top], 8)
             }
@@ -94,9 +94,9 @@ struct SquarePortraitView: View {
             if fighter != nil {
                 Image(fileName: fighter!.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.2).offset(x: 20, y: -2).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
                 TriangleA().fill(getBorderColor()).frame(width: 70, height: 30).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                Text(createSymbol()).font(.custom("Font Awesome 5 Free", size: 12)).foregroundColor(getTextColor()).padding(.all, 6)
+                Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 10)).foregroundColor(getTextColor()).padding(.all, 6)
             } else {
-                Text("\u{f067}").font(.custom("Font Awesome 5 Free", size: 20)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
+                Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
             }
         }
     }
@@ -179,7 +179,7 @@ struct SpellView: View {
                 .padding(.leading, innerPadding)
                 TitlePanel().fill(Color(hex: spell.element.color)).frame(width: 78, height: 60)
             }
-            Text(createSymbol()).font(.custom("Font Awesome 5 Free", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
+            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
         }
     }
 }
@@ -209,7 +209,7 @@ struct ActionView: View {
                 .padding(.leading, innerPadding)
                 TitlePanel().fill(color).frame(width: 78, height: 60)
             }
-            Text(createSymbol()).font(.custom("Font Awesome 5 Free", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
+            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
         }
     }
 }
@@ -241,7 +241,7 @@ struct HexView: View {
     var body: some View {
         ZStack {
             Rectangle().fill(Color("Panel"))
-            Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(getFontColor())
+            Text(self.createSymbol()).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(getFontColor())
         }
         .frame(width: 24, height: 24)
     }

@@ -1,12 +1,12 @@
 {
-  "element": "fire",
+  "element": "electric",
   "typeID": 11,
   "uses": 15,
   "spells": [
       {
           "power": 0,
           "range": 0,
-          "weather": "drought"
+          "weather": "magneticStorm"
       }
   ]
 }

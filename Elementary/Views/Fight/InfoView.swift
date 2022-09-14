@@ -26,7 +26,7 @@ struct InfoView: View {
                         CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: 16, isBold: true)
                         ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
                             HStack(spacing: 0) {
-                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
+                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
                                 CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: 14)
                                 Spacer()
                             }
@@ -47,7 +47,7 @@ struct InfoView: View {
                         CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().name).uppercased(), fontSize: 16, isBold: true)
                         ForEach(fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes, id: \.self) { hex in
                             HStack(spacing: 0) {
-                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
+                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
                                 CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: 14)
                                 Spacer()
                             }
@@ -67,7 +67,7 @@ struct InfoView: View {
                         CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: 16, isBold: true)
                         HStack(spacing: 0) {
                             if let weather = fightLogic.weather {
-                                Text(createSymbol(symbol: weather.symbol)).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white).fixedSize().frame(width: 25)
+                                Text(createSymbol(symbol: weather.symbol)).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).fixedSize().frame(width: 25)
                                 CustomText(text: Localization.shared.getTranslation(key: weather.name + "Descr"), fontSize: 14)
                             } else {
                                 CustomText(text: Localization.shared.getTranslation(key: "noWeather"), fontSize: 14)

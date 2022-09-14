@@ -30,7 +30,7 @@ struct IconButton: View {
         ZStack {
             Rectangle().fill(Color("Background1")).frame(width: smallHeight, height: smallHeight)
                 .overlay(Rectangle().strokeBorder(Color.white, lineWidth: borderWidth))
-            Text(label).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+            Text(label).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
         }
         .frame(width: smallHeight, height: smallHeight)
     }

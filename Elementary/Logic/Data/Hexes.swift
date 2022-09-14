@@ -114,9 +114,9 @@ enum Hexes: String, CaseIterable {
         case .chained:
             return Hex(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
         case .invigorated:
-            return Hex(name: self.rawValue, symbol: 0xf102, duration: 3, positive: true, opposite: .exhausted)
+            return Hex(name: self.rawValue, symbol: 0xf102, duration: 5, positive: true, opposite: .exhausted)
         case .exhausted:
-            return Hex(name: self.rawValue, symbol: 0xf103, duration: 3, positive: false, opposite: .invigorated)
+            return Hex(name: self.rawValue, symbol: 0xf103, duration: 5, positive: false, opposite: .invigorated)
         case .restricted:
             return Hex(name: self.rawValue, symbol: 0xf023, duration: 3, positive: false)
         case .taunted:
@@ -138,30 +138,48 @@ enum Hexes: String, CaseIterable {
 
 /// Weather hexes boost different elements during multiple rounds. This is the list containing all available weather hexes.
 enum Weather: String {
-    case blizzard
-    case drought
+    case snowstorm
+    case sunnyDay
     case overcastSky
     case mysticWeather
-    case rain
+    case lightRain
     case sandstorm
+    case magneticStorm
+    case denseFog
+    case heavyStorm
+    case extremeHeat
+    case volcanicStorm
+    case springWeather
     
     /// Creates and returns a weather hex.
     /// - Parameter duration: The duration of the hex
     /// - Returns: Returns a hex
     func getHex(duration: Int) -> Hex {
         switch self {
-        case .blizzard:
-            return Hex(name: self.rawValue, symbol: 0xf740, duration: duration, positive: true)
-        case .drought:
+        case .snowstorm:
+            return Hex(name: self.rawValue, symbol: 0xf739, duration: duration, positive: true)
+        case .sunnyDay:
             return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, positive: true)
         case .overcastSky:
             return Hex(name: self.rawValue, symbol: 0xf6c3, duration: duration, positive: true)
         case .mysticWeather:
             return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, positive: true)
-        case .rain:
-            return Hex(name: self.rawValue, symbol: 0xf73d, duration: duration, positive: true)
+        case .lightRain:
+            return Hex(name: self.rawValue, symbol: 0xf75c, duration: duration, positive: true)
         case .sandstorm:
-            return Hex(name: self.rawValue, symbol: 0xf75f, duration: duration, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf6c4, duration: duration, positive: true)
+        case .magneticStorm:
+            return Hex(name: self.rawValue, symbol: 0xf076, duration: duration, positive: true)
+        case .denseFog:
+            return Hex(name: self.rawValue, symbol: 0xf760, duration: duration, positive: true)
+        case .heavyStorm:
+            return Hex(name: self.rawValue, symbol: 0xf751, duration: duration, positive: true)
+        case .extremeHeat:
+            return Hex(name: self.rawValue, symbol: 0xf765, duration: duration, positive: true)
+        case .volcanicStorm:
+            return Hex(name: self.rawValue, symbol: 0xf76c, duration: duration, positive: true)
+        case .springWeather:
+            return Hex(name: self.rawValue, symbol: 0xf5bb, duration: duration, positive: true)
         }
     }
 }

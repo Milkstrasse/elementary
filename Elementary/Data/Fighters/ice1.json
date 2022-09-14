@@ -11,7 +11,7 @@
   "spells": [
       "iceSimpleAttack",
       "iceSpecialAttack",
-      "blizzard",
+      "snowstorm",
       "copyAttack"
   ]
 }

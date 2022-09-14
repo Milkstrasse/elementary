@@ -70,7 +70,7 @@ class Fighter: Hashable, Equatable {
     
     /// Calculates current stats of a fighter taking the current nature and hexes of the fighter into consideration.
     /// - Returns: Returns the current stats of a fighter
-    func getModifiedBase() -> Base {
+    func getModifiedBase(weather: Hex? = nil) -> Base {
         let health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + attackMod + nature.attackMod, 0)
         var defense: Int = max(base.defense + defenseMod + nature.defenseMod, 0)
@@ -78,17 +78,23 @@ class Fighter: Hashable, Equatable {
         let precision: Int = max(base.precision + precisionMod + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + resistanceMod + nature.resistanceMod, 0)
         
-        if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
-            attack += 40
-        } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
-            defense += 40
-        } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
-            agility += 40
-        } else if getArtifact().name == Artifacts.corset.rawValue || getArtifact().name == Artifacts.sword.rawValue {
-            attack += 40
+        if weather?.name != Weather.volcanicStorm.rawValue {
+            if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
+                attack += 40
+            } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
+                defense += 40
+            } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
+                agility += 40
+            } else if getArtifact().name == Artifacts.corset.rawValue || getArtifact().name == Artifacts.sword.rawValue {
+                attack += 40
+            }
         }
         
-        return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
+        if weather?.name == Weather.extremeHeat.rawValue {
+            return Base(health: health, attack: defense, defense: attack, agility: agility, precision: precision, resistance: resistance)
+        } else {
+            return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
+        }
     }
     
     /// Changes the current nature of a fighter.

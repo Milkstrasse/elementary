@@ -87,13 +87,13 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true)))
+                backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather)))
             }
             
             var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastMove: players[0].usedMoves.first)
             
             if rndmMove == nil { //CPU wants to switch
-                rndmMove = Move(source: players[0].getCurrentFighter(), target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true), spell: Spell())
+                rndmMove = Move(source: players[0].getCurrentFighter(), target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), spell: Spell())
             }
             
             players[0].usedMoves.insert(rndmMove!, at: 0)
@@ -196,7 +196,7 @@ class FightLogic: ObservableObject {
     /// Determines which player has priority.
     /// - Returns: Returns the index of the player with priority
     private func getFasterPlayer() -> Int {
-        //move has a target -> player wants to switch whis is a priority move
+        //move has a target -> player wants to switch which is a priority move
         if players[0].usedMoves[0].target > -1 {
             return 0
         } else if players[1].usedMoves[0].target > -1 {
@@ -211,12 +211,22 @@ class FightLogic: ObservableObject {
         }
         
         //determine priority with using the agility stat of the fighters
-        if players[0].getCurrentFighter().getModifiedBase().agility > players[1].getCurrentFighter().getModifiedBase().agility {
-            return 0
-        } else if players[1].getCurrentFighter().getModifiedBase().agility > players[0].getCurrentFighter().getModifiedBase().agility {
-            return 1
-        } else { //agility stat tie -> random player has priority
-            return Int.random(in: 0 ... 1)
+        if weather?.name == Weather.heavyStorm.rawValue { //flips speed check
+            if players[0].getCurrentFighter().getModifiedBase(weather: weather).agility > players[1].getCurrentFighter().getModifiedBase(weather: weather).agility {
+                return 1
+            } else if players[1].getCurrentFighter().getModifiedBase(weather: weather).agility > players[0].getCurrentFighter().getModifiedBase(weather: weather).agility {
+                return 0
+            } else { //agility stat tie -> random player has priority
+                return Int.random(in: 0 ... 1)
+            }
+        } else {
+            if players[0].getCurrentFighter().getModifiedBase(weather: weather).agility > players[1].getCurrentFighter().getModifiedBase(weather: weather).agility {
+                return 0
+            } else if players[1].getCurrentFighter().getModifiedBase(weather: weather).agility > players[0].getCurrentFighter().getModifiedBase(weather: weather).agility {
+                return 1
+            } else { //agility stat tie -> random player has priority
+                return Int.random(in: 0 ... 1)
+            }
         }
     }
     
@@ -282,7 +292,7 @@ class FightLogic: ObservableObject {
         if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
             if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
                 player.usedMoves[0] = player.getCurrentFighter().lastMove!
-            } else if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue {
+            } else if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
                 if player.usedMoves[1].target < 0 { //last move was not a swap
                     player.usedMoves[0] = player.getCurrentFighter().lastMove!
                 }
@@ -322,10 +332,12 @@ class FightLogic: ObservableObject {
                 playerQueue.append((player: player, index: index + 1))
             }
             
-            if player.getCurrentFighter().getArtifact().name == Artifacts.sword.rawValue && player.usedMoves[0].spell.typeID < 10 {
-                playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
-            } else if  oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.helmet.rawValue && player.usedMoves[0].spell.typeID < 10 {
-                playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
+            if weather?.name != Weather.volcanicStorm.rawValue {
+                if player.getCurrentFighter().getArtifact().name == Artifacts.sword.rawValue && player.usedMoves[0].spell.typeID < 10 {
+                    playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
+                } else if  oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.helmet.rawValue && player.usedMoves[0].spell.typeID < 10 {
+                    playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
+                }
             }
         } else { //this is a swap or spell will fail
             playerQueue.append((player: player, index: 0))
@@ -347,10 +359,12 @@ class FightLogic: ObservableObject {
             }
         }
         
-        if player.getCurrentFighter().getArtifact().name == Artifacts.cornucopia.rawValue {
-            playerQueue.append((player: player, index: -10))
-        } else if player.getCurrentFighter().getArtifact().name == Artifacts.potion.rawValue && player.getCurrentFighter().currhp <= player.getCurrentFighter().getModifiedBase().health/2 {
-            playerQueue.append((player: player, index: -15))
+        if weather?.name != Weather.volcanicStorm.rawValue {
+            if player.getCurrentFighter().getArtifact().name == Artifacts.cornucopia.rawValue {
+                        playerQueue.append((player: player, index: -10))
+                    } else if player.getCurrentFighter().getArtifact().name == Artifacts.potion.rawValue && player.getCurrentFighter().currhp <= player.getCurrentFighter().getModifiedBase().health/2 {
+                        playerQueue.append((player: player, index: -15))
+                    }
         }
     }
     
@@ -385,7 +399,7 @@ class FightLogic: ObservableObject {
         
         var text: String
         
-        if player.getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
+        if player.getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
             for hex in player.getCurrentFighter().hexes {
                 player.getCurrentFighter().removeHex(hex: hex)
             }
@@ -407,8 +421,8 @@ class FightLogic: ObservableObject {
             oppositePlayer = players[1]
         }
         
-        if player.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            if oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
+        if weather?.name != Weather.volcanicStorm.rawValue && player.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
+            if weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
             } else {
                 text += Localization.shared.getTranslation(key: "hexFailed")

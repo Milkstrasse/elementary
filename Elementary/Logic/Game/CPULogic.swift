@@ -33,7 +33,7 @@ struct CPULogic {
         //no moves found
         if availableSpells.isEmpty {
             if player.isAbleToSwap() {
-                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false) != player.currentFighterId {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return nil
                 }
             } else {
@@ -42,9 +42,9 @@ struct CPULogic {
         }
         
         //fighter is restricted -> use best move
-        if attacker.getArtifact().name == Artifacts.corset.rawValue || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
-            if attacker.getElement().hasDisadvantage(element: defender.getElement()) && player.isAbleToSwap() {
-                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false) != player.currentFighterId {
+        if (attacker.getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
+            if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) && player.isAbleToSwap() {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return nil
                 }
             }
@@ -69,8 +69,8 @@ struct CPULogic {
         //predict if target will swap
         var rndm: Int = Int.random(in: 0 ..< 2)
         if rndm > 0 {
-            if defender.getElement().hasDisadvantage(element: attacker.getElement()) && target.isAbleToSwap() {
-                let newFighter: Int = getTarget(currentFighter: target.currentFighterId, fighters: target.fighters, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap)
+            if defender.getElement().hasDisadvantage(element: attacker.getElement(), weather: weather) && target.isAbleToSwap() {
+                let newFighter: Int = getTarget(currentFighter: target.currentFighterId, fighters: target.fighters, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap, weather: weather)
                 if newFighter != target.currentFighterId {
                     defender = target.fighters[newFighter]
                 }
@@ -94,8 +94,8 @@ struct CPULogic {
         }
         
         //swap
-        if attacker.getElement().hasDisadvantage(element: defender.getElement()) && player.isAbleToSwap() {
-            if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false) != player.currentFighterId {
+        if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) && player.isAbleToSwap() {
+            if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                 return nil
             }
         }
@@ -134,7 +134,7 @@ struct CPULogic {
         
         //consider using a hex
         rndm = Int.random(in: 0 ..< 3)
-        if rndm > 0 {
+        if rndm > 1 && weather?.name != Weather.volcanicStorm.rawValue {
             if attacker.currhp > attacker.getModifiedBase().health/4 * 3 {
                 for index in availableSpells.indices {
                     if attacker.spells[availableSpells[index]].typeID == 14 {
@@ -170,12 +170,13 @@ struct CPULogic {
     /// Determines the best fighter to swap to for the CPU.
     /// - Parameters:
     ///   - currentFighter: The current fighter
-    ///   - fighteres: The current team
+    ///   - fighters: The current team
     ///   - enemyElement: The element of the enemy fighter
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns the index of the best fighter to swap to
-    func getTarget(currentFighter: Int, fighters: [Fighter], enemyElement: Element, hasToSwap: Bool) -> Int {
+    func getTarget(currentFighter: Int, fighters: [Fighter], enemyElement: Element, hasToSwap: Bool, weather: Hex?) -> Int {
         for index in fighters.indices {
-            if index != currentFighter && fighters[index].getElement().hasAdvantage(element: enemyElement) {
+            if index != currentFighter && fighters[index].getElement().hasAdvantage(element: enemyElement ,weather: weather) {
                 if fighters[index].currhp > 0 {
                     return index
                 }
@@ -183,7 +184,7 @@ struct CPULogic {
         }
         
         for index in fighters.indices {
-            if index != currentFighter && !fighters[index].getElement().hasDisadvantage(element: enemyElement) {
+            if index != currentFighter && !fighters[index].getElement().hasDisadvantage(element: enemyElement, weather: weather) {
                 if fighters[index].currhp > 0 {
                     return index
                 }
