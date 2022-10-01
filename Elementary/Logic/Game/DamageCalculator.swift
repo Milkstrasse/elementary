@@ -74,10 +74,14 @@ struct DamageCalculator {
         let damage: Int = Int(round(dmg))
         
         if damage >= target.currhp { //prevent hp below 0
-            if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-                target.currhp = 1
-                target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-            } else {
+            if subSpell.range > 0 {
+                if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                    target.currhp = 1
+                    target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                } else {
+                    target.currhp = 0
+                }
+            } else { //no artifact can help with self-inflicted damage
                 target.currhp = 0
             }
         } else {
