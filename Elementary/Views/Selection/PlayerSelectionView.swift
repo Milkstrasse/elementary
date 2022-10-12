@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PlayerSelectionView: View {
+    let opponents: [Fighter?]
+    
     @Binding var fighters: [Fighter?]
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
@@ -22,6 +24,31 @@ struct PlayerSelectionView: View {
     @GestureState var isArtifactDecreasing = false
     @GestureState var isArtifactIncreasing = false
     
+    /// Tries to add a selected fighter to the team.
+    /// - Parameter fighter: The selected fighter
+    func addFighter(fighter: Fighter) {
+        if GlobalData.shared.artifactUse == 1 && isArtifactInUse(artifact: getArtifact(fighter: fighter)) {
+            AudioPlayer.shared.playCancelSound()
+        } else if GlobalData.shared.teamLimit == 0 {
+            AudioPlayer.shared.playStandardSound()
+            fighters[selectedSlot] = fighter
+        } else if !isPartOfTeam(fighter: fighter) {
+            if GlobalData.shared.teamLimit == 2 {
+                for opponent in opponents {
+                    if opponent != nil && opponent!.name == fighter.name {
+                        AudioPlayer.shared.playCancelSound()
+                        return
+                    }
+                }
+            }
+            
+            AudioPlayer.shared.playStandardSound()
+            fighters[selectedSlot] = fighter
+        } else {
+            AudioPlayer.shared.playCancelSound()
+        }
+    }
+    
     /// Returns wether the fighter is selected or not.
     /// - Parameter fighter: The fighter in question
     /// - Returns: Returns wether the fighter is selected or not
@@ -32,6 +59,19 @@ struct PlayerSelectionView: View {
         
         for selectedFighter in fighters {
             if selectedFighter != nil && fighter! == selectedFighter! {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    /// Returns wether the fighter is part of the team or not.
+    /// - Parameter fighter: The fighter in question
+    /// - Returns: Returns wether the fighter is part of the team or not
+    func isPartOfTeam(fighter: Fighter) -> Bool {
+        for selectedFighter in fighters {
+            if selectedFighter != nil && fighter.name == selectedFighter!.name {
                 return true
             }
         }
@@ -147,29 +187,19 @@ struct PlayerSelectionView: View {
                                     HStack(spacing: 5) {
                                         ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
-                                                AudioPlayer.shared.playStandardSound()
-                                                
-                                                if !isSelected(fighter: fighter) || !GlobalData.shared.teamRestricted {
-                                                    fighters[selectedSlot] = fighter
-                                                }
+                                                addFighter(fighter: fighter)
                                             }) {
                                                 SquarePortraitView(fighter: fighter, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
-                                            .disabled(isArtifactInUse(artifact: getArtifact(fighter: fighter)))
                                         }
                                     }
                                     HStack(spacing: 5) {
                                         ForEach(GlobalData.shared.getSecondSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
-                                                AudioPlayer.shared.playStandardSound()
-                                                
-                                                if !isSelected(fighter: fighter) || !GlobalData.shared.teamRestricted {
-                                                    fighters[selectedSlot] = fighter
-                                                }
+                                                addFighter(fighter: fighter)
                                             }) {
                                                 SquarePortraitView(fighter: fighter, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
-                                            .disabled(isArtifactInUse(artifact: getArtifact(fighter: fighter)))
                                         }
                                     }
                                     if GlobalData.shared.savedFighters.count == 1 {
@@ -181,11 +211,7 @@ struct PlayerSelectionView: View {
                                 HStack(spacing: 5) {
                                     ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { fighter in
                                         Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            if !isSelected(fighter: fighter) || !GlobalData.shared.teamRestricted {
-                                                fighters[selectedSlot] = Fighter(data: fighter.data)
-                                            }
+                                            addFighter(fighter: fighter)
                                         }) {
                                             SquarePortraitView(fighter: fighter, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
@@ -194,11 +220,7 @@ struct PlayerSelectionView: View {
                                 HStack(spacing: 5) {
                                     ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { fighter in
                                         Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            if !isSelected(fighter: fighter) || !GlobalData.shared.teamRestricted {
-                                                fighters[selectedSlot] = Fighter(data: fighter.data)
-                                            }
+                                            addFighter(fighter: fighter)
                                         }) {
                                             SquarePortraitView(fighter: fighter, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
@@ -475,6 +497,6 @@ struct PlayerSelectionView: View {
 
 struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(fighters: Binding.constant([exampleFighter, nil, nil, nil]))
+        PlayerSelectionView(opponents: [exampleFighter, exampleFighter, nil, nil], fighters: Binding.constant([exampleFighter, nil, nil, nil]))
     }
 }

@@ -20,7 +20,8 @@ struct SettingsView: View {
     @State var textIndex: Int
     let textSpeeds: [String] = ["slow", "normal", "fast"]
     
-    @State var teamToggle: Bool
+    @State var teamIndex: Int
+    let teamLimit: [String] = ["unlimited", "limited", "restricted"]
     @State var artifactIndex: Int
     let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
@@ -56,7 +57,7 @@ struct SettingsView: View {
                             
                             AudioPlayer.shared.hapticToggle = hapticToggle
                             
-                            GlobalData.shared.teamRestricted = teamToggle
+                            GlobalData.shared.teamLimit = teamIndex
                             GlobalData.shared.artifactUse = artifactIndex
                             
                             DispatchQueue.main.async {
@@ -426,14 +427,24 @@ struct SettingsView: View {
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
-                                            teamToggle = !teamToggle
+                                            
+                                            if teamIndex <= 0 {
+                                                teamIndex = teamLimit.count - 1
+                                            } else {
+                                                teamIndex -= 1
+                                            }
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: teamToggle ? "limited" : "unlimited").uppercased(), fontSize: 14).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: teamLimit[teamIndex]).uppercased(), fontSize: 14).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
-                                            teamToggle = !teamToggle
+                                            
+                                            if teamIndex >= teamLimit.count - 1 {
+                                                teamIndex = 0
+                                            } else {
+                                                teamIndex += 1
+                                            }
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -496,8 +507,8 @@ struct SettingsView: View {
                             GlobalData.shared.textSpeed = 2
                             textIndex = 2
                             
-                            GlobalData.shared.teamRestricted = true
-                            teamToggle = true
+                            GlobalData.shared.teamLimit = 0
+                            teamIndex = 0
                             GlobalData.shared.artifactUse = 0
                             artifactIndex = 0
                         }) {
@@ -519,6 +530,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamToggle: true, artifactIndex: 0)
+        SettingsView(musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamIndex: 0, artifactIndex: 0)
     }
 }

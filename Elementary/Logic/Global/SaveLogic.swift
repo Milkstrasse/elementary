@@ -16,7 +16,7 @@ class SaveLogic {
     
     /// Save data into save file.
     func save() {
-        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamRestricted, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters)
+        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters)
         
         do {
             let data: Data = try JSONEncoder().encode(saveData)
@@ -43,7 +43,7 @@ class SaveLogic {
                     AudioPlayer.shared.hapticToggle = savedData.hapticToggle
                     
                     GlobalData.shared.textSpeed = savedData.textSpeed
-                    GlobalData.shared.teamRestricted = savedData.teamRestricted
+                    GlobalData.shared.teamLimit = savedData.teamRestricted
                     GlobalData.shared.artifactUse = savedData.artifactUse
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters

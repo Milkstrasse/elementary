@@ -88,7 +88,7 @@ struct DamageCalculator {
             target.currhp -= damage
         }
         
-        if spell.typeID == 9 {
+        if spell.typeID == 9 { //heal after attacking
             var healAmount: Float = max(Float(damage) * 0.75, 1)
             healAmount = 100/(Float(attacker.getModifiedBase().health)/healAmount)
             healAmount = roundf(healAmount)

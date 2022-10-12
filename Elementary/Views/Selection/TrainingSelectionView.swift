@@ -41,10 +41,12 @@ struct TrainingSelectionView: View {
     
     /// Selects random fighters to create a team.
     func selectRandom() {
-        let maxSize: Int = min(4, GlobalData.shared.fighters.count)
+        //let maxSize: Int = min(4, GlobalData.shared.fighters.count)
+        let maxSize: Int = 4
         
         var rndmFighters: [Int] = []
-        if GlobalData.shared.teamRestricted {
+        switch GlobalData.shared.teamLimit {
+        case 1:
             var fighterSet = Set<Int>()
             
             while fighterSet.count < maxSize {
@@ -52,7 +54,33 @@ struct TrainingSelectionView: View {
             }
             
             rndmFighters = Array(fighterSet)
-        } else {
+        case 2:
+            topFighters = []
+            while topFighters.count < maxSize {
+                let rndmFighter: Fighter = GlobalData.shared.fighters[Int.random(in: 0 ..< GlobalData.shared.fighters.count)]
+                
+                var fighterFound: Bool = false
+                for fighter in topFighters {
+                    if fighter != nil && fighter!.name == rndmFighter.name {
+                        fighterFound = true
+                        break
+                    }
+                }
+                
+                if !fighterFound {
+                    for opponent in bottomFighters {
+                        if opponent != nil && opponent!.name == rndmFighter.name {
+                            fighterFound = true
+                            break
+                        }
+                    }
+                    
+                    if !fighterFound {
+                        topFighters.append(rndmFighter)
+                    }
+                }
+            }
+        default:
             while rndmFighters.count < maxSize {
                 rndmFighters.append(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
             }
@@ -76,7 +104,10 @@ struct TrainingSelectionView: View {
         }
         
         for index in 0 ..< maxSize {
-            topFighters[index] = Fighter(data: GlobalData.shared.fighters[rndmFighters[index]].data)
+            if !rndmFighters.isEmpty {
+                topFighters[index] = Fighter(data: GlobalData.shared.fighters[rndmFighters[index]].data)
+            }
+            
             if GlobalData.shared.artifactUse != 2 {
                 topFighters[index]?.setArtifact(artifact: rndmArtifacts[index])
             }
@@ -157,7 +188,7 @@ struct TrainingSelectionView: View {
             .padding(.all, outerPadding)
             VStack(spacing: outerPadding) {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
-                PlayerSelectionView(fighters: $bottomFighters)
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
             }
             ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()

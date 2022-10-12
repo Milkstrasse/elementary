@@ -16,7 +16,7 @@ struct SaveData: Codable {
     let hapticToggle: Bool
     let textSpeed: Int
     
-    let teamRestricted: Bool
+    let teamRestricted: Int
     let artifactUse: Int
     
     let savedFighters: [SavedFighterData]

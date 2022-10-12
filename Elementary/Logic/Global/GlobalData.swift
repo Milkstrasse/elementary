@@ -22,7 +22,7 @@ class GlobalData {
     
     var textSpeed: Int = 2
     var artifactUse: Int = 0
-    var teamRestricted: Bool = true
+    var teamLimit: Int = 0
     
     /// Load data from folders.
     func loadData() {
