@@ -1,0 +1,12 @@
+{
+    "symbol": "0xf52d",
+    "color": "#C8A3E8",
+    "strengths": [
+        "decay",
+        "metal"
+    ],
+    "weaknesses": [
+        "wind",
+        "wood"
+    ]
+}

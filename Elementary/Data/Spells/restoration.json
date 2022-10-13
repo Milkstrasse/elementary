@@ -1,0 +1,12 @@
+{
+  "element": "aether",
+  "typeID": 12,
+  "uses": 15,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "healAmount": 50
+      }
+  ]
+}

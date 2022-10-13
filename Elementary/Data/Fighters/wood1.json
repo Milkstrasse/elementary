@@ -1,0 +1,23 @@
+{
+  "element": "wood",
+  "base": {
+      "health": 100,
+      "attack": 100,
+      "defense": 100,
+      "agility": 100,
+      "precision": 100,
+      "resistance": 100
+  },
+  "spells": [
+      "woodSimpleAttack",
+      "woodSpecialAttack",
+      "trap",
+      "block",
+      "magneticStorm",
+      "volcanicStorm",
+      "springWeather",
+      "denseFog",
+      "extremeHeat",
+      "heavyStorm"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "element": "wind",
+  "typeID": 14,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "agilityBoost"
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "invigorated"
+      }
+  ]
+}

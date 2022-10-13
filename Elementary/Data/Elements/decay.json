@@ -1,0 +1,12 @@
+{
+    "symbol": "0xf252",
+    "color": "#9465D2",
+    "strengths": [
+        "plant",
+        "wood"
+    ],
+    "weaknesses": [
+        "aether",
+        "metal"
+    ]
+}

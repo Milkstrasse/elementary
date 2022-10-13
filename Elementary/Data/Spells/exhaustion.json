@@ -1,0 +1,18 @@
+{
+  "element": "fire",
+  "typeID": 14,
+  "uses": 15,
+  "spells": [
+      {
+          "power": 0,
+          "range": 1,
+          "chance": 90,
+          "hex": "exhausted"
+      },
+      {
+          "power": 0,
+          "range": 1,
+          "hex": "agilityDrop"
+      }
+  ]
+}

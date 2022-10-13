@@ -1,0 +1,11 @@
+{
+  "element": "ice",
+  "typeID": 10,
+  "uses": 10,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0
+      }
+  ]
+}

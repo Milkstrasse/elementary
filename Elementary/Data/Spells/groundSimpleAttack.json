@@ -1,0 +1,11 @@
+{
+  "element": "ground",
+  "typeID": 0,
+  "uses": 25,
+  "spells": [
+      {
+          "power": 80,
+          "range": 1
+      }
+  ]
+}

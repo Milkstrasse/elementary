@@ -1,0 +1,12 @@
+{
+    "symbol": "0xf2dc",
+    "color": "#96E7F5",
+    "strengths": [
+        "ground",
+        "plant"
+    ],
+    "weaknesses": [
+        "electric",
+        "fire"
+    ]
+}
