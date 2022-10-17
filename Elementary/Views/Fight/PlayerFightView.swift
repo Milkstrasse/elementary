@@ -48,6 +48,18 @@ struct PlayerFightView: View {
         return width
     }
     
+    /// Changes color of health bar depending on the current health of a fight.
+    /// - Returns: Returns color for the health bar
+    func getHealthColor() -> Color {
+        let ratio: Float = Float(player.getCurrentFighter().currhp)/Float(player.getCurrentFighter().getModifiedBase().health)
+        
+        if ratio > 0.1 { //more than 10% health left
+            return Color("Positive")
+        } else {
+            return Color("Negative")
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -108,7 +120,7 @@ struct PlayerFightView: View {
                                 }
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Border1")).frame(height: 6)
-                                    Rectangle().fill(Color("Positive")).frame(width: calcWidth(fighter: player.getCurrentFighter()), height: 6).animation(.default, value: player.getCurrentFighter().currhp)
+                                    Rectangle().fill(getHealthColor()).frame(width: calcWidth(fighter: player.getCurrentFighter()), height: 6).animation(.default, value: player.getCurrentFighter().currhp)
                                 }
                             }
                             .frame(width: 195 - outerPadding - innerPadding/2).padding(.leading, innerPadding/2).padding(.trailing, outerPadding).padding(.top, -20)
