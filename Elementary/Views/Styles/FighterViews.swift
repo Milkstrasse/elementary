@@ -92,7 +92,7 @@ struct SquarePortraitView: View {
             Rectangle().fill(isInverted ? Color("Background1") : Color("Panel")).frame(width: 70, height: 70)
                 .overlay(Rectangle().strokeBorder(getBorderColor(), lineWidth: borderWidth))
             if fighter != nil {
-                Image(fileName: fighter!.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.2).offset(x: 20, y: -2).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
+                Image(fileName: fighter!.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.4).offset(x: 26, y: 3).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
                 TriangleA().fill(getBorderColor()).frame(width: 70, height: 30).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 10)).foregroundColor(getTextColor()).padding(.all, 6)
             } else {
