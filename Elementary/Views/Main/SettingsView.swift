@@ -523,6 +523,7 @@ struct SettingsView: View {
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
+            langIndex = getCurrentLang()
             transitionToggle = false
         }
     }

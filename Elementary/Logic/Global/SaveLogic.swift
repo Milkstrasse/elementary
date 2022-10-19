@@ -94,13 +94,15 @@ class SaveLogic {
             return nil
         }
     }
-
+    
+    /// Read mods folder to add or overwrite data.
     private func overwrite() {
         overwriteElements()
         overwriteSpells()
         overwriteFighters()
     }
     
+    /// Read mods folder to add or overwrite elements.
     private func overwriteElements() {
         if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             let paths: [String]
@@ -131,6 +133,7 @@ class SaveLogic {
         }
     }
     
+    /// Read mods folder to add or overwrite spells.
     private func overwriteSpells() {
         if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             let paths: [String]
@@ -158,6 +161,7 @@ class SaveLogic {
         }
     }
     
+    /// Read mods folder to add or overwrite fighters.
     private func overwriteFighters() {
         if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             let paths: [String]
@@ -192,6 +196,7 @@ class SaveLogic {
         }
     }
     
+    /// Read mods folder to add or overwrite translations.
     func addTranslations(language: String) -> [String:String]  {
         if let mainURL = SaveLogic.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             let url = URL.init(fileURLWithPath: mainURL.path + "/mods/languages/" + language + ".json")
