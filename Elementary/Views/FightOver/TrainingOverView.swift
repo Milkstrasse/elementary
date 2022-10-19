@@ -33,7 +33,7 @@ struct TrainingOverView: View {
                 Spacer()
                 TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
-            VStack(spacing: outerPadding) {
+            VStack(spacing: innerPadding) {
                 HStack(spacing: innerPadding) {
                     Spacer()
                     Button(action: {
@@ -54,6 +54,11 @@ struct TrainingOverView: View {
                     }
                 }
                 .rotationEffect(.degrees(180))
+                ZStack(alignment: .topLeading) {
+                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    CustomText(text: Localization.shared.getTranslation(key: winner == 0 ? "winner" : "loser").uppercased(), fontSize: 14).padding(.all, innerPadding)
+                }
+                .frame(height: 110).rotationEffect(.degrees(180))
                 Spacer()
                 HStack(spacing: 5) {
                     ForEach(topFighters, id: \.self) { fighter in
@@ -73,6 +78,11 @@ struct TrainingOverView: View {
                     }
                 }
                 Spacer()
+                ZStack(alignment: .topLeading) {
+                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    CustomText(text: Localization.shared.getTranslation(key: winner == 1 ? "winner" : "loser").uppercased(), fontSize: 14).padding(.all, innerPadding)
+                }
+                .frame(height: 110)
                 HStack(spacing: innerPadding) {
                     Spacer()
                     Button(action: {
