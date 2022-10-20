@@ -50,6 +50,7 @@
 		B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* Parameters.swift */; };
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
 		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
+		B887DC222900942300512E65 /* PlayerProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887DC212900942300512E65 /* PlayerProgress.swift */; };
 		B88D9F9128B3E22100AAC683 /* FightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9028B3E22100AAC683 /* FightView.swift */; };
 		B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */; };
 		B88D9F9528B3E3EA00AAC683 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */; };
@@ -76,6 +77,7 @@
 		B8B0F49828AF972000AA245B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8B0F49728AF972000AA245B /* Assets.xcassets */; };
 		B8B0F49B28AF972000AA245B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8B0F49A28AF972000AA245B /* Preview Assets.xcassets */; };
 		B8B0F4A728AF97AA00AA245B /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = B8B0F4A628AF97AA00AA245B /* Assets */; };
+		B8D3D2CD29013D2B003C4268 /* MissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D3D2CC29013D2B003C4268 /* MissionsView.swift */; };
 		B8E943D528B559B300DECE32 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D428B559B300DECE32 /* OptionsView.swift */; };
 		B8E943D828B55E0100DECE32 /* FightOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D728B55E0100DECE32 /* FightOverView.swift */; };
 		B8E943DA28B55E6B00DECE32 /* SpellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D928B55E6B00DECE32 /* SpellsView.swift */; };
@@ -129,6 +131,7 @@
 		B8631ABA28AFEB2800222E54 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
 		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
+		B887DC212900942300512E65 /* PlayerProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProgress.swift; sourceTree = "<group>"; };
 		B88D9F9028B3E22100AAC683 /* FightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightView.swift; sourceTree = "<group>"; };
 		B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
@@ -156,6 +159,7 @@
 		B8B0F49728AF972000AA245B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8B0F49A28AF972000AA245B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B8B0F4A628AF97AA00AA245B /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
+		B8D3D2CC29013D2B003C4268 /* MissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionsView.swift; sourceTree = "<group>"; };
 		B8E943D428B559B300DECE32 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		B8E943D728B55E0100DECE32 /* FightOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightOverView.swift; sourceTree = "<group>"; };
 		B8E943D928B55E6B00DECE32 /* SpellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsView.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				B8631A6C28AFA01300222E54 /* Localization.swift */,
 				B8631A6A28AF9FEA00222E54 /* SaveData.swift */,
 				B8631A6828AF9FE200222E54 /* SaveLogic.swift */,
+				B887DC212900942300512E65 /* PlayerProgress.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				B8631A8728AFA18900222E54 /* MainView.swift */,
 				B8631AB428AFB72A00222E54 /* OverviewView.swift */,
 				B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */,
+				B8D3D2CC29013D2B003C4268 /* MissionsView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -514,6 +520,7 @@
 				B8631A8128AFA05700222E54 /* Hexes.swift in Sources */,
 				B8AD406628B2292200708AA5 /* FightLogic.swift in Sources */,
 				B8E943DA28B55E6B00DECE32 /* SpellsView.swift in Sources */,
+				B887DC222900942300512E65 /* PlayerProgress.swift in Sources */,
 				B8631A6628AF9FA800222E54 /* Extensions.swift in Sources */,
 				B88D9F9728B3E4FC00AAC683 /* TrainingView.swift in Sources */,
 				B8631A7F28AFA05700222E54 /* Artifacts.swift in Sources */,
@@ -527,6 +534,7 @@
 				B8AD405528B1287B00708AA5 /* ElementalChartView.swift in Sources */,
 				B8B0F49428AF971D00AA245B /* ElementaryApp.swift in Sources */,
 				B8631A7028AFA01300222E54 /* GlobalData.swift in Sources */,
+				B8D3D2CD29013D2B003C4268 /* MissionsView.swift in Sources */,
 				B8AD406828B2292200708AA5 /* Player.swift in Sources */,
 				B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */,
 				B8AD406528B2292200708AA5 /* TurnLogic.swift in Sources */,

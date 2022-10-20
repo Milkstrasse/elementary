@@ -149,6 +149,11 @@ struct FightOverView: View {
         .onAppear {
             transitionToggle = false
             AudioPlayer.shared.playMenuMusic()
+            
+            DispatchQueue.main.async {
+                GlobalData.shared.playerProgress.battleCounter += 1
+                SaveLogic.shared.save()
+            }
         }
     }
 }

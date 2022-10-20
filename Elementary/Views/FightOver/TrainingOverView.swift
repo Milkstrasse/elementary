@@ -121,6 +121,11 @@ struct TrainingOverView: View {
         .onAppear {
             transitionToggle = false
             AudioPlayer.shared.playMenuMusic()
+            
+            DispatchQueue.main.async {
+                GlobalData.shared.playerProgress.addWin(winner: winner, fighters: bottomFighters)
+                SaveLogic.shared.save()
+            }
         }
     }
 }

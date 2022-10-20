@@ -16,7 +16,7 @@ class SaveLogic {
     
     /// Save data into save file.
     func save() {
-        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters)
+        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters, playerProgress: GlobalData.shared.playerProgress)
         
         do {
             let data: Data = try JSONEncoder().encode(saveData)
@@ -47,6 +47,8 @@ class SaveLogic {
                     GlobalData.shared.artifactUse = savedData.artifactUse
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
+                    
+                    GlobalData.shared.playerProgress = savedData.playerProgress
                 } catch {
                     print("error: \(error)")
                 }
@@ -147,7 +149,7 @@ class SaveLogic {
             for path in paths {
                 do {
                     let url = URL.init(fileURLWithPath: mainURL.path + "/mods/spells/" + path)
-
+                    
                     let data = try Data(contentsOf: url)
                     var spellData = try JSONDecoder().decode(Spell.self, from: data)
                     spellData.name = url.deletingPathExtension().lastPathComponent
@@ -175,7 +177,7 @@ class SaveLogic {
             for path in paths {
                 do {
                     let url = URL.init(fileURLWithPath: mainURL.path + "/mods/fighters/" + path)
-
+                    
                     let data = try Data(contentsOf: url)
                     var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
                     fighterData.name = url.deletingPathExtension().lastPathComponent

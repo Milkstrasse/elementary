@@ -20,4 +20,6 @@ struct SaveData: Codable {
     let artifactUse: Int
     
     let savedFighters: [SavedFighterData]
+    
+    let playerProgress: PlayerProgress
 }

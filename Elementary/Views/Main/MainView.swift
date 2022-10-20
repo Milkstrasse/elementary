@@ -112,6 +112,16 @@ struct MainView: View {
                         }) {
                             IconButton(label: "\u{f005}")
                         }
+                        Button(action: {
+                            AudioPlayer.shared.playStandardSound()
+                            
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
+                            }
+                        }) {
+                            IconButton(label: "\u{f0c9}")
+                        }
                         Spacer()
                     }
                     .padding(.all, outerPadding)
