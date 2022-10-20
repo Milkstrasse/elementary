@@ -289,7 +289,7 @@ class FightLogic: ObservableObject {
     /// - Parameter player: The index of the player
     private func addMoveTurn(player: Player) {
         //adds move into the used moves collection
-        if player.usedMoves[0].target < 0 { //non swap move can be overwritten by hexes
+        if player.usedMoves[0].target < 0 { //non swap move can be overwritten by artifacts/hexes
             if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
                 player.usedMoves[0] = player.getCurrentFighter().lastMove!
             } else if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
@@ -305,15 +305,7 @@ class FightLogic: ObservableObject {
         } else {
             player.getCurrentFighter().lastMove = nil
         }
-            
-        //increase useCounter of spells
-        player.usedMoves[0].useSpell(amount: player.getCurrentFighter().manaUse)
         
-        var oppositePlayer: Player = players[0]
-        if player.id == 0 {
-            oppositePlayer = players[1]
-        }
-            
         if player.usedMoves[0].spell.typeID == 10 { //player wants to copy last move
             if player.usedMoves.count > 1 {
                 for index in 1 ..< player.usedMoves.count {
@@ -325,6 +317,15 @@ class FightLogic: ObservableObject {
             }
         }
         
+        //increase use counter of spells
+        player.usedMoves[0].useSpell(amount: player.getCurrentFighter().manaUse)
+        
+        var oppositePlayer: Player = players[0]
+        if player.id == 0 {
+            oppositePlayer = players[1]
+        }
+        
+        //add to queue
         if player.usedMoves[0].target < 0 && oppositePlayer.getCurrentFighter().currhp > 0 {
             playerQueue.append((player: player, index: 0))
             

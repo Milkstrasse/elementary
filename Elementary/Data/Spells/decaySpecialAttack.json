@@ -1,7 +1,7 @@
 {
   "element": "decay",
   "typeID": 7,
-  "uses": 5,
+  "uses": 16,
   "spells": [
       {
           "power": 80,

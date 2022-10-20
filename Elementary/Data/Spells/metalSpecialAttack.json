@@ -1,7 +1,7 @@
 {
   "element": "metal",
   "typeID": 0,
-  "uses": 20,
+  "uses": 14,
   "spells": [
       {
           "power": 85,
