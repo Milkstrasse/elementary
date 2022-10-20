@@ -30,5 +30,7 @@ struct PlayerProgress: Codable {
         } else {
             winCounter = 0
         }
+        
+        fightCounter += 1
     }
 }
