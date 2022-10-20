@@ -134,8 +134,8 @@ struct PlayerFightView: View {
                                 Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 ScrollView(.vertical, showsIndicators: false) {
                                     ScrollViewReader { value in
-                                        ForEach(fightLogic.battleLog.indices, id: \.self) { index in
-                                            CustomText(text: fightLogic.battleLog[index], fontSize: 14).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, innerPadding).id(index)
+                                        ForEach(fightLogic.fightLog.indices, id: \.self) { index in
+                                            CustomText(text: fightLogic.fightLog[index], fontSize: 14).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, innerPadding).id(index)
                                                 .onAppear {
                                                     value.scrollTo(index, anchor: .bottom)
                                                 }

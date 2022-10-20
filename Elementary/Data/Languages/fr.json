@@ -190,6 +190,11 @@
     "exhausted": "épuisée",
     "restricted": "restreinte",
     
+    "missions": "Missions",
+    "fightMission": "Combattez {0} fois",
+    "winMission": "Gagnez {0} fois",
+    "winFighterMission": "Gagnez {0} fois avec {1}",
+    
     "creditBy": "**{0}** de {1}",
     
     "help1": "Éléments",

@@ -15,7 +15,7 @@ struct MissionsView: View {
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
-    let battleCounter: [Float] = [10, 50, 100]
+    let fightCounter: [Float] = [10, 50, 100]
     let winStreak: [Float] = [5, 10, 25]
     
     /// Sends signal to blink.
@@ -43,20 +43,20 @@ struct MissionsView: View {
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "missiöns").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: innerPadding) {
-                            ForEach(battleCounter, id: \.self) { counter in
+                            ForEach(fightCounter, id: \.self) { counter in
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "bättle \(Int(counter))x").uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: 14)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.battleCounter)/counter * 100, 100)))%".uppercased(), fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.fightCounter)/counter * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -66,7 +66,7 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "win träin \(Int(streak))x in row").uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: 14)
                                         Spacer()
                                         CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.winStreak)/streak * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
@@ -78,7 +78,7 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "win training 10x with " + fighter.name).uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winFighterMission", params: ["10", fighter.name]).uppercased(), fontSize: 14)
                                         Spacer()
                                         CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.fighterWins[fighter.name] ?? 0)/10 * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
@@ -101,7 +101,7 @@ struct MissionsView: View {
                                 manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
                             }
                         }) {
-                            BorderedButton(label: Localization.shared.getTranslation(key: "rst progress"), width: 210, height: smallHeight, isInverted: false)
+                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 210, height: smallHeight, isInverted: false)
                         }
                     }
                     .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)

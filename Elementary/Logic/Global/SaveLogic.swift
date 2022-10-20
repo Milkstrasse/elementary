@@ -75,11 +75,11 @@ class SaveLogic {
         overwrite()
     }
     
-    /// Save latest battle data into save file
-    func saveBattle() {
+    /// Save latest fight data into save file
+    func saveFight() {
         do {
-            if let url = makeURL(forFileNamed: BattleLog.fileName) {
-                try BattleLog.shared.battleLog.write(to: url, atomically: true, encoding: .utf8)
+            if let url = makeURL(forFileNamed: FightLog.fileName) {
+                try FightLog.shared.fightLog.write(to: url, atomically: true, encoding: .utf8)
             }
         } catch {
             print("error: \(error)")

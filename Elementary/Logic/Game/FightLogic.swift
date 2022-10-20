@@ -17,7 +17,7 @@ class FightLogic: ObservableObject {
     
     @Published var battling: Bool = false
     var backupLog: [String]
-    @Published var battleLog: [String]
+    @Published var fightLog: [String]
     @Published var gameOver: Bool = false
     
     @Published var weather: Hex?
@@ -45,9 +45,9 @@ class FightLogic: ObservableObject {
             }
         }
         
-        battleLog = [Localization.shared.getTranslation(key: "fightBegin")]
+        fightLog = [Localization.shared.getTranslation(key: "fightBegin")]
         
-        BattleLog.shared.generatePlayerInfo(player1Fighters: players[0].fighters, player2Fighters: players[1].fighters)
+        FightLog.shared.generatePlayerInfo(player1Fighters: players[0].fighters, player2Fighters: players[1].fighters)
     }
     
     /// Checks if there are enough fighters on both sides.
@@ -102,7 +102,7 @@ class FightLogic: ObservableObject {
         //fight begins
         if gameLogic.areBothReady() || hasCPUPlayer {
             battling = true
-            battleLog = [Localization.shared.getTranslation(key: "loading")]
+            fightLog = [Localization.shared.getTranslation(key: "loading")]
             
             //reset hasToSwap marker to prevent free swaps
             players[0].hasToSwap = false
@@ -121,12 +121,12 @@ class FightLogic: ObservableObject {
                 //processes all actions on playerQueue
                 Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { [self] timer in
                     if turns < 0 {
-                        battleLog = []
+                        fightLog = []
                         turns = 0
                     }
                     
                     if !backupLog.isEmpty {
-                        battleLog.append(backupLog.removeFirst())
+                        fightLog.append(backupLog.removeFirst())
                     } else {
                         let currentPlayer: Player = playerQueue[0].player;
                         turns += 1
@@ -175,7 +175,7 @@ class FightLogic: ObservableObject {
                                 
                                 battling = false
                                 
-                                BattleLog.shared.addBattleLog(log: battleLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
+                                FightLog.shared.addFightLog(log: fightLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
                             }
                         }
                     }
@@ -375,13 +375,13 @@ class FightLogic: ObservableObject {
         
         if player.usedMoves[0].target > -1 {
             if attacker.hasHex(hexName: Hexes.chained.rawValue) {
-                battleLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
+                fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
                 return
             }
             
-            battleLog.append(swapFighters(player: player, target: player.usedMoves[0].target))
+            fightLog.append(swapFighters(player: player, target: player.usedMoves[0].target))
         } else {
-            battleLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
+            fightLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
         }
     }
     
@@ -465,7 +465,7 @@ class FightLogic: ObservableObject {
     /// Determines the winner of the game. Currently no draws possible.
     /// - Returns: Returns the id of the winning player
     func getWinner() -> Int {
-        SaveLogic.shared.saveBattle()
+        SaveLogic.shared.saveFight()
         
         //player who has forfeited loses automatically
         if gameLogic.forfeited[0] {

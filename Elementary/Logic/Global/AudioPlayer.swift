@@ -58,7 +58,7 @@ class AudioPlayer {
     }
     
     /// Plays the background music during of an fight.
-    func playBattleMusic() {
+    func playFightMusic() {
         do {
             let path = Bundle.main.path(forResource: "LudumDare28-Track3.wav", ofType: nil)!
             let url = URL(fileURLWithPath: path)

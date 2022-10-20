@@ -6,7 +6,7 @@
 //
 
 struct PlayerProgress: Codable {
-    var battleCounter: Int = 0
+    var fightCounter: Int = 0
     private var winCounter: Int = 0
     var winStreak: Int = 0
     

@@ -41,7 +41,7 @@ struct FightView: View {
             ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
-            AudioPlayer.shared.playBattleMusic()
+            AudioPlayer.shared.playFightMusic()
             
             transitionToggle = false
         }
