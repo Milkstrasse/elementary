@@ -66,7 +66,7 @@ struct DamageCalculator {
             chance = Int.random(in: 0 ..< 100)
             
             if chance >= target.getModifiedBase().resistance/10 {
-                dmg *= 1.5
+                dmg *= 2
                 text = Localization.shared.getTranslation(key: "criticalHit")
             }
         }
