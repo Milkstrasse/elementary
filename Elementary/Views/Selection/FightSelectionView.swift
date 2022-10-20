@@ -144,9 +144,9 @@ struct FightSelectionView: View {
                 }
             }
             .padding(.all, outerPadding)
-            VStack(spacing: outerPadding) {
-                PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).rotationEffect(.degrees(180))
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
+            VStack(spacing: innerPadding) {
+                PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).frame(width: geometry.size.width).rotationEffect(.degrees(180))
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).frame(width: geometry.size.width)
             }
             ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()

@@ -94,7 +94,7 @@ struct PlayerFightView: View {
                                 }
                             }
                         }) {
-                            ClearButton(label: currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: 120, height: 50).padding(.leading, outerPadding).offset(y: 6)
+                            ClearButton(label: currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
                         }
                         .disabled(!isInteractable).opacity(fightLogic.battling ? 0.5 : 1.0).disabled(fightLogic.battling)
                         Spacer()
@@ -158,7 +158,7 @@ struct PlayerFightView: View {
                                         InfoView(fightLogic: fightLogic, player: player)
                                     }
                                 }
-                                .padding(.horizontal, outerPadding)
+                                .frame(width: geometry.size.width - 30).padding(.horizontal, outerPadding)
                             }
                             .padding(.bottom, outerPadding)
                         } else {

@@ -186,7 +186,7 @@ struct TrainingSelectionView: View {
                 }
             }
             .padding(.all, outerPadding)
-            VStack(spacing: outerPadding) {
+            VStack(spacing: innerPadding) {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
                 PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
             }
