@@ -15,6 +15,9 @@ struct MissionsView: View {
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
+    let battleCounter: [Float] = [10, 50, 100]
+    let winStreak: [Float] = [5, 10, 25]
+    
     /// Sends signal to blink.
     /// - Parameter delay: The delay between blinks
     func blink(delay: TimeInterval) {
@@ -46,89 +49,29 @@ struct MissionsView: View {
                     .padding([.top, .leading], outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: innerPadding) {
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "bättle 10x").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.battleCounter >= 10 {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
+                            ForEach(battleCounter, id: \.self) { counter in
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "bättle \(Int(counter))x").uppercased(), fontSize: 14)
+                                        Spacer()
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.battleCounter)/counter * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
+                                    .padding(.all, innerPadding)
                                 }
-                                .padding(.all, innerPadding)
                             }
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "bättle 50x").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.battleCounter >= 50 {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
+                            ForEach(winStreak, id: \.self) { streak in
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "win träin \(Int(streak))x in row").uppercased(), fontSize: 14)
+                                        Spacer()
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.winStreak)/streak * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
+                                    .padding(.all, innerPadding)
                                 }
-                                .padding(.all, innerPadding)
-                            }
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "bättle 100x").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.battleCounter >= 100 {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
-                                    }
-                                }
-                                .padding(.all, innerPadding)
-                            }
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "win training 5x in röw").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.winStreak >= 5 {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
-                                    }
-                                }
-                                .padding(.all, innerPadding)
-                            }
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "win training 10x in röw").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.winStreak >= 10 {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
-                                    }
-                                }
-                                .padding(.all, innerPadding)
-                            }
-                            ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "win training all alive").uppercased(), fontSize: 14)
-                                    Spacer()
-                                    if GlobalData.shared.playerProgress.winAllAlive {
-                                        CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                    } else {
-                                        CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
-                                    }
-                                }
-                                .padding(.all, innerPadding)
                             }
                             ForEach(GlobalData.shared.fighters, id: \.name) { fighter in
                                 ZStack {
@@ -137,11 +80,7 @@ struct MissionsView: View {
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "win training 10x with " + fighter.name).uppercased(), fontSize: 14)
                                         Spacer()
-                                        if GlobalData.shared.playerProgress.fighterWins[fighter.name] ?? 0 >= 10 {
-                                            CustomText(text: Localization.shared.getTranslation(key: "complöte").uppercased(), fontSize: 14)
-                                        } else {
-                                            CustomText(text: Localization.shared.getTranslation(key: "uncomplöte").uppercased(), fontSize: 14)
-                                        }
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.fighterWins[fighter.name] ?? 0)/10 * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
                                     .padding(.all, innerPadding)
                                 }
