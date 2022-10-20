@@ -96,7 +96,7 @@ struct PlayerFightView: View {
                         }) {
                             ClearButton(label: currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
                         }
-                        .disabled(!isInteractable).opacity(fightLogic.battling ? 0.5 : 1.0).disabled(fightLogic.battling)
+                        .disabled(!isInteractable).opacity(fightLogic.fighting ? 0.5 : 1.0).disabled(fightLogic.fighting)
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 210, height: 50).shadow(radius: 5, x: 5, y: 0)
@@ -173,8 +173,8 @@ struct PlayerFightView: View {
                 .frame(height: 175)
             }
             .frame(height: 175)
-            .onReceive(fightLogic.$battling, perform: { battling in
-                if battling {
+            .onReceive(fightLogic.$fighting, perform: { fighting in
+                if fighting {
                     currentSection = .summary
                 }
             })

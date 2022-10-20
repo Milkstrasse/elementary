@@ -15,7 +15,7 @@ class FightLogic: ObservableObject {
     let players: [Player]
     var playerQueue: [(player: Player, index: Int)] = []
     
-    @Published var battling: Bool = false
+    @Published var fighting: Bool = false
     var backupLog: [String]
     @Published var fightLog: [String]
     @Published var gameOver: Bool = false
@@ -101,7 +101,7 @@ class FightLogic: ObservableObject {
         
         //fight begins
         if gameLogic.areBothReady() || hasCPUPlayer {
-            battling = true
+            fighting = true
             fightLog = [Localization.shared.getTranslation(key: "loading")]
             
             //reset hasToSwap marker to prevent free swaps
@@ -173,7 +173,7 @@ class FightLogic: ObservableObject {
                                 gameLogic.setReady(player: 1, ready: false)
                                 //players are now able to choose their moves again
                                 
-                                battling = false
+                                fighting = false
                                 
                                 FightLog.shared.addFightLog(log: fightLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
                             }
