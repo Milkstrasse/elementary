@@ -507,8 +507,8 @@ struct SettingsView: View {
                             GlobalData.shared.textSpeed = 2
                             textIndex = 2
                             
-                            GlobalData.shared.teamLimit = 0
-                            teamIndex = 0
+                            GlobalData.shared.teamLimit = 1
+                            teamIndex = 1
                             GlobalData.shared.artifactUse = 0
                             artifactIndex = 0
                         }) {

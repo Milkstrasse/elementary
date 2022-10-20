@@ -22,7 +22,7 @@ class GlobalData {
     
     var textSpeed: Int = 2
     var artifactUse: Int = 0
-    var teamLimit: Int = 0
+    var teamLimit: Int = 1
     
     var playerProgress: PlayerProgress = PlayerProgress()
     
