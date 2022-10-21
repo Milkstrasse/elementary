@@ -1,10 +1,10 @@
 {
   "element": "rock",
   "typeID": 1,
-  "uses": 10,
+  "uses": 8,
   "spells": [
       {
-          "power": 40,
+          "power": 35,
           "range": 1
       }
   ]
