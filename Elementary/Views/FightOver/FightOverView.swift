@@ -151,7 +151,7 @@ struct FightOverView: View {
             AudioPlayer.shared.playMenuMusic()
             
             DispatchQueue.main.async {
-                GlobalData.shared.playerProgress.fightCounter += 1
+                GlobalData.shared.userProgress.fightCounter += 1
                 SaveLogic.shared.save()
             }
         }

@@ -1,17 +1,17 @@
 {
   "element": "water",
   "base": {
-      "health": 100,
-      "attack": 100,
-      "defense": 100,
-      "agility": 100,
-      "precision": 100,
-      "resistance": 100
+      "health": 75,
+      "attack": 75,
+      "defense": 75,
+      "agility": 75,
+      "precision": 75,
+      "resistance": 75
   },
   "spells": [
       "waterSimpleAttack",
-      "waterSpecialAttack",
-      "lightRain",
-      "swapHexes"
+      "waterSimpleAttack",
+      "waterSimpleAttack",
+      "waterSimpleAttack"
   ]
 }

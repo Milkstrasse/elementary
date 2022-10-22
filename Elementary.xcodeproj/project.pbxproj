@@ -50,7 +50,7 @@
 		B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* Parameters.swift */; };
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
 		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
-		B887DC222900942300512E65 /* PlayerProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887DC212900942300512E65 /* PlayerProgress.swift */; };
+		B887DC222900942300512E65 /* UserProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887DC212900942300512E65 /* UserProgress.swift */; };
 		B88D9F9128B3E22100AAC683 /* FightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9028B3E22100AAC683 /* FightView.swift */; };
 		B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */; };
 		B88D9F9528B3E3EA00AAC683 /* TrainingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */; };
@@ -131,7 +131,7 @@
 		B8631ABA28AFEB2800222E54 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
 		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
-		B887DC212900942300512E65 /* PlayerProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProgress.swift; sourceTree = "<group>"; };
+		B887DC212900942300512E65 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
 		B88D9F9028B3E22100AAC683 /* FightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightView.swift; sourceTree = "<group>"; };
 		B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
 		B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingSelectionView.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 				B8631A6C28AFA01300222E54 /* Localization.swift */,
 				B8631A6A28AF9FEA00222E54 /* SaveData.swift */,
 				B8631A6828AF9FE200222E54 /* SaveLogic.swift */,
-				B887DC212900942300512E65 /* PlayerProgress.swift */,
+				B887DC212900942300512E65 /* UserProgress.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -520,7 +520,7 @@
 				B8631A8128AFA05700222E54 /* Hexes.swift in Sources */,
 				B8AD406628B2292200708AA5 /* FightLogic.swift in Sources */,
 				B8E943DA28B55E6B00DECE32 /* SpellsView.swift in Sources */,
-				B887DC222900942300512E65 /* PlayerProgress.swift in Sources */,
+				B887DC222900942300512E65 /* UserProgress.swift in Sources */,
 				B8631A6628AF9FA800222E54 /* Extensions.swift in Sources */,
 				B88D9F9728B3E4FC00AAC683 /* TrainingView.swift in Sources */,
 				B8631A7F28AFA05700222E54 /* Artifacts.swift in Sources */,

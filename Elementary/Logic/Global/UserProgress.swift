@@ -1,11 +1,11 @@
 //
-//  PlayerProgress.swift
+//  UserProgress.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 19.10.22.
 //
 
-struct PlayerProgress: Codable {
+struct UserProgress: Codable {
     var fightCounter: Int = 0
     private var winCounter: Int = 0
     var winStreak: Int = 0
@@ -21,10 +21,12 @@ struct PlayerProgress: Codable {
             }
             
             for fighter in fighters {
-                if let counter = fighterWins[fighter.name] {
-                    fighterWins.updateValue(min(counter + 1, 25), forKey: fighter.name)
-                } else {
-                    fighterWins.updateValue(1, forKey: fighter.name)
+                if !fighter.data.isCustom {
+                    if let counter = fighterWins[fighter.name] {
+                        fighterWins.updateValue(min(counter + 1, 25), forKey: fighter.name)
+                    } else {
+                        fighterWins.updateValue(1, forKey: fighter.name)
+                    }
                 }
             }
         } else {

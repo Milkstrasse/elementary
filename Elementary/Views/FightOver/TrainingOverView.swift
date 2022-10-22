@@ -123,7 +123,7 @@ struct TrainingOverView: View {
             AudioPlayer.shared.playMenuMusic()
             
             DispatchQueue.main.async {
-                GlobalData.shared.playerProgress.addWin(winner: winner, fighters: bottomFighters)
+                GlobalData.shared.userProgress.addWin(winner: winner, fighters: bottomFighters)
                 SaveLogic.shared.save()
             }
         }

@@ -16,7 +16,7 @@ class SaveLogic {
     
     /// Save data into save file.
     func save() {
-        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters, playerProgress: GlobalData.shared.playerProgress)
+        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters, userProgress: GlobalData.shared.userProgress)
         
         do {
             let data: Data = try JSONEncoder().encode(saveData)
@@ -48,7 +48,7 @@ class SaveLogic {
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
                     
-                    GlobalData.shared.playerProgress = savedData.playerProgress
+                    GlobalData.shared.userProgress = savedData.userProgress
                 } catch {
                     print("error: \(error)")
                 }
@@ -186,6 +186,8 @@ class SaveLogic {
                         if fighter.data.name == fighterData.name {
                             GlobalData.shared.fighters[index] = Fighter(data: fighterData) //replaces fighter
                             return
+                        } else {
+                            fighterData.isCustom = true
                         }
                     }
                     

@@ -56,7 +56,7 @@ struct MissionsView: View {
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: 14)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.fightCounter)/counter * 100, 100)))%".uppercased(), fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.fightCounter)/counter * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -68,21 +68,23 @@ struct MissionsView: View {
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: 14)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.winStreak)/streak * 100, 100)))%".uppercased(), fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.winStreak)/streak * 100, 100)))%".uppercased(), fontSize: 14)
                                     }
                                     .padding(.all, innerPadding)
                                 }
                             }
                             ForEach(GlobalData.shared.fighters, id: \.name) { fighter in
-                                ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winFighterMission", params: ["10", fighter.name]).uppercased(), fontSize: 14)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.playerProgress.fighterWins[fighter.name] ?? 0)/10 * 100, 100)))%".uppercased(), fontSize: 14)
+                                if !fighter.data.isCustom {
+                                    ZStack {
+                                        Rectangle().fill(Color("Panel"))
+                                            .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                        HStack {
+                                            CustomText(text: Localization.shared.getTranslation(key: "winFighterMission", params: ["10", fighter.name]).uppercased(), fontSize: 14)
+                                            Spacer()
+                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.fighterWins[fighter.name] ?? 0)/10 * 100, 100)))%".uppercased(), fontSize: 14)
+                                        }
+                                        .padding(.all, innerPadding)
                                     }
-                                    .padding(.all, innerPadding)
                                 }
                             }
                         }
@@ -94,7 +96,7 @@ struct MissionsView: View {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
-                            GlobalData.shared.playerProgress = PlayerProgress()
+                            GlobalData.shared.userProgress = UserProgress()
                             SaveLogic.shared.save()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

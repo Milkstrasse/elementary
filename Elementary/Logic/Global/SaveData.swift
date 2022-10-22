@@ -21,5 +21,5 @@ struct SaveData: Codable {
     
     let savedFighters: [SavedFighterData]
     
-    let playerProgress: PlayerProgress
+    let userProgress: UserProgress
 }

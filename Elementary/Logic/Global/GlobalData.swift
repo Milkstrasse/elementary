@@ -24,7 +24,7 @@ class GlobalData {
     var artifactUse: Int = 0
     var teamLimit: Int = 1
     
-    var playerProgress: PlayerProgress = PlayerProgress()
+    var userProgress: UserProgress = UserProgress()
     
     /// Load data from folders.
     func loadData() {

@@ -13,6 +13,8 @@ struct FighterData: Decodable {
     
     let base: Base
     
+    var isCustom: Bool = false
+    
     enum CodingKeys: String, CodingKey {
         case element, spells, base
     }
