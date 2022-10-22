@@ -1,7 +1,7 @@
 {
   "element": "ground",
   "typeID": 3,
-  "uses": 18,
+  "uses": 16,
   "spells": [
       {
           "power": 70,

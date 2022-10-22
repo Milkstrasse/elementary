@@ -1,10 +1,10 @@
 {
   "element": "wind",
   "typeID": 8,
-  "uses": 18,
+  "uses": 16,
   "spells": [
       {
-          "power": 70,
+          "power": 65,
           "range": 1
       }
   ]

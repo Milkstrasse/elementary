@@ -1,7 +1,7 @@
 {
   "element": "water",
   "typeID": 0,
-  "uses": 14,
+  "uses": 16,
   "spells": [
       {
           "power": 50,

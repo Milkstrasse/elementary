@@ -1,7 +1,7 @@
 {
   "element": "plant",
   "typeID": 5,
-  "uses": 25,
+  "uses": 18,
   "spells": [
       {
           "power": 10,

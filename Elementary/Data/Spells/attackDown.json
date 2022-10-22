@@ -1,7 +1,7 @@
 {
   "element": "rock",
   "typeID": 14,
-  "uses": 25,
+  "uses": 24,
   "spells": [
       {
           "power": 0,

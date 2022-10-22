@@ -2,7 +2,7 @@
   "element": "fire",
   "typeID": 14,
   "priority": 10,
-  "uses": 10,
+  "uses": 14,
   "spells": [
       {
           "power": 0,

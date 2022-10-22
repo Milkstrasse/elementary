@@ -2,7 +2,7 @@
   "element": "metal",
   "typeID": 0,
   "priority": 5,
-  "uses": 20,
+  "uses": 16,
   "spells": [
       {
           "power": 60,

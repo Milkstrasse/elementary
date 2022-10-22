@@ -1,7 +1,7 @@
 {
   "element": "aether",
   "typeID": 6,
-  "uses": 20,
+  "uses": 16,
   "spells": [
       {
           "power": 60,

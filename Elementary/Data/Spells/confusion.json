@@ -1,7 +1,7 @@
 {
   "element": "electric",
   "typeID": 14,
-  "uses": 15,
+  "uses": 14,
   "spells": [
       {
           "power": 0,

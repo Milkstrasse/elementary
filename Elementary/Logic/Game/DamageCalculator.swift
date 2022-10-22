@@ -180,11 +180,11 @@ struct DamageCalculator {
     func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
         let attack: Float
         if powerOverride > 0 {
-            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 24
         } else if powerOverride == 0 {
-            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 24
         } else {
-            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * 24
         }
         
         let defense: Float = max(Float(defender.getModifiedBase(weather: weather).defense), 1.0) //prevent division by zero

@@ -1,10 +1,10 @@
 {
   "element": "metal",
   "typeID": 0,
-  "uses": 14,
+  "uses": 16,
   "spells": [
       {
-          "power": 85,
+          "power": 75,
           "range": 1
       },
       {

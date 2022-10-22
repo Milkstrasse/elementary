@@ -1,7 +1,7 @@
 {
   "element": "ice",
   "typeID": 10,
-  "uses": 10,
+  "uses": 12,
   "spells": [
       {
           "power": 0,

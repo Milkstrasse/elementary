@@ -1,7 +1,7 @@
 {
   "element": "wood",
   "typeID": 0,
-  "uses": 16,
+  "uses": 12,
   "spells": [
       {
           "power": 80,
