@@ -86,7 +86,7 @@ class TurnLogic {
         }
         
         //if fighter was forced to use spells with no uses
-        if spell.useCounter >= spell.uses {
+        if spell.useCounter > spell.uses {
             return Localization.shared.getTranslation(key: "fail")
         }
         

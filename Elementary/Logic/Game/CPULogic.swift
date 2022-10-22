@@ -32,10 +32,8 @@ struct CPULogic {
         
         //no moves found
         if availableSpells.isEmpty {
-            if player.isAbleToSwap() {
-                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
-                    return nil
-                }
+            if player.isAbleToSwap() && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
+                return nil
             } else {
                 return Move(source: attacker, target: -1, spell: attacker.spells[0])
             }
@@ -178,7 +176,16 @@ struct CPULogic {
         for index in fighters.indices {
             if index != currentFighter && fighters[index].getElement().hasAdvantage(element: enemyElement ,weather: weather) {
                 if fighters[index].currhp > 0 {
-                    return index
+                    var unusableSpells: Int = 0
+                    for spell in fighters[index].spells { //check if fighter can use any spell
+                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                            unusableSpells += 1
+                        }
+                    }
+                    
+                    if unusableSpells < fighters[index].spells.count {
+                        return index
+                    }
                 }
             }
         }
@@ -186,7 +193,16 @@ struct CPULogic {
         for index in fighters.indices {
             if index != currentFighter && !fighters[index].getElement().hasDisadvantage(element: enemyElement, weather: weather) {
                 if fighters[index].currhp > 0 {
-                    return index
+                    var unusableSpells: Int = 0
+                    for spell in fighters[index].spells { //check if fighter can use any spell
+                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                            unusableSpells += 1
+                        }
+                    }
+                    
+                    if unusableSpells < fighters[index].spells.count {
+                        return index
+                    }
                 }
             }
         }
@@ -195,12 +211,21 @@ struct CPULogic {
             //no good fighter was found, find any fighter who hasn't fainted
             for index in fighters.indices {
                 if index != currentFighter && fighters[index].currhp > 0 {
-                    return index
+                    var unusableSpells: Int = 0
+                    for spell in fighters[index].spells { //check if fighter can use any spell
+                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                            unusableSpells += 1
+                        }
+                    }
+                    
+                    if unusableSpells < fighters[index].spells.count {
+                        return index
+                    }
                 }
             }
         }
         
-        return currentFighter //should be impossible to reach if everything works correctly
+        return currentFighter //no fighter was found
     }
     
     /// Calculate the minimum damage of a spell.

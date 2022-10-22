@@ -18,7 +18,6 @@ class FightLogic: ObservableObject {
     @Published var fighting: Bool = false
     var backupLog: [String]
     @Published var fightLog: [String]
-    @Published var gameOver: Bool = false
     
     @Published var weather: Hex?
     
@@ -438,23 +437,44 @@ class FightLogic: ObservableObject {
     /// - Returns: Returns whether one of the teams only consists of fainted fighters
     func isGameOver() -> Bool {
         var counter: Int = 0
+        
         for fighter in players[0].fighters {
+            var unusableSpells: Int = 0
+            
             if fighter.currhp > 0 {
-                counter += 1
+                for spell in fighter.spells { //check if fighter can use any spell
+                    if spell.useCounter + fighter.manaUse > spell.uses {
+                        unusableSpells += 1
+                    }
+                }
+                
+                if unusableSpells < fighter.spells.count {
+                    counter += 1
+                }
             }
         }
         
-        if counter == 0 { //all fighters in team have fainted -> unable to fight
+        if counter == 0 { //all fighters in team are unable to fight
             return true
         }
         
         for fighter in players[1].fighters {
+            var unusableSpells: Int = 0
+            
             if fighter.currhp > 0 {
-                return false //fighter able to fight was found, both teams are able to fight
+                for spell in fighter.spells { //check if fighter can use any spell
+                    if spell.useCounter + fighter.manaUse > spell.uses {
+                        unusableSpells += 1
+                    }
+                }
+                
+                if unusableSpells < fighter.spells.count {
+                    return false //fighter able to fight was found, both teams are able to fight
+                }
             }
         }
         
-        return true //all fighters in team have fainted -> unable to fight
+        return true //all fighters in team are unable to fight
     }
     
     /// Ends the game with a forfeit.
@@ -475,10 +495,19 @@ class FightLogic: ObservableObject {
             return 0
         }
         
-        //if one player has alive fighters other autmatically loses
         for fighter in players[0].fighters {
+            var unusableSpells: Int = 0
+            
             if fighter.currhp > 0 {
-                return 0
+                for spell in fighter.spells { //check if fighter can use any spell
+                    if spell.useCounter + fighter.manaUse > spell.uses {
+                        unusableSpells += 1
+                    }
+                }
+                
+                if unusableSpells < fighter.spells.count {
+                    return 0 //one able fighter was found -> player 0 has won by default
+                }
             }
         }
         
