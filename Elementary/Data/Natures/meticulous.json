@@ -2,7 +2,7 @@
     "healthMod": 0,
     "attackMod": 0,
     "defenseMod": 0,
-    "agilityMod": -20,
-    "precisionMod": 20,
+    "agilityMod": -15,
+    "precisionMod": 15,
     "resistanceMod": 0
 }

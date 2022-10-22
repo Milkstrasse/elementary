@@ -1,8 +1,8 @@
 {
     "healthMod": 0,
-    "attackMod": -20,
+    "attackMod": -15,
     "defenseMod": 0,
-    "agilityMod": 20,
+    "agilityMod": 15,
     "precisionMod": 0,
     "resistanceMod": 0
 }
