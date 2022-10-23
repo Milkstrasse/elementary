@@ -105,7 +105,7 @@ struct TrainingSelectionView: View {
         
         for index in 0 ..< maxSize {
             if !rndmFighters.isEmpty {
-                topFighters[index] = Fighter(data: GlobalData.shared.fighters[rndmFighters[index]].data)
+                topFighters[index] = SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter() //make copy
             }
             
             if GlobalData.shared.artifactUse != 2 {

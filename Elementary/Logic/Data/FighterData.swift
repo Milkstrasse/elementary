@@ -80,8 +80,8 @@ struct SavedFighterData: Codable, Equatable {
         base = fighter.base
     }
     
-    /// Creates which from data.
-    /// - Returns: Returns the fighter crated by the data
+    /// Creates fighter from data.
+    /// - Returns: Returns the fighter created by the data
     func toFighter() -> Fighter {
         let fighter: Fighter = Fighter(data: FighterData(name: name, element: element, spells: spells, base: base))
         for nat in GlobalData.shared.natures {

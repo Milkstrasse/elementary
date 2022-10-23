@@ -74,11 +74,11 @@ class Fighter: Hashable, Equatable {
     /// - Returns: Returns the current stats of a fighter
     func getModifiedBase(weather: Hex? = nil) -> Base {
         let health: Int = max(base.health + nature.healthMod, 0)
-        var attack: Int = max(base.attack + getHexBonus(mod: attackMod) + nature.attackMod, 0)
-        var defense: Int = max(base.defense + getHexBonus(mod: defenseMod) + nature.defenseMod, 0)
-        var agility: Int = max(base.agility + getHexBonus(mod: agilityMod) + nature.agilityMod, 0)
-        let precision: Int = max(base.precision + getHexBonus(mod: precisionMod) + nature.precisionMod, 0)
-        let resistance: Int = max(base.resistance + getHexBonus(mod: resistanceMod) + nature.resistanceMod, 0)
+        var attack: Int = max(base.attack + getHexBonus(hex: attackMod) + nature.attackMod, 0)
+        var defense: Int = max(base.defense + getHexBonus(hex: defenseMod) + nature.defenseMod, 0)
+        var agility: Int = max(base.agility + getHexBonus(hex: agilityMod) + nature.agilityMod, 0)
+        let precision: Int = max(base.precision + getHexBonus(hex: precisionMod) + nature.precisionMod, 0)
+        let resistance: Int = max(base.resistance + getHexBonus(hex: resistanceMod) + nature.resistanceMod, 0)
         
         if weather?.name != Weather.volcanicStorm.rawValue {
             if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
@@ -99,13 +99,16 @@ class Fighter: Hashable, Equatable {
         }
     }
     
-    func getHexBonus(mod: Int) -> Int {
+    /// Calculates the stat change caused by  hexes
+    /// - Parameter hex: Category of hexes
+    /// - Returns: Returns stat change caused by  hexes
+    func getHexBonus(hex: Int) -> Int {
         var bonus: Int = 0
         if getArtifact().name == Artifacts.incense.rawValue {
             bonus = 20
         }
         
-        return Int(round(sin(Float(mod)/2) * Float(40 + bonus)))
+        return Int(round(sin(Float(hex)/2) * Float(40 + bonus)))
     }
     
     /// Changes the current nature of a fighter.
