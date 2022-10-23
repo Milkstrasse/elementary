@@ -71,7 +71,7 @@ struct DamageCalculator {
             }
         }
         
-        let damage: Int = Int(round(dmg))
+        let damage: Int = Int(ceil(dmg))
         
         if damage >= target.currhp { //prevent hp below 0
             if subSpell.range > 0 {
@@ -229,7 +229,7 @@ struct DamageCalculator {
             dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: subSpell, spellElement: spellElement, weather: weather)
         }
         
-        let damage: Int = Int(round(dmg))
+        let damage: Int = Int(ceil(dmg))
         
         if damage >= defender.currhp {
             return true
