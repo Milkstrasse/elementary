@@ -10,8 +10,8 @@
   },
   "spells": [
       "metalSimpleAttack",
-      "metalSimpleAttack",
-      "metalSimpleAttack",
-      "metalSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

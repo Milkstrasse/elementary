@@ -10,8 +10,8 @@
   },
   "spells": [
       "decaySimpleAttack",
-      "decaySimpleAttack",
-      "decaySimpleAttack",
-      "decaySimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

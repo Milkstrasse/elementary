@@ -13,7 +13,7 @@ class FightLogic: ObservableObject {
     
     private let hasCPUPlayer: Bool
     let players: [Player]
-    var playerQueue: [(player: Player, index: Int)] = []
+    var playerQueue: [(player: Player, move: Move)] = []
     
     @Published var fighting: Bool = false
     var backupLog: [String]
@@ -28,7 +28,7 @@ class FightLogic: ObservableObject {
     init(players: [Player], hasCPUPlayer: Bool = false) {
         self.hasCPUPlayer = hasCPUPlayer
         backupLog = []
-
+        
         self.players = players
         
         //apply effect of artifact on "entering"
@@ -63,16 +63,12 @@ class FightLogic: ObservableObject {
     func makeMove(player: Player, move: Move) -> Bool {
         if move.spell.useCounter + player.getCurrentFighter().manaUse > move.spell.uses {
             return false //spell cost is to high, fighter cannot use this spell
-        } else if move.target > -1 {
-            if player.fighters[move.target].currhp == 0 {
-                return false //fighter cannot switch with fainted fighters
-            }
         }
         
         if player.hasToSwap { //fighter either fainted or has special artifact to swap
             if !player.getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) || player.getCurrentFighter().currhp == 0 {
-                if move.target > -1 {
-                    backupLog.append(swapFighters(player: player, target: move.target))
+                if move.index > -1 {
+                    backupLog.append(swapFighters(player: player, target: move.index))
                 }
                 
                 return false //action is free, new fighter can make a move
@@ -81,7 +77,24 @@ class FightLogic: ObservableObject {
         
         //marks player as ready
         gameLogic.setReady(player: player.id, ready: true)
-        player.usedMoves.insert(move, at: 0)
+        
+        switch playerQueue.count {
+        case 0:
+            playerQueue.append((player: player, move: move))
+            if player.id > 0 {
+                playerQueue.append((player: player, move: move))
+            }
+        case 1:
+            if player.id > 0 {
+                playerQueue.append((player: player, move: move))
+            } else {
+                playerQueue[0] = (player: player, move: move)
+            }
+        default:
+            playerQueue[player.id] = (player: player, move: move)
+        }
+        
+        playerQueue[player.id] = (player: player, move: move)
         
         //CPU makes its move
         if hasCPUPlayer {
@@ -89,13 +102,13 @@ class FightLogic: ObservableObject {
                 backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather)))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastMove: players[0].usedMoves.first)
+            var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: players[0].getCurrentFighter().lastSpell)
             
             if rndmMove == nil { //CPU wants to switch
-                rndmMove = Move(source: players[0].getCurrentFighter(), target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), spell: Spell())
+                rndmMove = Move(source: players[0].getCurrentFighter(), index: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), spell: Spell(), type: MoveType.swap)
             }
             
-            players[0].usedMoves.insert(rndmMove!, at: 0)
+            playerQueue[0] = (player: players[0], move: rndmMove!)
         }
         
         //fight begins
@@ -107,15 +120,10 @@ class FightLogic: ObservableObject {
             players[0].hasToSwap = false
             players[1].hasToSwap = false
             
-            //adds faster player to playerQueue
-            addMoveTurn(player: players[getFasterPlayer()])
-            
-            var endRound: Bool = false
+            addTurns(fasterPlayer: players[getFasterPlayer()])
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 var turns: Int = -1
-                //amount of turns first player needs to do their action
-                let firstTurns: Int = playerQueue.count
                 
                 //processes all actions on playerQueue
                 Timer.scheduledTimer(withTimeInterval: GlobalData.shared.getTextSpeed() , repeats: true) { [self] timer in
@@ -127,14 +135,12 @@ class FightLogic: ObservableObject {
                     if !backupLog.isEmpty {
                         fightLog.append(backupLog.removeFirst())
                     } else {
-                        let currentPlayer: Player = playerQueue[0].player;
-                        turns += 1
-                        
-                        startTurn(player: currentPlayer)
-                        playerQueue.removeFirst()
-                        
-                        if playerQueue.isEmpty && !endRound { //adds new action if neccessary during the fight
-                            endRound = addTurns(currentPlayer: currentPlayer, turns: turns, firstTurns: firstTurns)
+                        if !playerQueue.isEmpty {
+                            while startTurn(player: playerQueue[0].player, move: playerQueue[0].move) && playerQueue.count > 1 {
+                                playerQueue.removeFirst()
+                            }
+                            
+                            playerQueue.removeFirst()
                         }
                         
                         if playerQueue.isEmpty {
@@ -189,23 +195,22 @@ class FightLogic: ObservableObject {
     /// - Parameter player: The index of the player
     func undoMove(player: Player) {
         gameLogic.setReady(player: player.id, ready: false)
-        player.usedMoves.removeFirst()
     }
     
     /// Determines which player has priority.
     /// - Returns: Returns the index of the player with priority
     private func getFasterPlayer() -> Int {
-        //move has a target -> player wants to switch which is a priority move
-        if players[0].usedMoves[0].target > -1 {
+        //player wants to switch which -> priority
+        if playerQueue[0].move.type == MoveType.swap {
             return 0
-        } else if players[1].usedMoves[0].target > -1 {
+        } else if playerQueue[1].move.type == MoveType.swap {
             return 1
         }
         
         //priority move goes first
-        if players[0].usedMoves[0].spell.priority > players[1].usedMoves[0].spell.priority {
+        if playerQueue[0].move.spell.priority > playerQueue[1].move.spell.priority {
             return 0
-        } else if players[0].usedMoves[0].spell.priority < players[1].usedMoves[0].spell.priority {
+        } else if playerQueue[0].move.spell.priority < playerQueue[1].move.spell.priority {
             return 1
         }
         
@@ -229,160 +234,176 @@ class FightLogic: ObservableObject {
         }
     }
     
-    /// Adds turns to the current round of fighting.
-    /// - Parameters:
-    ///   - currentPlayer: The index of player whose turn it is
-    ///   - turns: The amount of turns in the current round
-    ///   - firstTurns: The amount of turn the first player needed
-    /// - Returns: Returns wether all necessary turns were determined or a future analysis is needed
-    private func addTurns(currentPlayer: Player, turns: Int, firstTurns: Int) -> Bool {
-        if players[0].getCurrentFighter().currhp > 0 && players[1].getCurrentFighter().currhp > 0 {
-            if turns == firstTurns {
-                if currentPlayer.id == 0 {
-                    addMoveTurn(player: players[1])
-                } else {
-                    addMoveTurn(player: players[0])
+    private func addTurns(fasterPlayer: Player) {
+        //finalize move
+        for index in players.indices {
+            if playerQueue[index].move.type == MoveType.spell { //spell move can be overwritten by artifacts/hexes
+                if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
+                } else if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
+                } else if players[index].getCurrentFighter().hasHex(hexName: Hexes.confused.rawValue) {
+                    let randomMove: Move = Move(source: players[index].getCurrentFighter(), index: -1, spell: players[index].getCurrentFighter().spells[Int.random(in: 0 ..< players[index].getCurrentFighter().spells.count)], type: MoveType.spell)
+                    playerQueue[index].move = randomMove
                 }
-            } else {
-                addHexTurns(player: players[0])
-                addHexTurns(player: players[1])
-                return true
+                
+                if playerQueue[index].move.spell.typeID == 13 && players[index].getCurrentFighter().lastSpell?.typeID == 13 {
+                    players[index].getCurrentFighter().lastSpell = Spell(name: "shieldFail") //shield fails
+                } else if playerQueue[index].move.spell.typeID != 10 { //prevent copy spell loop
+                    players[index].getCurrentFighter().lastSpell = playerQueue[index].move.spell
+                }
             }
             
-            return false
+            if playerQueue[index].move.spell.typeID == 10 { //player wants to copy last move
+                if players[index].getCurrentFighter().lastSpell != nil {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
+                }
+            }
+            
+            //increase use counter of spells
+            playerQueue[index].move.useSpell(amount: players[index].getCurrentFighter().manaUse)
         }
         
-        if players[0].getCurrentFighter().currhp == 0 && players[1].getCurrentFighter().currhp == 0 {
-            playerQueue.append((player: players[0], index: 0))
-            playerQueue.append((player: players[1], index: 0))
-            
-            return true
-        } else if players[0].getCurrentFighter().currhp == 0 {
-            playerQueue.append((player: players[0], index: 0))
-            
-            if currentPlayer.id == 0 && turns == firstTurns {
-                addMoveTurn(player: players[1])
-                addHexTurns(player: players[1])
-                return true
-            } else {
-                addHexTurns(player: players[1])
-                return true
-            }
-        } else if players[1].getCurrentFighter().currhp == 0 {
-            playerQueue.append((player: players[1], index: 0))
-            
-            if currentPlayer.id == 1 && turns == firstTurns {
-                addMoveTurn(player: players[0])
-                addHexTurns(player: players[0])
-                return true
-            } else {
-                addHexTurns(player: players[0])
-                return true
-            }
+        var slowerPlayer: Player = players[0]
+        if fasterPlayer.id == 0 {
+            slowerPlayer = players[1]
         }
         
-        return false
+        //faster fighter makes move
+        playerQueue.append((player: fasterPlayer, move: playerQueue[fasterPlayer.id].move))
+        if playerQueue[fasterPlayer.id].move.type == MoveType.spell {
+            for index in playerQueue[fasterPlayer.id].move.spell.spells.indices {
+                playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: index, spell: playerQueue[fasterPlayer.id].move.spell, type: playerQueue[fasterPlayer.id].move.type)))
+            }
+            
+            //buffer for artifact effects
+            playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: 0, spell: playerQueue[fasterPlayer.id].move.spell, type: MoveType.artifact)))
+            playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: 1, spell: playerQueue[fasterPlayer.id].move.spell, type: MoveType.artifact)))
+        }
+        
+        //fighters faint or exit the fight
+        playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+        playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+        
+        //slower fighter makes move
+        playerQueue.append((player: slowerPlayer, move: playerQueue[slowerPlayer.id].move))
+        if playerQueue[slowerPlayer.id].move.type == MoveType.spell {
+            for index in playerQueue[slowerPlayer.id].move.spell.spells.indices {
+                playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: index, spell: playerQueue[slowerPlayer.id].move.spell, type: playerQueue[slowerPlayer.id].move.type)))
+            }
+            
+            //buffer for artifact effects
+            playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: 0, spell: playerQueue[slowerPlayer.id].move.spell, type: MoveType.artifact)))
+            playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: 1, spell: playerQueue[slowerPlayer.id].move.spell, type: MoveType.artifact)))
+        }
+        
+        //fighters faint or exit the fight
+        playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+        playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+        
+        //faster fighter receives hex effects
+        for index in 0 ..< 3 {
+            playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: index, spell: Spell(), type: MoveType.hex)))
+        }
+        
+        //slower fighter receives hex effects
+        for index in 0 ..< 3 {
+            playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: index, spell: Spell(), type: MoveType.hex)))
+        }
+        
+        //faster fighter receives artifact effects
+        playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.artifact)))
+        
+        //slower fighter receives artifact effects
+        playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.artifact)))
+        
+        //remove placeholders
+        playerQueue.removeFirst()
+        playerQueue.removeFirst()
     }
     
-    /// Adds turns depending on the move of the player to the current round of fighting.
-    /// - Parameter player: The index of the player
-    private func addMoveTurn(player: Player) {
-        //adds move into the used moves collection
-        if player.usedMoves[0].target < 0 { //non swap move can be overwritten by artifacts/hexes
-            if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
-                player.usedMoves[0] = player.getCurrentFighter().lastMove!
-            } else if player.getCurrentFighter().lastMove != nil && player.getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-                if player.usedMoves[1].target < 0 { //last move was not a swap
-                    player.usedMoves[0] = player.getCurrentFighter().lastMove!
-                }
-            } else if player.getCurrentFighter().hasHex(hexName: Hexes.confused.rawValue) {
-                let randomMove: Move = Move(source: player.getCurrentFighter(), spell: player.getCurrentFighter().spells[Int.random(in: 0 ..< player.getCurrentFighter().spells.count)])
-                player.usedMoves[0] = randomMove
-            }
-            
-            player.getCurrentFighter().lastMove = player.usedMoves[0]
-        } else {
-            player.getCurrentFighter().lastMove = nil
-        }
+    private func startTurn(player: Player, move: Move) -> Bool {
+        let attacker: Fighter = player.getCurrentFighter()
         
-        if player.usedMoves[0].spell.typeID == 10 { //player wants to copy last move
-            if player.usedMoves.count > 1 {
-                for index in 1 ..< player.usedMoves.count {
-                    if player.usedMoves[index].target < 0 && player.usedMoves[index].spell.typeID != 10 {
-                        player.usedMoves[0] = player.usedMoves[index]
-                        break
+        //check if move is skippable
+        switch move.type {
+        case .spell:
+            if player.hasToSwap || player.getCurrentFighter().currhp == 0 { //fighter is unable to use spells
+                return true
+            }
+        case .special:
+            if !player.hasToSwap && player.getCurrentFighter().currhp > 0 { //fighter is still able to fight
+                return true
+            } else { //player can't leave/faint twice -> remove duplicate
+                var movesToRemove: [Int] = []
+                for index in 1 ..< playerQueue.count {
+                    if playerQueue[index].move.type == MoveType.special && playerQueue[index].player.id == player.id {
+                        movesToRemove.append(index)
                     }
                 }
+                
+                for index in movesToRemove {
+                    playerQueue.remove(at: index)
+                }
             }
-        }
-        
-        //increase use counter of spells
-        player.usedMoves[0].useSpell(amount: player.getCurrentFighter().manaUse)
-        
-        var oppositePlayer: Player = players[0]
-        if player.id == 0 {
-            oppositePlayer = players[1]
-        }
-        
-        //add to queue
-        if player.usedMoves[0].target < 0 && oppositePlayer.getCurrentFighter().currhp > 0 {
-            playerQueue.append((player: player, index: 0))
+        case .hex:
+            if player.hasToSwap || player.getCurrentFighter().currhp == 0 { //fighter is no longer present
+                return true
+            } else if move.index >= attacker.hexes.count { //fighter has not enough hexes
+                return true
+            }
             
-            for index in player.usedMoves[0].spell.spells.indices {
-                playerQueue.append((player: player, index: index + 1))
+            let hex: Hex = attacker.hexes[move.index]
+            
+            if hex.damageAmount == 0 { //hex has no effect
+                return true
+            } else if hex.name == Hexes.bombed.rawValue && hex.duration != 1 { //hex has no effect yet
+                return true
+            }
+        case .artifact:
+            if player.hasToSwap || player.getCurrentFighter().currhp == 0 { //fighter is no longer present
+                return true
             }
             
             if weather?.name != Weather.volcanicStorm.rawValue {
-                if player.getCurrentFighter().getArtifact().name == Artifacts.sword.rawValue && player.usedMoves[0].spell.typeID < 10 {
-                    playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
-                } else if  oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.helmet.rawValue && player.usedMoves[0].spell.typeID < 10 {
-                    playerQueue.append((player: player, index: player.usedMoves[0].spell.spells.count + 1))
-                }
-            }
-        } else { //this is a swap or spell will fail
-            playerQueue.append((player: player, index: 0))
-        }
-    }
-    
-    /// Adds turns depending on the hexes of the player to the current round of fighting.
-    /// - Parameter player: The index of the player
-    private func addHexTurns(player: Player) {
-        if !player.getCurrentFighter().hexes.isEmpty {
-            for index in player.getCurrentFighter().hexes.indices {
-                let hex: Hex = player.getCurrentFighter().hexes[index]
-                
-                if hex.damageAmount != 0 && hex.name != Hexes.bombed.rawValue {
-                    playerQueue.append((player: player, index: -1 - index))
-                } else if hex.name == Hexes.bombed.rawValue && hex.duration == 1 {
-                    playerQueue.append((player: player, index: -1 - index))
-                }
-            }
-        }
-        
-        if weather?.name != Weather.volcanicStorm.rawValue {
-            if player.getCurrentFighter().getArtifact().name == Artifacts.cornucopia.rawValue {
-                        playerQueue.append((player: player, index: -10))
-                    } else if player.getCurrentFighter().getArtifact().name == Artifacts.potion.rawValue && player.getCurrentFighter().currhp <= player.getCurrentFighter().getModifiedBase().health/2 {
-                        playerQueue.append((player: player, index: -15))
+                if move.index < 0 {
+                    if attacker.getArtifact().name != Artifacts.cornucopia.rawValue { //artifact has no effect
+                        return true
+                    } else if attacker.getArtifact().name == Artifacts.potion.rawValue && attacker.currhp > attacker.getModifiedBase().health/2 { //artifact has no effect yet
+                        return true
                     }
+                } else if move.index == 0 {
+                    if attacker.getArtifact().name != Artifacts.sword.rawValue || move.spell.typeID < 10 {
+                        return true
+                    }
+                } else {
+                    var oppositePlayer: Player = players[0]
+                    if player.id == 0 {
+                        oppositePlayer = players[1]
+                    }
+                    
+                    if oppositePlayer.getCurrentFighter().getArtifact().name != Artifacts.helmet.rawValue || move.spell.typeID < 10 {
+                        return true
+                    }
+                }
+            } else { //weather makes artifacts useless
+                return true
+            }
+        default:
+            break
         }
-    }
-    
-    /// Starts the turn of a player.
-    /// - Parameter player: The player
-    private func startTurn(player: Player) {
-        let attacker: Fighter = player.getCurrentFighter()
         
-        if player.usedMoves[0].target > -1 {
+        if move.type == MoveType.swap { //check if swap possible
             if attacker.hasHex(hexName: Hexes.chained.rawValue) {
                 fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
-                return
+            } else {
+                fightLog.append(swapFighters(player: player, target: move.index))
             }
-            
-            fightLog.append(swapFighters(player: player, target: player.usedMoves[0].target))
         } else {
             fightLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
         }
+        
+        return false
     }
     
     /// Swaps two fighters.
@@ -428,9 +449,9 @@ class FightLogic: ObservableObject {
                 text += Localization.shared.getTranslation(key: "hexFailed")
             }
         }
-                                                                                
+        
         return String(text.dropLast())
-                                                                                
+        
     }
     
     /// Checks if game is over.

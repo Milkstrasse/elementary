@@ -22,8 +22,8 @@ struct Spell: Decodable, Hashable {
     }
     
     /// Creates placeholder spell.
-    init() {
-        name = "unknownSpell"
+    init(name: String = "unknownSpell") {
+        self.name = name
         element = Element()
         
         typeID = 0

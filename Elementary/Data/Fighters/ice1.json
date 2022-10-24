@@ -10,8 +10,8 @@
   },
   "spells": [
       "iceSimpleAttack",
-      "iceSimpleAttack",
-      "iceSimpleAttack",
-      "iceSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

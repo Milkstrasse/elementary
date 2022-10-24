@@ -10,8 +10,8 @@
   },
   "spells": [
       "waterSimpleAttack",
-      "waterSimpleAttack",
-      "waterSimpleAttack",
-      "waterSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

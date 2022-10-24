@@ -10,8 +10,8 @@
   },
   "spells": [
       "groundSimpleAttack",
-      "groundSimpleAttack",
-      "groundSimpleAttack",
-      "groundSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

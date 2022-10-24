@@ -83,7 +83,7 @@ struct SpellsView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), spell: player.getCurrentFighter().spells[index])) {
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, spell: player.getCurrentFighter().spells[index], type: MoveType.spell)) {
                                         AudioPlayer.shared.playConfirmSound()
                                         currentSection = .waiting
                                     } else {

@@ -21,7 +21,7 @@ class Fighter: Hashable, Equatable {
     var hexes: [Hex] = []
     
     var spells: [Spell]
-    var lastMove: Move?
+    var lastSpell: Spell?
     
     var nature: Nature
     private var artifact: Artifact

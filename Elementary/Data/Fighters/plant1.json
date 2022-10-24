@@ -10,8 +10,8 @@
   },
   "spells": [
       "plantSimpleAttack",
-      "plantSimpleAttack",
-      "plantSimpleAttack",
-      "plantSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

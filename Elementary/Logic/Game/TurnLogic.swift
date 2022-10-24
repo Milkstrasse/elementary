@@ -22,16 +22,17 @@ class TurnLogic {
         self.fightLogic = fightLogic
         
         let attacker: Fighter = player.getCurrentFighter()
+        let move: Move = fightLogic.playerQueue[0].move
         
-        //fighter faints
-        if attacker.currhp == 0 {
-            player.hasToSwap = true
-            return Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
-        }
-        
-        //apply damage or healing of hexes
-        if fightLogic.playerQueue[0].index < 0 && fightLogic.playerQueue[0].index > -10 {
-            let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[abs(fightLogic.playerQueue[0].index) - 1].damageAmount)
+        switch move.type {
+        case .special:
+            if attacker.currhp == 0 { //fighter faints
+                return Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
+            } else { //fighter leaves
+                return Localization.shared.getTranslation(key: "player left chat")
+            }
+        case .hex:
+            let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[move.index].damageAmount)
             
             if damage >= attacker.currhp {
                 attacker.currhp = 0
@@ -55,68 +56,59 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
             }
-        } else if fightLogic.playerQueue[0].index == -10 {
-            if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
-                attacker.currhp = attacker.getModifiedBase().health
-            } else {
-                attacker.currhp += attacker.getModifiedBase().health/16
+        case .artifact:
+            if move.index < 0 {
+                if attacker.getArtifact().name == Artifacts.cornucopia.rawValue {
+                    if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
+                        attacker.currhp = attacker.getModifiedBase().health
+                    } else {
+                        attacker.currhp += attacker.getModifiedBase().health/16
+                    }
+                } else if attacker.getArtifact().name == Artifacts.potion.rawValue {
+                    if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
+                        attacker.currhp = attacker.getModifiedBase().health
+                    } else {
+                        attacker.currhp += attacker.getModifiedBase().health/4
+                    }
+                    
+                    player.getCurrentFighter().overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                }
+                
+                player.setState(state: PlayerState.healing)
+            } else if move.index >= 0 { //recoil damage from artifact
+                player.setState(state: PlayerState.hurting)
+                let target: Fighter = player.getCurrentFighter()
+                let damage: Int = target.getModifiedBase().health/10
+                
+                if damage >= target.currhp { //prevent hp below 0
+                    target.currhp = 0
+                } else {
+                    target.currhp -= damage
+                }
+                
+                print(target.name + " lost \(damage)DMG.\n")
+                
+                return Localization.shared.getTranslation(key: "hit")
             }
             
-            player.setState(state: PlayerState.healing)
-            
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
-        } else if fightLogic.playerQueue[0].index == -15 {
-            if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
-                attacker.currhp = attacker.getModifiedBase().health
-            } else {
-                attacker.currhp += attacker.getModifiedBase().health/4
+        default: //spell move
+            if move.index == -1 {
+                player.setState(state: PlayerState.attacking)
+                return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, move.spell.name])
             }
             
-            player.getCurrentFighter().overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-            player.setState(state: PlayerState.healing)
+            //if fighter was forced to use spells with no uses
+            if move.spell.useCounter - attacker.manaUse > move.spell.uses {
+                return Localization.shared.getTranslation(key: "fail")
+            }
             
-            return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
+            return attack(player: player, move: move)
         }
-        
-        let spell: Spell = player.usedMoves[0].spell
-        
-        if fightLogic.playerQueue[0].index == 0 {
-            player.setState(state: PlayerState.attacking)
-            return Localization.shared.getTranslation(key: "usedSpell", params: [attacker.name, spell.name])
-        }
-        
-        //if fighter was forced to use spells with no uses
-        if spell.useCounter > spell.uses {
-            return Localization.shared.getTranslation(key: "fail")
-        }
-        
-        return attack(player: player, usedMoves: player.usedMoves)
     }
     
-    /// Fighter uses their spell to attack, heal or to do another action.
-    /// - Parameters:
-    ///   - player: The player
-    ///   - spell: The spell used to make the attack
-    /// - Returns: Returns a description of what occured during the player's attack
-    private func attack(player: Player, usedMoves: [Move]) -> String {
-        var spell: Spell = usedMoves[0].spell
-        
-        //recoil damage from sword artifact
-        if fightLogic!.playerQueue[0].index > spell.spells.count {
-            player.setState(state: PlayerState.hurting)
-            let target: Fighter = player.getCurrentFighter()
-            let damage: Int = target.getModifiedBase().health/10
-            
-            if damage >= target.currhp { //prevent hp below 0
-                target.currhp = 0
-            } else {
-                target.currhp -= damage
-            }
-            
-            print(target.name + " lost \(damage)DMG.\n")
-            
-            return Localization.shared.getTranslation(key: "hit")
-        }
+    private func attack(player: Player, move: Move) -> String {
+        var spell: Spell = move.spell
         
         //determine actual target
         var oppositePlayer: Player = fightLogic!.players[0]
@@ -126,27 +118,29 @@ class TurnLogic {
         
         //checks if targeted user is successfully shielded or not
         var usedShield: Bool = false
-        if spell.spells[fightLogic!.playerQueue[0].index - 1].range > 0 {
-            if oppositePlayer.usedMoves[0].spell.typeID == 13 {
-                if oppositePlayer.usedMoves.count == 1 || oppositePlayer.usedMoves[0].spell.name != oppositePlayer.usedMoves[1].spell.name { //shield was successful
-                    if player.usedMoves[0].spell.typeID != 2 {
-                        return Localization.shared.getTranslation(key: "fail")
-                    } else {
-                        usedShield = true
-                    }
+        if spell.spells[move.index].range > 0 {
+            if oppositePlayer.getCurrentFighter().lastSpell != nil && oppositePlayer.getCurrentFighter().lastSpell!.typeID == 13 {
+                if spell.typeID != 2 {
+                    return Localization.shared.getTranslation(key: "fail")
+                } else {
+                    usedShield = true
                 }
             }
         }
         
-        if player.getCurrentFighter().hasHex(hexName: Hexes.taunted.rawValue) && spell.spells[fightLogic!.playerQueue[0].index - 1].power <= 0 {
+        if player.getCurrentFighter().hasHex(hexName: Hexes.taunted.rawValue) && spell.spells[move.index].power <= 0 {
             return Localization.shared.getTranslation(key: "fail")
         }
         
-        let usedSpell: SubSpell = spell.spells[fightLogic!.playerQueue[0].index - 1]
+        let usedSpell: SubSpell = spell.spells[move.index]
         
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
             if usedSpell.range == 1 {
+                if oppositePlayer.getCurrentFighter().currhp == 0 || oppositePlayer.hasToSwap { //target no longer fighting
+                    return Localization.shared.getTranslation(key: "fail")
+                }
+                
                 oppositePlayer.setState(state: PlayerState.hurting)
                 
                 if oppositePlayer.getCurrentFighter().getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap() && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue {
@@ -195,10 +189,8 @@ class TurnLogic {
                     return Localization.shared.getTranslation(key: "retreated", params: [player.getCurrentFighter().name])
                 }
             case 13:
-                let usedMoves: [Move] = player.usedMoves
-                
                 //shield can't be used twice in a row -> failure
-                if usedMoves.count > 1 && spell.name == usedMoves[1].spell.name {
+                if player.getCurrentFighter().lastSpell?.name == "shieldFail" {
                     return Localization.shared.getTranslation(key: "fail")
                 } else {
                     return Localization.shared.getTranslation(key: "nameProtected", params: [player.getCurrentFighter().name])

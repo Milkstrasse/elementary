@@ -30,10 +30,6 @@ struct DamageCalculator {
             target = attacker
         }
         
-        if target.currhp == 0 { //target already fainted -> no target for spell
-            return Localization.shared.getTranslation(key: "fail")
-        }
-        
         //damage calculation
         var dmg: Float
         

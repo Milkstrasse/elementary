@@ -8,26 +8,29 @@
 /// A move is an action made by a fighter. Can either be a swap with another fighter or a spell.
 struct Move {
     private let source: Fighter
-    let target: Int
+    let index: Int
     
     var spell: Spell
+    let type: MoveType
     
     /// Creates a move.
     /// - Parameters:
     ///   - source: The fighter that made the move
-    ///   - target: The target for a swap, set to -1 if the move is not a swap
+    ///   - index: The target for a swap or the spell index
     ///   - spell: The spell used to make the move, set to placeholder spell f the move is a swap
-    init(source: Fighter, target: Int = -1, spell: Spell = Spell()) {
+    ///   - type: The type of move
+    init(source: Fighter, index: Int, spell: Spell, type: MoveType) {
         self.source = source
-        self.target = target
+        self.index = index
         
         self.spell = spell
+        self.type = type
     }
     
     /// Mana is subtracted from the spell.
     /// - Parameter amount: The amount of mana used on the spell
     mutating func useSpell(amount: Int) {
-        if spell == Spell() { //hints that move was a swap -> no need to increase counter
+        if spell.name == "unknownSpell" { //placeholder spell -> no need to increase counter
             return
         }
         
@@ -44,4 +47,12 @@ struct Move {
         spell.useCounter += amount
         source.spells[spellIndex] = spell
     }
+}
+
+enum MoveType {
+    case swap
+    case spell
+    case hex
+    case artifact
+    case special
 }

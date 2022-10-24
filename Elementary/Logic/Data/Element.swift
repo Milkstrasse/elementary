@@ -20,8 +20,8 @@ struct Element: Decodable {
     
     /// Creates default element with no strengths or weaknesses.
     init() {
-        name = "aether"
-        symbol = "0xf52d"
+        name = "unknownElement"
+        symbol = "0xf128"
         color = "#000000"
         
         strengths = []

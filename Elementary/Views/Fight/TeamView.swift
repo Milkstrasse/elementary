@@ -87,7 +87,7 @@ struct TeamView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), target: index, spell: Spell())) {
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, spell: Spell(), type: MoveType.swap)) {
                                         AudioPlayer.shared.playConfirmSound()
                                         currentSection = .waiting
                                     } else {

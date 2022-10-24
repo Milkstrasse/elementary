@@ -10,8 +10,8 @@
   },
   "spells": [
       "woodSimpleAttack",
-      "woodSimpleAttack",
-      "woodSimpleAttack",
-      "woodSimpleAttack"
+      "protection",
+      "attackDown",
+      "healingEffect"
   ]
 }

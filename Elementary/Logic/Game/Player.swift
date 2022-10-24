@@ -8,14 +8,13 @@
 import Foundation
 import SwiftUI
 
-/// Contains all the important data of a player during a fight: their current team, the current fighter and all the used moves.
+/// Contains all the important data of a player during a fight: their current team, the current fighter and all the used spells.
 class Player: ObservableObject {
     let id: Int
     
     @Published var fighters: [Fighter]
     @Published var currentFighterId: Int
     
-    var usedMoves: [Move]
     var hasToSwap: Bool
     var wishActivated: Bool
     
@@ -30,7 +29,6 @@ class Player: ObservableObject {
         self.fighters = fighters
         currentFighterId = 0
         
-        usedMoves = []
         hasToSwap = false
         wishActivated = false
         
