@@ -234,6 +234,8 @@ class FightLogic: ObservableObject {
         }
     }
     
+    /// Plans whole fight in advance and adds the moves to the queue.
+    /// - Parameter fasterPlayer: The player that starts first
     private func addTurns(fasterPlayer: Player) {
         //finalize move
         for index in players.indices {
@@ -322,6 +324,11 @@ class FightLogic: ObservableObject {
         playerQueue.removeFirst()
     }
     
+    /// Executes a move from the queue and skips unneccessary moves.
+    /// - Parameters:
+    ///   - player: The player that makes the move
+    ///   - move: The move the player wants to make
+    /// - Returns: Returns wether the move gets skipped or not
     private func startTurn(player: Player, move: Move) -> Bool {
         let attacker: Fighter = player.getCurrentFighter()
         

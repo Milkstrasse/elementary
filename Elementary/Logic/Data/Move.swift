@@ -49,6 +49,7 @@ struct Move {
     }
 }
 
+/// The type of move a player can make.
 enum MoveType {
     case swap
     case spell

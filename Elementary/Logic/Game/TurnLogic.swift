@@ -29,7 +29,7 @@ class TurnLogic {
             if attacker.currhp == 0 { //fighter faints
                 return Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
             } else { //fighter leaves
-                return Localization.shared.getTranslation(key: "player left chat")
+                return Localization.shared.getTranslation(key: "nameRetreated", params: [attacker.name])
             }
         case .hex:
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[move.index].damageAmount)
@@ -107,6 +107,11 @@ class TurnLogic {
         }
     }
     
+    /// Fighter uses their spell to attack, heal or to do another action.
+    /// - Parameters:
+    ///   - player: The player
+    ///   - move: The move used to make the attack
+    /// - Returns: Returns a description of what occured during the player's attack
     private func attack(player: Player, move: Move) -> String {
         var spell: Spell = move.spell
         

@@ -24,6 +24,7 @@ class AudioPlayer {
     
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
+    /// Change volume of music player.
     func setMusicPlayer() {
         musicPlayer?.volume = musicVolume * generalVolume
     }

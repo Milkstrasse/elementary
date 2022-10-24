@@ -11,11 +11,10 @@ struct CPULogic {
     
     /// Determines the best move for the CPU.
     /// - Parameters:
-    ///   - fighter: The current fighter
-    ///   - target: The current fighter of the player
+    ///   - player: The current player
+    ///   - target: The opponent player
     ///   - weather: The current weather of the fight
-    ///   - isAbleToSwitch: Wether the fighter can swap or not
-    ///   - lastMove: The last move of the fighter
+    ///   - lastSpell: The last spell of the fighter
     /// - Returns: Returns the best move
     func getMove(player: Player, target: Player, weather: Hex?, lastSpell: Spell?) -> Move? {
         let attacker: Fighter = player.getCurrentFighter()
@@ -29,8 +28,6 @@ struct CPULogic {
                 availableSpells.append(index)
             }
         }
-        
-        print(availableSpells)
         
         //no moves found
         if availableSpells.isEmpty {
@@ -173,6 +170,7 @@ struct CPULogic {
     ///   - currentFighter: The current fighter
     ///   - fighters: The current team
     ///   - enemyElement: The element of the enemy fighter
+    ///   - hasToSwap: Determines if fighter has to swap
     ///   - weather: The current weather of the fight
     /// - Returns: Returns the index of the best fighter to swap to
     func getTarget(currentFighter: Int, fighters: [Fighter], enemyElement: Element, hasToSwap: Bool, weather: Hex?) -> Int {
