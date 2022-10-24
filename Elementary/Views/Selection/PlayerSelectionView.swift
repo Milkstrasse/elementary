@@ -35,7 +35,7 @@ struct PlayerSelectionView: View {
         } else if !isPartOfTeam(fighter: fighter) {
             if GlobalData.shared.teamLimit == 2 {
                 for opponent in opponents {
-                    if opponent != nil && opponent!.name == fighter.name {
+                    if opponent?.name == fighter.name {
                         AudioPlayer.shared.playCancelSound()
                         return
                     }
@@ -71,7 +71,7 @@ struct PlayerSelectionView: View {
     /// - Returns: Returns wether the fighter is part of the team or not
     func isPartOfTeam(fighter: Fighter) -> Bool {
         for selectedFighter in fighters {
-            if selectedFighter != nil && fighter.name == selectedFighter!.name {
+            if fighter.name == selectedFighter?.name {
                 return true
             }
         }

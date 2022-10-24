@@ -61,7 +61,7 @@ struct TrainingSelectionView: View {
                 
                 var fighterFound: Bool = false
                 for fighter in topFighters {
-                    if fighter != nil && fighter!.name == rndmFighter.name {
+                    if fighter?.name == rndmFighter.name {
                         fighterFound = true
                         break
                     }
@@ -69,7 +69,7 @@ struct TrainingSelectionView: View {
                 
                 if !fighterFound {
                     for opponent in bottomFighters {
-                        if opponent != nil && opponent!.name == rndmFighter.name {
+                        if opponent?.name == rndmFighter.name {
                             fighterFound = true
                             break
                         }

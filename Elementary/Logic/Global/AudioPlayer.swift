@@ -12,13 +12,13 @@ class AudioPlayer {
     static let shared: AudioPlayer = AudioPlayer()
     
     var generalVolume: Float = 1.0
-    
     var musicVolume: Float = 1.0
-    var musicPlayer: AVAudioPlayer?
     var soundVolume: Float = 1.0
-    var soundPlayer: AVAudioPlayer?
     var voiceVolume: Float = 1.0
-    var voicePlayer: AVAudioPlayer?
+    
+    private var musicPlayer: AVAudioPlayer?
+    private var soundPlayer: AVAudioPlayer?
+    private var voicePlayer: AVAudioPlayer?
     
     var hapticToggle: Bool = true
     

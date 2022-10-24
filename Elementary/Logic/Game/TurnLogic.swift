@@ -119,7 +119,7 @@ class TurnLogic {
         //checks if targeted user is successfully shielded or not
         var usedShield: Bool = false
         if spell.spells[move.index].range > 0 {
-            if oppositePlayer.getCurrentFighter().lastSpell != nil && oppositePlayer.getCurrentFighter().lastSpell!.typeID == 13 {
+            if oppositePlayer.getCurrentFighter().lastSpell?.typeID == 13 {
                 if spell.typeID != 2 {
                     return Localization.shared.getTranslation(key: "fail")
                 } else {
