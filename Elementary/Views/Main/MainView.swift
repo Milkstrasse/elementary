@@ -87,7 +87,7 @@ struct MainView: View {
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(SettingsView(musicVolume: Int(AudioPlayer.shared.musicVolume * 10), soundVolume: Int(AudioPlayer.shared.soundVolume * 10), voiceVolume: Int(AudioPlayer.shared.voiceVolume * 10), hapticToggle: AudioPlayer.shared.hapticToggle, textIndex: GlobalData.shared.textSpeed, teamIndex: GlobalData.shared.teamLimit, artifactIndex: GlobalData.shared.artifactUse).environmentObject(manager)))
+                                manager.setView(view: AnyView(SettingsView(generalVolume: Int(AudioPlayer.shared.generalVolume * 10), musicVolume: Int(AudioPlayer.shared.musicVolume * 10), soundVolume: Int(AudioPlayer.shared.soundVolume * 10), voiceVolume: Int(AudioPlayer.shared.voiceVolume * 10), hapticToggle: AudioPlayer.shared.hapticToggle, textIndex: GlobalData.shared.textSpeed, teamIndex: GlobalData.shared.teamLimit, artifactIndex: GlobalData.shared.artifactUse).environmentObject(manager)))
                             }
                         }) {
                             IconButton(label: "\u{f013}")

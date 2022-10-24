@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var manager: ViewManager
     
+    @State var generalVolume: Int
     @State var musicVolume: Int
     @State var soundVolume: Int
     @State var voiceVolume: Int
@@ -25,6 +26,8 @@ struct SettingsView: View {
     @State var artifactIndex: Int
     let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
+    @GestureState var isGeneralDecreasing = false
+    @GestureState var isGeneralIncreasing = false
     @GestureState var isMusicDecreasing = false
     @GestureState var isMusicIncreasing = false
     @GestureState var isSoundDecreasing = false
@@ -85,6 +88,92 @@ struct SettingsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        .onChange(of: isMusicDecreasing, perform: { _ in
+                                            Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                if self.isGeneralDecreasing == true {
+                                                    if generalVolume > 0 {
+                                                        generalVolume -= 1
+                                                    } else {
+                                                        generalVolume = 10
+                                                    }
+                                                    
+                                                    AudioPlayer.shared.generalVolume = Float(generalVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
+                                                    AudioPlayer.shared.playStandardSound()
+                                                } else {
+                                                    timer.invalidate()
+                                                }
+                                            }
+                                        })
+                                        .simultaneousGesture(
+                                            LongPressGesture(minimumDuration: .infinity)
+                                                .updating($isGeneralDecreasing) { value, state, _ in state = value }
+                                        )
+                                        .highPriorityGesture(
+                                            TapGesture()
+                                                .onEnded { _ in
+                                                    if generalVolume > 0 {
+                                                        generalVolume -= 1
+                                                    } else {
+                                                        generalVolume = 10
+                                                    }
+                                                    
+                                                    AudioPlayer.shared.generalVolume = Float(generalVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
+                                                    AudioPlayer.shared.playStandardSound()
+                                        })
+                                        CustomText(text: "\(generalVolume * 10)%".uppercased(), fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                        .onChange(of: isGeneralIncreasing, perform: { _ in
+                                            Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
+                                                if self.isGeneralIncreasing == true {
+                                                    if generalVolume < 10 {
+                                                        generalVolume += 1
+                                                    } else {
+                                                        generalVolume = 0
+                                                    }
+                                                    
+                                                    AudioPlayer.shared.generalVolume = Float(generalVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
+                                                    AudioPlayer.shared.playStandardSound()
+                                                } else {
+                                                    timer.invalidate()
+                                                }
+                                            }
+                                        })
+                                        .simultaneousGesture(
+                                            LongPressGesture(minimumDuration: .infinity)
+                                                .updating($isGeneralIncreasing) { value, state, _ in state = value }
+                                        )
+                                        .highPriorityGesture(
+                                            TapGesture()
+                                                .onEnded { _ in
+                                                    if generalVolume < 10 {
+                                                        generalVolume += 1
+                                                    } else {
+                                                        generalVolume = 0
+                                                    }
+                                                    
+                                                    AudioPlayer.shared.generalVolume = Float(generalVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
+                                                    AudioPlayer.shared.playStandardSound()
+                                        })
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "music").uppercased(), fontSize: 16, isBold: true)
                                         Spacer()
                                         Button(action: {
@@ -100,7 +189,8 @@ struct SettingsView: View {
                                                         musicVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                    AudioPlayer.shared.musicVolume = Float(musicVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                                 } else {
                                                     timer.invalidate()
@@ -120,7 +210,8 @@ struct SettingsView: View {
                                                         musicVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                    AudioPlayer.shared.musicVolume = Float(musicVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                         CustomText(text: "\(musicVolume * 10)%".uppercased(), fontSize: 14).frame(width: 100)
@@ -137,7 +228,8 @@ struct SettingsView: View {
                                                         musicVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                    AudioPlayer.shared.musicVolume = Float(musicVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                                 } else {
                                                     timer.invalidate()
@@ -157,7 +249,8 @@ struct SettingsView: View {
                                                         musicVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setMusicVolume(volume: Float(musicVolume)/10)
+                                                    AudioPlayer.shared.musicVolume = Float(musicVolume)/10
+                                                    AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                     }
@@ -182,7 +275,7 @@ struct SettingsView: View {
                                                         soundVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                    AudioPlayer.shared.soundVolume = Float(soundVolume)/10
                                                     AudioPlayer.shared.playStandardSound()
                                                 } else {
                                                     timer.invalidate()
@@ -202,7 +295,7 @@ struct SettingsView: View {
                                                         soundVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                    AudioPlayer.shared.soundVolume = Float(soundVolume)/10
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                         CustomText(text: "\(soundVolume * 10)%".uppercased(), fontSize: 14).frame(width: 100)
@@ -219,7 +312,7 @@ struct SettingsView: View {
                                                         soundVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                    AudioPlayer.shared.soundVolume = Float(soundVolume)/10
                                                     AudioPlayer.shared.playStandardSound()
                                                 } else {
                                                     timer.invalidate()
@@ -239,7 +332,7 @@ struct SettingsView: View {
                                                         soundVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setSoundVolume(volume: Float(soundVolume)/10)
+                                                    AudioPlayer.shared.soundVolume = Float(soundVolume)/10
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                     }
@@ -264,7 +357,7 @@ struct SettingsView: View {
                                                         voiceVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                    AudioPlayer.shared.voiceVolume = Float(voiceVolume)/10
                                                     AudioPlayer.shared.playHurtSound()
                                                 } else {
                                                     timer.invalidate()
@@ -284,7 +377,7 @@ struct SettingsView: View {
                                                         voiceVolume = 10
                                                     }
                                                     
-                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                    AudioPlayer.shared.voiceVolume = Float(voiceVolume)/10
                                                     AudioPlayer.shared.playHurtSound()
                                         })
                                         CustomText(text: "\(voiceVolume * 10)%".uppercased(), fontSize: 14).frame(width: 100)
@@ -301,7 +394,7 @@ struct SettingsView: View {
                                                         voiceVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                    AudioPlayer.shared.voiceVolume = Float(voiceVolume)/10
                                                     AudioPlayer.shared.playHurtSound()
                                                 } else {
                                                     timer.invalidate()
@@ -321,7 +414,7 @@ struct SettingsView: View {
                                                         voiceVolume = 0
                                                     }
                                                     
-                                                    AudioPlayer.shared.setVoiceVolume(volume: Float(voiceVolume)/10)
+                                                    AudioPlayer.shared.voiceVolume = Float(voiceVolume)/10
                                                     AudioPlayer.shared.playHurtSound()
                                         })
                                     }
@@ -493,11 +586,13 @@ struct SettingsView: View {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
-                            AudioPlayer.shared.setMusicVolume(volume: 1.0)
+                            AudioPlayer.shared.generalVolume = 1.0
+                            generalVolume = 10
+                            AudioPlayer.shared.musicVolume = 1.0
                             musicVolume = 10
-                            AudioPlayer.shared.setSoundVolume(volume: 1.0)
+                            AudioPlayer.shared.soundVolume = 1.0
                             soundVolume = 10
-                            AudioPlayer.shared.setVoiceVolume(volume: 1.0)
+                            AudioPlayer.shared.voiceVolume = 1.0
                             voiceVolume = 10
                             AudioPlayer.shared.hapticToggle = true
                             hapticToggle = true
@@ -531,6 +626,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamIndex: 0, artifactIndex: 0)
+        SettingsView(generalVolume: 10, musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamIndex: 0, artifactIndex: 0)
     }
 }

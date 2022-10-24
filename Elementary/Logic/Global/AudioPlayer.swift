@@ -11,6 +11,8 @@ import AVFoundation
 class AudioPlayer {
     static let shared: AudioPlayer = AudioPlayer()
     
+    var generalVolume: Float = 1.0
+    
     var musicVolume: Float = 1.0
     var musicPlayer: AVAudioPlayer?
     var soundVolume: Float = 1.0
@@ -22,23 +24,8 @@ class AudioPlayer {
     
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
-    /// Sets the volume for music.
-    /// - Parameter volume: The desired volume
-    func setMusicVolume(volume: Float) {
-        musicVolume = volume
-        musicPlayer?.volume = musicVolume
-    }
-    
-    /// Sets the volume for sounds.
-    /// - Parameter volume: The desired volume
-    func setSoundVolume(volume: Float) {
-        soundVolume = volume
-    }
-    
-    /// Sets the volume for voices.
-    /// - Parameter volume: The desired volume
-    func setVoiceVolume(volume: Float) {
-        voiceVolume = volume
+    func setMusicPlayer() {
+        musicPlayer?.volume = musicVolume * generalVolume
     }
     
     /// Plays the background music outside of an fight.
@@ -50,7 +37,7 @@ class AudioPlayer {
             musicPlayer = try AVAudioPlayer(contentsOf: url)
             
             musicPlayer?.numberOfLoops = -1
-            musicPlayer?.volume = musicVolume
+            musicPlayer?.volume = musicVolume * generalVolume
             musicPlayer?.play()
         } catch {
             print("\(error)")
@@ -66,7 +53,7 @@ class AudioPlayer {
             musicPlayer = try AVAudioPlayer(contentsOf: url)
             
             musicPlayer?.numberOfLoops = -1
-            musicPlayer?.volume = musicVolume
+            musicPlayer?.volume = musicVolume * generalVolume
             musicPlayer?.play()
         } catch {
             print("\(error)")
@@ -80,7 +67,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume * 0.7
+            soundPlayer?.volume = soundVolume * 0.7 * generalVolume
             soundPlayer?.play()
         } catch {
             print("\(error)")
@@ -94,7 +81,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume * 0.7
+            soundPlayer?.volume = soundVolume * 0.7 * generalVolume
             soundPlayer?.play()
         } catch {
             print("\(error)")
@@ -108,7 +95,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
-            soundPlayer?.volume = soundVolume * 0.7
+            soundPlayer?.volume = soundVolume * 0.7 * generalVolume
             soundPlayer?.play()
         } catch {
             print("\(error)")
@@ -124,7 +111,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)
-            voicePlayer?.volume = voiceVolume
+            voicePlayer?.volume = voiceVolume * generalVolume
             voicePlayer?.play()
         } catch {
             print("\(error)")
@@ -140,7 +127,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)
-            voicePlayer?.volume = voiceVolume
+            voicePlayer?.volume = voiceVolume * generalVolume
             voicePlayer?.play()
         } catch {
             print("\(error)")
@@ -156,7 +143,7 @@ class AudioPlayer {
             let url = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)
-            voicePlayer?.volume = voiceVolume
+            voicePlayer?.volume = voiceVolume * generalVolume
             voicePlayer?.play()
         } catch {
             print("\(error)")
