@@ -74,7 +74,7 @@ struct PlayerFightView: View {
                         Image(fileName: player.getCurrentFighter().name + "_attack").resizable()
                     }
                 }
-                .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6).shadow(radius: 5, x: 5, y: 0).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).offset(x: -45 - offset, y: -195).animation(.linear(duration: 0.3).delay(0.2), value: offset)
+                .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6).shadow(radius: 5, x: 5, y: 0).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).offset(x: -45 - offset, y: (geometry.size.width * 0.6 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
                 Rectangle().fill(Color("Panel")).frame(height: 175)
                 VStack(spacing: outerPadding) {
                     HStack {
