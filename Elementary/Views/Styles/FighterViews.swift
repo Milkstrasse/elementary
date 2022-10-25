@@ -241,7 +241,7 @@ struct HexView: View {
     var body: some View {
         ZStack {
             Rectangle().fill(Color("Panel"))
-            Text(self.createSymbol()).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(getFontColor())
+            Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(getFontColor())
         }
         .frame(width: 24, height: 24)
     }
