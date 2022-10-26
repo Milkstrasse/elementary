@@ -27,6 +27,7 @@ class TurnLogic {
         switch move.type {
         case .special:
             if attacker.currhp == 0 { //fighter faints
+                player.hasToSwap = true
                 return Localization.shared.getTranslation(key: "nameFainted", params: [attacker.name])
             } else { //fighter leaves
                 return Localization.shared.getTranslation(key: "nameRetreated", params: [attacker.name])
