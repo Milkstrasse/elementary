@@ -20,8 +20,8 @@ struct HexApplication {
         var hex: String? = spell.hex
         
         if hex != Hexes.taunted.rawValue {
-            let chance: Int = Int.random(in: 0 ..< 100)
-            if chance >= spell.chance + attacker.getModifiedBase().precision/8 {
+            let chance: Int = Int.random(in: 0 ..< 100 + 100 - spell.chance)
+            if chance >= (18 + attacker.getModifiedBase().precision) * (100/spell.chance) {
                 AudioPlayer.shared.playCancelSound()
                 return Localization.shared.getTranslation(key: "hexFailed")
             }

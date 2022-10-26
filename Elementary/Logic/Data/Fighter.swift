@@ -168,7 +168,7 @@ class Fighter: Hashable, Equatable {
     func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
         if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
-            if chance < getModifiedBase().resistance/10 {
+            if chance < (getModifiedBase().resistance/10 * getModifiedBase().resistance/10)/10 {
                 return false
             }
         }

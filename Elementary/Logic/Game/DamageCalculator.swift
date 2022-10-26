@@ -58,10 +58,10 @@ struct DamageCalculator {
         
         //multiply with critical modifier
         var chance: Int = Int.random(in: 0 ..< 100)
-        if spell.typeID != 1 && chance < attacker.getModifiedBase().precision/8 {
+        if spell.typeID != 1 && chance < 18 + attacker.getModifiedBase().precision {
             chance = Int.random(in: 0 ..< 100)
             
-            if chance >= target.getModifiedBase().resistance/10 {
+            if chance >= (target.getModifiedBase().resistance/10 * target.getModifiedBase().resistance/10)/10 {
                 dmg *= 2
                 text = Localization.shared.getTranslation(key: "criticalHit")
             }
