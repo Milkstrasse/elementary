@@ -23,4 +23,23 @@ struct SaveData: Codable {
     let savedFighters: [SavedFighterData]
     
     let userProgress: UserProgress
+    
+    init() {
+        langCode = Localization.shared.currentLang
+        
+        generalVolume = AudioPlayer.shared.generalVolume
+        musicVolume = AudioPlayer.shared.musicVolume
+        soundVolume = AudioPlayer.shared.soundVolume
+        voiceVolume = AudioPlayer.shared.voiceVolume
+        
+        hapticToggle = AudioPlayer.shared.hapticToggle
+        textSpeed = GlobalData.shared.textSpeed
+        
+        teamRestricted = GlobalData.shared.teamLimit
+        artifactUse = GlobalData.shared.artifactUse
+        
+        savedFighters = GlobalData.shared.savedFighters
+        
+        userProgress = GlobalData.shared.userProgress
+    }
 }

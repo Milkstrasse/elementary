@@ -16,7 +16,7 @@ class SaveLogic {
     
     /// Save data into save file.
     func save() {
-        let saveData: SaveData = SaveData(langCode: Localization.shared.currentLang, generalVolume: AudioPlayer.shared.generalVolume, musicVolume: AudioPlayer.shared.musicVolume, soundVolume: AudioPlayer.shared.soundVolume, voiceVolume: AudioPlayer.shared.voiceVolume, hapticToggle: AudioPlayer.shared.hapticToggle, textSpeed: GlobalData.shared.textSpeed, teamRestricted: GlobalData.shared.teamLimit, artifactUse: GlobalData.shared.artifactUse, savedFighters: GlobalData.shared.savedFighters, userProgress: GlobalData.shared.userProgress)
+        let saveData: SaveData = SaveData()
         
         do {
             let data: Data = try JSONEncoder().encode(saveData)

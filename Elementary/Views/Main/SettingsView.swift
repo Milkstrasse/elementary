@@ -49,6 +49,29 @@ struct SettingsView: View {
         return 0
     }
     
+    func resetSettings() {
+        AudioPlayer.shared.generalVolume = 1.0
+        generalVolume = 10
+        AudioPlayer.shared.musicVolume = 1.0
+        musicVolume = 10
+        AudioPlayer.shared.soundVolume = 1.0
+        soundVolume = 10
+        AudioPlayer.shared.voiceVolume = 1.0
+        voiceVolume = 10
+        AudioPlayer.shared.hapticToggle = true
+        hapticToggle = true
+        
+        Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
+        langIndex = getCurrentLang()
+        GlobalData.shared.textSpeed = 2
+        textIndex = 2
+        
+        GlobalData.shared.teamLimit = 1
+        teamIndex = 1
+        GlobalData.shared.artifactUse = 0
+        artifactIndex = 0
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
@@ -94,7 +117,7 @@ struct SettingsView: View {
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
-                                        .onChange(of: isMusicDecreasing, perform: { _ in
+                                        .onChange(of: isGeneralDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
                                                 if self.isGeneralDecreasing == true {
                                                     if generalVolume > 0 {
@@ -586,26 +609,7 @@ struct SettingsView: View {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
-                            AudioPlayer.shared.generalVolume = 1.0
-                            generalVolume = 10
-                            AudioPlayer.shared.musicVolume = 1.0
-                            musicVolume = 10
-                            AudioPlayer.shared.soundVolume = 1.0
-                            soundVolume = 10
-                            AudioPlayer.shared.voiceVolume = 1.0
-                            voiceVolume = 10
-                            AudioPlayer.shared.hapticToggle = true
-                            hapticToggle = true
-                            
-                            Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
-                            langIndex = getCurrentLang()
-                            GlobalData.shared.textSpeed = 2
-                            textIndex = 2
-                            
-                            GlobalData.shared.teamLimit = 1
-                            teamIndex = 1
-                            GlobalData.shared.artifactUse = 0
-                            artifactIndex = 0
+                            resetSettings()
                         }) {
                             BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 210, height: smallHeight, isInverted: false)
                         }
