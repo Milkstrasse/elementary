@@ -97,7 +97,7 @@ struct MissionsView: View {
                             AudioPlayer.shared.playStandardSound()
                             
                             GlobalData.shared.userProgress = UserProgress()
-                            SaveLogic.shared.save()
+                            SaveData.save()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 manager.setView(view: AnyView(MissionsView().environmentObject(manager)))

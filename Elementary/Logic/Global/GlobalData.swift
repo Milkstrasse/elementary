@@ -52,6 +52,8 @@ class GlobalData {
             
             print("loaded: \(elements.count) elements")
         }
+        
+        overwriteElements()
     }
     
     /// Load data from spells folder.
@@ -71,6 +73,8 @@ class GlobalData {
             
             print("loaded: \(spells.count) spells")
         }
+        
+        overwriteSpells()
     }
     
     /// Load data from fighters folder.
@@ -90,6 +94,8 @@ class GlobalData {
             
             print("loaded: \(fighters.count) fighter")
         }
+        
+        overwriteFighters()
     }
     
     /// Load data from natures folder.
@@ -216,5 +222,123 @@ class GlobalData {
         }
         
         return array
+    }
+    
+    /// Read mods folder to add or overwrite elements.
+    private func overwriteElements() {
+        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let paths: [String]
+            do {
+                paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/elements")
+            } catch {
+                print("error: \(error)")
+                return
+            }
+            
+            for path in paths {
+                let url = URL.init(fileURLWithPath: mainURL.path + "/mods/elements/" + path)
+                
+                do {
+                    let data = try Data(contentsOf: url)
+                    var elementData = try JSONDecoder().decode(Element.self, from: data)
+                    elementData.name = url.deletingPathExtension().lastPathComponent
+                    
+                    if GlobalData.shared.elements[elementData.name] == nil { //adds new element
+                        GlobalData.shared.elementArray.append(elementData)
+                    }
+                    
+                    GlobalData.shared.elements.updateValue(elementData, forKey: elementData.name)
+                } catch {
+                    print("error: \(error)")
+                }
+            }
+        }
+    }
+    
+    /// Read mods folder to add or overwrite spells.
+    private func overwriteSpells() {
+        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let paths: [String]
+            do {
+                paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/spells")
+            } catch {
+                print("error: \(error)")
+                return
+            }
+            
+            for path in paths {
+                do {
+                    let url = URL.init(fileURLWithPath: mainURL.path + "/mods/spells/" + path)
+                    
+                    let data = try Data(contentsOf: url)
+                    var spellData = try JSONDecoder().decode(Spell.self, from: data)
+                    spellData.name = url.deletingPathExtension().lastPathComponent
+                    
+                    //adds new spell or replaces spell
+                    GlobalData.shared.spells.updateValue(spellData, forKey: spellData.name)
+                } catch {
+                    print("error: \(error)")
+                }
+            }
+            
+            
+        }
+    }
+    
+    /// Read mods folder to add or overwrite fighters.
+    private func overwriteFighters() {
+        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let paths: [String]
+            do {
+                paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/fighters")
+            } catch {
+                print("error: \(error)")
+                return
+            }
+            
+            for path in paths {
+                do {
+                    let url = URL.init(fileURLWithPath: mainURL.path + "/mods/fighters/" + path)
+                    
+                    let data = try Data(contentsOf: url)
+                    var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    fighterData.name = url.deletingPathExtension().lastPathComponent
+                    
+                    for (index, fighter) in GlobalData.shared.fighters.enumerated() {
+                        if fighter.data.name == fighterData.name {
+                            GlobalData.shared.fighters[index] = Fighter(data: fighterData) //replaces fighter
+                            return
+                        } else {
+                            fighterData.isCustom = true
+                        }
+                    }
+                    
+                    //adds new fighter
+                    GlobalData.shared.fighters.append(Fighter(data: fighterData))
+                } catch {
+                    print("error: \(error)")
+                }
+            }
+        }
+    }
+    
+    /// Read mods folder to add or overwrite translations.
+    func addTranslations(language: String) -> [String:String]  {
+        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let url = URL.init(fileURLWithPath: mainURL.path + "/mods/languages/" + language + ".json")
+            
+            if SaveData.fileManager.fileExists(atPath: url.path) {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let translations: [String:String] = try JSONDecoder().decode([String:String].self, from: data)
+                    
+                    return translations
+                } catch {
+                    print("error: \(error)")
+                }
+            }
+        }
+        
+        return [:]
     }
 }

@@ -12,7 +12,6 @@
 		B8631A6128AF984E00222E54 /* Spells in Resources */ = {isa = PBXBuildFile; fileRef = B8631A6028AF984E00222E54 /* Spells */; };
 		B8631A6328AF985500222E54 /* Fighters in Resources */ = {isa = PBXBuildFile; fileRef = B8631A6228AF985500222E54 /* Fighters */; };
 		B8631A6628AF9FA800222E54 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A6528AF9FA800222E54 /* Extensions.swift */; };
-		B8631A6928AF9FE200222E54 /* SaveLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A6828AF9FE200222E54 /* SaveLogic.swift */; };
 		B8631A6B28AF9FEA00222E54 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A6A28AF9FEA00222E54 /* SaveData.swift */; };
 		B8631A6F28AFA01300222E54 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A6C28AFA01300222E54 /* Localization.swift */; };
 		B8631A7028AFA01300222E54 /* GlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631A6D28AFA01300222E54 /* GlobalData.swift */; };
@@ -93,7 +92,6 @@
 		B8631A6028AF984E00222E54 /* Spells */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Spells; sourceTree = "<group>"; };
 		B8631A6228AF985500222E54 /* Fighters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fighters; sourceTree = "<group>"; };
 		B8631A6528AF9FA800222E54 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		B8631A6828AF9FE200222E54 /* SaveLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveLogic.swift; sourceTree = "<group>"; };
 		B8631A6A28AF9FEA00222E54 /* SaveData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		B8631A6C28AFA01300222E54 /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		B8631A6D28AFA01300222E54 /* GlobalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalData.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				B8631A6D28AFA01300222E54 /* GlobalData.swift */,
 				B8631A6C28AFA01300222E54 /* Localization.swift */,
 				B8631A6A28AF9FEA00222E54 /* SaveData.swift */,
-				B8631A6828AF9FE200222E54 /* SaveLogic.swift */,
 				B887DC212900942300512E65 /* UserProgress.swift */,
 			);
 			path = Global;
@@ -543,7 +540,6 @@
 				B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */,
 				B8AD406528B2292200708AA5 /* TurnLogic.swift in Sources */,
 				B8AD404D28B0DE6B00708AA5 /* SettingsView.swift in Sources */,
-				B8631A6928AF9FE200222E54 /* SaveLogic.swift in Sources */,
 				B8631A7D28AFA05700222E54 /* FighterData.swift in Sources */,
 				B8631AAE28AFA98200222E54 /* Triangles.swift in Sources */,
 				B8631A6B28AF9FEA00222E54 /* SaveData.swift in Sources */,
@@ -605,7 +601,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -659,7 +655,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

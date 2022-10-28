@@ -87,7 +87,7 @@ struct SettingsView: View {
                             GlobalData.shared.artifactUse = artifactIndex
                             
                             DispatchQueue.main.async {
-                                SaveLogic.shared.save()
+                                SaveData.save()
                             }
                             
                             transitionToggle = true
@@ -289,7 +289,7 @@ struct SettingsView: View {
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
-                                        .onChange(of: isMusicDecreasing, perform: { _ in
+                                        .onChange(of: isSoundDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
                                                 if self.isSoundDecreasing == true {
                                                     if soundVolume > 0 {

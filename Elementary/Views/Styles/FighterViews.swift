@@ -16,8 +16,8 @@ struct RectanglePortraitView: View {
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(fighter.getElement().symbol) ?? 0xf52d)
-        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+        let icon: UInt16 = UInt16(Float64(fighter.getElement().symbol) ?? 0xf128)
+        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
     }
     
     var body: some View {
@@ -49,8 +49,8 @@ struct SquarePortraitView: View {
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(fighter!.getElement().symbol) ?? 0xf52d)
-        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+        let icon: UInt16 = UInt16(Float64(fighter!.getElement().symbol) ?? 0xf128)
+        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
     }
     
     /// Returns the appropiate border color.
@@ -164,8 +164,8 @@ struct SpellView: View {
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(spell.element.symbol) ?? 0xf52d)
-        return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
+        let icon: UInt16 = UInt16(Float64(spell.element.symbol) ?? 0xf128)
+        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
     }
     
     var body: some View {
@@ -194,7 +194,7 @@ struct ActionView: View {
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
     func createSymbol() -> String {
-        let icon: UInt16 = UInt16(Float64(symbol) ?? 0xf52d)
+        let icon: UInt16 = UInt16(Float64(symbol) ?? 0xf128)
         return String(Character(UnicodeScalar(icon) ?? "\u{2718}"))
     }
     

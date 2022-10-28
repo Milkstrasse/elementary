@@ -514,7 +514,7 @@ class FightLogic: ObservableObject {
     /// Determines the winner of the game. Currently no draws possible.
     /// - Returns: Returns the id of the winning player
     func getWinner() -> Int {
-        SaveLogic.shared.saveFight()
+        SaveData.saveFight()
         
         //player who has forfeited loses automatically
         if gameLogic.forfeited[0] {

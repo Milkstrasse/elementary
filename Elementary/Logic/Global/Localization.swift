@@ -38,7 +38,7 @@ class Localization {
             }
             
             //add found translations to existing ones and override old value with new
-            translations.merge(SaveLogic.shared.addTranslations(language: language)) {(_, new) in new}
+            translations.merge(GlobalData.shared.addTranslations(language: language)) {(_, new) in new}
             
             print("loaded: \(translations.count) strings")
         }
@@ -55,7 +55,7 @@ class Localization {
             }
             
             //add found translations to existing ones and override old value with new
-            translations.merge(SaveLogic.shared.addTranslations(language: currentLang)) {(_, new) in new}
+            translations.merge(GlobalData.shared.addTranslations(language: currentLang)) {(_, new) in new}
         }
     }
     

@@ -124,7 +124,7 @@ struct TrainingOverView: View {
             
             DispatchQueue.main.async {
                 GlobalData.shared.userProgress.addWin(winner: winner, fighters: bottomFighters)
-                SaveLogic.shared.save()
+                SaveData.save()
             }
         }
     }

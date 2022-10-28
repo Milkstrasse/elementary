@@ -207,7 +207,7 @@ struct PlayerSelectionView: View {
                                     }
                                 }
                             }
-                            VStack(spacing: 5) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 HStack(spacing: 5) {
                                     ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { fighter in
                                         Button(action: {
@@ -473,7 +473,7 @@ struct PlayerSelectionView: View {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        SaveLogic.shared.save()
+                                        SaveData.save()
                                     }
                                 }) {
                                     BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "remove") : Localization.shared.getTranslation(key: "save"), width: 120, height: smallHeight, isInverted: false)

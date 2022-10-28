@@ -31,10 +31,10 @@ struct ElementaryApp: App {
             ZStack {
                 Color("Background1").ignoresSafeArea()
                 if isLoading {
-                    Color.blue.ignoresSafeArea().onAppear {
+                    Color.yellow.ignoresSafeArea().onAppear {
                         DispatchQueue.main.async {
                             GlobalData.shared.loadData()
-                            SaveLogic.shared.load()
+                            SaveData.load()
                             
                             Localization.shared.getLanguages()
                             Localization.shared.loadCurrentLanguage()

@@ -152,7 +152,7 @@ struct FightOverView: View {
             
             DispatchQueue.main.async {
                 GlobalData.shared.userProgress.fightCounter += 1
-                SaveLogic.shared.save()
+                SaveData.save()
             }
         }
     }
