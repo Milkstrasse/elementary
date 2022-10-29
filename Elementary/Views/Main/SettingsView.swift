@@ -808,7 +808,7 @@ struct SettingsView: View {
                                             if variance <= 0 {
                                                 variance = 20
                                             } else {
-                                                variance -= 1
+                                                variance -= 5
                                             }
                                             
                                             GlobalData.shared.variance = variance
@@ -822,7 +822,7 @@ struct SettingsView: View {
                                             if variance >= 20 {
                                                 variance = 0
                                             } else {
-                                                variance += 1
+                                                variance += 5
                                             }
                                             
                                             GlobalData.shared.variance = variance
