@@ -815,7 +815,7 @@ struct SettingsView: View {
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
-                                        CustomText(text: "\(deviation)", fontSize: 14).frame(width: 100)
+                                        CustomText(text: "\(deviation)%", fontSize: 14).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
