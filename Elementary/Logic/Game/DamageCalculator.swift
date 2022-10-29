@@ -62,10 +62,14 @@ struct DamageCalculator {
             chance = Int.random(in: 0 ..< 100)
             
             if chance >= (target.getModifiedBase().resistance/10 * target.getModifiedBase().resistance/10)/10 {
-                dmg *= 2
+                dmg *= GlobalData.shared.criticalModifier
                 text = Localization.shared.getTranslation(key: "criticalHit")
             }
         }
+        
+        //add random modifier
+        let random: Int = Int.random(in: GlobalData.shared.variance * -1 ..< GlobalData.shared.variance)
+        dmg = dmg + Float(random)/100 * dmg
         
         let damage: Int = Int(ceil(dmg))
         
@@ -110,16 +114,16 @@ struct DamageCalculator {
         } else {
             //elemental modifier of fighter
             if attacker.getElement().hasAdvantage(element: defender.getElement(), weather: weather) {
-                modifier *= 2
+                modifier *= GlobalData.shared.elementalModifier
             } else if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) {
-                modifier *= 0.5
+                modifier *= 1/GlobalData.shared.elementalModifier
             }
             
             //elemental modifier of spell
             if spellElement.hasAdvantage(element: defender.getElement(), weather: weather) {
-                modifier *= 2
+                modifier *= GlobalData.shared.elementalModifier
             } else if spellElement.hasDisadvantage(element: defender.getElement(), weather: weather) {
-                modifier *= 0.5
+                modifier *= 1/GlobalData.shared.elementalModifier
             }
         }
         
@@ -135,27 +139,27 @@ struct DamageCalculator {
         switch weather.name {
         case Weather.snowstorm.rawValue:
             if spellElement == "ice" || spellElement == "wind" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         case Weather.sunnyDay.rawValue:
             if spellElement == "fire" || spellElement == "wood" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         case Weather.overcastSky.rawValue:
             if spellElement == "aether" || spellElement == "decay" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         case Weather.mysticWeather.rawValue:
             if spellElement == "electric" || spellElement == "metal" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         case Weather.lightRain.rawValue:
             if spellElement == "plant" || spellElement == "water" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         case Weather.sandstorm.rawValue:
             if spellElement == "ground" || spellElement == "rock" {
-                return 1.5
+                return GlobalData.shared.weatherModifier
             }
         default:
             return 1
@@ -176,11 +180,11 @@ struct DamageCalculator {
     func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
         let attack: Float
         if powerOverride > 0 {
-            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         } else if powerOverride == 0 {
-            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         } else {
-            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * 18
+            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         }
         
         let defense: Float = max(Float(defender.getModifiedBase(weather: weather).defense), 1.0) //prevent division by zero

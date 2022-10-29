@@ -26,6 +26,12 @@ struct SettingsView: View {
     @State var artifactIndex: Int
     let artifactsUse: [String] = ["unlimited", "limited", "disabled"]
     
+    @State var attackModifier: Float
+    @State var criticalModifier: Float
+    @State var elementalModifier: Float
+    @State var weatherModifier: Float
+    @State var variance: Int
+    
     @GestureState var isGeneralDecreasing = false
     @GestureState var isGeneralIncreasing = false
     @GestureState var isMusicDecreasing = false
@@ -36,6 +42,27 @@ struct SettingsView: View {
     @GestureState var isVoicesIncreasing = false
     
     @State var transitionToggle: Bool = true
+    
+    init() {
+        generalVolume = Int(AudioPlayer.shared.generalVolume) * 10
+        musicVolume = Int(AudioPlayer.shared.musicVolume) * 10
+        soundVolume = Int(AudioPlayer.shared.soundVolume) * 10
+        voiceVolume = Int(AudioPlayer.shared.voiceVolume) * 10
+        hapticToggle = AudioPlayer.shared.hapticToggle
+    
+        textIndex = GlobalData.shared.textSpeed
+        
+        teamIndex = GlobalData.shared.teamLimit
+        artifactIndex = GlobalData.shared.artifactUse
+        
+        attackModifier = GlobalData.shared.attackModifier
+        criticalModifier = GlobalData.shared.criticalModifier
+        elementalModifier = GlobalData.shared.elementalModifier
+        weatherModifier = GlobalData.shared.weatherModifier
+        variance = GlobalData.shared.variance
+        
+        langIndex = getCurrentLang()
+    }
     
     /// Returns the index of the current language.
     /// - Returns: Returns the index of the current language
@@ -70,6 +97,17 @@ struct SettingsView: View {
         teamIndex = 1
         GlobalData.shared.artifactUse = 0
         artifactIndex = 0
+        
+        GlobalData.shared.attackModifier = 18
+        attackModifier = 18
+        GlobalData.shared.criticalModifier = 1.5
+        criticalModifier = 1.5
+        GlobalData.shared.elementalModifier = 2
+        elementalModifier = 2
+        GlobalData.shared.weatherModifier = 1.5
+        weatherModifier = 1.5
+        GlobalData.shared.variance = 10
+        variance = 10
     }
     
     var body: some View {
@@ -465,8 +503,39 @@ struct SettingsView: View {
                                     }
                                     .padding(.leading, innerPadding)
                                 }
-                            }
-                            VStack(spacing: innerPadding) {
+                                Rectangle().fill(Color("Border1")).frame(height: 2 * borderWidth)
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "textSpeed").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if textIndex > 1 {
+                                                textIndex -= 1
+                                            } else {
+                                                textIndex = textSpeeds.count
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: Localization.shared.getTranslation(key: textSpeeds[textIndex - 1]).uppercased(), fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if textIndex < textSpeeds.count {
+                                                textIndex += 1
+                                            } else {
+                                                textIndex = 1
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
@@ -503,38 +572,8 @@ struct SettingsView: View {
                                     }
                                     .padding(.leading, innerPadding)
                                 }
-                                ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
-                                    HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "textSpeed").uppercased(), fontSize: 16, isBold: true)
-                                        Spacer()
-                                        Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            if textIndex > 1 {
-                                                textIndex -= 1
-                                            } else {
-                                                textIndex = textSpeeds.count
-                                            }
-                                        }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
-                                        }
-                                        CustomText(text: Localization.shared.getTranslation(key: textSpeeds[textIndex - 1]).uppercased(), fontSize: 14).frame(width: 100)
-                                        Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            if textIndex < textSpeeds.count {
-                                                textIndex += 1
-                                            } else {
-                                                textIndex = 1
-                                            }
-                                        }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
-                                        }
-                                    }
-                                    .padding(.leading, innerPadding)
-                                }
+                            }
+                            VStack(spacing: innerPadding) {
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
@@ -599,6 +638,167 @@ struct SettingsView: View {
                                     }
                                     .padding(.leading, innerPadding)
                                 }
+                                Rectangle().fill(Color("Border1")).frame(height: 2 * borderWidth)
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if attackModifier <= 8 {
+                                                attackModifier = 24
+                                            } else {
+                                                attackModifier -= 1
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: "\(attackModifier)", fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if attackModifier >= 24 {
+                                                attackModifier = 8
+                                            } else {
+                                                attackModifier += 1
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "critical").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if criticalModifier <= 1 {
+                                                criticalModifier = 4
+                                            } else {
+                                                criticalModifier -= 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: "\(criticalModifier)", fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if criticalModifier >= 4 {
+                                                criticalModifier = 1
+                                            } else {
+                                                criticalModifier += 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "elemental").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if elementalModifier <= 1 {
+                                                elementalModifier = 4
+                                            } else {
+                                                elementalModifier -= 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: "\(elementalModifier)", fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if elementalModifier >= 4 {
+                                                elementalModifier = 1
+                                            } else {
+                                                elementalModifier += 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if weatherModifier <= 1 {
+                                                weatherModifier = 4
+                                            } else {
+                                                weatherModifier -= 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: "\(weatherModifier)", fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if weatherModifier >= 4 {
+                                                weatherModifier = 1
+                                            } else {
+                                                weatherModifier += 0.5
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
+                                ZStack {
+                                    Rectangle().fill(Color("Panel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    HStack(spacing: 0) {
+                                        CustomText(text: Localization.shared.getTranslation(key: "variance").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if variance <= 0 {
+                                                variance = 20
+                                            } else {
+                                                variance -= 1
+                                            }
+                                        }) {
+                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                        }
+                                        CustomText(text: "\(variance)", fontSize: 14).frame(width: 100)
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            if variance >= 20 {
+                                                variance = 0
+                                            } else {
+                                                variance += 1
+                                            }
+                                        }) {
+                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                        }
+                                    }
+                                    .padding(.leading, innerPadding)
+                                }
                             }
                         }
                         .padding(.horizontal, outerPadding)
@@ -622,7 +822,6 @@ struct SettingsView: View {
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
-            langIndex = getCurrentLang()
             transitionToggle = false
         }
     }
@@ -630,6 +829,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(generalVolume: 10, musicVolume: 10, soundVolume: 10, voiceVolume: 10, hapticToggle: true, textIndex: 2, teamIndex: 0, artifactIndex: 0)
+        SettingsView()
     }
 }

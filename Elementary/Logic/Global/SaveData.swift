@@ -22,6 +22,12 @@ struct SaveData: Codable {
     let teamRestricted: Int
     let artifactUse: Int
     
+    let attackModifier: Float
+    let criticalModifier: Float
+    let elementalModifier: Float
+    let weatherModifier: Float
+    let variance: Int
+    
     let savedFighters: [SavedFighterData]
     
     let userProgress: UserProgress
@@ -30,18 +36,23 @@ struct SaveData: Codable {
     static let fileName: String = "savedData.json"
     
     init() {
-        langCode = Localization.shared.currentLang
-        
         generalVolume = AudioPlayer.shared.generalVolume
         musicVolume = AudioPlayer.shared.musicVolume
         soundVolume = AudioPlayer.shared.soundVolume
         voiceVolume = AudioPlayer.shared.voiceVolume
-        
         hapticToggle = AudioPlayer.shared.hapticToggle
+        
+        langCode = Localization.shared.currentLang
         textSpeed = GlobalData.shared.textSpeed
         
         teamRestricted = GlobalData.shared.teamLimit
         artifactUse = GlobalData.shared.artifactUse
+        
+        attackModifier = GlobalData.shared.attackModifier
+        criticalModifier = GlobalData.shared.criticalModifier
+        elementalModifier = GlobalData.shared.elementalModifier
+        weatherModifier = GlobalData.shared.weatherModifier
+        variance = GlobalData.shared.variance
         
         savedFighters = GlobalData.shared.savedFighters
         
@@ -77,9 +88,17 @@ struct SaveData: Codable {
                     AudioPlayer.shared.voiceVolume = savedData.voiceVolume
                     AudioPlayer.shared.hapticToggle = savedData.hapticToggle
                     
+                    Localization.shared.currentLang = savedData.langCode
                     GlobalData.shared.textSpeed = savedData.textSpeed
+                    
                     GlobalData.shared.teamLimit = savedData.teamRestricted
                     GlobalData.shared.artifactUse = savedData.artifactUse
+                    
+                    GlobalData.shared.attackModifier = savedData.attackModifier
+                    GlobalData.shared.criticalModifier = savedData.criticalModifier
+                    GlobalData.shared.elementalModifier = savedData.elementalModifier
+                    GlobalData.shared.weatherModifier = savedData.weatherModifier
+                    GlobalData.shared.variance = savedData.variance
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
                     
