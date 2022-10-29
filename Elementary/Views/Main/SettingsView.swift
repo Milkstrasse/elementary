@@ -44,10 +44,10 @@ struct SettingsView: View {
     @State var transitionToggle: Bool = true
     
     init() {
-        generalVolume = Int(AudioPlayer.shared.generalVolume) * 10
-        musicVolume = Int(AudioPlayer.shared.musicVolume) * 10
-        soundVolume = Int(AudioPlayer.shared.soundVolume) * 10
-        voiceVolume = Int(AudioPlayer.shared.voiceVolume) * 10
+        generalVolume = Int(AudioPlayer.shared.generalVolume * 10)
+        musicVolume = Int(AudioPlayer.shared.musicVolume * 10)
+        soundVolume = Int(AudioPlayer.shared.soundVolume * 10)
+        voiceVolume = Int(AudioPlayer.shared.voiceVolume * 10)
         hapticToggle = AudioPlayer.shared.hapticToggle
     
         textIndex = GlobalData.shared.textSpeed
@@ -76,6 +76,7 @@ struct SettingsView: View {
         return 0
     }
     
+    /// Resets values to default
     func resetSettings() {
         AudioPlayer.shared.generalVolume = 1.0
         generalVolume = 10
@@ -518,6 +519,8 @@ struct SettingsView: View {
                                             } else {
                                                 textIndex = textSpeeds.count
                                             }
+                                            
+                                            GlobalData.shared.textSpeed = textIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -530,6 +533,8 @@ struct SettingsView: View {
                                             } else {
                                                 textIndex = 1
                                             }
+                                            
+                                            GlobalData.shared.textSpeed = textIndex
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -588,6 +593,8 @@ struct SettingsView: View {
                                             } else {
                                                 teamIndex -= 1
                                             }
+                                            
+                                            GlobalData.shared.teamLimit = teamIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -600,6 +607,8 @@ struct SettingsView: View {
                                             } else {
                                                 teamIndex += 1
                                             }
+                                            
+                                            GlobalData.shared.teamLimit = teamIndex
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -620,6 +629,8 @@ struct SettingsView: View {
                                             } else {
                                                 artifactIndex -= 1
                                             }
+                                            
+                                            GlobalData.shared.artifactUse = artifactIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -632,6 +643,8 @@ struct SettingsView: View {
                                             } else {
                                                 artifactIndex += 1
                                             }
+                                            
+                                            GlobalData.shared.artifactUse = artifactIndex
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -653,6 +666,8 @@ struct SettingsView: View {
                                             } else {
                                                 attackModifier -= 1
                                             }
+                                            
+                                            GlobalData.shared.attackModifier = attackModifier
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -665,6 +680,8 @@ struct SettingsView: View {
                                             } else {
                                                 attackModifier += 1
                                             }
+                                            
+                                            GlobalData.shared.attackModifier = attackModifier
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -685,6 +702,8 @@ struct SettingsView: View {
                                             } else {
                                                 criticalModifier -= 0.5
                                             }
+                                            
+                                            GlobalData.shared.criticalModifier = criticalModifier
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -697,6 +716,8 @@ struct SettingsView: View {
                                             } else {
                                                 criticalModifier += 0.5
                                             }
+                                            
+                                            GlobalData.shared.criticalModifier = criticalModifier
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -717,6 +738,8 @@ struct SettingsView: View {
                                             } else {
                                                 elementalModifier -= 0.5
                                             }
+                                            
+                                            GlobalData.shared.elementalModifier = elementalModifier
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -729,6 +752,8 @@ struct SettingsView: View {
                                             } else {
                                                 elementalModifier += 0.5
                                             }
+                                            
+                                            GlobalData.shared.elementalModifier = elementalModifier
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -749,6 +774,8 @@ struct SettingsView: View {
                                             } else {
                                                 weatherModifier -= 0.5
                                             }
+                                            
+                                            GlobalData.shared.weatherModifier = weatherModifier
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -761,6 +788,8 @@ struct SettingsView: View {
                                             } else {
                                                 weatherModifier += 0.5
                                             }
+                                            
+                                            GlobalData.shared.weatherModifier = weatherModifier
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
@@ -781,6 +810,8 @@ struct SettingsView: View {
                                             } else {
                                                 variance -= 1
                                             }
+                                            
+                                            GlobalData.shared.variance = variance
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
@@ -793,6 +824,8 @@ struct SettingsView: View {
                                             } else {
                                                 variance += 1
                                             }
+                                            
+                                            GlobalData.shared.variance = variance
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }
