@@ -26,7 +26,7 @@ struct SaveData: Codable {
     let criticalModifier: Float
     let elementalModifier: Float
     let weatherModifier: Float
-    let variance: Int
+    let deviation: Int
     
     let savedFighters: [SavedFighterData]
     
@@ -52,7 +52,7 @@ struct SaveData: Codable {
         criticalModifier = GlobalData.shared.criticalModifier
         elementalModifier = GlobalData.shared.elementalModifier
         weatherModifier = GlobalData.shared.weatherModifier
-        variance = GlobalData.shared.variance
+        deviation = GlobalData.shared.deviation
         
         savedFighters = GlobalData.shared.savedFighters
         
@@ -98,7 +98,7 @@ struct SaveData: Codable {
                     GlobalData.shared.criticalModifier = savedData.criticalModifier
                     GlobalData.shared.elementalModifier = savedData.elementalModifier
                     GlobalData.shared.weatherModifier = savedData.weatherModifier
-                    GlobalData.shared.variance = savedData.variance
+                    GlobalData.shared.deviation = savedData.deviation
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
                     

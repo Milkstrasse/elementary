@@ -55,6 +55,10 @@
     "artifacts": "Artefacts",
     "limited": "Limité",
     "unlimited": "Illimité",
+    "critical": "Critique",
+    "elemental": "Élémentaire",
+    "weather": "Météo",
+    "deviation": "Déviation",
     
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",

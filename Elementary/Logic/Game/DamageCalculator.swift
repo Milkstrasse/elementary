@@ -68,7 +68,7 @@ struct DamageCalculator {
         }
         
         //add random modifier
-        let random: Int = Int.random(in: GlobalData.shared.variance * -1 ..< GlobalData.shared.variance)
+        let random: Int = Int.random(in: GlobalData.shared.deviation * -1 ..< GlobalData.shared.deviation)
         dmg = dmg + Float(random)/100 * dmg
         
         let damage: Int = Int(ceil(dmg))

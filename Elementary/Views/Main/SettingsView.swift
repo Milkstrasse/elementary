@@ -30,7 +30,7 @@ struct SettingsView: View {
     @State var criticalModifier: Float
     @State var elementalModifier: Float
     @State var weatherModifier: Float
-    @State var variance: Int
+    @State var deviation: Int
     
     @GestureState var isGeneralDecreasing = false
     @GestureState var isGeneralIncreasing = false
@@ -59,7 +59,7 @@ struct SettingsView: View {
         criticalModifier = GlobalData.shared.criticalModifier
         elementalModifier = GlobalData.shared.elementalModifier
         weatherModifier = GlobalData.shared.weatherModifier
-        variance = GlobalData.shared.variance
+        deviation = GlobalData.shared.deviation
         
         langIndex = getCurrentLang()
     }
@@ -107,8 +107,8 @@ struct SettingsView: View {
         elementalModifier = 2
         GlobalData.shared.weatherModifier = 1.5
         weatherModifier = 1.5
-        GlobalData.shared.variance = 10
-        variance = 10
+        GlobalData.shared.deviation = 10
+        deviation = 10
     }
     
     var body: some View {
@@ -800,32 +800,32 @@ struct SettingsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "variance").uppercased(), fontSize: 16, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "deviation").uppercased(), fontSize: 16, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if variance <= 0 {
-                                                variance = 20
+                                            if deviation <= 0 {
+                                                deviation = 20
                                             } else {
-                                                variance -= 5
+                                                deviation -= 5
                                             }
                                             
-                                            GlobalData.shared.variance = variance
+                                            GlobalData.shared.deviation = deviation
                                         }) {
                                             ClearButton(label: "<", width: 35, height: largeHeight)
                                         }
-                                        CustomText(text: "\(variance)", fontSize: 14).frame(width: 100)
+                                        CustomText(text: "\(deviation)", fontSize: 14).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if variance >= 20 {
-                                                variance = 0
+                                            if deviation >= 20 {
+                                                deviation = 0
                                             } else {
-                                                variance += 5
+                                                deviation += 5
                                             }
                                             
-                                            GlobalData.shared.variance = variance
+                                            GlobalData.shared.deviation = deviation
                                         }) {
                                             ClearButton(label: ">", width: 35, height: largeHeight)
                                         }

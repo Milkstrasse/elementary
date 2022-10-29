@@ -29,7 +29,7 @@ class GlobalData {
     var criticalModifier: Float = 2
     var elementalModifier: Float = 2
     var weatherModifier: Float = 1.5
-    var variance: Int = 10
+    var deviation: Int = 10
     
     var userProgress: UserProgress = UserProgress()
     
