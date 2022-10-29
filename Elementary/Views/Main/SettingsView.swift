@@ -100,8 +100,8 @@ struct SettingsView: View {
         
         GlobalData.shared.attackModifier = 18
         attackModifier = 18
-        GlobalData.shared.criticalModifier = 1.5
-        criticalModifier = 1.5
+        GlobalData.shared.criticalModifier = 2
+        criticalModifier = 2
         GlobalData.shared.elementalModifier = 2
         elementalModifier = 2
         GlobalData.shared.weatherModifier = 1.5

@@ -26,7 +26,7 @@ class GlobalData {
     var teamLimit: Int = 1
     
     var attackModifier: Float = 18
-    var criticalModifier: Float = 1.5
+    var criticalModifier: Float = 2
     var elementalModifier: Float = 2
     var weatherModifier: Float = 1.5
     var variance: Int = 10
