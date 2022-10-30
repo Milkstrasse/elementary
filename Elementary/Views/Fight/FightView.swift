@@ -24,6 +24,7 @@ struct FightView: View {
     @State var transitionToggle: Bool = true
     
     @State var gameOver: Bool = false
+    @State var fightOver: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,9 +35,9 @@ struct FightView: View {
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, isInteractable: true).rotationEffect(.degrees(180))
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true).rotationEffect(.degrees(180))
                 Spacer()
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], gameOver: $gameOver, isInteractable: true)
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
             }
             ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
@@ -45,11 +46,11 @@ struct FightView: View {
             
             transitionToggle = false
         }
-        .onChange(of: gameOver) { _ in
+        .onChange(of: fightOver) { _ in
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightOverView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters, winner: fightLogic.getWinner()).environmentObject(manager)))
+                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
             }
         }
     }

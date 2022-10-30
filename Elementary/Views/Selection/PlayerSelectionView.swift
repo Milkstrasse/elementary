@@ -128,7 +128,7 @@ struct PlayerSelectionView: View {
         ZStack(alignment: .bottom) {
             VStack {
                 HStack(spacing: innerPadding) {
-                    ForEach(0 ..< 4) { index in
+                    ForEach(0 ..< fighters.count, id: \.self) { index in
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             

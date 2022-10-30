@@ -127,6 +127,19 @@ struct TrainingSelectionView: View {
         return true
     }
     
+    /// Reset each fighter in both teams to make them ready for a fight.
+    func resetFighters() {
+        for fighter in topFighters {
+            fighter?.reset()
+        }
+        
+        for fighter in bottomFighters {
+            fighter?.reset()
+        }
+        
+        print(bottomFighters)
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -143,7 +156,6 @@ struct TrainingSelectionView: View {
                     }) {
                         BasicButton(label: Localization.shared.getTranslation(key: "randomize"), width: 150, height: smallHeight, fontSize: 14)
                     }
-                    .disabled(isArrayEmpty(array: topFighters))
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
                         
@@ -195,7 +207,26 @@ struct TrainingSelectionView: View {
         }
         .onAppear {
             transitionToggle = false
-            selectRandom()
+            
+            if isArrayEmpty(array: bottomFighters) {
+                selectRandom()
+            } else {
+                if topFighters.count < 4 {
+                    let missingFighters: Int = 4 - topFighters.count
+                    for _ in 0 ..< missingFighters {
+                        topFighters.append(nil)
+                    }
+                }
+                
+                if bottomFighters.count < 4 {
+                    let missingFighters: Int = 4 - bottomFighters.count
+                    for _ in 0 ..< missingFighters {
+                        bottomFighters.append(nil)
+                    }
+                }
+                
+                resetFighters()
+            }
         }
     }
 }

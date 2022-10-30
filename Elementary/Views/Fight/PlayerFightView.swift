@@ -13,6 +13,8 @@ struct PlayerFightView: View {
     
     @State var currentSection: Section = .summary
     @Binding var gameOver: Bool
+    @State var isGameOver: Bool = false
+    @Binding var fightOver: Bool
     
     @State var offset: CGFloat = 150
     
@@ -20,6 +22,8 @@ struct PlayerFightView: View {
     @State var stopBlinking: Bool = false
     
     let isInteractable: Bool
+    
+    @State var winner: Int = -1
     
     /// Sends signal to blink.
     /// - Parameter delay: The delay between blinks
@@ -81,7 +85,9 @@ struct PlayerFightView: View {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
-                            if fightLogic.isGameOver() {
+                            if gameOver {
+                                fightOver = true
+                            } else if fightLogic.isGameOver() {
                                 gameOver = true
                             } else {
                                 if currentSection == .options {
@@ -94,7 +100,7 @@ struct PlayerFightView: View {
                                 }
                             }
                         }) {
-                            ClearButton(label: currentSection == .summary ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
+                            ClearButton(label: currentSection == .summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
                         }
                         .disabled(!isInteractable).opacity(fightLogic.fighting ? 0.5 : 1.0).disabled(fightLogic.fighting)
                         Spacer()
@@ -129,7 +135,13 @@ struct PlayerFightView: View {
                     }
                     .padding(.top, -25)
                     Group {
-                        if currentSection == .summary {
+                        if isGameOver {
+                            ZStack(alignment: .topLeading) {
+                                Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "winner" : "loser").uppercased(), fontSize: 14).padding(.all, outerPadding)
+                            }
+                            .padding([.leading, .bottom, .trailing], outerPadding)
+                        } else if currentSection == .summary {
                             ZStack {
                                 Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 ScrollView(.vertical, showsIndicators: false) {
@@ -178,6 +190,10 @@ struct PlayerFightView: View {
                     currentSection = .summary
                 }
             })
+            .onChange(of: gameOver) { _ in
+                winner = fightLogic.getWinner()
+                isGameOver = gameOver
+            }
         }
         .frame(height: 175)
         .onAppear {
@@ -195,7 +211,7 @@ struct PlayerFightView: View {
 struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 1, fighters: [exampleFighter]), gameOver:Binding.constant(false), isInteractable: true)
+            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 1, fighters: [exampleFighter]), gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
         }
     }
 }

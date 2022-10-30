@@ -79,10 +79,8 @@
 		B8D3D2CD29013D2B003C4268 /* MissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D3D2CC29013D2B003C4268 /* MissionsView.swift */; };
 		B8D3D2CF29070B7D003C4268 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8D3D2CE29070B7D003C4268 /* Font Awesome 5 Free-Solid-900.otf */; };
 		B8E943D528B559B300DECE32 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D428B559B300DECE32 /* OptionsView.swift */; };
-		B8E943D828B55E0100DECE32 /* FightOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D728B55E0100DECE32 /* FightOverView.swift */; };
 		B8E943DA28B55E6B00DECE32 /* SpellsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943D928B55E6B00DECE32 /* SpellsView.swift */; };
 		B8E943DC28B6407800DECE32 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943DB28B6407800DECE32 /* TeamView.swift */; };
-		B8E943DE28B651FE00DECE32 /* TrainingOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943DD28B651FE00DECE32 /* TrainingOverView.swift */; };
 		B8E943E028B775CE00DECE32 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E943DF28B775CE00DECE32 /* InfoView.swift */; };
 /* End PBXBuildFile section */
 
@@ -161,10 +159,8 @@
 		B8D3D2CC29013D2B003C4268 /* MissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionsView.swift; sourceTree = "<group>"; };
 		B8D3D2CE29070B7D003C4268 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		B8E943D428B559B300DECE32 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
-		B8E943D728B55E0100DECE32 /* FightOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightOverView.swift; sourceTree = "<group>"; };
 		B8E943D928B55E6B00DECE32 /* SpellsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellsView.swift; sourceTree = "<group>"; };
 		B8E943DB28B6407800DECE32 /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
-		B8E943DD28B651FE00DECE32 /* TrainingOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingOverView.swift; sourceTree = "<group>"; };
 		B8E943DF28B775CE00DECE32 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -382,22 +378,12 @@
 			isa = PBXGroup;
 			children = (
 				B88D9F8F28B3E21200AAC683 /* Fight */,
-				B8E943D628B55DF200DECE32 /* FightOver */,
 				B8631A8628AFA17300222E54 /* Main */,
 				B8AD405828B1927200708AA5 /* Selection */,
 				B8631AAC28AFA95900222E54 /* Shapes */,
 				B8631AAF28AFAE9300222E54 /* Styles */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		B8E943D628B55DF200DECE32 /* FightOver */ = {
-			isa = PBXGroup;
-			children = (
-				B8E943D728B55E0100DECE32 /* FightOverView.swift */,
-				B8E943DD28B651FE00DECE32 /* TrainingOverView.swift */,
-			);
-			path = FightOver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -494,7 +480,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8E943DE28B651FE00DECE32 /* TrainingOverView.swift in Sources */,
 				B8AD406228B2292200708AA5 /* HexApplication.swift in Sources */,
 				B8AD405728B1819500708AA5 /* CreditsView.swift in Sources */,
 				B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */,
@@ -511,7 +496,6 @@
 				B8AD405328B0FD8D00708AA5 /* HelpView.swift in Sources */,
 				B8631AB328AFB56700222E54 /* ZigZag.swift in Sources */,
 				B88D9F9128B3E22100AAC683 /* FightView.swift in Sources */,
-				B8E943D828B55E0100DECE32 /* FightOverView.swift in Sources */,
 				B8AD406428B2292200708AA5 /* CPULogic.swift in Sources */,
 				B8631AB128AFB22E00222E54 /* Buttons.swift in Sources */,
 				B88D9F9528B3E3EA00AAC683 /* TrainingSelectionView.swift in Sources */,
