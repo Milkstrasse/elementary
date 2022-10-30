@@ -76,8 +76,7 @@ struct SettingsView: View {
         return 0
     }
     
-    /// Resets values to default
-    func resetSettings() {
+    func resetAudioSettings() {
         AudioPlayer.shared.generalVolume = 1.0
         generalVolume = 10
         AudioPlayer.shared.musicVolume = 1.0
@@ -88,17 +87,23 @@ struct SettingsView: View {
         voiceVolume = 10
         AudioPlayer.shared.hapticToggle = true
         hapticToggle = true
-        
+    }
+    
+    func resetTextSettings() {
         Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
         langIndex = getCurrentLang()
         GlobalData.shared.textSpeed = 2
         textIndex = 2
-        
+    }
+    
+    func resetGeneralSettings() {
         GlobalData.shared.teamLimit = 1
         teamIndex = 1
         GlobalData.shared.artifactUse = 0
         artifactIndex = 0
-        
+    }
+    
+    func resetAdvancedSettings() {
         GlobalData.shared.attackModifier = 18
         attackModifier = 18
         GlobalData.shared.criticalModifier = 2
@@ -109,6 +114,14 @@ struct SettingsView: View {
         weatherModifier = 1.5
         GlobalData.shared.deviation = 10
         deviation = 10
+    }
+    
+    /// Resets all values to default
+    func resetSettings() {
+        resetAudioSettings()
+        resetTextSettings()
+        resetGeneralSettings()
+        resetAdvancedSettings()
     }
     
     var body: some View {
@@ -146,6 +159,21 @@ struct SettingsView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         HStack(alignment: .top, spacing: innerPadding) {
                             VStack(spacing: innerPadding) {
+                                ZStack(alignment: .leading) {
+                                    Rectangle().fill(Color("Positive"))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "audio").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            resetAudioSettings()
+                                        }) {
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                        }
+                                    }
+                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                }
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
@@ -504,7 +532,21 @@ struct SettingsView: View {
                                     }
                                     .padding(.leading, innerPadding)
                                 }
-                                Rectangle().fill(Color("Border1")).frame(height: 2 * borderWidth)
+                                ZStack(alignment: .leading) {
+                                    Rectangle().fill(Color("Positive"))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "text").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            resetTextSettings()
+                                        }) {
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                        }
+                                    }
+                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                }
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
@@ -579,6 +621,21 @@ struct SettingsView: View {
                                 }
                             }
                             VStack(spacing: innerPadding) {
+                                ZStack(alignment: .leading) {
+                                    Rectangle().fill(Color("Positive"))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            resetGeneralSettings()
+                                        }) {
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                        }
+                                    }
+                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                }
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
@@ -651,7 +708,21 @@ struct SettingsView: View {
                                     }
                                     .padding(.leading, innerPadding)
                                 }
-                                Rectangle().fill(Color("Border1")).frame(height: 2 * borderWidth)
+                                ZStack(alignment: .leading) {
+                                    Rectangle().fill(Color("Positive"))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "advanced").uppercased(), fontSize: 16, isBold: true)
+                                        Spacer()
+                                        Button(action: {
+                                            AudioPlayer.shared.playStandardSound()
+                                            
+                                            resetAdvancedSettings()
+                                        }) {
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                        }
+                                    }
+                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                }
                                 ZStack {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))

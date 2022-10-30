@@ -40,6 +40,10 @@
     "reset": "Réinitialiser",
     "randomize": "Randomiser",
     
+    "audio": "Audio",
+    "text": "Texte",
+    "general": "Généraux",
+    "advanced": "Avancés",
     "music": "Musique",
     "sound": "Son",
     "voices": "Voix",
