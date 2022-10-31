@@ -40,7 +40,7 @@ struct CreditsView: View {
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "credits").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "credits").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
@@ -50,7 +50,7 @@ struct CreditsView: View {
                                 Rectangle().fill(Color("Panel"))
                                     .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 VStack(spacing: 0) {
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["characters", "Shirazu Yomi"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["characters", "Shirazu Yomi"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                 }
                                 .padding(.all, innerPadding)
                             }
@@ -58,9 +58,9 @@ struct CreditsView: View {
                                 Rectangle().fill(Color("Panel"))
                                     .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 VStack(spacing: 2) {
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Ben Burnes"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["menuSFX", "Kevin Fowler"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["voices", "Cici Fyre"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["music", "Ben Burnes"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                 }
                                 .padding(.all, innerPadding)
                             }
@@ -68,8 +68,8 @@ struct CreditsView: View {
                                 Rectangle().fill(Color("Panel"))
                                     .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                 VStack(spacing: 2) {
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["icons", "FontAwesome"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
-                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["font", "Christian Robertson"]).uppercased(), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["icons", "FontAwesome"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                    CustomText(text: Localization.shared.getTranslation(key: "creditBy", params: ["font", "Christian Robertson"]).uppercased(), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                 }
                                 .padding(.all, innerPadding)
                             }

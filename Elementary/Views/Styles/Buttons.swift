@@ -30,7 +30,7 @@ struct IconButton: View {
         ZStack {
             Rectangle().fill(Color("Background1")).frame(width: smallHeight, height: smallHeight)
                 .overlay(Rectangle().strokeBorder(Color.white, lineWidth: borderWidth))
-            Text(label).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+            Text(label).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
         }
         .frame(width: smallHeight, height: smallHeight)
     }
@@ -47,7 +47,7 @@ struct BorderedButton: View {
         ZStack(alignment: width > height ? .leading : .center) {
             Rectangle().fill(isInverted ? Color("Background1") : Color("Panel")).frame(width: width, height: height)
                 .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border1"), lineWidth: borderWidth))
-            CustomText(text: label.uppercased(), fontSize: 14, isBold: true).padding(.all, outerPadding)
+            CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)
     }
@@ -60,7 +60,7 @@ struct ClearButton: View {
     
     var body: some View {
         ZStack {
-            CustomText(text: label.uppercased(), fontSize: 14, isBold: true).frame(width: width, height: height, alignment: width > height ? .bottomLeading : .center)
+            CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).frame(width: width, height: height, alignment: width > height ? .bottomLeading : .center)
         }
     }
 }
@@ -68,7 +68,7 @@ struct ClearButton: View {
 struct Buttons_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BasicButton(label: "label", width: 150, height: largeHeight, fontSize: 16)
+            BasicButton(label: "label", width: 150, height: largeHeight, fontSize: mediumFont)
             BorderedButton(label: "label", width: 150, height: largeHeight, isInverted: false)
             BorderedButton(label: "label", width: 150, height: largeHeight, isInverted: true)
             ClearButton(label: "<", width: smallHeight, height: smallHeight)

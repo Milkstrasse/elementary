@@ -242,7 +242,7 @@ class FightLogic: ObservableObject {
             if playerQueue[index].move.type == MoveType.spell { //spell move can be overwritten by artifacts/hexes
                 if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
                     playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
-                } else if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                } else if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
                     playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
                 } else if players[index].getCurrentFighter().hasHex(hexName: Hexes.confused.rawValue) {
                     let randomMove: Move = Move(source: players[index].getCurrentFighter(), index: -1, spell: players[index].getCurrentFighter().spells[Int.random(in: 0 ..< players[index].getCurrentFighter().spells.count)], type: MoveType.spell)

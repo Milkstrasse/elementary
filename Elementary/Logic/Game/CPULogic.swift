@@ -39,7 +39,7 @@ struct CPULogic {
         }
         
         //fighter is restricted -> use best move
-        if (attacker.getArtifact().name == Artifacts.corset.rawValue && weather?.name != Weather.volcanicStorm.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
+        if (attacker.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
             if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) && player.isAbleToSwap() {
                 if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return nil

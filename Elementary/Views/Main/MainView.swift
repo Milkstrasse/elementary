@@ -55,7 +55,7 @@ struct MainView: View {
                                 manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
                             }
                         }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: 16)
+                            BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
                         }
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
@@ -65,7 +65,7 @@ struct MainView: View {
                                 manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
                             }
                         }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "training"), width: 175, height: largeHeight, fontSize: 16)
+                            BasicButton(label: Localization.shared.getTranslation(key: "training"), width: 175, height: largeHeight, fontSize: mediumFont)
                         }
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
@@ -75,7 +75,7 @@ struct MainView: View {
                                 manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                             }
                         }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: 16)
+                            BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
                         }
                     }
                     .padding(.all, outerPadding)

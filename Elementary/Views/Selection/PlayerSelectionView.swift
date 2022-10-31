@@ -276,7 +276,7 @@ struct PlayerSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setNature(nature: selectedNature)
                                                 })
-                                        CustomText(text: Localization.shared.getTranslation(key: GlobalData.shared.natures[selectedNature].name).uppercased(), fontSize: 14).frame(maxWidth: .infinity)
+                                        CustomText(text: Localization.shared.getTranslation(key: GlobalData.shared.natures[selectedNature].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
                                         Button(action: {
                                         }) {
                                             ClearButton(label: ">", width: 35, height: smallHeight)
@@ -398,8 +398,8 @@ struct PlayerSelectionView: View {
                                                 fighters[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                             })
                                     VStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().name).uppercased(), fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().description), fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
+                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().name).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().description), fontSize: smallFont).frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                     Button(action: {
                                     }) {

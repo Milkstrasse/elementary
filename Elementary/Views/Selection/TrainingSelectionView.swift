@@ -152,7 +152,7 @@ struct TrainingSelectionView: View {
                         AudioPlayer.shared.playStandardSound()
                         selectRandom()
                     }) {
-                        BasicButton(label: Localization.shared.getTranslation(key: "randomize"), width: 150, height: smallHeight, fontSize: 14)
+                        BasicButton(label: Localization.shared.getTranslation(key: "randomize"), width: 150, height: smallHeight, fontSize: smallFont)
                     }
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
@@ -162,7 +162,7 @@ struct TrainingSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: 14)
+                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
                     }
                 }
                 .rotationEffect(.degrees(180))
@@ -180,7 +180,7 @@ struct TrainingSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: 14)
+                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: smallFont)
                     }
                     .disabled(isArrayEmpty(array: bottomFighters))
                     Button(action: {
@@ -191,7 +191,7 @@ struct TrainingSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: 14)
+                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
                     }
                 }
             }

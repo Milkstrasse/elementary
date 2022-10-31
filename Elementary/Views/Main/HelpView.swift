@@ -42,7 +42,7 @@ struct HelpView: View {
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "tutorial").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "tutorial").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
@@ -55,8 +55,8 @@ struct HelpView: View {
                                             Rectangle().fill(Color("Panel"))
                                                 .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                             VStack(spacing: 0) {
-                                                CustomText(text: Localization.shared.getTranslation(key: "help\(index + 1)").uppercased(), fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: "help\(index + 1)Descr"), geoWidth: geometry.size.width - innerPadding - 2 * outerPadding), fontSize: 14).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
+                                                CustomText(text: Localization.shared.getTranslation(key: "help\(index + 1)").uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: "help\(index + 1)Descr"), geoWidth: geometry.size.width - innerPadding - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                             }
                                             .padding(.all, innerPadding)
                                         }

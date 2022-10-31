@@ -67,18 +67,18 @@ struct MissionsView: View {
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
                     HStack(spacing: innerPadding) {
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("Positive"))
-                            CustomText(text: Localization.shared.getTranslation(key: "dailyQuests").uppercased(), fontSize: 16, isBold: true).padding(.leading, innerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "dailyQuests").uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
                         }
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("Positive"))
-                            CustomText(text: Localization.shared.getTranslation(key: "milestones").uppercased(), fontSize: 16, isBold: true).padding(.leading, innerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "milestones").uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
                         }
                     }
                     .frame(height: largeHeight).padding(.horizontal, outerPadding)
@@ -89,9 +89,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -100,9 +100,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [GlobalData.shared.userProgress.getDailyElement().name, "2"]).uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [GlobalData.shared.userProgress.getDailyElement().name, "2"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyElementCounter)/2 * 100, 100)))%", fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyElementCounter)/2 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -111,9 +111,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "completeMission", params: ["5"]).uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "completeMission", params: ["5"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: 14)
+                                        CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -128,9 +128,9 @@ struct MissionsView: View {
                                         Rectangle().fill(Color("Panel"))
                                             .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: 14)
+                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.fightCounter)/counter * 100, 100)))%", fontSize: 14)
+                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.fightCounter)/counter * 100, 100)))%", fontSize: smallFont)
                                         }
                                         .padding(.all, innerPadding)
                                     }
@@ -141,9 +141,9 @@ struct MissionsView: View {
                                         Rectangle().fill(Color("Panel"))
                                             .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: 14)
+                                            CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.winStreak)/streak * 100, 100)))%", fontSize: 14)
+                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.winStreak)/streak * 100, 100)))%", fontSize: smallFont)
                                         }
                                         .padding(.all, innerPadding)
                                     }
@@ -153,9 +153,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: GlobalData.shared.userProgress.winAllAlive ? "100%" : "0%", fontSize: 14)
+                                        CustomText(text: GlobalData.shared.userProgress.winAllAlive ? "100%" : "0%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -164,9 +164,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getWeatherAmount())/10 * 100, 100)))%", fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getWeatherAmount())/10 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -175,9 +175,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("Panel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: 14)
+                                        CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getHexAmount())/10 * 100, 100)))%", fontSize: 14)
+                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getHexAmount())/10 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }

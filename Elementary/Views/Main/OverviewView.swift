@@ -111,7 +111,7 @@ struct OverviewView: View {
                         Spacer()
                         ZStack(alignment: .trailing) {
                             TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: showInfo ? currentFighter.name.uppercased() : Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("Title"), fontSize: 16, isBold: true).padding(.all, outerPadding)
+                            CustomText(text: showInfo ? currentFighter.name.uppercased() : Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
@@ -160,7 +160,7 @@ struct OverviewView: View {
                                     }) {
                                         ClearButton(label: "<", width: 35, height: smallHeight)
                                     }
-                                    CustomText(text: Localization.shared.getTranslation(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).uppercased(), fontSize: 14).frame(maxWidth: .infinity)
+                                    CustomText(text: Localization.shared.getTranslation(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         

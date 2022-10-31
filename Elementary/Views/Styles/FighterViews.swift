@@ -31,7 +31,7 @@ struct RectanglePortraitView: View {
                 }
                 HStack {
                     Spacer()
-                    Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 14)).foregroundColor(Color.white)
+                    Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white)
                 }
                 .padding([.trailing, .top], 8)
             }
@@ -96,7 +96,7 @@ struct SquarePortraitView: View {
                 TriangleA().fill(getBorderColor()).frame(width: 70, height: 30).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 10)).foregroundColor(getTextColor()).padding(.all, 6)
             } else {
-                Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
+                Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
             }
         }
     }
@@ -112,19 +112,19 @@ struct BaseFighterOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "health").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "health").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.health)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.health)".uppercased(), fontSize: mediumFont)
                         }
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.attack)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.attack)".uppercased(), fontSize: mediumFont)
                         }
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "defense").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "defense").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.defense)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.defense)".uppercased(), fontSize: mediumFont)
                         }
                     }
                 }
@@ -135,19 +135,19 @@ struct BaseFighterOverviewView: View {
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "agility").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "agility").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.agility)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.agility)".uppercased(), fontSize: mediumFont)
                         }
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "precision").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "precision").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.precision)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.precision)".uppercased(), fontSize: mediumFont)
                         }
                         HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "resistance").uppercased(), fontSize: 16, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: "resistance").uppercased(), fontSize: mediumFont, isBold: true)
                             Spacer()
-                            CustomText(text: "\(base.resistance)".uppercased(), fontSize: 16)
+                            CustomText(text: "\(base.resistance)".uppercased(), fontSize: mediumFont)
                         }
                     }
                 }
@@ -173,13 +173,13 @@ struct SpellView: View {
             Rectangle().fill(Color("Panel")).frame(height: 60).overlay(Rectangle().strokeBorder(Color(hex: spell.element.color), lineWidth: borderWidth))
             HStack(spacing: 0) {
                 VStack {
-                    CustomText(text: Localization.shared.getTranslation(key: spell.name).uppercased(), fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                    CustomText(text: desccription, fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
+                    CustomText(text: Localization.shared.getTranslation(key: spell.name).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                    CustomText(text: desccription, fontSize: smallFont).frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.leading, innerPadding)
                 TitlePanel().fill(Color(hex: spell.element.color)).frame(width: 78, height: 60)
             }
-            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
+            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(Color.white).frame(width: 60, height: 60)
         }
     }
 }
@@ -203,13 +203,13 @@ struct ActionView: View {
             Rectangle().fill(Color("Panel")).frame(height: 60).overlay(Rectangle().strokeBorder(color, lineWidth: borderWidth))
             HStack(spacing: 0) {
                 VStack {
-                    CustomText(text: Localization.shared.getTranslation(key: titleKey).uppercased(), fontSize: 16, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                    CustomText(text: description, fontSize: 14).frame(maxWidth: .infinity, alignment: .leading)
+                    CustomText(text: Localization.shared.getTranslation(key: titleKey).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                    CustomText(text: description, fontSize: smallFont).frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.leading, innerPadding)
                 TitlePanel().fill(color).frame(width: 78, height: 60)
             }
-            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 20)).foregroundColor(Color.white).frame(width: 60, height: 60)
+            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(Color.white).frame(width: 60, height: 60)
         }
     }
 }
@@ -241,7 +241,7 @@ struct HexView: View {
     var body: some View {
         ZStack {
             Rectangle().fill(Color("Panel"))
-            Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: 14)).foregroundColor(getFontColor())
+            Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(getFontColor())
         }
         .frame(width: 24, height: 24)
     }

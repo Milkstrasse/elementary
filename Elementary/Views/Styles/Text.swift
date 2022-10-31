@@ -163,6 +163,6 @@ struct CustomText: View {
 
 struct Text_Previews: PreviewProvider {
     static var previews: some View {
-        CustomText(text: "Hello", fontSize: 14)
+        CustomText(text: "Hello", fontSize: smallFont)
     }
 }

@@ -100,7 +100,7 @@ struct FightSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: 14)
+                        BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: smallFont)
                     }
                     .disabled(isArrayEmpty(array: topFighters))
                     Button(action: {
@@ -111,7 +111,7 @@ struct FightSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: 14)
+                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
                     }
                 }
                 .rotationEffect(.degrees(180))
@@ -139,7 +139,7 @@ struct FightSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: 14)
+                        BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: smallFont)
                     }
                     .disabled(isArrayEmpty(array: bottomFighters))
                     Button(action: {
@@ -150,7 +150,7 @@ struct FightSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: 14)
+                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
                     }
                 }
             }

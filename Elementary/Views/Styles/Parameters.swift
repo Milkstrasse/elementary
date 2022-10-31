@@ -14,3 +14,7 @@ let borderWidth: CGFloat = 1
 
 let largeHeight: CGFloat = 50
 let smallHeight: CGFloat = 40
+
+let largeFont: CGFloat = 20
+let mediumFont: CGFloat = 16
+let smallFont: CGFloat = 14
