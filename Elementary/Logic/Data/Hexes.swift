@@ -137,7 +137,7 @@ enum Hexes: String, CaseIterable {
 }
 
 /// Weather hexes boost different elements during multiple rounds. This is the list containing all available weather hexes.
-enum Weather: String {
+enum Weather: String, CaseIterable {
     case snowstorm
     case sunnyDay
     case overcastSky

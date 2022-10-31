@@ -76,6 +76,7 @@ struct SettingsView: View {
         return 0
     }
     
+    /// Resets audio values to default
     func resetAudioSettings() {
         AudioPlayer.shared.generalVolume = 1.0
         generalVolume = 10
@@ -89,6 +90,7 @@ struct SettingsView: View {
         hapticToggle = true
     }
     
+    /// Resets text values to default
     func resetTextSettings() {
         Localization.shared.loadLanguage(language: String(Locale.preferredLanguages[0].prefix(2)))
         langIndex = getCurrentLang()
@@ -96,6 +98,7 @@ struct SettingsView: View {
         textIndex = 2
     }
     
+    /// Resets general values to default
     func resetGeneralSettings() {
         GlobalData.shared.teamLimit = 1
         teamIndex = 1
@@ -103,6 +106,7 @@ struct SettingsView: View {
         artifactIndex = 0
     }
     
+    /// Resets advanced values to default
     func resetAdvancedSettings() {
         GlobalData.shared.attackModifier = 18
         attackModifier = 18

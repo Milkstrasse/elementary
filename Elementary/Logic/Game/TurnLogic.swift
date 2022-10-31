@@ -158,6 +158,15 @@ class TurnLogic {
             
             return DamageCalculator.shared.applyDamage(attacker: player.getCurrentFighter(), defender: oppositePlayer.getCurrentFighter(), spell: &spell, subSpell: usedSpell, spellElement: spell.element, weather: fightLogic!.weather, usedShield: usedShield)
         } else if usedSpell.hex != nil { //hex adding spell
+            if player.id == 1 && fightLogic!.hasCPUPlayer {
+                for (index, currHex) in Hexes.allCases.enumerated() {
+                    if currHex.rawValue == usedSpell.hex {
+                        GlobalData.shared.userProgress.hexUses[index] = true
+                        break
+                    }
+                }
+            }
+            
             if fightLogic?.weather?.name == Weather.springWeather.rawValue {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
@@ -172,6 +181,15 @@ class TurnLogic {
             
             return applyHealing(attacker: player.getCurrentFighter(), defender: oppositePlayer.getCurrentFighter(), spell: usedSpell)
         } else if usedSpell.weather != nil { //weather adding spell
+            if player.id == 1 && fightLogic!.hasCPUPlayer {
+                for (index, currWeather) in Weather.allCases.enumerated() {
+                    if currWeather.rawValue == usedSpell.weather {
+                        GlobalData.shared.userProgress.weatherUses[index] = true
+                        break
+                    }
+                }
+            }
+            
             let newWeather: String? = Weather(rawValue: usedSpell.weather ?? "")?.rawValue
             
             if newWeather != nil && fightLogic?.weather?.name != newWeather {

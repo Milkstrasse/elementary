@@ -200,9 +200,15 @@
     "restricted": "restreinte",
     
     "missions": "Missions",
+    "dailyQuests": "Quêtes quotidiennes",
+    "milestones": "Jalons",
+    "winUsingMission": "Gagnez avec {0} {1} fois",
+    "completeMission": "Terminez toutes les quêtes",
     "fightMission": "Combattez {0} fois",
-    "winMission": "Gagnez {0} fois",
-    "winFighterMission": "Gagnez {0} fois avec {1}",
+    "winMission": "Gagnez {0} fois d'affilée",
+    "winAliveMission": "Gagnez sans perdre",
+    "hexMission": "Utilisez tous les enchantements",
+    "weatherMission": "Utilisez tous les effets météo",
     
     "creditBy": "**{0}** de {1}",
     

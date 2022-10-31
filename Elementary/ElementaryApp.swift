@@ -12,10 +12,14 @@ let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", element
 class ViewManager: ObservableObject {
     @Published var currentView: AnyView = AnyView(Color.yellow)
     
+    /// Sets a new view to display onto the screen.
+    /// - Parameter view: The view to display
     func setView(view: AnyView) {
         currentView = AnyView(view)
     }
     
+    /// Returns the current view to display onto the main screen.
+    /// - Returns: Returns the current view
     func getCurrentView() -> AnyView {
         return currentView
     }

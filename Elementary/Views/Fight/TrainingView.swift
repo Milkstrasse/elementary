@@ -38,6 +38,8 @@ struct TrainingView: View {
             transitionToggle = false
         }
         .onChange(of: fightOver) { _ in
+            GlobalData.shared.userProgress.addWin(winner: fightLogic.getWinner(), fighters: fightLogic.players[1].fighters)
+            
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

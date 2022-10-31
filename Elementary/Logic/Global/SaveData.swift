@@ -11,7 +11,7 @@ import SwiftUI
 struct SaveData: Codable {
     let langCode: String
     
-    var generalVolume: Float
+    let generalVolume: Float
     let musicVolume: Float
     let soundVolume: Float
     let voiceVolume: Float

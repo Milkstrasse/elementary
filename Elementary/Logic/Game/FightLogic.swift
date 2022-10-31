@@ -11,7 +11,7 @@ import Foundation
 class FightLogic: ObservableObject {
     private var gameLogic: GameLogic = GameLogic()
     
-    private let hasCPUPlayer: Bool
+    let hasCPUPlayer: Bool
     let players: [Player]
     var playerQueue: [(player: Player, move: Move)] = []
     

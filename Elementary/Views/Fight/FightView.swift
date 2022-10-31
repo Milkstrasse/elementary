@@ -47,6 +47,8 @@ struct FightView: View {
             transitionToggle = false
         }
         .onChange(of: fightOver) { _ in
+            GlobalData.shared.userProgress.addFight()
+            
             transitionToggle = true
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

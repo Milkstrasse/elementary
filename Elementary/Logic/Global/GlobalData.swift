@@ -315,8 +315,6 @@ class GlobalData {
                         if fighter.data.name == fighterData.name {
                             GlobalData.shared.fighters[index] = Fighter(data: fighterData) //replaces fighter
                             return
-                        } else {
-                            fighterData.isCustom = true
                         }
                     }
                     

@@ -136,8 +136,6 @@ struct TrainingSelectionView: View {
         for fighter in bottomFighters {
             fighter?.reset()
         }
-        
-        print(bottomFighters)
     }
     
     var body: some View {
