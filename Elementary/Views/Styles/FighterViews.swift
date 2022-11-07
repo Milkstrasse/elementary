@@ -22,12 +22,12 @@ struct RectanglePortraitView: View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            Rectangle().fill(Color("Panel")).overlay(Rectangle().strokeBorder(isSelected ? Color(hex: fighter.getElement().color) : Color("Border2"), lineWidth: borderWidth))
-            Image(fileName: fighter.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.2).offset(x: width/4, y: -width/7).frame(width: width - borderWidth * 2, height: width * 1.48 - borderWidth * 2).clipped().padding(.all, borderWidth)
+            Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(isSelected ?  Color("Positive") : Color("Border"), lineWidth: borderWidth))
+            Image(fileName: fighter.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.2).offset(x: width/4, y: -width/7).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
             ZStack {
                 VStack(spacing: 0) {
-                    TriangleB().fill(isSelected ? Color(hex: fighter.getElement().color) : Color("Border2")).frame(width: width, height: 20)
-                    Rectangle().fill(isSelected ? Color(hex: fighter.getElement().color) : Color("Border2")).frame(width: width, height: 25)
+                    TriangleB().fill(isSelected ?  Color("Positive") : Color("Border")).frame(width: width, height: 20)
+                    Rectangle().fill(isSelected ? Color("Positive") : Color("Border")).frame(width: width, height: 25)
                 }
                 HStack {
                     Spacer()
@@ -36,7 +36,7 @@ struct RectanglePortraitView: View {
                 .padding([.trailing, .top], 8)
             }
         }
-        .frame(width: width, height: width * 1.48)
+        .frame(width: width, height: width * 1.55)
     }
 }
 
@@ -56,45 +56,20 @@ struct SquarePortraitView: View {
     /// Returns the appropiate border color.
     /// - Returns: Returns the appropiate border color
     func getBorderColor() -> Color {
-        if isSelected {
-            if isInverted {
-                return Color("Background2")
-            } else if fighter != nil {
-                return Color(hex: fighter!.getElement().color)
-            } else {
-                return Color("Border1")
-            }
-        } else {
-            if isInverted {
-                return Color.white
-            } else {
-                return Color("Border2")
-            }
-        }
-    }
-    
-    /// Returns the appropiate text color.
-    /// - Returns: Returns the appropiate text color
-    func getTextColor() -> Color {
-        if isSelected {
+        if isInverted {
             return Color.white
         } else {
-            if isInverted {
-                return Color("Panel")
-            } else {
-                return Color.white
-            }
+            return Color("Border")
         }
     }
     
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(isInverted ? Color("Background1") : Color("Panel")).frame(width: 70, height: 70)
+        ZStack(alignment: .topLeading) {
+            Rectangle().fill(isSelected ? Color("Positive") : Color.clear).frame(width: 70, height: 70)
                 .overlay(Rectangle().strokeBorder(getBorderColor(), lineWidth: borderWidth))
             if fighter != nil {
-                Image(fileName: fighter!.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.4).offset(x: 26, y: 3).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
-                TriangleA().fill(getBorderColor()).frame(width: 70, height: 30).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: 10)).foregroundColor(getTextColor()).padding(.all, 6)
+                Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(Color("Text")).padding(.all, 10)
+                Image(fileName: fighter!.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.3).offset(x: 6, y: 26).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
             } else {
                 Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
             }
@@ -108,7 +83,7 @@ struct BaseFighterOverviewView: View {
     var body: some View {
         HStack(spacing: innerPadding/2) {
             ZStack {
-                Rectangle().fill(Color("Panel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
@@ -131,7 +106,7 @@ struct BaseFighterOverviewView: View {
                 .padding(.horizontal, 15)
             }
             ZStack {
-                Rectangle().fill(Color("Panel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {
                         HStack {
@@ -170,7 +145,7 @@ struct SpellView: View {
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            Rectangle().fill(Color("Panel")).frame(height: 60).overlay(Rectangle().strokeBorder(Color(hex: spell.element.color), lineWidth: borderWidth))
+            Rectangle().fill(Color("MainPanel")).frame(height: 60).overlay(Rectangle().strokeBorder(Color(hex: spell.element.color), lineWidth: borderWidth))
             HStack(spacing: 0) {
                 VStack {
                     CustomText(text: Localization.shared.getTranslation(key: spell.name).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
@@ -200,7 +175,7 @@ struct ActionView: View {
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            Rectangle().fill(Color("Panel")).frame(height: 60).overlay(Rectangle().strokeBorder(color, lineWidth: borderWidth))
+            Rectangle().fill(Color("MainPanel")).frame(height: 60).overlay(Rectangle().strokeBorder(color, lineWidth: borderWidth))
             HStack(spacing: 0) {
                 VStack {
                     CustomText(text: Localization.shared.getTranslation(key: titleKey).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
@@ -240,7 +215,7 @@ struct HexView: View {
     
     var body: some View {
         ZStack {
-            Rectangle().fill(Color("Panel"))
+            Rectangle().fill(Color("MainPanel"))
             Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(getFontColor())
         }
         .frame(width: 24, height: 24)

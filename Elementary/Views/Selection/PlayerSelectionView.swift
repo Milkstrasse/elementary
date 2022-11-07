@@ -127,7 +127,7 @@ struct PlayerSelectionView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                HStack(spacing: innerPadding) {
+                HStack(spacing: innerPadding/2) {
                     ForEach(0 ..< fighters.count, id: \.self) { index in
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
@@ -178,7 +178,7 @@ struct PlayerSelectionView: View {
                 Spacer()
             }
             ZStack {
-                Rectangle().fill(Color("Panel")).shadow(radius: 5, x: 5, y: 0)
+                Rectangle().fill(Color("MainPanel")).shadow(radius: 5, x: 5, y: 0)
                 if selectionToggle {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: innerPadding) {
@@ -235,8 +235,8 @@ struct PlayerSelectionView: View {
                         VStack(spacing: innerPadding) {
                             HStack(spacing: innerPadding/2) {
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         Button(action: {
                                         }) {
@@ -336,8 +336,8 @@ struct PlayerSelectionView: View {
                                 }
                             }
                             ZStack {
-                                Rectangle().fill(Color("Panel")).frame(height: 60)
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")).frame(height: 60)
+                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 HStack(spacing: 0) {
                                     Button(action: {
                                     }) {

@@ -34,101 +34,110 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                HStack {
+                Group {
+                    HStack {
+                        VStack {
+                            Spacer()
+                            Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
+                        }
+                        Spacer()
+                        VStack {
+                            Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
+                            Spacer()
+                        }
+                    }
                     VStack {
-                        TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
+                        HStack(spacing: innerPadding) {
+                            Button(action: {
+                                AudioPlayer.shared.playStandardSound()
+                                
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
+                                }
+                            }) {
+                                IconButton(label: "\u{f02e}")
+                            }
+                            Button(action: {
+                                AudioPlayer.shared.playStandardSound()
+                                
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(HelpView().environmentObject(manager)))
+                                }
+                            }) {
+                                IconButton(label: "\u{f02d}")
+                            }
+                            Button(action: {
+                                AudioPlayer.shared.playStandardSound()
+                                
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(SettingsView().environmentObject(manager)))
+                                }
+                            }) {
+                                IconButton(label: "\u{f013}")
+                            }
+                            Button(action: {
+                                AudioPlayer.shared.playStandardSound()
+                                
+                                transitionToggle = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    manager.setView(view: AnyView(CreditsView().environmentObject(manager)))
+                                }
+                            }) {
+                                IconButton(label: "\u{f005}")
+                            }
+                            Spacer()
+                        }
+                        .padding(.all, outerPadding)
                         Spacer()
                     }
                     VStack {
                         Spacer()
-                        TriangleA().fill(Color("Background2")).frame(height: 145)
+                        HStack(alignment: .bottom) {
+                            Image(fileName: blink ? "example_blink" : "example").resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).shadow(radius: 5, x: 5, y: 0)
+                            Spacer()
+                            VStack {
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "training"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                            }
+                            .padding(.bottom, outerPadding)
+                        }
+                        .padding(.horizontal, outerPadding)
                     }
-                }
-                .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
-                HStack(alignment: .bottom, spacing: 0) {
-                    VStack {
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
-                            }
-                        }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
-                        }
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
-                            }
-                        }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "training"), width: 175, height: largeHeight, fontSize: mediumFont)
-                        }
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
-                            }
-                        }) {
-                            BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
-                        }
-                    }
-                    .padding(.all, outerPadding)
-                    Spacer()
-                    Image(fileName: blink ? "example_blink" : "example").resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
-                    VStack {
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(SettingsView().environmentObject(manager)))
-                            }
-                        }) {
-                            IconButton(label: "\u{f013}")
-                        }
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(HelpView().environmentObject(manager)))
-                            }
-                        }) {
-                            IconButton(label: "\u{f128}")
-                        }
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(CreditsView().environmentObject(manager)))
-                            }
-                        }) {
-                            IconButton(label: "\u{f005}")
-                        }
-                        Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            transitionToggle = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
-                            }
-                        }) {
-                            IconButton(label: "\u{f0c9}")
-                        }
-                        Spacer()
-                    }
-                    .padding(.all, outerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

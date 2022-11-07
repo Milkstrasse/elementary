@@ -131,7 +131,7 @@ struct SettingsView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                Color("Panel")
+                Color("MainPanel")
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
                         Button(action: {
@@ -151,18 +151,18 @@ struct SettingsView: View {
                                 manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             }
                         }) {
-                            BorderedButton(label: "X", width: smallHeight, height: smallHeight, isInverted: false)
+                            IconButton(label: "\u{f00d}")
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "settings").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "settings").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
                         HStack(alignment: .top, spacing: innerPadding) {
-                            VStack(spacing: innerPadding) {
+                            VStack(spacing: innerPadding/2) {
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
@@ -178,9 +178,10 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
+                                .padding(.bottom, innerPadding/2)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -265,8 +266,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "music").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -351,8 +352,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "sound").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -433,8 +434,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "voices").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -515,8 +516,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "haptic").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -551,9 +552,10 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
+                                .padding(.bottom, innerPadding/2)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "textSpeed").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -588,8 +590,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "language").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -624,7 +626,7 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                             }
-                            VStack(spacing: innerPadding) {
+                            VStack(spacing: innerPadding/2) {
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
@@ -640,9 +642,10 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
+                                .padding(.bottom, innerPadding/2)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "teams").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -677,8 +680,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "artifacts").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -727,9 +730,10 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
+                                .padding(.bottom, innerPadding/2)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -764,8 +768,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "critical").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -800,8 +804,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "elemental").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -836,8 +840,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -872,8 +876,8 @@ struct SettingsView: View {
                                     .padding(.leading, innerPadding)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack(spacing: 0) {
                                         CustomText(text: Localization.shared.getTranslation(key: "deviation").uppercased(), fontSize: mediumFont, isBold: true)
                                         Spacer()
@@ -926,7 +930,7 @@ struct SettingsView: View {
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

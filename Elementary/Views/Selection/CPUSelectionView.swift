@@ -12,7 +12,7 @@ struct CPUSelectionView: View {
     
     var body: some View {
         VStack {
-            HStack(spacing: innerPadding) {
+            HStack(spacing: innerPadding/2) {
                 ForEach(0 ..< fighters.count, id: \.self) { index in
                     SquarePortraitView(fighter: fighters[index], isSelected: false, isInverted: true)
                 }

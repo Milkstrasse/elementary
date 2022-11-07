@@ -33,7 +33,7 @@ struct ElementaryApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                Color("Background1").ignoresSafeArea()
+                Color("Negative").ignoresSafeArea()
                 if isLoading {
                     Color.yellow.ignoresSafeArea().onAppear {
                         DispatchQueue.main.async {

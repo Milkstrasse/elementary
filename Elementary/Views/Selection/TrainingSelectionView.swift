@@ -140,20 +140,21 @@ struct TrainingSelectionView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+            VStack(spacing: 0) {
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/6.5)
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 20).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                 Spacer()
-                TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 35, y: 2).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/6.5)
             }
             VStack {
+                TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                Spacer()
+                TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+            }
+            VStack(spacing: innerPadding/2) {
                 HStack(spacing: innerPadding) {
                     Spacer()
-                    Button(action: {
-                        AudioPlayer.shared.playStandardSound()
-                        selectRandom()
-                    }) {
-                        BasicButton(label: Localization.shared.getTranslation(key: "randomize"), width: 150, height: smallHeight, fontSize: smallFont)
-                    }
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
                         
@@ -162,13 +163,18 @@ struct TrainingSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
+                        IconButton(label: "\u{f00d}")
                     }
                 }
                 .rotationEffect(.degrees(180))
                 Spacer()
-                HStack(spacing: innerPadding) {
+                HStack {
+                    BasicButton(label: Localization.shared.getTranslation(key: "cancel"), width: 110, height: 35, fontSize: smallFont)
                     Spacer()
+                }
+                .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
+                Spacer().frame(height: 140 + innerPadding)
+                HStack {
                     Button(action: {
                         AudioPlayer.shared.playConfirmSound()
                         let fightLogic: FightLogic = createLogic()
@@ -180,9 +186,16 @@ struct TrainingSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 150, height: smallHeight, fontSize: smallFont)
+                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
                     .disabled(isArrayEmpty(array: bottomFighters))
+                    .disabled(isArrayEmpty(array: bottomFighters))
+                    Spacer()
+                }
+                .frame(width: 280 + 3 * innerPadding/2)
+                Spacer()
+                HStack(spacing: innerPadding) {
+                    Spacer()
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
                         
@@ -191,7 +204,7 @@ struct TrainingSelectionView: View {
                             manager.setView(view: AnyView(MainView().environmentObject(manager)))
                         }
                     }) {
-                        BasicButton(label: "X", width: smallHeight, height: smallHeight, fontSize: smallFont)
+                        IconButton(label: "\u{f00d}")
                     }
                 }
             }
@@ -200,7 +213,7 @@ struct TrainingSelectionView: View {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
                 PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
             }
-            ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

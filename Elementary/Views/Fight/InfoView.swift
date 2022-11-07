@@ -21,12 +21,12 @@ struct InfoView: View {
         ScrollViewReader { value in
             VStack(spacing: innerPadding) {
                 ZStack {
-                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                     VStack(alignment: .leading, spacing: 2) {
                         CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
                         ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
                             HStack(spacing: 0) {
-                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
+                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
                                 CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
                                 Spacer()
                             }
@@ -42,7 +42,7 @@ struct InfoView: View {
                 }
                 .id(0)
                 ZStack {
-                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                     VStack(alignment: .leading, spacing: 2) {
                         CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
                         ForEach(fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes, id: \.self) { hex in
@@ -62,7 +62,7 @@ struct InfoView: View {
                     .padding(.all, innerPadding)
                 }
                 ZStack {
-                    Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                    Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                     VStack(alignment: .leading, spacing: 2) {
                         CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: mediumFont, isBold: true)
                         HStack(spacing: 0) {

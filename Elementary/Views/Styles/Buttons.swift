@@ -16,7 +16,7 @@ struct BasicButton: View {
     
     var body: some View {
         ZStack(alignment: width > height ? .leading : .center) {
-            Rectangle().fill(Color("Panel")).frame(width: width, height: height)
+            Rectangle().fill(Color("MainPanel")).frame(width: width, height: height)
             CustomText(text: label.uppercased(), fontSize: fontSize, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)
@@ -28,9 +28,8 @@ struct IconButton: View {
     
     var body: some View {
         ZStack {
-            Rectangle().fill(Color("Background1")).frame(width: smallHeight, height: smallHeight)
-                .overlay(Rectangle().strokeBorder(Color.white, lineWidth: borderWidth))
-            Text(label).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+            Rectangle().strokeBorder(Color.white, lineWidth: borderWidth).frame(width: smallHeight, height: smallHeight)
+            Text(label).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
         }
         .frame(width: smallHeight, height: smallHeight)
     }
@@ -45,8 +44,8 @@ struct BorderedButton: View {
     
     var body: some View {
         ZStack(alignment: width > height ? .leading : .center) {
-            Rectangle().fill(isInverted ? Color("Background1") : Color("Panel")).frame(width: width, height: height)
-                .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border1"), lineWidth: borderWidth))
+            Rectangle().fill(isInverted ? Color("Negative") : Color("MainPanel")).frame(width: width, height: height)
+                .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border"), lineWidth: borderWidth))
             CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)

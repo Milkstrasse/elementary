@@ -17,7 +17,7 @@ struct FighterInfoView: View {
             ScrollViewReader { value in
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: innerPadding) {
-                        Rectangle().fill(Color("Panel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth)).id(0)
+                        Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)).id(0)
                         BaseFighterOverviewView(base: fighter.getModifiedBase())
                         VStack(spacing: innerPadding/2) {
                             ForEach(fighter.spells, id: \.self) { spell in

@@ -50,7 +50,7 @@ struct MissionsView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                Color("Panel")
+                Color("MainPanel")
                 VStack(alignment: .leading, spacing: innerPadding) {
                     HStack(alignment: .top) {
                         Button(action: {
@@ -62,12 +62,12 @@ struct MissionsView: View {
                                 manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             }
                         }) {
-                            BorderedButton(label: "X", width: smallHeight, height: smallHeight, isInverted: false)
+                            IconButton(label: "\u{f00d}")
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
@@ -84,10 +84,10 @@ struct MissionsView: View {
                     .frame(height: largeHeight).padding(.horizontal, outerPadding)
                     HStack(spacing: innerPadding) {
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: innerPadding) {
+                            VStack(spacing: innerPadding/2) {
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -97,8 +97,8 @@ struct MissionsView: View {
                                 }
                                 .frame(height: largeHeight)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [GlobalData.shared.userProgress.getDailyElement().name, "2"]).uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -108,8 +108,8 @@ struct MissionsView: View {
                                 }
                                 .frame(height: largeHeight)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "completeMission", params: ["5"]).uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -122,11 +122,11 @@ struct MissionsView: View {
                             .padding(.leading, outerPadding)
                         }
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: innerPadding) {
+                            VStack(spacing: innerPadding/2) {
                                 ForEach(fightCounter, id: \.self) { counter in
                                     ZStack {
-                                        Rectangle().fill(Color("Panel"))
-                                            .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                        Rectangle().fill(Color("MainPanel"))
+                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                         HStack {
                                             CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
@@ -138,8 +138,8 @@ struct MissionsView: View {
                                 }
                                 ForEach(winStreak, id: \.self) { streak in
                                     ZStack {
-                                        Rectangle().fill(Color("Panel"))
-                                            .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                        Rectangle().fill(Color("MainPanel"))
+                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                         HStack {
                                             CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
@@ -150,8 +150,8 @@ struct MissionsView: View {
                                     .frame(height: largeHeight)
                                 }
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -161,8 +161,8 @@ struct MissionsView: View {
                                 }
                                 .frame(height: largeHeight)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -172,8 +172,8 @@ struct MissionsView: View {
                                 }
                                 .frame(height: largeHeight)
                                 ZStack {
-                                    Rectangle().fill(Color("Panel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: smallFont)
                                         Spacer()
@@ -205,7 +205,7 @@ struct MissionsView: View {
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

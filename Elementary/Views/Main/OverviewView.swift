@@ -95,7 +95,7 @@ struct OverviewView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                Color("Panel")
+                Color("MainPanel")
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
                         Button(action: {
@@ -106,12 +106,12 @@ struct OverviewView: View {
                                 manager.setView(view: AnyView(MainView().environmentObject(manager)))
                             }
                         }) {
-                            BorderedButton(label: "X", width: smallHeight, height: smallHeight, isInverted: false)
+                            IconButton(label: "\u{f00d}")
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color.white).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: showInfo ? currentFighter.name.uppercased() : Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("Title"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: showInfo ? currentFighter.name.uppercased() : Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
                         }
                     }
                     .padding([.top, .leading], outerPadding)
@@ -144,8 +144,8 @@ struct OverviewView: View {
                         HStack(spacing: innerPadding) {
                             Spacer()
                             ZStack {
-                                Rectangle().fill(Color("Panel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel"))
+                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 HStack {
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
@@ -195,25 +195,29 @@ struct OverviewView: View {
                     .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height - geometry.size.width/2)
                     .offset(y: showInfo ? 0 : geometry.size.width).animation(.linear(duration: 0.3), value: showInfo)
                 ZStack(alignment: .bottomLeading) {
-                    TitlePanel().fill(Color("Background1")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
-                    TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                    Image(fileName: blink ? currentFighter.name + "_blink" : currentFighter.name).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
+                    TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
+                    Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
+                    Image(fileName: blink ? currentFighter.name + "_blink" : currentFighter.name).resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2).delay(0.2), value: showInfo)
                     VStack {
                         Button(action: {
                             AudioPlayer.shared.playCancelSound()
-                            showInfo = false
+                            
+                            transitionToggle = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                            }
                         }) {
-                            BorderedButton(label: "X", width: smallHeight, height: smallHeight, isInverted: true)
+                            IconButton(label: "\u{f00d}")
                         }
                         Spacer()
                     }
                     .padding(.all, outerPadding)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: showInfo ? 0 : -geometry.size.width)
+                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: showInfo ? ((geometry.size.width - smallHeight - 2 * outerPadding) - geometry.size.width)/2 : -geometry.size.width)
                 .animation(.linear(duration: 0.3), value: showInfo)
             }
-            ZigZag().fill(Color.black).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
                 .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {

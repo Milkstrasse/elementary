@@ -78,8 +78,8 @@ struct PlayerFightView: View {
                         Image(fileName: player.getCurrentFighter().name + "_attack").resizable()
                     }
                 }
-                .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6).shadow(radius: 5, x: 5, y: 0).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).offset(x: -45 - offset, y: (geometry.size.width * 0.6 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
-                Rectangle().fill(Color("Panel")).frame(height: 175)
+                .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6).shadow(radius: 5, x: 5, y: 0).offset(x: -45 - offset, y: (geometry.size.width * 0.6 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
+                Rectangle().fill(Color("MainPanel")).frame(height: 175)
                 VStack(spacing: outerPadding) {
                     HStack {
                         Button(action: {
@@ -105,11 +105,11 @@ struct PlayerFightView: View {
                         .disabled(!isInteractable).opacity(fightLogic.fighting ? 0.5 : 1.0).disabled(fightLogic.fighting)
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color.white).frame(width: 210, height: 50).shadow(radius: 5, x: 5, y: 0)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 210, height: 50).shadow(radius: 5, x: 5, y: 0)
                             VStack(spacing: 2) {
                                 HStack(alignment: .top, spacing: 4) {
                                     ForEach(player.fighters.indices, id: \.self) { index in
-                                        Circle().fill(Color.white).frame(width: 10, height: 10).opacity(player.fighters[index].currhp == 0 ? 0.5 : 1).offset(y: -2)
+                                        Circle().fill(Color("TitlePanel")).frame(width: 10, height: 10).opacity(player.fighters[index].currhp == 0 ? 0.5 : 1).offset(y: -2)
                                     }
                                     Spacer().frame(height: 24)
                                     ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
@@ -120,12 +120,12 @@ struct PlayerFightView: View {
                                     }
                                 }
                                 HStack(alignment: .bottom) {
-                                    CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontColor: Color("Panel"), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true)
                                     Spacer()
-                                    CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentFighter().currhp)", "\(player.getCurrentFighter().getModifiedBase().health)"]), fontColor: Color("Panel"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentFighter().currhp)", "\(player.getCurrentFighter().getModifiedBase().health)"]), fontColor: Color("MainPanel"), fontSize: smallFont)
                                 }
                                 ZStack(alignment: .leading) {
-                                    Rectangle().fill(Color("Border1")).frame(height: 6)
+                                    Rectangle().fill(Color("Border")).frame(height: 6)
                                     Rectangle().fill(getHealthColor()).frame(width: calcWidth(fighter: player.getCurrentFighter()), height: 6).animation(.default, value: player.getCurrentFighter().currhp)
                                 }
                             }
@@ -137,13 +137,13 @@ struct PlayerFightView: View {
                     Group {
                         if isGameOver {
                             ZStack(alignment: .topLeading) {
-                                Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "winner" : "loser").uppercased(), fontSize: smallFont).padding(.all, outerPadding)
                             }
                             .padding([.leading, .bottom, .trailing], outerPadding)
                         } else if currentSection == .summary {
                             ZStack {
-                                Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 ScrollView(.vertical, showsIndicators: false) {
                                     ScrollViewReader { value in
                                         ForEach(fightLogic.fightLog.indices, id: \.self) { index in
@@ -175,7 +175,7 @@ struct PlayerFightView: View {
                             .padding(.bottom, outerPadding)
                         } else {
                             ZStack(alignment: .topLeading) {
-                                Rectangle().fill(Color("Panel")) .overlay(Rectangle().strokeBorder(Color("Border1"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 CustomText(text: Localization.shared.getTranslation(key: "waiting"), fontSize: smallFont).padding(.all, outerPadding)
                             }
                             .padding([.leading, .bottom, .trailing], outerPadding)
