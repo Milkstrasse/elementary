@@ -23,17 +23,10 @@ struct RectanglePortraitView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(isSelected ?  Color("Positive") : Color("Border"), lineWidth: borderWidth))
-            Image(fileName: fighter.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.2).offset(x: width/4, y: -width/7).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
-            ZStack {
-                VStack(spacing: 0) {
-                    TriangleB().fill(isSelected ?  Color("Positive") : Color("Border")).frame(width: width, height: 20)
-                    Rectangle().fill(isSelected ? Color("Positive") : Color("Border")).frame(width: width, height: 25)
-                }
-                HStack {
-                    Spacer()
-                    Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white)
-                }
-                .padding([.trailing, .top], 8)
+            Image(fileName: fighter.name).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.1).offset(x: -20, y: 10).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
+            ZStack(alignment: .bottomTrailing) {
+                TriangleA().fill(isSelected ?  Color("Positive") : Color("Border")).frame(height: 40).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).padding(.all, 8)
             }
         }
         .frame(width: width, height: width * 1.55)
