@@ -62,8 +62,6 @@ struct UserProgress: Codable {
         
         dailyFightCounter += 1
         fightCounter += 1
-        
-        SaveData.save()
     }
     
     func getDailyElement() -> Element {

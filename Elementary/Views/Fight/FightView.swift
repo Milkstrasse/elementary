@@ -48,6 +48,7 @@ struct FightView: View {
         }
         .onChange(of: fightOver) { _ in
             GlobalData.shared.userProgress.addFight()
+            SaveData.save()
             
             transitionToggle = true
             

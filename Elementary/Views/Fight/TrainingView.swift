@@ -20,9 +20,9 @@ struct TrainingView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
                 Spacer()
-                TriangleA().fill(Color("Background2")).frame(height: 145).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB())
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
@@ -39,6 +39,7 @@ struct TrainingView: View {
         }
         .onChange(of: fightOver) { _ in
             GlobalData.shared.userProgress.addWin(winner: fightLogic.getWinner(), fighters: fightLogic.players[1].fighters)
+            SaveData.save()
             
             transitionToggle = true
             
