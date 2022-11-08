@@ -148,7 +148,7 @@ struct SettingsView: View {
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                                manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
                         }) {
                             IconButton(label: "\u{f00d}")
@@ -552,7 +552,7 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
-                                .padding(.bottom, innerPadding/2)
+                                .padding(.vertical, innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
@@ -730,7 +730,7 @@ struct SettingsView: View {
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
                                 }
-                                .padding(.bottom, innerPadding/2)
+                                .padding(.vertical, innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))

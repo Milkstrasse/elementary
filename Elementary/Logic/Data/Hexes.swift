@@ -73,6 +73,7 @@ enum Hexes: String, CaseIterable {
     case exhausted
     case restricted
     case taunted
+    case doomed
     
     /// Creates and returns a hex.
     /// - Parameter duration: The duration of the hex
@@ -121,18 +122,9 @@ enum Hexes: String, CaseIterable {
             return Hex(name: self.rawValue, symbol: 0xf023, duration: 3, positive: false)
         case .taunted:
             return Hex(name: self.rawValue, symbol: 0xf06d, duration: 3, positive: false)
+        case .doomed:
+            return Hex(name: self.rawValue, symbol: 0xf7a9, duration: 10, positive: false, damageAmount: 100)
         }
-    }
-    
-    /// Returns a random negative hex to create a curse.
-    /// - Returns: Returns a random negative hex
-    static func getNegativeHex() -> Hex {
-        var hex: Hex = Hexes.allCases[0].getHex()
-        while hex.positive {
-            hex = Hexes.allCases[Int.random(in: 0 ..< Hexes.allCases.count)].getHex()
-        }
-        
-        return hex
     }
 }
 

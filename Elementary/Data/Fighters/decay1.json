@@ -10,6 +10,7 @@
   },
   "spells": [
       "decaySimpleAttack",
+      "doom",
       "protection",
       "attackDown",
       "healingEffect"

@@ -11,6 +11,8 @@ struct MainView: View {
     @EnvironmentObject var manager: ViewManager
     @State var transitionToggle: Bool = true
     
+    let currentFighter: String
+    
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
@@ -63,7 +65,7 @@ struct MainView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(HelpView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(HelpView(currentFighter: currentFighter).environmentObject(manager)))
                                 }
                             }) {
                                 IconButton(label: "\u{f02d}")
@@ -83,7 +85,7 @@ struct MainView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(CreditsView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(CreditsView(currentFighter: currentFighter).environmentObject(manager)))
                                 }
                             }) {
                                 IconButton(label: "\u{f005}")
@@ -96,7 +98,7 @@ struct MainView: View {
                     VStack {
                         Spacer()
                         HStack(alignment: .bottom) {
-                            Image(fileName: blink ? "example_blink" : "example").resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).shadow(radius: 5, x: 5, y: 0)
+                            Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).offset(x: -20).shadow(radius: 5, x: 5, y: 0)
                             Spacer()
                             VStack {
                                 Button(action: {
@@ -153,6 +155,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(currentFighter: exampleFighter.name)
     }
 }

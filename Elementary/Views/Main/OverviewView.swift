@@ -103,7 +103,7 @@ struct OverviewView: View {
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                                manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
                         }) {
                             IconButton(label: "\u{f00d}")
@@ -205,7 +205,7 @@ struct OverviewView: View {
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MainView().environmentObject(manager)))
+                                manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
                         }) {
                             IconButton(label: "\u{f00d}")

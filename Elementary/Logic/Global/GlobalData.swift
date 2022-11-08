@@ -346,4 +346,10 @@ class GlobalData {
         
         return [:]
     }
+    
+    /// Returns the name of a random fighter, used for visual purposes.
+    /// - Returns: Returns the name of a random fighter
+    func getRandomFighter() -> String {
+        return fighters[Int.random(in: 0 ..< fighters.count)].name
+    }
 }

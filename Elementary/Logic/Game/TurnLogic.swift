@@ -89,7 +89,7 @@ class TurnLogic {
                 
                 print(target.name + " lost \(damage)DMG.\n")
                 
-                return Localization.shared.getTranslation(key: "hit")
+                return Localization.shared.getTranslation(key: "lostHP", params: [target.name])
             }
             
             return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])

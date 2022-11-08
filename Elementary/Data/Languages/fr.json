@@ -143,6 +143,7 @@
     "invigoratedDescr": "Diminue **le coût**",
     "exhaustedDescr": "Augmente **le coût**",
     "restrictedDescr": "Seul le dernier sort peut être utilisé",
+    "doomedDescr": "Pas de PV après l'expiration de l'enchantement",
     
     "clearSkies": "Ciel clair",
     "noWeather": "Aucun effet",
@@ -198,6 +199,7 @@
     "invigorated": "revigorée",
     "exhausted": "épuisée",
     "restricted": "restreinte",
+    "doomed": "condamnée",
     
     "missions": "Missions",
     "dailyQuests": "Quêtes quotidiennes",

@@ -366,6 +366,8 @@ class FightLogic: ObservableObject {
                 return true
             } else if hex.name == Hexes.bombed.rawValue && hex.duration != 1 { //hex has no effect yet
                 return true
+            } else if hex.name == Hexes.doomed.rawValue && hex.duration != 1 { //hex has no effect yet
+                return true
             }
         case .artifact:
             if player.hasToSwap || player.getCurrentFighter().currhp == 0 { //fighter is no longer present

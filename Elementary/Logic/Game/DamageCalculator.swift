@@ -22,12 +22,16 @@ struct DamageCalculator {
     ///   - usedShield: Indicates wether the opponent used a shield successfully
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Fighter, defender: Fighter, spell: inout Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
-        var text: String = Localization.shared.getTranslation(key: "hit")
+        var text: String
         
         //determine actual target
         var target: Fighter = defender
         if subSpell.range == 0 {
             target = attacker
+            
+            text = Localization.shared.getTranslation(key: "lostHP", params: [target.name])
+        } else {
+            text = Localization.shared.getTranslation(key: "hit")
         }
         
         //damage calculation
