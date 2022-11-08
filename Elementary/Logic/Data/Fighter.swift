@@ -39,7 +39,7 @@ class Fighter: Hashable, Equatable {
     
     /// Creates a fighter from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the fighter
-    init(data: FighterData) {
+    init(data: FighterData, skinIndex: Int = 0) {
         name = data.name
         element = GlobalData.shared.elements[data.element] ?? Element()
         
@@ -58,6 +58,8 @@ class Fighter: Hashable, Equatable {
         
         nature = Nature()
         artifact = Artifacts.allCases[0].getArtifact()
+        
+        self.skinIndex = skinIndex
     }
     
     /// Returns the current element of a fighter checking if the permanent element is overriden by another.

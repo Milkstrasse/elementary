@@ -493,6 +493,10 @@ struct PlayerSelectionView: View {
                                                 fighters[selectedSlot]!.skinIndex -= 1
                                             }
                                             
+                                            while fighters[selectedSlot]!.skinIndex > 0 && fighters[selectedSlot]!.skinIndex != GlobalData.shared.userProgress.unlockedSkins[fighters[selectedSlot]!.name] {
+                                                fighters[selectedSlot]!.skinIndex -= 1
+                                            }
+                                            
                                             selectedSkin = fighters[selectedSlot]!.skinIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: smallHeight)
@@ -505,6 +509,15 @@ struct PlayerSelectionView: View {
                                                 fighters[selectedSlot]!.skinIndex = 0
                                             } else {
                                                 fighters[selectedSlot]!.skinIndex += 1
+                                                
+                                                while fighters[selectedSlot]!.skinIndex > 0 && fighters[selectedSlot]!.skinIndex != GlobalData.shared.userProgress.unlockedSkins[fighters[selectedSlot]!.name] {
+                                                    fighters[selectedSlot]!.skinIndex += 1
+                                                    
+                                                    if fighters[selectedSlot]!.skinIndex >= fighters[selectedSlot]!.data.skins.count - 1 {
+                                                        fighters[selectedSlot]!.skinIndex = 0
+                                                        break
+                                                    }
+                                                }
                                             }
                                             
                                             selectedSkin = fighters[selectedSlot]!.skinIndex

@@ -90,6 +90,11 @@ struct MainView: View {
                             }) {
                                 IconButton(label: "\u{f005}")
                             }
+                            Button(action: {
+                                GlobalData.shared.userProgress.unlockSkin(fighter: "aether1", index: 1)
+                            }) {
+                                IconButton(label: "\u{f8c1}")
+                            }
                             Spacer()
                         }
                         .padding(.all, outerPadding)

@@ -22,6 +22,8 @@ struct UserProgress: Codable {
     var dailyFightCounter: Int = 0
     var dailyElementCounter: Int = 0
     
+    var unlockedSkins: [String:Int] = [:]
+    
     /// Advances user progress by increasing win counters.
     /// - Parameters:
     ///   - winner: Indicates the winner
@@ -64,6 +66,8 @@ struct UserProgress: Codable {
         fightCounter += 1
     }
     
+    /// Returns element depending on day.
+    /// - Returns: Returns daily element
     func getDailyElement() -> Element {
         var index: Int = Calendar.current.component(.month, from: lastDate) + Calendar.current.component(.weekday, from: lastDate) - 2
         index -= index/12 * 12
@@ -71,6 +75,7 @@ struct UserProgress: Codable {
         return GlobalData.shared.elementArray[index]
     }
     
+    /// Resets daily missions
     mutating func resetDaily() {
         if !Calendar.current.isDateInToday(lastDate) {
             dailyFightCounter = 0
@@ -79,6 +84,8 @@ struct UserProgress: Codable {
         }
     }
     
+    /// Add up all weather effects that have been used once.
+    /// - Returns: Returns number of used weather effects
     func getWeatherAmount() -> Int {
         var counter: Int = 0
         for weather in weatherUses {
@@ -90,6 +97,8 @@ struct UserProgress: Codable {
         return counter
     }
     
+    /// Add up all hexes that have been used once.
+    /// - Returns: Returns number of used hexes
     func getHexAmount() -> Int {
         var counter: Int = 0
         for hex in hexUses {
@@ -99,5 +108,9 @@ struct UserProgress: Codable {
         }
         
         return counter
+    }
+    
+    mutating func unlockSkin(fighter: String, index: Int) {
+        unlockedSkins.updateValue(index, forKey: fighter)
     }
 }
