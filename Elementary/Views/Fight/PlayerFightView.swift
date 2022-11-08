@@ -69,13 +69,13 @@ struct PlayerFightView: View {
             ZStack(alignment: .leading) {
                 Group {
                     if player.state == PlayerState.neutral {
-                        Image(fileName: blink ? player.getCurrentFighter().name + "_blink" : player.getCurrentFighter().name).resizable()
+                        Image(fileName: blink ? player.getCurrentFighter().name + player.getCurrentFighter().getSkin() + "_blink" : player.getCurrentFighter().name + player.getCurrentFighter().getSkin()).resizable()
                     } else if player.state == PlayerState.healing {
-                        Image(fileName: player.getCurrentFighter().name + "_happy").resizable()
+                        Image(fileName: player.getCurrentFighter().name + player.getCurrentFighter().getSkin() + "_happy").resizable()
                     } else if player.state == PlayerState.hurting {
-                        Image(fileName: player.getCurrentFighter().name + "_hurt").resizable()
+                        Image(fileName: player.getCurrentFighter().name + player.getCurrentFighter().getSkin() + "_hurt").resizable()
                     } else {
-                        Image(fileName: player.getCurrentFighter().name + "_attack").resizable()
+                        Image(fileName: player.getCurrentFighter().name + player.getCurrentFighter().getSkin() + "_attack").resizable()
                     }
                 }
                 .frame(width: geometry.size.width * 0.6, height: geometry.size.width * 0.6).shadow(radius: 5, x: 5, y: 0).offset(x: -45 - offset, y: (geometry.size.width * 0.6 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)

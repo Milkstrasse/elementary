@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", element: "water", spells: ["waterSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "attackDown"], base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55)))
+let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", element: "water", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["waterSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "attackDown"], skins: [""]))
 
 class ViewManager: ObservableObject {
     @Published var currentView: AnyView = AnyView(Color.yellow)

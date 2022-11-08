@@ -9,12 +9,13 @@
 struct FighterData: Decodable {
     var name: String
     let element: String
+    let base: Base
     let spells: [String]
     
-    let base: Base
+    let skins: [String]
     
     enum CodingKeys: String, CodingKey {
-        case element, spells, base
+        case element, spells, base, skins
     }
     
     /// Creates placeholder data for a fighter.
@@ -23,12 +24,13 @@ struct FighterData: Decodable {
     ///   - element: The element of the fighter
     ///   - spells: The spells of the fighter
     ///   - base: All the base stats of the fighter
-    init(name: String, element: String, spells: [String], base: Base) {
+    init(name: String, element: String, base: Base, spells: [String], skins: [String]) {
         self.name = name
         self.element = element
+        self.base = base
         self.spells = spells
         
-        self.base = base
+        self.skins = skins
     }
     
     /// Creates data for a fighter from JSON data
@@ -38,9 +40,10 @@ struct FighterData: Decodable {
         
         name = "unknownFighter" //will be overwritten by GlobalData
         element = try container.decode(String.self, forKey: .element)
+        base = try container.decode(Base.self, forKey: .base)
         spells = try container.decode([String].self, forKey: .spells)
         
-        base = try container.decode(Base.self, forKey: .base)
+        skins = try container.decode([String].self, forKey: .skins)
     }
 }
 
@@ -58,12 +61,14 @@ struct Base: Codable {
 struct SavedFighterData: Codable, Equatable {
     let name: String
     let element: String
+    let base: Base
     let spells: [String]
     
     let nature: String
     let artifact: String
     
-    let base: Base
+    let skinIndex: Int
+    let skins: [String]
     
     /// Stores data of a fighter.
     /// - Parameter fighter: The desired fighter
@@ -76,12 +81,15 @@ struct SavedFighterData: Codable, Equatable {
         artifact = fighter.getArtifact().name
         
         base = fighter.base
+        
+        skinIndex = fighter.skinIndex
+        skins = fighter.data.skins
     }
     
     /// Creates fighter from data.
     /// - Returns: Returns the fighter created by the data
     func toFighter() -> Fighter {
-        let fighter: Fighter = Fighter(data: FighterData(name: name, element: element, spells: spells, base: base))
+        let fighter: Fighter = Fighter(data: FighterData(name: name, element: element, base: base, spells: spells, skins: skins))
         for nat in GlobalData.shared.natures {
             if nat.name == nature {
                 fighter.nature = nat
@@ -103,7 +111,9 @@ struct SavedFighterData: Codable, Equatable {
         if lhs.name == rhs.name {
             if lhs.nature == rhs.nature {
                 if lhs.artifact == rhs.artifact {
-                    return true
+                    if lhs.skinIndex == rhs.skinIndex {
+                        return true
+                    }
                 }
             }
         }

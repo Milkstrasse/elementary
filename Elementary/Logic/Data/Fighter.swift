@@ -35,6 +35,8 @@ class Fighter: Hashable, Equatable {
     
     var manaUse: Int = 2
     
+    var skinIndex: Int = 0
+    
     /// Creates a fighter from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the fighter
     init(data: FighterData) {
@@ -134,6 +136,15 @@ class Fighter: Hashable, Equatable {
     /// - Returns: Returns the current active artifact
     func getArtifact() -> Artifact {
         return artifactOverride ?? artifact
+    }
+    
+    func getSkin(index: Int = -1) -> String {
+        var skin: Int = index
+        if index < 0 {
+            skin = skinIndex
+        }
+        
+        return data.skins[skin]
     }
     
     /// Checks if fighter has certain hex.
