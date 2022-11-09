@@ -22,10 +22,12 @@ struct UserProgress: Codable {
     var fightOneElement: Bool = false
     
     var dailyFightCounter: Int = 0
+    var dailyWinCounter: Int = 0
     var dailyElementCounter: Int = 0
     
     var unlockedSkins: [String:Int] = [:]
-    var collected: [Bool] = [Bool](repeating: false, count: 11)
+    var missionCollected: [Bool] = [Bool](repeating: false, count: 11)
+    var dailyCollected: [Bool] = [Bool](repeating: false, count: 4)
     
     var points: Int = 0
     
@@ -36,6 +38,7 @@ struct UserProgress: Codable {
     mutating func addWin(winner: Int, fighters: [Fighter]) {
         if winner == 1 {
             winCounter += 1
+            dailyWinCounter += 1
             
             if winCounter > winStreak {
                 winStreak = winCounter
@@ -116,7 +119,10 @@ struct UserProgress: Codable {
     mutating func resetDaily() {
         if !Calendar.current.isDateInToday(lastDate) {
             dailyFightCounter = 0
+            dailyWinCounter = 0
             dailyElementCounter = 0
+            dailyCollected = [Bool](repeating: false, count: 3)
+            
             lastDate = Date()
         }
     }
@@ -165,8 +171,13 @@ struct UserProgress: Codable {
         fightOneElement = true
     }
     
-    mutating func collect(points: Int, index: Int) {
-        collected[index] = true
+    mutating func dailyCollect(points: Int, index: Int) {
+        dailyCollected[index] = true
+        self.points += points
+    }
+    
+    mutating func missionCollect(points: Int, index: Int) {
+        missionCollected[index] = true
         self.points += points
     }
 }

@@ -33,10 +33,10 @@ struct BorderedButton: View {
     let isInverted: Bool
     
     var body: some View {
-        ZStack(alignment: width > height ? .leading : .center) {
+        ZStack(alignment: .leading) {
             Rectangle().fill(isInverted ? Color("Negative") : Color("MainPanel")).frame(width: width, height: height)
                 .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border"), lineWidth: borderWidth))
-            CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
+            CustomText(text: Localization.shared.getTranslation(key: label).uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)
     }

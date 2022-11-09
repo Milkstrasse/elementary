@@ -328,7 +328,7 @@ struct PlayerSelectionView: View {
                                     selectionToggle = true
                                     infoToggle = false
                                 }) {
-                                    BorderedButton(label: Localization.shared.getTranslation(key: "remove"), width: 120, height: smallHeight, isInverted: false)
+                                    BorderedButton(label: "remove", width: 120, height: smallHeight, isInverted: false)
                                 }
                             }
                             BaseFighterOverviewView(base: fighters[selectedSlot]!.getModifiedBase())

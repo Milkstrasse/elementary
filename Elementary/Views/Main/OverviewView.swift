@@ -180,12 +180,12 @@ struct OverviewView: View {
                                 }
                                 .padding(.horizontal, 2)
                             }
-                            .frame(width: 210, height: smallHeight)
+                            .frame(width: 170, height: smallHeight)
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()
                                 showInfo = true
                             }) {
-                                BorderedButton(label: "?", width: smallHeight, height: smallHeight, isInverted: false)
+                                BorderedButton(label: "info", width: 105, height: smallHeight, isInverted: false)
                             }
                             .opacity(fighterSelected ? 1 : 0.7).disabled(!fighterSelected)
                         }

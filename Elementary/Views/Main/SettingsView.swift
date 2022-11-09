@@ -923,7 +923,7 @@ struct SettingsView: View {
                             
                             resetSettings()
                         }) {
-                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 210, height: smallHeight, isInverted: false)
+                            BorderedButton(label: "reset", width: 170, height: smallHeight, isInverted: false)
                         }
                     }
                     .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)

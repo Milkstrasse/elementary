@@ -81,7 +81,7 @@ struct FighterInfoView: View {
                                 GlobalData.shared.userProgress = userProgress
                                 SaveData.save()
                             }) {
-                                BorderedButton(label: Localization.shared.getTranslation(key: "purchase"), width: 155, height: smallHeight, isInverted: false)
+                                BorderedButton(label: "purchase", width: 155, height: smallHeight, isInverted: false)
                             }
                             .disabled(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil))
                         }

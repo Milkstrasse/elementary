@@ -82,7 +82,7 @@ struct HelpView: View {
                             AudioPlayer.shared.playStandardSound()
                             showInfo = !showInfo
                         }) {
-                            BorderedButton(label: Localization.shared.getTranslation(key: showInfo ? "hideChart" : "showChart"), width: 210, height: smallHeight, isInverted: false)
+                            BorderedButton(label: showInfo ? "hideChart" : "showChart", width: 170, height: smallHeight, isInverted: false)
                         }
                     }
                     .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)
