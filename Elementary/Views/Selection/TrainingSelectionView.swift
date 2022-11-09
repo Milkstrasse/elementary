@@ -141,11 +141,11 @@ struct TrainingSelectionView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/6.5)
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 20).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3)
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
                 Spacer()
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 35, y: 2).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/6.5)
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0, y: 0).clipShape(TriangleB())
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3)
             }
             VStack {
                 TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))

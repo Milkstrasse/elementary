@@ -15,6 +15,8 @@
     "wind": "Vent",
     "wood": "Bois",
     
+    "default": "Défaut",
+    
     "health": "Santé",
     "attack": "Attaque",
     "defense": "Défense",
@@ -122,7 +124,7 @@
     "spells": "Sorts",
     "spellsDescr": "Utilisez la magie pour combattre",
     
-    "noHexes": "Pas d'enchantements",
+    "noHexes": "Pas d'sortilèges",
     "attackBoostDescr": "Augmente **l'attaque**",
     "attackDropDescr": "Diminue **l'attaque**",
     "defenseBoostDescr": "Augmente **la défense**",
@@ -136,14 +138,14 @@
     "poisonedDescr": "Diminue PV à chaque tour",
     "healedDescr": "Augmente PV à chaque tour",
     "confusedDescr": "Randomise le sort",
-    "bombedDescr": "Diminue PV après l'expiration de l'enchantement",
-    "blessedDescr": "Protège contre les enchantements **négatifs**",
+    "bombedDescr": "Diminue PV après l'expiration de l'sortilège",
+    "blessedDescr": "Protège contre les sortilèges **négatifs**",
     "blockedDescr": "Empêche la guérison",
     "chainedDescr": "Empêche l'échange",
     "invigoratedDescr": "Diminue **le coût**",
     "exhaustedDescr": "Augmente **le coût**",
     "restrictedDescr": "Seul le dernier sort peut être utilisé",
-    "doomedDescr": "Pas de PV après l'expiration de l'enchantement",
+    "doomedDescr": "Pas de PV après l'expiration de l'sortilège",
     
     "clearSkies": "Ciel clair",
     "noWeather": "Aucun effet",
@@ -209,8 +211,10 @@
     "fightMission": "Combattez {0} fois",
     "winMission": "Gagnez {0} fois d'affilée",
     "winAliveMission": "Gagnez sans perdre",
-    "hexMission": "Utilisez tous les enchantements",
-    "weatherMission": "Utilisez tous les effets météo",
+    "hexMission": "Utilisez les sortilèges",
+    "weatherMission": "Utilisez les effets météo",
+    "fightElementMission": "Combattez avec 1 élément",
+    "collect": "Collecter",
     
     "creditBy": "**{0}** de {1}",
     
@@ -219,7 +223,7 @@
     "help2": "Sorts",
     "help2Descr": "les sorts sont utilisés pour attaquer, soigner ou ensorceler les combattantes. ils coûtent du mana.",
     "help3": "Sortilèges",
-    "help3Descr": "un enchantement applique un effet à une combattante pendant plusieurs tours. Les enchantements peuvent augmenter ou diminuer les statistiques, infliger des dégâts ou soigner par tour, et plus encore. Une combattante peut avoir jusqu'à trois enchantements et peut avoir des multiples du même enchantement.",
+    "help3Descr": "un sortilège applique un effet à une combattante pendant plusieurs tours. Les sortilèges peuvent augmenter ou diminuer les statistiques, infliger des dégâts ou soigner par tour, et plus encore. Une combattante peut avoir jusqu'à trois sortilèges et peut avoir des multiples du même sortilège.",
     "help4": "Météo",
     "help4Descr": "la météo augmente la puissance de certains éléments."
 }

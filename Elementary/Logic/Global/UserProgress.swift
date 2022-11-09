@@ -19,10 +19,15 @@ struct UserProgress: Codable {
     var weatherUses: [Bool] = [Bool](repeating: false, count: Weather.allCases.count)
     var hexUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
     
+    var fightOneElement: Bool = false
+    
     var dailyFightCounter: Int = 0
     var dailyElementCounter: Int = 0
     
     var unlockedSkins: [String:Int] = [:]
+    var collected: [Bool] = [Bool](repeating: false, count: 11)
+    
+    var points: Int = 0
     
     /// Advances user progress by increasing win counters.
     /// - Parameters:
@@ -64,6 +69,38 @@ struct UserProgress: Codable {
         
         dailyFightCounter += 1
         fightCounter += 1
+    }
+    
+    mutating func checkTeams(teamA: [Fighter], teamB: [Fighter]) {
+        var element: String = teamA[0].element.name
+        var counter: Int = 1
+        
+        for index in 1 ..< teamA.count {
+            if teamA[index].element.name != element {
+                break
+            } else {
+                counter += 1
+            }
+        }
+        
+        if counter == teamA.count {
+            fightOneElement = true
+        } else {
+            element = teamB[0].element.name
+            counter = 1
+            
+            for index in 1 ..< teamB.count {
+                if teamB[index].element.name != element {
+                    break
+                } else {
+                    counter += 1
+                }
+            }
+            
+            if counter == teamB.count {
+                fightOneElement = true
+            }
+        }
     }
     
     /// Returns element depending on day.
@@ -110,7 +147,26 @@ struct UserProgress: Codable {
         return counter
     }
     
-    mutating func unlockSkin(fighter: String, index: Int) {
+    /// Unlocks a skin for a fighter.
+    /// - Parameters:
+    ///   - fighter: The owner of the skin
+    ///   - index: The number of the skin
+    mutating func unlockSkin(points: Int, fighter: String, index: Int) {
+        self.points -= points
         unlockedSkins.updateValue(index, forKey: fighter)
+    }
+    
+    mutating func completeAllMissions() {
+        winStreak = 500
+        fightCounter = 500
+        winAllAlive = true
+        weatherUses = [Bool](repeating: true, count: Weather.allCases.count)
+        hexUses = [Bool](repeating: true, count: Hexes.allCases.count)
+        fightOneElement = true
+    }
+    
+    mutating func collect(points: Int, index: Int) {
+        collected[index] = true
+        self.points += points
     }
 }

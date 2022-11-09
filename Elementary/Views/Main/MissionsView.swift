@@ -10,12 +10,14 @@ import SwiftUI
 struct MissionsView: View {
     @EnvironmentObject var manager: ViewManager
     
+    @State var userProgress: UserProgress
+    
     @State var transitionToggle: Bool = true
     
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
     
-    let fightCounter: [Float] = [25, 50, 100]
+    let fightCounter: [Float] = [2, 5, 7]
     let winStreak: [Float] = [5, 10, 25]
     
     /// Sends signal to blink.
@@ -24,7 +26,7 @@ struct MissionsView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             blink = true
             
-            GlobalData.shared.userProgress.resetDaily()
+            userProgress.resetDaily()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 blink = false
@@ -38,7 +40,7 @@ struct MissionsView: View {
     }
     
     func dailyComplete() -> Float {
-        let userProgress: UserProgress = GlobalData.shared.userProgress
+        let userProgress: UserProgress = userProgress
         
         var counter: Float = Float(userProgress.dailyFightCounter)/5
         counter += Float(userProgress.dailyElementCounter)/2
@@ -55,9 +57,12 @@ struct MissionsView: View {
                     HStack(alignment: .top) {
                         Button(action: {
                             AudioPlayer.shared.playCancelSound()
-                            SaveData.save()
                             
+                            GlobalData.shared.userProgress = userProgress
+                            
+                            SaveData.save()
                             transitionToggle = true
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
@@ -91,7 +96,7 @@ struct MissionsView: View {
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -100,9 +105,9 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [GlobalData.shared.userProgress.getDailyElement().name, "2"]).uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [userProgress.getDailyElement().name, "2"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.dailyElementCounter)/2 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.dailyElementCounter)/2 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
                                 }
@@ -123,63 +128,116 @@ struct MissionsView: View {
                         }
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: innerPadding/2) {
-                                ForEach(fightCounter, id: \.self) { counter in
-                                    ZStack {
+                                ForEach(fightCounter.indices, id: \.self) { index in
+                                    ZStack(alignment: .trailing) {
                                         Rectangle().fill(Color("MainPanel"))
                                             .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(counter))"]).uppercased(), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(fightCounter[index]))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.fightCounter)/counter * 100, 100)))%", fontSize: smallFont)
+                                            CustomText(text: "\(Int(min(Float(userProgress.fightCounter)/fightCounter[index] * 100, 100)))%", fontSize: smallFont)
                                         }
                                         .padding(.all, innerPadding)
+                                        if Float(userProgress.fightCounter)/fightCounter[index] >= 1 && !userProgress.collected[index] {
+                                            Button(action: {
+                                                userProgress.collect(points: 50, index: index)
+                                            }) {
+                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            }
+                                        }
                                     }
                                     .frame(height: largeHeight)
                                 }
-                                ForEach(winStreak, id: \.self) { streak in
-                                    ZStack {
+                                ForEach(winStreak.indices, id: \.self) { index in
+                                    ZStack(alignment: .trailing) {
                                         Rectangle().fill(Color("MainPanel"))
                                             .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(streak))"]).uppercased(), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["\(Int(winStreak[index]))"]).uppercased(), fontSize: smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.winStreak)/streak * 100, 100)))%", fontSize: smallFont)
+                                            CustomText(text: "\(Int(min(Float(userProgress.winStreak)/winStreak[index] * 100, 100)))%", fontSize: smallFont)
                                         }
                                         .padding(.all, innerPadding)
+                                        if Float(userProgress.winStreak)/winStreak[index] >= 1 && !userProgress.collected[fightCounter.count + index] {
+                                            Button(action: {
+                                                userProgress.collect(points: 50, index: fightCounter.count + index)
+                                            }) {
+                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            }
+                                        }
                                     }
                                     .frame(height: largeHeight)
                                 }
-                                ZStack {
+                                ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: GlobalData.shared.userProgress.winAllAlive ? "100%" : "0%", fontSize: smallFont)
+                                        CustomText(text: userProgress.winAllAlive ? "100%" : "0%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
+                                    if userProgress.winAllAlive && !userProgress.collected[fightCounter.count + winStreak.count] {
+                                        Button(action: {
+                                            userProgress.collect(points: 50, index: fightCounter.count + winStreak.count)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
                                 }
                                 .frame(height: largeHeight)
-                                ZStack {
+                                ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getWeatherAmount())/10 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
+                                    if Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) >= 1 && !userProgress.collected[fightCounter.count + winStreak.count + 1] {
+                                        Button(action: {
+                                            userProgress.collect(points: 50, index: fightCounter.count + winStreak.count + 1)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
                                 }
                                 .frame(height: largeHeight)
-                                ZStack {
+                                ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(GlobalData.shared.userProgress.getHexAmount())/10 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
+                                    if Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) >= 1 && !userProgress.collected[fightCounter.count + winStreak.count + 2] {
+                                        Button(action: {
+                                            userProgress.collect(points: 50, index: fightCounter.count + winStreak.count + 2)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
+                                }
+                                .frame(height: largeHeight)
+                                ZStack(alignment: .trailing) {
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                    HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "fightElementMission").uppercased(), fontSize: smallFont)
+                                        Spacer()
+                                        CustomText(text: userProgress.fightOneElement ? "100%" : "0%", fontSize: smallFont)
+                                    }
+                                    .padding(.all, innerPadding)
+                                    if userProgress.fightOneElement && !userProgress.collected[fightCounter.count + winStreak.count + 3] {
+                                        Button(action: {
+                                            userProgress.collect(points: 50, index: fightCounter.count + winStreak.count + 3)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
                                 }
                                 .frame(height: largeHeight)
                             }
@@ -191,15 +249,20 @@ struct MissionsView: View {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
-                            GlobalData.shared.userProgress = UserProgress()
+                            userProgress = UserProgress()
                             SaveData.save()
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
-                            }
                         }) {
-                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 210, height: smallHeight, isInverted: false)
+                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 155, height: smallHeight, isInverted: false)
                         }
+                        ZStack(alignment: .trailing) {
+                            Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)
+                            HStack(spacing: innerPadding/2) {
+                                CustomText(text: "\(userProgress.points)", fontSize: smallFont)
+                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white)
+                            }
+                            .padding(.trailing, outerPadding)
+                        }
+                        .frame(width: 105, height: smallHeight)
                     }
                     .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)
                 }
@@ -211,7 +274,7 @@ struct MissionsView: View {
         .onAppear {
             transitionToggle = false
             
-            GlobalData.shared.userProgress.resetDaily()
+            userProgress.resetDaily()
             
             let blinkInterval: Int = Int.random(in: 5 ... 10)
             blink(delay: TimeInterval(blinkInterval))
@@ -224,6 +287,6 @@ struct MissionsView: View {
 
 struct MissionsView_Previews: PreviewProvider {
     static var previews: some View {
-        MissionsView()
+        MissionsView(userProgress: UserProgress())
     }
 }

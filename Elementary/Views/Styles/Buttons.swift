@@ -14,24 +14,14 @@ struct BasicButton: View {
     
     let fontSize: CGFloat
     
+    var isInverted: Bool = false
+    
     var body: some View {
         ZStack(alignment: width > height ? .leading : .center) {
-            Rectangle().fill(Color("MainPanel")).frame(width: width, height: height)
+            Rectangle().fill(isInverted ? Color("Negative") : Color("MainPanel")).frame(width: width, height: height)
             CustomText(text: label.uppercased(), fontSize: fontSize, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)
-    }
-}
-
-struct IconButton: View {
-    let label: String
-    
-    var body: some View {
-        ZStack {
-            Rectangle().strokeBorder(Color.white, lineWidth: borderWidth).frame(width: smallHeight, height: smallHeight)
-            Text(label).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
-        }
-        .frame(width: smallHeight, height: smallHeight)
     }
 }
 
@@ -49,6 +39,18 @@ struct BorderedButton: View {
             CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
         }
         .frame(width: width, height: height)
+    }
+}
+
+struct IconButton: View {
+    let label: String
+    
+    var body: some View {
+        ZStack {
+            Rectangle().strokeBorder(Color.white, lineWidth: borderWidth).frame(width: smallHeight, height: smallHeight)
+            Text(label).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+        }
+        .frame(width: smallHeight, height: smallHeight)
     }
 }
 

@@ -10,7 +10,7 @@ import Darwin
 /// Contains all the important data of a fighter.
 class Fighter: Hashable, Equatable {
     let name: String
-    private let element: Element
+    let element: Element
     private var elementOverride: Element?
     
     let data: FighterData
@@ -24,7 +24,7 @@ class Fighter: Hashable, Equatable {
     var lastSpell: Spell?
     
     var nature: Nature
-    private var artifact: Artifact
+    private(set) var artifact: Artifact
     private var artifactOverride: Artifact?
     
     private var attackMod: Int = 0
@@ -140,6 +140,9 @@ class Fighter: Hashable, Equatable {
         return artifactOverride ?? artifact
     }
     
+    /// Returns the skin name for current skin or at a specified index.
+    /// - Parameter index: Index for skins array, current index by default
+    /// - Returns: Returns name of skin
     func getSkin(index: Int = -1) -> String {
         var skin: Int = index
         if index < 0 {

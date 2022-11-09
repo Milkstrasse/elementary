@@ -235,7 +235,7 @@ struct PlayerSelectionView: View {
                 } else if infoToggle {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: innerPadding) {
-                            HStack(spacing: innerPadding/2) {
+                            HStack(spacing: innerPadding) {
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
@@ -463,7 +463,7 @@ struct PlayerSelectionView: View {
                                             })
                                 }
                             }
-                            HStack(spacing: innerPadding/2) {
+                            HStack(spacing: innerPadding) {
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
                                     

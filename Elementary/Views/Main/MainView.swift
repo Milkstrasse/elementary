@@ -55,7 +55,7 @@ struct MainView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MissionsView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(MissionsView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
                                 }
                             }) {
                                 IconButton(label: "\u{f02e}")
@@ -91,7 +91,7 @@ struct MainView: View {
                                 IconButton(label: "\u{f005}")
                             }
                             Button(action: {
-                                GlobalData.shared.userProgress.unlockSkin(fighter: "aether1", index: 1)
+                                GlobalData.shared.userProgress.completeAllMissions()
                             }) {
                                 IconButton(label: "\u{f8c1}")
                             }
