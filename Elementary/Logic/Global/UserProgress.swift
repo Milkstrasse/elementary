@@ -173,11 +173,25 @@ struct UserProgress: Codable {
     
     mutating func dailyCollect(points: Int, index: Int) {
         dailyCollected[index] = true
-        self.points += points
+        
+        self.points += 9000
+        self.points = min(self.points, 9999999)
     }
     
     mutating func missionCollect(points: Int, index: Int) {
         missionCollected[index] = true
-        self.points += points
+        
+        self.points += 9000
+        self.points = min(self.points, 9999999)
+    }
+    
+    func getFormattedPoints() -> String {
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        formatter.numberStyle = .decimal
+
+        let number = NSNumber(value: points)
+        let formattedValue = formatter.string(from: number)!
+        return "\(formattedValue)"
     }
 }

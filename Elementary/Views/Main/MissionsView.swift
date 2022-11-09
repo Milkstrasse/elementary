@@ -59,10 +59,9 @@ struct MissionsView: View {
                             AudioPlayer.shared.playCancelSound()
                             
                             GlobalData.shared.userProgress = userProgress
-                            
                             SaveData.save()
-                            transitionToggle = true
                             
+                            transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
@@ -296,7 +295,7 @@ struct MissionsView: View {
                         ZStack(alignment: .trailing) {
                             Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)
                             HStack(spacing: innerPadding/2) {
-                                CustomText(text: "\(userProgress.points)", fontSize: smallFont)
+                                CustomText(text: userProgress.getFormattedPoints(), fontSize: smallFont)
                                 Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white)
                             }
                             .padding(.trailing, innerPadding)
@@ -307,8 +306,7 @@ struct MissionsView: View {
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
-                .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

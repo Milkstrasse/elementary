@@ -1,22 +1,13 @@
 //
-//  FightView.swift
+//  BattleView.swift
 //  Elementary
 //
-//  Created by Janice Hablützel on 22.08.22.
+//  Created by Janice Hablützel on 09.11.22.
 //
 
 import SwiftUI
 
-enum Section {
-    case summary
-    case options
-    case spells
-    case team
-    case waiting
-    case info
-}
-
-struct FightView: View {
+struct BattleView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -35,7 +26,7 @@ struct FightView: View {
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true).rotationEffect(.degrees(180))
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: false).rotationEffect(.degrees(180))
                 Spacer()
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
             }
@@ -47,20 +38,20 @@ struct FightView: View {
             transitionToggle = false
         }
         .onChange(of: fightOver) { _ in
-            GlobalData.shared.userProgress.addFight()
+            GlobalData.shared.userProgress.addWin(winner: fightLogic.getWinner(), fighters: fightLogic.players[1].fighters)
             GlobalData.shared.userProgress.checkTeams(teamA: fightLogic.players[0].fighters, teamB: fightLogic.players[1].fighters)
             SaveData.save()
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(BattleSelectionView(topFighters: [], bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
             }
         }
     }
 }
 
-struct FightView_Previews: PreviewProvider {
+struct BattleView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        BattleView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
     }
 }

@@ -111,20 +111,10 @@ struct MainView: View {
                                     
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                                        manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
                                     }
                                 }) {
                                     BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
-                                }
-                                Button(action: {
-                                    AudioPlayer.shared.playStandardSound()
-                                    
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
-                                    }
-                                }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "training"), width: 175, height: largeHeight, fontSize: mediumFont)
                                 }
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()

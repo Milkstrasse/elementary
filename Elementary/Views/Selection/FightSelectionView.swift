@@ -91,7 +91,7 @@ struct FightSelectionView: View {
                         
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
+                            manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
                         }
                     }) {
                         IconButton(label: "\u{f00d}")
@@ -164,7 +164,7 @@ struct FightSelectionView: View {
                         
                         transitionToggle = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
+                            manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
                         }
                     }) {
                         IconButton(label: "\u{f00d}")
@@ -176,8 +176,7 @@ struct FightSelectionView: View {
                 PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).frame(width: geometry.size.width).rotationEffect(.degrees(180))
                 PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).frame(width: geometry.size.width)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180))
-                .offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

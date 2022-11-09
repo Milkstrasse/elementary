@@ -1,18 +1,20 @@
 //
-//  TrainingSelectionView.swift
+//  BattleSelectionView.swift
 //  Elementary
 //
-//  Created by Janice Hablützel on 22.08.22.
+//  Created by Janice Hablützel on 09.11.22.
 //
 
 import SwiftUI
 
-struct TrainingSelectionView: View {
+struct BattleSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
     @State var topFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var bottomFighters: [Fighter?] = [nil, nil, nil, nil]
+    
+    @State var allowSelection: Bool = true
     
     @State var transitionToggle: Bool = true
     
@@ -40,9 +42,11 @@ struct TrainingSelectionView: View {
     }
     
     /// Selects random fighters to create a team.
-    func selectRandom() {
+    func selectRandom(opponents: [Fighter?]) -> [Fighter] {
         //let maxSize: Int = min(4, GlobalData.shared.fighters.count)
         let maxSize: Int = 4
+        
+        var fighters: [Fighter] = []
         
         var rndmFighters: [Int] = []
         switch GlobalData.shared.teamLimit {
@@ -55,20 +59,19 @@ struct TrainingSelectionView: View {
             
             rndmFighters = Array(fighterSet)
         case 2:
-            topFighters = []
-            while topFighters.count < maxSize {
+            while fighters.count < maxSize {
                 let rndmFighter: Fighter = GlobalData.shared.fighters[Int.random(in: 0 ..< GlobalData.shared.fighters.count)]
                 
                 var fighterFound: Bool = false
-                for fighter in topFighters {
-                    if fighter?.name == rndmFighter.name {
+                for fighter in fighters {
+                    if fighter.name == rndmFighter.name {
                         fighterFound = true
                         break
                     }
                 }
                 
                 if !fighterFound {
-                    for opponent in bottomFighters {
+                    for opponent in opponents {
                         if opponent?.name == rndmFighter.name {
                             fighterFound = true
                             break
@@ -76,7 +79,7 @@ struct TrainingSelectionView: View {
                     }
                     
                     if !fighterFound {
-                        topFighters.append(rndmFighter)
+                        fighters.append(rndmFighter)
                     }
                 }
             }
@@ -105,13 +108,15 @@ struct TrainingSelectionView: View {
         
         for index in 0 ..< maxSize {
             if !rndmFighters.isEmpty {
-                topFighters[index] = SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter() //make copy
+                fighters.append(SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter()) //make copy
             }
             
             if GlobalData.shared.artifactUse != 2 {
-                topFighters[index]?.setArtifact(artifact: rndmArtifacts[index])
+                fighters[index].setArtifact(artifact: rndmArtifacts[index])
             }
         }
+        
+        return fighters
     }
     
     /// Checks if selected teams contains atleast one fighter.
@@ -182,7 +187,7 @@ struct TrainingSelectionView: View {
                         if fightLogic.isValid() {
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                                manager.setView(view: AnyView(BattleView(fightLogic: fightLogic).environmentObject(manager)))
                             }
                         }
                     }) {
@@ -210,7 +215,7 @@ struct TrainingSelectionView: View {
             .padding(.all, outerPadding)
             VStack(spacing: innerPadding) {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).disabled(!allowSelection)
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
@@ -218,14 +223,10 @@ struct TrainingSelectionView: View {
             transitionToggle = false
             
             if isArrayEmpty(array: bottomFighters) {
-                selectRandom()
+                topFighters = selectRandom(opponents: bottomFighters)
             } else {
-                if topFighters.count < 4 {
-                    let missingFighters: Int = 4 - topFighters.count
-                    for _ in 0 ..< missingFighters {
-                        topFighters.append(nil)
-                    }
-                }
+                allowSelection = false
+                topFighters = selectRandom(opponents: bottomFighters)
                 
                 if bottomFighters.count < 4 {
                     let missingFighters: Int = 4 - bottomFighters.count
@@ -240,8 +241,8 @@ struct TrainingSelectionView: View {
     }
 }
 
-struct TrainingSelectionView_Previews: PreviewProvider {
+struct BattleSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingSelectionView()
+        BattleSelectionView()
     }
 }
