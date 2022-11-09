@@ -68,6 +68,16 @@
     "weather": "Météo",
     "deviation": "Déviation",
     
+    "fightModes": "Modes de combat",
+    "competition": "Concurrence",
+    "competitionDescr": "Combattez contre un autre joueur",
+    "arena": "Arène",
+    "arenaDescr": "Combattez avec votre équipe contre CPU",
+    "tournament": "Tournoi",
+    "tournamentDescr": "Combattez contre CPU avec une équipe alét.",
+    "arcade": "Arcade",
+    "arcadeDescr": "Combattez contre différentes équipes",
+    
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",
     

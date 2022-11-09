@@ -121,9 +121,11 @@ struct CustomText: View {
     var lineLimit: Int?
     var isBold: Bool
     
+    var alignment: HorizontalAlignment
+    
     var textArray: [[String]]
     
-    init(text: String, fontColor: Color = Color.white, fontSize: CGFloat, isBold: Bool = false) {
+    init(text: String, fontColor: Color = Color("Text"), fontSize: CGFloat, isBold: Bool = false, alignment: HorizontalAlignment = .center) {
         self.text = text
         self.fontColor = fontColor
         self.fontSize = fontSize
@@ -135,6 +137,8 @@ struct CustomText: View {
         }
         
         self.isBold = isBold
+        
+        self.alignment = alignment
     }
     
     /// Returns wether the word should be bold or not.
@@ -149,7 +153,7 @@ struct CustomText: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: alignment, spacing: 0) {
             ForEach(textArray.indices, id: \.self) { line in
                 HStack(spacing: 0) {
                     ForEach(textArray[line].indices, id: \.self) { index in

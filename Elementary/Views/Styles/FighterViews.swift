@@ -148,7 +148,7 @@ struct SpellView: View {
                 .padding(.leading, innerPadding)
                 TitlePanel().fill(Color(hex: spell.element.color)).frame(width: 78, height: 60)
             }
-            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(Color.white).frame(width: 60, height: 60)
+            Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(Color("Text")).frame(width: 60, height: 60)
         }
     }
 }

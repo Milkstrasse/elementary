@@ -27,8 +27,8 @@ struct ModeSelectionView: View {
                             Spacer()
                         }
                     }
-                    VStack(spacing: outerPadding) {
-                        HStack(spacing: innerPadding) {
+                    VStack(spacing: innerPadding) {
+                        HStack(alignment: .top, spacing: innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
                                 
@@ -40,7 +40,12 @@ struct ModeSelectionView: View {
                                 IconButton(label: "\u{f00d}")
                             }
                             Spacer()
+                            ZStack(alignment: .trailing) {
+                                TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight)
+                                CustomText(text: Localization.shared.getTranslation(key: "fightModes").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                            }
                         }
+                        .padding(.leading, outerPadding)
                         HStack(spacing: innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -50,7 +55,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                Rectangle()
+                                ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -60,7 +65,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                Rectangle()
+                                ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -70,7 +75,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(RandomSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                Rectangle()
+                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -80,11 +85,12 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(BattleSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                Rectangle()
+                                ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
                             }
                         }
+                        Spacer().frame(height: smallHeight)
                     }
-                    .padding(.all, outerPadding)
+                    .padding(.vertical, outerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }

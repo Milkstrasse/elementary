@@ -60,8 +60,6 @@ struct SettingsView: View {
         elementalModifier = GlobalData.shared.elementalModifier
         weatherModifier = GlobalData.shared.weatherModifier
         deviation = GlobalData.shared.deviation
-        
-        langIndex = getCurrentLang()
     }
     
     /// Returns the index of the current language.
@@ -173,7 +171,7 @@ struct SettingsView: View {
                                             
                                             resetAudioSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
                                         }
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
@@ -547,7 +545,7 @@ struct SettingsView: View {
                                             
                                             resetTextSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
                                         }
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
@@ -637,7 +635,7 @@ struct SettingsView: View {
                                             
                                             resetGeneralSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
                                         }
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
@@ -725,7 +723,7 @@ struct SettingsView: View {
                                             
                                             resetAdvancedSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
                                         }
                                     }
                                     .frame(height: largeHeight).padding(.leading, innerPadding)
@@ -934,6 +932,8 @@ struct SettingsView: View {
         }
         .onAppear {
             transitionToggle = false
+            
+            langIndex = getCurrentLang()
         }
     }
 }

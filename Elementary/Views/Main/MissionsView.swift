@@ -296,7 +296,7 @@ struct MissionsView: View {
                             Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)
                             HStack(spacing: innerPadding/2) {
                                 CustomText(text: userProgress.getFormattedPoints(), fontSize: smallFont)
-                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white)
+                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text"))
                             }
                             .padding(.trailing, innerPadding)
                         }
