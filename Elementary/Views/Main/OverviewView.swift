@@ -187,7 +187,7 @@ struct OverviewView: View {
                             }) {
                                 BorderedButton(label: "info", width: 105, height: smallHeight, isInverted: false)
                             }
-                            .opacity(fighterSelected ? 1 : 0.7).disabled(!fighterSelected)
+                            .opacity(fighterSelected ? 1 : 0.5).disabled(!fighterSelected)
                         }
                         .padding(.all, outerPadding)
                     }

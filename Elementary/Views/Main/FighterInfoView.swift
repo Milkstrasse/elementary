@@ -84,7 +84,7 @@ struct FighterInfoView: View {
                                 }) {
                                     BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
                                 }
-                                .disabled(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil))
+                                .opacity(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil) ? 0.5 : 1).disabled(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil))
                             }
                         }
                         .padding(.horizontal, outerPadding)

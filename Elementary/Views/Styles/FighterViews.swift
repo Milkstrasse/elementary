@@ -187,8 +187,6 @@ struct HexView: View {
     let hex: Hex
     var weather: Bool = false
     
-    @State var opacity: Double = 1
-    
     /// Returns the appropiate font color.
     /// - Returns: Returns the appropiate font color
     func getFontColor() -> Color {

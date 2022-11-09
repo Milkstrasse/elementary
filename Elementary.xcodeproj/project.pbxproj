@@ -62,6 +62,7 @@
 		B8A22F8C291BE4DD006049D2 /* BattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A22F8B291BE4DD006049D2 /* BattleView.swift */; };
 		B8A22F8E291BE559006049D2 /* BattleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A22F8D291BE559006049D2 /* BattleSelectionView.swift */; };
 		B8A22F90291BE974006049D2 /* ModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A22F8F291BE974006049D2 /* ModeView.swift */; };
+		B8A22F92291C0C55006049D2 /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A22F91291C0C55006049D2 /* ShopView.swift */; };
 		B8A60BF428BE43A4007B948B /* LudumDare28-Track3.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8A60BF328BE43A4007B948B /* LudumDare28-Track3.wav */; };
 		B8A60BF828BE4563007B948B /* LudumDare30-Track6.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8A60BF728BE4563007B948B /* LudumDare30-Track6.wav */; };
 		B8AD404D28B0DE6B00708AA5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */; };
@@ -147,6 +148,7 @@
 		B8A22F8B291BE4DD006049D2 /* BattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleView.swift; sourceTree = "<group>"; };
 		B8A22F8D291BE559006049D2 /* BattleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleSelectionView.swift; sourceTree = "<group>"; };
 		B8A22F8F291BE974006049D2 /* ModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeView.swift; sourceTree = "<group>"; };
+		B8A22F91291C0C55006049D2 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		B8A60BF328BE43A4007B948B /* LudumDare28-Track3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "LudumDare28-Track3.wav"; sourceTree = "<group>"; };
 		B8A60BF728BE4563007B948B /* LudumDare30-Track6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "LudumDare30-Track6.wav"; sourceTree = "<group>"; };
 		B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				B8A22F8F291BE974006049D2 /* ModeView.swift */,
 				B8631AB428AFB72A00222E54 /* OverviewView.swift */,
 				B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */,
+				B8A22F91291C0C55006049D2 /* ShopView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				B8631A6628AF9FA800222E54 /* Extensions.swift in Sources */,
 				B88D9F9728B3E4FC00AAC683 /* TrainingView.swift in Sources */,
 				B8631A7F28AFA05700222E54 /* Artifacts.swift in Sources */,
+				B8A22F92291C0C55006049D2 /* ShopView.swift in Sources */,
 				B8631A6F28AFA01300222E54 /* Localization.swift in Sources */,
 				B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */,
 				B8A22F8C291BE4DD006049D2 /* BattleView.swift in Sources */,

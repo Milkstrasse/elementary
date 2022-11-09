@@ -126,6 +126,16 @@ struct MainView: View {
                                 }) {
                                     BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
                                 }
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
                             }
                             .padding(.bottom, outerPadding)
                         }
