@@ -15,7 +15,9 @@
     "wind": "Vent",
     "wood": "Bois",
     
+    "info": "Info",
     "default": "Défaut",
+    "purchase": "Acheter",
     
     "health": "Santé",
     "attack": "Attaque",
@@ -115,8 +117,8 @@
     "wand": "Baguette de Sureau",
     "wandDescr": "Augmente **attaque** à faible PV",
     
-    "info": "Information",
-    "infoDescr": "Recevoir des informations sur le combat",
+    "information": "Information",
+    "informationDescr": "Recevoir des informations sur le combat",
     "team": "Coven",
     "teamDescr": "Échangez les combattantes de votre équipe",
     "forfeit": "Forfait",

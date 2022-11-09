@@ -96,6 +96,15 @@ struct CreditsView: View {
                         .padding(.horizontal, outerPadding)
                     }
                     .frame(width: geometry.size.width).padding(.top, innerPadding).padding(.bottom, outerPadding)
+                    HStack(spacing: innerPadding) {
+                        Spacer()
+                        Button(action: {
+                            AudioPlayer.shared.playStandardSound()
+                        }) {
+                            BorderedButton(label: "feedback", width: 170, height: smallHeight, isInverted: false)
+                        }
+                    }
+                    .padding([.leading, .bottom, .trailing], outerPadding)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height - geometry.size.width/2)
                 ZStack(alignment: .bottomLeading) {

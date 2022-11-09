@@ -926,7 +926,7 @@ struct SettingsView: View {
                             BorderedButton(label: "reset", width: 170, height: smallHeight, isInverted: false)
                         }
                     }
-                    .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)
+                    .padding(.all, outerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }

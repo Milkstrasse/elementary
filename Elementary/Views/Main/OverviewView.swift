@@ -149,7 +149,7 @@ struct OverviewView: View {
                             ZStack {
                                 Rectangle().fill(Color("MainPanel"))
                                     .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                                HStack {
+                                HStack(spacing: 0) {
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -163,7 +163,7 @@ struct OverviewView: View {
                                     }) {
                                         ClearButton(label: "<", width: 35, height: smallHeight)
                                     }
-                                    CustomText(text: Localization.shared.getTranslation(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
+                                    CustomText(text: Localization.shared.getTranslation(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).uppercased(), fontSize: smallFont).frame(maxWidth: 100)
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -189,7 +189,7 @@ struct OverviewView: View {
                             }
                             .opacity(fighterSelected ? 1 : 0.7).disabled(!fighterSelected)
                         }
-                        .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)
+                        .padding(.all, outerPadding)
                     }
                     .offset(x: showInfo ? -geometry.size.height : 0).animation(.linear(duration: 0.3), value: showInfo)
                 }

@@ -35,7 +35,7 @@ struct OptionsView: View {
                     AudioPlayer.shared.playStandardSound()
                     currentSection = .info
                 }) {
-                    ActionView(titleKey: "info", description: Localization.shared.getTranslation(key: "infoDescr"), symbol: "0xf02d", color: Color("Border"))
+                    ActionView(titleKey: "information", description: Localization.shared.getTranslation(key: "informationDescr"), symbol: "0xf02d", color: Color("Border"))
                 }
                 .id(2)
                 Button(action: {
