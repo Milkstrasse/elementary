@@ -39,105 +39,6 @@ struct TrainingSelectionView: View {
         return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)], hasCPUPlayer: true)
     }
     
-    /// Selects random fighters to create a team.
-    func selectRandom() {
-        //let maxSize: Int = min(4, GlobalData.shared.fighters.count)
-        let maxSize: Int = 4
-        
-        var rndmFighters: [Int] = []
-        switch GlobalData.shared.teamLimit {
-        case 1:
-            var fighterSet = Set<Int>()
-            
-            while fighterSet.count < maxSize {
-                fighterSet.insert(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
-            }
-            
-            rndmFighters = Array(fighterSet)
-        case 2:
-            topFighters = []
-            while topFighters.count < maxSize {
-                let rndmFighter: Fighter = GlobalData.shared.fighters[Int.random(in: 0 ..< GlobalData.shared.fighters.count)]
-                
-                var fighterFound: Bool = false
-                for fighter in topFighters {
-                    if fighter?.name == rndmFighter.name {
-                        fighterFound = true
-                        break
-                    }
-                }
-                
-                if !fighterFound {
-                    for opponent in bottomFighters {
-                        if opponent?.name == rndmFighter.name {
-                            fighterFound = true
-                            break
-                        }
-                    }
-                    
-                    if !fighterFound {
-                        topFighters.append(rndmFighter)
-                    }
-                }
-            }
-        default:
-            while rndmFighters.count < maxSize {
-                rndmFighters.append(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
-            }
-        }
-        
-        var rndmArtifacts: [Int] = []
-        switch GlobalData.shared.artifactUse {
-        case 0:
-            while rndmArtifacts.count < maxSize {
-                rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
-            }
-        case 1:
-            var artifactSet = Set<Int>()
-            
-            while artifactSet.count < maxSize {
-                artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
-            }
-            rndmArtifacts = Array(artifactSet)
-        default:
-            break
-        }
-        
-        for index in 0 ..< maxSize {
-            if !rndmFighters.isEmpty {
-                topFighters[index] = SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter() //make copy
-            }
-            
-            if GlobalData.shared.artifactUse != 2 {
-                topFighters[index]?.setArtifact(artifact: rndmArtifacts[index])
-            }
-        }
-    }
-    
-    /// Checks if selected teams contains atleast one fighter.
-    /// - Parameter array: The selection of fighters to check
-    /// - Returns: Returns wether atleast one fighter was selected or not
-    func isArrayEmpty(array: [Fighter?]) -> Bool {
-        for fighter in array {
-            if fighter != nil {
-                return false
-            }
-        }
-        
-        return true
-    }
-    
-    /// Reset each fighter in both teams to make them ready for a fight.
-    func resetFighters() {
-        for fighter in topFighters {
-            fighter?.reset()
-        }
-        
-        for fighter in bottomFighters {
-            fighter?.reset()
-        }
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -188,7 +89,7 @@ struct TrainingSelectionView: View {
                     }) {
                         BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(isArrayEmpty(array: bottomFighters))
+                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -217,8 +118,8 @@ struct TrainingSelectionView: View {
         .onAppear {
             transitionToggle = false
             
-            if isArrayEmpty(array: bottomFighters) {
-                selectRandom()
+            if TeamManager.isArrayEmpty(array: bottomFighters) {
+                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
             } else {
                 if topFighters.count < 4 {
                     let missingFighters: Int = 4 - topFighters.count
@@ -234,7 +135,7 @@ struct TrainingSelectionView: View {
                     }
                 }
                 
-                resetFighters()
+                TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
             }
         }
     }

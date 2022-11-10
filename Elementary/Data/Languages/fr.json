@@ -17,7 +17,6 @@
     
     "info": "Info",
     "default": "Défaut",
-    "purchase": "Acheter",
     
     "health": "Santé",
     "attack": "Attaque",
@@ -77,6 +76,9 @@
     "tournamentDescr": "Combattez contre CPU avec une équipe alét.",
     "arcade": "Arcade",
     "arcadeDescr": "Combattez contre différentes équipes",
+    
+    "shop": "Magasin de magie",
+    "purchase": "Acheter",
     
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",

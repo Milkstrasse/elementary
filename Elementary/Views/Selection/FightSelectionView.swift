@@ -45,30 +45,6 @@ struct FightSelectionView: View {
         return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)])
     }
     
-    /// Checks if selected teams contains atleast one fighter.
-    /// - Parameter array: The selection of fighters to check
-    /// - Returns: Returns wether atleast one fighter was selected or not
-    func isArrayEmpty(array: [Fighter?]) -> Bool {
-        for fighter in array {
-            if fighter != nil {
-                return false
-            }
-        }
-        
-        return true
-    }
-    
-    /// Reset each fighter in both teams to make them ready for a fight.
-    func resetFighters() {
-        for fighter in topFighters {
-            fighter?.reset()
-        }
-        
-        for fighter in bottomFighters {
-            fighter?.reset()
-        }
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -123,7 +99,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(isArrayEmpty(array: topFighters))
+                    .disabled(TeamManager.isArrayEmpty(array: topFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
@@ -152,7 +128,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(isArrayEmpty(array: bottomFighters))
+                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -181,7 +157,7 @@ struct FightSelectionView: View {
         .onAppear {
             transitionToggle = false
             
-            if !isArrayEmpty(array: bottomFighters) {
+            if !TeamManager.isArrayEmpty(array: bottomFighters) {
                 if topFighters.count < 4 {
                     let missingFighters: Int = 4 - topFighters.count
                     for _ in 0 ..< missingFighters {
@@ -196,7 +172,7 @@ struct FightSelectionView: View {
                     }
                 }
                 
-                resetFighters()
+                TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
             }
         }
     }

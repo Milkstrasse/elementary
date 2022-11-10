@@ -36,6 +36,17 @@ struct ShopView: View {
             }
         }
     }
+    
+    func isSelected(fighter: Fighter, index: Int) -> Bool {
+        if fighter == currentFighter {
+            if index == selectedSkin {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
@@ -57,12 +68,17 @@ struct ShopView: View {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            currentFighter = fighter
-                                            selectedSkin = index
+                                            if isSelected(fighter: fighter, index: index) {
+                                                currentFighter = nil
+                                                selectedSkin = 0
+                                            } else {
+                                                currentFighter = fighter
+                                                selectedSkin = index
+                                            }
                                         }) {
                                             ZStack {
                                                 Rectangle().fill(Color("MainPanel"))
-                                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                                    .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: borderWidth))
                                                 HStack(spacing: innerPadding/2) {
                                                     CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[index]).uppercased(), fontSize: smallFont)
                                                     CustomText(text: "-", fontSize: smallFont)
@@ -105,7 +121,7 @@ struct ShopView: View {
                             }
                             .padding(.trailing, innerPadding)
                         }
-                        .frame(width: 105, height: smallHeight)
+                        .frame(width: 170, height: smallHeight)
                     }
                     .padding([.leading, .bottom, .trailing], outerPadding)
                 }
@@ -116,6 +132,8 @@ struct ShopView: View {
                     if currentFighter != nil {
                         Image(fileName: blink ? currentFighter!.name + currentFighter!.getSkin(index: selectedSkin) + "_blink" : currentFighter!.name + currentFighter!.getSkin(index: selectedSkin)).resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).offset(x: transitionToggle ? -geometry.size.width * 0.9 : -50).shadow(radius: 5, x: 5, y: 0)
                             .animation(.linear(duration: 0.2).delay(0.4), value: transitionToggle)
+                    } else {
+                        Rectangle().fill(Color.clear).frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding)
                     }
                     VStack {
                         Button(action: {

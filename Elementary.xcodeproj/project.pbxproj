@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E4E18291CF0FB00DD527F /* TeamManager.swift */; };
 		B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853CA54291BD34700788C78 /* ModeSelectionView.swift */; };
 		B853CA57291BD71F00788C78 /* RandomSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853CA56291BD71F00788C78 /* RandomSelectionView.swift */; };
 		B853CA59291BD7FC00788C78 /* RandomTrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853CA58291BD7FC00788C78 /* RandomTrainingView.swift */; };
@@ -92,6 +93,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B83E4E18291CF0FB00DD527F /* TeamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamManager.swift; sourceTree = "<group>"; };
 		B853CA54291BD34700788C78 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		B853CA56291BD71F00788C78 /* RandomSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomSelectionView.swift; sourceTree = "<group>"; };
 		B853CA58291BD7FC00788C78 /* RandomTrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTrainingView.swift; sourceTree = "<group>"; };
@@ -220,13 +222,14 @@
 		B8631A8328AFA0DC00222E54 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				B8631A8428AFA0E900222E54 /* FightLog.swift */,
 				B8AD405D28B2292200708AA5 /* CPULogic.swift */,
 				B8AD405C28B2292200708AA5 /* DamageCalculator.swift */,
+				B8631A8428AFA0E900222E54 /* FightLog.swift */,
 				B8AD405F28B2292200708AA5 /* FightLogic.swift */,
 				B8AD406028B2292200708AA5 /* GameLogic.swift */,
 				B8AD405B28B2292200708AA5 /* HexApplication.swift */,
 				B8AD406128B2292200708AA5 /* Player.swift */,
+				B83E4E18291CF0FB00DD527F /* TeamManager.swift */,
 				B8AD405E28B2292200708AA5 /* TurnLogic.swift */,
 			);
 			path = Game;
@@ -533,6 +536,7 @@
 				B8631A7F28AFA05700222E54 /* Artifacts.swift in Sources */,
 				B8A22F92291C0C55006049D2 /* ShopView.swift in Sources */,
 				B8631A6F28AFA01300222E54 /* Localization.swift in Sources */,
+				B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */,
 				B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */,
 				B8A22F8C291BE4DD006049D2 /* BattleView.swift in Sources */,
 				B8AD406728B2292200708AA5 /* GameLogic.swift in Sources */,
