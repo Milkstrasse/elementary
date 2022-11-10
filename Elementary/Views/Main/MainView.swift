@@ -95,6 +95,11 @@ struct MainView: View {
                             }) {
                                 IconButton(label: "\u{f8c1}")
                             }
+                            Button(action: {
+                                GlobalData.shared.userProgress.points += 200
+                            }) {
+                                IconButton(label: "\u{f52e}")
+                            }
                             Spacer()
                         }
                         .padding(.all, outerPadding)

@@ -48,13 +48,13 @@ struct FighterInfoView: View {
                                         }
                                         Spacer()
                                         HStack(spacing: innerPadding/2) {
-                                            if selectedSkin > 0 && (userProgress.unlockedSkins[fighter.name] == nil) {
+                                            if !userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin) {
                                                 CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[selectedSkin]).uppercased(), fontSize: smallFont, isBold: true)
                                                 CustomText(text: "-", fontSize: smallFont)
                                                 CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
                                                 Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < 200 ? Color("Negative") : Color("Positive"))
                                             } else {
-                                                CustomText(text: Localization.shared.getTranslation(key: selectedSkin > 0 ? fighter.getSkin(index: selectedSkin) : "Default").uppercased(), fontSize: smallFont, isBold: false)
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[selectedSkin]).uppercased(), fontSize: smallFont, isBold: false)
                                             }
                                         }
                                         Spacer()
@@ -84,7 +84,7 @@ struct FighterInfoView: View {
                                 }) {
                                     BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
                                 }
-                                .opacity(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil) ? 0.5 : 1).disabled(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil))
+                                .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin))
                             }
                         }
                         .padding(.horizontal, outerPadding)

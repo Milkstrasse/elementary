@@ -63,8 +63,15 @@ struct ShopView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: innerPadding) {
                             ForEach(GlobalData.shared.fighters, id: \.self) { fighter in
+                                if fighter.data.skins.count > 1 {
+                                    ZStack(alignment: .leading) {
+                                        Rectangle().fill(Color("Positive"))
+                                        CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
+                                    }
+                                    .frame(height: largeHeight)
+                                }
                                 ForEach(1 ..< fighter.data.skins.count, id: \.self) { index in
-                                    HStack {
+                                    HStack(spacing: innerPadding/2) {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -82,7 +89,7 @@ struct ShopView: View {
                                                 HStack(spacing: innerPadding/2) {
                                                     CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[index]).uppercased(), fontSize: smallFont)
                                                     CustomText(text: "-", fontSize: smallFont)
-                                                    if userProgress.unlockedSkins[fighter.name] != nil {
+                                                    if userProgress.isSkinUnlocked(fighter: fighter.name, index: index) {
                                                         CustomText(text: "owned", fontSize: smallFont)
                                                     } else {
                                                         CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
@@ -96,14 +103,14 @@ struct ShopView: View {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            userProgress.unlockSkin(points: 200, fighter: fighter.name, index: selectedSkin)
+                                            userProgress.unlockSkin(points: 200, fighter: fighter.name, index: index)
                                             
                                             GlobalData.shared.userProgress = userProgress
                                             SaveData.save()
                                         }) {
                                             BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
                                         }
-                                        .opacity(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil) ? 0.5 : 1).disabled(userProgress.points < 200 || (userProgress.unlockedSkins[fighter.name] != nil))
+                                        .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index))
                                     }
                                 }
                             }

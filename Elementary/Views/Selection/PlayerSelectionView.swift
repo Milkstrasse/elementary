@@ -493,7 +493,7 @@ struct PlayerSelectionView: View {
                                                 fighters[selectedSlot]!.skinIndex -= 1
                                             }
                                             
-                                            while fighters[selectedSlot]!.skinIndex > 0 && fighters[selectedSlot]!.skinIndex != GlobalData.shared.userProgress.unlockedSkins[fighters[selectedSlot]!.name] {
+                                            while !GlobalData.shared.userProgress.isSkinUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.skinIndex) {
                                                 fighters[selectedSlot]!.skinIndex -= 1
                                             }
                                             
@@ -501,7 +501,7 @@ struct PlayerSelectionView: View {
                                         }) {
                                             ClearButton(label: "<", width: 35, height: smallHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: selectedSkin == 0 ? "Default" : fighters[selectedSlot]!.data.skins[selectedSkin]).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
+                                        CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.data.skins[selectedSkin]).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -510,10 +510,10 @@ struct PlayerSelectionView: View {
                                             } else {
                                                 fighters[selectedSlot]!.skinIndex += 1
                                                 
-                                                while fighters[selectedSlot]!.skinIndex > 0 && fighters[selectedSlot]!.skinIndex != GlobalData.shared.userProgress.unlockedSkins[fighters[selectedSlot]!.name] {
+                                                while !GlobalData.shared.userProgress.isSkinUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.skinIndex) {
                                                     fighters[selectedSlot]!.skinIndex += 1
                                                     
-                                                    if fighters[selectedSlot]!.skinIndex >= fighters[selectedSlot]!.data.skins.count - 1 {
+                                                    if fighters[selectedSlot]!.skinIndex > fighters[selectedSlot]!.data.skins.count - 1 {
                                                         fighters[selectedSlot]!.skinIndex = 0
                                                         break
                                                     }

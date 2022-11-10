@@ -26,7 +26,7 @@ struct UserProgress: Codable {
     var dailyWinCounter: Int = 0
     var dailyElementCounter: Int = 0
     
-    var unlockedSkins: [String:Int] = [:]
+    private var unlockedSkins: [String:[Int]] = [:]
     var missionCollected: [Bool] = [Bool](repeating: false, count: 11)
     var dailyCollected: [Bool] = [Bool](repeating: false, count: 4)
     
@@ -164,7 +164,23 @@ struct UserProgress: Codable {
     ///   - index: The number of the skin
     mutating func unlockSkin(points: Int, fighter: String, index: Int) {
         self.points -= points
-        unlockedSkins.updateValue(index, forKey: fighter)
+        if unlockedSkins[fighter] == nil {
+            unlockedSkins.updateValue([index], forKey: fighter)
+        } else {
+            unlockedSkins[fighter]!.append(index)
+        }
+    }
+    
+    func isSkinUnlocked(fighter: String, index: Int) -> Bool {
+        if index == 0 {
+            return true
+        }
+        
+        if unlockedSkins[fighter] == nil {
+            return false
+        } else {
+            return unlockedSkins[fighter]!.contains(index)
+        }
     }
     
     mutating func completeAllMissions() {

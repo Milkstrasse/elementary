@@ -1,0 +1,24 @@
+{
+  "element": "aether",
+  "base": {
+      "health": 75,
+      "attack": 110,
+      "defense": 70,
+      "agility": 105,
+      "precision": 115,
+      "resistance": 75
+  },
+  "spells": [
+      "defenseDown",
+      "aetherSimpleAttack",
+      "electricSpecialAttack",
+      "fireSpecial2Attack"
+  ],
+  "skins": [
+      "default",
+      "catGirl",
+      "cosy",
+      "qipao",
+      "shrineMaiden"
+  ]
+}

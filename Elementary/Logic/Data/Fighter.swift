@@ -149,7 +149,11 @@ class Fighter: Hashable, Equatable {
             skin = skinIndex
         }
         
-        return data.skins[skin]
+        if skin == 0 {
+            return ""
+        }
+        
+        return "_" + data.skins[skin]
     }
     
     /// Checks if fighter has certain hex.
