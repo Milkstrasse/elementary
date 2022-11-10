@@ -16,7 +16,7 @@ struct TeamManager {
         
         var rndmFighters: [Int] = []
         switch GlobalData.shared.teamLimit {
-        case 1:
+        case 1: //only unique fighters on one team
             var fighterSet = Set<Int>()
             
             while fighterSet.count < maxSize {
@@ -24,9 +24,9 @@ struct TeamManager {
             }
             
             rndmFighters = Array(fighterSet)
-        case 2:
+        case 2: //only unique fighters on both teams
             while fighters.count < maxSize {
-                let rndmFighter: Fighter = GlobalData.shared.fighters[Int.random(in: 0 ..< GlobalData.shared.fighters.count)]
+                let rndmFighter: Fighter = GlobalData.shared.getRandomFighter()
                 
                 var fighterFound: Bool = false
                 for fighter in fighters {
@@ -49,7 +49,7 @@ struct TeamManager {
                     }
                 }
             }
-        default:
+        default: //no restrictions
             while rndmFighters.count < maxSize {
                 rndmFighters.append(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
             }
