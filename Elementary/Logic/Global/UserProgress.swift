@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Tracks progress of user with different stats.
 struct UserProgress: Codable {
     var lastDate: Date = Date()
     
@@ -74,6 +75,10 @@ struct UserProgress: Codable {
         fightCounter += 1
     }
     
+    /// Checks if atleast one of the teams only consists of one element.
+    /// - Parameters:
+    ///   - teamA: Team of fighters
+    ///   - teamB: Team of fighters
     mutating func checkTeams(teamA: [Fighter], teamB: [Fighter]) {
         var element: String = teamA[0].element.name
         var counter: Int = 1
@@ -171,6 +176,10 @@ struct UserProgress: Codable {
         fightOneElement = true
     }
     
+    /// Collect reward in form of points from a daily quest.
+    /// - Parameters:
+    ///   - points: Reward in points
+    ///   - index: Index of daily quest to mark as collected
     mutating func dailyCollect(points: Int, index: Int) {
         dailyCollected[index] = true
         
@@ -178,13 +187,19 @@ struct UserProgress: Codable {
         self.points = min(self.points, 9999999)
     }
     
+    /// Collect reward  in form of points from a mission.
+    /// - Parameters:
+    ///   - points: Reward in points
+    ///   - index: Index of daily quest to mark as collected
     mutating func missionCollect(points: Int, index: Int) {
         missionCollected[index] = true
         
-        self.points += 9000
+        self.points += points
         self.points = min(self.points, 9999999)
     }
     
+    /// Formats the number of points.
+    /// - Returns: Returns formatted number of points
     func getFormattedPoints() -> String {
         let formatter = NumberFormatter()
         formatter.locale = .current
