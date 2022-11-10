@@ -67,6 +67,34 @@
     "weather": "Météo",
     "deviation": "Déviation",
     
+    "shop": "Magasin de magie",
+    "purchase": "Acheter",
+    
+    "missions": "Missions",
+    "dailyQuests": "Quêtes quotidiennes",
+    "milestones": "Jalons",
+    "winUsingMission": "Gagnez avec {0}",
+    "completeMission": "Terminez toutes les quêtes",
+    "fightMission": "Combattez {0} fois",
+    "winMission": "Gagnez {0} fois",
+    "winStreakMission": "Gagnez {0} fois d'affilée",
+    "winAliveMission": "Gagnez sans perdre",
+    "hexMission": "Utilisez les sortilèges",
+    "weatherMission": "Utilisez les effets météo",
+    "fightElementMission": "Combattez avec 1 élément",
+    "collect": "Collecter",
+    
+    "creditBy": "**{0}** de {1}",
+    
+    "help1": "Éléments",
+    "help1Descr": "chaque combattante a son propre élément, son élément et l'élément du sort lui donne plus ou moins de pouvoir contre les autres combattantes.",
+    "help2": "Sorts",
+    "help2Descr": "les sorts sont utilisés pour attaquer, soigner ou ensorceler les combattantes. ils coûtent du mana.",
+    "help3": "Sortilèges",
+    "help3Descr": "un sortilège applique un effet à une combattante pendant plusieurs tours. Les sortilèges peuvent augmenter ou diminuer les statistiques, infliger des dégâts ou soigner par tour, et plus encore. Une combattante peut avoir jusqu'à trois sortilèges et peut avoir des multiples du même sortilège.",
+    "help4": "Météo",
+    "help4Descr": "la météo augmente la puissance de certains éléments.",
+    
     "fightModes": "Modes de combat",
     "competition": "Concurrence",
     "competitionDescr": "Combattez contre un autre joueur",
@@ -76,9 +104,6 @@
     "tournamentDescr": "Combattez contre CPU avec une équipe alét.",
     "arcade": "Arcade",
     "arcadeDescr": "Combattez contre différentes équipes",
-    
-    "shop": "Magasin de magie",
-    "purchase": "Acheter",
     
     "loading": "Chargement...",
     "waiting": "En attente de joueur...",
@@ -217,28 +242,8 @@
     "restricted": "restreinte",
     "doomed": "condamnée",
     
-    "missions": "Missions",
-    "dailyQuests": "Quêtes quotidiennes",
-    "milestones": "Jalons",
-    "winUsingMission": "Gagnez avec {0}",
-    "completeMission": "Terminez toutes les quêtes",
-    "fightMission": "Combattez {0} fois",
-    "winMission": "Gagnez {0} fois",
-    "winStreakMission": "Gagnez {0} fois d'affilée",
-    "winAliveMission": "Gagnez sans perdre",
-    "hexMission": "Utilisez les sortilèges",
-    "weatherMission": "Utilisez les effets météo",
-    "fightElementMission": "Combattez avec 1 élément",
-    "collect": "Collecter",
-    
-    "creditBy": "**{0}** de {1}",
-    
-    "help1": "Éléments",
-    "help1Descr": "chaque combattante a son propre élément, son élément et l'élément du sort lui donne plus ou moins de pouvoir contre les autres combattantes.",
-    "help2": "Sorts",
-    "help2Descr": "les sorts sont utilisés pour attaquer, soigner ou ensorceler les combattantes. ils coûtent du mana.",
-    "help3": "Sortilèges",
-    "help3Descr": "un sortilège applique un effet à une combattante pendant plusieurs tours. Les sortilèges peuvent augmenter ou diminuer les statistiques, infliger des dégâts ou soigner par tour, et plus encore. Une combattante peut avoir jusqu'à trois sortilèges et peut avoir des multiples du même sortilège.",
-    "help4": "Météo",
-    "help4Descr": "la météo augmente la puissance de certains éléments."
+    "victory": "Victoire",
+    "victoryMsg": "Votre équipe a remporté la victoire!",
+    "defeat": "Défaite",
+    "defeatMsg": "Votre équipe a été vaincue!"
 }

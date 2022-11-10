@@ -138,7 +138,11 @@ struct PlayerFightView: View {
                         if isGameOver {
                             ZStack(alignment: .topLeading) {
                                 Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                                CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "winner" : "loser").uppercased(), fontSize: smallFont).padding(.all, outerPadding)
+                                VStack(alignment: .leading, spacing: 0) {
+                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victory" : "defeat").uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victoryMsg" : "defeatMsg"), fontSize: smallFont)
+                                }
+                                .padding(.all, outerPadding)
                             }
                             .padding([.leading, .bottom, .trailing], outerPadding)
                         } else if currentSection == .summary {
