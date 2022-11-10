@@ -55,7 +55,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f72b}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -65,7 +65,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6e8}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -75,7 +75,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(RandomSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f762}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
@@ -85,7 +85,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(BattleSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4).shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6b8}").shadow(radius: 5, x: 5, y: 0)
                             }
                         }
                         Spacer().frame(height: smallHeight)

@@ -293,12 +293,12 @@
 		B8AD405828B1927200708AA5 /* Selection */ = {
 			isa = PBXGroup;
 			children = (
+				B8A22F8D291BE559006049D2 /* BattleSelectionView.swift */,
 				B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */,
 				B8AD405928B192C900708AA5 /* FightSelectionView.swift */,
 				B8AD406928B397DE00708AA5 /* PlayerSelectionView.swift */,
 				B853CA56291BD71F00788C78 /* RandomSelectionView.swift */,
 				B88D9F9428B3E3E900AAC683 /* TrainingSelectionView.swift */,
-				B8A22F8D291BE559006049D2 /* BattleSelectionView.swift */,
 			);
 			path = Selection;
 			sourceTree = "<group>";
