@@ -129,12 +129,12 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["1"]).uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["2"]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(min(userProgress.dailyWinCounter * 100, 100))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.dailyWinCounter)/2 * 100, 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
-                                    if Float(userProgress.dailyWinCounter) >= 1 && !userProgress.dailyCollected[2] {
+                                    if Float(userProgress.dailyWinCounter)/2 >= 1 && !userProgress.dailyCollected[2] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 10, index: 2)
                                         }) {

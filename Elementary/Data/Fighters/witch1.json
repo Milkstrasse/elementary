@@ -16,9 +16,7 @@
   ],
   "skins": [
       "default",
-      "catGirl",
-      "cosy",
-      "qipao",
-      "shrineMaiden"
+      "catgirl",
+      "qipao"
   ]
 }

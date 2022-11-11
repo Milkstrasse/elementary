@@ -1,0 +1,22 @@
+{
+  "element": "decay",
+  "base": {
+      "health": 50,
+      "attack": 95,
+      "defense": 80,
+      "agility": 145,
+      "precision": 125,
+      "resistance": 55
+  },
+  "spells": [
+      "decaySimpleAttack",
+      "block",
+      "poison",
+      "waterSimpleAttack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}
