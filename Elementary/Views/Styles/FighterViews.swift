@@ -77,50 +77,46 @@ struct BaseFighterOverviewView: View {
     var body: some View {
         HStack(spacing: innerPadding/2) {
             ZStack {
-                Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                HStack(spacing: 0) {
-                    VStack(spacing: 0) {
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "health").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.health)".uppercased(), fontSize: mediumFont)
-                        }
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.attack)".uppercased(), fontSize: mediumFont)
-                        }
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "defense").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.defense)".uppercased(), fontSize: mediumFont)
-                        }
+                Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                VStack(spacing: innerPadding/2) {
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "health").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.health)".uppercased(), fontSize: mediumFont)
+                    }
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.attack)".uppercased(), fontSize: mediumFont)
+                    }
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "defense").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.defense)".uppercased(), fontSize: mediumFont)
                     }
                 }
-                .padding(.horizontal, 15)
+                .padding(.all, innerPadding)
             }
             ZStack {
-                Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                HStack(spacing: 0) {
-                    VStack(spacing: 0) {
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "agility").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.agility)".uppercased(), fontSize: mediumFont)
-                        }
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "precision").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.precision)".uppercased(), fontSize: mediumFont)
-                        }
-                        HStack {
-                            CustomText(text: Localization.shared.getTranslation(key: "resistance").uppercased(), fontSize: mediumFont, isBold: true)
-                            Spacer()
-                            CustomText(text: "\(base.resistance)".uppercased(), fontSize: mediumFont)
-                        }
+                Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                VStack(spacing: innerPadding/2) {
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "agility").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.agility)".uppercased(), fontSize: mediumFont)
+                    }
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "precision").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.precision)".uppercased(), fontSize: mediumFont)
+                    }
+                    HStack {
+                        CustomText(text: Localization.shared.getTranslation(key: "resistance").uppercased(), fontSize: mediumFont, isBold: true)
+                        Spacer()
+                        CustomText(text: "\(base.resistance)".uppercased(), fontSize: mediumFont)
                     }
                 }
-                .padding(.horizontal, 15)
+                .padding(.all, innerPadding)
             }
         }
     }

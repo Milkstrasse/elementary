@@ -1,5 +1,6 @@
 {
   "element": "water",
+  "title": "",
   "base": {
       "health": 75,
       "attack": 75,

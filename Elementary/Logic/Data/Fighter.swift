@@ -10,6 +10,8 @@ import Darwin
 /// Contains all the important data of a fighter.
 class Fighter: Hashable, Equatable {
     let name: String
+    let title: String
+    
     let element: Element
     private var elementOverride: Element?
     
@@ -41,6 +43,8 @@ class Fighter: Hashable, Equatable {
     /// - Parameter data: This contains the main data of the fighter
     init(data: FighterData, skinIndex: Int = 0) {
         name = data.name
+        title = data.title
+        
         element = GlobalData.shared.elements[data.element] ?? Element()
         
         self.data = data

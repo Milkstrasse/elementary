@@ -15,13 +15,34 @@ struct FighterInfoView: View {
     @State var selectedSpell: Spell? = nil
     @Binding var selectedSkin: Int
     
+    /// Converts a symbol to the correct display format.
+    /// - Returns: Returns the symbol in the correct format
+    func createSymbol() -> String {
+        let icon: UInt16 = UInt16(Float64(fighter.getElement().symbol) ?? 0xf128)
+        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 ScrollViewReader { value in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: innerPadding) {
-                            Rectangle().fill(Color("MainPanel")).frame(height: 85).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)).id(0)
+                            ZStack(alignment: .leading) {
+                                Rectangle().fill(Color("Positive"))
+                                HStack(spacing: 0) {
+                                    CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighter.title).uppercased(), fontSize: smallFont, isBold: false)
+                                    Spacer()
+                                    Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                }
+                                .frame(height: largeHeight).padding(.leading, innerPadding)
+                            }
+                            .id(0)
+                            ZStack {
+                                Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: fighter.name + "Descr"), geoWidth:  geometry.size.width - innerPadding - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading).padding(.all, innerPadding)
+                            }
                             BaseFighterOverviewView(base: fighter.getModifiedBase())
                             VStack(spacing: innerPadding/2) {
                                 ForEach(fighter.spells, id: \.self) { spell in

@@ -1,5 +1,6 @@
 {
   "element": "metal",
+  "title": "",
   "base": {
       "health": 75,
       "attack": 75,

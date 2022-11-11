@@ -1,5 +1,6 @@
 {
   "element": "ice",
+  "title": "",
   "base": {
       "health": 75,
       "attack": 75,

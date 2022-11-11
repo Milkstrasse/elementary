@@ -1,12 +1,13 @@
 {
   "element": "decay",
+  "title": "enchantress",
   "base": {
-      "health": 50,
-      "attack": 95,
-      "defense": 80,
-      "agility": 145,
-      "precision": 125,
-      "resistance": 55
+      "health": 80,
+      "attack": 75,
+      "defense": 100,
+      "agility": 65,
+      "precision": 150,
+      "resistance": 80
   },
   "spells": [
       "decaySimpleAttack",

@@ -1,12 +1,13 @@
 {
   "element": "aether",
+  "title": "witch",
   "base": {
       "health": 75,
-      "attack": 110,
-      "defense": 70,
-      "agility": 105,
-      "precision": 115,
-      "resistance": 75
+      "attack": 125,
+      "defense": 95,
+      "agility": 80,
+      "precision": 105,
+      "resistance": 70
   },
   "spells": [
       "defenseDown",
