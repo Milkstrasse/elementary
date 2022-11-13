@@ -23,7 +23,7 @@ struct RectanglePortraitView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(isSelected ?  Color("Positive") : Color("Border"), lineWidth: borderWidth))
-            Image(fileName: fighter.name + fighter.getSkin()).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.1).offset(x: -20, y: 10).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
+            Image(fileName: fighter.name + fighter.getSkin()).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.1).offset(x: -20, y: 5).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
             ZStack(alignment: .bottomTrailing) {
                 TriangleA().fill(isSelected ?  Color("Positive") : Color("Border")).frame(height: 40).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).padding(.all, 8)
@@ -204,7 +204,7 @@ struct HexView: View {
     var body: some View {
         ZStack {
             Rectangle().fill(Color("MainPanel"))
-            Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(getFontColor())
+            Text(self.createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(getFontColor())
         }
         .frame(width: 24, height: 24)
     }

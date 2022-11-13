@@ -1,0 +1,23 @@
+{
+  "element": "fire",
+  "title": "alchemist",
+  "base": {
+      "health": 145,
+      "attack": 50,
+      "defense": 120,
+      "agility": 75,
+      "precision": 55,
+      "resistance": 105
+  },
+  "spells": [
+      "fireSimpleAttack",
+      "drainAttack",
+      "sunnyDay",
+      "plantSpecial2Attack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

@@ -146,6 +146,13 @@ struct OverviewView: View {
                         .padding(.top, innerPadding)
                         HStack(spacing: innerPadding) {
                             Spacer()
+                            Button(action: {
+                                AudioPlayer.shared.playStandardSound()
+                                showInfo = true
+                            }) {
+                                BorderedButton(label: "info", width: 105, height: smallHeight, isInverted: false)
+                            }
+                            .opacity(fighterSelected ? 1 : 0.5).disabled(!fighterSelected)
                             ZStack {
                                 Rectangle().fill(Color("MainPanel"))
                                     .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
@@ -181,13 +188,6 @@ struct OverviewView: View {
                                 .padding(.horizontal, 2)
                             }
                             .frame(width: 170, height: smallHeight)
-                            Button(action: {
-                                AudioPlayer.shared.playStandardSound()
-                                showInfo = true
-                            }) {
-                                BorderedButton(label: "info", width: 105, height: smallHeight, isInverted: false)
-                            }
-                            .opacity(fighterSelected ? 1 : 0.5).disabled(!fighterSelected)
                         }
                         .padding(.all, outerPadding)
                     }

@@ -1,0 +1,23 @@
+{
+  "element": "ground",
+  "title": "sage",
+  "base": {
+      "health": 100,
+      "attack": 55,
+      "defense": 125,
+      "agility": 50,
+      "precision": 70,
+      "resistance": 150
+  },
+  "spells": [
+      "groundSimpleAttack",
+      "speedUp",
+      "heavyStorm",
+      "metalSimpleAttack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

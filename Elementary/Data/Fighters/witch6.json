@@ -1,0 +1,23 @@
+{
+  "element": "ice",
+  "title": "magus",
+  "base": {
+      "health": 70,
+      "attack": 150,
+      "defense": 50,
+      "agility": 100,
+      "precision": 125,
+      "resistance": 55
+  },
+  "spells": [
+      "iceSimpleAttack",
+      "precisionUp",
+      "aetherSwapAttack",
+      "waterSpecialAttack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

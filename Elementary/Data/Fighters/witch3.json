@@ -1,0 +1,23 @@
+{
+  "element": "electric",
+  "title": "magus",
+  "base": {
+      "health": 75,
+      "attack": 145,
+      "defense": 55,
+      "agility": 105,
+      "precision": 120,
+      "resistance": 50
+  },
+  "spells": [
+      "electricSimpleAttack",
+      "magneticStorm",
+      "trap",
+      "woodSpecial2Attack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}
