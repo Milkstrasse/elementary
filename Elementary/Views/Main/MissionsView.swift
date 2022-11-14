@@ -39,6 +39,8 @@ struct MissionsView: View {
         }
     }
     
+    /// Calculates the percentage of completed daily missions.
+    /// - Returns: Returns percentage of completed daily missions
     func dailyComplete() -> Float {
         let userProgress: UserProgress = userProgress
         

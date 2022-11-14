@@ -37,6 +37,11 @@ struct ShopView: View {
         }
     }
     
+    /// Returns wether the skin is selected or not.
+    /// - Parameters:
+    ///   - fighter: The owner of the skin
+    ///   - index: The index of the skin
+    /// - Returns: Returns wether the skin is selected or not
     func isSelected(fighter: Fighter, index: Int) -> Bool {
         if fighter == currentFighter {
             if index == selectedSkin {

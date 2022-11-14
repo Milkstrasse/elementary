@@ -171,6 +171,11 @@ struct UserProgress: Codable {
         }
     }
     
+    /// Checks if the skin has been unlocked or not.
+    /// - Parameters:
+    ///   - fighter: The owner of the skin
+    ///   - index: The index of the skin
+    /// - Returns: Return wether the skin has been unlocked or not
     func isSkinUnlocked(fighter: String, index: Int) -> Bool {
         if index == 0 {
             return true
