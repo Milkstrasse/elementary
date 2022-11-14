@@ -19,16 +19,18 @@ struct UserProgress: Codable {
     
     var weatherUses: [Bool] = [Bool](repeating: false, count: Weather.allCases.count)
     var hexUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
+    var artifactsUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
     
     var fightOneElement: Bool = false
     
     var dailyFightCounter: Int = 0
     var dailyWinCounter: Int = 0
-    var dailyElementCounter: Int = 0
+    var dailyElementWin: Bool = false
+    var dailyArtifactUsed: Bool = false
     
     private var unlockedSkins: [String:[Int]] = [:]
-    var missionCollected: [Bool] = [Bool](repeating: false, count: 11)
-    var dailyCollected: [Bool] = [Bool](repeating: false, count: 4)
+    var missionCollected: [Bool] = [Bool](repeating: false, count: 12)
+    var dailyCollected: [Bool] = [Bool](repeating: false, count: 5)
     
     var points: Int = 0
     
@@ -50,7 +52,7 @@ struct UserProgress: Codable {
             for fighter in fighters {
                 if fighter.currhp > 0 {
                     if fighter.getElement().name == getDailyElement().name {
-                        dailyElementCounter += 1
+                        dailyElementWin = true
                     }
                 } else {
                     allAlive = false
@@ -75,39 +77,61 @@ struct UserProgress: Codable {
         fightCounter += 1
     }
     
-    /// Checks if atleast one of the teams only consists of one element.
+    /// Checks if atleast one of the teams only consists of one element and which artifacts have been used.
     /// - Parameters:
     ///   - teamA: Team of fighters
     ///   - teamB: Team of fighters
     mutating func checkTeams(teamA: [Fighter], teamB: [Fighter]) {
-        var element: String = teamA[0].element.name
-        var counter: Int = 1
+        var element: String
+        var counter: Int = 0
         
-        for index in 1 ..< teamA.count {
-            if teamA[index].element.name != element {
-                break
-            } else {
-                counter += 1
-            }
-        }
-        
-        if counter == teamA.count {
-            fightOneElement = true
-        } else {
-            element = teamB[0].element.name
-            counter = 1
+        if !teamA.isEmpty {
+            element = teamA[0].element.name
             
-            for index in 1 ..< teamB.count {
-                if teamB[index].element.name != element {
-                    break
-                } else {
+            for fighter in teamA {
+                if fighter.element.name == element {
                     counter += 1
+                }
+                
+                if fighter.artifact.name != Artifacts.noArtifact.rawValue {
+                    dailyArtifactUsed = true
+                    
+                    for (index, artifact) in Artifacts.allCases.enumerated() {
+                        if artifact.rawValue == fighter.artifact.name {
+                            artifactsUses[index] = true
+                            break
+                        }
+                    }
                 }
             }
             
-            if counter == teamB.count {
+            if counter == teamA.count {
                 fightOneElement = true
             }
+        }
+        
+        element = teamB[0].element.name
+        counter = 0
+        
+        for fighter in teamB {
+            if fighter.element.name == element {
+                counter += 1
+            }
+            
+            if fighter.artifact.name != Artifacts.noArtifact.rawValue {
+                dailyArtifactUsed = true
+                
+                for (index, artifact) in Artifacts.allCases.enumerated() {
+                    if artifact.rawValue == fighter.artifact.name {
+                        artifactsUses[index] = true
+                        break
+                    }
+                }
+            }
+        }
+        
+        if counter == teamB.count {
+            fightOneElement = true
         }
     }
     
@@ -125,7 +149,9 @@ struct UserProgress: Codable {
         if !Calendar.current.isDateInToday(lastDate) {
             dailyFightCounter = 0
             dailyWinCounter = 0
-            dailyElementCounter = 0
+            dailyElementWin = false
+            dailyArtifactUsed = false
+            
             dailyCollected = [Bool](repeating: false, count: 3)
             
             lastDate = Date()
@@ -150,6 +176,19 @@ struct UserProgress: Codable {
     func getHexAmount() -> Int {
         var counter: Int = 0
         for hex in hexUses {
+            if hex {
+                counter += 1
+            }
+        }
+        
+        return counter
+    }
+    
+    /// Add up all artifacts that have been used once.
+    /// - Returns: Returns number of used hexes
+    func getArtifactAmount() -> Int {
+        var counter: Int = 0
+        for hex in artifactsUses {
             if hex {
                 counter += 1
             }

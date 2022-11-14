@@ -42,11 +42,16 @@ struct MissionsView: View {
     /// Calculates the percentage of completed daily missions.
     /// - Returns: Returns percentage of completed daily missions
     func dailyComplete() -> Float {
-        let userProgress: UserProgress = userProgress
+        var counter: Float = min(Float(userProgress.dailyFightCounter)/5, 1)
+        counter += min(Float(userProgress.dailyWinCounter)/2, 1)
+        if userProgress.dailyElementWin {
+            counter += 1
+        }
+        if userProgress.dailyArtifactUsed {
+            counter += 1
+        }
         
-        var counter: Float = Float(userProgress.dailyFightCounter)/5
-        counter += Float(userProgress.dailyElementCounter)/2
-        counter = counter/2 * 100
+        counter = counter/4 * 100
         
         return counter
     }
@@ -115,10 +120,10 @@ struct MissionsView: View {
                                     HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [userProgress.getDailyElement().name]).uppercased(), fontSize: smallFont)
                                         Spacer()
-                                        CustomText(text: "\(min(userProgress.dailyElementCounter * 100, 100))%", fontSize: smallFont)
+                                        CustomText(text: userProgress.dailyElementWin ? "100%" : "0%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
-                                    if Float(userProgress.dailyElementCounter) >= 1 && !userProgress.dailyCollected[1] {
+                                    if userProgress.dailyElementWin && !userProgress.dailyCollected[1] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 10, index: 1)
                                         }) {
@@ -149,14 +154,32 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "useArtifactMission").uppercased(), fontSize: smallFont)
+                                        Spacer()
+                                        CustomText(text: userProgress.dailyArtifactUsed ? "100%" : "0%", fontSize: smallFont)
+                                    }
+                                    .padding(.all, innerPadding)
+                                    if userProgress.dailyArtifactUsed && !userProgress.dailyCollected[3] {
+                                        Button(action: {
+                                            userProgress.dailyCollect(points: 10, index: 3)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
+                                }
+                                .frame(height: largeHeight)
+                                ZStack(alignment: .trailing) {
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                    HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "completeMission").uppercased(), fontSize: smallFont)
                                         Spacer()
                                         CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
-                                    if dailyComplete() >= 100 && !userProgress.missionCollected[3] {
+                                    if dailyComplete() >= 100 && !userProgress.missionCollected[4] {
                                         Button(action: {
-                                            userProgress.missionCollect(points: 20, index: 3)
+                                            userProgress.missionCollect(points: 20, index: 4)
                                         }) {
                                             BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
@@ -266,14 +289,32 @@ struct MissionsView: View {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                     HStack {
+                                        CustomText(text: Localization.shared.getTranslation(key: "artifactMission").uppercased(), fontSize: smallFont)
+                                        Spacer()
+                                        CustomText(text: "\(Int(min(Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) * 100, 100)))%", fontSize: smallFont)
+                                    }
+                                    .padding(.all, innerPadding)
+                                    if Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 3] {
+                                        Button(action: {
+                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 3)
+                                        }) {
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                        }
+                                    }
+                                }
+                                .frame(height: largeHeight)
+                                ZStack(alignment: .trailing) {
+                                    Rectangle().fill(Color("MainPanel"))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                    HStack {
                                         CustomText(text: Localization.shared.getTranslation(key: "fightElementMission").uppercased(), fontSize: smallFont)
                                         Spacer()
                                         CustomText(text: userProgress.fightOneElement ? "100%" : "0%", fontSize: smallFont)
                                     }
                                     .padding(.all, innerPadding)
-                                    if userProgress.fightOneElement && !userProgress.missionCollected[fightCounter.count + winStreak.count + 3] {
+                                    if userProgress.fightOneElement && !userProgress.missionCollected[fightCounter.count + winStreak.count + 4] {
                                         Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 3)
+                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 4)
                                         }) {
                                             BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }

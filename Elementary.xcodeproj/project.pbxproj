@@ -48,7 +48,7 @@
 		B8631AAB28AFA3D100222E54 /* healed2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B8631A9D28AFA3D000222E54 /* healed2.wav */; };
 		B8631AB128AFB22E00222E54 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB028AFB22E00222E54 /* Buttons.swift */; };
 		B8631AB528AFB72A00222E54 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB428AFB72A00222E54 /* OverviewView.swift */; };
-		B8631AB928AFD31900222E54 /* Fighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB828AFD31900222E54 /* Fighter.swift */; };
+		B8631AB928AFD31900222E54 /* SubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB828AFD31900222E54 /* SubViews.swift */; };
 		B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* Parameters.swift */; };
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
 		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
@@ -116,7 +116,6 @@
 		B8631A7A28AFA05700222E54 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		B8631A8428AFA0E900222E54 /* FightLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FightLog.swift; sourceTree = "<group>"; };
 		B8631A8728AFA18900222E54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		B8631A8928AFA1B000222E54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B8631A8C28AFA28100222E54 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		B8631A8D28AFA28100222E54 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
 		B8631A9028AFA3D000222E54 /* damaged1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damaged1.wav; sourceTree = "<group>"; };
@@ -133,7 +132,7 @@
 		B8631A9D28AFA3D000222E54 /* healed2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = healed2.wav; sourceTree = "<group>"; };
 		B8631AB028AFB22E00222E54 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		B8631AB428AFB72A00222E54 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
-		B8631AB828AFD31900222E54 /* Fighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fighter.swift; sourceTree = "<group>"; };
+		B8631AB828AFD31900222E54 /* SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubViews.swift; sourceTree = "<group>"; };
 		B8631ABA28AFEB2800222E54 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
 		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
@@ -289,7 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				B8631AB028AFB22E00222E54 /* Buttons.swift */,
-				B8631AB828AFD31900222E54 /* Fighter.swift */,
+				B8631AB828AFD31900222E54 /* SubViews.swift */,
 				B8631ABA28AFEB2800222E54 /* Parameters.swift */,
 				B82256FC2922493A001E083A /* Shapes.swift */,
 				B8AD404E28B0E20900708AA5 /* Text.swift */,
@@ -343,7 +342,6 @@
 			children = (
 				B8B0F4A128AF974000AA245B /* Data */,
 				B8B0F49328AF971D00AA245B /* ElementaryApp.swift */,
-				B8631A8928AFA1B000222E54 /* Info.plist */,
 				B8B0F4A428AF977C00AA245B /* Logic */,
 				B8B0F49928AF972000AA245B /* Preview Content */,
 				B8B0F4A528AF978400AA245B /* Views */,
@@ -542,7 +540,7 @@
 				B88D9F9528B3E3EA00AAC683 /* TrainingSelectionView.swift in Sources */,
 				B8AD404F28B0E20900708AA5 /* Text.swift in Sources */,
 				B8631A7B28AFA05700222E54 /* Nature.swift in Sources */,
-				B8631AB928AFD31900222E54 /* Fighter.swift in Sources */,
+				B8631AB928AFD31900222E54 /* SubViews.swift in Sources */,
 				B8631A8128AFA05700222E54 /* Hexes.swift in Sources */,
 				B8AD406628B2292200708AA5 /* FightLogic.swift in Sources */,
 				B8A22F90291BE974006049D2 /* ModeView.swift in Sources */,

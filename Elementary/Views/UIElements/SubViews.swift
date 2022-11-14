@@ -1,5 +1,5 @@
 //
-//  Fighter.swift
+//  SubViews.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 19.08.22.
