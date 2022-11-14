@@ -18,6 +18,17 @@
     "info": "Info",
     "default": "Défaut",
     
+    "catgirl": "Fille chat",
+    "qipao": "Qipao",
+    
+    "alchemist": "Alchimiste",
+    "enchantress": "Enchanteresse",
+    "magus": "Mage",
+    "sage": "Sage",
+    "sorceress": "Magicienne",
+    "warlock": "Démoniste",
+    "witch": "Sorcière",
+    
     "health": "Santé",
     "attack": "Attaque",
     "defense": "Défense",
