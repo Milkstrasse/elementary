@@ -125,7 +125,7 @@ struct CustomText: View {
     
     var textArray: [[String]]
     
-    init(text: String, fontColor: Color = Color("Text"), fontSize: CGFloat, isBold: Bool = false, alignment: HorizontalAlignment = .center) {
+    init(text: String, fontColor: Color = Color("Text"), fontSize: CGFloat, isBold: Bool = false, alignment: HorizontalAlignment = .leading) {
         self.text = text
         self.fontColor = fontColor
         self.fontSize = fontSize
