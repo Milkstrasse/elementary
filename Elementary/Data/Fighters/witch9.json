@@ -1,0 +1,23 @@
+{
+  "element": "rock",
+  "title": "sorceress",
+  "base": {
+      "health": 80,
+      "attack": 120,
+      "defense": 105,
+      "agility": 75,
+      "precision": 95,
+      "resistance": 75
+  },
+  "spells": [
+      "rockSimpleAttack",
+      "taunt",
+      "drainAttack",
+      "confusion"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

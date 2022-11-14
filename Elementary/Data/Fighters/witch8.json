@@ -1,0 +1,23 @@
+{
+  "element": "plant",
+  "title": "enchantress",
+  "base": {
+      "health": 125,
+      "attack": 75,
+      "defense": 150,
+      "agility": 50,
+      "precision": 80,
+      "resistance": 70
+  },
+  "spells": [
+      "plantSimpleAttack",
+      "bomb",
+      "windSimpleAttack",
+      "trap"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

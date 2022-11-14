@@ -1,0 +1,23 @@
+{
+  "element": "wood",
+  "title": "warlock",
+  "base": {
+      "health": 55,
+      "attack": 125,
+      "defense": 75,
+      "agility": 145,
+      "precision": 100,
+      "resistance": 50
+  },
+  "spells": [
+      "woodSimpleAttack",
+      "powerUpChain",
+      "iceSimpleAttack",
+      "windSpecial2Attack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

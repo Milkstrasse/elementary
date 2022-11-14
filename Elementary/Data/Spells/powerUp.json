@@ -1,5 +1,5 @@
 {
-  "element": "rock",
+  "element": "metal",
   "typeID": 14,
   "uses": 24,
   "spells": [
@@ -9,9 +9,8 @@
           "hex": "attackBoost"
       },
       {
-          "power": 0,
-          "range": 0,
-          "hex": "invigorated"
+          "power": 40,
+          "range": 0
       }
   ]
 }

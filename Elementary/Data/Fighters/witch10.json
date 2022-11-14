@@ -1,0 +1,23 @@
+{
+  "element": "water",
+  "title": "warlock",
+  "base": {
+      "health": 50,
+      "attack": 130,
+      "defense": 70,
+      "agility": 150,
+      "precision": 105,
+      "resistance": 45
+  },
+  "spells": [
+      "waterSimpleAttack",
+      "healingWish",
+      "springWeather",
+      "aetherSimpleAttack"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "element": "wind",
+  "title": "sage",
+  "base": {
+      "health": 95,
+      "attack": 50,
+      "defense": 125,
+      "agility": 55,
+      "precision": 75,
+      "resistance": 150
+  },
+  "spells": [
+      "windSimpleAttack",
+      "forceOut",
+      "decaySpecialAttack",
+      "restoration"
+  ],
+  "skins": [
+      "default",
+      "catgirl",
+      "qipao"
+  ]
+}

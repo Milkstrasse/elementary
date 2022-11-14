@@ -1,0 +1,17 @@
+{
+  "element": "wood",
+  "typeID": 14,
+  "uses": 24,
+  "spells": [
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "attackBoost"
+      },
+      {
+          "power": 0,
+          "range": 0,
+          "hex": "chained"
+      }
+  ]
+}
