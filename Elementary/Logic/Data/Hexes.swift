@@ -171,7 +171,7 @@ enum Weather: String, CaseIterable {
         case .volcanicStorm:
             return Hex(name: self.rawValue, symbol: 0xf76c, duration: duration, positive: true)
         case .springWeather:
-            return Hex(name: self.rawValue, symbol: 0xf5bb, duration: duration, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf4d8, duration: duration, positive: true)
         }
     }
 }

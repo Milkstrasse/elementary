@@ -204,7 +204,11 @@ struct HexView: View {
     var body: some View {
         ZStack {
             Rectangle().fill(Color("MainPanel"))
-            Text(self.createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(getFontColor())
+            if hex.symbol < 60000 { //temporary solution to missing symbols
+                Text(self.createSymbol()).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(getFontColor())
+            } else {
+                Text(self.createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(getFontColor())
+            }
         }
         .frame(width: 24, height: 24)
     }

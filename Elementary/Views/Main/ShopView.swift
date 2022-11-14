@@ -71,46 +71,45 @@ struct ShopView: View {
                                     .frame(height: largeHeight)
                                 }
                                 ForEach(1 ..< fighter.data.skins.count, id: \.self) { index in
-                                    HStack(spacing: innerPadding/2) {
-                                        Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            if isSelected(fighter: fighter, index: index) {
-                                                currentFighter = nil
-                                                selectedSkin = 0
-                                            } else {
-                                                currentFighter = fighter
-                                                selectedSkin = index
-                                            }
-                                        }) {
-                                            ZStack {
-                                                Rectangle().fill(Color("MainPanel"))
-                                                    .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: borderWidth))
-                                                HStack(spacing: innerPadding/2) {
-                                                    CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[index]).uppercased(), fontSize: smallFont)
-                                                    CustomText(text: "-", fontSize: smallFont)
-                                                    if userProgress.isSkinUnlocked(fighter: fighter.name, index: index) {
-                                                        CustomText(text: "owned", fontSize: smallFont)
-                                                    } else {
-                                                        CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
-                                                        Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < 200 ? Color("Negative") : Color("Positive"))
-                                                    }
-                                                    Spacer()
+                                    Button(action: {
+                                        AudioPlayer.shared.playStandardSound()
+                                        
+                                        if isSelected(fighter: fighter, index: index) {
+                                            currentFighter = nil
+                                            selectedSkin = 0
+                                        } else {
+                                            currentFighter = fighter
+                                            selectedSkin = index
+                                        }
+                                    }) {
+                                        ZStack(alignment: .trailing) {
+                                            Rectangle().fill(Color("MainPanel"))
+                                                .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: borderWidth))
+                                            HStack(spacing: innerPadding/2) {
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[index]).uppercased(), fontSize: smallFont)
+                                                CustomText(text: "-", fontSize: smallFont)
+                                                if userProgress.isSkinUnlocked(fighter: fighter.name, index: index) {
+                                                    CustomText(text: "owned", fontSize: smallFont)
+                                                } else {
+                                                    CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
+                                                    Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < 200 ? Color("Negative") : Color("Positive"))
                                                 }
-                                                .padding(.all, innerPadding)
+                                                Spacer()
                                             }
+                                            .padding(.all, innerPadding)
+                                            Button(action: {
+                                                AudioPlayer.shared.playStandardSound()
+                                                
+                                                userProgress.unlockSkin(points: 200, fighter: fighter.name, index: index)
+                                                
+                                                GlobalData.shared.userProgress = userProgress
+                                                SaveData.save()
+                                            }) {
+                                                BasicButton(label: Localization.shared.getTranslation(key: "purchase"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            }
+                                            .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index))
                                         }
-                                        Button(action: {
-                                            AudioPlayer.shared.playStandardSound()
-                                            
-                                            userProgress.unlockSkin(points: 200, fighter: fighter.name, index: index)
-                                            
-                                            GlobalData.shared.userProgress = userProgress
-                                            SaveData.save()
-                                        }) {
-                                            BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
-                                        }
-                                        .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index))
+                                        .frame(height: largeHeight)
                                     }
                                 }
                             }

@@ -26,7 +26,11 @@ struct InfoView: View {
                         CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
                         ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
                             HStack(spacing: 0) {
-                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
+                                if hex.symbol < 60000 {
+                                    Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                } else {
+                                    Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                }
                                 CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
                                 Spacer()
                             }
