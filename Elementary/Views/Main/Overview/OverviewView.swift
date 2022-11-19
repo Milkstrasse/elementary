@@ -17,7 +17,8 @@ struct OverviewView: View {
     @State var selectedSkin: Int = 0
     
     @State var currentArray: [Fighter] = GlobalData.shared.fighters
-    @State var currentElement: Int = -1
+    @State var currentCriteria: Int = -1
+    let criterias: [String] = ["name", "element", "health", "attack", "defense", "agility", "precision", "resistance"]
     
     @State var showInfo: Bool = false
     
@@ -34,9 +35,9 @@ struct OverviewView: View {
         }
     }
     
-    /// Returns an array of fighters depending on the current filter criteria.
+    /// Returns an array of fighters depending on the current criteria.
     /// - Parameter row: The current row
-    /// - Returns: Returns an filtered array of fighters
+    /// - Returns: Returns an array of fighters
     func getSubArray(row: Int) -> [Fighter] {
         if (6 + row * 6) < currentArray.count {
             let rowArray = currentArray[row * 6 ..< 6 + row * 6]
@@ -47,21 +48,44 @@ struct OverviewView: View {
         }
     }
     
-    /// Applies filter critera and set the array of fighters.
-    /// - Parameter element: The elemental criteria
-    func setElementalArray(element: Element?) {
-        if element == nil {
-            currentArray = GlobalData.shared.fighters
-        } else {
-            var elementals: [Fighter] = []
-            
-            for fighter in GlobalData.shared.fighters {
-                if element!.name == fighter.getElement().name {
-                    elementals.append(fighter)
-                }
+    /// Sorts the array of fighters depending on the criteria.
+    /// - Parameter criteria: Criteria to sort the array
+    func sortArray(criteria: Int) {
+        switch criteria {
+        case 0:
+            currentArray = currentArray.sorted {
+                Localization.shared.getTranslation(key: $0.name) < Localization.shared.getTranslation(key: $1.name)
             }
-            
-            currentArray = elementals
+        case 1:
+            currentArray = currentArray.sorted {
+                Localization.shared.getTranslation(key: $0.element.name) < Localization.shared.getTranslation(key: $1.element.name)
+            }
+        case 2:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().health > $1.getModifiedBase().health
+            }
+        case 3:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().attack > $1.getModifiedBase().attack
+            }
+        case 4:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().defense > $1.getModifiedBase().defense
+            }
+        case 5:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().agility > $1.getModifiedBase().agility
+            }
+        case 6:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().precision > $1.getModifiedBase().precision
+            }
+        case 7:
+            currentArray = currentArray.sorted {
+                $0.getModifiedBase().resistance > $1.getModifiedBase().resistance
+            }
+        default:
+            currentArray = GlobalData.shared.fighters
         }
     }
     
@@ -160,27 +184,27 @@ struct OverviewView: View {
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
-                                        if currentElement < 0 {
-                                            currentElement = GlobalData.shared.elementArray.count - 1
+                                        if currentCriteria < 0 {
+                                            currentCriteria = criterias.count - 1
                                         } else {
-                                            currentElement -= 1
+                                            currentCriteria -= 1
                                         }
                                         
-                                        setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
+                                        sortArray(criteria: currentCriteria)
                                     }) {
                                         ClearButton(label: "<", width: 35, height: smallHeight)
                                     }
-                                    CustomText(text: Localization.shared.getTranslation(key: currentElement == -1 ? "allElements" : GlobalData.shared.elementArray[currentElement].name).uppercased(), fontSize: smallFont).frame(maxWidth: 100)
+                                    CustomText(text: Localization.shared.getTranslation(key: currentCriteria == -1 ? "unsorted" : criterias[currentCriteria]).uppercased(), fontSize: smallFont).frame(maxWidth: 100)
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
-                                        if currentElement >= GlobalData.shared.elementArray.count - 1 {
-                                            currentElement = -1
+                                        if currentCriteria >= criterias.count - 1 {
+                                            currentCriteria = -1
                                         } else {
-                                            currentElement += 1
+                                            currentCriteria += 1
                                         }
                                         
-                                        setElementalArray(element: currentElement == -1 ? nil : GlobalData.shared.elementArray[currentElement])
+                                        sortArray(criteria: currentCriteria)
                                     }) {
                                         ClearButton(label: ">", width: 35, height: smallHeight)
                                     }

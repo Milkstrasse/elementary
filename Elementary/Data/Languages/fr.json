@@ -1,7 +1,10 @@
 {
     "fr": "Français",
     
-    "allElements": "Tous Éléments",
+    "unsorted": "Non trié",
+    "name": "Nom",
+    "element": "Élément",
+    
     "aether": "Éther",
     "decay": "Carie",
     "electric": "Électrik",
