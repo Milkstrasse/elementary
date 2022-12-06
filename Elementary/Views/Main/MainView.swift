@@ -49,6 +49,47 @@ struct MainView: View {
                         }
                     }
                     VStack {
+                        Spacer()
+                        HStack(alignment: .bottom) {
+                            Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: -15).shadow(radius: 5, x: 5, y: 0)
+                            Spacer()
+                            VStack {
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
+                                    }
+                                }) {
+                                    BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                }
+                            }
+                            .padding(.bottom, outerPadding)
+                        }
+                        .padding(.horizontal, outerPadding)
+                    }
+                    VStack {
                         HStack(spacing: innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()
@@ -104,47 +145,6 @@ struct MainView: View {
                         }
                         .padding(.all, outerPadding)
                         Spacer()
-                    }
-                    VStack {
-                        Spacer()
-                        HStack(alignment: .bottom) {
-                            Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).offset(x: -20).shadow(radius: 5, x: 5, y: 0)
-                            Spacer()
-                            VStack {
-                                Button(action: {
-                                    AudioPlayer.shared.playStandardSound()
-                                    
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
-                                    }
-                                }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
-                                }
-                                Button(action: {
-                                    AudioPlayer.shared.playStandardSound()
-                                    
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
-                                    }
-                                }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
-                                }
-                                Button(action: {
-                                    AudioPlayer.shared.playStandardSound()
-                                    
-                                    transitionToggle = true
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
-                                    }
-                                }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: largeHeight, fontSize: mediumFont)
-                                }
-                            }
-                            .padding(.bottom, outerPadding)
-                        }
-                        .padding(.horizontal, outerPadding)
                     }
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)

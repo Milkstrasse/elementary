@@ -110,7 +110,7 @@ struct CreditsView: View {
                 ZStack(alignment: .bottomLeading) {
                     TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
                     Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
-                    Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width - smallHeight - 2 * outerPadding, height: geometry.size.width - smallHeight - 2 * outerPadding).offset(x: transitionToggle ? -geometry.size.width * 0.9 : -50).shadow(radius: 5, x: 5, y: 0)
+                    Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: transitionToggle ? -geometry.size.width * 0.9 : -15).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2).delay(0.4), value: transitionToggle)
                     VStack {
                         Button(action: {
@@ -127,7 +127,7 @@ struct CreditsView: View {
                     }
                     .padding(.all, outerPadding)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: transitionToggle ? -geometry.size.width : ((geometry.size.width - smallHeight - 2 * outerPadding) - geometry.size.width)/2)
+                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: transitionToggle ? -geometry.size.width : ((geometry.size.width * 0.9) - geometry.size.width)/2)
                 .animation(.linear(duration: 0.3).delay(0.2), value: transitionToggle)
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + 50)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
