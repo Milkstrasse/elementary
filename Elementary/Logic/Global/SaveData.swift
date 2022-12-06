@@ -30,10 +30,9 @@ struct SaveData: Codable {
     
     let savedFighters: [SavedFighterData]
     
-    let userProgress: UserProgress
-    
     static let fileManager: FileManager = FileManager.default
-    static let fileName: String = "savedData.json"
+    static let settingsName: String = "settings.json"
+    static let userName: String = "user.json"
     
     init() {
         generalVolume = AudioPlayer.shared.generalVolume
@@ -55,17 +54,32 @@ struct SaveData: Codable {
         deviation = GlobalData.shared.deviation
         
         savedFighters = GlobalData.shared.savedFighters
-        
-        userProgress = GlobalData.shared.userProgress
     }
     
-    /// Save data into save file.
-    static func save() {
+    /// Save settings into a json file.
+    static func saveSettings() {
         let saveData: SaveData = SaveData()
         
         do {
-            let data: Data = try JSONEncoder().encode(saveData)
-            if let url = makeURL(forFileNamed: SaveData.fileName) {
+            let encoder: JSONEncoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            
+            let data: Data = try encoder.encode(saveData)
+            if let url = makeURL(forFileNamed: SaveData.settingsName) {
+                try data.write(to: url, options: [.atomic])
+            }
+        } catch {
+            print("error: \(error)")
+        }
+    }
+    
+    /// Save user prgress as a json file.
+    static func saveProgress() {
+        let progress: UserProgress = GlobalData.shared.userProgress
+        
+        do {
+            let data: Data = try JSONEncoder().encode(progress)
+            if let url = makeURL(forFileNamed: SaveData.userName) {
                 try data.write(to: url, options: [.atomic])
             }
         } catch {
@@ -75,7 +89,7 @@ struct SaveData: Codable {
     
     /// Loads and stores the data of the save file.
     static func load() {
-        if let url = makeURL(forFileNamed: SaveData.fileName) {
+        if let url = makeURL(forFileNamed: SaveData.settingsName) {
             if SaveData.fileManager.fileExists(atPath: url.path) {
                 do {
                     let data: Data = try Data(contentsOf: url)
@@ -101,8 +115,6 @@ struct SaveData: Codable {
                     GlobalData.shared.deviation = savedData.deviation
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
-                    
-                    GlobalData.shared.userProgress = savedData.userProgress
                 } catch {
                     print("error: \(error)")
                 }
@@ -110,19 +122,39 @@ struct SaveData: Codable {
                 let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
                 Localization.shared.currentLang = langCode
                 
-                if let url = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-                    do {
-                        try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
-                        try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
-                        try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
-                        try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
-                        try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
-                    } catch {
-                        print("error: \(error)")
-                    }
+                saveSettings()
+            }
+        }
+        
+        if let url = makeURL(forFileNamed: SaveData.userName) {
+            if SaveData.fileManager.fileExists(atPath: url.path) {
+                do {
+                    let data: Data = try Data(contentsOf: url)
+                    let progress: UserProgress = try JSONDecoder().decode(UserProgress.self, from: data)
+                    GlobalData.shared.userProgress = progress
+                } catch {
+                    print("error: \(error)")
                 }
+            } else { //no save file found -> create file and necessary folders
+                let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
+                Localization.shared.currentLang = langCode
                 
-                save()
+                saveProgress()
+            }
+        }
+        
+        if let url = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let modUrl = URL.init(fileURLWithPath: url.path + "/mods")
+            if !fileManager.directoryExists(atUrl: modUrl) {
+                do {
+                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
+                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
+                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
+                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
+                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
+                } catch {
+                    print("error: \(error)")
+                }
             }
         }
     }
@@ -147,5 +179,14 @@ struct SaveData: Codable {
         } else {
             return nil
         }
+    }
+}
+
+extension FileManager {
+
+    func directoryExists(atUrl url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        let exists = self.fileExists(atPath: url.path, isDirectory:&isDirectory)
+        return exists && isDirectory.boolValue
     }
 }

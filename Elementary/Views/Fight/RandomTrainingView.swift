@@ -40,7 +40,7 @@ struct RandomTrainingView: View {
         .onChange(of: fightOver) { _ in
             GlobalData.shared.userProgress.addWin(winner: fightLogic.getWinner(), fighters: fightLogic.players[1].fighters)
             GlobalData.shared.userProgress.checkTeams(teamA: [], teamB: fightLogic.players[1].fighters)
-            SaveData.save()
+            SaveData.saveProgress()
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

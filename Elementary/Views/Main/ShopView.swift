@@ -112,7 +112,7 @@ struct ShopView: View {
                                                 userProgress.unlockSkin(points: 200, fighter: fighter.name, index: index)
                                                 
                                                 GlobalData.shared.userProgress = userProgress
-                                                SaveData.save()
+                                                SaveData.saveProgress()
                                             }) {
                                                 BasicButton(label: Localization.shared.getTranslation(key: "purchase"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }

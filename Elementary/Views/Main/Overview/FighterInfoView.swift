@@ -101,7 +101,7 @@ struct FighterInfoView: View {
                                     userProgress.unlockSkin(points: 200, fighter: fighter.name, index: selectedSkin)
                                     
                                     GlobalData.shared.userProgress = userProgress
-                                    SaveData.save()
+                                    SaveData.saveProgress()
                                 }) {
                                     BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
                                 }

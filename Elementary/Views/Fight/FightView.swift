@@ -49,7 +49,7 @@ struct FightView: View {
         .onChange(of: fightOver) { _ in
             GlobalData.shared.userProgress.addFight()
             GlobalData.shared.userProgress.checkTeams(teamA: fightLogic.players[0].fighters, teamB: fightLogic.players[1].fighters)
-            SaveData.save()
+            SaveData.saveProgress()
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

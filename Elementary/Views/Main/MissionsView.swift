@@ -66,7 +66,7 @@ struct MissionsView: View {
                             AudioPlayer.shared.playCancelSound()
                             
                             GlobalData.shared.userProgress = userProgress
-                            SaveData.save()
+                            SaveData.saveProgress()
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -331,7 +331,7 @@ struct MissionsView: View {
                             AudioPlayer.shared.playStandardSound()
                             
                             userProgress = UserProgress()
-                            SaveData.save()
+                            SaveData.saveProgress()
                         }) {
                             BorderedButton(label: "reset", width: 155, height: smallHeight, isInverted: false)
                         }

@@ -475,7 +475,7 @@ struct PlayerSelectionView: View {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        SaveData.save()
+                                        SaveData.saveSettings()
                                     }
                                 }) {
                                     BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "remove") : Localization.shared.getTranslation(key: "save"), width: 120, height: smallHeight, isInverted: false)

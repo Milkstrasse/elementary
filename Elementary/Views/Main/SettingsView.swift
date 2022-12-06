@@ -141,7 +141,7 @@ struct SettingsView: View {
                             GlobalData.shared.artifactUse = artifactIndex
                             
                             DispatchQueue.main.async {
-                                SaveData.save()
+                                SaveData.saveSettings()
                             }
                             
                             transitionToggle = true
