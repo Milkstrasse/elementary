@@ -19,9 +19,9 @@ struct SpellsView: View {
     /// Returns the effectiveness of a spell against the current opponent.
     /// - Parameter spellElement: The element of the spell
     /// - Returns: Returns the effectiveness of a spell against the current opponent
-    func getEffectiveness(spellElement: String) -> String {
+    func getEffectiveness(spell: Spell) -> String {
         var modifier: Float
-        let element: Element = GlobalData.shared.elements[spellElement] ?? Element()
+        let element: Element = GlobalData.shared.elements[spell.element.name] ?? Element()
         
         if player.id == 0 {
             modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.players[0].getCurrentFighter(), defender: fightLogic.players[1].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
@@ -49,7 +49,11 @@ struct SpellsView: View {
     ///   - fighter: The fighter with the spell
     /// - Returns: Returns a generated description for a spell
     func generateDescription(spell: Spell, fighter: Fighter) -> String {
-        return "\(spell.uses - spell.useCounter)/\(spell.uses)MP - " + Localization.shared.getTranslation(key: getEffectiveness(spellElement: spell.element.name))
+        if spell.typeID > 9 {
+            return "\(spell.uses - spell.useCounter)/\(spell.uses)MP"
+        } else {
+            return "\(spell.uses - spell.useCounter)/\(spell.uses)MP - " + Localization.shared.getTranslation(key: getEffectiveness(spell: spell))
+        }
     }
     
     var body: some View {

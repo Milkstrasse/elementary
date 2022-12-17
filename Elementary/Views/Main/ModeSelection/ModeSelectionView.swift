@@ -75,7 +75,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(RandomSelectionView().environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f762}").shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f890}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
