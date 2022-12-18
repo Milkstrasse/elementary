@@ -67,14 +67,14 @@ struct ShopView: View {
                     }
                     .padding([.top, .leading], outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: innerPadding) {
+                        VStack(alignment: .leading, spacing: innerPadding/2) {
                             ForEach(GlobalData.shared.fighters, id: \.self) { fighter in
                                 if fighter.data.outfits.count > 1 {
                                     ZStack(alignment: .leading) {
                                         Rectangle().fill(Color("Positive"))
                                         CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
                                     }
-                                    .frame(height: largeHeight)
+                                    .frame(height: largeHeight).padding(.bottom, innerPadding/2)
                                 }
                                 ForEach(1 ..< fighter.data.outfits.count, id: \.self) { index in
                                     Button(action: {
@@ -118,7 +118,7 @@ struct ShopView: View {
                                             }
                                             .opacity(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index))
                                         }
-                                        .frame(height: largeHeight)
+                                        .frame(height: largeHeight).padding(.bottom, index == fighter.data.outfits.count - 1 ? innerPadding/2 : 0)
                                     }
                                 }
                             }
