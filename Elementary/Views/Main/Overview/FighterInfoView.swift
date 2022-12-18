@@ -13,7 +13,7 @@ struct FighterInfoView: View {
     @State var userProgress: UserProgress
     
     @State var selectedSpell: Spell? = nil
-    @Binding var selectedSkin: Int
+    @Binding var selectedOutfit: Int
     
     /// Converts a symbol to the correct display format.
     /// - Returns: Returns the symbol in the correct format
@@ -41,7 +41,7 @@ struct FighterInfoView: View {
                             .id(0)
                             ZStack {
                                 Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: fighter.name + "Descr"), geoWidth:  geometry.size.width - innerPadding - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading).padding(.all, innerPadding)
+                                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: fighter.name + "Descr"), geoWidth:  geometry.size.width - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading).padding(.all, innerPadding)
                             }
                             BaseFighterOverviewView(base: fighter.getModifiedBase())
                             VStack(spacing: innerPadding/2) {
@@ -53,42 +53,41 @@ struct FighterInfoView: View {
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
                                         .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                                    HStack {
+                                    HStack(spacing: 0) {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if fighter.skinIndex <= 0 {
-                                                fighter.skinIndex = fighter.data.skins.count - 1
+                                            if fighter.outfitIndex <= 0 {
+                                                fighter.outfitIndex = fighter.data.outfits.count - 1
                                             } else {
-                                                fighter.skinIndex -= 1
+                                                fighter.outfitIndex -= 1
                                             }
                                             
-                                            selectedSkin = fighter.skinIndex
+                                            selectedOutfit = fighter.outfitIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: smallHeight)
                                         }
-                                        Spacer()
                                         HStack(spacing: innerPadding/2) {
-                                            if !userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin) {
-                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[selectedSkin]).uppercased(), fontSize: smallFont, isBold: true)
+                                            if !userProgress.isOutfitUnlocked(fighter: fighter.name, index: selectedOutfit) {
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.outfits[selectedOutfit].name).uppercased(), fontSize: smallFont, isBold: true)
                                                 CustomText(text: "-", fontSize: smallFont)
-                                                CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
-                                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < 200 ? Color("Negative") : Color("Positive"))
+                                                CustomText(text: "\(fighter.data.outfits[selectedOutfit].cost)", fontColor: userProgress.points < fighter.data.outfits[selectedOutfit].cost ? Color("Negative") : Color("Positive"), fontSize: smallFont)
+                                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < fighter.data.outfits[selectedOutfit].cost ? Color("Negative") : Color("Positive"))
                                             } else {
-                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[selectedSkin]).uppercased(), fontSize: smallFont, isBold: false)
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.outfits[selectedOutfit].name).uppercased(), fontSize: smallFont, isBold: false)
                                             }
                                         }
-                                        Spacer()
+                                        .frame(width: geometry.size.width - 2 * outerPadding - 179 - innerPadding)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if fighter.skinIndex >= fighter.data.skins.count - 1 {
-                                                fighter.skinIndex = 0
+                                            if fighter.outfitIndex >= fighter.data.outfits.count - 1 {
+                                                fighter.outfitIndex = 0
                                             } else {
-                                                fighter.skinIndex += 1
+                                                fighter.outfitIndex += 1
                                             }
                                             
-                                            selectedSkin = fighter.skinIndex
+                                            selectedOutfit = fighter.outfitIndex
                                         }) {
                                             ClearButton(label: ">", width: 35, height: smallHeight)
                                         }
@@ -98,14 +97,14 @@ struct FighterInfoView: View {
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
                                     
-                                    userProgress.unlockSkin(points: 200, fighter: fighter.name, index: selectedSkin)
+                                    userProgress.unlockOutfit(points: fighter.data.outfits[selectedOutfit].cost, fighter: fighter.name, index: selectedOutfit)
                                     
                                     GlobalData.shared.userProgress = userProgress
                                     SaveData.saveProgress()
                                 }) {
                                     BorderedButton(label: "purchase", width: 105, height: smallHeight, isInverted: false)
                                 }
-                                .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: selectedSkin))
+                                .opacity(userProgress.points < fighter.data.outfits[selectedOutfit].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: selectedOutfit) ? 0.5 : 1).disabled(userProgress.points < fighter.data.outfits[selectedOutfit].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: selectedOutfit))
                             }
                         }
                         .padding(.horizontal, outerPadding)
@@ -135,6 +134,6 @@ struct FighterInfoView: View {
 
 struct FighterInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        FighterInfoView(fighter: exampleFighter, userProgress: UserProgress(), selectedSkin: Binding.constant(0))
+        FighterInfoView(fighter: exampleFighter, userProgress: UserProgress(), selectedOutfit: Binding.constant(0))
     }
 }

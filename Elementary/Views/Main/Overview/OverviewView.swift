@@ -14,7 +14,7 @@ struct OverviewView: View {
     
     @State var currentFighter: Fighter = exampleFighter
     @State var fighterSelected: Bool = false
-    @State var selectedSkin: Int = 0
+    @State var selectedOutfit: Int = 0
     
     @State var currentArray: [Fighter] = GlobalData.shared.fighters
     @State var currentCriteria: Int = -1
@@ -149,7 +149,7 @@ struct OverviewView: View {
                                             Button(action: {
                                                 AudioPlayer.shared.playConfirmSound()
                                                 
-                                                selectedSkin = 0
+                                                selectedOutfit = 0
                                                 
                                                 if isSelected(fighter: fighter) {
                                                     fighterSelected = false
@@ -218,19 +218,19 @@ struct OverviewView: View {
                     .offset(x: showInfo ? -geometry.size.height : 0).animation(.linear(duration: 0.3), value: showInfo)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
-                FighterInfoView(fighter: currentFighter, userProgress: GlobalData.shared.userProgress, selectedSkin: $selectedSkin)
+                FighterInfoView(fighter: currentFighter, userProgress: GlobalData.shared.userProgress, selectedOutfit: $selectedOutfit)
                     .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height - geometry.size.width/2)
                     .offset(y: showInfo ? 0 : geometry.size.width).animation(.linear(duration: 0.3), value: showInfo)
                 ZStack(alignment: .bottomLeading) {
                     TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
                     Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
-                    Image(fileName: blink ? currentFighter.name + currentFighter.getSkin(index: selectedSkin) + "_blink" : currentFighter.name + currentFighter.getSkin(index: selectedSkin)).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
+                    Image(fileName: blink ? currentFighter.name + currentFighter.getOutfit(index: selectedOutfit) + "_blink" : currentFighter.name + currentFighter.getOutfit(index: selectedOutfit)).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2).delay(0.2), value: showInfo)
                     VStack {
                         Button(action: {
                             AudioPlayer.shared.playCancelSound()
                             
-                            currentFighter.skinIndex = 0
+                            currentFighter.outfitIndex = 0
                             showInfo = false
                         }) {
                             IconButton(label: "\u{f00d}")

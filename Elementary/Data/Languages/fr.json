@@ -20,8 +20,9 @@
     
     "info": "Info",
     "default": "Défaut",
-    
+
     "catgirl": "Fille chat",
+    "highelf": "Haut-Elfe",
     "qipao": "Qipao",
     
     "alchemist": "Alchimiste",
@@ -31,6 +32,8 @@
     "sorceress": "Magicienne",
     "warlock": "Démoniste",
     "witch": "Sorcière",
+    
+    "witch1Descr": "Witch1 est une sorcière intellectuelle qui n'a jamais assez de siestes. Mais même si elle aime dormir, elle parvient à garder le contrôle de la situation de manière calme et posée.",
     
     "health": "Santé",
     "attack": "Attaque",

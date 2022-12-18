@@ -14,7 +14,7 @@ struct PlayerSelectionView: View {
     @State var selectedSlot: Int = -1
     @State var selectedNature: Int = 0
     @State var selectedArtifact: Int = 0
-    @State var selectedSkin: Int = 0
+    @State var selectedOutfit: Int = 0
     
     @State var offset: CGFloat = 175
     @State var selectionToggle: Bool = false
@@ -155,7 +155,7 @@ struct PlayerSelectionView: View {
                                 if fighters[index] != nil {
                                     selectedNature = getNature(fighter: fighters[selectedSlot]!)
                                     selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)
-                                    selectedSkin = fighters[selectedSlot]!.skinIndex
+                                    selectedOutfit = fighters[selectedSlot]!.outfitIndex
                                     
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                         offset = 0
@@ -173,7 +173,7 @@ struct PlayerSelectionView: View {
                                 }
                             }
                         }) {
-                            SquarePortraitView(fighter: fighters[index], skinIndex: fighters[index]?.skinIndex ?? 0, isSelected: index == selectedSlot, isInverted: true)
+                            SquarePortraitView(fighter: fighters[index], outfitIndex: fighters[index]?.outfitIndex ?? 0, isSelected: index == selectedSlot, isInverted: true)
                         }
                     }
                 }
@@ -191,7 +191,7 @@ struct PlayerSelectionView: View {
                                             Button(action: {
                                                 addFighter(fighter: fighter)
                                             }) {
-                                                SquarePortraitView(fighter: fighter, skinIndex: fighter.skinIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
+                                                SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
                                         }
                                     }
@@ -200,7 +200,7 @@ struct PlayerSelectionView: View {
                                             Button(action: {
                                                 addFighter(fighter: fighter)
                                             }) {
-                                                SquarePortraitView(fighter: fighter, skinIndex: fighter.skinIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
+                                                SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
                                         }
                                     }
@@ -215,7 +215,7 @@ struct PlayerSelectionView: View {
                                         Button(action: {
                                             addFighter(fighter: fighter)
                                         }) {
-                                            SquarePortraitView(fighter: fighter, skinIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
+                                            SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
                                     }
                                 }
@@ -224,7 +224,7 @@ struct PlayerSelectionView: View {
                                         Button(action: {
                                             addFighter(fighter: fighter)
                                         }) {
-                                            SquarePortraitView(fighter: fighter, skinIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
+                                            SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
                                     }
                                 }
@@ -487,40 +487,40 @@ struct PlayerSelectionView: View {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if fighters[selectedSlot]!.skinIndex <= 0 {
-                                                fighters[selectedSlot]!.skinIndex = fighters[selectedSlot]!.data.skins.count - 1
+                                            if fighters[selectedSlot]!.outfitIndex <= 0 {
+                                                fighters[selectedSlot]!.outfitIndex = fighters[selectedSlot]!.data.outfits.count - 1
                                             } else {
-                                                fighters[selectedSlot]!.skinIndex -= 1
+                                                fighters[selectedSlot]!.outfitIndex -= 1
                                             }
                                             
-                                            while !GlobalData.shared.userProgress.isSkinUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.skinIndex) {
-                                                fighters[selectedSlot]!.skinIndex -= 1
+                                            while !GlobalData.shared.userProgress.isOutfitUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.outfitIndex) {
+                                                fighters[selectedSlot]!.outfitIndex -= 1
                                             }
                                             
-                                            selectedSkin = fighters[selectedSlot]!.skinIndex
+                                            selectedOutfit = fighters[selectedSlot]!.outfitIndex
                                         }) {
                                             ClearButton(label: "<", width: 35, height: smallHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.data.skins[selectedSkin]).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
+                                        CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.data.outfits[selectedOutfit].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if fighters[selectedSlot]!.skinIndex >= fighters[selectedSlot]!.data.skins.count - 1 {
-                                                fighters[selectedSlot]!.skinIndex = 0
+                                            if fighters[selectedSlot]!.outfitIndex >= fighters[selectedSlot]!.data.outfits.count - 1 {
+                                                fighters[selectedSlot]!.outfitIndex = 0
                                             } else {
-                                                fighters[selectedSlot]!.skinIndex += 1
+                                                fighters[selectedSlot]!.outfitIndex += 1
                                                 
-                                                while !GlobalData.shared.userProgress.isSkinUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.skinIndex) {
-                                                    fighters[selectedSlot]!.skinIndex += 1
+                                                while !GlobalData.shared.userProgress.isOutfitUnlocked(fighter: fighters[selectedSlot]!.name, index: fighters[selectedSlot]!.outfitIndex) {
+                                                    fighters[selectedSlot]!.outfitIndex += 1
                                                     
-                                                    if fighters[selectedSlot]!.skinIndex > fighters[selectedSlot]!.data.skins.count - 1 {
-                                                        fighters[selectedSlot]!.skinIndex = 0
+                                                    if fighters[selectedSlot]!.outfitIndex > fighters[selectedSlot]!.data.outfits.count - 1 {
+                                                        fighters[selectedSlot]!.outfitIndex = 0
                                                         break
                                                     }
                                                 }
                                             }
                                             
-                                            selectedSkin = fighters[selectedSlot]!.skinIndex
+                                            selectedOutfit = fighters[selectedSlot]!.outfitIndex
                                         }) {
                                             ClearButton(label: ">", width: 35, height: smallHeight)
                                         }
@@ -535,7 +535,7 @@ struct PlayerSelectionView: View {
                     .onAppear {
                         selectedNature = getNature(fighter: fighters[selectedSlot]!)
                         selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)
-                        selectedSkin = fighters[selectedSlot]!.skinIndex
+                        selectedOutfit = fighters[selectedSlot]!.outfitIndex
                     }
                 }
             }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B81728B5294F3E4700E647B9 /* Outfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81728B4294F3E4700E647B9 /* Outfit.swift */; };
+		B81728B7294F3F4400E647B9 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81728B6294F3F4400E647B9 /* Base.swift */; };
 		B82256F429223717001E083A /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B82256F329223717001E083A /* Font Awesome 5 Free-Solid-900.otf */; };
 		B82256FD2922493A001E083A /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82256FC2922493A001E083A /* Shapes.swift */; };
 		B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E4E18291CF0FB00DD527F /* TeamManager.swift */; };
@@ -91,6 +93,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B81728B4294F3E4700E647B9 /* Outfit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outfit.swift; sourceTree = "<group>"; };
+		B81728B6294F3F4400E647B9 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		B82256F329223717001E083A /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Solid-900.otf"; path = "../../../../../../Downloads/fontawesome-free-5.15.4-desktop/otfs/Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		B82256FC2922493A001E083A /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		B83E4E18291CF0FB00DD527F /* TeamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamManager.swift; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 				B8631A7428AFA05700222E54 /* Move.swift */,
 				B8631A7328AFA05700222E54 /* Nature.swift */,
 				B8631A7828AFA05700222E54 /* Spell.swift */,
+				B81728B4294F3E4700E647B9 /* Outfit.swift */,
+				B81728B6294F3F4400E647B9 /* Base.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -529,6 +535,7 @@
 				B8631A8828AFA18900222E54 /* MainView.swift in Sources */,
 				B8631A8528AFA0E900222E54 /* FightLog.swift in Sources */,
 				B8E943D528B559B300DECE32 /* OptionsView.swift in Sources */,
+				B81728B7294F3F4400E647B9 /* Base.swift in Sources */,
 				B8631A7C28AFA05700222E54 /* Move.swift in Sources */,
 				B8AD405A28B192C900708AA5 /* FightSelectionView.swift in Sources */,
 				B8631A8228AFA05700222E54 /* Element.swift in Sources */,
@@ -554,6 +561,7 @@
 				B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */,
 				B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */,
 				B8A22F8C291BE4DD006049D2 /* BattleView.swift in Sources */,
+				B81728B5294F3E4700E647B9 /* Outfit.swift in Sources */,
 				B8AD406728B2292200708AA5 /* GameLogic.swift in Sources */,
 				B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */,
 				B8AD406A28B397DE00708AA5 /* PlayerSelectionView.swift in Sources */,

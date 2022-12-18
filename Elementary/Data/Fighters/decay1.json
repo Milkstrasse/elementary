@@ -16,7 +16,10 @@
       "attackDown",
       "healingEffect"
   ],
-  "skins": [
-      "default"
+  "outfits": [
+      {
+          "name": "default",
+          "cost": 0
+      }
   ]
 }

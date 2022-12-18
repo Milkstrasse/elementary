@@ -15,9 +15,22 @@
       "drainAttack",
       "confusion"
   ],
-  "skins": [
-      "default",
-      "catgirl",
-      "qipao"
+  "outfits": [
+      {
+          "name": "default",
+          "cost": 0
+      },
+      {
+          "name": "catgirl",
+          "cost": 180
+      },
+      {
+          "name": "highelf",
+          "cost": 200
+      },
+      {
+          "name": "qipao",
+          "cost": 180
+      }
   ]
 }

@@ -14,10 +14,10 @@ struct FighterData: Decodable {
     let base: Base
     let spells: [String]
     
-    let skins: [String]
+    let outfits: [Outfit]
     
     enum CodingKeys: String, CodingKey {
-        case title, element, spells, base, skins
+        case title, element, spells, base, outfits
     }
     
     /// Creates placeholder data for a fighter.
@@ -26,7 +26,7 @@ struct FighterData: Decodable {
     ///   - element: The element of the fighter
     ///   - spells: The spells of the fighter
     ///   - base: All the base stats of the fighter
-    init(name: String, title: String, element: String, base: Base, spells: [String], skins: [String]) {
+    init(name: String, title: String, element: String, base: Base, spells: [String], outfits: [Outfit]) {
         self.name = name
         self.title = title
         
@@ -34,7 +34,7 @@ struct FighterData: Decodable {
         self.base = base
         self.spells = spells
         
-        self.skins = skins
+        self.outfits = outfits
     }
     
     /// Creates data for a fighter from JSON data
@@ -49,18 +49,8 @@ struct FighterData: Decodable {
         base = try container.decode(Base.self, forKey: .base)
         spells = try container.decode([String].self, forKey: .spells)
         
-        skins = try container.decode([String].self, forKey: .skins)
+        outfits = try container.decode([Outfit].self, forKey: .outfits)
     }
-}
-
-/// Contains all base stat values of a fighter.
-struct Base: Codable {
-    let health: Int
-    let attack: Int
-    let defense: Int
-    let agility: Int
-    let precision: Int
-    let resistance: Int
 }
 
 /// Contains all the data of a fighter. This struct is used to save a fighter in favorites.
@@ -75,8 +65,8 @@ struct SavedFighterData: Codable, Equatable {
     let nature: String
     let artifact: String
     
-    let skinIndex: Int
-    let skins: [String]
+    let outfitIndex: Int
+    let outfits: [Outfit]
     
     /// Stores data of a fighter.
     /// - Parameter fighter: The desired fighter
@@ -91,14 +81,14 @@ struct SavedFighterData: Codable, Equatable {
         
         base = fighter.base
         
-        skinIndex = fighter.skinIndex
-        skins = fighter.data.skins
+        outfitIndex = fighter.outfitIndex
+        outfits = fighter.data.outfits
     }
     
     /// Creates fighter from data.
     /// - Returns: Returns the fighter created by the data
     func toFighter() -> Fighter {
-        let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, spells: spells, skins: skins), skinIndex: skinIndex)
+        let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, spells: spells, outfits: outfits), outfitIndex: outfitIndex)
         for nat in GlobalData.shared.natures {
             if nat.name == nature {
                 fighter.nature = nat
@@ -120,7 +110,7 @@ struct SavedFighterData: Codable, Equatable {
         if lhs.name == rhs.name {
             if lhs.nature == rhs.nature {
                 if lhs.artifact == rhs.artifact {
-                    if lhs.skinIndex == rhs.skinIndex {
+                    if lhs.outfitIndex == rhs.outfitIndex {
                         return true
                     }
                 }

@@ -37,11 +37,11 @@ class Fighter: Hashable, Equatable {
     
     var manaUse: Int = 2
     
-    var skinIndex: Int = 0
+    var outfitIndex: Int = 0
     
     /// Creates a fighter from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the fighter
-    init(data: FighterData, skinIndex: Int = 0) {
+    init(data: FighterData, outfitIndex: Int = 0) {
         name = data.name
         title = data.title
         
@@ -63,7 +63,7 @@ class Fighter: Hashable, Equatable {
         nature = Nature()
         artifact = Artifacts.allCases[0].getArtifact()
         
-        self.skinIndex = skinIndex
+        self.outfitIndex = outfitIndex
     }
     
     /// Returns the current element of a fighter checking if the permanent element is overriden by another.
@@ -144,20 +144,20 @@ class Fighter: Hashable, Equatable {
         return artifactOverride ?? artifact
     }
     
-    /// Returns the skin name for current skin or at a specified index.
-    /// - Parameter index: Index for skins array, current index by default
-    /// - Returns: Returns name of skin
-    func getSkin(index: Int = -1) -> String {
-        var skin: Int = index
+    /// Returns the outfit name for current outfit or at a specified index.
+    /// - Parameter index: Index for outfits array, current index by default
+    /// - Returns: Returns name of outfit
+    func getOutfit(index: Int = -1) -> String {
+        var outfit: Int = index
         if index < 0 {
-            skin = skinIndex
+            outfit = outfitIndex
         }
         
-        if skin == 0 {
+        if outfit == 0 {
             return ""
         }
         
-        return "_" + data.skins[skin]
+        return "_" + data.outfits[outfit].name
     }
     
     /// Checks if fighter has certain hex.

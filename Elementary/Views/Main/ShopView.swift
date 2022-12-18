@@ -15,7 +15,7 @@ struct ShopView: View {
     @State var transitionToggle: Bool = true
     
     @State var currentFighter: Fighter? = nil
-    @State var selectedSkin: Int = 0
+    @State var selectedOutfit: Int = 0
     @State var imageToggle: Bool = false
     
     @State var blink: Bool = false
@@ -38,14 +38,14 @@ struct ShopView: View {
         }
     }
     
-    /// Returns wether the skin is selected or not.
+    /// Returns wether the outfit is selected or not.
     /// - Parameters:
-    ///   - fighter: The owner of the skin
-    ///   - index: The index of the skin
-    /// - Returns: Returns wether the skin is selected or not
+    ///   - fighter: The owner of the outfit
+    ///   - index: The index of the outfit
+    /// - Returns: Returns wether the outfit is selected or not
     func isSelected(fighter: Fighter, index: Int) -> Bool {
         if fighter == currentFighter {
-            if index == selectedSkin {
+            if index == selectedOutfit {
                 return true
             }
         }
@@ -69,25 +69,25 @@ struct ShopView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: innerPadding) {
                             ForEach(GlobalData.shared.fighters, id: \.self) { fighter in
-                                if fighter.data.skins.count > 1 {
+                                if fighter.data.outfits.count > 1 {
                                     ZStack(alignment: .leading) {
                                         Rectangle().fill(Color("Positive"))
                                         CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
                                     }
                                     .frame(height: largeHeight)
                                 }
-                                ForEach(1 ..< fighter.data.skins.count, id: \.self) { index in
+                                ForEach(1 ..< fighter.data.outfits.count, id: \.self) { index in
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
                                         if isSelected(fighter: fighter, index: index) {
                                             imageToggle = false
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                                selectedSkin = 0
+                                                selectedOutfit = 0
                                             }
                                         } else {
                                             currentFighter = fighter
-                                            selectedSkin = index
+                                            selectedOutfit = index
                                             imageToggle = true
                                         }
                                     }) {
@@ -95,13 +95,13 @@ struct ShopView: View {
                                             Rectangle().fill(Color("MainPanel"))
                                                 .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: borderWidth))
                                             HStack(spacing: innerPadding/2) {
-                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.skins[index]).uppercased(), fontSize: smallFont)
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.outfits[index].name).uppercased(), fontSize: smallFont)
                                                 CustomText(text: "-", fontSize: smallFont)
-                                                if userProgress.isSkinUnlocked(fighter: fighter.name, index: index) {
-                                                    CustomText(text: "owned", fontSize: smallFont)
+                                                if userProgress.isOutfitUnlocked(fighter: fighter.name, index: index) {
+                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontSize: smallFont)
                                                 } else {
-                                                    CustomText(text: "200", fontColor: userProgress.points < 200 ? Color("Negative") : Color("Positive"), fontSize: smallFont)
-                                                    Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < 200 ? Color("Negative") : Color("Positive"))
+                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontColor: userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"), fontSize: smallFont)
+                                                    Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"))
                                                 }
                                                 Spacer()
                                             }
@@ -109,14 +109,14 @@ struct ShopView: View {
                                             Button(action: {
                                                 AudioPlayer.shared.playStandardSound()
                                                 
-                                                userProgress.unlockSkin(points: 200, fighter: fighter.name, index: index)
+                                                userProgress.unlockOutfit(points: fighter.data.outfits[index].cost, fighter: fighter.name, index: index)
                                                 
                                                 GlobalData.shared.userProgress = userProgress
                                                 SaveData.saveProgress()
                                             }) {
                                                 BasicButton(label: Localization.shared.getTranslation(key: "purchase"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }
-                                            .opacity(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < 200 || userProgress.isSkinUnlocked(fighter: fighter.name, index: index))
+                                            .opacity(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index))
                                         }
                                         .frame(height: largeHeight)
                                     }
@@ -144,7 +144,7 @@ struct ShopView: View {
                 ZStack(alignment: .bottomLeading) {
                     TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
                     Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
-                    Image(fileName: currentFighter != nil ? (blink ? currentFighter!.name + currentFighter!.getSkin(index: selectedSkin) + "_blink" : currentFighter!.name + currentFighter!.getSkin(index: selectedSkin)) : "").resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: imageToggle ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
+                    Image(fileName: currentFighter != nil ? (blink ? currentFighter!.name + currentFighter!.getOutfit(index: selectedOutfit) + "_blink" : currentFighter!.name + currentFighter!.getOutfit(index: selectedOutfit)) : "").resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: imageToggle ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2), value: imageToggle)
                     VStack {
                         Button(action: {

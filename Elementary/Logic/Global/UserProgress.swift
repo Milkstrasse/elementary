@@ -28,7 +28,7 @@ struct UserProgress: Codable {
     var dailyElementWin: Bool = false
     var dailyArtifactUsed: Bool = false
     
-    private var unlockedSkins: [String:[Int]] = [:]
+    private var unlockedOutfits: [String:[Int]] = [:]
     var missionCollected: [Bool] = [Bool](repeating: false, count: 12)
     var dailyCollected: [Bool] = [Bool](repeating: false, count: 5)
     
@@ -197,33 +197,33 @@ struct UserProgress: Codable {
         return counter
     }
     
-    /// Unlocks a skin for a fighter.
+    /// Unlocks a outfit for a fighter.
     /// - Parameters:
-    ///   - fighter: The owner of the skin
-    ///   - index: The number of the skin
-    mutating func unlockSkin(points: Int, fighter: String, index: Int) {
+    ///   - fighter: The owner of the outfit
+    ///   - index: The number of the outfit
+    mutating func unlockOutfit(points: Int, fighter: String, index: Int) {
         self.points -= points
-        if unlockedSkins[fighter] == nil {
-            unlockedSkins.updateValue([index], forKey: fighter)
+        if unlockedOutfits[fighter] == nil {
+            unlockedOutfits.updateValue([index], forKey: fighter)
         } else {
-            unlockedSkins[fighter]!.append(index)
+            unlockedOutfits[fighter]!.append(index)
         }
     }
     
-    /// Checks if the skin has been unlocked or not.
+    /// Checks if the outfit has been unlocked or not.
     /// - Parameters:
-    ///   - fighter: The owner of the skin
-    ///   - index: The index of the skin
-    /// - Returns: Return wether the skin has been unlocked or not
-    func isSkinUnlocked(fighter: String, index: Int) -> Bool {
+    ///   - fighter: The owner of the outfit
+    ///   - index: The index of the outfit
+    /// - Returns: Return wether the outfit has been unlocked or not
+    func isOutfitUnlocked(fighter: String, index: Int) -> Bool {
         if index == 0 {
             return true
         }
         
-        if unlockedSkins[fighter] == nil {
+        if unlockedOutfits[fighter] == nil {
             return false
         } else {
-            return unlockedSkins[fighter]!.contains(index)
+            return unlockedOutfits[fighter]!.contains(index)
         }
     }
     

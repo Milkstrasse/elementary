@@ -23,7 +23,7 @@ struct RectanglePortraitView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(isSelected ?  Color("Positive") : Color("Border"), lineWidth: borderWidth))
-            Image(fileName: fighter.name + fighter.getSkin()).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.1).offset(x: -20, y: 5).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
+            Image(fileName: fighter.name + fighter.getOutfit()).resizable().aspectRatio(contentMode: .fill).scaleEffect(1.1).offset(x: -20, y: 5).frame(width: width - borderWidth * 2, height: width * 1.55 - borderWidth * 2).clipped().padding(.all, borderWidth)
             ZStack(alignment: .bottomTrailing) {
                 TriangleA().fill(isSelected ?  Color("Positive") : Color("Border")).frame(height: 40).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).padding(.all, 8)
@@ -35,7 +35,7 @@ struct RectanglePortraitView: View {
 
 struct SquarePortraitView: View {
     var fighter: Fighter?
-    let skinIndex: Int
+    let outfitIndex: Int
     
     let isSelected: Bool
     let isInverted: Bool
@@ -63,7 +63,7 @@ struct SquarePortraitView: View {
                 .overlay(Rectangle().strokeBorder(getBorderColor(), lineWidth: borderWidth))
             if fighter != nil {
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color("Text")).padding(.all, 10)
-                Image(fileName: fighter!.name + fighter!.getSkin(index: skinIndex)).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.3).offset(x: 6, y: 26).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
+                Image(fileName: fighter!.name + fighter!.getOutfit(index: outfitIndex)).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.3).offset(x: 6, y: 26).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
             } else {
                 Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
             }
@@ -218,7 +218,7 @@ struct FighterViews_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             RectanglePortraitView(fighter: exampleFighter, isSelected: false, width: 97)
-            SquarePortraitView(fighter: exampleFighter, skinIndex: 0, isSelected: false, isInverted: false)
+            SquarePortraitView(fighter: exampleFighter, outfitIndex: 0, isSelected: false, isInverted: false)
         }
     }
 }
