@@ -11,7 +11,7 @@ struct MainView: View {
     @EnvironmentObject var manager: ViewManager
     @State var transitionToggle: Bool = true
     
-    let currentFighter: String
+    let currentFighter: Fighter
     
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
@@ -51,7 +51,7 @@ struct MainView: View {
                     VStack {
                         Spacer()
                         HStack(alignment: .bottom) {
-                            Image(fileName: blink ? currentFighter + "_blink" : currentFighter).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: -15).shadow(radius: 5, x: 5, y: 0)
+                            currentFighter.getImage(blinking: blink, state: PlayerState.neutral).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: -15).shadow(radius: 5, x: 5, y: 0)
                             Spacer()
                             VStack {
                                 Button(action: {
@@ -165,6 +165,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(currentFighter: exampleFighter.name)
+        MainView(currentFighter: exampleFighter)
     }
 }

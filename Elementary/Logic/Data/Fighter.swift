@@ -5,7 +5,8 @@
 //  Created by Janice Hablützel on 05.01.22.
 //
 
-import Darwin
+import CoreImage
+import SwiftUI
 
 /// Contains all the important data of a fighter.
 class Fighter: Hashable, Equatable {
@@ -38,6 +39,7 @@ class Fighter: Hashable, Equatable {
     var manaUse: Int = 2
     
     var outfitIndex: Int = 0
+    private var images: [[Image]]
     
     /// Creates a fighter from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the fighter
@@ -64,6 +66,9 @@ class Fighter: Hashable, Equatable {
         artifact = Artifacts.allCases[0].getArtifact()
         
         self.outfitIndex = outfitIndex
+        
+        images = []
+        images = createImageArray()
     }
     
     /// Returns the current element of a fighter checking if the permanent element is overriden by another.
@@ -144,20 +149,58 @@ class Fighter: Hashable, Equatable {
         return artifactOverride ?? artifact
     }
     
-    /// Returns the outfit name for current outfit or at a specified index.
-    /// - Parameter index: Index for outfits array, current index by default
-    /// - Returns: Returns name of outfit
-    func getOutfit(index: Int = -1) -> String {
+    func createImageArray() -> [[Image]] {
+        var tempImages: [[Image]] = [[]]
+        
+        for outfitIndex in data.outfits.indices {
+            tempImages.append([])
+            
+            let wholeImage: UIImage?
+            
+            if outfitIndex == 0 {
+                wholeImage = UIImage(fileName: name)
+            } else {
+                wholeImage = UIImage(fileName: name + "_" + data.outfits[outfitIndex].name)
+            }
+            
+            if wholeImage != nil {
+                let imgFrames: [CGRect] = [CGRectMake(0, 0, 600, 600), CGRectMake(600, 0, 600, 600), CGRectMake(1200, 0, 600, 600), CGRectMake(1800, 0, 600, 600), CGRectMake(2400, 0, 600, 600)]
+                
+                for imgFrame in imgFrames {
+                    let context = CIContext()
+                    if let ciImage: CIImage = CIImage(image: wholeImage!) {
+                        if let splitImage = context.createCGImage(ciImage, from: imgFrame) {
+                            let uiImage = UIImage(cgImage: splitImage)
+                            tempImages[outfitIndex].append(Image(uiImage: uiImage))
+                        }
+                    }
+                }
+            }
+        }
+        
+        return tempImages
+    }
+    
+    func getImage(index: Int = -1, blinking: Bool, state: PlayerState) -> Image {
         var outfit: Int = index
         if index < 0 {
             outfit = outfitIndex
         }
         
-        if outfit == 0 {
-            return ""
+        switch state {
+        case .neutral:
+            if !blinking {
+                return images[outfit][0]
+            } else {
+                return images[outfit][2]
+            }
+        case .attacking:
+            return images[outfit][1]
+        case .healing:
+            return images[outfit][3]
+        case .hurting:
+            return images[outfit][4]
         }
-        
-        return "_" + data.outfits[outfit].name
     }
     
     /// Checks if fighter has certain hex.

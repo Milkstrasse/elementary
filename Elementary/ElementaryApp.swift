@@ -45,7 +45,7 @@ struct ElementaryApp: App {
                             
                             AudioPlayer.shared.playMenuMusic()
                             
-                            manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter().name).environmentObject(manager)))
+                            manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             isLoading = false
                         }
                     }

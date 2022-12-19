@@ -128,7 +128,7 @@ struct OverviewView: View {
                             
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter().name).environmentObject(manager)))
+                                manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
                             }
                         }) {
                             IconButton(label: "\u{f00d}")
@@ -224,7 +224,7 @@ struct OverviewView: View {
                 ZStack(alignment: .bottomLeading) {
                     TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
                     Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
-                    Image(fileName: blink ? currentFighter.name + currentFighter.getOutfit(index: selectedOutfit) + "_blink" : currentFighter.name + currentFighter.getOutfit(index: selectedOutfit)).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
+                    currentFighter.getImage(index: selectedOutfit,blinking: blink, state: PlayerState.neutral).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2).delay(0.2), value: showInfo)
                     VStack {
                         Button(action: {
