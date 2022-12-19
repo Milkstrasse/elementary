@@ -115,7 +115,7 @@ struct BattleSelectionView: View {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
                 PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).disabled(!allowSelection)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

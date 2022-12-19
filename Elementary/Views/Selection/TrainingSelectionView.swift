@@ -113,29 +113,31 @@ struct TrainingSelectionView: View {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
                 PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 50).offset(y: transitionToggle ? -50 : geometry.size.height + 50).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
-            transitionToggle = false
-            
-            if TeamManager.isArrayEmpty(array: bottomFighters) {
-                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-            } else {
-                if topFighters.count < 4 {
-                    let missingFighters: Int = 4 - topFighters.count
-                    for _ in 0 ..< missingFighters {
-                        topFighters.append(nil)
+            DispatchQueue.main.async {
+                if TeamManager.isArrayEmpty(array: bottomFighters) {
+                    topFighters = TeamManager.selectRandom(opponents: bottomFighters)
+                } else {
+                    if topFighters.count < 4 {
+                        let missingFighters: Int = 4 - topFighters.count
+                        for _ in 0 ..< missingFighters {
+                            topFighters.append(nil)
+                        }
                     }
+                    
+                    if bottomFighters.count < 4 {
+                        let missingFighters: Int = 4 - bottomFighters.count
+                        for _ in 0 ..< missingFighters {
+                            bottomFighters.append(nil)
+                        }
+                    }
+                    
+                    TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
                 }
                 
-                if bottomFighters.count < 4 {
-                    let missingFighters: Int = 4 - bottomFighters.count
-                    for _ in 0 ..< missingFighters {
-                        bottomFighters.append(nil)
-                    }
-                }
-                
-                TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
+                transitionToggle = false
             }
         }
     }
