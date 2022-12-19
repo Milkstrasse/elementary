@@ -79,7 +79,7 @@ struct MainView: View {
                                     
                                     transitionToggle = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
+                                        manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress, currentFighter: currentFighter).environmentObject(manager)))
                                     }
                                 }) {
                                     BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: largeHeight, fontSize: mediumFont)

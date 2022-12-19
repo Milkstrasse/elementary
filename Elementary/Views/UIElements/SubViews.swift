@@ -63,7 +63,7 @@ struct SquarePortraitView: View {
                 .overlay(Rectangle().strokeBorder(getBorderColor(), lineWidth: borderWidth))
             if fighter != nil {
                 Text(createSymbol()).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color("Text")).padding(.all, 10)
-                fighter!.getImage(index: outfitIndex,blinking: false, state: PlayerState.neutral).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.3).offset(x: 6, y: 26).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
+                fighter!.getImage(index: outfitIndex, blinking: false, state: PlayerState.neutral).resizable().aspectRatio(contentMode: .fill).scaleEffect(2.3).offset(x: 6, y: 26).frame(width: 70 - borderWidth * 2, height: 70 - borderWidth * 2).clipped().padding(.all, borderWidth)
             } else {
                 Text("\u{f067}").font(.custom("Font Awesome 5 Pro", size: largeFont)).foregroundColor(getBorderColor()).frame(width: 70, height: 70)
             }
