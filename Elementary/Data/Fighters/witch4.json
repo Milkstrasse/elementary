@@ -29,8 +29,12 @@
           "cost": 200
       },
       {
+          "name": "kimono",
+          "cost": 150
+      },
+      {
           "name": "qipao",
-          "cost": 180
+          "cost": 150
       }
   ]
 }
