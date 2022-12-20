@@ -57,14 +57,14 @@ struct HelpView: View {
                                             Rectangle().fill(Color("Positive"))
                                             CustomText(text: Localization.shared.getTranslation(key: "help\(index + 1)").uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
                                         }
-                                        .frame(height: largeHeight)
+                                        .frame(height: largeHeight).id(index)
                                         ZStack {
                                             Rectangle().fill(Color("MainPanel"))
                                                 .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                             CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: "help\(index + 1)Descr"), geoWidth: geometry.size.width - innerPadding - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading)
                                             .padding(.all, innerPadding)
                                         }
-                                        .padding(.bottom, index < 3 ? innerPadding/2 : 0).id(index).fixedSize()
+                                        .padding(.bottom, index < 3 ? innerPadding/2 : 0).fixedSize()
                                     }
                                 }
                                 ElementalChartView().frame(width: geometry.size.width - 2 * outerPadding)
