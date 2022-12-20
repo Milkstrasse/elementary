@@ -19,7 +19,7 @@ struct SettingsView: View {
     
     @State var langIndex: Int = 0
     @State var textIndex: Int
-    let textSpeeds: [String] = ["slow", "normal", "fast"]
+    let textSpeeds: [String] = ["slow", "normal", "fast", "rapid"]
     
     @State var teamIndex: Int
     let teamLimit: [String] = ["unlimited", "limited", "restricted"]

@@ -11,11 +11,14 @@ let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", title: 
 
 class ViewManager: ObservableObject {
     @Published var currentView: AnyView = AnyView(Color.yellow)
+    @Published var progress: Float = 0
     
     /// Sets a new view to display onto the screen.
     /// - Parameter view: The view to display
     func setView(view: AnyView) {
-        currentView = AnyView(view)
+        DispatchQueue.main.async {
+            self.currentView = AnyView(view)
+        }
     }
     
     /// Returns the current view to display onto the main screen.
@@ -28,16 +31,16 @@ class ViewManager: ObservableObject {
 @main
 struct ElementaryApp: App {
     @StateObject var manager: ViewManager = ViewManager()
-    @State var isLoading = true
+    @State var isLoading: Bool = true
     
     var body: some Scene {
         WindowGroup {
             ZStack {
                 Color("Negative").ignoresSafeArea()
                 if isLoading {
-                    Color.yellow.ignoresSafeArea().onAppear {
-                        DispatchQueue.main.async {
-                            GlobalData.shared.loadData()
+                    Color("Positive").ignoresSafeArea().onAppear {
+                        DispatchQueue.global().async {
+                            GlobalData.shared.loadData(manager: manager)
                             SaveData.load()
                             
                             Localization.shared.getLanguages()
@@ -49,6 +52,7 @@ struct ElementaryApp: App {
                             isLoading = false
                         }
                     }
+                    CustomText(text: String(format: "%.2f", manager.progress) + "%", fontSize: smallFont)
                 } else {
                     manager.getCurrentView()
                 }

@@ -34,10 +34,10 @@ class GlobalData {
     var userProgress: UserProgress = UserProgress()
     
     /// Load data from folders.
-    func loadData() {
+    func loadData(manager: ViewManager) {
         loadElements()
         loadSpells()
-        loadFighters()
+        loadFighters(manager: manager)
         loadNatures()
     }
     
@@ -85,7 +85,7 @@ class GlobalData {
     }
     
     /// Load data from fighters folder.
-    func loadFighters() {
+    func loadFighters(manager: ViewManager) {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
             for url in urls {
                 do {
@@ -94,6 +94,10 @@ class GlobalData {
                     fighterData.name = url.deletingPathExtension().lastPathComponent
                     
                     fighters.append(Fighter(data: fighterData))
+                    
+                    DispatchQueue.main.async { [self] in
+                        manager.progress = Float(fighters.count)/Float(urls.count) * 100
+                    }
                 } catch {
                     print("error: \(error)")
                 }
@@ -152,7 +156,7 @@ class GlobalData {
     /// - Returns: Returns the amount of delay between the text
     func getTextSpeed() -> Double {
         let x: Float = Float(textSpeed)
-        let y: Float = 5 - x
+        let y: Float = 6 - x
         
         let speed: Double = Double(y * 0.5 - (y - 1) * 0.1)
         return round(100 * speed)/100
