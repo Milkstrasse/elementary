@@ -113,7 +113,7 @@
     "help3": "Sortilèges",
     "help3Descr": "un sortilège applique un effet à une combattante pendant plusieurs tours. Les sortilèges peuvent augmenter ou diminuer les statistiques, infliger des dégâts ou soigner par tour, et plus encore. Une combattante peut avoir jusqu'à trois sortilèges et peut avoir des multiples du même sortilège.",
     "help4": "Météo",
-    "help4Descr": "la météo augmente la puissance de certains éléments.",
+    "help4Descr": "(old) la météo augmente la puissance de certains éléments.",
     
     "fightModes": "Modes de combat",
     "competition": "Concurrence",
@@ -209,11 +209,11 @@
     "clearSkies": "Ciel clair",
     "noWeather": "Aucun effet",
     "snowstormDescr": "Augmente **glace** & **vent**",
-    "sunnyDayDescr": "Augmente **sol** & **feu**",
-    "overcastSkyDescr": "Augmente **éther** & **bois**",
+    "sunnyDayDescr": "Augmente **feu** & **bois**",
+    "overcastSkyDescr": "Augmente **éther** & **carie**",
     "mysticWeatherDescr": "Augmente **électrik** & **métal**",
     "lightRainDescr": "Augmente **plante** & **eau**",
-    "sandstormDescr": "Augmente **roche** & **carie**",
+    "sandstormDescr": "Augmente **sol** & **roche**",
     
     "hpBar": "{0}/{1}PV",
     "fightBegin": "Que le combat commence!",
