@@ -149,6 +149,8 @@ class Fighter: Hashable, Equatable {
         return artifactOverride ?? artifact
     }
     
+    /// Splits image into 5 parts.
+    /// - Returns: Array of images
     func createImageArray() -> [[Image]] {
         var tempImages: [[Image]] = [[]]
         
@@ -181,6 +183,12 @@ class Fighter: Hashable, Equatable {
         return tempImages
     }
     
+    /// Returns the corresponding image for the outfit and state.
+    /// - Parameters:
+    ///   - index: Index of outfit
+    ///   - blinking: Indicates wether the fighter is blinking
+    ///   - state: The state of the fighter
+    /// - Returns: Returns the corresponding image for the outfit and state
     func getImage(index: Int = -1, blinking: Bool, state: PlayerState) -> Image {
         var outfit: Int = index
         if index < 0 {
