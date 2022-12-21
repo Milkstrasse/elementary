@@ -5,6 +5,8 @@
 //  Created by Janice Hablützel on 10.01.22.
 //
 
+import SwiftUI
+
 /// Tries to apply hex of a spell to the targeted fighter.
 struct HexApplication {
     static let shared: HexApplication = HexApplication()
@@ -47,6 +49,11 @@ struct HexApplication {
         case Hexes.attackBoost.rawValue:
             if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -55,6 +62,11 @@ struct HexApplication {
         case Hexes.attackDrop.rawValue:
             if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -63,6 +75,11 @@ struct HexApplication {
         case Hexes.defenseBoost.rawValue:
             if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -71,6 +88,11 @@ struct HexApplication {
         case Hexes.defenseDrop.rawValue:
             if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -79,6 +101,11 @@ struct HexApplication {
         case Hexes.agilityBoost.rawValue:
             if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"])
             } else {
                 return Localization.shared.getTranslation(key: "hexFailed")
@@ -86,6 +113,11 @@ struct HexApplication {
         case Hexes.agilityDrop.rawValue:
             if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -94,6 +126,11 @@ struct HexApplication {
         case Hexes.precisionBoost.rawValue:
             if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -102,6 +139,11 @@ struct HexApplication {
         case Hexes.precisionDrop.rawValue:
             if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -110,6 +152,11 @@ struct HexApplication {
         case Hexes.resistanceBoost.rawValue:
             if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -118,6 +165,11 @@ struct HexApplication {
         case Hexes.resistanceDrop.rawValue:
             if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: spell.range == 0 ? false : true) {
                 AudioPlayer.shared.playConfirmSound()
+                if AudioPlayer.shared.hapticToggle {
+                    let haptic = UIImpactFeedbackGenerator(style: .medium)
+                    haptic.impactOccurred()
+                }
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -135,6 +187,11 @@ struct HexApplication {
             if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
                 if target.applyHex(hex: appliedHex, resistable: spell.range == 0 ? false : true) {
                     AudioPlayer.shared.playConfirmSound()
+                    if AudioPlayer.shared.hapticToggle {
+                        let haptic = UIImpactFeedbackGenerator(style: .medium)
+                        haptic.impactOccurred()
+                    }
+                    
                     return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name])
                 } else {
                     AudioPlayer.shared.playCancelSound()

@@ -5,7 +5,6 @@
 //  Created by Janice Hablützel on 30.01.22.
 //
 
-import Foundation
 import SwiftUI
 
 /// Contains all the important data of a player during a fight: their current team, the current fighter and all the used spells.
@@ -53,7 +52,7 @@ class Player: ObservableObject {
             AudioPlayer.shared.playAttackSound()
         case .hurting:
             if AudioPlayer.shared.hapticToggle {
-                let haptic = UIImpactFeedbackGenerator(style: .medium)
+                let haptic = UIImpactFeedbackGenerator(style: .heavy)
                 haptic.impactOccurred()
             }
             
