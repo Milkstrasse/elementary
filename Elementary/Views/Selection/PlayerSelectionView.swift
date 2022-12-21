@@ -32,7 +32,7 @@ struct PlayerSelectionView: View {
             AudioPlayer.shared.playCancelSound()
         } else if GlobalData.shared.teamLimit == 0 {
             AudioPlayer.shared.playStandardSound()
-            fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter() //make copy
+            fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter(images: fighter.images) //make copy
         } else if !isPartOfTeam(fighter: fighter) {
             if GlobalData.shared.teamLimit == 2 {
                 for opponent in opponents {
@@ -44,7 +44,7 @@ struct PlayerSelectionView: View {
             }
             
             AudioPlayer.shared.playStandardSound()
-            fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter() //make copy
+            fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter(images: fighter.images) //make copy
         } else {
             AudioPlayer.shared.playCancelSound()
         }

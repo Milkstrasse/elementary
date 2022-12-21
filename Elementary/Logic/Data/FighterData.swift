@@ -5,6 +5,8 @@
 //  Created by Janice Hablützel on 21.02.22.
 //
 
+import SwiftUI
+
 /// Contains all the base data of a fighter. This data should always remain the same.
 struct FighterData: Decodable {
     var name: String
@@ -87,8 +89,8 @@ struct SavedFighterData: Codable, Equatable {
     
     /// Creates fighter from data.
     /// - Returns: Returns the fighter created by the data
-    func toFighter() -> Fighter {
-        let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, spells: spells, outfits: outfits), outfitIndex: outfitIndex)
+    func toFighter(images: [[Image]] = []) -> Fighter {
+        let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, spells: spells, outfits: outfits), outfitIndex: outfitIndex, images: images)
         for nat in GlobalData.shared.natures {
             if nat.name == nature {
                 fighter.nature = nat

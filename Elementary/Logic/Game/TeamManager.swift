@@ -74,7 +74,7 @@ struct TeamManager {
         
         for index in 0 ..< maxSize {
             if !rndmFighters.isEmpty {
-                fighters.append(SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter()) //make copy
+                fighters.append(SavedFighterData(fighter: GlobalData.shared.fighters[rndmFighters[index]]).toFighter(images: GlobalData.shared.fighters[rndmFighters[index]].images)) //make copy
             }
             
             if GlobalData.shared.artifactUse != 2 {

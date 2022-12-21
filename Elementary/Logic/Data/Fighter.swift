@@ -39,11 +39,11 @@ class Fighter: Hashable, Equatable {
     var manaUse: Int = 2
     
     var outfitIndex: Int = 0
-    private var images: [[Image]]
+    var images: [[Image]]
     
     /// Creates a fighter from data, this data contains all of the information that will always remain the same.
     /// - Parameter data: This contains the main data of the fighter
-    init(data: FighterData, outfitIndex: Int = 0) {
+    init(data: FighterData, outfitIndex: Int = 0, images: [[Image]] = []) {
         name = data.name
         title = data.title
         
@@ -67,8 +67,11 @@ class Fighter: Hashable, Equatable {
         
         self.outfitIndex = outfitIndex
         
-        images = []
-        images = createImageArray()
+        self.images = images
+        
+        if images.isEmpty {
+            self.images = createImageArray()
+        }
     }
     
     /// Returns the current element of a fighter checking if the permanent element is overriden by another.
