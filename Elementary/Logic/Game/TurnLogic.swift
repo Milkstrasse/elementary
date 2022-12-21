@@ -249,6 +249,7 @@ class TurnLogic {
             case 19:
                 player.wishActivated = true
                 player.getCurrentFighter().currhp = 0
+                player.setState(state: PlayerState.hurting)
                 player.hasToSwap = true
                 
                 return Localization.shared.getTranslation(key: "nameFainted", params: [player.getCurrentFighter().name])

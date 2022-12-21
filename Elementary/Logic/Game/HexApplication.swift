@@ -35,6 +35,11 @@ struct HexApplication {
             target = attacker
         }
         
+        if target.currhp == 0 {
+            AudioPlayer.shared.playCancelSound()
+            return Localization.shared.getTranslation(key: "hexFailed")
+        }
+        
         if target.getArtifact().name == Artifacts.amulet.rawValue && weather?.name != Weather.volcanicStorm.rawValue { //get opposite hex
             if hex != nil {
                 hex = Hexes(rawValue: hex!)?.getHex().opposite?.rawValue
