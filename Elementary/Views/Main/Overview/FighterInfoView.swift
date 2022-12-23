@@ -43,7 +43,7 @@ struct FighterInfoView: View {
                                 Rectangle().fill(Color("MainPanel")).overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: fighter.name + "Descr"), geoWidth:  geometry.size.width - 2 * outerPadding), fontSize: smallFont).frame(width: geometry.size.width - 2 * innerPadding - 2 * outerPadding, alignment: .leading).padding(.all, innerPadding)
                             }
-                            BaseFighterOverviewView(base: fighter.getModifiedBase())
+                            BaseFighterOverviewView(modifiedBase: fighter.getModifiedBase(), base: fighter.base)
                             VStack(spacing: innerPadding/2) {
                                 ForEach(fighter.spells, id: \.self) { spell in
                                     SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))

@@ -72,7 +72,24 @@ struct SquarePortraitView: View {
 }
 
 struct BaseFighterOverviewView: View {
+    let modifiedBase: Base
     let base: Base
+    
+    /// Determine the color of the font depending on the stat value.
+    /// - Parameters:
+    ///   - index: Index of the stat
+    ///   - value: Modified value of the stat
+    /// - Returns: Color determined by the stat
+    func getFontColor(index: Int, value: Int) -> Color {
+        switch base.compareValues(index: index, value: value) {
+        case 1:
+            return Color("Positive") //value increased
+        case -1:
+            return Color("Negative") //value decreased
+        default:
+            return Color("Text")
+        }
+    }
     
     var body: some View {
         HStack(spacing: innerPadding/2) {
@@ -82,17 +99,17 @@ struct BaseFighterOverviewView: View {
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "health").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.health)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.health)".uppercased(), fontColor: getFontColor(index: 0, value: modifiedBase.health), fontSize: mediumFont)
                     }
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.attack)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.attack)".uppercased(), fontColor: getFontColor(index: 1, value: modifiedBase.attack), fontSize: mediumFont)
                     }
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "defense").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.defense)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.defense)".uppercased(), fontColor: getFontColor(index: 2, value: modifiedBase.defense), fontSize: mediumFont)
                     }
                 }
                 .padding(.all, innerPadding)
@@ -103,17 +120,17 @@ struct BaseFighterOverviewView: View {
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "agility").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.agility)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.agility)".uppercased(), fontColor: getFontColor(index: 3, value: modifiedBase.agility), fontSize: mediumFont)
                     }
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "precision").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.precision)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.precision)".uppercased(), fontColor: getFontColor(index: 4, value: modifiedBase.precision), fontSize: mediumFont)
                     }
                     HStack {
                         CustomText(text: Localization.shared.getTranslation(key: "resistance").uppercased(), fontSize: mediumFont, isBold: true)
                         Spacer()
-                        CustomText(text: "\(base.resistance)".uppercased(), fontSize: mediumFont)
+                        CustomText(text: "\(modifiedBase.resistance)".uppercased(), fontColor: getFontColor(index: 5, value: modifiedBase.resistance), fontSize: mediumFont)
                     }
                 }
                 .padding(.all, innerPadding)

@@ -331,7 +331,7 @@ struct PlayerSelectionView: View {
                                     BorderedButton(label: "remove", width: 120, height: smallHeight, isInverted: false)
                                 }
                             }
-                            BaseFighterOverviewView(base: fighters[selectedSlot]!.getModifiedBase())
+                            BaseFighterOverviewView(modifiedBase: fighters[selectedSlot]!.getModifiedBase(), base: fighters[selectedSlot]!.base)
                             VStack(spacing: innerPadding/2) {
                                 ForEach(fighters[selectedSlot]!.spells, id: \.self) { spell in
                                     SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
