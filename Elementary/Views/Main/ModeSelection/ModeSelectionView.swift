@@ -52,7 +52,7 @@ struct ModeSelectionView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightSelectionView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightSelectionView(allowSelection: true, alwaysRandom: false, hasCPUPlayer: false).environmentObject(manager)))
                                 }
                             }) {
                                 ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f72b}").shadow(radius: 5, x: 5, y: 0)
@@ -62,7 +62,7 @@ struct ModeSelectionView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(TrainingSelectionView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightSelectionView(allowSelection: true, alwaysRandom: false, hasCPUPlayer: true).environmentObject(manager)))
                                 }
                             }) {
                                 ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6e8}").shadow(radius: 5, x: 5, y: 0)
@@ -72,7 +72,7 @@ struct ModeSelectionView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(RandomSelectionView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightSelectionView(allowSelection: false, alwaysRandom: false, hasCPUPlayer: true).environmentObject(manager)))
                                 }
                             }) {
                                 ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f890}").shadow(radius: 5, x: 5, y: 0)
@@ -82,7 +82,7 @@ struct ModeSelectionView: View {
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(BattleSelectionView().environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightSelectionView(allowSelection: true, alwaysRandom: true, hasCPUPlayer: true).environmentObject(manager)))
                                 }
                             }) {
                                 ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6b8}").shadow(radius: 5, x: 5, y: 0)

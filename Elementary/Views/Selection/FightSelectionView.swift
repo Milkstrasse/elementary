@@ -17,6 +17,10 @@ struct FightSelectionView: View {
     @State var topReady: Bool = false
     @State var bottomReady: Bool = false
     
+    let allowSelection: Bool
+    let alwaysRandom: Bool
+    let hasCPUPlayer: Bool
+    
     @State var transitionToggle: Bool = true
     
     /// Creates and returns the logic that will be used int the upcoming fight.
@@ -42,7 +46,7 @@ struct FightSelectionView: View {
             }
         }
         
-        return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)])
+        return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)], hasCPUPlayer: hasCPUPlayer)
     }
     
     var body: some View {
@@ -92,14 +96,14 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, allowSelection: allowSelection, alwaysRandom:  alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
                                 }
                             }
                         }
                     }) {
                         BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(TeamManager.isArrayEmpty(array: topFighters))
+                    .disabled(TeamManager.isArrayEmpty(array: topFighters) || hasCPUPlayer)
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
@@ -121,7 +125,7 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, allowSelection: allowSelection, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
                                 }
                             }
                         }
@@ -149,19 +153,32 @@ struct FightSelectionView: View {
             }
             .padding(.all, outerPadding)
             VStack(spacing: innerPadding/2) {
-                PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).frame(width: geometry.size.width).rotationEffect(.degrees(180))
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).frame(width: geometry.size.width)
+                if hasCPUPlayer {
+                    CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
+                } else {
+                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).frame(width: geometry.size.width).rotationEffect(.degrees(180))
+                }
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).frame(width: geometry.size.width).disabled(!allowSelection)
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false
             
+            if hasCPUPlayer {
+                topReady = true
+                gameLogic.setReady(player: 0, ready: topReady)
+            }
+            
             if !TeamManager.isArrayEmpty(array: bottomFighters) {
-                if topFighters.count < 4 {
-                    let missingFighters: Int = 4 - topFighters.count
-                    for _ in 0 ..< missingFighters {
-                        topFighters.append(nil)
+                if alwaysRandom {
+                    topFighters = TeamManager.selectRandom(opponents: bottomFighters)
+                } else {
+                    if topFighters.count < 4 {
+                        let missingFighters: Int = 4 - topFighters.count
+                        for _ in 0 ..< missingFighters {
+                            topFighters.append(nil)
+                        }
                     }
                 }
                 
@@ -173,6 +190,12 @@ struct FightSelectionView: View {
                 }
                 
                 TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
+            } else if hasCPUPlayer {
+                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
+                
+                if !allowSelection {
+                    bottomFighters = TeamManager.selectRandom(opponents: topFighters)
+                }
             }
         }
     }
@@ -180,6 +203,6 @@ struct FightSelectionView: View {
 
 struct FightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FightSelectionView()
+        FightSelectionView(allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
     }
 }

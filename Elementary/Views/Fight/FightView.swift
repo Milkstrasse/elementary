@@ -26,6 +26,10 @@ struct FightView: View {
     @State var gameOver: Bool = false
     @State var fightOver: Bool = false
     
+    let allowSelection: Bool
+    let alwaysRandom: Bool
+    let hasCPUPlayer: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -35,7 +39,7 @@ struct FightView: View {
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true).rotationEffect(.degrees(180))
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: !hasCPUPlayer).rotationEffect(.degrees(180))
                 Spacer()
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
             }
@@ -53,7 +57,7 @@ struct FightView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters, allowSelection: allowSelection, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
             }
         }
     }
@@ -61,6 +65,6 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
     }
 }
