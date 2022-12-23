@@ -12,7 +12,7 @@ struct OverviewView: View {
     
     @State var transitionToggle: Bool = true
     
-    @State var currentFighter: Fighter = exampleFighter
+    @State var currentFighter: Fighter = GlobalData.shared.fighters[0]
     @State var fighterSelected: Bool = false
     @State var selectedOutfit: Int = 0
     
@@ -153,7 +153,7 @@ struct OverviewView: View {
                                                 
                                                 if isSelected(fighter: fighter) {
                                                     fighterSelected = false
-                                                    currentFighter = exampleFighter
+                                                    currentFighter = GlobalData.shared.fighters[0]
                                                 } else {
                                                     fighterSelected = true
                                                     currentFighter = fighter

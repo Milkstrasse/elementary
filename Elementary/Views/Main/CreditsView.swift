@@ -146,6 +146,6 @@ struct CreditsView: View {
 
 struct CreditsView_Previews: PreviewProvider {
     static var previews: some View {
-        CreditsView(currentFighter: exampleFighter)
+        CreditsView(currentFighter: GlobalData.shared.fighters[0])
     }
 }

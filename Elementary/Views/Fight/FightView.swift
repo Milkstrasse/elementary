@@ -51,8 +51,13 @@ struct FightView: View {
             transitionToggle = false
         }
         .onChange(of: fightOver) { _ in
-            GlobalData.shared.userProgress.addFight()
-            GlobalData.shared.userProgress.checkTeams(teamA: fightLogic.players[0].fighters, teamB: fightLogic.players[1].fighters)
+            if hasCPUPlayer {
+                GlobalData.shared.userProgress.addWin(winner: fightLogic.getWinner(), fighters: fightLogic.players[1].fighters)
+                GlobalData.shared.userProgress.checkTeams(teamA: [], teamB: fightLogic.players[1].fighters)
+            } else {
+                GlobalData.shared.userProgress.addFight()
+                GlobalData.shared.userProgress.checkTeams(teamA: fightLogic.players[0].fighters, teamB: fightLogic.players[1].fighters)
+            }
             SaveData.saveProgress()
             
             transitionToggle = true
@@ -65,6 +70,6 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
+        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
     }
 }

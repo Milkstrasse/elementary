@@ -152,7 +152,7 @@ struct UserProgress: Codable {
             dailyElementWin = false
             dailyArtifactUsed = false
             
-            dailyCollected = [Bool](repeating: false, count: 3)
+            dailyCollected = [Bool](repeating: false, count: 5)
             
             lastDate = Date()
         }

@@ -107,6 +107,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 0, fighters: [exampleFighter]))
+        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

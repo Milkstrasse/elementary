@@ -204,7 +204,7 @@ struct PlayerFightView: View {
 struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 1, fighters: [exampleFighter]), gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
+            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]), gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
         }
     }
 }

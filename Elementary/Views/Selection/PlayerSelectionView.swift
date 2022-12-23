@@ -546,6 +546,6 @@ struct PlayerSelectionView: View {
 
 struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(opponents: [exampleFighter, exampleFighter, nil, nil], fighters: Binding.constant([exampleFighter, nil, nil, nil]))
+        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]))
     }
 }

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", title: "placeholder", element: "water", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["waterSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "attackDown"], outfits: [Outfit(name: "", cost: 0)]))
-
 class ViewManager: ObservableObject {
     @Published var currentView: AnyView = AnyView(Color.yellow)
     @Published var progress: Float = 0
