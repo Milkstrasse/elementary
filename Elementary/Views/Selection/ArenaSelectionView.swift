@@ -1,5 +1,5 @@
 //
-//  RandomSelectionView.swift
+//  ArenaSelectionView.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 09.11.22.
@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct RandomSelectionView: View {
+struct ArenaSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
     @State var topFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var bottomFighters: [Fighter?] = [nil, nil, nil, nil]
+    
+    @State var allowSelection: Bool = true
     
     @State var transitionToggle: Bool = true
     
@@ -53,12 +55,6 @@ struct RandomSelectionView: View {
                 Spacer()
                 TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
-            VStack(spacing: innerPadding) {
-                Spacer()
-                CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
-                CPUSelectionView(fighters: bottomFighters)
-                Spacer()
-            }
             VStack(spacing: innerPadding/2) {
                 HStack(spacing: innerPadding) {
                     Spacer()
@@ -89,12 +85,13 @@ struct RandomSelectionView: View {
                         if fightLogic.isValid() {
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(RandomTrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                                manager.setView(view: AnyView(ArenaView(fightLogic: fightLogic).environmentObject(manager)))
                             }
                         }
                     }) {
                         BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
+                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -114,6 +111,10 @@ struct RandomSelectionView: View {
                 }
             }
             .padding(.all, outerPadding)
+            VStack(spacing: innerPadding) {
+                CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).disabled(!allowSelection)
+            }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
@@ -121,14 +122,9 @@ struct RandomSelectionView: View {
             
             if TeamManager.isArrayEmpty(array: bottomFighters) {
                 topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-                bottomFighters = TeamManager.selectRandom(opponents: topFighters)
             } else {
-                if topFighters.count < 4 {
-                    let missingFighters: Int = 4 - topFighters.count
-                    for _ in 0 ..< missingFighters {
-                        topFighters.append(nil)
-                    }
-                }
+                allowSelection = false
+                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
                 
                 if bottomFighters.count < 4 {
                     let missingFighters: Int = 4 - bottomFighters.count
@@ -143,8 +139,8 @@ struct RandomSelectionView: View {
     }
 }
 
-struct RandomSelectionView_Previews: PreviewProvider {
+struct ArenaSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        RandomSelectionView()
+        ArenaSelectionView()
     }
 }

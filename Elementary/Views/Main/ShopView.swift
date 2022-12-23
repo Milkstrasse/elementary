@@ -180,6 +180,6 @@ struct ShopView: View {
 
 struct ShopView_Previews: PreviewProvider {
     static var previews: some View {
-        ShopView(userProgress: UserProgress(), currentFighter: exampleFighter)
+        ShopView(userProgress: UserProgress(), currentFighter: waterFighter)
     }
 }

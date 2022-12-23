@@ -1,5 +1,5 @@
 //
-//  RandomTrainingView.swift
+//  TournamentView.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 09.11.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RandomTrainingView: View {
+struct TournamentView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -44,14 +44,14 @@ struct RandomTrainingView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(RandomSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
             }
         }
     }
 }
 
-struct RandomTrainingView_Previews: PreviewProvider {
+struct TournamentView_Previews: PreviewProvider {
     static var previews: some View {
-        RandomTrainingView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        TournamentView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [waterFighter]), Player(id: 1, fighters: [waterFighter])]))
     }
 }

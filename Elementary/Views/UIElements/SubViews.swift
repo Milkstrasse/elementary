@@ -217,8 +217,8 @@ struct HexView: View {
 struct FighterViews_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            RectanglePortraitView(fighter: exampleFighter, isSelected: false, width: 97)
-            SquarePortraitView(fighter: exampleFighter, outfitIndex: 0, isSelected: false, isInverted: false)
+            RectanglePortraitView(fighter: waterFighter, isSelected: false, width: 97)
+            SquarePortraitView(fighter: waterFighter, outfitIndex: 0, isSelected: false, isInverted: false)
         }
     }
 }

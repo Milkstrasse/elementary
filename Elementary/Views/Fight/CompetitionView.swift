@@ -1,5 +1,5 @@
 //
-//  FightView.swift
+//  CompetitionView.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 22.08.22.
@@ -16,7 +16,7 @@ enum Section {
     case info
 }
 
-struct FightView: View {
+struct CompetitionView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -53,14 +53,14 @@ struct FightView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(CompetitionSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
             }
         }
     }
 }
 
-struct FightView_Previews: PreviewProvider {
+struct CompetitionView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        CompetitionView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [waterFighter]), Player(id: 1, fighters: [waterFighter])]))
     }
 }

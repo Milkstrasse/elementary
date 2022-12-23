@@ -91,6 +91,6 @@ struct InfoView: View {
 
 struct InfoView_Previews: PreviewProvider {
     static var previews: some View {
-        InfoView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]), player: Player(id: 1, fighters: [exampleFighter]))
+        InfoView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [waterFighter]), Player(id: 1, fighters: [waterFighter])]), player: Player(id: 1, fighters: [waterFighter]))
     }
 }

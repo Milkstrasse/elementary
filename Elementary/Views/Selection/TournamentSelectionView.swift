@@ -1,13 +1,13 @@
 //
-//  TrainingSelectionView.swift
+//  TournamentSelectionView.swift
 //  Elementary
 //
-//  Created by Janice Hablützel on 22.08.22.
+//  Created by Janice Hablützel on 09.11.22.
 //
 
 import SwiftUI
 
-struct TrainingSelectionView: View {
+struct TournamentSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
@@ -53,6 +53,12 @@ struct TrainingSelectionView: View {
                 Spacer()
                 TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
+            VStack(spacing: innerPadding) {
+                Spacer()
+                CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
+                CPUSelectionView(fighters: bottomFighters)
+                Spacer()
+            }
             VStack(spacing: innerPadding/2) {
                 HStack(spacing: innerPadding) {
                     Spacer()
@@ -83,13 +89,12 @@ struct TrainingSelectionView: View {
                         if fightLogic.isValid() {
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(TrainingView(fightLogic: fightLogic).environmentObject(manager)))
+                                manager.setView(view: AnyView(TournamentView(fightLogic: fightLogic).environmentObject(manager)))
                             }
                         }
                     }) {
                         BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -109,42 +114,37 @@ struct TrainingSelectionView: View {
                 }
             }
             .padding(.all, outerPadding)
-            VStack(spacing: innerPadding) {
-                CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters)
-            }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
-            DispatchQueue.main.async {
-                if TeamManager.isArrayEmpty(array: bottomFighters) {
-                    topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-                } else {
-                    if topFighters.count < 4 {
-                        let missingFighters: Int = 4 - topFighters.count
-                        for _ in 0 ..< missingFighters {
-                            topFighters.append(nil)
-                        }
+            transitionToggle = false
+            
+            if TeamManager.isArrayEmpty(array: bottomFighters) {
+                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
+                bottomFighters = TeamManager.selectRandom(opponents: topFighters)
+            } else {
+                if topFighters.count < 4 {
+                    let missingFighters: Int = 4 - topFighters.count
+                    for _ in 0 ..< missingFighters {
+                        topFighters.append(nil)
                     }
-                    
-                    if bottomFighters.count < 4 {
-                        let missingFighters: Int = 4 - bottomFighters.count
-                        for _ in 0 ..< missingFighters {
-                            bottomFighters.append(nil)
-                        }
-                    }
-                    
-                    TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
                 }
                 
-                transitionToggle = false
+                if bottomFighters.count < 4 {
+                    let missingFighters: Int = 4 - bottomFighters.count
+                    for _ in 0 ..< missingFighters {
+                        bottomFighters.append(nil)
+                    }
+                }
+                
+                TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
             }
         }
     }
 }
 
-struct TrainingSelectionView_Previews: PreviewProvider {
+struct TournamentSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingSelectionView()
+        TournamentSelectionView()
     }
 }

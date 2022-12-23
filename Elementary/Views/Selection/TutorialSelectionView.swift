@@ -1,22 +1,25 @@
 //
-//  BattleSelectionView.swift
+//  TutorialSelectionView.swift
 //  Elementary
 //
-//  Created by Janice Hablützel on 09.11.22.
+//  Created by Janice Hablützel on 22.12.22.
 //
 
 import SwiftUI
 
-struct BattleSelectionView: View {
+struct TutorialSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
     @State var topFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var bottomFighters: [Fighter?] = [nil, nil, nil, nil]
     
-    @State var allowSelection: Bool = true
+    @State var tutorialCounter: Int = 0
+    @State var blinking: Bool = false
     
     @State var transitionToggle: Bool = true
+    
+    let blinkAnimation = Animation.easeInOut(duration: 0.4).repeatForever(autoreverses: true)
     
     /// Creates and returns the logic that will be used int the upcoming fight.
     /// - Returns: returns the logic that will be used int the upcoming fight.
@@ -28,12 +31,11 @@ struct BattleSelectionView: View {
             }
         }
         
+        bottomFighters[1] = SavedFighterData(fighter: plantFighter).toFighter(images: plantFighter.images)
+        
         var bottoms: [Fighter] = []
         for fighter in bottomFighters {
             if fighter != nil {
-                if GlobalData.shared.artifactUse == 2 {
-                    fighter?.setArtifact(artifact: 0)
-                }
                 bottoms.append(fighter!)
             }
         }
@@ -85,13 +87,21 @@ struct BattleSelectionView: View {
                         if fightLogic.isValid() {
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                manager.setView(view: AnyView(BattleView(fightLogic: fightLogic).environmentObject(manager)))
+                                manager.setView(view: AnyView(TutorialView(fightLogic: fightLogic).environmentObject(manager)))
                             }
                         }
                     }) {
-                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
+                        BasicButton(label: Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont).opacity(blinking && tutorialCounter == 11 ? 0.4 : 1)
                     }
-                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
+                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters) || tutorialCounter < 11)
+                    .onChange(of: tutorialCounter) { newValue in
+                        if newValue == 11 {
+                            blinking = false
+                            withAnimation(blinkAnimation) {
+                                blinking = true
+                            }
+                        }
+                    }
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -113,34 +123,19 @@ struct BattleSelectionView: View {
             .padding(.all, outerPadding)
             VStack(spacing: innerPadding) {
                 CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).disabled(!allowSelection)
+                TutorialPlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, tutorialCounter: $tutorialCounter)
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).offset(y: transitionToggle ? -50 : geometry.size.height + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false
-            
-            if TeamManager.isArrayEmpty(array: bottomFighters) {
-                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-            } else {
-                allowSelection = false
-                topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-                
-                if bottomFighters.count < 4 {
-                    let missingFighters: Int = 4 - bottomFighters.count
-                    for _ in 0 ..< missingFighters {
-                        bottomFighters.append(nil)
-                    }
-                }
-                
-                TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
-            }
+            topFighters = [waterFighter, nil, nil, nil]
         }
     }
 }
 
-struct BattleSelectionView_Previews: PreviewProvider {
+struct TutorialSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        BattleSelectionView()
+        TutorialSelectionView()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  FightSelectionView.swift
+//  CompetitionSelectionView.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 21.08.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FightSelectionView: View {
+struct CompetitionSelectionView: View {
     @EnvironmentObject var manager: ViewManager
     @State var gameLogic: GameLogic = GameLogic()
     
@@ -92,7 +92,7 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                    manager.setView(view: AnyView(CompetitionView(fightLogic: fightLogic).environmentObject(manager)))
                                 }
                             }
                         }
@@ -121,7 +121,7 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic).environmentObject(manager)))
+                                    manager.setView(view: AnyView(CompetitionView(fightLogic: fightLogic).environmentObject(manager)))
                                 }
                             }
                         }
@@ -178,8 +178,8 @@ struct FightSelectionView: View {
     }
 }
 
-struct FightSelectionView_Previews: PreviewProvider {
+struct CompetitionSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FightSelectionView()
+        CompetitionSelectionView()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  BattleView.swift
+//  ArenaView.swift
 //  Elementary
 //
 //  Created by Janice Hablützel on 09.11.22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BattleView: View {
+struct ArenaView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -44,14 +44,14 @@ struct BattleView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(BattleSelectionView(topFighters: [], bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(ArenaSelectionView(topFighters: [], bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
             }
         }
     }
 }
 
-struct BattleView_Previews: PreviewProvider {
+struct ArenaView_Previews: PreviewProvider {
     static var previews: some View {
-        BattleView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        ArenaView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [waterFighter]), Player(id: 1, fighters: [waterFighter])]))
     }
 }

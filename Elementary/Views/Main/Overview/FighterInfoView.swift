@@ -134,6 +134,6 @@ struct FighterInfoView: View {
 
 struct FighterInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        FighterInfoView(fighter: exampleFighter, userProgress: UserProgress(), selectedOutfit: Binding.constant(0))
+        FighterInfoView(fighter: waterFighter, userProgress: UserProgress(), selectedOutfit: Binding.constant(0))
     }
 }

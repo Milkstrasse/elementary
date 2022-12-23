@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-let exampleFighter: Fighter = Fighter(data: FighterData(name: "example", title: "placeholder", element: "water", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["waterSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "attackDown"], outfits: [Outfit(name: "", cost: 0)]))
+let waterFighter: Fighter = Fighter(data: FighterData(name: "example", title: "placeholder", element: "water", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["waterSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "iceSimpleAttack"], outfits: [Outfit(name: "default", cost: 0)]))
+let fireFighter: Fighter = Fighter(data: FighterData(name: "example", title: "placeholder", element: "fire", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["fireSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "iceSimpleAttack"], outfits: [Outfit(name: "default", cost: 0)]))
+let plantFighter: Fighter = Fighter(data: FighterData(name: "example", title: "placeholder", element: "plant", base: Base(health: 65, attack: 100, defense: 80, agility: 50, precision: 90, resistance: 55), spells: ["plantSimpleAttack", "woodSimpleAttack", "decaySimpleAttack", "iceSimpleAttack"], outfits: [Outfit(name: "default", cost: 0)]))
 
 class ViewManager: ObservableObject {
     @Published var currentView: AnyView = AnyView(Color.yellow)

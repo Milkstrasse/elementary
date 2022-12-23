@@ -1,13 +1,13 @@
 //
-//  TrainingView.swift
+//  TutorialView.swift
 //  Elementary
 //
-//  Created by Janice Hablützel on 22.08.22.
+//  Created by Janice Hablützel on 22.12.22.
 //
 
 import SwiftUI
 
-struct TrainingView: View {
+struct TutorialView: View {
     @EnvironmentObject var manager: ViewManager
     
     let fightLogic: FightLogic
@@ -44,14 +44,14 @@ struct TrainingView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(TrainingSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
+                manager.setView(view: AnyView(TournamentSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters).environmentObject(manager)))
             }
         }
     }
 }
 
-struct TrainingView_Previews: PreviewProvider {
+struct TutorialView_Previews: PreviewProvider {
     static var previews: some View {
-        TrainingView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [exampleFighter]), Player(id: 1, fighters: [exampleFighter])]))
+        TutorialView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [waterFighter]), Player(id: 1, fighters: [waterFighter])]))
     }
 }
