@@ -351,7 +351,7 @@ class GlobalData {
         return [:]
     }
     
-    /// Returns a random fighte.
+    /// Returns a random fighter.
     /// - Returns: Returns a random fighter
     func getRandomFighter() -> Fighter {
         return fighters[Int.random(in: 0 ..< fighters.count)]

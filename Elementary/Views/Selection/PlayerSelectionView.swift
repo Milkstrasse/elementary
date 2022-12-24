@@ -131,50 +131,69 @@ struct PlayerSelectionView: View {
                 HStack(spacing: innerPadding/2) {
                     ForEach(0 ..< fighters.count, id: \.self) { index in
                         Button(action: {
-                            AudioPlayer.shared.playStandardSound()
-                            
-                            if selectedSlot == index {
-                                if selectionToggle && fighters[index] != nil {
+                        }) {
+                            SquarePortraitView(fighter: fighters[index], outfitIndex: fighters[index]?.outfitIndex ?? 0, isSelected: index == selectedSlot, isInverted: true)
+                        }
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onEnded({ _ in
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    selectedSlot = index
+                                    
+                                    addFighter(fighter: TeamManager.getRandomFighter(fighters: fighters, opponents: opponents))
                                     offset = 0
                                     
                                     selectionToggle = false
                                     infoToggle = true
-                                } else {
-                                    offset = 175
+                                })
+                        )
+                        .highPriorityGesture(
+                            TapGesture()
+                                .onEnded { _ in
+                                    AudioPlayer.shared.playStandardSound()
                                     
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                        selectionToggle = false
-                                        infoToggle = false
+                                    if selectedSlot == index {
+                                        if selectionToggle && fighters[index] != nil {
+                                            offset = 0
+                                            
+                                            selectionToggle = false
+                                            infoToggle = true
+                                        } else {
+                                            offset = 175
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                selectionToggle = false
+                                                infoToggle = false
+                                                
+                                                selectedSlot = -1
+                                            }
+                                        }
+                                    } else {
+                                        selectedSlot = index
                                         
-                                        selectedSlot = -1
+                                        if fighters[index] != nil {
+                                            selectedNature = getNature(fighter: fighters[selectedSlot]!)
+                                            selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)
+                                            selectedOutfit = fighters[selectedSlot]!.outfitIndex
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                offset = 0
+                                            }
+                                            
+                                            selectionToggle = false
+                                            infoToggle = true
+                                        } else {
+                                            infoToggle = false
+                                            selectionToggle = true
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                offset = 0
+                                            }
+                                        }
                                     }
-                                }
-                            } else {
-                                selectedSlot = index
-                                
-                                if fighters[index] != nil {
-                                    selectedNature = getNature(fighter: fighters[selectedSlot]!)
-                                    selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)
-                                    selectedOutfit = fighters[selectedSlot]!.outfitIndex
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                        offset = 0
-                                    }
-                                    
-                                    selectionToggle = false
-                                    infoToggle = true
-                                } else {
-                                    infoToggle = false
-                                    selectionToggle = true
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                        offset = 0
-                                    }
-                                }
-                            }
-                        }) {
-                            SquarePortraitView(fighter: fighters[index], outfitIndex: fighters[index]?.outfitIndex ?? 0, isSelected: index == selectedSlot, isInverted: true)
-                        }
+
+                                })
                     }
                 }
                 Spacer()

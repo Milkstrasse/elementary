@@ -57,18 +57,18 @@ struct TeamManager {
         
         var rndmArtifacts: [Int] = []
         switch GlobalData.shared.artifactUse {
-        case 0:
+        case 0: //random artifacts
             while rndmArtifacts.count < maxSize {
                 rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
             }
-        case 1:
+        case 1: //unique artifacts
             var artifactSet = Set<Int>()
             
             while artifactSet.count < maxSize {
                 artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))
             }
             rndmArtifacts = Array(artifactSet)
-        default:
+        default: //no artifacts
             break
         }
         
@@ -107,5 +107,85 @@ struct TeamManager {
         for fighter in bottomFighters {
             fighter?.reset()
         }
+    }
+    
+    /// Returns a random fighter.
+    /// - Parameters:
+    ///   - fighters: The fighters of the own team
+    ///   - opponents: The fighters of the other team
+    /// - Returns: Returns a random fighter
+    static func getRandomFighter(fighters: [Fighter?], opponents: [Fighter?]) -> Fighter {
+        var rndmFighter: Fighter = GlobalData.shared.fighters[0]
+        var uniqueNotFound: Bool = true
+        
+        switch GlobalData.shared.teamLimit {
+        case 1: //only unique fighters on one team
+            while uniqueNotFound {
+                rndmFighter = GlobalData.shared.getRandomFighter()
+                var fighterFound: Bool = false
+                
+                for fighter in fighters {
+                    if fighter?.name == rndmFighter.name {
+                        fighterFound = true
+                        break
+                    }
+                }
+                
+                uniqueNotFound = fighterFound
+            }
+        case 2: //only unique fighters on both teams
+            while uniqueNotFound {
+                rndmFighter = GlobalData.shared.getRandomFighter()
+                var fighterFound: Bool = false
+                
+                for fighter in fighters {
+                    if fighter?.name == rndmFighter.name {
+                        fighterFound = true
+                        break
+                    }
+                }
+                
+                if !fighterFound {
+                    for opponent in opponents {
+                        if opponent?.name == rndmFighter.name {
+                            fighterFound = true
+                            break
+                        }
+                    }
+                }
+                
+                uniqueNotFound = fighterFound
+            }
+        default: //no restrictions
+            rndmFighter  = GlobalData.shared.getRandomFighter()
+        }
+        
+        uniqueNotFound = true
+        
+        if GlobalData.shared.artifactUse != 2 {
+            if GlobalData.shared.artifactUse == 1 { //unique artifacts
+                var rndmArtifact: Int
+                var artifactFound: Bool = false
+                
+                while uniqueNotFound {
+                    rndmArtifact = Int.random(in: 0 ..< Artifacts.allCases.count)
+                    
+                    for fighter in fighters {
+                        if fighter?.getArtifact().name == Artifacts.allCases[rndmArtifact].rawValue {
+                            artifactFound = true
+                            break
+                        }
+                    }
+                    
+                    uniqueNotFound = artifactFound
+                }
+                
+                rndmFighter.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
+            } else { //unique artifacts
+                rndmFighter.setArtifact(artifact: Int.random(in: 0 ..< Artifacts.allCases.count))
+            }
+        }
+        
+        return rndmFighter
     }
 }
