@@ -1,6 +1,11 @@
 {
     "fr": "Français",
     
+    "tip1": "long press spells to reveal more information",
+    "tip2": "check out elemental chart",
+    "tip3": "advanced settings available",
+    "tip4": "add your own mods",
+    
     "unsorted": "Non trié",
     "name": "Nom",
     "element": "Élément",

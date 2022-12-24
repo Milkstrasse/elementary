@@ -31,18 +31,22 @@ struct ElementaryApp: App {
     @StateObject var manager: ViewManager = ViewManager()
     @State var isLoading: Bool = true
     
+    @State var randomInt: Int = 0
+    
     var body: some Scene {
         WindowGroup {
             ZStack {
                 Color("Negative").ignoresSafeArea()
                 if isLoading {
                     Color("Positive").ignoresSafeArea().onAppear {
+                        Localization.shared.getLanguages()
+                        Localization.shared.loadCurrentLanguage()
+                        
+                        randomInt = Int.random(in: 1 ... 4)
+                        
                         DispatchQueue.global().async {
                             GlobalData.shared.loadData(manager: manager)
                             SaveData.load()
-                            
-                            Localization.shared.getLanguages()
-                            Localization.shared.loadCurrentLanguage()
                             
                             AudioPlayer.shared.playMenuMusic()
                             
@@ -50,7 +54,12 @@ struct ElementaryApp: App {
                             isLoading = false
                         }
                     }
-                    CustomText(text: String(format: "%.2f", manager.progress) + "%", fontSize: smallFont)
+                    VStack {
+                        CustomText(text: String(format: "%.2f", manager.progress) + "%", fontSize: smallFont)
+                        if randomInt > 0 {
+                            CustomText(text: Localization.shared.getTranslation(key: "tip\(randomInt)"), fontSize: mediumFont)
+                        }
+                    }
                 } else {
                     manager.getCurrentView()
                 }
