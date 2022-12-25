@@ -241,7 +241,6 @@
     "gainedHP": "{0} a gagnée HP.",
     "healFailed": "La guérison a échoué.",
     "namePerished": "{0} a périe.",
-    "retreated": "{0} s'est retirée.",
     "elementChanged": "L'élément de {0} est maintenant {1}.",
     "forcedOut": "{0} a été expulsée.",
     "clearedHexes": "Les sortilèges ont été supprimés.",

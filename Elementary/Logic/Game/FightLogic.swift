@@ -284,8 +284,10 @@ class FightLogic: ObservableObject {
         }
         
         //fighters faint or exit the fight
-        if playerQueue[fasterPlayer.id].move.spell.typeID != 19 {
+        if playerQueue[fasterPlayer.id].move.spell.typeID != 15 {
             playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+        }
+        if playerQueue[fasterPlayer.id].move.spell.typeID != 19 {
             playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
         }
         
@@ -302,11 +304,13 @@ class FightLogic: ObservableObject {
         }
         
         //fighters faint or exit the fight
-        if playerQueue[slowerPlayer.id].move.spell.typeID != 19 {
-            if playerQueue[fasterPlayer.id].move.spell.typeID != 19 {
+        if playerQueue[fasterPlayer.id].move.spell.typeID != 19 {
+            if playerQueue[slowerPlayer.id].move.spell.typeID != 15 {
                 playerQueue.append((player: fasterPlayer, move: Move(source: fasterPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
             }
-            playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+            if playerQueue[slowerPlayer.id].move.spell.typeID != 19 {
+                playerQueue.append((player: slowerPlayer, move: Move(source: slowerPlayer.getCurrentFighter(), index: -1, spell: Spell(), type: MoveType.special)))
+            }
         }
         
         //faster fighter receives hex effects
