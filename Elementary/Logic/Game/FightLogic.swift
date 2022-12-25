@@ -103,7 +103,7 @@ class FightLogic: ObservableObject {
                 backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather)))
             }
             
-            var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: players[0].getCurrentFighter().lastSpell)
+            var rndmMove: Move? = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: players[0].getCurrentFighter().spells[players[0].getCurrentFighter().lastSpell])
             
             if rndmMove == nil { //CPU wants to switch
                 rndmMove = Move(source: players[0].getCurrentFighter(), index: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), spell: Spell(), type: MoveType.swap)
@@ -241,30 +241,37 @@ class FightLogic: ObservableObject {
         //finalize move
         for index in players.indices {
             if playerQueue[index].move.type == MoveType.spell { //spell move can be overwritten by artifacts/hexes
-                if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
-                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
-                } else if players[index].getCurrentFighter().lastSpell != nil && players[index].getCurrentFighter().getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
+                if players[index].getCurrentFighter().lastSpell > 0 && players[index].getCurrentFighter().hasHex(hexName: Hexes.restricted.rawValue) {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().spells[players[index].getCurrentFighter().lastSpell]
+                } else if players[index].getCurrentFighter().lastSpell > 0 && players[index].getCurrentFighter().getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().spells[players[index].getCurrentFighter().lastSpell]
                 } else if players[index].getCurrentFighter().hasHex(hexName: Hexes.confused.rawValue) {
                     let randomMove: Move = Move(source: players[index].getCurrentFighter(), index: -1, spell: players[index].getCurrentFighter().spells[Int.random(in: 0 ..< players[index].getCurrentFighter().spells.count)], type: MoveType.spell)
                     playerQueue[index].move = randomMove
                 }
                 
-                if playerQueue[index].move.spell.typeID == 13 && players[index].getCurrentFighter().lastSpell?.typeID == 13 {
-                    players[index].getCurrentFighter().lastSpell = Spell(name: "shieldFail") //shield fails
+                if playerQueue[index].move.spell.typeID == 13 && players[index].getCurrentFighter().spells[players[index].getCurrentFighter().lastSpell].typeID == 13 {
+                    players[index].getCurrentFighter().lastSpell = -2 //shield fails
                 } else if playerQueue[index].move.spell.typeID != 10 { //prevent copy spell loop
-                    players[index].getCurrentFighter().lastSpell = playerQueue[index].move.spell
+                    for spell in players[index].getCurrentFighter().spells.indices {
+                        if players[index].getCurrentFighter().spells[spell].name == playerQueue[index].move.spell.name {
+                            players[index].getCurrentFighter().lastSpell = spell
+                            
+                            break
+                        }
+                    }
                 }
             }
             
             if playerQueue[index].move.spell.typeID == 10 { //player wants to copy last move
-                if players[index].getCurrentFighter().lastSpell != nil {
-                    playerQueue[index].move.spell = players[index].getCurrentFighter().lastSpell!
+                if players[index].getCurrentFighter().lastSpell > 0 {
+                    playerQueue[index].move.spell = players[index].getCurrentFighter().spells[players[index].getCurrentFighter().lastSpell]
                 }
             }
             
             //increase use counter of spells
             playerQueue[index].move.useSpell(amount: players[index].getCurrentFighter().manaUse)
+            print(playerQueue[index].move.spell.name)
         }
         
         var slowerPlayer: Player = players[0]

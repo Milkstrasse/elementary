@@ -24,7 +24,7 @@ class Fighter: Hashable, Equatable {
     var hexes: [Hex] = []
     
     var spells: [Spell]
-    var lastSpell: Spell?
+    var lastSpell: Int
     
     var nature: Nature
     private(set) var artifact: Artifact
@@ -56,6 +56,7 @@ class Fighter: Hashable, Equatable {
         
         spells = []
         let dataSpells = data.spells
+        lastSpell = -1
         
         for index in dataSpells.indices {
             let spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
