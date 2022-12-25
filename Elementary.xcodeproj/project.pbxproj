@@ -234,15 +234,15 @@
 			isa = PBXGroup;
 			children = (
 				B8631A7728AFA05700222E54 /* Artifacts.swift */,
+				B81728B6294F3F4400E647B9 /* Base.swift */,
 				B8631A7A28AFA05700222E54 /* Element.swift */,
 				B8631A7628AFA05700222E54 /* Fighter.swift */,
 				B8631A7528AFA05700222E54 /* FighterData.swift */,
 				B8631A7928AFA05700222E54 /* Hexes.swift */,
 				B8631A7428AFA05700222E54 /* Move.swift */,
 				B8631A7328AFA05700222E54 /* Nature.swift */,
-				B8631A7828AFA05700222E54 /* Spell.swift */,
 				B81728B4294F3E4700E647B9 /* Outfit.swift */,
-				B81728B6294F3F4400E647B9 /* Base.swift */,
+				B8631A7828AFA05700222E54 /* Spell.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -266,12 +266,12 @@
 		B8631A8628AFA17300222E54 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B82256F8292247A3001E083A /* Help */,
-				B82256F729224793001E083A /* Overview */,
-				B82256F629224786001E083A /* ModeSelection */,
 				B8AD405628B1819500708AA5 /* CreditsView.swift */,
+				B82256F8292247A3001E083A /* Help */,
 				B8631A8728AFA18900222E54 /* MainView.swift */,
 				B8D3D2CC29013D2B003C4268 /* MissionsView.swift */,
+				B82256F629224786001E083A /* ModeSelection */,
+				B82256F729224793001E083A /* Overview */,
 				B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */,
 				B8A22F91291C0C55006049D2 /* ShopView.swift */,
 			);
@@ -293,8 +293,8 @@
 		B88D9F8F28B3E21200AAC683 /* Fight */ = {
 			isa = PBXGroup;
 			children = (
-				B82256F529224752001E083A /* Player */,
 				B88D9F9028B3E22100AAC683 /* FightView.swift */,
+				B82256F529224752001E083A /* Player */,
 			);
 			path = Fight;
 			sourceTree = "<group>";

@@ -16,6 +16,7 @@ class FightLogic: ObservableObject {
     var playerQueue: [(player: Player, move: Move)] = []
     
     @Published var fighting: Bool = false
+    
     var backupLog: [String]
     @Published var fightLog: [String]
     
