@@ -39,9 +39,9 @@ struct FightView: View {
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], gameOver: $gameOver, fightOver: $fightOver, isInteractable: !hasCPUPlayer).rotationEffect(.degrees(180))
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], height: 175 + geometry.safeAreaInsets.top, gameOver: $gameOver, fightOver: $fightOver, isInteractable: !hasCPUPlayer).rotationEffect(.degrees(180)).ignoresSafeArea()
                 Spacer()
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
+                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], height: 175 + geometry.safeAreaInsets.bottom, gameOver: $gameOver, fightOver: $fightOver, isInteractable: true).ignoresSafeArea()
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }

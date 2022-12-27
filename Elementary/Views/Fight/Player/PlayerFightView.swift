@@ -11,6 +11,8 @@ struct PlayerFightView: View {
     @ObservedObject var fightLogic: FightLogic
     @ObservedObject var player: Player
     
+    let height: CGFloat
+    
     @State var currentSection: Section = .summary
     @Binding var gameOver: Bool
     @State var isGameOver: Bool = false
@@ -68,7 +70,7 @@ struct PlayerFightView: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 player.getCurrentFighter().getImage(blinking: blink, state: player.state).resizable().frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7).shadow(radius: 5, x: 5, y: 0).offset(x: -60 - offset, y: (geometry.size.width * 0.7 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
-                Rectangle().fill(Color("MainPanel")).frame(height: 175)
+                Rectangle().fill(Color("MainPanel")).frame(height: height).offset(y: (height - 175)/2)
                 VStack(spacing: outerPadding) {
                     HStack {
                         Button(action: {
@@ -204,7 +206,7 @@ struct PlayerFightView: View {
 struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]), gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
+            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]), height: 175, gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
         }
     }
 }

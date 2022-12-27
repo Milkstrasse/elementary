@@ -52,17 +52,19 @@ struct FightSelectionView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3)
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3 + geometry.safeAreaInsets.top)
                 Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
                 Spacer()
                 Image("Pattern").resizable(resizingMode: .tile).offset(x: 0, y: 0).clipShape(TriangleB())
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3)
+                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3 + geometry.safeAreaInsets.bottom)
             }
+            .ignoresSafeArea()
             VStack {
-                TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                TriangleA().fill(Color("MainPanel")).frame(height: 175 + geometry.safeAreaInsets.top).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                 Spacer()
-                TriangleA().fill(Color("MainPanel")).frame(height: 175).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                TriangleA().fill(Color("MainPanel")).frame(height: 175 + geometry.safeAreaInsets.bottom).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
+            .ignoresSafeArea()
             VStack(spacing: innerPadding/2) {
                 HStack(spacing: innerPadding) {
                     Spacer()
@@ -154,11 +156,11 @@ struct FightSelectionView: View {
             .padding(.all, outerPadding)
             VStack(spacing: innerPadding/2) {
                 if hasCPUPlayer {
-                    CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180))
+                    CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180)).ignoresSafeArea()
                 } else {
-                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters).frame(width: geometry.size.width).rotationEffect(.degrees(180))
+                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, height: geometry.safeAreaInsets.top + 175, offset: geometry.safeAreaInsets.top + 175).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea()
                 }
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters).frame(width: geometry.size.width).disabled(!allowSelection)
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, height: geometry.safeAreaInsets.bottom + 175, offset: geometry.safeAreaInsets.bottom + 175).frame(width: geometry.size.width).disabled(!allowSelection).ignoresSafeArea()
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }

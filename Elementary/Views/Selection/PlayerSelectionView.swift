@@ -16,7 +16,9 @@ struct PlayerSelectionView: View {
     @State var selectedArtifact: Int = 0
     @State var selectedOutfit: Int = 0
     
-    @State var offset: CGFloat = 175
+    let height: CGFloat
+    
+    @State var offset: CGFloat
     @State var selectionToggle: Bool = false
     @State var infoToggle: Bool = false
     
@@ -160,7 +162,7 @@ struct PlayerSelectionView: View {
                                             selectionToggle = false
                                             infoToggle = true
                                         } else {
-                                            offset = 175
+                                            offset = height
                                             
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                                 selectionToggle = false
@@ -198,7 +200,7 @@ struct PlayerSelectionView: View {
                 }
                 Spacer()
             }
-            ZStack {
+            ZStack(alignment: .top) {
                 Rectangle().fill(Color("MainPanel")).shadow(radius: 5, x: 5, y: 0)
                 if selectionToggle {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -249,6 +251,7 @@ struct PlayerSelectionView: View {
                                 }
                             }
                         }
+                        .padding(.vertical, outerPadding)
                     }
                     .padding(.horizontal, outerPadding).clipped()
                 } else if infoToggle {
@@ -550,7 +553,7 @@ struct PlayerSelectionView: View {
                         }
                         .padding(.horizontal, outerPadding)
                     }
-                    .padding(.vertical, outerPadding)
+                    .frame(height: 175 - 2 * outerPadding).padding(.vertical, outerPadding)
                     .onAppear {
                         selectedNature = getNature(fighter: fighters[selectedSlot]!)
                         selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)
@@ -558,13 +561,13 @@ struct PlayerSelectionView: View {
                     }
                 }
             }
-            .frame(height: 175).offset(y: offset).animation(.linear(duration: 0.2), value: offset)
+            .frame(height: height).offset(y: offset).animation(.linear(duration: 0.2), value: offset)
         }
     }
 }
 
 struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]))
+        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]), height: 175, offset: 175)
     }
 }
