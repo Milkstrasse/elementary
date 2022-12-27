@@ -15,18 +15,18 @@ struct ModeSelectionView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Group {
-                    HStack {
-                        VStack {
-                            Spacer()
-                            Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
-                        }
+                HStack(spacing: 0) {
+                    VStack {
                         Spacer()
-                        VStack {
-                            Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
-                            Spacer()
-                        }
+                        Image("Pattern").resizable(resizingMode: .tile).frame(width: (geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom)/2, height: 145 + geometry.safeAreaInsets.top).clipShape(TriangleA())
                     }
+                    VStack {
+                        Image("Pattern").resizable(resizingMode: .tile).frame(width: (geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom)/2, height: 145 + geometry.safeAreaInsets.bottom).clipShape(TriangleA()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
+                        Spacer()
+                    }
+                }
+                .frame(width: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: (geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom)/2).ignoresSafeArea()
+                Group {
                     VStack(spacing: innerPadding) {
                         HStack(alignment: .top, spacing: innerPadding) {
                             Button(action: {
@@ -41,9 +41,10 @@ struct ModeSelectionView: View {
                             }
                             Spacer()
                             ZStack(alignment: .trailing) {
-                                TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight)
-                                CustomText(text: Localization.shared.getTranslation(key: "fightModes").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                                TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
+                                CustomText(text: Localization.shared.getTranslation(key: "fightModes").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                             }
+                            .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                         }
                         .padding(.leading, outerPadding)
                         HStack(spacing: innerPadding) {
@@ -94,7 +95,7 @@ struct ModeSelectionView: View {
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

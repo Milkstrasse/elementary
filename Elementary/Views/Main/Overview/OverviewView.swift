@@ -120,7 +120,7 @@ struct OverviewView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
-                Color("MainPanel")
+                Color("MainPanel").ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
                         Button(action: {
@@ -135,9 +135,10 @@ struct OverviewView: View {
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                         }
+                        .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                     }
                     .padding([.top, .leading], outerPadding)
                     Group {
@@ -215,15 +216,15 @@ struct OverviewView: View {
                         }
                         .padding(.all, outerPadding)
                     }
-                    .offset(x: showInfo ? -geometry.size.height : 0).animation(.linear(duration: 0.3), value: showInfo)
+                    .offset(x: showInfo ? -geometry.size.height - geometry.safeAreaInsets.top : 0).animation(.linear(duration: 0.3), value: showInfo)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
                 FighterInfoView(fighter: currentFighter, userProgress: GlobalData.shared.userProgress, selectedOutfit: $selectedOutfit)
                     .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height - geometry.size.width/2)
-                    .offset(y: showInfo ? 0 : geometry.size.width).animation(.linear(duration: 0.3), value: showInfo)
+                    .offset(y: showInfo ? 0 : geometry.size.width + geometry.safeAreaInsets.bottom).animation(.linear(duration: 0.3), value: showInfo)
                 ZStack(alignment: .bottomLeading) {
-                    TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).shadow(radius: 5, x: 5, y: 5)
-                    Image("Pattern").frame(width: 240, height: 145).clipShape(TriangleA())
+                    TitlePanel().fill(Color("Negative")).frame(width: geometry.size.height - geometry.size.width + geometry.safeAreaInsets.top).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)).rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0)).offset(x: -geometry.safeAreaInsets.top).shadow(radius: 5, x: 5, y: 5)
+                    Image("Pattern").resizable(resizingMode: .tile).frame(width: 350, height: 145 + geometry.safeAreaInsets.top).clipShape(TriangleA()).offset(x: -geometry.safeAreaInsets.top)
                     currentFighter.getImage(index: selectedOutfit, blinking: blink, state: PlayerState.neutral).resizable().frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9).offset(x: showInfo ? -15 : -geometry.size.width * 0.9).shadow(radius: 5, x: 5, y: 0)
                         .animation(.linear(duration: 0.2).delay(0.2), value: showInfo)
                     VStack {
@@ -239,10 +240,10 @@ struct OverviewView: View {
                     }
                     .padding(.all, outerPadding)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: showInfo ? ((geometry.size.width * 0.9) - geometry.size.width)/2 : -geometry.size.width)
+                .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: showInfo ? ((geometry.size.width * 0.9) - geometry.size.width + geometry.safeAreaInsets.top)/2 : -geometry.size.width - geometry.safeAreaInsets.top)
                 .animation(.linear(duration: 0.3), value: showInfo)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false
