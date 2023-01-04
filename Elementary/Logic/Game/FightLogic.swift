@@ -271,7 +271,6 @@ class FightLogic: ObservableObject {
             
             //increase use counter of spells
             playerQueue[index].move.useSpell(amount: players[index].getCurrentFighter().manaUse)
-            print(playerQueue[index].move.spell.name)
         }
         
         var slowerPlayer: Player = players[0]
