@@ -95,8 +95,6 @@ class FightLogic: ObservableObject {
             playerQueue[player.id] = (player: player, move: move)
         }
         
-        playerQueue[player.id] = (player: player, move: move)
-        
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {

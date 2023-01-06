@@ -10,8 +10,8 @@
       "resistance": 70
   },
   "spells": [
-      "defenseDown",
       "aetherSimpleAttack",
+      "defenseDown",
       "electricSpecialAttack",
       "fireSpecial2Attack"
   ],
