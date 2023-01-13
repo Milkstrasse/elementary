@@ -165,7 +165,7 @@ class FightLogic: ObservableObject {
             }
             
             //update target for swap
-            if playerQueue[1].move.type == MoveType.swap {
+            if playerQueue[1].move.type == MoveType.swap && rndmMove.type == MoveType.spell {
                 rndmMove.target = playerQueue[1].move.target
             }
             
@@ -336,22 +336,12 @@ class FightLogic: ObservableObject {
         }
         
         //determine priority with using the agility stat of the fighters
-        if weather?.name == Weather.heavyStorm.rawValue { //flips speed check
-            if playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility {
-                return false
-            } else if playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility {
-                return true
-            } else { //agility stat tie -> random player has priority
-                return Bool.random()
-            }
-        } else {
-            if playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility {
-                return true
-            } else if playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility {
-                return false
-            } else { //agility stat tie -> random player has priority
-                return Bool.random()
-            }
+        if playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility {
+            return true
+        } else if playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility {
+            return false
+        } else { //agility stat tie -> random player has priority
+            return Bool.random()
         }
     }
     
@@ -516,14 +506,25 @@ class FightLogic: ObservableObject {
             offset += 1
 
             //fighter receives hex effects
-            for hex in 0 ..< 3 {
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)), at: index + offset + 1)
+            if originalArr[index].move.type == MoveType.swap { //source & target will change because of swap
+                for hex in 0 ..< 3 {
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: hex, target: originalArr[index].move.target, spell: -1, type: MoveType.hex)), at: index + offset + 1)
+                    offset += 1
+                }
+                
+                //fighter receives artifact effects
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.artifact)), at: index + offset + 1)
+                offset += 1
+            } else {
+                for hex in 0 ..< 3 {
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)), at: index + offset + 1)
+                    offset += 1
+                }
+                
+                //fighter receives artifact effects
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)), at: index + offset + 1)
                 offset += 1
             }
-            
-            //fighter receives artifact effects
-            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)), at: index + offset + 1)
-            offset += 1
         }
     }
     
@@ -623,10 +624,6 @@ class FightLogic: ObservableObject {
     ///   - target: The index of the targeted fighter
     /// - Returns: Returns the description of what occured during the swap
     private func swapFighters(player: Player, target: Int) -> String {
-        if target < 0 {
-            print("something went wrong")
-        }
-        
         player.hasToSwap = false //flag no longer necessary
         
         var text: String

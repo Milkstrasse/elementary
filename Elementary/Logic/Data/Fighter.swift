@@ -123,6 +123,8 @@ class Fighter: Hashable, Equatable {
         
         if weather?.name == Weather.extremeHeat.rawValue {
             return Base(health: health, attack: defense, defense: attack, agility: agility, precision: precision, resistance: resistance)
+        } else if weather?.name == Weather.heavyStorm.rawValue {
+            return Base(health: health, attack: attack, defense: defense, agility: -agility, precision: precision, resistance: resistance)
         } else {
             return Base(health: health, attack: attack, defense: defense, agility: agility, precision: precision, resistance: resistance)
         }

@@ -173,4 +173,49 @@ enum Weather: String, CaseIterable {
             return Hex(name: self.rawValue, symbol: 0xf4d8, duration: duration, positive: true)
         }
     }
+    
+    static func isBeneficial(weather: String, attacker: Fighter, defender: Fighter) -> Bool {
+        switch weather {
+        case "snowstorm":
+            return true
+        case "sunnyDay":
+            return true
+        case "overcastSky":
+            return true
+        case "mysticWeather":
+            return true
+        case "lightRain":
+            return true
+        case "sandstorm":
+            return true
+        case "magneticStorm":
+            if attacker.getElement().hasAdvantage(element: defender.getElement(), weather: nil) {
+                return false
+            } else {
+                return true
+            }
+        case "denseFog":
+            if attacker.getElement().hasAdvantage(element: defender.getElement(), weather: nil) {
+                return false
+            } else {
+                return true
+            }
+        case "extremeHeat":
+            if attacker.getModifiedBase().attack < attacker.getModifiedBase().defense {
+                return true
+            } else {
+                return false
+            }
+        case "springWeather":
+            if attacker.hasHex(hexName: "healed") {
+                return false
+            } else if defender.hasHex(hexName: "doomed") && !attacker.hasHex(hexName: "doomed") {
+                return false
+            } else {
+                return true
+            }
+        default:
+            return false
+        }
+    }
 }
