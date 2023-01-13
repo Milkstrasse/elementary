@@ -11,7 +11,7 @@ struct PlayerSelectionView: View {
     let opponents: [Fighter?]
     
     @Binding var fighters: [Fighter?]
-    @State var selectedSlot: Int = -1
+    @Binding var selectedSlot: Int
     @State var selectedNature: Int = 0
     @State var selectedArtifact: Int = 0
     @State var selectedOutfit: Int = 0
@@ -19,9 +19,9 @@ struct PlayerSelectionView: View {
     let height: CGFloat
     let singleMode: Bool
     
-    @State var offset: CGFloat
-    @State var selectionToggle: Bool = false
-    @State var infoToggle: Bool = false
+    @Binding var offset: CGFloat
+    @Binding var selectionToggle: Bool
+    @Binding var infoToggle: Bool
     
     @GestureState var isNatureDecreasing = false
     @GestureState var isNatureIncreasing = false
@@ -575,6 +575,6 @@ struct PlayerSelectionView: View {
 
 struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]), height: 175, singleMode: false, offset: 175)
+        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]), selectedSlot: Binding.constant(-1), height: 175, singleMode: false, offset: Binding.constant(175), selectionToggle: Binding.constant(false), infoToggle: Binding.constant(false))
     }
 }

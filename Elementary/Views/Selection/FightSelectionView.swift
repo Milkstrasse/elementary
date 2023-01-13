@@ -17,6 +17,16 @@ struct FightSelectionView: View {
     @State var topReady: Bool = false
     @State var bottomReady: Bool = false
     
+    @State var topSelectionToggle: Bool = false
+    @State var topInfoToggle: Bool = false
+    @State var topOffset: CGFloat = 175
+    @State var topSelectedSlot: Int = -1
+    
+    @State var bottomSelectionToggle: Bool = false
+    @State var bottomInfoToggle: Bool = false
+    @State var bottomOffset: CGFloat = 175
+    @State var bottomSelectedSlot: Int = -1
+    
     let singleMode: Bool
     let alwaysRandom: Bool
     let hasCPUPlayer: Bool
@@ -85,6 +95,10 @@ struct FightSelectionView: View {
                     Button(action: {
                         if !topReady {
                             AudioPlayer.shared.playConfirmSound()
+                            topSelectionToggle = false
+                            topInfoToggle = false
+                            topOffset = geometry.safeAreaInsets.top + 175
+                            topSelectedSlot = -1
                         } else {
                             AudioPlayer.shared.playCancelSound()
                         }
@@ -114,6 +128,10 @@ struct FightSelectionView: View {
                     Button(action: {
                         if !bottomReady {
                             AudioPlayer.shared.playConfirmSound()
+                            bottomSelectionToggle = false
+                            bottomInfoToggle = false
+                            bottomOffset = geometry.safeAreaInsets.top + 175
+                            bottomSelectedSlot = -1
                         } else {
                             AudioPlayer.shared.playCancelSound()
                         }
@@ -158,9 +176,13 @@ struct FightSelectionView: View {
                 if hasCPUPlayer {
                     CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180)).ignoresSafeArea()
                 } else {
-                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, height: geometry.safeAreaInsets.top + 175, singleMode: singleMode, offset: geometry.safeAreaInsets.top + 175).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea()
+                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, selectedSlot: $topSelectedSlot, height: geometry.safeAreaInsets.top + 175, singleMode: singleMode, offset: $topOffset, selectionToggle: $topSelectionToggle, infoToggle: $topInfoToggle).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea().disabled(topReady)
                 }
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: geometry.safeAreaInsets.bottom + 175).frame(width: geometry.size.width).ignoresSafeArea()
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, selectedSlot: $bottomSelectedSlot, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: $bottomOffset, selectionToggle: $bottomSelectionToggle, infoToggle: $bottomInfoToggle).frame(width: geometry.size.width).ignoresSafeArea().disabled(bottomReady)
+            }
+            .onAppear {
+                topOffset = geometry.safeAreaInsets.top + 175
+                bottomOffset = geometry.safeAreaInsets.bottom + 175
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
