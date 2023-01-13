@@ -254,8 +254,9 @@ class Fighter: Hashable, Equatable {
     }
     
     /// Tries to to apply an hex to the fighter
-    /// - Parameter hex: The desired hex
-    /// - Parameter resistable: Indicates wether the hex can be resisted or not
+    /// - Parameters:
+    ///   - hex: The desired hex
+    ///   - resistable: Indicates wether the hex can be resisted or not
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
         if resistable { //chance hex will be resisted

@@ -30,8 +30,9 @@ struct Move {
     }
     
     /// Mana is subtracted from the spell.
-    /// - Parameter amount: The amount of mana used on the spell
-    /// - Parameter singleMode: Indicates the category of the spell
+    /// - Parameters:
+    ///   - amount: The amount of mana used on the spell
+    ///   - singleMode: Indicates the category of the spell
     mutating func useSpell(amount: Int, singleMode: Bool) {
         if singleMode {
             if source.singleSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
