@@ -14,6 +14,11 @@ struct Base: Codable {
     let precision: Int
     let resistance: Int
     
+    /// Checks how a stat was changed.
+    /// - Parameters:
+    ///   - index: The index of the stat
+    ///   - value: The new value of the stat
+    /// - Returns: Returns +1 if stat has increased and -1 if stat has decreased
     func compareValues(index: Int, value: Int) -> Int {
         switch index {
         case 1:

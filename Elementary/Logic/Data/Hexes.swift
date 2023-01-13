@@ -76,7 +76,6 @@ enum Hexes: String, CaseIterable {
     case doomed
     
     /// Creates and returns a hex.
-    /// - Parameter duration: The duration of the hex
     /// - Returns: Returns a hex
     func getHex() -> Hex {
         switch self {

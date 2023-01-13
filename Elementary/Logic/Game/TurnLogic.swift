@@ -313,7 +313,7 @@ class TurnLogic {
     /// Restores hitpoints of targeted fighter.
     /// - Parameters:
     ///   - defender: The fighter to be targeted
-    ///   - spell: The spell used to make the attack
+    ///   - spell: The part of the spell used to make the attack
     /// - Returns: Returns a description of what occured during healing
     private func applyHealing(defender: Fighter, spell: SubSpell) -> String {
         var newHealth: Int

@@ -15,11 +15,12 @@ struct DamageCalculator {
     /// - Parameters:
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
-    ///   - spell: The spell used to make the attack
-    ///   - subSpell: The part of the spell used to make the attack
+    ///   - spell: The index of the spell used
+    ///   - subSpell: The index of the part of the spell used
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
-    ///   - usedShield: Indicates wether the opponent used a shield successfully
+    ///   - usedShield: Indicates wether the target used a shield successfully
+    ///   - singleMode: Indicates the category of the spell used
     /// - Returns: Returns a description of what occured during the attack
     func applyDamage(attacker: Fighter, defender: Fighter, spell: Int, spellIndex: Int, spellElement: Element, weather: Hex?, usedShield: Bool, singleMode: Bool) -> String {
         var text: String
@@ -114,6 +115,7 @@ struct DamageCalculator {
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
     ///   - spellElement: The element of the used spell
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns the received modifier
     func getElementalModifier(attacker: Fighter, defender: Fighter, spellElement: Element, weather: Hex?) -> Float {
         var modifier: Float = 1
@@ -181,7 +183,7 @@ struct DamageCalculator {
     /// - Parameters:
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
-    ///   - spell: The spell used to make the attack
+    ///   - spell: The part of the spell used
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     ///   - powerOverride: The modification to the power of the spell
@@ -215,8 +217,8 @@ struct DamageCalculator {
     /// - Parameters:
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
-    ///   - spell: The spell used to make the attack
-    ///   - subSpell: The part of the spell used to make the attack
+    ///   - spell: The spell used
+    ///   - subSpell: The part of the spell used
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the attack is a guaranteed K.O.

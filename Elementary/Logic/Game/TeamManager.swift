@@ -8,6 +8,8 @@
 /// Manages teams of fighters.
 struct TeamManager {
     /// Selects random fighters to create a team.
+    /// - Parameter opponents: The opposing fighters
+    /// - Returns: Returns a team consisting of random fighters
     static func selectRandom(opponents: [Fighter?]) -> [Fighter] {
         //let maxSize: Int = min(4, GlobalData.shared.fighters.count)
         let maxSize: Int = 4
@@ -98,9 +100,14 @@ struct TeamManager {
         return true
     }
     
-    static func isTeamValid(array: [Fighter?], singleMode: Bool) -> Bool {
+    /// Checks if team fulfills all requirements to fight.
+    /// - Parameters:
+    ///   - fighters: The fighters of the team
+    ///   - singleMode: Determines the requirements for the team
+    /// - Returns: Returns if team fulfills all fight requirements
+    static func isTeamValid(fighters: [Fighter?], singleMode: Bool) -> Bool {
         var counter: Int = 0
-        for fighter in array {
+        for fighter in fighters {
             if fighter != nil {
                 counter += 1
             }
@@ -113,7 +120,10 @@ struct TeamManager {
         }
     }
     
-    /// Reset each fighter in both teams to make them ready for a fight.
+    /// Resets each fighter in both teams to make them ready for a fight.
+    /// - Parameters:
+    ///   - topFighters: The team of player 0
+    ///   - bottomFighters: The team of player 1
     static func resetFighters(topFighters: [Fighter?], bottomFighters: [Fighter?]) {
         for fighter in topFighters {
             fighter?.reset()

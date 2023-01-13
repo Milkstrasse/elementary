@@ -254,6 +254,12 @@ struct CPULogic {
         return dmg
     }
     
+    /// Creates a move to indicate a swap.
+    /// - Parameters:
+    ///   - player: The current player
+    ///   - target: The opponent player
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns a swap move
     private func createSwapMove(player: Player, target: Player, weather: Hex?) -> Move {
         let target: Int = CPULogic.shared.getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: target.getCurrentFighter().getElement(), hasToSwap: true, weather: weather)
         

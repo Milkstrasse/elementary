@@ -105,7 +105,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(!TeamManager.isTeamValid(array: topFighters, singleMode: singleMode) || hasCPUPlayer)
+                    .disabled(!TeamManager.isTeamValid(fighters: topFighters, singleMode: singleMode) || hasCPUPlayer)
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
@@ -134,7 +134,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(!TeamManager.isTeamValid(array: bottomFighters, singleMode: singleMode))
+                    .disabled(!TeamManager.isTeamValid(fighters: bottomFighters, singleMode: singleMode))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)

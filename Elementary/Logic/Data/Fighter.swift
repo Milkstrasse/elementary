@@ -93,12 +93,13 @@ class Fighter: Hashable, Equatable {
     }
     
     /// Changes the temporary element of a fighter.
-    /// - Parameter artifact: The desired element
+    /// - Parameter newElement: The desired element
     func overrideElement(newElement: Element) {
         self.elementOverride = newElement
     }
     
     /// Calculates current stats of a fighter taking the current nature and hexes of the fighter into consideration.
+    /// - Parameter weather: The current weather of the fight
     /// - Returns: Returns the current stats of a fighter
     func getModifiedBase(weather: Hex? = nil) -> Base {
         let health: Int = max(base.health + nature.healthMod, 0)
@@ -254,6 +255,7 @@ class Fighter: Hashable, Equatable {
     
     /// Tries to to apply an hex to the fighter
     /// - Parameter hex: The desired hex
+    /// - Parameter resistable: Indicates wether the hex can be resisted or not
     /// - Returns: Returns whether the hex has been applied successfully or not
     func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
         if resistable { //chance hex will be resisted

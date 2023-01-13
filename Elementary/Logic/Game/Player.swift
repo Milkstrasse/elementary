@@ -40,6 +40,7 @@ class Player: ObservableObject {
         return fighters[currentFighterId]
     }
     
+    /// Goes to the next alive fighter in the team.
     func goToNextFighter() {
         currentFighterId += 1
         while fighters[currentFighterId].currhp == 0 {
@@ -47,6 +48,7 @@ class Player: ObservableObject {
         }
     }
     
+    /// Goes to the previous alive fighter in the team.
     func goToPreviousFighter() {
         currentFighterId -= 1
         while fighters[currentFighterId].currhp == 0 {
@@ -54,8 +56,10 @@ class Player: ObservableObject {
         }
     }
     
-    /// Changes the state of the player which will be reflected by the current fighter with different images.
-    /// - Parameter state: The state the player will enter
+    /// Changes the state of the player which will be reflected by the current fighter with different images. The current fighter will be changed to the selected fighter.
+    /// - Parameters:
+    ///   - state: The state the player will enter
+    ///   - index: The index of the fighter
     private func setState(state: PlayerState, index: Int) {
         currentFighterId = index
         self.state = state
@@ -81,6 +85,10 @@ class Player: ObservableObject {
         }
     }
     
+    /// Changes the state of the player which will be reflected by the current fighter with different images. The current fighter will be changed to the selected fighter.
+    /// - Parameters:
+    ///   - state: The state the player will enter
+    ///   - index: The selected fighter
     func setState(state: PlayerState, fighter: Fighter) {
         var index: Int = 0
         for n in fighters.indices {
@@ -93,9 +101,9 @@ class Player: ObservableObject {
         setState(state: state, index: index)
     }
     
-    /// Checks if fighter can swap within their team.
-    /// - Parameter player: The player
-    /// - Returns: Returns whether the fighter can swap in their team
+    /// Checks if the player can swap within fighters.
+    /// - Parameter singleMode: Indicates wether swaps are even possible
+    /// - Returns: Returns whether the player can swap fighters
     func isAbleToSwap(singleMode: Bool = true) -> Bool {
         if !singleMode || getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) {
             return false

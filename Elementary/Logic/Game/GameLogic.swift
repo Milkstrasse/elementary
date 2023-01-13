@@ -26,14 +26,26 @@ struct GameLogic {
         readyPlayers[player] = ready
     }
     
+    /// Stores a spell before chossing the target of a move.
+    /// - Parameters:
+    ///   - player: The id of the player
+    ///   - fighter: The id of the fighter using the spell
+    ///   - spell: The id of the spell
     mutating func useSpell(player: Int, fighter: Int, spell: Int) {
         tempSpells[fighter + player * fullAmount/2] = spell
     }
     
+    /// Removes the spell after an undo.
+    /// - Parameters:
+    ///   - player: The id of the player
+    ///   - fighter: The id of the fighter using the spell
     mutating func removeSpell(player: Int, fighter: Int) {
         tempSpells[fighter + player * fullAmount/2] = -1
     }
     
+    /// Checks if any spells have been stored.
+    /// - Parameter player: The id of the player
+    /// - Returns: Returns if atleast one spell has been stored
     func spellHasBeenUsed(player: Int) -> Bool {
         var counter: Int = 0
         for index in player * fullAmount/2 ..< fullAmount/2 + player * fullAmount/2 {
@@ -45,6 +57,7 @@ struct GameLogic {
         return counter > 1
     }
     
+    /// Remove all stored spells.
     mutating func clearSpells() {
         tempSpells = [Int](repeating: -1, count: fullAmount)
     }
@@ -55,6 +68,9 @@ struct GameLogic {
         return readyPlayers[0] && readyPlayers[1]
     }
     
+    /// Checks if the fighters of the player used all of their moves.
+    /// - Parameter player: The id of the player
+    /// - Returns: Returns if all fighters made their move
     func isPlayerReady(player: Player) -> Bool {
         var counter: Int = 0
         for index in player.id * fullAmount/2 ..< fullAmount/2 + player.id * fullAmount/2 {

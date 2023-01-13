@@ -304,8 +304,13 @@ class FightLogic: ObservableObject {
         gameLogic.setReady(player: player.id, ready: false)
     }
     
+    /// Compares to fighters to determine who makes the first move
+    /// - Parameters:
+    ///   - fighterA: The first fighter
+    ///   - fighterB: The second fighter
+    /// - Returns: Returns wether the first fighter has priority or not
     func isFasterPlayer(fighterA: Int, fighterB: Int) -> Bool {
-        //player wants to switch which -> priority
+        //player wants to switch -> priority
         if playerQueue[fighterA].move.type == MoveType.swap {
             return true
         } else if playerQueue[fighterB].move.type == MoveType.swap {
@@ -351,7 +356,6 @@ class FightLogic: ObservableObject {
     }
     
     /// Plans whole fight in advance and adds the moves to the queue.
-    /// - Parameter fasterPlayer: The player that starts first
     private func addTurns() {
         //finalize move
         for index in playerQueue.indices {
@@ -599,6 +603,7 @@ class FightLogic: ObservableObject {
             break
         }
         
+        //execute move
         if move.type == MoveType.swap { //check if swap possible
             if attacker.hasHex(hexName: Hexes.chained.rawValue) {
                 fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
@@ -614,7 +619,7 @@ class FightLogic: ObservableObject {
     
     /// Swaps two fighters.
     /// - Parameters:
-    ///   - player: The player
+    ///   - player: The player who wants to swap
     ///   - target: The index of the targeted fighter
     /// - Returns: Returns the description of what occured during the swap
     private func swapFighters(player: Player, target: Int) -> String {
@@ -635,6 +640,7 @@ class FightLogic: ObservableObject {
         text = Localization.shared.getTranslation(key: "swapWith", params: [player.getCurrentFighter().name, player.fighters[target].name]) + "\n"
         player.currentFighterId = target
         
+        //heal new fighter after making a wish
         if player.wishActivated && player.getCurrentFighter().currhp < player.getCurrentFighter().getModifiedBase().health {
             player.getCurrentFighter().currhp = player.getCurrentFighter().getModifiedBase().health
             
@@ -648,6 +654,7 @@ class FightLogic: ObservableObject {
             oppositePlayer = players[1]
         }
         
+        //apply artifact effect
         if weather?.name != Weather.volcanicStorm.rawValue && player.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
             if weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
                 text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
@@ -733,7 +740,7 @@ class FightLogic: ObservableObject {
     }
     
     /// Ends the game with a forfeit.
-    /// - Parameter player: The id of the player
+    /// - Parameter player: The id of the player who forfeits
     func forfeit(player: Int) {
         gameLogic.forfeit(player: player)
     }

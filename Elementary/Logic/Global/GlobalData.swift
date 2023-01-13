@@ -33,7 +33,8 @@ class GlobalData {
     
     var userProgress: UserProgress = UserProgress()
     
-    /// Load data from folders.
+    /// Loads data from folders.
+    ///  - Parameter manager: Access to ViewManager to display progress
     func loadData(manager: ViewManager) {
         loadElements()
         loadSpells()
@@ -41,7 +42,7 @@ class GlobalData {
         loadNatures()
     }
     
-    /// Load data from elements folder.
+    /// Loads data from elements folder.
     func loadElements() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
             for url in urls {
@@ -63,7 +64,7 @@ class GlobalData {
         overwriteElements()
     }
     
-    /// Load data from spells folder.
+    /// Loads data from spells folder.
     func loadSpells() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
             for url in urls {
@@ -84,7 +85,8 @@ class GlobalData {
         overwriteSpells()
     }
     
-    /// Load data from fighters folder.
+    /// Loads data from fighters folder.
+    /// - Parameter manager: Access to ViewManager to display progress
     func loadFighters(manager: ViewManager) {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
             for url in urls {
@@ -109,7 +111,7 @@ class GlobalData {
         overwriteFighters()
     }
     
-    /// Load data from natures folder.
+    /// Loads data from natures folder.
     func loadNatures() {
         if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
             for url in urls {

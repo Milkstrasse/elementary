@@ -93,6 +93,7 @@ struct SavedFighterData: Codable, Equatable {
     }
     
     /// Creates fighter from data.
+    /// - Parameter images: The images corresponding to the fighter. Avoids the process of splitting the base image again
     /// - Returns: Returns the fighter created by the data
     func toFighter(images: [[Image]] = []) -> Fighter {
         let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, singleSpells: singleSpells, multiSpells: multiSpells, outfits: outfits), outfitIndex: outfitIndex, images: images)

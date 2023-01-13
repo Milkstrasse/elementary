@@ -15,7 +15,7 @@ struct HexApplication {
     /// - Parameters:
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
-    ///   - spell: The spell used to make the attack
+    ///   - spell: The part of the spell used to make the attack
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the application of the hex
     func applyHex(attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?) -> String {

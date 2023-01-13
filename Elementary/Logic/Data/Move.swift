@@ -31,24 +31,14 @@ struct Move {
     
     /// Mana is subtracted from the spell.
     /// - Parameter amount: The amount of mana used on the spell
+    /// - Parameter singleMode: Indicates the category of the spell
     mutating func useSpell(amount: Int, singleMode: Bool) {
         if singleMode {
             if source.singleSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
                 return
             }
             
-            //find index of spell since spells cannot be mutated directly
-            /*var spellIndex: Int = 0
-            for sourceSpell in source.singleSpells {
-                if sourceSpell == source.singleSpells[spell] {
-                    break
-                }
-                
-                spellIndex += 1
-            }*/
-            
             source.singleSpells[spell].useCounter += amount
-            //source.singleSpells[spellIndex] = source.singleSpells[spell]
         } else {
             if source.multiSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
                 return
