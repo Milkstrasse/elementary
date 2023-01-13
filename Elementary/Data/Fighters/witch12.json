@@ -9,11 +9,17 @@
       "precision": 100,
       "resistance": 50
   },
-  "spells": [
+  "singleSpells": [
       "woodSimpleAttack",
       "powerUpChain",
       "iceSimpleAttack",
       "windSpecial2Attack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

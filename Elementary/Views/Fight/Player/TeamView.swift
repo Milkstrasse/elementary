@@ -10,8 +10,8 @@ import SwiftUI
 struct TeamView: View {
     @Binding var currentSection: Section
     
-    @ObservedObject var fightLogic: FightLogic
-    @ObservedObject var player: Player
+    var fightLogic: FightLogic
+    var player: Player
     
     @State var isDetectingPress: Bool = false
     @State var selectIndex: Int = -1
@@ -87,14 +87,16 @@ struct TeamView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, spell: Spell(), type: MoveType.swap)) {
-                                        AudioPlayer.shared.playConfirmSound()
-                                        currentSection = .waiting
-                                    } else {
-                                        AudioPlayer.shared.playStandardSound()
-                                        currentSection = .options
+                                    if fightLogic.singleMode {
+                                        if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, target: player.fighters[index], spell: -1, type: MoveType.swap)) {
+                                            AudioPlayer.shared.playConfirmSound()
+                                            currentSection = .waiting
+                                        } else {
+                                            AudioPlayer.shared.playStandardSound()
+                                            currentSection = .options
+                                        }
                                     }
-                        })
+                                })
                     }
                 }
             }
@@ -107,6 +109,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
+        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

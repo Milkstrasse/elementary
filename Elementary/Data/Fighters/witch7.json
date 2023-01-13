@@ -9,11 +9,17 @@
       "precision": 95,
       "resistance": 75
   },
-  "spells": [
+  "singleSpells": [
       "metalSimpleAttack",
       "powerUp",
       "plantSimpleAttack",
       "rockShieldAttack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

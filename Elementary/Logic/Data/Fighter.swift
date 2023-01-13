@@ -23,8 +23,11 @@ class Fighter: Hashable, Equatable {
     
     var hexes: [Hex] = []
     
-    var spells: [Spell]
+    var singleSpells: [Spell]
+    var multiSpells: [Spell]
     var lastSpell: Int
+    
+    var hasSwapped: Bool = false
     
     var nature: Nature
     private(set) var artifact: Artifact
@@ -54,13 +57,21 @@ class Fighter: Hashable, Equatable {
         base = data.base
         currhp = data.base.health
         
-        spells = []
-        let dataSpells = data.spells
+        singleSpells = []
+        var dataSpells: [String] = data.singleSpells
         lastSpell = -1
         
         for index in dataSpells.indices {
             let spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
-            spells.append(spell)
+            singleSpells.append(spell)
+        }
+        
+        multiSpells = []
+        dataSpells = data.multiSpells
+        
+        for index in dataSpells.indices {
+            let spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
+            multiSpells.append(spell)
         }
         
         nature = Nature()
@@ -398,8 +409,8 @@ class Fighter: Hashable, Equatable {
         elementOverride = nil
         artifactOverride = nil
         
-        for index in spells.indices {
-            spells[index].useCounter = 0
+        for index in singleSpells.indices {
+            singleSpells[index].useCounter = 0
         }
     }
     

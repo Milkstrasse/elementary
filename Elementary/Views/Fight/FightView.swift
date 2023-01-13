@@ -14,6 +14,7 @@ enum Section {
     case team
     case waiting
     case info
+    case targeting
 }
 
 struct FightView: View {
@@ -26,7 +27,7 @@ struct FightView: View {
     @State var gameOver: Bool = false
     @State var fightOver: Bool = false
     
-    let allowSelection: Bool
+    let singleMode: Bool
     let alwaysRandom: Bool
     let hasCPUPlayer: Bool
     
@@ -62,7 +63,7 @@ struct FightView: View {
             
             transitionToggle = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters, allowSelection: allowSelection, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
+                manager.setView(view: AnyView(FightSelectionView(topFighters: fightLogic.players[0].fighters, bottomFighters: fightLogic.players[1].fighters, singleMode: singleMode, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
             }
         }
     }
@@ -70,6 +71,6 @@ struct FightView: View {
 
 struct FightView_Previews: PreviewProvider {
     static var previews: some View {
-        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
+        FightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), singleMode: true, alwaysRandom: false, hasCPUPlayer: false)
     }
 }

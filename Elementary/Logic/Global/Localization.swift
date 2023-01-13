@@ -34,7 +34,7 @@ class Localization {
                 
                 currentLang = language
             } catch {
-                print("error: \(error)")
+                print("\(error)")
             }
             
             //add found translations to existing ones and override old value with new
@@ -51,7 +51,7 @@ class Localization {
                 let data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
             } catch {
-                print("error: \(error)")
+                print("\(error)")
             }
             
             //add found translations to existing ones and override old value with new

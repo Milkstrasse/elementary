@@ -53,7 +53,7 @@ class GlobalData {
                     elements.updateValue(elementData, forKey: elementData.name)
                     elementArray.append(elementData)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
             
@@ -74,7 +74,7 @@ class GlobalData {
                     
                     spells.updateValue(spellData, forKey: spellData.name)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
             
@@ -99,7 +99,7 @@ class GlobalData {
                         manager.progress = Float(fighters.count)/Float(urls.count) * 100
                     }
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
             
@@ -120,7 +120,7 @@ class GlobalData {
                     
                     natures.append(natureData)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
             
@@ -242,7 +242,7 @@ class GlobalData {
             do {
                 paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/elements")
             } catch {
-                print("error: \(error)")
+                print("\(error)")
                 return
             }
             
@@ -260,7 +260,7 @@ class GlobalData {
                     
                     GlobalData.shared.elements.updateValue(elementData, forKey: elementData.name)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
         }
@@ -273,7 +273,7 @@ class GlobalData {
             do {
                 paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/spells")
             } catch {
-                print("error: \(error)")
+                print("\(error)")
                 return
             }
             
@@ -288,7 +288,7 @@ class GlobalData {
                     //adds new spell or replaces spell
                     GlobalData.shared.spells.updateValue(spellData, forKey: spellData.name)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
             
@@ -303,7 +303,7 @@ class GlobalData {
             do {
                 paths = try SaveData.fileManager.contentsOfDirectory(atPath: mainURL.path + "/mods/fighters")
             } catch {
-                print("error: \(error)")
+                print("\(error)")
                 return
             }
             
@@ -325,7 +325,7 @@ class GlobalData {
                     //adds new fighter
                     GlobalData.shared.fighters.append(Fighter(data: fighterData))
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
         }
@@ -343,7 +343,7 @@ class GlobalData {
                     
                     return translations
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
         }

@@ -2,7 +2,7 @@
   "element": "metal",
   "typeID": 0,
   "uses": 16,
-  "spells": [
+  "subSpells": [
       {
           "power": 75,
           "range": 1

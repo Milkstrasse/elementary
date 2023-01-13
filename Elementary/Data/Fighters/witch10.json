@@ -9,11 +9,17 @@
       "precision": 105,
       "resistance": 45
   },
-  "spells": [
+  "singleSpells": [
       "waterSimpleAttack",
       "healingWish",
       "springWeather",
       "aetherSimpleAttack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

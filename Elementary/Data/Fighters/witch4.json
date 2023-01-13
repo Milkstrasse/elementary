@@ -9,11 +9,17 @@
       "precision": 55,
       "resistance": 105
   },
-  "spells": [
+  "singleSpells": [
       "fireSimpleAttack",
       "drainAttack",
       "sunnyDay",
       "plantSpecial2Attack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

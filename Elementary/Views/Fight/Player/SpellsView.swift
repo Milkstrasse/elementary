@@ -59,43 +59,114 @@ struct SpellsView: View {
     var body: some View {
         ScrollViewReader { value in
             VStack(spacing: innerPadding/2) {
-                ForEach(player.getCurrentFighter().spells.indices, id: \.self) { index in
-                    Button(action: {
-                    }) {
-                        ZStack {
-                            if isDetectingPress && selectIndex == index {
-                                SpellView(spell: player.getCurrentFighter().spells[index], desccription: Localization.shared.getTranslation(key: player.getCurrentFighter().spells[index].name + "Descr"))
-                            } else {
-                                SpellView(spell: player.getCurrentFighter().spells[index], desccription: generateDescription(spell: player.getCurrentFighter().spells[index], fighter: player.getCurrentFighter()))
-                            }
-                        }
-                        .simultaneousGesture(
-                            DragGesture(minimumDistance: 0)
-                                .onChanged { value in
-                                    if selectIndex < 0 {
-                                        selectIndex = index
-                                    }
-                                    
-                                    isDetectingPress = true
+                if fightLogic.singleMode {
+                    ForEach(player.getCurrentFighter().singleSpells.indices, id: \.self) { index in
+                        Button(action: {
+                        }) {
+                            ZStack {
+                                if isDetectingPress && selectIndex == index {
+                                    SpellView(spell: player.getCurrentFighter().singleSpells[index], desccription: Localization.shared.getTranslation(key: player.getCurrentFighter().singleSpells[index].name + "Descr"))
+                                } else {
+                                    SpellView(spell: player.getCurrentFighter().singleSpells[index], desccription: generateDescription(spell: player.getCurrentFighter().singleSpells[index], fighter: player.getCurrentFighter()))
                                 }
-                                .onEnded({ _ in
-                                    selectIndex = -1
-                                    
-                                    isDetectingPress = false
-                                })
-                        )
-                        .highPriorityGesture(
-                            TapGesture()
-                                .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, spell: player.getCurrentFighter().spells[index], type: MoveType.spell)) {
-                                        AudioPlayer.shared.playConfirmSound()
-                                        currentSection = .waiting
-                                    } else {
-                                        AudioPlayer.shared.playStandardSound()
+                            }
+                            .simultaneousGesture(
+                                DragGesture(minimumDistance: 0)
+                                    .onChanged { value in
+                                        if selectIndex < 0 {
+                                            selectIndex = index
+                                        }
+                                        
+                                        isDetectingPress = true
                                     }
-                                })
+                                    .onEnded({ _ in
+                                        selectIndex = -1
+                                        
+                                        isDetectingPress = false
+                                    })
+                            )
+                            .highPriorityGesture(
+                                TapGesture()
+                                    .onEnded { _ in
+                                        if fightLogic.singleMode {
+                                            let target: Fighter
+                                            if player.getCurrentFighter().singleSpells[index].subSpells[0].range == 0 {
+                                                target = player.getCurrentFighter()
+                                            } else if player.id == 0 {
+                                                target = fightLogic.players[1].getCurrentFighter()
+                                            } else {
+                                                target = fightLogic.players[0].getCurrentFighter()
+                                            }
+                                            
+                                            if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
+                                                AudioPlayer.shared.playConfirmSound()
+                                                currentSection = .waiting
+                                            } else {
+                                                AudioPlayer.shared.playStandardSound()
+                                            }
+                                        } else {
+                                            AudioPlayer.shared.playStandardSound()
+                                            fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                            currentSection = .targeting
+                                        }
+                                    })
+                        }
+                        .id(index)
                     }
-                    .id(index)
+                } else {
+                    ForEach(player.getCurrentFighter().multiSpells.indices, id: \.self) { index in
+                        Button(action: {
+                        }) {
+                            ZStack {
+                                if isDetectingPress && selectIndex == index {
+                                    SpellView(spell: player.getCurrentFighter().multiSpells[index], desccription: Localization.shared.getTranslation(key: player.getCurrentFighter().multiSpells[index].name + "Descr"))
+                                } else {
+                                    SpellView(spell: player.getCurrentFighter().multiSpells[index], desccription: generateDescription(spell: player.getCurrentFighter().multiSpells[index], fighter: player.getCurrentFighter()))
+                                }
+                            }
+                            .simultaneousGesture(
+                                DragGesture(minimumDistance: 0)
+                                    .onChanged { value in
+                                        if selectIndex < 0 {
+                                            selectIndex = index
+                                        }
+                                        
+                                        isDetectingPress = true
+                                    }
+                                    .onEnded({ _ in
+                                        selectIndex = -1
+                                        
+                                        isDetectingPress = false
+                                    })
+                            )
+                            .highPriorityGesture(
+                                TapGesture()
+                                    .onEnded { _ in
+                                        if fightLogic.singleMode {
+                                            let target: Fighter
+                                            if player.getCurrentFighter().multiSpells[index].subSpells[0].range == 0 {
+                                                target = player.getCurrentFighter()
+                                            } else if player.id == 0 {
+                                                target = fightLogic.players[1].getCurrentFighter()
+                                            } else {
+                                                target = fightLogic.players[0].getCurrentFighter()
+                                            }
+                                            
+                                            if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
+                                                AudioPlayer.shared.playConfirmSound()
+                                                currentSection = .waiting
+                                            } else {
+                                                AudioPlayer.shared.playStandardSound()
+                                            }
+                                        } else {
+                                            AudioPlayer.shared.playStandardSound()
+                                            fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                            currentSection = .targeting
+                                        }
+                                    })
+                        }
+                        .id(index)
+                    }
                 }
             }
             .onAppear {
@@ -107,6 +178,6 @@ struct SpellsView: View {
 
 struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
+        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

@@ -9,11 +9,17 @@
       "precision": 150,
       "resistance": 80
   },
-  "spells": [
+  "singleSpells": [
       "decaySimpleAttack",
       "block",
       "poison",
       "waterSimpleAttack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

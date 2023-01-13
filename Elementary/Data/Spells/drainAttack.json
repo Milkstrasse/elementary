@@ -2,7 +2,7 @@
   "element": "fire",
   "typeID": 9,
   "uses": 10,
-  "spells": [
+  "subSpells": [
       {
           "power": 80,
           "range": 1

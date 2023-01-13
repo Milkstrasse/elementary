@@ -9,11 +9,17 @@
       "precision": 120,
       "resistance": 50
   },
-  "spells": [
+  "singleSpells": [
       "electricSimpleAttack",
       "magneticStorm",
       "trap",
       "woodSpecial2Attack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

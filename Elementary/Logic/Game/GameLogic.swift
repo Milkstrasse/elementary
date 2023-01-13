@@ -9,6 +9,14 @@
 struct GameLogic {
     private var readyPlayers: [Bool] = [false, false]
     var forfeited: [Bool] = [false, false]
+    var tempSpells: [Int]
+    
+    let fullAmount: Int
+    
+    init(fullAmount: Int) {
+        self.fullAmount = fullAmount
+        tempSpells = [Int](repeating: -1, count: fullAmount)
+    }
     
     /// Flags player as ready or not for starting a game, starting a new round or having a rematch.
     /// - Parameters:
@@ -18,10 +26,50 @@ struct GameLogic {
         readyPlayers[player] = ready
     }
     
+    mutating func useSpell(player: Int, fighter: Int, spell: Int) {
+        tempSpells[fighter + player * fullAmount/2] = spell
+    }
+    
+    mutating func removeSpell(player: Int, fighter: Int) {
+        tempSpells[fighter + player * fullAmount/2] = -1
+    }
+    
+    func spellHasBeenUsed(player: Int) -> Bool {
+        var counter: Int = 0
+        for index in player * fullAmount/2 ..< fullAmount/2 + player * fullAmount/2 {
+            if tempSpells[index] > -1 {
+                counter += 1
+            }
+        }
+        
+        return counter > 1
+    }
+    
+    mutating func clearSpells() {
+        tempSpells = [Int](repeating: -1, count: fullAmount)
+    }
+    
     /// Checks if both players are flagged as ready.
     /// - Returns: Return wether both players are flagged as ready
     func areBothReady() -> Bool {
         return readyPlayers[0] && readyPlayers[1]
+    }
+    
+    func isPlayerReady(player: Player) -> Bool {
+        var counter: Int = 0
+        for index in player.id * fullAmount/2 ..< fullAmount/2 + player.id * fullAmount/2 {
+            if tempSpells[index] > -1 {
+                counter += 1
+            }
+        }
+        
+        for fighter in player.fighters {
+            if fighter.currhp == 0 {
+                counter += 1
+            }
+        }
+        
+        return counter == fullAmount/2
     }
     
     /// Stores which player wants to forfeit.

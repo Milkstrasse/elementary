@@ -2,7 +2,7 @@
   "element": "aether",
   "typeID": 12,
   "uses": 8,
-  "spells": [
+  "subSpells": [
       {
           "power": 0,
           "range": 0,

@@ -98,6 +98,21 @@ struct TeamManager {
         return true
     }
     
+    static func isTeamValid(array: [Fighter?], singleMode: Bool) -> Bool {
+        var counter: Int = 0
+        for fighter in array {
+            if fighter != nil {
+                counter += 1
+            }
+        }
+        
+        if singleMode {
+            return counter > 0 && counter <= 4
+        } else {
+            return counter == 4
+        }
+    }
+    
     /// Reset each fighter in both teams to make them ready for a fight.
     static func resetFighters(topFighters: [Fighter?], bottomFighters: [Fighter?]) {
         for fighter in topFighters {

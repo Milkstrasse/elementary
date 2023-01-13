@@ -45,7 +45,10 @@ struct FighterInfoView: View {
                             }
                             BaseFighterOverviewView(modifiedBase: fighter.getModifiedBase(), base: fighter.base)
                             VStack(spacing: innerPadding/2) {
-                                ForEach(fighter.spells, id: \.self) { spell in
+                                ForEach(fighter.singleSpells, id: \.self) { spell in
+                                    SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
+                                }
+                                ForEach(fighter.multiSpells, id: \.self) { spell in
                                     SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
                                 }
                             }

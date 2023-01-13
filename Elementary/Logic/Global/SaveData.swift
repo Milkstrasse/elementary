@@ -69,7 +69,7 @@ struct SaveData: Codable {
                 try data.write(to: url, options: [.atomic])
             }
         } catch {
-            print("error: \(error)")
+            print("\(error)")
         }
     }
     
@@ -83,7 +83,7 @@ struct SaveData: Codable {
                 try data.write(to: url, options: [.atomic])
             }
         } catch {
-            print("error: \(error)")
+            print("\(error)")
         }
     }
     
@@ -116,7 +116,7 @@ struct SaveData: Codable {
                     
                     GlobalData.shared.savedFighters = savedData.savedFighters
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             } else { //no save file found -> create file and necessary folders
                 let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
@@ -133,7 +133,7 @@ struct SaveData: Codable {
                     let progress: UserProgress = try JSONDecoder().decode(UserProgress.self, from: data)
                     GlobalData.shared.userProgress = progress
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             } else { //no save file found -> create file and necessary folders
                 let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
@@ -153,7 +153,7 @@ struct SaveData: Codable {
                     try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
                     try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
                 } catch {
-                    print("error: \(error)")
+                    print("\(error)")
                 }
             }
         }
@@ -166,7 +166,7 @@ struct SaveData: Codable {
                 try FightLog.shared.fightLog.write(to: url, atomically: true, encoding: .utf8)
             }
         } catch {
-            print("error: \(error)")
+            print("\(error)")
         }
     }
     

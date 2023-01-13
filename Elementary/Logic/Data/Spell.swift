@@ -15,10 +15,10 @@ struct Spell: Decodable, Hashable {
     
     let uses: Int
     var useCounter: Int = 0
-    var spells: [SubSpell]
+    var subSpells: [SubSpell]
     
     enum CodingKeys: String, CodingKey {
-        case element, typeID, priority, uses, spells
+        case element, typeID, priority, uses, subSpells
     }
     
     /// Creates placeholder spell.
@@ -30,7 +30,7 @@ struct Spell: Decodable, Hashable {
         priority = 0
         
         uses = 10
-        spells = [SubSpell()]
+        subSpells = [SubSpell()]
     }
     
     /// Creates spell from JSON data.
@@ -46,7 +46,7 @@ struct Spell: Decodable, Hashable {
         priority = try container.decodeIfPresent(Int.self, forKey: .priority) ?? 0
         
         uses = try container.decode(Int.self, forKey: .uses)
-        spells = try container.decode([SubSpell].self, forKey: .spells)
+        subSpells = try container.decode([SubSpell].self, forKey: .subSpells)
     }
     
     func hash(into hasher: inout Hasher) {

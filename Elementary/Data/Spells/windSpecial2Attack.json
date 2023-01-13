@@ -2,7 +2,7 @@
   "element": "wind",
   "typeID": 8,
   "uses": 16,
-  "spells": [
+  "subSpells": [
       {
           "power": 65,
           "range": 1

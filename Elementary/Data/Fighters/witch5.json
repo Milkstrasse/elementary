@@ -9,11 +9,17 @@
       "precision": 70,
       "resistance": 150
   },
-  "spells": [
+  "singleSpells": [
       "groundSimpleAttack",
       "speedUp",
       "heavyStorm",
       "metalSimpleAttack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

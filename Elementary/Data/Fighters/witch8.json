@@ -9,11 +9,17 @@
       "precision": 80,
       "resistance": 70
   },
-  "spells": [
+  "singleSpells": [
       "plantSimpleAttack",
       "bomb",
       "windSimpleAttack",
       "trap"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

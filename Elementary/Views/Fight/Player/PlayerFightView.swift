@@ -82,15 +82,22 @@ struct PlayerFightView: View {
                                 fightOver = true
                             } else if fightLogic.isGameOver() {
                                 gameOver = true
-                            } else {
-                                if currentSection == .options {
+                            } else if currentSection == .options {
+                                if fightLogic.singleMode {
                                     currentSection = .summary
+                                } else if fightLogic.gameLogic.spellHasBeenUsed(player: player.id) {
+                                    fightLogic.gameLogic.removeSpell(player: player.id, fighter: player.currentFighterId)
+                                    player.goToPreviousFighter()
                                 } else {
-                                    if currentSection == .waiting {
-                                        fightLogic.undoMove(player: player)
-                                    }
-                                    currentSection = .options
+                                    currentSection = .summary
                                 }
+                            } else if currentSection == .targeting {
+                                currentSection = .spells
+                            } else {
+                                if currentSection == .waiting {
+                                    fightLogic.undoMove(player: player)
+                                }
+                                currentSection = .options
                             }
                         }) {
                             ClearButton(label: currentSection == .summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
@@ -163,6 +170,8 @@ struct PlayerFightView: View {
                                         SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
                                     } else if currentSection == .team {
                                         TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
+                                    } else if currentSection == .targeting {
+                                        TargetView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
                                     } else {
                                         InfoView(fightLogic: fightLogic, player: player)
                                     }
@@ -218,7 +227,7 @@ struct PlayerFightView: View {
 struct PlayerFightView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])]), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]), height: 175, gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
+            PlayerFightView(fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]), height: 175, gameOver: Binding.constant(false), isGameOver: false, fightOver: Binding.constant(false), isInteractable: true)
         }
     }
 }

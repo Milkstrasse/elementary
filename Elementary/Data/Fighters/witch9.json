@@ -9,11 +9,17 @@
       "precision": 95,
       "resistance": 75
   },
-  "spells": [
+  "singleSpells": [
       "rockSimpleAttack",
       "taunt",
       "drainAttack",
       "confusion"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

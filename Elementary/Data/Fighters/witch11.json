@@ -9,11 +9,17 @@
       "precision": 75,
       "resistance": 150
   },
-  "spells": [
+  "singleSpells": [
       "windSimpleAttack",
       "forceOut",
       "decaySpecialAttack",
       "restoration"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

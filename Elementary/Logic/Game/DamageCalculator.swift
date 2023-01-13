@@ -21,15 +21,18 @@ struct DamageCalculator {
     ///   - weather: The current weather of the fight
     ///   - usedShield: Indicates wether the opponent used a shield successfully
     /// - Returns: Returns a description of what occured during the attack
-    func applyDamage(attacker: Fighter, defender: Fighter, spell: inout Spell, subSpell: SubSpell, spellElement: Element, weather: Hex?, usedShield: Bool) -> String {
+    func applyDamage(attacker: Fighter, defender: Fighter, spell: Int, spellIndex: Int, spellElement: Element, weather: Hex?, usedShield: Bool, singleMode: Bool) -> String {
         var text: String
         
-        //determine actual target
-        var target: Fighter = defender
-        if subSpell.range == 0 {
-            target = attacker
-            
-            text = Localization.shared.getTranslation(key: "lostHP", params: [target.name])
+        let moveSpell: Spell
+        if singleMode {
+            moveSpell = attacker.singleSpells[spell]
+        } else {
+            moveSpell = attacker.multiSpells[spell]
+        }
+        
+        if moveSpell.subSpells[spellIndex].range < 1 {
+            text = Localization.shared.getTranslation(key: "lostHP", params: [defender.name])
         } else {
             text = Localization.shared.getTranslation(key: "hit")
         }
@@ -37,35 +40,35 @@ struct DamageCalculator {
         //damage calculation
         var dmg: Float
         
-        switch spell.typeID {
+        switch moveSpell.typeID {
         case 1:
-            dmg = Float(subSpell.power)
+            dmg = Float(moveSpell.subSpells[spellIndex].power)
         case 2:
             if usedShield {
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power * 2)
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: moveSpell.subSpells[spellIndex].power * 2)
             } else {
-                dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
+                dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather)
             }
         case 3:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + spell.useCounter * 5)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: moveSpell.subSpells[spellIndex].power + moveSpell.useCounter * 5)
         case 4:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.getModifiedBase().health - attacker.currhp)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: moveSpell.subSpells[spellIndex].power + attacker.getModifiedBase().health - attacker.currhp)
         case 5:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.currhp)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: moveSpell.subSpells[spellIndex].power + attacker.currhp)
         case 7:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: -1)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: -1)
         case 8:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather, powerOverride: subSpell.power + attacker.hexes.count * 10)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather, powerOverride: moveSpell.subSpells[spellIndex].power + attacker.hexes.count * 10)
         default:
-            dmg = calcNonCriticalDamage(attacker: attacker, defender: target, spell: subSpell, spellElement: spellElement, weather: weather)
+            dmg = calcNonCriticalDamage(attacker: attacker, defender: defender, spell: moveSpell.subSpells[spellIndex], spellElement: spellElement, weather: weather)
         }
         
         //multiply with critical modifier
         var chance: Int = Int.random(in: 0 ..< 100)
-        if spell.typeID != 1 && chance < (18 + attacker.getModifiedBase().precision) * (10/100) {
+        if moveSpell.typeID != 1 && chance < (18 + attacker.getModifiedBase().precision) * (10/100) {
             chance = Int.random(in: 0 ..< 100)
             
-            if chance >= (target.getModifiedBase().resistance/10 * target.getModifiedBase().resistance/10)/10 {
+            if chance >= (defender.getModifiedBase().resistance/10 * defender.getModifiedBase().resistance/10)/10 {
                 dmg *= GlobalData.shared.criticalModifier
                 text = Localization.shared.getTranslation(key: "criticalHit")
             }
@@ -79,30 +82,30 @@ struct DamageCalculator {
         
         let damage: Int = Int(ceil(dmg))
         
-        if damage >= target.currhp { //prevent hp below 0
-            if subSpell.range > 0 {
-                if target.currhp == target.getModifiedBase().health && target.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-                    target.currhp = 1
-                    target.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-                } else {
-                    target.currhp = 0
-                }
-            } else { //no artifact can help with self-inflicted damage
-                target.currhp = 0
+        if damage >= defender.currhp { //prevent hp below 0
+            if defender.currhp == defender.getModifiedBase().health && defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                defender.currhp = 1
+                defender.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+            } else {
+                defender.currhp = 0
             }
         } else {
-            target.currhp -= damage
+            defender.currhp -= damage
         }
         
-        if spell.typeID == 9 { //heal after attacking
+        if moveSpell.typeID == 9 { //heal after attacking
             var healAmount: Float = max(Float(damage) * 0.75, 1)
             healAmount = 100/(Float(attacker.getModifiedBase().health)/healAmount)
             healAmount = roundf(healAmount)
             
-            spell.spells[spell.spells.count - 1].healAmount = Int(healAmount)
+            if singleMode {
+                attacker.singleSpells[spell].subSpells[spellIndex + 1].healAmount = Int(healAmount)
+            } else {
+                attacker.multiSpells[spell].subSpells[spellIndex + 1].healAmount = Int(healAmount)
+            }
         }
         
-        print(target.name + " lost \(damage)DMG.\n")
+        print(defender.name + " lost \(damage)DMG.")
         return text
     }
     

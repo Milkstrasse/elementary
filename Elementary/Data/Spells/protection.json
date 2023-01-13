@@ -3,7 +3,7 @@
   "typeID": 13,
   "priority": 10,
   "uses": 10,
-  "spells": [
+  "subSpells": [
       {
           "power": 0,
           "range": 0

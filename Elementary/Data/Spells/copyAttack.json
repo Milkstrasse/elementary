@@ -2,7 +2,7 @@
   "element": "ice",
   "typeID": 10,
   "uses": 12,
-  "spells": [
+  "subSpells": [
       {
           "power": 0,
           "range": 0

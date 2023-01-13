@@ -17,6 +17,7 @@ struct PlayerSelectionView: View {
     @State var selectedOutfit: Int = 0
     
     let height: CGFloat
+    let singleMode: Bool
     
     @State var offset: CGFloat
     @State var selectionToggle: Bool = false
@@ -355,8 +356,14 @@ struct PlayerSelectionView: View {
                             }
                             BaseFighterOverviewView(modifiedBase: fighters[selectedSlot]!.getModifiedBase(), base: fighters[selectedSlot]!.base)
                             VStack(spacing: innerPadding/2) {
-                                ForEach(fighters[selectedSlot]!.spells, id: \.self) { spell in
-                                    SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
+                                if singleMode {
+                                    ForEach(fighters[selectedSlot]!.singleSpells, id: \.self) { spell in
+                                        SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
+                                    }
+                                } else {
+                                    ForEach(fighters[selectedSlot]!.multiSpells, id: \.self) { spell in
+                                        SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
+                                    }
                                 }
                             }
                             ZStack {
@@ -568,6 +575,6 @@ struct PlayerSelectionView: View {
 
 struct PlayerSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]), height: 175, offset: 175)
+        PlayerSelectionView(opponents: [GlobalData.shared.fighters[0], GlobalData.shared.fighters[0], nil, nil], fighters: Binding.constant([GlobalData.shared.fighters[0], nil, nil, nil]), height: 175, singleMode: false, offset: 175)
     }
 }

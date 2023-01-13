@@ -2,7 +2,7 @@
   "element": "wood",
   "typeID": 1,
   "uses": 8,
-  "spells": [
+  "subSpells": [
       {
           "power": 40,
           "range": 1

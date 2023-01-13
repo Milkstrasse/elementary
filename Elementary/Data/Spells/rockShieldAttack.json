@@ -2,7 +2,7 @@
   "element": "rock",
   "typeID": 2,
   "uses": 20,
-  "spells": [
+  "subSpells": [
       {
           "power": 45,
           "range": 1

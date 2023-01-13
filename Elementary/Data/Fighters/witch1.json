@@ -9,11 +9,17 @@
       "precision": 105,
       "resistance": 70
   },
-  "spells": [
+  "singleSpells": [
       "aetherSimpleAttack",
       "defenseDown",
       "electricSpecialAttack",
       "fireSpecial2Attack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

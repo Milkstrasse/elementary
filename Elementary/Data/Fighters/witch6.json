@@ -9,11 +9,17 @@
       "precision": 125,
       "resistance": 55
   },
-  "spells": [
+  "singleSpells": [
       "iceSimpleAttack",
       "precisionUp",
       "aetherSwapAttack",
       "waterSpecialAttack"
+  ],
+  "multiSpells": [
+      "aetherSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
   ],
   "outfits": [
       {

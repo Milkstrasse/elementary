@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FightSelectionView: View {
     @EnvironmentObject var manager: ViewManager
-    @State var gameLogic: GameLogic = GameLogic()
+    @State var gameLogic: GameLogic = GameLogic(fullAmount: 8)
     
     @State var topFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var bottomFighters: [Fighter?] = [nil, nil, nil, nil]
@@ -17,7 +17,7 @@ struct FightSelectionView: View {
     @State var topReady: Bool = false
     @State var bottomReady: Bool = false
     
-    let allowSelection: Bool
+    let singleMode: Bool
     let alwaysRandom: Bool
     let hasCPUPlayer: Bool
     
@@ -46,7 +46,7 @@ struct FightSelectionView: View {
             }
         }
         
-        return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)], hasCPUPlayer: hasCPUPlayer)
+        return FightLogic(players: [Player(id: 0, fighters: tops), Player(id: 1, fighters: bottoms)], hasCPUPlayer: hasCPUPlayer, singleMode: singleMode)
     }
     
     var body: some View {
@@ -98,14 +98,14 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, allowSelection: allowSelection, alwaysRandom:  alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, singleMode: singleMode, alwaysRandom:  alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
                                 }
                             }
                         }
                     }) {
                         BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(TeamManager.isArrayEmpty(array: topFighters) || hasCPUPlayer)
+                    .disabled(!TeamManager.isTeamValid(array: topFighters, singleMode: singleMode) || hasCPUPlayer)
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
@@ -127,14 +127,14 @@ struct FightSelectionView: View {
                             if fightLogic.isValid() {
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, allowSelection: allowSelection, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
+                                    manager.setView(view: AnyView(FightView(fightLogic: fightLogic, singleMode: singleMode, alwaysRandom: alwaysRandom, hasCPUPlayer: hasCPUPlayer).environmentObject(manager)))
                                 }
                             }
                         }
                     }) {
                         BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
                     }
-                    .disabled(TeamManager.isArrayEmpty(array: bottomFighters))
+                    .disabled(!TeamManager.isTeamValid(array: bottomFighters, singleMode: singleMode))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * innerPadding/2)
@@ -158,9 +158,9 @@ struct FightSelectionView: View {
                 if hasCPUPlayer {
                     CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180)).ignoresSafeArea()
                 } else {
-                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, height: geometry.safeAreaInsets.top + 175, offset: geometry.safeAreaInsets.top + 175).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea()
+                    PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, height: geometry.safeAreaInsets.top + 175, singleMode: singleMode, offset: geometry.safeAreaInsets.top + 175).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea()
                 }
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, height: geometry.safeAreaInsets.bottom + 175, offset: geometry.safeAreaInsets.bottom + 175).frame(width: geometry.size.width).disabled(!allowSelection).ignoresSafeArea()
+                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: geometry.safeAreaInsets.bottom + 175).frame(width: geometry.size.width).ignoresSafeArea()
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
@@ -194,10 +194,6 @@ struct FightSelectionView: View {
                 TeamManager.resetFighters(topFighters: topFighters, bottomFighters: bottomFighters)
             } else if hasCPUPlayer {
                 topFighters = TeamManager.selectRandom(opponents: bottomFighters)
-                
-                if !allowSelection {
-                    bottomFighters = TeamManager.selectRandom(opponents: topFighters)
-                }
             }
         }
     }
@@ -205,6 +201,6 @@ struct FightSelectionView: View {
 
 struct FightSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FightSelectionView(allowSelection: true, alwaysRandom: false, hasCPUPlayer: false)
+        FightSelectionView(singleMode: true, alwaysRandom: false, hasCPUPlayer: false)
     }
 }

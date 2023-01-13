@@ -40,9 +40,24 @@ class Player: ObservableObject {
         return fighters[currentFighterId]
     }
     
+    func goToNextFighter() {
+        currentFighterId += 1
+        while fighters[currentFighterId].currhp == 0 {
+            currentFighterId += 1
+        }
+    }
+    
+    func goToPreviousFighter() {
+        currentFighterId -= 1
+        while fighters[currentFighterId].currhp == 0 {
+            currentFighterId -= 1
+        }
+    }
+    
     /// Changes the state of the player which will be reflected by the current fighter with different images.
     /// - Parameter state: The state the player will enter
-    func setState(state: PlayerState) {
+    private func setState(state: PlayerState, index: Int) {
+        currentFighterId = index
         self.state = state
         
         switch state {
@@ -66,11 +81,23 @@ class Player: ObservableObject {
         }
     }
     
+    func setState(state: PlayerState, fighter: Fighter) {
+        var index: Int = 0
+        for n in fighters.indices {
+            if fighters[n] == fighter {
+                index = n
+                break
+            }
+        }
+        
+        setState(state: state, index: index)
+    }
+    
     /// Checks if fighter can swap within their team.
     /// - Parameter player: The player
     /// - Returns: Returns whether the fighter can swap in their team
-    func isAbleToSwap() -> Bool {
-        if getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) {
+    func isAbleToSwap(singleMode: Bool = true) -> Bool {
+        if !singleMode || getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) {
             return false
         }
         
