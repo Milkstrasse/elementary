@@ -207,7 +207,11 @@ class TurnLogic {
             if fightLogic?.weather?.name == Weather.springWeather.rawValue {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
-                return HexApplication.shared.applyHex(attacker: move.source, defender: move.target, spell: usedSpell, weather: fightLogic?.weather)
+                if usedSpell.range < 1 {
+                    return HexApplication.shared.applyHex(player: oppositePlayer, oppositePlayer: player, attacker: move.source, defender: move.target, spell: usedSpell, weather: fightLogic?.weather)
+                } else {
+                    return HexApplication.shared.applyHex(player: player, oppositePlayer: oppositePlayer, attacker: move.source, defender: move.target, spell: usedSpell, weather: fightLogic?.weather)
+                }
             }
         } else if usedSpell.healAmount > 0 {
             if usedSpell.range < 1 {

@@ -13,12 +13,14 @@ struct HexApplication {
     
     /// Tries to apply an hex on the targeted fighter.
     /// - Parameters:
+    ///   - player: The player of the fighter using the spell
+    ///   - oppositePlayer: The opposing player regardless of actual spell target
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
     ///   - spell: The part of the spell used to make the attack
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a description of what occured during the application of the hex
-    func applyHex(attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?) -> String {
+    func applyHex(player: Player, oppositePlayer: Player, attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?) -> String {
         var hex: String? = spell.hex
         
         if hex != Hexes.taunted.rawValue {
@@ -31,8 +33,10 @@ struct HexApplication {
         
         //determine actual target
         var target: Fighter = defender
+        var targetPlayer: Player = oppositePlayer
         if defender.getArtifact().name == Artifacts.talisman.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
             target = attacker
+            targetPlayer = player
         }
         
         if target.currhp == 0 {
@@ -59,6 +63,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -71,6 +77,8 @@ struct HexApplication {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
                     haptic.impactOccurred()
                 }
+                
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"])
             } else {
@@ -85,6 +93,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -97,6 +107,8 @@ struct HexApplication {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
                     haptic.impactOccurred()
                 }
+                
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"])
             } else {
@@ -111,6 +123,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"])
             } else {
                 return Localization.shared.getTranslation(key: "hexFailed")
@@ -122,6 +136,8 @@ struct HexApplication {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
                     haptic.impactOccurred()
                 }
+                
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"])
             } else {
@@ -136,6 +152,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -148,6 +166,8 @@ struct HexApplication {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
                     haptic.impactOccurred()
                 }
+                
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"])
             } else {
@@ -162,6 +182,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -175,6 +197,8 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -183,6 +207,9 @@ struct HexApplication {
         case Hexes.taunted.rawValue:
             if target.applyHex(hex: Hexes.taunted.getHex(), resistable: false) {
                 AudioPlayer.shared.playConfirmSound()
+                
+                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                
                 return Localization.shared.getTranslation(key: "nameProvoked", params: [target.name])
             } else {
                 AudioPlayer.shared.playCancelSound()
@@ -195,6 +222,12 @@ struct HexApplication {
                     if AudioPlayer.shared.hapticToggle {
                         let haptic = UIImpactFeedbackGenerator(style: .medium)
                         haptic.impactOccurred()
+                    }
+                    
+                    if appliedHex.positive {
+                        targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                    } else {
+                        targetPlayer.setState(state: PlayerState.hurting, fighter: target)
                     }
                     
                     return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name])
