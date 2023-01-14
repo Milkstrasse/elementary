@@ -13,7 +13,7 @@ struct PlayerFightView: View {
     
     let height: CGFloat
     
-    @State var currentSection: Section = .summary
+    @State var currentSection: Section = Section.summary
     @Binding var gameOver: Bool
     @State var isGameOver: Bool = false
     @Binding var fightOver: Bool
@@ -82,25 +82,25 @@ struct PlayerFightView: View {
                                 fightOver = true
                             } else if fightLogic.isGameOver() {
                                 gameOver = true
-                            } else if currentSection == .options {
+                            } else if currentSection == Section.options {
                                 if fightLogic.singleMode {
-                                    currentSection = .summary
+                                    currentSection = Section.summary
                                 } else if fightLogic.gameLogic.spellHasBeenUsed(player: player.id) {
                                     fightLogic.gameLogic.removeSpell(player: player.id, fighter: player.currentFighterId)
                                     player.goToPreviousFighter()
                                 } else {
-                                    currentSection = .summary
+                                    currentSection = Section.summary
                                 }
-                            } else if currentSection == .targeting {
-                                currentSection = .spells
+                            } else if currentSection == Section.targeting {
+                                currentSection = Section.spells
                             } else {
-                                if currentSection == .waiting {
+                                if currentSection == Section.waiting {
                                     fightLogic.undoMove(player: player)
                                 }
-                                currentSection = .options
+                                currentSection = Section.options
                             }
                         }) {
-                            ClearButton(label: currentSection == .summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
+                            ClearButton(label: currentSection == Section.summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
                         }
                         .disabled(!isInteractable).opacity(fightLogic.fighting ? 0.5 : 1.0).disabled(fightLogic.fighting)
                         Spacer()
@@ -145,7 +145,7 @@ struct PlayerFightView: View {
                                 .padding(.all, outerPadding)
                             }
                             .padding([.leading, .bottom, .trailing], outerPadding)
-                        } else if currentSection == .summary {
+                        } else if currentSection == Section.summary {
                             ZStack {
                                 Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 ScrollView(.vertical, showsIndicators: false) {
@@ -161,16 +161,16 @@ struct PlayerFightView: View {
                                 .padding(.vertical, innerPadding)
                             }
                             .padding([.leading, .bottom, .trailing], outerPadding)
-                        } else if currentSection != .waiting {
+                        } else if currentSection != Section.waiting {
                             ScrollView(.vertical, showsIndicators: false) {
                                 Group {
-                                    if currentSection == .options {
+                                    if currentSection == Section.options {
                                         OptionsView(currentSection: $currentSection, gameOver: $gameOver, fightLogic: fightLogic, player: player)
-                                    } else if currentSection == .spells {
+                                    } else if currentSection == Section.spells {
                                         SpellsView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
-                                    } else if currentSection == .team {
+                                    } else if currentSection == Section.team {
                                         TeamView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
-                                    } else if currentSection == .targeting {
+                                    } else if currentSection == Section.targeting {
                                         TargetView(currentSection: $currentSection, fightLogic: fightLogic, player: player)
                                     } else {
                                         InfoView(fightLogic: fightLogic, player: player)
@@ -193,7 +193,7 @@ struct PlayerFightView: View {
             .frame(height: 175).modifier(ShakeEffect(animatableData: shakeAmount))
             .onReceive(fightLogic.$fighting, perform: { fighting in
                 if fighting {
-                    currentSection = .summary
+                    currentSection = Section.summary
                 }
             })
             .onChange(of: player.state, perform: { newState in

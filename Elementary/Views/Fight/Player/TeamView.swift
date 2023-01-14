@@ -90,10 +90,10 @@ struct TeamView: View {
                                     if fightLogic.singleMode {
                                         if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, target: player.fighters[index], spell: -1, type: MoveType.swap)) {
                                             AudioPlayer.shared.playConfirmSound()
-                                            currentSection = .waiting
+                                            currentSection = Section.waiting
                                         } else {
                                             AudioPlayer.shared.playStandardSound()
-                                            currentSection = .options
+                                            currentSection = Section.options
                                         }
                                     }
                                 })
@@ -109,6 +109,6 @@ struct TeamView: View {
 
 struct TeamView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
+        TeamView(currentSection: Binding.constant(Section.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

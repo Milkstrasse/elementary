@@ -45,16 +45,16 @@ struct TargetView: View {
                         if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: fightLogic.players[target].fighters[index], spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
                             if fightLogic.gameLogic.isPlayerReady(player: player) {
                                 AudioPlayer.shared.playConfirmSound()
-                                currentSection = .waiting
+                                currentSection = Section.waiting
                             } else {
                                 player.goToNextFighter()
                                 
                                 AudioPlayer.shared.playStandardSound()
-                                currentSection = .options
+                                currentSection = Section.options
                             }
                         } else {
                             AudioPlayer.shared.playStandardSound()
-                            currentSection = .options
+                            currentSection = Section.options
                         }
                     }) {
                         ActionView(titleKey: fightLogic.players[target].fighters[index].name, description: generateInfo(fighter: fightLogic.players[target].fighters[index], index: index), symbol: fightLogic.players[target].fighters[index].getElement().symbol, color: Color(hex: fightLogic.players[target].fighters[index].getElement().color))
@@ -77,6 +77,6 @@ struct TargetView: View {
 
 struct TargetView_Previews: PreviewProvider {
     static var previews: some View {
-        TargetView(currentSection:Binding.constant(.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
+        TargetView(currentSection: Binding.constant(Section.team), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 0, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

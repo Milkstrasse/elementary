@@ -100,14 +100,14 @@ struct SpellsView: View {
                                             
                                             if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
                                                 AudioPlayer.shared.playConfirmSound()
-                                                currentSection = .waiting
+                                                currentSection = Section.waiting
                                             } else {
                                                 AudioPlayer.shared.playStandardSound()
                                             }
                                         } else {
                                             AudioPlayer.shared.playStandardSound()
                                             fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
-                                            currentSection = .targeting
+                                            currentSection = Section.targeting
                                         }
                                     })
                         }
@@ -154,14 +154,14 @@ struct SpellsView: View {
                                             
                                             if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
                                                 AudioPlayer.shared.playConfirmSound()
-                                                currentSection = .waiting
+                                                currentSection = Section.waiting
                                             } else {
                                                 AudioPlayer.shared.playStandardSound()
                                             }
                                         } else {
                                             AudioPlayer.shared.playStandardSound()
                                             fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
-                                            currentSection = .targeting
+                                            currentSection = Section.targeting
                                         }
                                     })
                         }
@@ -178,6 +178,6 @@ struct SpellsView: View {
 
 struct SpellsView_Previews: PreviewProvider {
     static var previews: some View {
-        SpellsView(currentSection:Binding.constant(.spells), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
+        SpellsView(currentSection: Binding.constant(Section.spells), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

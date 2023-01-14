@@ -101,7 +101,7 @@ class FightLogic: ObservableObject {
     func makeMove(player: Player, move: Move) -> Bool {
         if singleMode && player.hasToSwap { //fighter either fainted or has special artifact to swap
             if !player.getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) || player.getCurrentFighter().currhp == 0 {
-                if move.type == .swap {
+                if move.type == MoveType.swap {
                     backupLog.append(swapFighters(player: player, target: move.index))
                 }
                 

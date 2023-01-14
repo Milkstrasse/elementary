@@ -19,21 +19,21 @@ struct OptionsView: View {
             VStack(spacing: innerPadding/2) {
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
-                    currentSection = .spells
+                    currentSection = Section.spells
                 }) {
                     ActionView(titleKey: "spells", description: Localization.shared.getTranslation(key: "spellsDescr"), symbol: "0xf6de", color: Color("Positive"))
                 }
                 .id(0).opacity(player.hasToSwap ? 0.5 : 1.0).disabled(player.hasToSwap)
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
-                    currentSection = .team
+                    currentSection = Section.team
                 }) {
                     ActionView(titleKey: "team", description: Localization.shared.getTranslation(key: "teamDescr"), symbol: "0xf500", color: Color("Positive"))
                 }
                 .id(1)
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
-                    currentSection = .info
+                    currentSection = Section.info
                 }) {
                     ActionView(titleKey: "information", description: Localization.shared.getTranslation(key: "informationDescr"), symbol: "0xf02d", color: Color("Border"))
                 }
@@ -57,6 +57,6 @@ struct OptionsView: View {
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView(currentSection:Binding.constant(.options), gameOver:Binding.constant(false), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
+        OptionsView(currentSection: Binding.constant(Section.options), gameOver:Binding.constant(false), fightLogic: FightLogic(players: [Player(id: 0, fighters: [GlobalData.shared.fighters[0]]), Player(id: 1, fighters: [GlobalData.shared.fighters[0]])], hasCPUPlayer: false, singleMode: true), player: Player(id: 1, fighters: [GlobalData.shared.fighters[0]]))
     }
 }

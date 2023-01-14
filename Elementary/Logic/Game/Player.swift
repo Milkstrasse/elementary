@@ -81,7 +81,7 @@ class Player: ObservableObject {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + GlobalData.shared.getTextSpeed()/2) {
-            self.state = .neutral
+            self.state = PlayerState.neutral
         }
     }
     
