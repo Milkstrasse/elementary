@@ -63,7 +63,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"])
             } else {
@@ -78,7 +78,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"])
             } else {
@@ -93,7 +93,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"])
             } else {
@@ -108,7 +108,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"])
             } else {
@@ -123,7 +123,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"])
             } else {
@@ -137,7 +137,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"])
             } else {
@@ -152,7 +152,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"])
             } else {
@@ -167,7 +167,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"])
             } else {
@@ -182,7 +182,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
             } else {
@@ -197,7 +197,7 @@ struct HexApplication {
                     haptic.impactOccurred()
                 }
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
             } else {
@@ -208,7 +208,7 @@ struct HexApplication {
             if target.applyHex(hex: Hexes.taunted.getHex(), resistable: false) {
                 AudioPlayer.shared.playConfirmSound()
                 
-                targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                 
                 return Localization.shared.getTranslation(key: "nameProvoked", params: [target.name])
             } else {
@@ -225,9 +225,9 @@ struct HexApplication {
                     }
                     
                     if appliedHex.positive {
-                        targetPlayer.setState(state: PlayerState.healing, fighter: target)
+                        targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
                     } else {
-                        targetPlayer.setState(state: PlayerState.hurting, fighter: target)
+                        targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                     }
                     
                     return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name])

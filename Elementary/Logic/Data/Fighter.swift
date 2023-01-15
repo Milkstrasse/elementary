@@ -184,7 +184,7 @@ class Fighter: Hashable, Equatable {
             }
             
             if wholeImage != nil {
-                let imgFrames: [CGRect] = [CGRectMake(0, 0, 600, 600), CGRectMake(600, 0, 600, 600), CGRectMake(1200, 0, 600, 600), CGRectMake(1800, 0, 600, 600), CGRectMake(2400, 0, 600, 600)]
+                let imgFrames: [CGRect] = [CGRectMake(0, 1200, 600, 600), CGRectMake(600, 1200, 600, 600), CGRectMake(1200, 1200, 600, 600), CGRectMake(0, 600, 600, 600), CGRectMake(600, 600, 600, 600), CGRectMake(1200, 600, 600, 600), CGRectMake(0, 0, 600, 600)]
                 
                 for imgFrame in imgFrames {
                     let context = CIContext()
@@ -218,14 +218,18 @@ class Fighter: Hashable, Equatable {
             if !blinking {
                 return images[outfit][0]
             } else {
-                return images[outfit][2]
+                return images[outfit][1]
             }
-        case .attacking:
-            return images[outfit][1]
         case .healing:
-            return images[outfit][3]
+            return images[outfit][2]
         case .hurting:
+            return images[outfit][3]
+        case .hexNegative:
             return images[outfit][4]
+        case .hexPositive:
+            return images[outfit][5]
+        case .attacking:
+            return images[outfit][6]
         }
     }
     

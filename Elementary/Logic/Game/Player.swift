@@ -78,6 +78,10 @@ class Player: ObservableObject {
             AudioPlayer.shared.playHurtSound()
         case .healing:
             AudioPlayer.shared.playHealSound()
+        case .hexPositive:
+            AudioPlayer.shared.playConfirmSound()
+        case .hexNegative:
+            AudioPlayer.shared.playConfirmSound()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + GlobalData.shared.getTextSpeed()/2) {
@@ -130,4 +134,6 @@ enum PlayerState {
     case attacking
     case hurting
     case healing
+    case hexPositive
+    case hexNegative
 }

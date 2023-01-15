@@ -25,22 +25,6 @@
       {
           "name": "default",
           "cost": 0
-      },
-      {
-          "name": "catgirl",
-          "cost": 180
-      },
-      {
-          "name": "highelf",
-          "cost": 200
-      },
-      {
-          "name": "kimono",
-          "cost": 150
-      },
-      {
-          "name": "qipao",
-          "cost": 150
       }
   ]
 }
