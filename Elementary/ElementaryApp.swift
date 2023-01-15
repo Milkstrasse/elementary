@@ -39,6 +39,8 @@ struct ElementaryApp: App {
                 Color("Negative").ignoresSafeArea()
                 if isLoading {
                     Color("Positive").ignoresSafeArea().onAppear {
+                        SaveData.load()
+                        
                         Localization.shared.getLanguages()
                         Localization.shared.loadCurrentLanguage()
                         
@@ -46,7 +48,6 @@ struct ElementaryApp: App {
                         
                         DispatchQueue.global().async {
                             GlobalData.shared.loadData(manager: manager)
-                            SaveData.load()
                             
                             AudioPlayer.shared.playMenuMusic()
                             

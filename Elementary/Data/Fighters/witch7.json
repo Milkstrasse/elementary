@@ -25,6 +25,10 @@
       {
           "name": "default",
           "cost": 0
+      },
+      {
+          "name": "icequeen",
+          "cost": 200
       }
   ]
 }
