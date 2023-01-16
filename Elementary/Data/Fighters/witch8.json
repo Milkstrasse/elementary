@@ -16,7 +16,7 @@
       "trap"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "plantSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

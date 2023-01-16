@@ -16,7 +16,7 @@
       "metalSimpleAttack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "groundSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

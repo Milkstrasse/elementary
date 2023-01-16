@@ -16,7 +16,7 @@
       "restoration"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "windSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

@@ -16,7 +16,7 @@
       "waterSpecialAttack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "iceSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

@@ -16,7 +16,7 @@
       "woodSpecial2Attack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "electricSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

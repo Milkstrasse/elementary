@@ -16,7 +16,7 @@
       "confusion"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "rockSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

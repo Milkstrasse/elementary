@@ -16,7 +16,7 @@
       "windSpecial2Attack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "woodSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

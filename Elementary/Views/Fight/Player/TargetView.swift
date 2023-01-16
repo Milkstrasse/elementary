@@ -18,20 +18,31 @@ struct TargetView: View {
     /// Generates and returns info on a fighter.
     /// - Parameter fighter: The current fighter
     /// - Returns: Returns generated info on a fighter
-    func generateInfo(fighter: Fighter, index: Int) -> String {
+    func generateInfo(fighter: Fighter) -> String {
         var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + " - "
         
-        var oppositePlayer: Player = fightLogic.players[0]
-        if player.id == 0 {
-            oppositePlayer = fightLogic.players[1]
+        let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]
+        let modifier: Float
+        
+        if spellIndex >= 0 {
+            modifier = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fighter, spellElement: player.getCurrentFighter().multiSpells[spellIndex].element, weather: fightLogic.weather)
+        } else {
+            modifier = 1
         }
         
-        if fighter.getElement().hasAdvantage(element: oppositePlayer.getCurrentFighter().getElement(), weather: fightLogic.weather) {
+        switch modifier {
+        case GlobalData.shared.elementalModifier * 2:
+            text += Localization.shared.getTranslation(key: "superEffective")
+        case GlobalData.shared.elementalModifier:
             text += Localization.shared.getTranslation(key: "veryEffective")
-        } else if fighter.getElement().hasDisadvantage(element: oppositePlayer.getCurrentFighter().getElement(), weather: fightLogic.weather) {
-            text += Localization.shared.getTranslation(key: "notVeryEffective")
-        } else {
+        case 1:
             text += Localization.shared.getTranslation(key: "effective")
+        case 1/GlobalData.shared.elementalModifier:
+            text += Localization.shared.getTranslation(key: "notVeryEffective")
+        case 1/(GlobalData.shared.elementalModifier * 2):
+            text += Localization.shared.getTranslation(key: "notEffective")
+        default:
+            text += Localization.shared.getTranslation(key: "ineffective")
         }
         
         return text
@@ -57,7 +68,7 @@ struct TargetView: View {
                             currentSection = Section.options
                         }
                     }) {
-                        ActionView(titleKey: fightLogic.players[target].fighters[index].name, description: generateInfo(fighter: fightLogic.players[target].fighters[index], index: index), symbol: fightLogic.players[target].fighters[index].getElement().symbol, color: Color(hex: fightLogic.players[target].fighters[index].getElement().color))
+                        ActionView(titleKey: fightLogic.players[target].fighters[index].name, description: generateInfo(fighter: fightLogic.players[target].fighters[index]), symbol: fightLogic.players[target].fighters[index].getElement().symbol, color: Color(hex: fightLogic.players[target].fighters[index].getElement().color))
                     }
                     .id(index + 1).opacity(fightLogic.players[target].fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].fighters[index].currhp == 0)
                 }

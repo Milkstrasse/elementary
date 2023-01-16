@@ -16,7 +16,7 @@
       "rockShieldAttack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "metalSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

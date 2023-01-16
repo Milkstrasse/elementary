@@ -16,7 +16,7 @@
       "plantSpecial2Attack"
   ],
   "multiSpells": [
-      "aetherSimpleAttack",
+      "fireSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

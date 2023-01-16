@@ -20,16 +20,22 @@ struct SpellsView: View {
     /// - Parameter spellElement: The element of the spell
     /// - Returns: Returns the effectiveness of a spell against the current opponent
     func getEffectiveness(spell: Spell) -> String {
-        var modifier: Float
+        var modifiers: [Float] = [Float](repeating: 0, count: fightLogic.gameLogic.fullAmount/2)
         let element: Element = GlobalData.shared.elements[spell.element.name] ?? Element()
         
-        if player.id == 0 {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.players[0].getCurrentFighter(), defender: fightLogic.players[1].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
+        if fightLogic.singleMode {
+            modifiers[0] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
         } else {
-            modifier = DamageCalculator.shared.getElementalModifier(attacker: fightLogic.players[1].getCurrentFighter(), defender: fightLogic.players[0].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
+            for index in 0 ..< fightLogic.gameLogic.fullAmount/2 {
+                if fightLogic.players[player.id == 0 ? 1 : 0].fighters[index].currhp > 0 {
+                    modifiers[index] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.id == 0 ? 1 : 0].fighters[index], spellElement: element, weather: fightLogic.weather)
+                }
+            }
+            
+            modifiers.sort(by: >)
         }
         
-        switch modifier {
+        switch modifiers[0] {
         case GlobalData.shared.elementalModifier * 2:
             return "superEffective"
         case GlobalData.shared.elementalModifier:
