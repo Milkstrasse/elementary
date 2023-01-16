@@ -188,6 +188,7 @@ struct FightSelectionView: View {
         }
         .onAppear {
             transitionToggle = false
+            AudioPlayer.shared.playMenuMusic()
             
             if hasCPUPlayer {
                 topReady = true

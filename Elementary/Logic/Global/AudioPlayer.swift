@@ -20,6 +20,8 @@ class AudioPlayer {
     private var soundPlayer: AVAudioPlayer?
     private var voicePlayer: AVAudioPlayer?
     
+    private var isPlayingMenuMusic: Bool = false
+    
     var hapticToggle: Bool = true
     
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
@@ -31,6 +33,10 @@ class AudioPlayer {
     
     /// Plays the background music outside of an fight.
     func playMenuMusic() {
+        if isPlayingMenuMusic {
+            return
+        }
+        
         do {
             let path = Bundle.main.path(forResource: "LudumDare30-Track6.wav", ofType: nil)!
             let url = URL(fileURLWithPath: path)
@@ -40,6 +46,8 @@ class AudioPlayer {
             musicPlayer?.numberOfLoops = -1
             musicPlayer?.volume = musicVolume * generalVolume
             musicPlayer?.play()
+            
+            isPlayingMenuMusic = true
         } catch {
             print("\(error)")
         }
@@ -56,6 +64,8 @@ class AudioPlayer {
             musicPlayer?.numberOfLoops = -1
             musicPlayer?.volume = musicVolume * generalVolume
             musicPlayer?.play()
+            
+            isPlayingMenuMusic = false
         } catch {
             print("\(error)")
         }
