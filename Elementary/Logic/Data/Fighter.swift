@@ -102,7 +102,7 @@ class Fighter: Hashable, Equatable {
     /// - Parameter weather: The current weather of the fight
     /// - Returns: Returns the current stats of a fighter
     func getModifiedBase(weather: Hex? = nil) -> Base {
-        let health: Int = max(base.health + nature.healthMod, 0)
+        var health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + getHexBonus(hex: attackMod) + nature.attackMod, 0)
         var defense: Int = max(base.defense + getHexBonus(hex: defenseMod) + nature.defenseMod, 0)
         var agility: Int = max(base.agility + getHexBonus(hex: agilityMod) + nature.agilityMod, 0)
@@ -118,6 +118,8 @@ class Fighter: Hashable, Equatable {
                 agility += 40
             } else if getArtifact().name == Artifacts.armor.rawValue || getArtifact().name == Artifacts.sword.rawValue {
                 attack += 40
+            } else if getArtifact().name == Artifacts.shield.rawValue {
+                health = 1
             }
         }
         
@@ -153,6 +155,12 @@ class Fighter: Hashable, Equatable {
     /// - Parameter artifact: The desired artifact
     func setArtifact(artifact: Int) {
         self.artifact = Artifacts.allCases[artifact].getArtifact()
+        
+        if self.artifact.name == Artifacts.shield.rawValue {
+            currhp = 1
+        } else {
+            currhp = base.health
+        }
     }
     
     /// Changes the temporary artifact of a fighter.

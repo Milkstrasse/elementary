@@ -30,16 +30,18 @@ struct SpellsView: View {
         }
         
         switch modifier {
-        case 4.0:
+        case GlobalData.shared.elementalModifier * 2:
             return "superEffective"
-        case 2.0:
+        case GlobalData.shared.elementalModifier:
             return "veryEffective"
-        case 0.5:
+        case 1:
+            return "effective"
+        case 1/GlobalData.shared.elementalModifier:
             return "notVeryEffective"
-        case 0.25:
+        case 1/(GlobalData.shared.elementalModifier * 2):
             return "notEffective"
         default:
-            return "effective"
+            return "ineffective"
         }
     }
     

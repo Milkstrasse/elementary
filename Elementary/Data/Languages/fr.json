@@ -170,6 +170,8 @@
     "ringDescr": "Protège du **K.O.** quand plein PV",
     "sevenLeague": "Bottes de sept lieues",
     "sevenLeagueDescr": "Augmente **agilité** à faible PV",
+    "shield": "Bouclier légendaire",
+    "shieldDescr": "Seule une certaine magie le contourne",
     "sword": "Épée à double tranchant",
     "swordDescr": "Augmente **l'attaque**, les attaques ont du recul",
     "talaria": "Sandales ailées",
@@ -253,6 +255,7 @@
     "effective": "Efficace",
     "notVeryEffective": "Pas très efficace",
     "notEffective": "Pas efficace",
+    "ineffective": "Sans effet",
     
     "poisoned": "empoisonnée",
     "healed": "guérie",
