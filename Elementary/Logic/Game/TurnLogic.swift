@@ -21,8 +21,8 @@ class TurnLogic {
     func startTurn(player: Player, fightLogic: FightLogic) -> String {
         self.fightLogic = fightLogic
         
-        let attacker: Fighter = fightLogic.playerQueue[0].move.source
         let move: Move = fightLogic.playerQueue[0].move
+        let attacker: Fighter = move.source
         
         switch move.type {
         case .special:
@@ -84,9 +84,15 @@ class TurnLogic {
                 }
                 
                 player.setState(state: PlayerState.healing, fighter: attacker)
-            } else if move.index >= 0 { //recoil damage from artifact
+            } else if move.index >= 0 {
                 player.setState(state: PlayerState.hurting, fighter: attacker)
-                let damage: Int = attacker.getModifiedBase().health/10
+                let damage: Int
+                
+                if move.index == 2 {
+                    damage = attacker.getModifiedBase().health
+                } else { //recoil damage from sword or helmet artifact
+                    damage = attacker.getModifiedBase().health/10
+                }
                 
                 if damage >= attacker.currhp { //prevent hp below 0
                     attacker.currhp = 0

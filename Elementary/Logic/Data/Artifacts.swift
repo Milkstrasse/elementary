@@ -30,6 +30,7 @@ enum Artifacts: String, CaseIterable {
     case sword
     case talaria
     case talisman
+    case thread
     case wand
     
     /// Creates and returns an artifact.

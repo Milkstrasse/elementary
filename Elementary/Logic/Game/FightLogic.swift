@@ -164,7 +164,7 @@ class FightLogic: ObservableObject {
                 rndmMove = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: nil)
             }
             
-            //update target for swap
+            //update target if target swaps
             if playerQueue[1].move.type == MoveType.swap && rndmMove.type == MoveType.spell {
                 rndmMove.target = playerQueue[1].move.target
             }
@@ -430,10 +430,15 @@ class FightLogic: ObservableObject {
                 }
             }
             
-            //targeted player will change because of swap
-            if index > 0 && playerQueue[index - 1].move.type == MoveType.swap {
+            //ensure targeted fighter is the current one in single mode
+            if singleMode && playerQueue[index].move.type == MoveType.spell {
+                var oppositePlayer: Player = players[0]
+                if playerQueue[index].player.id == 0 {
+                    oppositePlayer = players[1]
+                }
+                
                 if moveSpell.subSpells[0].range == 1 {
-                    playerQueue[index].move.target = playerQueue[index - 1].move.target
+                    playerQueue[index].move.target = oppositePlayer.getCurrentFighter()
                 }
             }
             
@@ -491,39 +496,38 @@ class FightLogic: ObservableObject {
                 playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
                 
                 offset += 2
+                
+                var oppositePlayer: Player = players[0]
+                if originalArr[index].player.id == 0 {
+                    oppositePlayer = players[1]
+                }
+                
+                //attacking fighter faints or exits the fight
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                offset += 1
+                //effect of thread artifact
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                offset += 1
+                //attacked fighter faints or exits the fight
+                playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                offset += 1
             }
-            
-            var oppositePlayer: Player = players[0]
-            if originalArr[index].player.id == 0 {
-                oppositePlayer = players[1]
-            }
-            
-            //attacking fighter faints or exits the fight
-            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.special)), at: index + offset + 1)
-            offset += 1
-            //attacked fighter faints or exits the fight
-            playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.special)), at: index + offset + 1)
-            offset += 1
 
             //fighter receives hex effects
             if originalArr[index].move.type == MoveType.swap { //source & target will change because of swap
                 for hex in 0 ..< 3 {
-                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: hex, target: originalArr[index].move.target, spell: -1, type: MoveType.hex)), at: index + offset + 1)
-                    offset += 1
+                    playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: hex, target: originalArr[index].move.target, spell: -1, type: MoveType.hex)))
                 }
                 
                 //fighter receives artifact effects
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.artifact)), at: index + offset + 1)
-                offset += 1
+                playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.artifact)))
             } else {
                 for hex in 0 ..< 3 {
-                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)), at: index + offset + 1)
-                    offset += 1
+                    playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)))
                 }
                 
                 //fighter receives artifact effects
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)), at: index + offset + 1)
-                offset += 1
+                playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)))
             }
         }
     }
@@ -570,31 +574,42 @@ class FightLogic: ObservableObject {
             }
             
             if weather?.name != Weather.volcanicStorm.rawValue {
-                if move.index < 0 {
+                switch move.index {
+                case 0:
+                    if singleMode {
+                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                            return true
+                        }
+                    } else {
+                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                            return true
+                        }
+                    }
+                case 1:
+                    if singleMode {
+                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                            return true
+                        }
+                    } else {
+                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                            return true
+                        }
+                    }
+                case 2:
+                    if singleMode {
+                        if move.target.getArtifact().name != Artifacts.thread.rawValue || move.target.currhp > 0 {
+                            return true
+                        }
+                    } else {
+                        if move.target.getArtifact().name != Artifacts.thread.rawValue || move.target.currhp > 0 {
+                            return true
+                        }
+                    }
+                default:
                     if attacker.getArtifact().name != Artifacts.cornucopia.rawValue { //artifact has no effect
                         return true
                     } else if attacker.getArtifact().name == Artifacts.potion.rawValue && attacker.currhp > attacker.getModifiedBase().health/2 { //artifact has no effect yet
                         return true
-                    }
-                } else if move.index == 0 {
-                    if singleMode {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    } else {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    }
-                } else {
-                    if singleMode {
-                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    } else {
-                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
                     }
                 }
             } else { //weather makes artifacts useless
