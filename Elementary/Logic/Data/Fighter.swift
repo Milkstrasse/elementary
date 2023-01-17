@@ -120,6 +120,13 @@ class Fighter: Hashable, Equatable {
                 attack += 40
             } else if getArtifact().name == Artifacts.shield.rawValue {
                 health = 1
+            } else if  getArtifact().name == Artifacts.fetish.rawValue {
+                for hex in hexes {
+                    if !hex.positive {
+                        attack += 40
+                        break
+                    }
+                }
             }
         }
         
