@@ -15,6 +15,7 @@ struct Artifact {
 enum Artifacts: String, CaseIterable {
     case noArtifact
     case amulet
+    case bow
     case charm
     case cornucopia
     case armor
