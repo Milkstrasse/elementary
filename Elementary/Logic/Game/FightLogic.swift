@@ -596,14 +596,8 @@ class FightLogic: ObservableObject {
                         }
                     }
                 case 2:
-                    if singleMode {
-                        if move.target.getArtifact().name != Artifacts.thread.rawValue || move.target.currhp > 0 {
-                            return true
-                        }
-                    } else {
-                        if move.target.getArtifact().name != Artifacts.thread.rawValue || move.target.currhp > 0 {
-                            return true
-                        }
+                    if (move.target.getArtifact().name != Artifacts.thread.rawValue && move.source.getArtifact().name != Artifacts.thread.rawValue) || move.target.currhp > 0 {
+                        return true
                     }
                 default:
                     if attacker.getArtifact().name != Artifacts.cornucopia.rawValue { //artifact has no effect

@@ -39,7 +39,7 @@ class TurnLogic {
         case .hex:
             let damage: Int = attacker.getModifiedBase().health/(100/attacker.hexes[move.index].damageAmount)
             
-            if damage >= attacker.currhp {
+            if damage >= attacker.currhp { //prevent hp below 0
                 attacker.currhp = 0
                 player.setState(state: PlayerState.hurting, fighter: attacker)
                 if fightLogic.singleMode {
@@ -95,7 +95,12 @@ class TurnLogic {
                 }
                 
                 if damage >= attacker.currhp { //prevent hp below 0
-                    attacker.currhp = 0
+                    if attacker.currhp == attacker.getModifiedBase().health && attacker.getArtifact().name == Artifacts.ring.rawValue {
+                        attacker.currhp = 1
+                        attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                    } else {
+                        attacker.currhp = 0
+                    }
                 } else {
                     attacker.currhp -= damage
                 }
