@@ -317,6 +317,8 @@ class TurnLogic {
                 move.target.overrideArtifact(artifact: artifact)
                 
                 return Localization.shared.getTranslation(key: "swappedArtifacts")
+            case 21:
+                return Localization.shared.getTranslation(key: "all eyes on" + move.source.name)
             default:
                 break
             }

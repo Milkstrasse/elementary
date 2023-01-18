@@ -1,0 +1,12 @@
+{
+  "element": "wind",
+  "typeID": 21,
+  "priority": 8,
+  "uses": 14,
+  "subSpells": [
+      {
+          "power": 0,
+          "range": 0
+      }
+  ]
+}

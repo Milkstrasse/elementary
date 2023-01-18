@@ -143,14 +143,6 @@ class FightLogic: ObservableObject {
             playerQueue[player.currentFighterId + player.id * gameLogic.fullAmount/2] = (player: player, move: move)
         }
         
-        /*for index in playerQueue.indices {
-            if playerQueue[index].move.spell > -1 {
-                print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: " + playerQueue[index].move.source.singleSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
-            } else {
-                print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
-            }
-        }*/
-        
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
@@ -256,16 +248,6 @@ class FightLogic: ObservableObject {
                                         }
                                     }
                                 }
-                                
-                                players[0].currentFighterId = 0
-                                if players[0].getCurrentFighter().currhp == 0 {
-                                    players[0].goToNextFighter()
-                                }
-                                
-                                players[1].currentFighterId = 0
-                                if players[1].getCurrentFighter().currhp == 0 {
-                                    players[1].goToNextFighter()
-                                }
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
@@ -309,7 +291,7 @@ class FightLogic: ObservableObject {
     ///   - fighterA: The first fighter
     ///   - fighterB: The second fighter
     /// - Returns: Returns wether the first fighter has priority or not
-    func isFasterPlayer(fighterA: Int, fighterB: Int) -> Bool {
+    func isFasterFighter(fighterA: Int, fighterB: Int) -> Bool {
         //player wants to switch -> priority
         if playerQueue[fighterA].move.type == MoveType.swap {
             return true
@@ -450,7 +432,7 @@ class FightLogic: ObservableObject {
         for i in 1 ..< playerQueue.count {
             var j: Int = i
             
-            while j > 0 && isFasterPlayer(fighterA: j, fighterB: j - 1) {
+            while j > 0 && isFasterFighter(fighterA: j, fighterB: j - 1) {
                 let temp = playerQueue[j]
                 playerQueue[j] = playerQueue[j - 1]
                 playerQueue[j - 1] = temp
@@ -487,6 +469,17 @@ class FightLogic: ObservableObject {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         }
                         offset += 1
+                    }
+                    
+                    if originalArr[index].move.source.multiSpells[originalArr[index].move.spell].typeID == 21 {
+                        for n in originalArr.indices {
+                            if originalArr[n].player.id != originalArr[index].player.id {
+                                if originalArr[n].move.source.multiSpells[originalArr[n].move.spell].subSpells[0].range == 1 {
+                                    originalArr[n].move.target = originalArr[index].move.target
+                                    playerQueue[playerQueue.count - originalArr.count + n].move.target = originalArr[index].move.target
+                                }
+                            }
+                        }
                     }
                 }
                 
@@ -539,6 +532,22 @@ class FightLogic: ObservableObject {
     /// - Returns: Returns wether the move gets skipped or not
     private func startTurn(player: Player, move: Move) -> Bool {
         let attacker: Fighter = move.source
+        
+        /*for index in playerQueue.indices {
+            if singleMode {
+                if playerQueue[index].move.spell > -1 {
+                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: " + playerQueue[index].move.source.singleSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
+                } else {
+                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
+                }
+            } else {
+                if playerQueue[index].move.spell > -1 {
+                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: " + playerQueue[index].move.source.multiSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
+                } else {
+                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
+                }
+            }
+        }*/
         
         //check if move is skippable
         switch move.type {

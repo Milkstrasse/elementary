@@ -96,6 +96,11 @@ struct PlayerFightView: View {
                             } else {
                                 if currentSection == Section.waiting {
                                     fightLogic.undoMove(player: player)
+                                } else if !fightLogic.singleMode {
+                                    player.currentFighterId = 0
+                                    if player.getCurrentFighter().currhp == 0 {
+                                        player.goToNextFighter()
+                                    }
                                 }
                                 currentSection = Section.options
                             }
