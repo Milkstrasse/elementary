@@ -15,13 +15,12 @@ struct TargetView: View {
     
     @State var target: Int = 0
     
-    /// Generates and returns info on a fighter.
-    /// - Parameter fighter: The current fighter
-    /// - Returns: Returns generated info on a fighter
-    func generateInfo(fighter: Fighter) -> String {
-        var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + " - "
-        
-        let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]
+    /// Returns the effectiveness of a spell against the current opponent.
+    /// - Parameters:
+    ///   - fighter: The targeted fighter
+    ///   - spellIndex: The index of the intended spell
+    /// - Returns: Returns the effectiveness of a spell against the current opponent
+    func getEffectiveness(fighter: Fighter, spellIndex: Int) -> String {
         let modifier: Float
         
         if spellIndex >= 0 {
@@ -32,20 +31,31 @@ struct TargetView: View {
         
         switch modifier {
         case GlobalData.shared.elementalModifier * 2:
-            text += Localization.shared.getTranslation(key: "superEffective")
+            return Localization.shared.getTranslation(key: "superEffective")
         case GlobalData.shared.elementalModifier:
-            text += Localization.shared.getTranslation(key: "veryEffective")
+            return Localization.shared.getTranslation(key: "veryEffective")
         case 1:
-            text += Localization.shared.getTranslation(key: "effective")
+            return Localization.shared.getTranslation(key: "effective")
         case 1/GlobalData.shared.elementalModifier:
-            text += Localization.shared.getTranslation(key: "notVeryEffective")
+            return Localization.shared.getTranslation(key: "notVeryEffective")
         case 1/(GlobalData.shared.elementalModifier * 2):
-            text += Localization.shared.getTranslation(key: "notEffective")
+            return Localization.shared.getTranslation(key: "notEffective")
         default:
-            text += Localization.shared.getTranslation(key: "ineffective")
+            return Localization.shared.getTranslation(key: "ineffective")
         }
+    }
+    
+    /// Generates and returns info on a fighter.
+    /// - Parameter fighter: The targeted fighter
+    /// - Returns: Returns generated info on a fighter
+    func generateInfo(fighter: Fighter) -> String {
+        let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]
         
-        return text
+        if spellIndex >= 0 && player.getCurrentFighter().multiSpells[spellIndex].typeID > 9 {
+            return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"])
+        } else {
+            return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + getEffectiveness(fighter: fighter, spellIndex: spellIndex)
+        }
     }
     
     var body: some View {
@@ -70,7 +80,7 @@ struct TargetView: View {
                     }) {
                         ActionView(titleKey: fightLogic.players[target].fighters[index].name, description: generateInfo(fighter: fightLogic.players[target].fighters[index]), symbol: fightLogic.players[target].fighters[index].getElement().symbol, color: Color(hex: fightLogic.players[target].fighters[index].getElement().color))
                     }
-                    .id(index + 1).opacity(fightLogic.players[target].fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].fighters[index].currhp == 0)
+                    .id(index).opacity(fightLogic.players[target].fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].fighters[index].currhp == 0)
                 }
             }
             .onAppear {

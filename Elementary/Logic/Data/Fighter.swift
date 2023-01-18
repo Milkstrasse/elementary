@@ -433,6 +433,8 @@ class Fighter: Hashable, Equatable {
         elementOverride = nil
         artifactOverride = nil
         
+        lastSpell = -1
+        
         for index in singleSpells.indices {
             singleSpells[index].useCounter = 0
         }

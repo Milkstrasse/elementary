@@ -379,11 +379,11 @@ class FightLogic: ObservableObject {
                     playerQueue[index].move = randomMove
                 }
                 
-                if moveSpell.typeID == 13 && playerQueue[index].move.source.lastSpell >= 0 { //check shield
-                    if singleMode && playerQueue[index].move.source.singleSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
-                        playerQueue[index].move.source.lastSpell = -2 //shield fails
-                    } else if playerQueue[index].move.source.multiSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
-                        playerQueue[index].move.source.lastSpell = -2 //shield fails
+                if moveSpell.typeID == 13 && playerQueue[index].move.target.lastSpell >= 0 { //check shield
+                    if singleMode && playerQueue[index].move.target.singleSpells[playerQueue[index].move.target.lastSpell].typeID == 13 {
+                        playerQueue[index].move.target.lastSpell = -2 //shield fails
+                    } else if playerQueue[index].move.target.multiSpells[playerQueue[index].move.target.lastSpell].typeID == 13 {
+                        playerQueue[index].move.target.lastSpell = -2 //shield fails
                     }
                 } else if moveSpell.typeID != 10 { //prevent copy spell loop
                     if singleMode {

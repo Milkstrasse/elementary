@@ -68,7 +68,7 @@ struct TeamView: View {
                         }) {
                             ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
                         }
-                        .id(index + 1).opacity(player.fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(player.fighters[index].currhp == 0)
+                        .opacity(player.fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(player.fighters[index].currhp == 0)
                         .simultaneousGesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged { value in
