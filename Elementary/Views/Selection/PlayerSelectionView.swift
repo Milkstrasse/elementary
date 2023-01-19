@@ -70,6 +70,14 @@ struct PlayerSelectionView: View {
         return false
     }
     
+    /// Converts a symbol to the correct display format.
+    ///  - Parameter fighter: The fighter with the symbol
+    /// - Returns: Returns the symbol in the correct format
+    func createSymbol(fighter: Fighter) -> String {
+        let icon: UInt16 = UInt16(Float64(fighter.getElement().symbol) ?? 0xf128)
+        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
+    }
+    
     /// Returns wether the fighter is part of the team or not.
     /// - Parameter fighter: The fighter in question
     /// - Returns: Returns wether the fighter is part of the team or not
@@ -258,6 +266,16 @@ struct PlayerSelectionView: View {
                 } else if infoToggle {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: innerPadding) {
+                            ZStack(alignment: .leading) {
+                                Rectangle().fill(Color("Positive"))
+                                HStack(spacing: 0) {
+                                    CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.name).uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighters[selectedSlot]!.title).uppercased(), fontSize: smallFont, isBold: false)
+                                    Spacer()
+                                    Text(createSymbol(fighter: fighters[selectedSlot]!)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                }
+                                .frame(height: largeHeight).padding(.leading, innerPadding)
+                            }
                             HStack(spacing: innerPadding) {
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
@@ -507,7 +525,7 @@ struct PlayerSelectionView: View {
                                         SaveData.saveSettings()
                                     }
                                 }) {
-                                    BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "remove") : Localization.shared.getTranslation(key: "save"), width: 120, height: smallHeight, isInverted: false)
+                                    BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "unfavorite") : Localization.shared.getTranslation(key: "favorite"), width: 120, height: smallHeight, isInverted: false)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))

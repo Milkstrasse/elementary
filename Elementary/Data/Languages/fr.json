@@ -140,6 +140,9 @@
     "stubborn": "Obstiné",
     "timid": "Timide",
     
+    "favorite": "Favoriser",
+    "unfavorite": "Défavoriser",
+    
     "noArtifact": "Aucun artefact",
     "noArtifactDescr": "Ne fait rien",
     "amulet": "Amulette maudite",
