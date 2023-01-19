@@ -174,6 +174,12 @@ enum Weather: String, CaseIterable {
         }
     }
     
+    /// Checks if weather effect is beneficial to fighter.
+    /// - Parameters:
+    ///   - weather: The potential weather
+    ///   - attacker: The fighter changing the weather
+    ///   - defender: The targeted fighter
+    /// - Returns: Returns wether the weather is beneficial or not
     static func isBeneficial(weather: String, attacker: Fighter, defender: Fighter) -> Bool {
         switch weather {
         case "snowstorm":
