@@ -260,7 +260,11 @@ class FightLogic: ObservableObject {
                                 
                                 fighting = false
                                 
-                                FightLog.shared.addFightLog(log: fightLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
+                                if singleMode {
+                                    FightLog.shared.addFightLog(log: fightLog, currentFighter1: players[0].getCurrentFighter(), currentFighter2: players[1].getCurrentFighter(), weather: weather)
+                                } else {
+                                    FightLog.shared.addFightLog(log: fightLog, player1Fighters: players[0].fighters, player2Fighters: players[1].fighters, weather: weather)
+                                }
                             }
                         }
                     }

@@ -24,6 +24,9 @@ class FightLog {
         
         fightLog += "Player 2:\n"
         generateFighters(fighters: player2Fighters)
+        
+        fightLog += "\n-----------------------------------------\n"
+        fightLog += "\n"
     }
     
     
@@ -57,8 +60,6 @@ class FightLog {
     ///   - currentFighter1: The current fighter of player 1
     ///   - currentFighter2: The current fighter of player 2
     func addFightLog(log: [String], currentFighter1: Fighter, currentFighter2: Fighter, weather: Hex?) {
-        fightLog += "\n"
-        
         for line in log {
             fightLog += line
             fightLog += "\n"
@@ -72,6 +73,28 @@ class FightLog {
         generateFighterInfo(fighter: currentFighter1)
         fightLog += "\n"
         generateFighterInfo(fighter: currentFighter2)
+        fightLog += "\n"
+    }
+    
+    /// Adds the content of a fight round and some background information.
+    /// - Parameters:
+    ///   - log: The text containing the fight round
+    ///   - player1Fighters: The fighters of player 1
+    ///   - player2Fighters: The fighters of player 2
+    func addFightLog(log: [String], player1Fighters: [Fighter], player2Fighters: [Fighter], weather: Hex?) {
+        for line in log {
+            fightLog += line
+            fightLog += "\n"
+        }
+        
+        fightLog += "\n"
+        fightLog += Localization.shared.getTranslation(key: weather?.name ?? "clearSkies")
+        fightLog += "\n"
+        
+        fightLog += "\n"
+        generateFighters(fighters: player1Fighters)
+        fightLog += "\n"
+        generateFighters(fighters: player2Fighters)
         fightLog += "\n"
     }
 }

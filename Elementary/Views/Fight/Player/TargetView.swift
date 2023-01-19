@@ -54,7 +54,7 @@ struct TargetView: View {
         if spellIndex >= 0 && player.getCurrentFighter().multiSpells[spellIndex].typeID > 9 {
             return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"])
         } else {
-            return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + getEffectiveness(fighter: fighter, spellIndex: spellIndex)
+            return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + " - " + getEffectiveness(fighter: fighter, spellIndex: spellIndex)
         }
     }
     
