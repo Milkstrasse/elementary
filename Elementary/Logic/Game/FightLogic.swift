@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// This is the main logic of the game. Stores all participating fighters, determines the turn order and the amount of turns needed in each round, swaps fighters , determines when the game is over and who has won.
+/// This is the main logic of the game. Stores all participating fighters, determines the turn order and the amount of turns needed in each round, determines when the game is over and who has won.
 class FightLogic: ObservableObject {
     var gameLogic: GameLogic
     
@@ -102,7 +102,7 @@ class FightLogic: ObservableObject {
         if singleMode && player.hasToSwap { //fighter either fainted or has special artifact to swap
             if !player.getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) || player.getCurrentFighter().currhp == 0 {
                 if move.type == MoveType.swap {
-                    backupLog.append(swapFighters(player: player, target: move.index))
+                    backupLog.append(player.swapFighters(target: move.index, fightLogic: self))
                 }
                 
                 return false //action is free, new fighter can make a move
@@ -146,7 +146,7 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                backupLog.append(swapFighters(player: players[0], target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather)))
+                backupLog.append(players[0].swapFighters(target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), fightLogic: self))
             }
             
             var rndmMove: Move
@@ -631,59 +631,13 @@ class FightLogic: ObservableObject {
             if attacker.hasHex(hexName: Hexes.chained.rawValue) {
                 fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
             } else {
-                fightLog.append(swapFighters(player: player, target: move.index))
+                fightLog.append(player.swapFighters(target: move.index, fightLogic: self))
             }
         } else {
             fightLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
         }
         
         return false
-    }
-    
-    /// Swaps two fighters.
-    /// - Parameters:
-    ///   - player: The player who wants to swap
-    ///   - target: The index of the targeted fighter
-    /// - Returns: Returns the description of what occured during the swap
-    private func swapFighters(player: Player, target: Int) -> String {
-        player.hasToSwap = false //flag no longer necessary
-        
-        var text: String
-        
-        if player.getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-            for hex in player.getCurrentFighter().hexes {
-                player.getCurrentFighter().removeHex(hex: hex)
-            }
-        }
-        
-        text = Localization.shared.getTranslation(key: "swapWith", params: [player.getCurrentFighter().name, player.fighters[target].name]) + "\n"
-        player.currentFighterId = target
-        
-        //heal new fighter after making a wish
-        if player.wishActivated && player.getCurrentFighter().currhp < player.getCurrentFighter().getModifiedBase().health {
-            player.getCurrentFighter().currhp = player.getCurrentFighter().getModifiedBase().health
-            
-            text += Localization.shared.getTranslation(key: "gainedHP", params: [player.getCurrentFighter().name]) + "\n"
-            
-            player.wishActivated = false
-        }
-        
-        var oppositePlayer: Player = players[0]
-        if player.id == 0 {
-            oppositePlayer = players[1]
-        }
-        
-        //apply artifact effect
-        if weather?.name != Weather.volcanicStorm.rawValue && player.getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            if weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
-            } else {
-                text += Localization.shared.getTranslation(key: "hexFailed")
-            }
-        }
-        
-        return String(text.dropLast())
-        
     }
     
     /// Checks if game is over.

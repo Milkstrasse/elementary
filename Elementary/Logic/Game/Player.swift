@@ -126,6 +126,51 @@ class Player: ObservableObject {
             return false
         }
     }
+    
+    /// Swaps two fighters.
+    /// - Parameters:
+    ///   - target: The index of the targeted fighter
+    ///   - fightLogic: The information needed for the fight
+    /// - Returns: Returns the description of what occured during the swap
+    func swapFighters(target: Int, fightLogic: FightLogic) -> String {
+        hasToSwap = false //flag no longer necessary
+        
+        var text: String
+        
+        if getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+            for hex in getCurrentFighter().hexes {
+                getCurrentFighter().removeHex(hex: hex)
+            }
+        }
+        
+        text = Localization.shared.getTranslation(key: "swapWith", params: [getCurrentFighter().name, fighters[target].name]) + "\n"
+        currentFighterId = target
+        
+        //heal new fighter after making a wish
+        if wishActivated && getCurrentFighter().currhp < getCurrentFighter().getModifiedBase().health {
+            getCurrentFighter().currhp = getCurrentFighter().getModifiedBase().health
+            
+            text += Localization.shared.getTranslation(key: "gainedHP", params: [getCurrentFighter().name]) + "\n"
+            
+            wishActivated = false
+        }
+        
+        var oppositePlayer: Player = fightLogic.players[0]
+        if id == 0 {
+            oppositePlayer = fightLogic.players[1]
+        }
+        
+        //apply artifact effect
+        if fightLogic.weather?.name != Weather.volcanicStorm.rawValue && getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
+            if fightLogic.weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
+                text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
+            } else {
+                text += Localization.shared.getTranslation(key: "hexFailed")
+            }
+        }
+        
+        return String(text.dropLast())
+    }
 }
 
 /// The different states a player can enter.

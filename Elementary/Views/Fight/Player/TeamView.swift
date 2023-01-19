@@ -64,9 +64,15 @@ struct TeamView: View {
                     )
                 ForEach(player.fighters.indices, id: \.self) { index in
                     if index != player.currentFighterId {
-                        Button(action: {
-                        }) {
-                            ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
+                        Group {
+                            if fightLogic.singleMode {
+                                Button(action: {
+                                }) {
+                                    ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
+                                }
+                            } else {
+                                ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
+                            }
                         }
                         .opacity(player.fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(player.fighters[index].currhp == 0)
                         .simultaneousGesture(
@@ -87,14 +93,12 @@ struct TeamView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.singleMode {
-                                        if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, target: player.fighters[index], spell: -1, type: MoveType.swap)) {
-                                            AudioPlayer.shared.playConfirmSound()
-                                            currentSection = Section.waiting
-                                        } else {
-                                            AudioPlayer.shared.playStandardSound()
-                                            currentSection = Section.options
-                                        }
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, target: player.fighters[index], spell: -1, type: MoveType.swap)) {
+                                        AudioPlayer.shared.playConfirmSound()
+                                        currentSection = Section.waiting
+                                    } else {
+                                        AudioPlayer.shared.playStandardSound()
+                                        currentSection = Section.options
                                     }
                                 })
                     }

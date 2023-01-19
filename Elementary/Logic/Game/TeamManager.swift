@@ -122,8 +122,8 @@ struct TeamManager {
     
     /// Resets each fighter in both teams to make them ready for a fight.
     /// - Parameters:
-    ///   - topFighters: The team of player 0
-    ///   - bottomFighters: The team of player 1
+    ///   - topFighters: The team of player 1
+    ///   - bottomFighters: The team of player 2
     static func resetFighters(topFighters: [Fighter?], bottomFighters: [Fighter?]) {
         for fighter in topFighters {
             fighter?.reset()
