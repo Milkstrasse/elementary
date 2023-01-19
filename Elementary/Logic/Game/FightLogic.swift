@@ -383,11 +383,11 @@ class FightLogic: ObservableObject {
                     playerQueue[index].move = randomMove
                 }
                 
-                if moveSpell.typeID == 13 && playerQueue[index].move.target.lastSpell >= 0 { //check shield
-                    if singleMode && playerQueue[index].move.target.singleSpells[playerQueue[index].move.target.lastSpell].typeID == 13 {
-                        playerQueue[index].move.target.lastSpell = -2 //shield fails
-                    } else if playerQueue[index].move.target.multiSpells[playerQueue[index].move.target.lastSpell].typeID == 13 {
-                        playerQueue[index].move.target.lastSpell = -2 //shield fails
+                if moveSpell.typeID == 13 && playerQueue[index].move.source.lastSpell >= 0 { //check shield
+                    if singleMode && playerQueue[index].move.source.singleSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
+                        playerQueue[index].move.source.lastSpell = -2 //shield fails
+                    } else if playerQueue[index].move.source.multiSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
+                        playerQueue[index].move.source.lastSpell = -2 //shield fails
                     }
                 } else if moveSpell.typeID != 10 { //prevent copy spell loop
                     if singleMode {
@@ -457,7 +457,7 @@ class FightLogic: ObservableObject {
             if originalArr[index].move.type == MoveType.spell {
                 if singleMode {
                     for n in originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells.indices {
-                        if originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[n].range ==  0 && originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[0].range == 1 {
+                        if originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[n].range == originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[0].range {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         } else {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
@@ -467,7 +467,7 @@ class FightLogic: ObservableObject {
                     }
                 } else {
                     for n in originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells.indices {
-                        if originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells[n].range == 1 {
+                        if originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells[n].range == originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells[0].range {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         } else {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)

@@ -263,8 +263,8 @@ class TurnLogic {
             case 6:
                 if player.isAbleToSwap(singleMode: fightLogic!.singleMode) {
                     player.hasToSwap = true
-                    move.source.hasSwapped = true
-                    return Localization.shared.getTranslation(key: "nameRetreated", params: [move.source.name])
+                    move.target.hasSwapped = true
+                    return Localization.shared.getTranslation(key: "nameRetreated", params: [move.target.name])
                 }
             case 13:
                 //shield can't be used twice in a row -> failure
@@ -303,8 +303,8 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "elementChanged", params: [move.target.name, move.source.getElement().name])
             case 19:
                 player.wishActivated = true
-                move.source.currhp = 0
-                player.setState(state: PlayerState.hurting, fighter: move.source)
+                move.target.currhp = 0
+                player.setState(state: PlayerState.hurting, fighter: move.target)
                 
                 if fightLogic!.singleMode {
                     player.hasToSwap = true
