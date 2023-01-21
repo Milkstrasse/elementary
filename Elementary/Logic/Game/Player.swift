@@ -19,6 +19,8 @@ class Player: ObservableObject {
     
     @Published var state: PlayerState
     
+    var fighterOrder: [Int]
+    
     /// Creates a player with all the information to start a fight.
     /// - Parameters:
     ///   - id: The id determines if they are on the left or right
@@ -32,18 +34,27 @@ class Player: ObservableObject {
         wishActivated = false
         
         state = PlayerState.neutral
+        
+        fighterOrder = Array(0 ..< fighters.count)
     }
     
     /// Returns the fighter currently fighting.
     /// - Returns: Returns the fighter currently fighting
     func getCurrentFighter() -> Fighter {
-        return fighters[currentFighterId]
+        return getFighter(index: currentFighterId)
+    }
+    
+    /// Returns the fighter from the desired position.
+    /// - Parameter index: The desired position
+    /// - Returns: Returns the fighter from the desired position
+    func getFighter(index: Int) -> Fighter {
+        return fighters[fighterOrder[index]]
     }
     
     /// Goes to the next alive fighter in the team.
     func goToNextFighter() {
         currentFighterId += 1
-        while fighters[currentFighterId].currhp == 0 {
+        while getCurrentFighter().currhp == 0 {
             currentFighterId += 1
         }
     }
@@ -51,8 +62,18 @@ class Player: ObservableObject {
     /// Goes to the previous alive fighter in the team.
     func goToPreviousFighter() {
         currentFighterId -= 1
-        while fighters[currentFighterId].currhp == 0 {
+        while fighters[fighterOrder[currentFighterId]].currhp == 0 {
             currentFighterId -= 1
+        }
+    }
+    
+    /// Returns the id of the opposing player.
+    /// - Returns: Returns the id of the opposing player
+    func getOppositePlayerId() -> Int {
+        if id == 0 {
+            return 1
+        } else {
+            return 0
         }
     }
     
@@ -60,7 +81,7 @@ class Player: ObservableObject {
     /// - Parameters:
     ///   - state: The state the player will enter
     ///   - index: The index of the fighter
-    private func setState(state: PlayerState, index: Int) {
+    func setState(state: PlayerState, index: Int) {
         currentFighterId = index
         self.state = state
         
@@ -95,9 +116,9 @@ class Player: ObservableObject {
     ///   - index: The selected fighter
     func setState(state: PlayerState, fighter: Fighter) {
         var index: Int = 0
-        for n in fighters.indices {
-            if fighters[n] == fighter {
-                index = n
+        for order in fighterOrder.indices {
+            if fighters[fighterOrder[order]] == fighter {
+                index = order
                 break
             }
         }
@@ -144,7 +165,11 @@ class Player: ObservableObject {
         }
         
         text = Localization.shared.getTranslation(key: "swapWith", params: [getCurrentFighter().name, fighters[target].name]) + "\n"
-        currentFighterId = target
+        
+        let temp: Int = fighterOrder[currentFighterId]
+        fighterOrder[currentFighterId] = fighterOrder[target]
+        fighterOrder[target] = temp
+        //currentFighterId = target
         
         //heal new fighter after making a wish
         if wishActivated && getCurrentFighter().currhp < getCurrentFighter().getModifiedBase().health {
@@ -155,10 +180,7 @@ class Player: ObservableObject {
             wishActivated = false
         }
         
-        var oppositePlayer: Player = fightLogic.players[0]
-        if id == 0 {
-            oppositePlayer = fightLogic.players[1]
-        }
+        let oppositePlayer: Player = fightLogic.players[getOppositePlayerId()]
         
         //apply artifact effect
         if fightLogic.weather?.name != Weather.volcanicStorm.rawValue && getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {

@@ -110,7 +110,7 @@ class FightLogic: ObservableObject {
         }
         
         if singleMode {
-            if move.spell > -1 && move.source.singleSpells[move.spell].useCounter + move.source.manaUse > move.source.singleSpells[move.spell].uses {
+            if move.spell > -1 && player.getFighter(index: move.source).singleSpells[move.spell].useCounter + player.getFighter(index: move.source).manaUse > player.getFighter(index: move.source).singleSpells[move.spell].uses {
                 return false //spell cost is to high, fighter cannot use this spell
             }
             
@@ -126,7 +126,7 @@ class FightLogic: ObservableObject {
             
             playerQueue[player.id * gameLogic.fullAmount/2] = (player: player, move: move)
         } else {
-            if move.spell > -1 && move.source.multiSpells[move.spell].useCounter + move.source.manaUse > move.source.multiSpells[move.spell].uses {
+            if move.spell > -1 && player.getFighter(index: move.source).multiSpells[move.spell].useCounter + player.getFighter(index: move.source).manaUse > player.getFighter(index: move.source).multiSpells[move.spell].uses {
                 return false //spell cost is to high, fighter cannot use this spell
             }
             
@@ -146,7 +146,7 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                backupLog.append(players[0].swapFighters(target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, fighters: players[0].fighters, enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), fightLogic: self))
+                backupLog.append(players[0].swapFighters(target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, player: players[0], enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), fightLogic: self))
             }
             
             var rndmMove: Move
@@ -154,11 +154,6 @@ class FightLogic: ObservableObject {
                 rndmMove = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: players[0].getCurrentFighter().singleSpells[players[0].getCurrentFighter().lastSpell])
             } else {
                 rndmMove = CPULogic.shared.getMove(player: players[0], target: players[1], weather: weather, lastSpell: nil)
-            }
-            
-            //update target if target swaps
-            if playerQueue[1].move.type == MoveType.swap && rndmMove.type == MoveType.spell {
-                rndmMove.target = playerQueue[1].move.target
             }
             
             playerQueue[0] = (player: players[0], move: rndmMove)
@@ -292,26 +287,29 @@ class FightLogic: ObservableObject {
     
     /// Compares to fighters to determine who makes the first move
     /// - Parameters:
-    ///   - fighterA: The first fighter
-    ///   - fighterB: The second fighter
+    ///   - playerMoveA: The player move to compare to
+    ///   - playerMoveB: The player move to be compared
     /// - Returns: Returns wether the first fighter has priority or not
-    func isFasterFighter(fighterA: Int, fighterB: Int) -> Bool {
+    func isFasterFighter(playerMoveA: (player: Player, move: Move), playerMoveB: (player: Player, move: Move)) -> Bool {
         //player wants to switch -> priority
-        if playerQueue[fighterA].move.type == MoveType.swap {
+        if playerMoveA.move.type == MoveType.swap {
             return true
-        } else if playerQueue[fighterB].move.type == MoveType.swap {
+        } else if playerMoveB.move.type == MoveType.swap {
             return false
         }
+        
+        let fighterA: Fighter = playerMoveA.player.getFighter(index: playerMoveA.move.source)
+        let fighterB: Fighter = playerMoveB.player.getFighter(index: playerMoveB.move.source)
         
         let spellA: Spell
         let spellB: Spell
         
         if singleMode {
-            spellA = playerQueue[fighterA].move.source.singleSpells[playerQueue[fighterA].move.spell]
-            spellB = playerQueue[fighterB].move.source.singleSpells[playerQueue[fighterB].move.spell]
+            spellA = fighterA.singleSpells[playerMoveA.move.spell]
+            spellB = fighterB.singleSpells[playerMoveB.move.spell]
         } else {
-            spellA = playerQueue[fighterA].move.source.multiSpells[playerQueue[fighterA].move.spell]
-            spellB = playerQueue[fighterB].move.source.multiSpells[playerQueue[fighterB].move.spell]
+            spellA = fighterA.multiSpells[playerMoveA.move.spell]
+            spellB = fighterB.multiSpells[playerMoveB.move.spell]
         }
         
         //priority move goes first
@@ -322,9 +320,9 @@ class FightLogic: ObservableObject {
         }
         
         //determine priority with using the agility stat of the fighters
-        if playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility {
+        if fighterA.getModifiedBase(weather: weather).agility > fighterB.getModifiedBase(weather: weather).agility {
             return true
-        } else if playerQueue[fighterB].move.source.getModifiedBase(weather: weather).agility > playerQueue[fighterA].move.source.getModifiedBase(weather: weather).agility {
+        } else if fighterB.getModifiedBase(weather: weather).agility > fighterA.getModifiedBase(weather: weather).agility {
             return false
         } else { //agility stat tie -> random player has priority
             return Bool.random()
@@ -339,70 +337,69 @@ class FightLogic: ObservableObject {
                 continue
             }
             
+            let source: Fighter = playerQueue[index].player.getFighter(index: playerQueue[index].move.source)
             let moveSpell: Spell
             
             if singleMode {
-                moveSpell = playerQueue[index].move.source.singleSpells[playerQueue[index].move.spell]
+                moveSpell = source.singleSpells[playerQueue[index].move.spell]
             } else {
-                moveSpell = playerQueue[index].move.source.multiSpells[playerQueue[index].move.spell]
+                moveSpell = source.multiSpells[playerQueue[index].move.spell]
             }
             
             if playerQueue[index].move.type == MoveType.spell { //spell move can be overwritten by artifacts/hexes
-                if playerQueue[index].move.source.lastSpell >= 0 && playerQueue[index].move.source.hasHex(hexName: Hexes.restricted.rawValue) {
-                    playerQueue[index].move.spell = playerQueue[index].move.source.lastSpell
-                } else if playerQueue[index].move.source.lastSpell >= 0 && playerQueue[index].move.source.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
-                    playerQueue[index].move.spell = playerQueue[index].move.source.lastSpell
-                } else if playerQueue[index].move.source.hasHex(hexName: Hexes.confused.rawValue) {
+                if source.lastSpell >= 0 && source.hasHex(hexName: Hexes.restricted.rawValue) {
+                    playerQueue[index].move.spell = source.lastSpell
+                } else if source.lastSpell >= 0 && source.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                    playerQueue[index].move.spell = source.lastSpell
+                } else if source.hasHex(hexName: Hexes.confused.rawValue) {
                     let randomIndex: Int
                     let randomSpell: Spell
                     
                     if singleMode {
-                        randomIndex = Int.random(in: 0 ..< playerQueue[index].move.source.singleSpells.count)
-                        randomSpell = playerQueue[index].move.source.singleSpells[randomIndex]
+                        randomIndex = Int.random(in: 0 ..< source.singleSpells.count)
+                        randomSpell = source.singleSpells[randomIndex]
                     } else {
-                        randomIndex = Int.random(in: 0 ..< playerQueue[index].move.source.multiSpells.count)
-                        randomSpell = playerQueue[index].move.source.multiSpells[randomIndex]
+                        randomIndex = Int.random(in: 0 ..< source.multiSpells.count)
+                        randomSpell = source.multiSpells[randomIndex]
                     }
                     
                     let randomMove: Move
                     let target: Int
                     
-                    if randomSpell.subSpells[0].range == 0 {
+                    if randomSpell.range == 0 {
                         randomMove = Move(source: playerQueue[index].move.source, index: -1, target: playerQueue[index].move.source, spell: randomIndex, type: MoveType.spell)
-                    } else if randomSpell.subSpells[0].range == 1 {
+                    } else if randomSpell.range == 1 {
                         target = Int.random(in: 0 ..< playerQueue[index].player.fighters.count)
-                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: playerQueue[index].player.fighters[target], spell: randomIndex, type: MoveType.spell)
+                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
                     } else if index == 0 {
                         target = Int.random(in: 0 ..< players[1].fighters.count)
-                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: players[1].fighters[target], spell: randomIndex, type: MoveType.spell)
+                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
                     } else {
                         target = Int.random(in: 0 ..< players[0].fighters.count)
-                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: players[0].fighters[target], spell: randomIndex, type: MoveType.spell)
+                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
                     }
                     
                     playerQueue[index].move = randomMove
                 }
                 
-                if moveSpell.typeID == 13 && playerQueue[index].move.source.lastSpell >= 0 { //check shield
-                    if singleMode && playerQueue[index].move.source.singleSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
-                        playerQueue[index].move.source.lastSpell = -2 //shield fails
-                    } else if playerQueue[index].move.source.multiSpells[playerQueue[index].move.source.lastSpell].typeID == 13 {
-                        playerQueue[index].move.source.lastSpell = -2 //shield fails
+                if moveSpell.typeID == 13 && source.lastSpell >= 0 { //check shield
+                    if singleMode && source.singleSpells[source.lastSpell].typeID == 13 {
+                        source.lastSpell = -2 //shield fails
+                    } else if source.multiSpells[source.lastSpell].typeID == 13 {
+                        source.lastSpell = -2 //shield fails
                     }
-                } else if moveSpell.typeID != 10 { //prevent copy spell loop
+                } else {
                     if singleMode {
-                        for spell in playerQueue[index].move.source.singleSpells.indices {
-                            if playerQueue[index].move.source.singleSpells[spell].name == moveSpell.name {
-                                playerQueue[index].move.source.lastSpell = spell
-                                
+                        for spell in source.singleSpells.indices {
+                            if source.singleSpells[spell].name == moveSpell.name {
+                                source.lastSpell = spell
                                 break
                             }
                         }
                     } else {
-                        for spell in playerQueue[index].move.source.multiSpells.indices {
-                            if playerQueue[index].move.source.multiSpells[spell].name == moveSpell.name {
-                                playerQueue[index].move.source.lastSpell = spell
-                                
+                        for spell in source.multiSpells.indices {
+                            if source.multiSpells[spell].name == moveSpell.name {
+                                source.lastSpell = spell
                                 break
                             }
                         }
@@ -410,33 +407,15 @@ class FightLogic: ObservableObject {
                 }
             }
             
-            if moveSpell.typeID == 10 { //player wants to copy last move
-                if playerQueue[index].move.source.lastSpell >= 0 {
-                    playerQueue[index].move.spell = playerQueue[index].move.source.lastSpell
-                }
-            }
-            
-            //ensure targeted fighter is the current one in single mode
-            if singleMode && playerQueue[index].move.type == MoveType.spell {
-                var oppositePlayer: Player = players[0]
-                if playerQueue[index].player.id == 0 {
-                    oppositePlayer = players[1]
-                }
-                
-                if moveSpell.subSpells[0].range == 1 {
-                    playerQueue[index].move.target = oppositePlayer.getCurrentFighter()
-                }
-            }
-            
             //increase use counter of spells
-            playerQueue[index].move.useSpell(amount: playerQueue[index].move.source.manaUse, singleMode: singleMode)
+            playerQueue[index].move.useSpell(fighter: source, singleMode: singleMode)
         }
         
         //sort queue
         for i in 1 ..< playerQueue.count {
             var j: Int = i
             
-            while j > 0 && isFasterFighter(fighterA: j, fighterB: j - 1) {
+            while j > 0 && isFasterFighter(playerMoveA: playerQueue[j], playerMoveB: playerQueue[j - 1]) {
                 let temp = playerQueue[j]
                 playerQueue[j] = playerQueue[j - 1]
                 playerQueue[j - 1] = temp
@@ -453,11 +432,13 @@ class FightLogic: ObservableObject {
         var offset: Int = 0
         
         for index in 0 ..< gameLogic.fullAmount {
+            let source: Fighter = originalArr[index].player.getFighter(index: originalArr[index].move.source)
+            
             //add moves for subspells
             if originalArr[index].move.type == MoveType.spell {
                 if singleMode {
-                    for n in originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells.indices {
-                        if originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[n].range == originalArr[index].move.source.singleSpells[originalArr[index].move.spell].subSpells[0].range {
+                    for n in source.singleSpells[originalArr[index].move.spell].subSpells.indices {
+                        if source.singleSpells[originalArr[index].move.spell].subSpells[n].range == 0 {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         } else {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
@@ -466,19 +447,20 @@ class FightLogic: ObservableObject {
                         offset += 1
                     }
                 } else {
-                    for n in originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells.indices {
-                        if originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells[n].range == originalArr[index].move.source.multiSpells[originalArr[index].move.spell].subSpells[0].range {
-                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
-                        } else {
+                    for n in source.multiSpells[originalArr[index].move.spell].subSpells.indices {
+                        if source.multiSpells[originalArr[index].move.spell].subSpells[n].range == 0 {
                             playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
+                        } else {
+                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         }
+                        
                         offset += 1
                     }
                     
-                    if originalArr[index].move.source.multiSpells[originalArr[index].move.spell].typeID == 21 {
+                    if source.multiSpells[originalArr[index].move.spell].typeID == 21 {
                         for n in originalArr.indices {
                             if originalArr[n].player.id != originalArr[index].player.id {
-                                if originalArr[n].move.source.multiSpells[originalArr[n].move.spell].subSpells[0].range == 1 {
+                                if source.multiSpells[originalArr[n].move.spell].range == 1 {
                                     originalArr[n].move.target = originalArr[index].move.target
                                     playerQueue[playerQueue.count - originalArr.count + n].move.target = originalArr[index].move.target
                                 }
@@ -494,10 +476,7 @@ class FightLogic: ObservableObject {
                 
                 offset += 2
                 
-                var oppositePlayer: Player = players[0]
-                if originalArr[index].player.id == 0 {
-                    oppositePlayer = players[1]
-                }
+                let oppositePlayer: Player = players[originalArr[index].player.getOppositePlayerId()]
                 
                 //attacking fighter faints or exits the fight
                 playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.special)), at: index + offset + 1)
@@ -527,15 +506,6 @@ class FightLogic: ObservableObject {
                 playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)))
             }
         }
-    }
-    
-    /// Executes a move from the queue and skips unneccessary moves.
-    /// - Parameters:
-    ///   - player: The player that makes the move
-    ///   - move: The move the player wants to make
-    /// - Returns: Returns wether the move gets skipped or not
-    private func startTurn(player: Player, move: Move) -> Bool {
-        let attacker: Fighter = move.source
         
         /*for index in playerQueue.indices {
             if singleMode {
@@ -552,6 +522,16 @@ class FightLogic: ObservableObject {
                 }
             }
         }*/
+    }
+    
+    /// Executes a move from the queue and skips unneccessary moves.
+    /// - Parameters:
+    ///   - player: The player that makes the move
+    ///   - move: The move the player wants to make
+    /// - Returns: Returns wether the move gets skipped or not
+    private func startTurn(player: Player, move: Move) -> Bool {
+        let oppositePlayer: Player = players[player.getOppositePlayerId()]
+        let attacker: Fighter = player.getFighter(index: move.source)
         
         //check if move is skippable
         switch move.type {
@@ -586,30 +566,32 @@ class FightLogic: ObservableObject {
                 return true
             }
             
+            let target: Fighter = oppositePlayer.getFighter(index: move.target)
+            
             if weather?.name != Weather.volcanicStorm.rawValue {
                 switch move.index {
                 case 0:
                     if singleMode {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     } else {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     }
                 case 1:
                     if singleMode {
-                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     } else {
-                        if move.target.getArtifact().name != Artifacts.helmet.rawValue || move.source.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     }
                 case 2:
-                    if (move.target.getArtifact().name != Artifacts.thread.rawValue && move.source.getArtifact().name != Artifacts.thread.rawValue) || move.target.currhp > 0 {
+                    if (target.getArtifact().name != Artifacts.thread.rawValue && attacker.getArtifact().name != Artifacts.thread.rawValue) || target.currhp > 0 {
                         return true
                     }
                 default:

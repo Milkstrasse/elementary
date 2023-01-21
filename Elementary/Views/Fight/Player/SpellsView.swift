@@ -27,8 +27,8 @@ struct SpellsView: View {
             modifiers[0] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
         } else {
             for index in 0 ..< fightLogic.gameLogic.fullAmount/2 {
-                if fightLogic.players[player.id == 0 ? 1 : 0].fighters[index].currhp > 0 {
-                    modifiers[index] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.id == 0 ? 1 : 0].fighters[index], spellElement: element, weather: fightLogic.weather)
+                if fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).currhp > 0 {
+                    modifiers[index] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.getOppositePlayerId()].getFighter(index: index), spellElement: element, weather: fightLogic.weather)
                 }
             }
             
@@ -97,16 +97,14 @@ struct SpellsView: View {
                                 TapGesture()
                                     .onEnded { _ in
                                         if fightLogic.singleMode {
-                                            let target: Fighter
-                                            if player.getCurrentFighter().singleSpells[index].subSpells[0].range == 0 {
-                                                target = player.getCurrentFighter()
-                                            } else if player.id == 0 {
-                                                target = fightLogic.players[1].getCurrentFighter()
+                                            let target: Int
+                                            if player.getCurrentFighter().singleSpells[index].range == 0 {
+                                                target = player.currentFighterId
                                             } else {
-                                                target = fightLogic.players[0].getCurrentFighter()
+                                                target = fightLogic.players[player.getOppositePlayerId()].currentFighterId
                                             }
                                             
-                                            if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
+                                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: target, spell: index, type: MoveType.spell)) {
                                                 AudioPlayer.shared.playConfirmSound()
                                                 currentSection = Section.waiting
                                             } else {
@@ -151,16 +149,14 @@ struct SpellsView: View {
                                 TapGesture()
                                     .onEnded { _ in
                                         if fightLogic.singleMode {
-                                            let target: Fighter
-                                            if player.getCurrentFighter().multiSpells[index].subSpells[0].range == 0 {
-                                                target = player.getCurrentFighter()
-                                            } else if player.id == 0 {
-                                                target = fightLogic.players[1].getCurrentFighter()
+                                            let target: Int
+                                            if player.getCurrentFighter().multiSpells[index].range == 0 {
+                                                target = player.currentFighterId
                                             } else {
-                                                target = fightLogic.players[0].getCurrentFighter()
+                                                target = fightLogic.players[player.getOppositePlayerId()].currentFighterId
                                             }
                                             
-                                            if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: target, spell: index, type: MoveType.spell)) {
+                                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: target, spell: index, type: MoveType.spell)) {
                                                 AudioPlayer.shared.playConfirmSound()
                                                 currentSection = Section.waiting
                                             } else {
@@ -168,8 +164,25 @@ struct SpellsView: View {
                                             }
                                         } else {
                                             AudioPlayer.shared.playStandardSound()
-                                            fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
-                                            currentSection = Section.targeting
+                                            
+                                            if player.getCurrentFighter().multiSpells[index].range == 1 {
+                                                fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                                currentSection = Section.targeting
+                                            } else if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: player.currentFighterId, spell: index, type: MoveType.spell)) {
+                                                fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                                
+                                                if fightLogic.gameLogic.isPlayerReady(player: player) {
+                                                    AudioPlayer.shared.playConfirmSound()
+                                                    currentSection = Section.waiting
+                                                } else {
+                                                    player.goToNextFighter()
+                                                    
+                                                    AudioPlayer.shared.playStandardSound()
+                                                    currentSection = Section.options
+                                                }
+                                            } else {
+                                                AudioPlayer.shared.playStandardSound()
+                                            }
                                         }
                                     })
                         }

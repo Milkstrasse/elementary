@@ -25,10 +25,7 @@ struct TeamView: View {
         if isDetectingPress && selectIndex == index {
             text += Localization.shared.getTranslation(key: fighter.getArtifact().name)
         } else {
-            var oppositePlayer: Player = fightLogic.players[0]
-            if player.id == 0 {
-                oppositePlayer = fightLogic.players[1]
-            }
+            let oppositePlayer: Player = fightLogic.players[player.getOppositePlayerId()]
             
             if fighter.getElement().hasAdvantage(element: oppositePlayer.getCurrentFighter().getElement(), weather: fightLogic.weather) {
                 text += Localization.shared.getTranslation(key: "veryEffective")
@@ -68,13 +65,13 @@ struct TeamView: View {
                             if fightLogic.singleMode {
                                 Button(action: {
                                 }) {
-                                    ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
+                                    ActionView(titleKey: player.getFighter(index: index).name, description: generateInfo(fighter: player.getFighter(index: index), index: index), symbol: player.getFighter(index: index).getElement().symbol, color: Color(hex: player.getFighter(index: index).getElement().color))
                                 }
                             } else {
-                                ActionView(titleKey: player.fighters[index].name, description: generateInfo(fighter: player.fighters[index], index: index), symbol: player.fighters[index].getElement().symbol, color: Color(hex: player.fighters[index].getElement().color))
+                                ActionView(titleKey: player.getFighter(index: index).name, description: generateInfo(fighter: player.getFighter(index: index), index: index), symbol: player.getFighter(index: index).getElement().symbol, color: Color(hex: player.getFighter(index: index).getElement().color))
                             }
                         }
-                        .opacity(player.fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(player.fighters[index].currhp == 0)
+                        .opacity(player.getFighter(index: index).currhp == 0 ? 0.5 : 1.0).disabled(player.getFighter(index: index).currhp == 0)
                         .simultaneousGesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged { value in
@@ -93,7 +90,7 @@ struct TeamView: View {
                         .highPriorityGesture(
                             TapGesture()
                                 .onEnded { _ in
-                                    if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: index, target: player.fighters[index], spell: -1, type: MoveType.swap)) {
+                                    if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: index, target: index, spell: -1, type: MoveType.swap)) {
                                         AudioPlayer.shared.playConfirmSound()
                                         currentSection = Section.waiting
                                     } else {

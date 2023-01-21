@@ -63,7 +63,7 @@ struct TargetView: View {
             VStack(spacing: innerPadding/2) {
                 ForEach(fightLogic.players[target].fighters.indices, id: \.self) { index in
                     Button(action: {
-                        if fightLogic.makeMove(player: player, move: Move(source: player.getCurrentFighter(), index: -1, target: fightLogic.players[target].fighters[index], spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                        if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
                             if fightLogic.gameLogic.isPlayerReady(player: player) {
                                 AudioPlayer.shared.playConfirmSound()
                                 currentSection = Section.waiting
@@ -78,13 +78,13 @@ struct TargetView: View {
                             currentSection = Section.options
                         }
                     }) {
-                        ActionView(titleKey: fightLogic.players[target].fighters[index].name, description: generateInfo(fighter: fightLogic.players[target].fighters[index]), symbol: fightLogic.players[target].fighters[index].getElement().symbol, color: Color(hex: fightLogic.players[target].fighters[index].getElement().color))
+                        ActionView(titleKey: fightLogic.players[target].getFighter(index: index).name, description: generateInfo(fighter: fightLogic.players[target].getFighter(index: index)), symbol: fightLogic.players[target].getFighter(index: index).getElement().symbol, color: Color(hex: fightLogic.players[target].getFighter(index: index).getElement().color))
                     }
-                    .id(index).opacity(fightLogic.players[target].fighters[index].currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].fighters[index].currhp == 0)
+                    .id(index).opacity(fightLogic.players[target].getFighter(index: index).currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].getFighter(index: index).currhp == 0)
                 }
             }
             .onAppear {
-                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].subSpells[0].range < 1 {
+                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range == 0 {
                     target = player.id
                 } else if player.id == 0 {
                     target = 1

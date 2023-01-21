@@ -1,6 +1,7 @@
 {
   "element": "electric",
   "typeID": 14,
+  "range": 1,
   "uses": 24,
   "subSpells": [
       {

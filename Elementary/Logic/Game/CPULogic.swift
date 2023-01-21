@@ -31,17 +31,17 @@ struct CPULogic {
         
         //no moves found
         if availableSpells.isEmpty {
-            if player.isAbleToSwap() && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
+            if player.isAbleToSwap() && getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                 return createSwapMove(player: player, target: target, weather: weather)
             } else {
-                return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: 0, type: MoveType.spell)
+                return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: 0, type: MoveType.spell)
             }
         }
         
         //fighter is restricted -> use best move
         if (attacker.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
             if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) && player.isAbleToSwap() {
-                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return createSwapMove(player: player, target: target, weather: weather)
                 }
             }
@@ -59,7 +59,7 @@ struct CPULogic {
             }
             
             if  attacker.singleSpells[bestSpell.1].typeID < 10 {
-                return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: bestSpell.1, type: MoveType.spell)
+                return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: bestSpell.1, type: MoveType.spell)
             }
         }
         
@@ -67,9 +67,9 @@ struct CPULogic {
         var rndm: Int = Int.random(in: 0 ..< 1)
         if rndm > 0 {
             if defender.getElement().hasDisadvantage(element: attacker.getElement(), weather: weather) && target.isAbleToSwap() {
-                let newFighter: Int = getTarget(currentFighter: target.currentFighterId, fighters: target.fighters, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap, weather: weather)
+                let newFighter: Int = getTarget(currentFighter: target.currentFighterId, player: target, enemyElement: attacker.getElement(), hasToSwap: target.hasToSwap, weather: weather)
                 if newFighter != target.currentFighterId {
-                    defender = target.fighters[newFighter]
+                    defender = target.getFighter(index: newFighter)
                 }
             }
         }
@@ -78,7 +78,7 @@ struct CPULogic {
         for spell in availableSpells {
             if attacker.singleSpells[spell].typeID < 10 {
                 if DamageCalculator.shared.willDefeatFighter(attacker: attacker, defender: defender, spell: attacker.singleSpells[spell], subSpell: attacker.singleSpells[spell].subSpells[0], spellElement: attacker.singleSpells[spell].element, weather: weather) {
-                    return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                    return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                 }
             }
         }
@@ -90,7 +90,7 @@ struct CPULogic {
                     if attacker.singleSpells[spell].typeID == 11 {
                         if attacker.singleSpells[spell].subSpells[0].weather! == "magneticStorm" || attacker.singleSpells[spell].subSpells[0].weather! == "denseFog" {
                             if Weather.isBeneficial(weather: attacker.singleSpells[spell].subSpells[0].weather!, attacker: attacker, defender: target.getCurrentFighter()) {
-                                return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                                return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                             }
                         }
                     }
@@ -99,12 +99,12 @@ struct CPULogic {
                 if target.isAbleToSwap() { //force out
                     for spell in availableSpells {
                         if attacker.singleSpells[spell].typeID == 15 {
-                            return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                            return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                         }
                     }
                 }
             } else if player.isAbleToSwap() { //swap
-                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
+                if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return createSwapMove(player: player, target: target, weather: weather)
                 }
             }
@@ -114,7 +114,7 @@ struct CPULogic {
         if attacker.currhp <= attacker.getModifiedBase().health/3 && !attacker.hasHex(hexName: Hexes.blocked.rawValue) {
             for spell in availableSpells {
                 if attacker.singleSpells[spell].typeID == 12 {
-                    return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                    return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                 }
             }
         }
@@ -125,7 +125,7 @@ struct CPULogic {
             for spell in availableSpells {
                 if attacker.singleSpells[spell].typeID == 11 {
                     if Weather.isBeneficial(weather: attacker.singleSpells[spell].subSpells[0].weather!, attacker: attacker, defender: target.getCurrentFighter()) && weather?.name != attacker.singleSpells[spell].subSpells[0].weather! {
-                        return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                        return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                     }
                 }
             }
@@ -136,7 +136,7 @@ struct CPULogic {
             if lastSpell == nil || lastSpell!.typeID != 13 {
                 for spell in availableSpells {
                     if attacker.singleSpells[spell].typeID == 13 {
-                        return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                        return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                     }
                 }
             }
@@ -148,13 +148,13 @@ struct CPULogic {
             if attacker.currhp > attacker.getModifiedBase().health/4 * 3 {
                 for spell in availableSpells {
                     if attacker.singleSpells[spell].typeID == 14 {
-                        if attacker.singleSpells[spell].subSpells[0].range == 0 && attacker.hexes.count < 1 {
+                        if attacker.singleSpells[spell].range == 0 && attacker.hexes.count < 1 {
                             //protect fighter from negative hexes & useless move
                             if attacker.getArtifact().name != Artifacts.talisman.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
-                                return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                                return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                             }
-                        } else if attacker.singleSpells[spell].subSpells[0].range == 1 && defender.hexes.count < 1 {
-                            return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: spell, type: MoveType.spell)
+                        } else if attacker.singleSpells[spell].range == 1 && defender.hexes.count < 1 {
+                            return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                         }
                     }
                 }
@@ -174,46 +174,46 @@ struct CPULogic {
             }
         }
         
-        return Move(source: attacker, index: -1, target: target.getCurrentFighter(), spell: bestSpell.1, type: MoveType.spell)
+        return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: bestSpell.1, type: MoveType.spell)
     }
     
     /// Determines the best fighter to swap to for the CPU.
     /// - Parameters:
     ///   - currentFighter: The current fighter
-    ///   - fighters: The current team
+    ///   - player: The targeted player
     ///   - enemyElement: The element of the enemy fighter
     ///   - hasToSwap: Determines if fighter has to swap
     ///   - weather: The current weather of the fight
     /// - Returns: Returns the index of the best fighter to swap to
-    func getTarget(currentFighter: Int, fighters: [Fighter], enemyElement: Element, hasToSwap: Bool, weather: Hex?) -> Int {
-        for index in fighters.indices {
-            if index != currentFighter && fighters[index].getElement().hasAdvantage(element: enemyElement ,weather: weather) {
-                if fighters[index].currhp > 0 {
+    func getTarget(currentFighter: Int, player: Player, enemyElement: Element, hasToSwap: Bool, weather: Hex?) -> Int {
+        for index in player.fighters.indices {
+            if index != currentFighter && player.getFighter(index: index).getElement().hasAdvantage(element: enemyElement ,weather: weather) {
+                if player.getFighter(index: index).currhp > 0 {
                     var unusableSpells: Int = 0
-                    for spell in fighters[index].singleSpells { //check if fighter can use any spell
-                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                    for spell in player.getFighter(index: index).singleSpells { //check if fighter can use any spell
+                        if spell.useCounter + player.getFighter(index: index).manaUse > spell.uses {
                             unusableSpells += 1
                         }
                     }
                     
-                    if unusableSpells < fighters[index].singleSpells.count {
+                    if unusableSpells < player.getFighter(index: index).singleSpells.count {
                         return index
                     }
                 }
             }
         }
         
-        for index in fighters.indices {
-            if index != currentFighter && !fighters[index].getElement().hasDisadvantage(element: enemyElement, weather: weather) {
-                if fighters[index].currhp > 0 {
+        for index in player.fighters.indices {
+            if index != currentFighter && !player.getFighter(index: index).getElement().hasDisadvantage(element: enemyElement, weather: weather) {
+                if player.getFighter(index: index).currhp > 0 {
                     var unusableSpells: Int = 0
-                    for spell in fighters[index].singleSpells { //check if fighter can use any spell
-                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                    for spell in player.getFighter(index: index).singleSpells { //check if fighter can use any spell
+                        if spell.useCounter + player.getFighter(index: index).manaUse > spell.uses {
                             unusableSpells += 1
                         }
                     }
                     
-                    if unusableSpells < fighters[index].singleSpells.count {
+                    if unusableSpells < player.getFighter(index: index).singleSpells.count {
                         return index
                     }
                 }
@@ -222,16 +222,16 @@ struct CPULogic {
         
         if hasToSwap {
             //no good fighter was found, find any fighter who hasn't fainted
-            for index in fighters.indices {
-                if index != currentFighter && fighters[index].currhp > 0 {
+            for index in player.fighters.indices {
+                if index != currentFighter && player.getFighter(index: index).currhp > 0 {
                     var unusableSpells: Int = 0
-                    for spell in fighters[index].singleSpells { //check if fighter can use any spell
-                        if spell.useCounter + fighters[index].manaUse > spell.uses {
+                    for spell in player.getFighter(index: index).singleSpells { //check if fighter can use any spell
+                        if spell.useCounter + player.getFighter(index: index).manaUse > spell.uses {
                             unusableSpells += 1
                         }
                     }
                     
-                    if unusableSpells < fighters[index].singleSpells.count {
+                    if unusableSpells < player.getFighter(index: index).singleSpells.count {
                         return index
                     }
                 }
@@ -273,8 +273,8 @@ struct CPULogic {
     ///   - weather: The current weather of the fight
     /// - Returns: Returns a swap move
     private func createSwapMove(player: Player, target: Player, weather: Hex?) -> Move {
-        let target: Int = CPULogic.shared.getTarget(currentFighter: player.currentFighterId, fighters: player.fighters, enemyElement: target.getCurrentFighter().getElement(), hasToSwap: true, weather: weather)
+        let targetIndex: Int = CPULogic.shared.getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: target.getCurrentFighter().getElement(), hasToSwap: true, weather: weather)
         
-        return Move(source: player.getCurrentFighter(), index: target, target: player.fighters[target], spell: -1, type: MoveType.swap)
+        return Move(source: player.currentFighterId, index: targetIndex, target: targetIndex, spell: -1, type: MoveType.swap)
     }
 }

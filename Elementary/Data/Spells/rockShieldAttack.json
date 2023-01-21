@@ -1,6 +1,7 @@
 {
   "element": "rock",
   "typeID": 2,
+  "range": 1,
   "uses": 20,
   "subSpells": [
       {

@@ -114,7 +114,7 @@ struct PlayerFightView: View {
                             VStack(spacing: 2) {
                                 HStack(alignment: .top, spacing: 4) {
                                     ForEach(player.fighters.indices, id: \.self) { index in
-                                        Circle().fill(Color("TitlePanel")).frame(width: 10, height: 10).opacity(player.fighters[index].currhp == 0 ? 0.5 : 1).offset(y: -2)
+                                        Circle().fill(Color("TitlePanel")).frame(width: 10, height: 10).opacity(player.getFighter(index: index).currhp == 0 ? 0.5 : 1).offset(y: -2)
                                     }
                                     Spacer().frame(height: 24)
                                     ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in

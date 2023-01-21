@@ -1,6 +1,7 @@
 {
   "element": "decay",
   "typeID": 7,
+  "range": 1,
   "uses": 12,
   "subSpells": [
       {

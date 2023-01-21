@@ -7,9 +7,9 @@
 
 /// A move is an action made by a fighter. Can either be a swap with another fighter or a spell.
 struct Move {
-    let source: Fighter
+    let source: Int
     let index: Int
-    var target: Fighter
+    var target: Int
     
     var spell: Int
     let type: MoveType
@@ -20,7 +20,7 @@ struct Move {
     ///   - index: The target for a swap or the spell index
     ///   - spell: The spell used to make the move, set to placeholder spell f the move is a swap
     ///   - type: The type of move
-    init(source: Fighter, index: Int, target: Fighter, spell: Int, type: MoveType) {
+    init(source: Int, index: Int, target: Int, spell: Int, type: MoveType) {
         self.source = source
         self.index = index
         self.target = target
@@ -31,21 +31,21 @@ struct Move {
     
     /// Mana is subtracted from the spell.
     /// - Parameters:
-    ///   - amount: The amount of mana used on the spell
+    ///   - fighter: The fighter using the spell
     ///   - singleMode: Indicates the category of the spell
-    mutating func useSpell(amount: Int, singleMode: Bool) {
+    mutating func useSpell(fighter: Fighter, singleMode: Bool) {
         if singleMode {
-            if source.singleSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
+            if fighter.singleSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
                 return
             }
             
-            source.singleSpells[spell].useCounter += amount
+            fighter.singleSpells[spell].useCounter += fighter.manaUse
         } else {
-            if source.multiSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
+            if fighter.multiSpells[spell].name == "unknownSpell" { //placeholder spell -> no need to increase counter
                 return
             }
             
-            source.multiSpells[spell].useCounter += amount
+            fighter.multiSpells[spell].useCounter += fighter.manaUse
         }
     }
 }

@@ -1,6 +1,7 @@
 {
   "element": "wind",
   "typeID": 14,
+  "range": 0,
   "uses": 10,
   "subSpells": [
       {

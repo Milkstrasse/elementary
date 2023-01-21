@@ -1,6 +1,7 @@
 {
   "element": "ice",
   "typeID": 11,
+  "range": 0,
   "uses": 14,
   "subSpells": [
       {

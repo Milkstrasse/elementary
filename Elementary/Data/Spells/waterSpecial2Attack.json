@@ -1,6 +1,7 @@
 {
   "element": "water",
   "typeID": 4,
+  "range": 1,
   "uses": 18,
   "subSpells": [
       {

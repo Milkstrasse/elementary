@@ -32,7 +32,7 @@ struct DamageCalculator {
             moveSpell = attacker.multiSpells[spell]
         }
         
-        if moveSpell.subSpells[spellIndex].range < 1 {
+        if moveSpell.subSpells[spellIndex].range == 0 {
             text = Localization.shared.getTranslation(key: "lostHP", params: [defender.name])
         } else {
             text = Localization.shared.getTranslation(key: "hit")

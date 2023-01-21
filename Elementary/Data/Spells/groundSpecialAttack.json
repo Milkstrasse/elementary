@@ -1,6 +1,7 @@
 {
   "element": "ground",
   "typeID": 3,
+  "range": 1,
   "uses": 16,
   "subSpells": [
       {
