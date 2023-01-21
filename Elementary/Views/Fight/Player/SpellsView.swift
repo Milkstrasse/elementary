@@ -24,7 +24,7 @@ struct SpellsView: View {
         let element: Element = GlobalData.shared.elements[spell.element.name] ?? Element()
         
         if fightLogic.singleMode {
-            modifiers[0] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
+            modifiers[0] = DamageCalculator.shared.getElementalModifier(attacker: player.getCurrentFighter(), defender: fightLogic.players[player.getOppositePlayerId()].getCurrentFighter(), spellElement: element, weather: fightLogic.weather)
         } else {
             for index in 0 ..< fightLogic.gameLogic.fullAmount/2 {
                 if fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).currhp > 0 {

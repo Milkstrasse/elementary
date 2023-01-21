@@ -49,15 +49,15 @@ struct InfoView: View {
                     ZStack {
                         Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                         VStack(alignment: .leading, spacing: 2) {
-                            CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
-                            ForEach(fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes, id: \.self) { hex in
+                            CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
+                            ForEach(fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().hexes, id: \.self) { hex in
                                 HStack(spacing: 0) {
                                     Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
                                     CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
                                     Spacer()
                                 }
                             }
-                            if fightLogic.players[player.id == 0 ? 1 : 0].getCurrentFighter().hexes.isEmpty {
+                            if fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().hexes.isEmpty {
                                 HStack {
                                     CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: smallFont)
                                     Spacer()
@@ -97,11 +97,11 @@ struct InfoView: View {
                         }
                     }
                     VStack(spacing: innerPadding/2) {
-                        ForEach(fightLogic.players[player.id == 0 ? 1 : 0].fighters.indices, id: \.self) { index in
+                        ForEach(fightLogic.players[player.getOppositePlayerId()].fighters.indices, id: \.self) { index in
                             ZStack {
                                 Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
                                 VStack(alignment: .leading, spacing: 2) {
-                                    CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.id == 0 ? 1 : 0].getFighter(index: index).name).uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).name).uppercased(), fontSize: mediumFont, isBold: true)
                                     ForEach(player.getFighter(index: index).hexes, id: \.self) { hex in
                                         HStack(spacing: 0) {
                                             if hex.symbol < 60000 {

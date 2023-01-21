@@ -70,11 +70,7 @@ class Player: ObservableObject {
     /// Returns the id of the opposing player.
     /// - Returns: Returns the id of the opposing player
     func getOppositePlayerId() -> Int {
-        if id == 0 {
-            return 1
-        } else {
-            return 0
-        }
+        return id == 0 ? 1 : 0
     }
     
     /// Changes the state of the player which will be reflected by the current fighter with different images. The current fighter will be changed to the selected fighter.
