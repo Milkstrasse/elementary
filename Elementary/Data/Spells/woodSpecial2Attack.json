@@ -1,7 +1,7 @@
 {
   "element": "wood",
   "typeID": 1,
-  "range": 1,
+  "range": 3,
   "uses": 8,
   "subSpells": [
       {

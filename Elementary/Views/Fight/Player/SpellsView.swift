@@ -165,20 +165,20 @@ struct SpellsView: View {
                                         } else {
                                             AudioPlayer.shared.playStandardSound()
                                             
-                                            if player.getCurrentFighter().multiSpells[index].range == 1 {
+                                            if player.getCurrentFighter().multiSpells[index].range%2 != 0 {
                                                 fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
                                                 currentSection = Section.targeting
                                             } else if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: player.currentFighterId, spell: index, type: MoveType.spell)) {
                                                 fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
                                                 
-                                                if fightLogic.gameLogic.isPlayerReady(player: player) {
-                                                    AudioPlayer.shared.playConfirmSound()
-                                                    currentSection = Section.waiting
-                                                } else {
+                                                if player.currentFighterId < player.fighters.count {
                                                     player.goToNextFighter()
                                                     
                                                     AudioPlayer.shared.playStandardSound()
                                                     currentSection = Section.options
+                                                } else {
+                                                    AudioPlayer.shared.playConfirmSound()
+                                                    currentSection = Section.waiting
                                                 }
                                             } else {
                                                 AudioPlayer.shared.playStandardSound()

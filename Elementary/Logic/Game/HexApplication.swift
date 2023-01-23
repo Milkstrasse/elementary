@@ -19,8 +19,9 @@ struct HexApplication {
     ///   - defender: The fighter to be targeted
     ///   - spell: The part of the spell used to make the attack
     ///   - weather: The current weather of the fight
+    ///   - resistable: Indicates wether the hex can be resisted or not
     /// - Returns: Returns a description of what occured during the application of the hex
-    func applyHex(player: Player, oppositePlayer: Player, attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?) -> String {
+    func applyHex(player: Player, oppositePlayer: Player, attacker: Fighter, defender: Fighter, spell: SubSpell, weather: Hex?, resistable: Bool) -> String {
         var hex: String? = spell.hex
         
         if hex != Hexes.taunted.rawValue {
@@ -56,7 +57,7 @@ struct HexApplication {
         //try to apply hex
         switch hex {
         case Hexes.attackBoost.rawValue:
-            if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -71,7 +72,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.attackDrop.rawValue:
-            if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -86,7 +87,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.defenseBoost.rawValue:
-            if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -101,7 +102,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.defenseDrop.rawValue:
-            if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -116,7 +117,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.agilityBoost.rawValue:
-            if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -130,7 +131,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.agilityDrop.rawValue:
-            if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -145,7 +146,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.precisionBoost.rawValue:
-            if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -160,7 +161,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.precisionDrop.rawValue:
-            if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -175,7 +176,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.resistanceBoost.rawValue:
-            if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -190,7 +191,7 @@ struct HexApplication {
                 return Localization.shared.getTranslation(key: "hexFailed")
             }
         case Hexes.resistanceDrop.rawValue:
-            if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: spell.range == 0 ? false : true) {
+            if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: resistable) {
                 AudioPlayer.shared.playConfirmSound()
                 if AudioPlayer.shared.hapticToggle {
                     let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -217,7 +218,7 @@ struct HexApplication {
             }
         default: //non stat hexes or unknown hex
             if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
-                if target.applyHex(hex: appliedHex, resistable: spell.range == 0 ? false : true) {
+                if target.applyHex(hex: appliedHex, resistable: resistable) {
                     AudioPlayer.shared.playConfirmSound()
                     if AudioPlayer.shared.hapticToggle {
                         let haptic = UIImpactFeedbackGenerator(style: .medium)

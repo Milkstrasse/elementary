@@ -1,7 +1,7 @@
 {
   "element": "metal",
   "typeID": 16,
-  "range": 1,
+  "range": 3,
   "uses": 10,
   "subSpells": [
       {

@@ -368,20 +368,15 @@ class FightLogic: ObservableObject {
                     
                     if randomSpell.range == 0 {
                         randomMove = Move(source: playerQueue[index].move.source, index: -1, target: playerQueue[index].move.source, spell: randomIndex, type: MoveType.spell)
-                    } else if randomSpell.range == 1 {
-                        target = Int.random(in: 0 ..< playerQueue[index].player.fighters.count)
-                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
-                    } else if index == 0 {
-                        target = Int.random(in: 0 ..< players[1].fighters.count)
-                        randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
                     } else {
-                        target = Int.random(in: 0 ..< players[0].fighters.count)
+                        target = Int.random(in: 0 ..< players[playerQueue[index].player.getOppositePlayerId()].fighters.count)
                         randomMove = Move(source: playerQueue[index].move.source, index: -1, target: target, spell: randomIndex, type: MoveType.spell)
                     }
                     
                     playerQueue[index].move = randomMove
                 }
                 
+                //update last spell
                 if moveSpell.typeID == 13 && source.lastSpell >= 0 { //check shield
                     if singleMode && source.singleSpells[source.lastSpell].typeID == 13 {
                         source.lastSpell = -2 //shield fails
@@ -390,14 +385,14 @@ class FightLogic: ObservableObject {
                     }
                 } else {
                     if singleMode {
-                        for spell in source.singleSpells.indices {
+                        for spell in source.singleSpells.indices { //spell could be overwritten -> search
                             if source.singleSpells[spell].name == moveSpell.name {
                                 source.lastSpell = spell
                                 break
                             }
                         }
                     } else {
-                        for spell in source.multiSpells.indices {
+                        for spell in source.multiSpells.indices { //spell could be overwritten -> search
                             if source.multiSpells[spell].name == moveSpell.name {
                                 source.lastSpell = spell
                                 break
@@ -436,31 +431,46 @@ class FightLogic: ObservableObject {
             
             //add moves for subspells
             if originalArr[index].move.type == MoveType.spell {
+                let oppositePlayer: Player = players[originalArr[index].player.getOppositePlayerId()]
+                
+                let spell: Spell
                 if singleMode {
-                    for n in source.singleSpells[originalArr[index].move.spell].subSpells.indices {
-                        if source.singleSpells[originalArr[index].move.spell].subSpells[n].range == 0 {
-                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
-                        } else {
-                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
-                        }
-                        
-                        offset += 1
-                    }
+                    spell = source.singleSpells[originalArr[index].move.spell]
                 } else {
-                    for n in source.multiSpells[originalArr[index].move.spell].subSpells.indices {
-                        if source.multiSpells[originalArr[index].move.spell].subSpells[n].range == 0 {
-                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
-                        } else {
-                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
-                        }
+                    spell = source.multiSpells[originalArr[index].move.spell]
+                }
+                
+                for n in spell.subSpells.indices {
+                    if spell.range == 0 || spell.subSpells[n].range == 0 {
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
                         
                         offset += 1
+                    } else {
+                        if !singleMode && spell.range == 2 {
+                            for fighter in originalArr[index].player.fighters.indices {
+                                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: fighter, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
+                                
+                                offset += 1
+                            }
+                        } else if !singleMode && spell.range == 4 {
+                            for fighter in oppositePlayer.fighters.indices {
+                                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: fighter, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
+                                
+                                offset += 1
+                            }
+                        } else {
+                            playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: n, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: originalArr[index].move.type)), at: index + offset + 1)
+                            
+                            offset += 1
+                        }
                     }
-                    
-                    if source.multiSpells[originalArr[index].move.spell].typeID == 21 {
+                }
+                
+                if !singleMode {
+                    if source.multiSpells[originalArr[index].move.spell].typeID == 21 { //change target
                         for n in originalArr.indices {
                             if originalArr[n].player.id != originalArr[index].player.id {
-                                if source.multiSpells[originalArr[n].move.spell].range == 1 {
+                                if source.multiSpells[originalArr[n].move.spell].range >= 3 {
                                     originalArr[n].move.target = originalArr[index].move.target
                                     playerQueue[playerQueue.count - originalArr.count + n].move.target = originalArr[index].move.target
                                 }
@@ -469,56 +479,51 @@ class FightLogic: ObservableObject {
                     }
                 }
                 
+                let target: Int
+                if originalArr[index].move.target >= gameLogic.fullAmount/2 {
+                    target = originalArr[index].move.target - gameLogic.fullAmount/2
+                } else {
+                    target = originalArr[index].move.target
+                }
+                
                 //effect of sword artifact
                 playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 0, target: originalArr[index].move.source, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
                 //effect of helmet artifact
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
                 
                 offset += 2
-                
-                let oppositePlayer: Player = players[originalArr[index].player.getOppositePlayerId()]
                 
                 //attacking fighter faints or exits the fight
                 playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.special)), at: index + offset + 1)
                 offset += 1
                 //effect of thread artifact
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: originalArr[index].move.target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: target, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
                 offset += 1
                 //attacked fighter faints or exits the fight
-                playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                playerQueue.insert((player: oppositePlayer, move: Move(source: target, index: -1, target: target, spell: -1, type: MoveType.special)), at: index + offset + 1)
                 offset += 1
             }
-
-            //fighter receives hex effects
-            if originalArr[index].move.type == MoveType.swap { //source & target will change because of swap
-                for hex in 0 ..< 3 {
-                    playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: hex, target: originalArr[index].move.target, spell: -1, type: MoveType.hex)))
-                }
-                
-                //fighter receives artifact effects
-                playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, spell: -1, type: MoveType.artifact)))
-            } else {
-                for hex in 0 ..< 3 {
-                    playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)))
-                }
-                
-                //fighter receives artifact effects
-                playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)))
+            
+            for hex in 0 ..< 3 {
+                playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: hex, target: originalArr[index].move.source, spell: -1, type: MoveType.hex)))
             }
+            
+            //fighter receives artifact effects
+            playerQueue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, spell: -1, type: MoveType.artifact)))
         }
         
         /*for index in playerQueue.indices {
             if singleMode {
                 if playerQueue[index].move.spell > -1 {
-                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: " + playerQueue[index].move.source.singleSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
+                    print("player: \(playerQueue[index].player.id), source: \(playerQueue[index].move.source), target: \(playerQueue[index].move.target), index: \(playerQueue[index].move.index), spell: " + playerQueue[index].player.fighters[playerQueue[index].move.source].singleSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
                 } else {
-                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
+                    print("player: \(playerQueue[index].player.id), source: \(playerQueue[index].move.source), target: \(playerQueue[index].move.target), index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
                 }
             } else {
                 if playerQueue[index].move.spell > -1 {
-                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: " + playerQueue[index].move.source.multiSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
+                    print("player: \(playerQueue[index].player.id), source: \(playerQueue[index].move.source), target: \(playerQueue[index].move.target), index: \(playerQueue[index].move.index), spell: " + playerQueue[index].player.fighters[playerQueue[index].move.source].multiSpells[playerQueue[index].move.spell].name + ", type: " + playerQueue[index].move.type.rawValue)
                 } else {
-                    print("player: \(playerQueue[index].player.id), source: " + playerQueue[index].move.source.name + ", target: " + playerQueue[index].move.target.name + ", index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
+                    print("player: \(playerQueue[index].player.id), source: \(playerQueue[index].move.source), target: \(playerQueue[index].move.target), index: \(playerQueue[index].move.index), spell: \(playerQueue[index].move.spell), type: " + playerQueue[index].move.type.rawValue)
                 }
             }
         }*/

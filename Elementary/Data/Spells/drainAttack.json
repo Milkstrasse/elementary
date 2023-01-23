@@ -1,7 +1,7 @@
 {
   "element": "fire",
   "typeID": 9,
-  "range": 1,
+  "range": 3,
   "uses": 10,
   "subSpells": [
       {

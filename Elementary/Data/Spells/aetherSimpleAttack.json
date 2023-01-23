@@ -1,7 +1,7 @@
 {
   "element": "aether",
   "typeID": 0,
-  "range": 1,
+  "range": 3,
   "uses": 12,
   "subSpells": [
       {

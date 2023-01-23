@@ -1,7 +1,7 @@
 {
   "element": "plant",
   "typeID": 3,
-  "range": 1,
+  "range": 3,
   "uses": 18,
   "subSpells": [
       {

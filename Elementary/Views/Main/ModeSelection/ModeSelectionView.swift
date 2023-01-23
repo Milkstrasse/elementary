@@ -49,7 +49,7 @@ struct ModeSelectionView: View {
                         .padding(.leading, outerPadding)
                         HStack(spacing: innerPadding) {
                             Button(action: {
-                                AudioPlayer.shared.playCancelSound()
+                                AudioPlayer.shared.playConfirmSound()
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -59,7 +59,7 @@ struct ModeSelectionView: View {
                                 ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f72b}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
-                                AudioPlayer.shared.playCancelSound()
+                                AudioPlayer.shared.playConfirmSound()
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -69,7 +69,7 @@ struct ModeSelectionView: View {
                                 ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6e8}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
-                                AudioPlayer.shared.playCancelSound()
+                                AudioPlayer.shared.playConfirmSound()
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -79,7 +79,7 @@ struct ModeSelectionView: View {
                                 ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6b8}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
-                                AudioPlayer.shared.playCancelSound()
+                                AudioPlayer.shared.playConfirmSound()
                                 
                                 transitionToggle = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

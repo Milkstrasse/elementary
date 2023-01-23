@@ -82,12 +82,35 @@ struct TargetView: View {
                     }
                     .id(index).opacity(fightLogic.players[target].getFighter(index: index).currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].getFighter(index: index).currhp == 0)
                 }
+                if fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2] > -1 && player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range == 5 {
+                    ForEach(player.fighters.indices, id: \.self) { index in
+                        Button(action: {
+                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index + fightLogic.gameLogic.fullAmount/2, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                                if fightLogic.gameLogic.isPlayerReady(player: player) {
+                                    AudioPlayer.shared.playConfirmSound()
+                                    currentSection = Section.waiting
+                                } else {
+                                    player.goToNextFighter()
+                                    
+                                    AudioPlayer.shared.playStandardSound()
+                                    currentSection = Section.options
+                                }
+                            } else {
+                                AudioPlayer.shared.playStandardSound()
+                                currentSection = Section.options
+                            }
+                        }) {
+                            ActionView(titleKey: player.getFighter(index: index).name, description: generateInfo(fighter: player.getFighter(index: index)), symbol: player.getFighter(index: index).getElement().symbol, color: Color(hex: player.getFighter(index: index).getElement().color))
+                        }
+                        .opacity(player.getFighter(index: index).currhp == 0 ? 0.5 : 1.0).disabled(player.getFighter(index: index).currhp == 0)
+                    }
+                }
             }
             .onAppear {
-                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range == 0 {
+                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range < 3 {
                     target = player.id
-                } else if player.id == 0 {
-                    target = 1
+                } else {
+                    target = player.getOppositePlayerId()
                 }
                 
                 value.scrollTo(0)

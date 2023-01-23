@@ -78,7 +78,12 @@ class Player: ObservableObject {
     ///   - state: The state the player will enter
     ///   - index: The index of the fighter
     func setState(state: PlayerState, index: Int) {
-        currentFighterId = index
+        if index >= fighters.count {
+            currentFighterId = index - fighters.count
+        } else {
+            currentFighterId = index
+        }
+        
         self.state = state
         
         switch state {
@@ -159,6 +164,8 @@ class Player: ObservableObject {
                 getCurrentFighter().removeHex(hex: hex)
             }
         }
+        
+        getCurrentFighter().lastSpell = -1
         
         text = Localization.shared.getTranslation(key: "swapWith", params: [getCurrentFighter().name, fighters[target].name]) + "\n"
         

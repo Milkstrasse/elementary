@@ -153,7 +153,7 @@ struct CPULogic {
                             if attacker.getArtifact().name != Artifacts.talisman.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
                                 return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                             }
-                        } else if attacker.singleSpells[spell].range == 1 && defender.hexes.count < 1 {
+                        } else if attacker.singleSpells[spell].range == 3 && defender.hexes.count < 1 {
                             return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, spell: spell, type: MoveType.spell)
                         }
                     }

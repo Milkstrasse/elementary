@@ -1,11 +1,11 @@
 {
-  "element": "ground",
+  "element": "rock",
   "typeID": 0,
-  "range": 3,
+  "range": 5,
   "uses": 12,
   "subSpells": [
       {
-          "power": 80,
+          "power": 40,
           "range": 1
       }
   ]

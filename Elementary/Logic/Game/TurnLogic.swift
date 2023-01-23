@@ -24,19 +24,29 @@ class TurnLogic {
         let move: Move = fightLogic.playerQueue[0].move
         let attacker: Fighter = player.getFighter(index: move.source)
         
+        //determine targeted fighter
         let defender: Fighter
-        if fightLogic.singleMode {
-            if move.type == MoveType.spell && attacker.singleSpells[move.spell].range == 1 {
+        if move.type == MoveType.spell {
+            let spell: Spell
+            if fightLogic.singleMode {
+                spell = attacker.singleSpells[move.spell]
+            } else {
+                spell = attacker.multiSpells[move.spell]
+            }
+            
+            if spell.range < 3 || move.index > -1 && spell.subSpells[move.index].range == 0 {
+                defender = player.getFighter(index: move.target)
+            } else if spell.range < 5 {
                 defender = fightLogic.players[player.getOppositePlayerId()].getFighter(index: move.target)
             } else {
-                defender = player.getFighter(index: move.target)
+                if move.target >= fightLogic.gameLogic.fullAmount/2 {
+                    defender = player.getFighter(index: move.target - fightLogic.gameLogic.fullAmount/2)
+                } else {
+                    defender = fightLogic.players[player.getOppositePlayerId()].getFighter(index: move.target)
+                }
             }
         } else {
-            if move.type == MoveType.spell && attacker.multiSpells[move.spell].range == 1 {
-                defender = fightLogic.players[player.getOppositePlayerId()].getFighter(index:move.target)
-            } else {
-                defender = player.getFighter(index: move.target)
-            }
+            defender = player.getFighter(index: move.target)
         }
         
         switch move.type {
@@ -136,9 +146,11 @@ class TurnLogic {
             }
             
             if move.index == -1 {
-                if spell.range == 1 {
+                if spell.range == 5 && move.target < fightLogic.gameLogic.fullAmount/2 {
                     let oppositePlayer: Player = fightLogic.players[player.getOppositePlayerId()]
-                    
+                    oppositePlayer.setState(state: PlayerState.neutral, index: move.target)
+                } else if spell.range >= 3 {
+                    let oppositePlayer: Player = fightLogic.players[player.getOppositePlayerId()]
                     oppositePlayer.setState(state: PlayerState.neutral, index: move.target)
                 }
                 
@@ -176,7 +188,7 @@ class TurnLogic {
         
         //checks if targeted user is successfully shielded or not
         var usedShield: Bool = false
-        if spell.subSpells[move.index].range == 1 {
+        if usedSpell.range == 1 {
             if fightLogic!.singleMode {
                 if defender.lastSpell >= 0 && defender.singleSpells[defender.lastSpell].typeID == 13 {
                     if spell.typeID != 2 {
@@ -196,7 +208,7 @@ class TurnLogic {
             }
         }
         
-        if attacker.hasHex(hexName: Hexes.taunted.rawValue) && spell.subSpells[move.index].power <= 0 {
+        if attacker.hasHex(hexName: Hexes.taunted.rawValue) && usedSpell.power <= 0 {
             return Localization.shared.getTranslation(key: "fail")
         }
         
@@ -207,7 +219,17 @@ class TurnLogic {
                     return Localization.shared.getTranslation(key: "fail")
                 }
                 
-                oppositePlayer.setState(state: PlayerState.hurting, index: move.target)
+                if spell.range < 3 {
+                    player.setState(state: PlayerState.hurting, index: move.target)
+                } else if spell.range < 5 {
+                    oppositePlayer.setState(state: PlayerState.hurting, index: move.target)
+                } else {
+                    if move.target >= fightLogic!.gameLogic.fullAmount/2 {
+                        player.setState(state: PlayerState.hurting, index: move.target)
+                    } else {
+                        oppositePlayer.setState(state: PlayerState.hurting, index: move.target)
+                    }
+                }
                 
                 if defender.getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap(singleMode: fightLogic!.singleMode) && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue {
                     oppositePlayer.hasToSwap = true
@@ -230,10 +252,10 @@ class TurnLogic {
             if fightLogic?.weather?.name == Weather.springWeather.rawValue {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
-                if usedSpell.range == 0 {
-                    return HexApplication.shared.applyHex(player: oppositePlayer, oppositePlayer: player, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather)
+                if usedSpell.range == 0 || spell.range < 3 {
+                    return HexApplication.shared.applyHex(player: oppositePlayer, oppositePlayer: player, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather, resistable: false)
                 } else {
-                    return HexApplication.shared.applyHex(player: player, oppositePlayer: oppositePlayer, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather)
+                    return HexApplication.shared.applyHex(player: player, oppositePlayer: oppositePlayer, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather, resistable: true)
                 }
             }
         } else if usedSpell.healAmount > 0 {
