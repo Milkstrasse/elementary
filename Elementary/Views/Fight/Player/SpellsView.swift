@@ -150,7 +150,7 @@ struct SpellsView: View {
                                     .onEnded { _ in
                                         if fightLogic.singleMode {
                                             let target: Int
-                                            if player.getCurrentFighter().multiSpells[index].range == 0 {
+                                            if player.getCurrentFighter().singleSpells[index].range < 3 {
                                                 target = player.currentFighterId
                                             } else {
                                                 target = fightLogic.players[player.getOppositePlayerId()].currentFighterId
