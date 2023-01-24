@@ -10,6 +10,7 @@ struct Move {
     let source: Int
     let index: Int
     var target: Int
+    var targetedPlayer: Int
     
     var spell: Int
     let type: MoveType
@@ -20,10 +21,11 @@ struct Move {
     ///   - index: The target for a swap or the spell index
     ///   - spell: The spell used to make the move, set to placeholder spell f the move is a swap
     ///   - type: The type of move
-    init(source: Int, index: Int, target: Int, spell: Int, type: MoveType) {
+    init(source: Int, index: Int, target: Int, targetedPlayer: Int, spell: Int, type: MoveType) {
         self.source = source
         self.index = index
         self.target = target
+        self.targetedPlayer = targetedPlayer
         
         self.spell = spell
         self.type = type

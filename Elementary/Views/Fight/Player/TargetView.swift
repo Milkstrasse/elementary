@@ -63,8 +63,8 @@ struct TargetView: View {
             VStack(spacing: innerPadding/2) {
                 ForEach(fightLogic.players[target].fighters.indices, id: \.self) { index in
                     Button(action: {
-                        if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
-                            if fightLogic.gameLogic.isPlayerReady(player: player) {
+                        if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: target, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                            if player.isAtLastFighter(index: player.currentFighterId) {
                                 AudioPlayer.shared.playConfirmSound()
                                 currentSection = Section.waiting
                             } else {
@@ -85,8 +85,8 @@ struct TargetView: View {
                 if fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2] > -1 && player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range == 5 {
                     ForEach(player.fighters.indices, id: \.self) { index in
                         Button(action: {
-                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index + fightLogic.gameLogic.fullAmount/2, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
-                                if fightLogic.gameLogic.isPlayerReady(player: player) {
+                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: player.id, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                                if player.isAtLastFighter(index: player.currentFighterId) {
                                     AudioPlayer.shared.playConfirmSound()
                                     currentSection = Section.waiting
                                 } else {

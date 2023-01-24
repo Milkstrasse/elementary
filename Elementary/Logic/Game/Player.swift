@@ -67,6 +67,39 @@ class Player: ObservableObject {
         }
     }
     
+    /// Check if fighter is the last fighter of the team.
+    /// - Parameter index: The index of the fighter
+    /// - Returns: Returns if the fighter is the last fighter of the team
+    func isAtLastFighter(index: Int) -> Bool {
+        if index == fighters.count - 1 {
+            return true
+        }
+        
+        for n in index + 1 ..< fighters.count {
+            if getFighter(index: n).currhp > 0 {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    /// Check if player's current fighter is the first fighter of the team.
+    /// - Returns: Returns if the current fighter is the first fighter of the team
+    func isAtFirstFighter() -> Bool {
+        if currentFighterId == 0 {
+            return true
+        }
+        
+        for n in stride(from: currentFighterId - 1, through: 0, by: -1) {
+            if getFighter(index: n).currhp > 0 {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     /// Returns the id of the opposing player.
     /// - Returns: Returns the id of the opposing player
     func getOppositePlayerId() -> Int {
@@ -78,11 +111,7 @@ class Player: ObservableObject {
     ///   - state: The state the player will enter
     ///   - index: The index of the fighter
     func setState(state: PlayerState, index: Int) {
-        if index >= fighters.count {
-            currentFighterId = index - fighters.count
-        } else {
-            currentFighterId = index
-        }
+        currentFighterId = index
         
         self.state = state
         

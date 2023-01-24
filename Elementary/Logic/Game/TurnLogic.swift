@@ -25,29 +25,7 @@ class TurnLogic {
         let attacker: Fighter = player.getFighter(index: move.source)
         
         //determine targeted fighter
-        let defender: Fighter
-        if move.type == MoveType.spell {
-            let spell: Spell
-            if fightLogic.singleMode {
-                spell = attacker.singleSpells[move.spell]
-            } else {
-                spell = attacker.multiSpells[move.spell]
-            }
-            
-            if spell.range < 3 || move.index > -1 && spell.subSpells[move.index].range == 0 {
-                defender = player.getFighter(index: move.target)
-            } else if spell.range < 5 {
-                defender = fightLogic.players[player.getOppositePlayerId()].getFighter(index: move.target)
-            } else {
-                if move.target >= fightLogic.gameLogic.fullAmount/2 {
-                    defender = player.getFighter(index: move.target - fightLogic.gameLogic.fullAmount/2)
-                } else {
-                    defender = fightLogic.players[player.getOppositePlayerId()].getFighter(index: move.target)
-                }
-            }
-        } else {
-            defender = player.getFighter(index: move.target)
-        }
+        let defender: Fighter = fightLogic.players[move.targetedPlayer].getFighter(index: move.target)
         
         switch move.type {
         case .special:
@@ -86,7 +64,7 @@ class TurnLogic {
                 defender.currhp -= damage
                 player.setState(state: PlayerState.healing, index:  move.target)
                 
-                print(defender.name + "gained \(-damage)HP")
+                print(defender.name + " gained \(-damage)HP")
                 
                 return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name])
             }
@@ -146,10 +124,7 @@ class TurnLogic {
             }
             
             if move.index == -1 {
-                if spell.range == 5 && move.target < fightLogic.gameLogic.fullAmount/2 {
-                    let oppositePlayer: Player = fightLogic.players[player.getOppositePlayerId()]
-                    oppositePlayer.setState(state: PlayerState.neutral, index: move.target)
-                } else if spell.range >= 3 {
+                if move.targetedPlayer != player.id {
                     let oppositePlayer: Player = fightLogic.players[player.getOppositePlayerId()]
                     oppositePlayer.setState(state: PlayerState.neutral, index: move.target)
                 }
@@ -252,7 +227,7 @@ class TurnLogic {
             if fightLogic?.weather?.name == Weather.springWeather.rawValue {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
-                if usedSpell.range == 0 || spell.range < 3 {
+                if move.targetedPlayer == player.id {
                     return HexApplication.shared.applyHex(player: oppositePlayer, oppositePlayer: player, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather, resistable: false)
                 } else {
                     return HexApplication.shared.applyHex(player: player, oppositePlayer: oppositePlayer, attacker: attacker, defender: defender, spell: usedSpell, weather: fightLogic?.weather, resistable: true)
@@ -377,7 +352,7 @@ class TurnLogic {
                 defender.currhp += newHealth
             }
             
-            print(defender.name + "gained \(newHealth)HP")
+            print(defender.name + " gained \(newHealth)HP")
             return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name])
         }
         

@@ -68,26 +68,6 @@ struct GameLogic {
         return readyPlayers[0] && readyPlayers[1]
     }
     
-    /// Checks if the fighters of the player used all of their moves.
-    /// - Parameter player: The id of the player
-    /// - Returns: Returns if all fighters made their move
-    func isPlayerReady(player: Player) -> Bool {
-        var counter: Int = 0
-        for index in player.id * fullAmount/2 ..< fullAmount/2 + player.id * fullAmount/2 {
-            if tempSpells[index] > -1 {
-                counter += 1
-            }
-        }
-        
-        for fighter in player.fighters {
-            if fighter.currhp == 0 {
-                counter += 1
-            }
-        }
-        
-        return counter == fullAmount/2
-    }
-    
     /// Stores which player wants to forfeit.
     /// - Parameter player: The id of the player
     mutating func forfeit(player: Int) {

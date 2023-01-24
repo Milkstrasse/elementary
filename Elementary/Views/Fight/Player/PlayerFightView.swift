@@ -85,7 +85,7 @@ struct PlayerFightView: View {
                             } else if currentSection == Section.options {
                                 if fightLogic.singleMode {
                                     currentSection = Section.summary
-                                } else if fightLogic.gameLogic.spellHasBeenUsed(player: player.id) {
+                                } else if !player.isAtFirstFighter() {
                                     fightLogic.gameLogic.removeSpell(player: player.id, fighter: player.currentFighterId)
                                     player.goToPreviousFighter()
                                 } else {
@@ -96,12 +96,8 @@ struct PlayerFightView: View {
                             } else {
                                 if currentSection == Section.waiting {
                                     fightLogic.undoMove(player: player)
-                                } else if !fightLogic.singleMode {
-                                    player.currentFighterId = 0
-                                    if player.getCurrentFighter().currhp == 0 {
-                                        player.goToNextFighter()
-                                    }
                                 }
+                                
                                 currentSection = Section.options
                             }
                         }) {
