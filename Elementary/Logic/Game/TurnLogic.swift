@@ -70,51 +70,51 @@ class TurnLogic {
             }
         case .artifact:
             if move.index < 0 {
-                if defender.getArtifact().name == Artifacts.cornucopia.rawValue {
-                    if defender.getModifiedBase().health - defender.currhp <= defender.getModifiedBase().health/16 {
-                        defender.currhp = defender.getModifiedBase().health
+                if attacker.getArtifact().name == Artifacts.cornucopia.rawValue {
+                    if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
+                        attacker.currhp = attacker.getModifiedBase().health
                     } else {
-                        defender.currhp += defender.getModifiedBase().health/16
+                        attacker.currhp += attacker.getModifiedBase().health/16
                     }
-                } else if defender.getArtifact().name == Artifacts.potion.rawValue {
-                    if defender.getModifiedBase().health - defender.currhp <= defender.getModifiedBase().health/4 {
-                        defender.currhp = defender.getModifiedBase().health
+                } else if attacker.getArtifact().name == Artifacts.potion.rawValue {
+                    if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
+                        attacker.currhp = attacker.getModifiedBase().health
                     } else {
-                        defender.currhp += defender.getModifiedBase().health/4
+                        attacker.currhp += attacker.getModifiedBase().health/4
                     }
                     
-                    defender.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                    attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
                 }
                 
-                player.setState(state: PlayerState.healing, index:  move.target)
-            } else if move.index >= 0 {
+                player.setState(state: PlayerState.healing, index:  move.source)
+                
+                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
+            } else {
                 let damage: Int
                 
                 if move.index == 2 {
-                    damage = defender.getModifiedBase().health
+                    damage = attacker.getModifiedBase().health
                 } else { //recoil damage from sword or helmet artifact
-                    damage = defender.getModifiedBase().health/10
+                    damage = attacker.getModifiedBase().health/10
                 }
                 
-                if damage >= defender.currhp { //prevent hp below 0
-                    if defender.currhp == defender.getModifiedBase().health && defender.getArtifact().name == Artifacts.ring.rawValue {
-                        defender.currhp = 1
-                        defender.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                if damage >= attacker.currhp { //prevent hp below 0
+                    if attacker.currhp == attacker.getModifiedBase().health && attacker.getArtifact().name == Artifacts.ring.rawValue {
+                        attacker.currhp = 1
+                        attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
                     } else {
-                        defender.currhp = 0
+                        attacker.currhp = 0
                     }
                 } else {
-                    defender.currhp -= damage
+                    attacker.currhp -= damage
                 }
                 
-                player.setState(state: PlayerState.hurting, index: move.target)
+                player.setState(state: PlayerState.hurting, index: move.source)
                 
-                print(defender.name + " lost \(damage)DMG.")
+                print(attacker.name + " lost \(damage)DMG.")
                 
-                return Localization.shared.getTranslation(key: "lostHP", params: [defender.name])
+                return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
             }
-            
-            return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name])
         default: //spell move
             let spell: Spell
             if fightLogic.singleMode {

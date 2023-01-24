@@ -438,6 +438,10 @@ class Fighter: Hashable, Equatable {
         for index in singleSpells.indices {
             singleSpells[index].useCounter = 0
         }
+        
+        for index in multiSpells.indices {
+            multiSpells[index].useCounter = 0
+        }
     }
     
     func hash(into hasher: inout Hasher) {

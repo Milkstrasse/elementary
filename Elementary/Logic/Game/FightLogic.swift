@@ -477,22 +477,62 @@ class FightLogic: ObservableObject {
                     }
                 }
                 
-                //effect of sword artifact
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 0, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
-                //effect of helmet artifact
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: originalArr[index].move.target, targetedPlayer: originalArr[index].player.id, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
-                
-                offset += 2
-                
-                //attacking fighter faints or exits the fight
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: -1, type: MoveType.special)), at: index + offset + 1)
-                offset += 1
-                //effect of thread artifact
-                playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: originalArr[index].move.target, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
-                offset += 1
-                //attacked fighter faints or exits the fight
-                playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, targetedPlayer: originalArr[index].move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
-                offset += 1
+                if !singleMode && spell.range == 2 {
+                    for fighter in originalArr[index].player.fighters.indices {
+                        //effect of sword artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 0, target: originalArr[index].move.source, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                        //effect of helmet artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
+                        
+                        offset += 2
+                        
+                        //attacking fighter faints or exits the fight
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                        offset += 1
+                        //effect of thread artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                        offset += 1
+                        //attacked fighter faints or exits the fight
+                        playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                        offset += 1
+                    }
+                } else if !singleMode && spell.range == 4 {
+                    for fighter in oppositePlayer.fighters.indices {
+                        //effect of sword artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 0, target: originalArr[index].move.source, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                        //effect of helmet artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
+                        
+                        offset += 2
+                        
+                        //attacking fighter faints or exits the fight
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                        offset += 1
+                        //effect of thread artifact
+                        playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                        offset += 1
+                        //attacked fighter faints or exits the fight
+                        playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: fighter, targetedPlayer: originalArr[index].move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                        offset += 1
+                    }
+                } else {
+                    //effect of sword artifact
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 0, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                    //effect of helmet artifact
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 1, target: originalArr[index].move.target, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 2)
+                    
+                    offset += 2
+                    
+                    //attacking fighter faints or exits the fight
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                    offset += 1
+                    //effect of thread artifact
+                    playerQueue.insert((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: 2, target: originalArr[index].move.target, targetedPlayer: originalArr[index].move.targetedPlayer, spell: originalArr[index].move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                    offset += 1
+                    //attacked fighter faints or exits the fight
+                    playerQueue.insert((player: oppositePlayer, move: Move(source: originalArr[index].move.target, index: -1, target: originalArr[index].move.target, targetedPlayer: originalArr[index].move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
+                    offset += 1
+                }
             }
             
             for hex in 0 ..< 3 {
@@ -572,7 +612,7 @@ class FightLogic: ObservableObject {
                             return true
                         }
                     } else {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.multiSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     }
@@ -582,7 +622,7 @@ class FightLogic: ObservableObject {
                             return true
                         }
                     } else {
-                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
+                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.multiSpells[move.spell].subSpells[0].power == 0 {
                             return true
                         }
                     }
