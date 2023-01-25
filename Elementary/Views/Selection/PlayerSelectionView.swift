@@ -70,14 +70,6 @@ struct PlayerSelectionView: View {
         return false
     }
     
-    /// Converts a symbol to the correct display format.
-    ///  - Parameter fighter: The fighter with the symbol
-    /// - Returns: Returns the symbol in the correct format
-    func createSymbol(fighter: Fighter) -> String {
-        let icon: UInt16 = UInt16(Float64(fighter.getElement().symbol) ?? 0xf128)
-        return String(Character(UnicodeScalar(icon) ?? "\u{f128}"))
-    }
-    
     /// Returns wether the fighter is part of the team or not.
     /// - Parameter fighter: The fighter in question
     /// - Returns: Returns wether the fighter is part of the team or not
@@ -139,7 +131,7 @@ struct PlayerSelectionView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                HStack(spacing: innerPadding/2) {
+                HStack(spacing: General.innerPadding/2) {
                     ForEach(0 ..< fighters.count, id: \.self) { index in
                         Button(action: {
                         }) {
@@ -213,7 +205,7 @@ struct PlayerSelectionView: View {
                 Rectangle().fill(Color("MainPanel")).shadow(radius: 5, x: 5, y: 0)
                 if selectionToggle {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: innerPadding) {
+                        HStack(spacing: General.innerPadding) {
                             if !GlobalData.shared.savedFighters.isEmpty { //saved fighters
                                 VStack(spacing: 5) {
                                     HStack(spacing: 5) {
@@ -260,30 +252,30 @@ struct PlayerSelectionView: View {
                                 }
                             }
                         }
-                        .padding(.vertical, outerPadding)
+                        .padding(.vertical, General.outerPadding)
                     }
-                    .padding(.horizontal, outerPadding).clipped()
+                    .padding(.horizontal, General.outerPadding).clipped()
                 } else if infoToggle {
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: innerPadding) {
+                        VStack(spacing: General.innerPadding) {
                             ZStack(alignment: .leading) {
                                 Rectangle().fill(Color("Positive"))
                                 HStack(spacing: 0) {
-                                    CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.name).uppercased(), fontSize: mediumFont, isBold: true)
-                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighters[selectedSlot]!.title).uppercased(), fontSize: smallFont, isBold: false)
+                                    CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.name).uppercased(), fontSize: General.mediumFont, isBold: true)
+                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighters[selectedSlot]!.title).uppercased(), fontSize: General.smallFont, isBold: false)
                                     Spacer()
-                                    Text(createSymbol(fighter: fighters[selectedSlot]!)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                    Text(General.createSymbol(string: fighters[selectedSlot]!.getElement().symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                 }
-                                .frame(height: largeHeight).padding(.leading, innerPadding)
+                                .frame(height: General.largeHeight).padding(.leading, General.innerPadding)
                             }
-                            HStack(spacing: innerPadding) {
+                            HStack(spacing: General.innerPadding) {
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: smallHeight)
+                                            ClearButton(label: "<", width: 35, height: General.smallHeight)
                                         }
                                         .onChange(of: isNatureDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -319,10 +311,10 @@ struct PlayerSelectionView: View {
                                                     
                                                     fighters[selectedSlot]!.setNature(nature: selectedNature)
                                                 })
-                                        CustomText(text: Localization.shared.getTranslation(key: GlobalData.shared.natures[selectedNature].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
+                                        CustomText(text: Localization.shared.getTranslation(key: GlobalData.shared.natures[selectedNature].name).uppercased(), fontSize: General.smallFont).frame(maxWidth: .infinity)
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: smallHeight)
+                                            ClearButton(label: ">", width: 35, height: General.smallHeight)
                                         }
                                         .onChange(of: isNatureIncreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -369,11 +361,11 @@ struct PlayerSelectionView: View {
                                     selectionToggle = true
                                     infoToggle = false
                                 }) {
-                                    BorderedButton(label: "remove", width: 120, height: smallHeight, isInverted: false)
+                                    BorderedButton(label: "remove", width: 120, height: General.smallHeight, isInverted: false)
                                 }
                             }
                             BaseFighterOverviewView(modifiedBase: fighters[selectedSlot]!.getModifiedBase(), base: fighters[selectedSlot]!.base)
-                            VStack(spacing: innerPadding/2) {
+                            VStack(spacing: General.innerPadding/2) {
                                 if singleMode {
                                     ForEach(fighters[selectedSlot]!.singleSpells, id: \.self) { spell in
                                         SpellView(spell: spell, desccription: Localization.shared.getTranslation(key: spell.name + "Descr"))
@@ -386,7 +378,7 @@ struct PlayerSelectionView: View {
                             }
                             ZStack {
                                 Rectangle().fill(Color("MainPanel")).frame(height: 60)
-                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 HStack(spacing: 0) {
                                     Button(action: {
                                     }) {
@@ -447,8 +439,8 @@ struct PlayerSelectionView: View {
                                                 fighters[selectedSlot]!.setArtifact(artifact: selectedArtifact)
                                             })
                                     VStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().name).uppercased(), fontSize: mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
-                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().description), fontSize: smallFont).frame(maxWidth: .infinity, alignment: .leading)
+                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().name).uppercased(), fontSize: General.mediumFont, isBold: true).frame(maxWidth: .infinity, alignment: .leading)
+                                        CustomText(text: Localization.shared.getTranslation(key: Artifacts.allCases[selectedArtifact].getArtifact().description), fontSize: General.smallFont).frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                     Button(action: {
                                     }) {
@@ -510,7 +502,7 @@ struct PlayerSelectionView: View {
                                             })
                                 }
                             }
-                            HStack(spacing: innerPadding) {
+                            HStack(spacing: General.innerPadding) {
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
                                     
@@ -525,11 +517,11 @@ struct PlayerSelectionView: View {
                                         SaveData.saveSettings()
                                     }
                                 }) {
-                                    BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "unfavorite") : Localization.shared.getTranslation(key: "favorite"), width: 120, height: smallHeight, isInverted: false)
+                                    BorderedButton(label: GlobalData.shared.isSaved(fighter: SavedFighterData(fighter: fighters[selectedSlot]!)) ? Localization.shared.getTranslation(key: "unfavorite") : Localization.shared.getTranslation(key: "favorite"), width: 120, height: General.smallHeight, isInverted: false)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -546,9 +538,9 @@ struct PlayerSelectionView: View {
                                             
                                             selectedOutfit = fighters[selectedSlot]!.outfitIndex
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: smallHeight)
+                                            ClearButton(label: "<", width: 35, height: General.smallHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.data.outfits[selectedOutfit].name).uppercased(), fontSize: smallFont).frame(maxWidth: .infinity)
+                                        CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.data.outfits[selectedOutfit].name).uppercased(), fontSize: General.smallFont).frame(maxWidth: .infinity)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -569,16 +561,16 @@ struct PlayerSelectionView: View {
                                             
                                             selectedOutfit = fighters[selectedSlot]!.outfitIndex
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: smallHeight)
+                                            ClearButton(label: ">", width: 35, height: General.smallHeight)
                                         }
                                     }
                                     .padding(.horizontal, 2)
                                 }
                             }
                         }
-                        .padding(.horizontal, outerPadding)
+                        .padding(.horizontal, General.outerPadding)
                     }
-                    .frame(height: 175 - 2 * outerPadding).padding(.vertical, outerPadding)
+                    .frame(height: 175 - 2 * General.outerPadding).padding(.vertical, General.outerPadding)
                     .onAppear {
                         selectedNature = getNature(fighter: fighters[selectedSlot]!)
                         selectedArtifact = getArtifact(fighter: fighters[selectedSlot]!)

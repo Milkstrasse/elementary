@@ -27,8 +27,8 @@ struct ModeSelectionView: View {
                 }
                 .frame(width: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: (geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom)/2).ignoresSafeArea()
                 Group {
-                    VStack(spacing: innerPadding) {
-                        HStack(alignment: .top, spacing: innerPadding) {
+                    VStack(spacing: General.innerPadding) {
+                        HStack(alignment: .top, spacing: General.innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playCancelSound()
                                 
@@ -41,13 +41,13 @@ struct ModeSelectionView: View {
                             }
                             Spacer()
                             ZStack(alignment: .trailing) {
-                                TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                                CustomText(text: Localization.shared.getTranslation(key: "fightModes").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
+                                TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: General.largeHeight).shadow(radius: 5, x: 5, y: 0)
+                                CustomText(text: Localization.shared.getTranslation(key: "fightModes").uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true).padding(.all, General.outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                             }
                             .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                         }
-                        .padding(.leading, outerPadding)
-                        HStack(spacing: innerPadding) {
+                        .padding(.leading, General.outerPadding)
+                        HStack(spacing: General.innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playConfirmSound()
                                 
@@ -56,7 +56,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView(singleMode: true, alwaysRandom: false, hasCPUPlayer: false).environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f72b}").shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "competition", geoWidth: (geometry.size.height - 2 * General.outerPadding - 3 * General.innerPadding)/4, icon: "\u{f72b}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playConfirmSound()
@@ -66,7 +66,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView(singleMode: true, alwaysRandom: false, hasCPUPlayer: true).environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6e8}").shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "arena", geoWidth: (geometry.size.height - 2 * General.outerPadding - 3 * General.innerPadding)/4, icon: "\u{f6e8}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playConfirmSound()
@@ -76,7 +76,7 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView(singleMode: true, alwaysRandom: true, hasCPUPlayer: true).environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f6b8}").shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "arcade", geoWidth: (geometry.size.height - 2 * General.outerPadding - 3 * General.innerPadding)/4, icon: "\u{f6b8}").shadow(radius: 5, x: 5, y: 0)
                             }
                             Button(action: {
                                 AudioPlayer.shared.playConfirmSound()
@@ -86,12 +86,12 @@ struct ModeSelectionView: View {
                                     manager.setView(view: AnyView(FightSelectionView(singleMode: false, alwaysRandom: false, hasCPUPlayer: false).environmentObject(manager)))
                                 }
                             }) {
-                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * outerPadding - 3 * innerPadding)/4, icon: "\u{f890}").shadow(radius: 5, x: 5, y: 0)
+                                ModeView(titleKey: "tournament", geoWidth: (geometry.size.height - 2 * General.outerPadding - 3 * General.innerPadding)/4, icon: "\u{f890}").shadow(radius: 5, x: 5, y: 0)
                             }
                         }
-                        Spacer().frame(height: smallHeight)
+                        Spacer().frame(height: General.smallHeight)
                     }
-                    .padding(.vertical, outerPadding)
+                    .padding(.vertical, General.outerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }

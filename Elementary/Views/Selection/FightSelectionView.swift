@@ -75,8 +75,8 @@ struct FightSelectionView: View {
                 TriangleA().fill(Color("MainPanel")).frame(height: 175 + geometry.safeAreaInsets.bottom).rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
             .ignoresSafeArea()
-            VStack(spacing: innerPadding/2) {
-                HStack(spacing: innerPadding) {
+            VStack(spacing: General.innerPadding/2) {
+                HStack(spacing: General.innerPadding) {
                     Spacer()
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
@@ -117,13 +117,13 @@ struct FightSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
+                        BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: General.smallFont)
                     }
                     .disabled(!TeamManager.isTeamValid(fighters: topFighters, singleMode: singleMode) || hasCPUPlayer)
                     Spacer()
                 }
-                .frame(width: 280 + 3 * innerPadding/2).rotationEffect(.degrees(180))
-                Spacer().frame(height: 140 + innerPadding)
+                .frame(width: 280 + 3 * General.innerPadding/2).rotationEffect(.degrees(180))
+                Spacer().frame(height: 140 + General.innerPadding)
                 HStack {
                     Button(action: {
                         if !bottomReady {
@@ -150,14 +150,14 @@ struct FightSelectionView: View {
                             }
                         }
                     }) {
-                        BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: smallFont)
+                        BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: General.smallFont)
                     }
                     .disabled(!TeamManager.isTeamValid(fighters: bottomFighters, singleMode: singleMode))
                     Spacer()
                 }
-                .frame(width: 280 + 3 * innerPadding/2)
+                .frame(width: 280 + 3 * General.innerPadding/2)
                 Spacer()
-                HStack(spacing: innerPadding) {
+                HStack(spacing: General.innerPadding) {
                     Spacer()
                     Button(action: {
                         AudioPlayer.shared.playCancelSound()
@@ -171,8 +171,8 @@ struct FightSelectionView: View {
                     }
                 }
             }
-            .padding(.all, outerPadding)
-            VStack(spacing: innerPadding/2) {
+            .padding(.all, General.outerPadding)
+            VStack(spacing: General.innerPadding/2) {
                 if hasCPUPlayer {
                     CPUSelectionView(fighters: topFighters).rotationEffect(.degrees(180)).ignoresSafeArea()
                 } else {

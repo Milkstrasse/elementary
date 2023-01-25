@@ -60,7 +60,7 @@ struct MissionsView: View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
                 Color("MainPanel").ignoresSafeArea()
-                VStack(alignment: .leading, spacing: innerPadding) {
+                VStack(alignment: .leading, spacing: General.innerPadding) {
                     HStack(alignment: .top) {
                         Button(action: {
                             AudioPlayer.shared.playCancelSound()
@@ -77,256 +77,256 @@ struct MissionsView: View {
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: General.largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "missions").uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true).padding(.all, General.outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                         }
                         .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                     }
-                    .padding([.top, .leading], outerPadding)
-                    HStack(spacing: innerPadding) {
+                    .padding([.top, .leading], General.outerPadding)
+                    HStack(spacing: General.innerPadding) {
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("Positive"))
-                            CustomText(text: Localization.shared.getTranslation(key: "dailyQuests").uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "dailyQuests").uppercased(), fontSize: General.mediumFont, isBold: true).padding(.leading, General.innerPadding)
                         }
                         ZStack(alignment: .leading) {
                             Rectangle().fill(Color("Positive"))
-                            CustomText(text: Localization.shared.getTranslation(key: "milestones").uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
+                            CustomText(text: Localization.shared.getTranslation(key: "milestones").uppercased(), fontSize: General.mediumFont, isBold: true).padding(.leading, General.innerPadding)
                         }
                     }
-                    .frame(height: largeHeight).padding(.horizontal, outerPadding)
-                    HStack(spacing: innerPadding) {
+                    .frame(height: General.largeHeight).padding(.horizontal, General.outerPadding)
+                    HStack(spacing: General.innerPadding) {
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: innerPadding/2) {
+                            VStack(spacing: General.innerPadding/2) {
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if Float(userProgress.dailyFightCounter)/5 >= 1 && !userProgress.dailyCollected[0] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 10, index: 0)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [userProgress.getDailyElement().name]).uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [userProgress.getDailyElement().name]).uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: userProgress.dailyElementWin ? "100%" : "0%", fontSize: smallFont)
+                                        CustomText(text: userProgress.dailyElementWin ? "100%" : "0%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if userProgress.dailyElementWin && !userProgress.dailyCollected[1] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 10, index: 1)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["2"]).uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["2"]).uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.dailyWinCounter)/2 * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.dailyWinCounter)/2 * 100, 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if Float(userProgress.dailyWinCounter)/2 >= 1 && !userProgress.dailyCollected[2] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 10, index: 2)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "useArtifactMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "useArtifactMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: userProgress.dailyArtifactUsed ? "100%" : "0%", fontSize: smallFont)
+                                        CustomText(text: userProgress.dailyArtifactUsed ? "100%" : "0%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if userProgress.dailyArtifactUsed && !userProgress.dailyCollected[3] {
                                         Button(action: {
                                             userProgress.dailyCollect(points: 10, index: 3)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "completeMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "completeMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if dailyComplete() >= 100 && !userProgress.missionCollected[4] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 20, index: 4)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                             }
-                            .padding(.leading, outerPadding)
+                            .padding(.leading, General.outerPadding)
                         }
                         ScrollView(.vertical, showsIndicators: false) {
-                            VStack(spacing: innerPadding/2) {
+                            VStack(spacing: General.innerPadding/2) {
                                 ForEach(fightCounter.indices, id: \.self) { index in
                                     ZStack(alignment: .trailing) {
                                         Rectangle().fill(Color("MainPanel"))
-                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(fightCounter[index]))"]).uppercased(), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(fightCounter[index]))"]).uppercased(), fontSize: General.smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(userProgress.fightCounter)/fightCounter[index] * 100, 100)))%", fontSize: smallFont)
+                                            CustomText(text: "\(Int(min(Float(userProgress.fightCounter)/fightCounter[index] * 100, 100)))%", fontSize: General.smallFont)
                                         }
-                                        .padding(.all, innerPadding)
+                                        .padding(.all, General.innerPadding)
                                         if Float(userProgress.fightCounter)/fightCounter[index] >= 1 && !userProgress.missionCollected[index] {
                                             Button(action: {
                                                 userProgress.missionCollect(points: 50, index: index)
                                             }) {
-                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }
                                         }
                                     }
-                                    .frame(height: largeHeight)
+                                    .frame(height: General.largeHeight)
                                 }
                                 ForEach(winStreak.indices, id: \.self) { index in
                                     ZStack(alignment: .trailing) {
                                         Rectangle().fill(Color("MainPanel"))
-                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "winStreakMission", params: ["\(Int(winStreak[index]))"]).uppercased(), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "winStreakMission", params: ["\(Int(winStreak[index]))"]).uppercased(), fontSize: General.smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(userProgress.winStreak)/winStreak[index] * 100, 100)))%", fontSize: smallFont)
+                                            CustomText(text: "\(Int(min(Float(userProgress.winStreak)/winStreak[index] * 100, 100)))%", fontSize: General.smallFont)
                                         }
-                                        .padding(.all, innerPadding)
+                                        .padding(.all, General.innerPadding)
                                         if Float(userProgress.winStreak)/winStreak[index] >= 1 && !userProgress.missionCollected[fightCounter.count + index] {
                                             Button(action: {
                                                 userProgress.missionCollect(points: 50, index: fightCounter.count + index)
                                             }) {
-                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }
                                         }
                                     }
-                                    .frame(height: largeHeight)
+                                    .frame(height: General.largeHeight)
                                 }
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: userProgress.winAllAlive ? "100%" : "0%", fontSize: smallFont)
+                                        CustomText(text: userProgress.winAllAlive ? "100%" : "0%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if userProgress.winAllAlive && !userProgress.missionCollected[fightCounter.count + winStreak.count] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 1] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 1)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 2] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 2)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "artifactMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "artifactMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) * 100, 100)))%", fontSize: smallFont)
+                                        CustomText(text: "\(Int(min(Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 3] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 3)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                                 ZStack(alignment: .trailing) {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "fightElementMission").uppercased(), fontSize: smallFont)
+                                        CustomText(text: Localization.shared.getTranslation(key: "fightElementMission").uppercased(), fontSize: General.smallFont)
                                         Spacer()
-                                        CustomText(text: userProgress.fightOneElement ? "100%" : "0%", fontSize: smallFont)
+                                        CustomText(text: userProgress.fightOneElement ? "100%" : "0%", fontSize: General.smallFont)
                                     }
-                                    .padding(.all, innerPadding)
+                                    .padding(.all, General.innerPadding)
                                     if userProgress.fightOneElement && !userProgress.missionCollected[fightCounter.count + winStreak.count + 4] {
                                         Button(action: {
                                             userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 4)
                                         }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                         }
                                     }
                                 }
-                                .frame(height: largeHeight)
+                                .frame(height: General.largeHeight)
                             }
-                            .padding(.trailing, outerPadding)
+                            .padding(.trailing, General.outerPadding)
                         }
                     }
-                    HStack(spacing: innerPadding) {
+                    HStack(spacing: General.innerPadding) {
                         Spacer()
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
@@ -334,19 +334,19 @@ struct MissionsView: View {
                             userProgress = UserProgress()
                             SaveData.saveProgress()
                         }) {
-                            BorderedButton(label: "reset", width: 155, height: smallHeight, isInverted: false)
+                            BorderedButton(label: "reset", width: 155, height: General.smallHeight, isInverted: false)
                         }
                         ZStack(alignment: .trailing) {
-                            Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)
-                            HStack(spacing: innerPadding/2) {
-                                CustomText(text: userProgress.getFormattedPoints(), fontSize: smallFont)
-                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text"))
+                            Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth)
+                            HStack(spacing: General.innerPadding/2) {
+                                CustomText(text: userProgress.getFormattedPoints(), fontSize: General.smallFont)
+                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text"))
                             }
-                            .padding(.trailing, innerPadding)
+                            .padding(.trailing, General.innerPadding)
                         }
-                        .frame(width: 105, height: smallHeight)
+                        .frame(width: 105, height: General.smallHeight)
                     }
-                    .padding([.leading, .bottom, .trailing], outerPadding).padding(.top, innerPadding)
+                    .padding([.leading, .bottom, .trailing], General.outerPadding).padding(.top, General.innerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }

@@ -56,9 +56,9 @@ struct ElementaryApp: App {
                         }
                     }
                     VStack {
-                        CustomText(text: String(format: "%.2f", manager.progress) + "%", fontSize: smallFont)
+                        CustomText(text: String(format: "%.2f", manager.progress) + "%", fontSize: General.smallFont)
                         if randomInt > 0 {
-                            CustomText(text: Localization.shared.getTranslation(key: "tip\(randomInt)"), fontSize: mediumFont)
+                            CustomText(text: Localization.shared.getTranslation(key: "tip\(randomInt)"), fontSize: General.mediumFont)
                         }
                     }
                 } else {

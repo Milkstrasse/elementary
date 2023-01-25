@@ -18,11 +18,11 @@ struct ModeView: View {
             Rectangle().fill(Color("MainPanel"))
             VStack(spacing: 0) {
                 ZStack {
-                    Rectangle().fill(Color("Positive")).frame(width: geoWidth, height: geoWidth).padding(.bottom, outerPadding)
+                    Rectangle().fill(Color("Positive")).frame(width: geoWidth, height: geoWidth).padding(.bottom, General.outerPadding)
                     Text(icon).font(.custom("Font Awesome 5 Pro", size: 50)).foregroundColor(Color("Text"))
                 }
-                CustomText(text: Localization.shared.getTranslation(key: titleKey).uppercased(), fontSize: mediumFont, isBold: true)
-                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: titleKey + "Descr"), geoWidth: geoWidth - 1.5 * innerPadding), fontSize: smallFont, alignment: HorizontalAlignment.center)
+                CustomText(text: Localization.shared.getTranslation(key: titleKey).uppercased(), fontSize: General.mediumFont, isBold: true)
+                CustomText(text: TextFitter.getFittedText(text: Localization.shared.getTranslation(key: titleKey + "Descr"), geoWidth: geoWidth - 1.5 * General.innerPadding), fontSize: General.smallFont, alignment: HorizontalAlignment.center)
                 Spacer()
             }
         }

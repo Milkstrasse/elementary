@@ -135,12 +135,12 @@ struct OverviewView: View {
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: General.largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "overview").uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true).padding(.all, General.outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                         }
                         .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                     }
-                    .padding([.top, .leading], outerPadding)
+                    .padding([.top, .leading], General.outerPadding)
                     Group {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(alignment: .leading, spacing: 11) {
@@ -166,21 +166,21 @@ struct OverviewView: View {
                                     }
                                 }
                             }
-                            .padding(.horizontal, outerPadding)
+                            .padding(.horizontal, General.outerPadding)
                         }
-                        .padding(.top, innerPadding)
-                        HStack(spacing: innerPadding) {
+                        .padding(.top, General.innerPadding)
+                        HStack(spacing: General.innerPadding) {
                             Spacer()
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()
                                 showInfo = true
                             }) {
-                                BorderedButton(label: "info", width: 105, height: smallHeight, isInverted: false)
+                                BorderedButton(label: "info", width: 105, height: General.smallHeight, isInverted: false)
                             }
                             .opacity(fighterSelected ? 1 : 0.5).disabled(!fighterSelected)
                             ZStack {
                                 Rectangle().fill(Color("MainPanel"))
-                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                    .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 HStack(spacing: 0) {
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
@@ -193,9 +193,9 @@ struct OverviewView: View {
                                         
                                         sortArray(criteria: currentCriteria)
                                     }) {
-                                        ClearButton(label: "<", width: 35, height: smallHeight)
+                                        ClearButton(label: "<", width: 35, height: General.smallHeight)
                                     }
-                                    CustomText(text: Localization.shared.getTranslation(key: currentCriteria == -1 ? "unsorted" : criterias[currentCriteria]).uppercased(), fontSize: smallFont).frame(maxWidth: 100)
+                                    CustomText(text: Localization.shared.getTranslation(key: currentCriteria == -1 ? "unsorted" : criterias[currentCriteria]).uppercased(), fontSize: General.smallFont).frame(maxWidth: 100)
                                     Button(action: {
                                         AudioPlayer.shared.playStandardSound()
                                         
@@ -207,14 +207,14 @@ struct OverviewView: View {
                                         
                                         sortArray(criteria: currentCriteria)
                                     }) {
-                                        ClearButton(label: ">", width: 35, height: smallHeight)
+                                        ClearButton(label: ">", width: 35, height: General.smallHeight)
                                     }
                                 }
                                 .padding(.horizontal, 2)
                             }
-                            .frame(width: 170, height: smallHeight)
+                            .frame(width: 170, height: General.smallHeight)
                         }
-                        .padding(.all, outerPadding)
+                        .padding(.all, General.outerPadding)
                     }
                     .offset(x: showInfo ? -geometry.size.height - geometry.safeAreaInsets.top : 0).animation(.linear(duration: 0.3), value: showInfo)
                 }
@@ -238,7 +238,7 @@ struct OverviewView: View {
                         }
                         Spacer()
                     }
-                    .padding(.all, outerPadding)
+                    .padding(.all, General.outerPadding)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: showInfo ? ((geometry.size.width * 0.9) - geometry.size.width + geometry.safeAreaInsets.top)/2 : -geometry.size.width - geometry.safeAreaInsets.top)
                 .animation(.linear(duration: 0.3), value: showInfo)

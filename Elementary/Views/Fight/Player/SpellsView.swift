@@ -64,7 +64,7 @@ struct SpellsView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            VStack(spacing: innerPadding/2) {
+            VStack(spacing: General.innerPadding/2) {
                 if fightLogic.singleMode {
                     ForEach(player.getCurrentFighter().singleSpells.indices, id: \.self) { index in
                         Button(action: {

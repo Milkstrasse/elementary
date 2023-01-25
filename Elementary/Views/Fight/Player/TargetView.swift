@@ -58,7 +58,7 @@ struct TargetView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            VStack(spacing: innerPadding/2) {
+            VStack(spacing: General.innerPadding/2) {
                 ForEach(fightLogic.players[target].fighters.indices, id: \.self) { index in
                     Button(action: {
                         if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: target, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {

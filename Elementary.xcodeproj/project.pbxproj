@@ -49,7 +49,7 @@
 		B8631AB128AFB22E00222E54 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB028AFB22E00222E54 /* Buttons.swift */; };
 		B8631AB528AFB72A00222E54 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB428AFB72A00222E54 /* OverviewView.swift */; };
 		B8631AB928AFD31900222E54 /* SubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631AB828AFD31900222E54 /* SubViews.swift */; };
-		B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* Parameters.swift */; };
+		B8631ABB28AFEB2800222E54 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABA28AFEB2800222E54 /* General.swift */; };
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
 		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
 		B887DC222900942300512E65 /* UserProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887DC212900942300512E65 /* UserProgress.swift */; };
@@ -131,7 +131,7 @@
 		B8631AB028AFB22E00222E54 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		B8631AB428AFB72A00222E54 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
 		B8631AB828AFD31900222E54 /* SubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubViews.swift; sourceTree = "<group>"; };
-		B8631ABA28AFEB2800222E54 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		B8631ABA28AFEB2800222E54 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
 		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
 		B887DC212900942300512E65 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
@@ -227,6 +227,7 @@
 			children = (
 				B8631A6E28AFA01300222E54 /* AudioPlayer.swift */,
 				B8631A6528AF9FA800222E54 /* Extensions.swift */,
+				B8631ABA28AFEB2800222E54 /* General.swift */,
 				B8631A6D28AFA01300222E54 /* GlobalData.swift */,
 				B8631A6C28AFA01300222E54 /* Localization.swift */,
 				B8631A6A28AF9FEA00222E54 /* SaveData.swift */,
@@ -288,7 +289,6 @@
 			children = (
 				B8631AB028AFB22E00222E54 /* Buttons.swift */,
 				B8631AB828AFD31900222E54 /* SubViews.swift */,
-				B8631ABA28AFEB2800222E54 /* Parameters.swift */,
 				B82256FC2922493A001E083A /* Shapes.swift */,
 				B8AD404E28B0E20900708AA5 /* Text.swift */,
 				B8AD419C296579A200729D3A /* Effects.swift */,
@@ -517,7 +517,7 @@
 				B8AD406228B2292200708AA5 /* HexApplication.swift in Sources */,
 				B8AD405728B1819500708AA5 /* CreditsView.swift in Sources */,
 				B8AD41CA296865A900729D3A /* TargetView.swift in Sources */,
-				B8631ABB28AFEB2800222E54 /* Parameters.swift in Sources */,
+				B8631ABB28AFEB2800222E54 /* General.swift in Sources */,
 				B8631A8028AFA05700222E54 /* Spell.swift in Sources */,
 				B8AD406328B2292200708AA5 /* DamageCalculator.swift in Sources */,
 				B8E943DC28B6407800DECE32 /* TeamView.swift in Sources */,

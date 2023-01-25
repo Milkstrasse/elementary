@@ -16,7 +16,7 @@ struct OptionsView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            VStack(spacing: innerPadding/2) {
+            VStack(spacing: General.innerPadding/2) {
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
                     currentSection = Section.spells

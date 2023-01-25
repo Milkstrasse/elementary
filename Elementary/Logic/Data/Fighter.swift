@@ -102,7 +102,7 @@ class Fighter: Hashable, Equatable {
     /// - Parameter weather: The current weather of the fight
     /// - Returns: Returns the current stats of a fighter
     func getModifiedBase(weather: Hex? = nil) -> Base {
-        var health: Int = max(base.health + nature.healthMod, 0)
+        let health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + getHexBonus(hex: attackMod) + nature.attackMod, 0)
         var defense: Int = max(base.defense + getHexBonus(hex: defenseMod) + nature.defenseMod, 0)
         var agility: Int = max(base.agility + getHexBonus(hex: agilityMod) + nature.agilityMod, 0)

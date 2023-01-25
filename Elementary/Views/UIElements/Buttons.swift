@@ -19,7 +19,7 @@ struct BasicButton: View {
     var body: some View {
         ZStack(alignment: width > height ? .leading : .center) {
             Rectangle().fill(isInverted ? Color("Negative") : Color("MainPanel")).frame(width: width, height: height)
-            CustomText(text: label.uppercased(), fontSize: fontSize, isBold: true).padding(.all, outerPadding)
+            CustomText(text: label.uppercased(), fontSize: fontSize, isBold: true).padding(.all, General.outerPadding)
         }
         .frame(width: width, height: height)
     }
@@ -35,8 +35,8 @@ struct BorderedButton: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle().fill(isInverted ? Color("Negative") : Color("MainPanel")).frame(width: width, height: height)
-                .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border"), lineWidth: borderWidth))
-            CustomText(text: Localization.shared.getTranslation(key: label).uppercased(), fontSize: smallFont, isBold: true).padding(.all, outerPadding)
+                .overlay(Rectangle().strokeBorder(isInverted ? Color.white : Color("Border"), lineWidth: General.borderWidth))
+            CustomText(text: Localization.shared.getTranslation(key: label).uppercased(), fontSize: General.smallFont, isBold: true).padding(.all, General.outerPadding)
         }
         .frame(width: width, height: height)
     }
@@ -47,10 +47,10 @@ struct IconButton: View {
     
     var body: some View {
         ZStack {
-            Rectangle().strokeBorder(Color.white, lineWidth: borderWidth).frame(width: smallHeight, height: smallHeight)
-            Text(label).font(.custom("Font Awesome 5 Pro", size: mediumFont)).foregroundColor(Color.white).frame(width: smallHeight, height: smallHeight)
+            Rectangle().strokeBorder(Color.white, lineWidth: General.borderWidth).frame(width: General.smallHeight, height: General.smallHeight)
+            Text(label).font(.custom("Font Awesome 5 Pro", size: General.mediumFont)).foregroundColor(Color.white).frame(width: General.smallHeight, height: General.smallHeight)
         }
-        .frame(width: smallHeight, height: smallHeight)
+        .frame(width: General.smallHeight, height: General.smallHeight)
     }
 }
 
@@ -61,7 +61,7 @@ struct ClearButton: View {
     
     var body: some View {
         ZStack {
-            CustomText(text: label.uppercased(), fontSize: smallFont, isBold: true).frame(width: width, height: height, alignment: width > height ? .bottomLeading : .center)
+            CustomText(text: label.uppercased(), fontSize: General.smallFont, isBold: true).frame(width: width, height: height, alignment: width > height ? .bottomLeading : .center)
         }
     }
 }
@@ -69,10 +69,10 @@ struct ClearButton: View {
 struct Buttons_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            BasicButton(label: "label", width: 150, height: largeHeight, fontSize: mediumFont)
-            BorderedButton(label: "label", width: 150, height: largeHeight, isInverted: false)
-            BorderedButton(label: "label", width: 150, height: largeHeight, isInverted: true)
-            ClearButton(label: "<", width: smallHeight, height: smallHeight)
+            BasicButton(label: "label", width: 150, height: General.largeHeight, fontSize: General.mediumFont)
+            BorderedButton(label: "label", width: 150, height: General.largeHeight, isInverted: false)
+            BorderedButton(label: "label", width: 150, height: General.largeHeight, isInverted: true)
+            ClearButton(label: "<", width: General.smallHeight, height: General.smallHeight)
         }
     }
 }

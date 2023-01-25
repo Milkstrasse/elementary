@@ -153,40 +153,40 @@ struct SettingsView: View {
                         }
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "settings").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: General.largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "settings").uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true).padding(.all, General.outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                         }
                         .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                     }
-                    .padding([.top, .leading], outerPadding)
+                    .padding([.top, .leading], General.outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
-                        HStack(alignment: .top, spacing: innerPadding) {
-                            VStack(spacing: innerPadding/2) {
+                        HStack(alignment: .top, spacing: General.innerPadding) {
+                            VStack(spacing: General.innerPadding/2) {
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "audio").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "audio").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
                                             resetAudioSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                         }
                                     }
-                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                    .frame(height: General.largeHeight).padding(.leading, General.innerPadding)
                                 }
-                                .padding(.bottom, innerPadding/2)
+                                .padding(.bottom, General.innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isGeneralDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -222,10 +222,10 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                         })
-                                        CustomText(text: "\(generalVolume * 10)%".uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(generalVolume * 10)%".uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isGeneralIncreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -262,17 +262,17 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "music").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "music").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isMusicDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -308,10 +308,10 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.setMusicPlayer()
                                                     AudioPlayer.shared.playStandardSound()
                                         })
-                                        CustomText(text: "\(musicVolume * 10)%".uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(musicVolume * 10)%".uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isMusicIncreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -348,17 +348,17 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "sound").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "sound").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isSoundDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -392,10 +392,10 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.soundVolume = Float(soundVolume)/10
                                                     AudioPlayer.shared.playStandardSound()
                                         })
-                                        CustomText(text: "\(soundVolume * 10)%".uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(soundVolume * 10)%".uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isSoundIncreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -430,17 +430,17 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.playStandardSound()
                                         })
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "voices").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "voices").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isVoicesDecreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -474,10 +474,10 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.voiceVolume = Float(voiceVolume)/10
                                                     AudioPlayer.shared.playHurtSound()
                                         })
-                                        CustomText(text: "\(voiceVolume * 10)%".uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(voiceVolume * 10)%".uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                         .onChange(of: isVoicesIncreasing, perform: { _ in
                                             Timer.scheduledTimer(withTimeInterval: 0.2 , repeats: true) { timer in
@@ -512,51 +512,51 @@ struct SettingsView: View {
                                                     AudioPlayer.shared.playHurtSound()
                                         })
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "haptic").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "haptic").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             hapticToggle = !hapticToggle
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: hapticToggle ? "enabled" : "disabled").uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: hapticToggle ? "enabled" : "disabled").uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             hapticToggle = !hapticToggle
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "text").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "text").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
                                             resetTextSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                         }
                                     }
-                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                    .frame(height: General.largeHeight).padding(.leading, General.innerPadding)
                                 }
-                                .padding(.vertical, innerPadding/2)
+                                .padding(.vertical, General.innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "textSpeed").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "textSpeed").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -569,9 +569,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.textSpeed = textIndex
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: textSpeeds[textIndex - 1]).uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: textSpeeds[textIndex - 1]).uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -583,16 +583,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.textSpeed = textIndex
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "language").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "language").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -605,9 +605,9 @@ struct SettingsView: View {
                                             
                                             Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: Localization.shared.languages[langIndex]).uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: Localization.shared.languages[langIndex]).uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -619,34 +619,34 @@ struct SettingsView: View {
                                             
                                             Localization.shared.loadLanguage(language: Localization.shared.languages[langIndex])
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                             }
-                            VStack(spacing: innerPadding/2) {
+                            VStack(spacing: General.innerPadding/2) {
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "general").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
                                             resetGeneralSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                         }
                                     }
-                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                    .frame(height: General.largeHeight).padding(.leading, General.innerPadding)
                                 }
-                                .padding(.bottom, innerPadding/2)
+                                .padding(.bottom, General.innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "teams").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "teams").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -659,9 +659,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.teamLimit = teamIndex
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: teamLimit[teamIndex]).uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: teamLimit[teamIndex]).uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -673,16 +673,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.teamLimit = teamIndex
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "artifacts").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "artifacts").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -695,9 +695,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.artifactUse = artifactIndex
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: Localization.shared.getTranslation(key: artifactsUse[artifactIndex]).uppercased(), fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: Localization.shared.getTranslation(key: artifactsUse[artifactIndex]).uppercased(), fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -709,32 +709,32 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.artifactUse = artifactIndex
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Positive"))
                                     HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "advanced").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "advanced").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
                                             resetAdvancedSettings()
                                         }) {
-                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text")).frame(width: smallHeight, height: smallHeight)
+                                            Text("\u{f2ed}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                         }
                                     }
-                                    .frame(height: largeHeight).padding(.leading, innerPadding)
+                                    .frame(height: General.largeHeight).padding(.leading, General.innerPadding)
                                 }
-                                .padding(.vertical, innerPadding/2)
+                                .padding(.vertical, General.innerPadding/2)
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "attack").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -747,9 +747,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.attackModifier = attackModifier
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: "\(attackModifier)", fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(attackModifier)", fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -761,16 +761,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.attackModifier = attackModifier
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "critical").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "critical").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -783,9 +783,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.criticalModifier = criticalModifier
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: "\(criticalModifier)", fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(criticalModifier)", fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -797,16 +797,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.criticalModifier = criticalModifier
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "elemental").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "elemental").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -819,9 +819,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.elementalModifier = elementalModifier
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: "\(elementalModifier)", fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(elementalModifier)", fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -833,16 +833,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.elementalModifier = elementalModifier
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "weather").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -855,9 +855,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.weatherModifier = weatherModifier
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: "\(weatherModifier)", fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(weatherModifier)", fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -869,16 +869,16 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.weatherModifier = weatherModifier
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                                 ZStack {
                                     Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                     HStack(spacing: 0) {
-                                        CustomText(text: Localization.shared.getTranslation(key: "deviation").uppercased(), fontSize: mediumFont, isBold: true)
+                                        CustomText(text: Localization.shared.getTranslation(key: "deviation").uppercased(), fontSize: General.mediumFont, isBold: true)
                                         Spacer()
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
@@ -891,9 +891,9 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.deviation = deviation
                                         }) {
-                                            ClearButton(label: "<", width: 35, height: largeHeight)
+                                            ClearButton(label: "<", width: 35, height: General.largeHeight)
                                         }
-                                        CustomText(text: "\(deviation)%", fontSize: smallFont).frame(width: 100)
+                                        CustomText(text: "\(deviation)%", fontSize: General.smallFont).frame(width: 100)
                                         Button(action: {
                                             AudioPlayer.shared.playStandardSound()
                                             
@@ -905,27 +905,27 @@ struct SettingsView: View {
                                             
                                             GlobalData.shared.deviation = deviation
                                         }) {
-                                            ClearButton(label: ">", width: 35, height: largeHeight)
+                                            ClearButton(label: ">", width: 35, height: General.largeHeight)
                                         }
                                     }
-                                    .padding(.leading, innerPadding)
+                                    .padding(.leading, General.innerPadding)
                                 }
                             }
                         }
-                        .padding(.horizontal, outerPadding)
+                        .padding(.horizontal, General.outerPadding)
                     }
-                    .padding(.top, innerPadding)
-                    HStack(spacing: innerPadding) {
+                    .padding(.top, General.innerPadding)
+                    HStack(spacing: General.innerPadding) {
                         Spacer()
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
                             
                             resetSettings()
                         }) {
-                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 170, height: smallHeight, isInverted: false)
+                            BorderedButton(label: Localization.shared.getTranslation(key: "reset"), width: 170, height: General.smallHeight, isInverted: false)
                         }
                     }
-                    .padding(.all, outerPadding)
+                    .padding(.all, General.outerPadding)
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }

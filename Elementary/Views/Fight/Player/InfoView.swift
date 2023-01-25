@@ -11,135 +11,129 @@ struct InfoView: View {
     let fightLogic: FightLogic
     let player: Player
     
-    /// Converts a symbol to the correct display format.
-    /// - Returns: Returns the symbol in the correct format
-    func createSymbol(symbol: UInt16) -> String {
-        return String(Character(UnicodeScalar(symbol) ?? "\u{2718}"))
-    }
-    
     var body: some View {
         ScrollViewReader { value in
-            VStack(spacing: innerPadding) {
+            VStack(spacing: General.innerPadding) {
                 if fightLogic.singleMode {
                     ZStack {
-                        Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                        Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                         VStack(alignment: .leading, spacing: 2) {
-                            CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: General.mediumFont, isBold: true)
                             ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
                                 HStack(spacing: 0) {
                                     if hex.symbol < 60000 {
-                                        Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                     } else {
-                                        Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                     }
-                                    CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: General.smallFont)
                                     Spacer()
                                 }
                             }
                             if player.getCurrentFighter().hexes.isEmpty {
                                 HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: General.smallFont)
                                     Spacer()
                                 }
                             }
                         }
-                        .padding(.all, innerPadding)
+                        .padding(.all, General.innerPadding)
                     }
                     .id(0)
                     ZStack {
-                        Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                        Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                         VStack(alignment: .leading, spacing: 2) {
-                            CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().name).uppercased(), fontSize: mediumFont, isBold: true)
+                            CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().name).uppercased(), fontSize: General.mediumFont, isBold: true)
                             ForEach(fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().hexes, id: \.self) { hex in
                                 HStack(spacing: 0) {
-                                    Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
-                                    CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
+                                    Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 25)
+                                    CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: General.smallFont)
                                     Spacer()
                                 }
                             }
                             if fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().hexes.isEmpty {
                                 HStack {
-                                    CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: General.smallFont)
                                     Spacer()
                                 }
                             }
                         }
-                        .padding(.all, innerPadding)
+                        .padding(.all, General.innerPadding)
                     }
                 } else {
-                    VStack(spacing: innerPadding/2) {
+                    VStack(spacing: General.innerPadding/2) {
                         ForEach(player.fighters.indices, id: \.self) { index in
                             ZStack {
-                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 VStack(alignment: .leading, spacing: 2) {
-                                    CustomText(text: Localization.shared.getTranslation(key: player.getFighter(index: index).name).uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: player.getFighter(index: index).name).uppercased(), fontSize: General.mediumFont, isBold: true)
                                     ForEach(player.getFighter(index: index).hexes, id: \.self) { hex in
                                         HStack(spacing: 0) {
                                             if hex.symbol < 60000 {
-                                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             } else {
-                                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             }
-                                            CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: General.smallFont)
                                             Spacer()
                                         }
                                     }
                                     if player.getFighter(index: index).hexes.isEmpty {
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: General.smallFont)
                                             Spacer()
                                         }
                                     }
                                 }
-                                .padding(.all, innerPadding)
+                                .padding(.all, General.innerPadding)
                             }
                             .id(index)
                         }
                     }
-                    VStack(spacing: innerPadding/2) {
+                    VStack(spacing: General.innerPadding/2) {
                         ForEach(fightLogic.players[player.getOppositePlayerId()].fighters.indices, id: \.self) { index in
                             ZStack {
-                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 VStack(alignment: .leading, spacing: 2) {
-                                    CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).name).uppercased(), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).name).uppercased(), fontSize: General.mediumFont, isBold: true)
                                     ForEach(player.getFighter(index: index).hexes, id: \.self) { hex in
                                         HStack(spacing: 0) {
                                             if hex.symbol < 60000 {
-                                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Free", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             } else {
-                                                Text(createSymbol(symbol: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
+                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             }
-                                            CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: hex.name + "Descr"), fontSize: General.smallFont)
                                             Spacer()
                                         }
                                     }
                                     if fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).hexes.isEmpty {
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: "noHexes"), fontSize: General.smallFont)
                                             Spacer()
                                         }
                                     }
                                 }
-                                .padding(.all, innerPadding)
+                                .padding(.all, General.innerPadding)
                             }
                         }
                     }
                 }
                 ZStack {
-                    Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                    Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                     VStack(alignment: .leading, spacing: 2) {
-                        CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: mediumFont, isBold: true)
+                        CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: General.mediumFont, isBold: true)
                         HStack(spacing: 0) {
                             if let weather = fightLogic.weather {
-                                Text(createSymbol(symbol: weather.symbol)).font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color.white).fixedSize().frame(width: 25)
-                                CustomText(text: Localization.shared.getTranslation(key: weather.name + "Descr"), fontSize: smallFont)
+                                Text(General.createSymbol(int: weather.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color.white).fixedSize().frame(width: 25)
+                                CustomText(text: Localization.shared.getTranslation(key: weather.name + "Descr"), fontSize: General.smallFont)
                             } else {
-                                CustomText(text: Localization.shared.getTranslation(key: "noWeather"), fontSize: smallFont)
+                                CustomText(text: Localization.shared.getTranslation(key: "noWeather"), fontSize: General.smallFont)
                             }
                             Spacer()
                         }
                     }
-                    .padding(.all, innerPadding)
+                    .padding(.all, General.innerPadding)
                 }
             }
             .onAppear {

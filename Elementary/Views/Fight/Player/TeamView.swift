@@ -41,7 +41,7 @@ struct TeamView: View {
     
     var body: some View {
         ScrollViewReader { value in
-            VStack(spacing: innerPadding/2) {
+            VStack(spacing: General.innerPadding/2) {
                 ActionView(titleKey: player.getCurrentFighter().name, description: generateInfo(fighter: player.getCurrentFighter(), index: 0), symbol: player.getCurrentFighter().getElement().symbol, color: Color(hex: player.getCurrentFighter().getElement().color)).id(0)
                     .onTapGesture {}
                     .gesture(

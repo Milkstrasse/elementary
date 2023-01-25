@@ -60,21 +60,21 @@ struct ShopView: View {
                     HStack(alignment: .top) {
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: largeHeight).shadow(radius: 5, x: 5, y: 0)
-                            CustomText(text: Localization.shared.getTranslation(key: "shop").uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true).padding(.all, outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
+                            TitlePanel().fill(Color("TitlePanel")).frame(width: 255 + geometry.safeAreaInsets.bottom, height: General.largeHeight).shadow(radius: 5, x: 5, y: 0)
+                            CustomText(text: Localization.shared.getTranslation(key: "shop").uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true).padding(.all, General.outerPadding).padding(.trailing, geometry.safeAreaInsets.bottom)
                         }
                         .ignoresSafeArea().offset(x: geometry.safeAreaInsets.bottom)
                     }
-                    .padding([.top, .leading], outerPadding)
+                    .padding([.top, .leading], General.outerPadding)
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: innerPadding/2) {
+                        VStack(alignment: .leading, spacing: General.innerPadding/2) {
                             ForEach(GlobalData.shared.fighters, id: \.self) { fighter in
                                 if fighter.data.outfits.count > 1 {
                                     ZStack(alignment: .leading) {
                                         Rectangle().fill(Color("Positive"))
-                                        CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: mediumFont, isBold: true).padding(.leading, innerPadding)
+                                        CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: General.mediumFont, isBold: true).padding(.leading, General.innerPadding)
                                     }
-                                    .frame(height: largeHeight).padding(.bottom, innerPadding/2)
+                                    .frame(height: General.largeHeight).padding(.bottom, General.innerPadding/2)
                                 }
                                 ForEach(1 ..< fighter.data.outfits.count, id: \.self) { index in
                                     Button(action: {
@@ -89,19 +89,19 @@ struct ShopView: View {
                                     }) {
                                         ZStack(alignment: .trailing) {
                                             Rectangle().fill(Color("MainPanel"))
-                                                .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: borderWidth))
-                                            HStack(spacing: innerPadding/2) {
-                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.outfits[index].name).uppercased(), fontSize: smallFont)
-                                                CustomText(text: "-", fontSize: smallFont)
+                                                .overlay(Rectangle().strokeBorder(isSelected(fighter: fighter, index: index) ? Color("Positive") : Color("Border"), lineWidth: General.borderWidth))
+                                            HStack(spacing: General.innerPadding/2) {
+                                                CustomText(text: Localization.shared.getTranslation(key: fighter.data.outfits[index].name).uppercased(), fontSize: General.smallFont)
+                                                CustomText(text: "-", fontSize: General.smallFont)
                                                 if userProgress.isOutfitUnlocked(fighter: fighter.name, index: index) {
-                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontSize: smallFont)
+                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontSize: General.smallFont)
                                                 } else {
-                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontColor: userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"), fontSize: smallFont)
-                                                    Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"))
+                                                    CustomText(text: "\(fighter.data.outfits[index].cost)", fontColor: userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"), fontSize: General.smallFont)
+                                                    Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(userProgress.points < fighter.data.outfits[index].cost ? Color("Negative") : Color("Positive"))
                                                 }
                                                 Spacer()
                                             }
-                                            .padding(.all, innerPadding)
+                                            .padding(.all, General.innerPadding)
                                             Button(action: {
                                                 AudioPlayer.shared.playStandardSound()
                                                 
@@ -110,31 +110,31 @@ struct ShopView: View {
                                                 GlobalData.shared.userProgress = userProgress
                                                 SaveData.saveProgress()
                                             }) {
-                                                BasicButton(label: Localization.shared.getTranslation(key: "purchase"), width: 110, height: 35, fontSize: smallFont, isInverted: true).padding(.trailing, 7.5)
+                                                BasicButton(label: Localization.shared.getTranslation(key: "purchase"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }
                                             .opacity(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index) ? 0.5 : 1).disabled(userProgress.points < fighter.data.outfits[index].cost || userProgress.isOutfitUnlocked(fighter: fighter.name, index: index))
                                         }
-                                        .frame(height: largeHeight).padding(.bottom, index == fighter.data.outfits.count - 1 ? innerPadding/2 : 0)
+                                        .frame(height: General.largeHeight).padding(.bottom, index == fighter.data.outfits.count - 1 ? General.innerPadding/2 : 0)
                                     }
                                 }
                             }
                         }
-                        .padding(.horizontal, outerPadding)
+                        .padding(.horizontal, General.outerPadding)
                     }
-                    .frame(width: geometry.size.width).padding(.top, innerPadding).padding(.bottom, outerPadding)
-                    HStack(spacing: innerPadding) {
+                    .frame(width: geometry.size.width).padding(.top, General.innerPadding).padding(.bottom, General.outerPadding)
+                    HStack(spacing: General.innerPadding) {
                         Spacer()
                         ZStack(alignment: .trailing) {
-                            Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth)
-                            HStack(spacing: innerPadding/2) {
-                                CustomText(text: userProgress.getFormattedPoints(), fontSize: smallFont)
-                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: smallFont)).foregroundColor(Color("Text"))
+                            Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth)
+                            HStack(spacing: General.innerPadding/2) {
+                                CustomText(text: userProgress.getFormattedPoints(), fontSize: General.smallFont)
+                                Text("\u{f890}").font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text"))
                             }
-                            .padding(.trailing, innerPadding)
+                            .padding(.trailing, General.innerPadding)
                         }
-                        .frame(width: 170, height: smallHeight)
+                        .frame(width: 170, height: General.smallHeight)
                     }
-                    .padding([.leading, .bottom, .trailing], outerPadding)
+                    .padding([.leading, .bottom, .trailing], General.outerPadding)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height - geometry.size.width/2)
                 ZStack(alignment: .bottomLeading) {
@@ -155,7 +155,7 @@ struct ShopView: View {
                         }
                         Spacer()
                     }
-                    .padding(.all, outerPadding)
+                    .padding(.all, General.outerPadding)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.width).rotationEffect(.degrees(90)).offset(y: transitionToggle ? -geometry.size.width - geometry.safeAreaInsets.top : ((geometry.size.width * 0.9) - geometry.size.width + geometry.safeAreaInsets.top)/2)
                 .animation(.linear(duration: 0.3).delay(0.2), value: transitionToggle)

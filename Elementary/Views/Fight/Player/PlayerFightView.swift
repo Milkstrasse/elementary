@@ -73,7 +73,7 @@ struct PlayerFightView: View {
             ZStack(alignment: .leading) {
                 player.getCurrentFighter().getImage(blinking: blink, state: player.state).resizable().frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7).shadow(radius: 5, x: 5, y: 0).offset(x: -60 - offset, y: (geometry.size.width * 0.7 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
                 Rectangle().fill(Color("MainPanel")).frame(width: geometry.size.width + 40, height: height).offset(x: -20, y: (height - 175)/2)
-                VStack(spacing: outerPadding) {
+                VStack(spacing: General.outerPadding) {
                     HStack {
                         Button(action: {
                             AudioPlayer.shared.playStandardSound()
@@ -101,7 +101,7 @@ struct PlayerFightView: View {
                                 currentSection = Section.options
                             }
                         }) {
-                            ClearButton(label: currentSection == Section.summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, outerPadding).offset(y: 6)
+                            ClearButton(label: currentSection == Section.summary || gameOver ? Localization.shared.getTranslation(key: "next") : Localization.shared.getTranslation(key: "back"), width: geometry.size.width - 30 - 210, height: 50).padding(.leading, General.outerPadding).offset(y: 6)
                         }
                         .disabled(!isInteractable).opacity(fightLogic.fighting ? 0.5 : 1.0).disabled(fightLogic.fighting)
                         Spacer()
@@ -121,16 +121,16 @@ struct PlayerFightView: View {
                                     }
                                 }
                                 HStack(alignment: .bottom) {
-                                    CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontColor: Color("MainPanel"), fontSize: mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontColor: Color("MainPanel"), fontSize: General.mediumFont, isBold: true)
                                     Spacer()
-                                    CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentFighter().currhp)", "\(player.getCurrentFighter().getModifiedBase().health)"]), fontColor: Color("MainPanel"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: "hpBar", params: ["\(player.getCurrentFighter().currhp)", "\(player.getCurrentFighter().getModifiedBase().health)"]), fontColor: Color("MainPanel"), fontSize: General.smallFont)
                                 }
                                 ZStack(alignment: .leading) {
                                     Rectangle().fill(Color("Border")).frame(height: 6)
                                     Rectangle().fill(getHealthColor()).frame(width: calcWidth(fighter: player.getCurrentFighter()), height: 6).animation(.default, value: player.getCurrentFighter().currhp)
                                 }
                             }
-                            .frame(width: 195 - outerPadding - innerPadding/2).padding(.leading, innerPadding/2).padding(.trailing, outerPadding).padding(.top, -20)
+                            .frame(width: 195 - General.outerPadding - General.innerPadding/2).padding(.leading, General.innerPadding/2).padding(.trailing, General.outerPadding).padding(.top, -20)
                         }
                         .offset(x: offset).animation(.linear(duration: 0.3), value: offset)
                     }
@@ -138,30 +138,30 @@ struct PlayerFightView: View {
                     Group {
                         if isGameOver {
                             ZStack(alignment: .topLeading) {
-                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 VStack(alignment: .leading, spacing: 0) {
-                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victory" : "defeat").uppercased(), fontSize: mediumFont, isBold: true)
-                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victoryMsg" : "defeatMsg"), fontSize: smallFont)
+                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victory" : "defeat").uppercased(), fontSize: General.mediumFont, isBold: true)
+                                    CustomText(text: Localization.shared.getTranslation(key: winner == player.id ? "victoryMsg" : "defeatMsg"), fontSize: General.smallFont)
                                 }
-                                .padding(.all, outerPadding)
+                                .padding(.all, General.outerPadding)
                             }
-                            .padding([.leading, .bottom, .trailing], outerPadding)
+                            .padding([.leading, .bottom, .trailing], General.outerPadding)
                         } else if currentSection == Section.summary {
                             ZStack {
-                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                 ScrollView(.vertical, showsIndicators: false) {
                                     ScrollViewReader { value in
                                         ForEach(fightLogic.fightLog.indices, id: \.self) { index in
-                                            CustomText(text: fightLogic.fightLog[index], fontSize: smallFont).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, innerPadding).id(index)
+                                            CustomText(text: fightLogic.fightLog[index], fontSize: General.smallFont).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, General.innerPadding).id(index)
                                                 .onAppear {
                                                     value.scrollTo(index, anchor: .bottom)
                                                 }
                                         }
                                     }
                                 }
-                                .padding(.vertical, innerPadding)
+                                .padding(.vertical, General.innerPadding)
                             }
-                            .padding([.leading, .bottom, .trailing], outerPadding)
+                            .padding([.leading, .bottom, .trailing], General.outerPadding)
                         } else if currentSection != Section.waiting {
                             ScrollView(.vertical, showsIndicators: false) {
                                 Group {
@@ -177,15 +177,15 @@ struct PlayerFightView: View {
                                         InfoView(fightLogic: fightLogic, player: player)
                                     }
                                 }
-                                .frame(width: geometry.size.width - 30).padding(.horizontal, outerPadding)
+                                .frame(width: geometry.size.width - 30).padding(.horizontal, General.outerPadding)
                             }
-                            .padding(.bottom, outerPadding)
+                            .padding(.bottom, General.outerPadding)
                         } else {
                             ZStack(alignment: .topLeading) {
-                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: borderWidth))
-                                CustomText(text: Localization.shared.getTranslation(key: "waiting"), fontSize: smallFont).padding(.all, outerPadding)
+                                Rectangle().fill(Color("MainPanel")) .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
+                                CustomText(text: Localization.shared.getTranslation(key: "waiting"), fontSize: General.smallFont).padding(.all, General.outerPadding)
                             }
-                            .padding([.leading, .bottom, .trailing], outerPadding)
+                            .padding([.leading, .bottom, .trailing], General.outerPadding)
                         }
                     }
                 }

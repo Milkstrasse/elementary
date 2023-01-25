@@ -62,7 +62,7 @@ struct MainView: View {
                                         manager.setView(view: AnyView(ModeSelectionView().environmentObject(manager)))
                                     }
                                 }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                    BasicButton(label: Localization.shared.getTranslation(key: "fight"), width: 175, height: General.largeHeight, fontSize: General.mediumFont)
                                 }
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
@@ -72,7 +72,7 @@ struct MainView: View {
                                         manager.setView(view: AnyView(OverviewView().environmentObject(manager)))
                                     }
                                 }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                    BasicButton(label: Localization.shared.getTranslation(key: "overview"), width: 175, height: General.largeHeight, fontSize: General.mediumFont)
                                 }
                                 Button(action: {
                                     AudioPlayer.shared.playStandardSound()
@@ -82,15 +82,15 @@ struct MainView: View {
                                         manager.setView(view: AnyView(ShopView(userProgress: GlobalData.shared.userProgress, currentFighter: currentFighter).environmentObject(manager)))
                                     }
                                 }) {
-                                    BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: largeHeight, fontSize: mediumFont)
+                                    BasicButton(label: Localization.shared.getTranslation(key: "shop"), width: 175, height: General.largeHeight, fontSize: General.mediumFont)
                                 }
                             }
-                            .padding(.bottom, outerPadding)
+                            .padding(.bottom, General.outerPadding)
                         }
-                        .padding(.horizontal, outerPadding)
+                        .padding(.horizontal, General.outerPadding)
                     }
                     VStack {
-                        HStack(spacing: innerPadding) {
+                        HStack(spacing: General.innerPadding) {
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()
                                 
@@ -143,7 +143,7 @@ struct MainView: View {
                             }
                             Spacer()
                         }
-                        .padding(.all, outerPadding)
+                        .padding(.all, General.outerPadding)
                         Spacer()
                     }
                 }
