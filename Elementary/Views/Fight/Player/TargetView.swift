@@ -34,14 +34,12 @@ struct TargetView: View {
             return Localization.shared.getTranslation(key: "superEffective")
         case GlobalData.shared.elementalModifier:
             return Localization.shared.getTranslation(key: "veryEffective")
-        case 1:
-            return Localization.shared.getTranslation(key: "effective")
         case 1/GlobalData.shared.elementalModifier:
             return Localization.shared.getTranslation(key: "notVeryEffective")
         case 1/(GlobalData.shared.elementalModifier * 2):
             return Localization.shared.getTranslation(key: "notEffective")
         default:
-            return Localization.shared.getTranslation(key: "ineffective")
+            return Localization.shared.getTranslation(key: "effective")
         }
     }
     

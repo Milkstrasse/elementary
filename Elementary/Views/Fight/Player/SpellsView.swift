@@ -40,14 +40,12 @@ struct SpellsView: View {
             return "superEffective"
         case GlobalData.shared.elementalModifier:
             return "veryEffective"
-        case 1:
-            return "effective"
         case 1/GlobalData.shared.elementalModifier:
             return "notVeryEffective"
         case 1/(GlobalData.shared.elementalModifier * 2):
             return "notEffective"
         default:
-            return "ineffective"
+            return "effective"
         }
     }
     

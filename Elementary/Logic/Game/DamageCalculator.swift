@@ -142,12 +142,6 @@ struct DamageCalculator {
             }
         }
         
-        if defender.getArtifact().name == Artifacts.shield.rawValue && weather?.name != Weather.heavyStorm.rawValue {
-            if modifier < GlobalData.shared.elementalModifier {
-                return 0
-            }
-        }
-        
         return modifier
     }
     

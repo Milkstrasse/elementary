@@ -118,8 +118,6 @@ class Fighter: Hashable, Equatable {
                 agility += 40
             } else if getArtifact().name == Artifacts.armor.rawValue || getArtifact().name == Artifacts.sword.rawValue {
                 attack += 40
-            } else if getArtifact().name == Artifacts.shield.rawValue {
-                health = 1
             } else if  getArtifact().name == Artifacts.fetish.rawValue {
                 for hex in hexes {
                     if !hex.positive {
@@ -162,12 +160,6 @@ class Fighter: Hashable, Equatable {
     /// - Parameter artifact: The desired artifact
     func setArtifact(artifact: Int) {
         self.artifact = Artifacts.allCases[artifact].getArtifact()
-        
-        if self.artifact.name == Artifacts.shield.rawValue {
-            currhp = 1
-        } else {
-            currhp = base.health
-        }
     }
     
     /// Changes the temporary artifact of a fighter.
