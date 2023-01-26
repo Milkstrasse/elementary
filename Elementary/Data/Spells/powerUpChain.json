@@ -7,12 +7,12 @@
       {
           "power": 0,
           "range": 0,
-          "hex": "attackBoost"
+          "hex": "chained"
       },
       {
           "power": 0,
           "range": 0,
-          "hex": "chained"
+          "hex": "attackBoost"
       }
   ]
 }

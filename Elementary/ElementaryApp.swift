@@ -61,6 +61,7 @@ struct ElementaryApp: App {
                             CustomText(text: Localization.shared.getTranslation(key: "tip\(randomInt)"), fontSize: General.mediumFont)
                         }
                     }
+                    .rotationEffect(.degrees(90))
                 } else {
                     manager.getCurrentView()
                 }
