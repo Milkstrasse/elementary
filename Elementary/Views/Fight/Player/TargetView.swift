@@ -49,7 +49,7 @@ struct TargetView: View {
     func generateInfo(fighter: Fighter) -> String {
         let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]
         
-        if spellIndex >= 0 && player.getCurrentFighter().multiSpells[spellIndex].typeID > 9 {
+        if spellIndex >= 0 && player.getCurrentFighter().multiSpells[spellIndex].typeID > 10 {
             return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"])
         } else {
             return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + " - " + getEffectiveness(fighter: fighter, spellIndex: spellIndex)

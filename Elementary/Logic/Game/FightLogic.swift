@@ -385,14 +385,22 @@ class FightLogic: ObservableObject {
                     if singleMode {
                         for spell in source.singleSpells.indices { //spell could be overwritten -> search
                             if source.singleSpells[spell].name == moveSpell.name {
-                                source.lastSpell = spell
+                                if source.lastSpell == -1 {
+                                    source.lastSpell = -3
+                                } else {
+                                    source.lastSpell = spell
+                                }
                                 break
                             }
                         }
                     } else {
                         for spell in source.multiSpells.indices { //spell could be overwritten -> search
                             if source.multiSpells[spell].name == moveSpell.name {
-                                source.lastSpell = spell
+                                if source.lastSpell == -1 {
+                                    source.lastSpell = -3
+                                } else {
+                                    source.lastSpell = spell
+                                }
                                 break
                             }
                         }

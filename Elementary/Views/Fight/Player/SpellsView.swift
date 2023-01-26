@@ -55,7 +55,7 @@ struct SpellsView: View {
     ///   - fighter: The fighter with the spell
     /// - Returns: Returns a generated description for a spell
     func generateDescription(spell: Spell, fighter: Fighter) -> String {
-        if spell.typeID > 9 {
+        if spell.typeID > 10 {
             return "\(spell.uses - spell.useCounter)/\(spell.uses)MP"
         } else {
             return "\(spell.uses - spell.useCounter)/\(spell.uses)MP - " + Localization.shared.getTranslation(key: getEffectiveness(spell: spell))

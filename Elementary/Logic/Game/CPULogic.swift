@@ -76,7 +76,7 @@ struct CPULogic {
         
         //top priority: find move that defeats the enemy fighter!
         for spell in availableSpells {
-            if attacker.singleSpells[spell].typeID < 10 {
+            if attacker.singleSpells[spell].typeID < 11 {
                 if DamageCalculator.shared.willDefeatFighter(attacker: attacker, defender: defender, spell: attacker.singleSpells[spell], subSpell: attacker.singleSpells[spell].subSpells[0], spellElement: attacker.singleSpells[spell].element, weather: weather) {
                     return Move(source: player.currentFighterId, index: -1, target: target.currentFighterId, targetedPlayer: target.id, spell: spell, type: MoveType.spell)
                 }
@@ -166,7 +166,7 @@ struct CPULogic {
         bestSpell = (calcDamage(attacker: attacker, defender: defender, spell: attacker.singleSpells[availableSpells[0]], weather: weather), availableSpells[0])
         
         for index in 1 ..< availableSpells.count {
-            if attacker.singleSpells[availableSpells[index]].typeID < 10 {
+            if attacker.singleSpells[availableSpells[index]].typeID < 11 {
                 let dmg: Float = calcDamage(attacker: attacker, defender: defender, spell: attacker.singleSpells[availableSpells[index]], weather: weather)
                 if dmg > bestSpell.0 {
                     bestSpell = (dmg, index)
@@ -250,6 +250,7 @@ struct CPULogic {
     /// - Returns: Returns the minimu damage of the spell
     private func calcDamage(attacker: Fighter, defender: Fighter, spell: Spell, weather: Hex?) -> Float {
         var dmg: Float
+        
         switch spell.typeID {
         case 1:
             dmg = Float(spell.subSpells[0].power)
@@ -259,6 +260,12 @@ struct CPULogic {
             dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
         case 5:
             dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.currhp)
+        case 10:
+            if attacker.lastSpell >= 0 || attacker.lastSpell == -2 {
+                dmg = 0
+            } else {
+                fallthrough
+            }
         default:
             dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather)
         }

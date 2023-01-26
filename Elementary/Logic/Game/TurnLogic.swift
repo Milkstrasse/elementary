@@ -193,6 +193,8 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "spellFailed")
             } else if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
                 return Localization.shared.getTranslation(key: "spellFailed")
+            } else if spell.typeID == 10 && (attacker.lastSpell >= 0 || attacker.lastSpell == -2) {
+                return Localization.shared.getTranslation(key: "spellFailed")
             }
             
             if usedSpell.range == 1 {
