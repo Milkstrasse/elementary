@@ -216,10 +216,8 @@ class Player: ObservableObject {
         
         //apply artifact effect
         if fightLogic.weather?.name != Weather.volcanicStorm.rawValue && getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            if fightLogic.weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                text += Localization.shared.getTranslation(key: "statDecreased", params: [oppositePlayer.getCurrentFighter().name, "attack"]) + "\n"
-            } else {
-                text += Localization.shared.getTranslation(key: "hexFailed")
+            if fightLogic.weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                text += Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [oppositePlayer.getCurrentFighter().name]) + "\n"
             }
         }
         

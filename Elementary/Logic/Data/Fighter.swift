@@ -270,12 +270,12 @@ class Fighter: Hashable, Equatable {
     /// - Parameters:
     ///   - hex: The desired hex
     ///   - resistable: Indicates wether the hex can be resisted or not
-    /// - Returns: Returns whether the hex has been applied successfully or not
-    func applyHex(hex: Hex, resistable: Bool = true) -> Bool {
+    /// - Returns: Returns a numbered outcome, 0 = success, 1 = failure, 2 = resistance
+    func applyHex(hex: Hex, resistable: Bool = true) -> Int {
         if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < (getModifiedBase().resistance/10 * getModifiedBase().resistance/10)/10 {
-                return false
+                return 2
             }
         }
         
@@ -307,11 +307,11 @@ class Fighter: Hashable, Equatable {
             //checks if other hex or an artifact prevents the new hex
             if !hex.positive {
                 if hasHex(hexName: Hexes.blessed.rawValue) {
-                    return false
+                    return 1
                 }
             } else if hex.name == Hexes.healed.rawValue {
                 if hasHex(hexName: Hexes.blocked.rawValue) {
-                    return false
+                    return 1
                 }
             }
             
@@ -321,46 +321,46 @@ class Fighter: Hashable, Equatable {
             switch hex.name {
             case Hexes.attackBoost.rawValue:
                 attackMod += 1
-                return true
+                return 0
             case Hexes.attackDrop.rawValue:
                 attackMod -= 1
-                return true
+                return 0
             case Hexes.defenseBoost.rawValue:
                 defenseMod += 1
-                return true
+                return 0
             case Hexes.defenseDrop.rawValue:
                 defenseMod -= 1
-                return true
+                return 0
             case Hexes.agilityBoost.rawValue:
                 agilityMod += 1
-                return true
+                return 0
             case Hexes.agilityDrop.rawValue:
                 agilityMod -= 1
-                return true
+                return 0
             case Hexes.precisionBoost.rawValue:
                 precisionMod += 1
-                return true
+                return 0
             case Hexes.precisionDrop.rawValue:
                 precisionMod -= 1
-                return true
+                return 0
             case Hexes.resistanceBoost.rawValue:
                 resistanceMod += 1
-                return true
+                return 0
             case Hexes.resistanceDrop.rawValue:
                 resistanceMod -= 1
-                return true
+                return 0
             case Hexes.invigorated.rawValue:
                 manaUse = 1
-                return true
+                return 0
             case Hexes.exhausted.rawValue:
                 manaUse = 3
-                return true
+                return 0
             default:
-                return true
+                return 0
             }
         }
         
-        return false
+        return 1
     }
     
     /// Removes an hex from the fighter and reverts changes made by the hex

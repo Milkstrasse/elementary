@@ -55,170 +55,16 @@ struct HexApplication {
         }
         
         //try to apply hex
-        switch hex {
-        case Hexes.attackBoost.rawValue:
-            if target.applyHex(hex: Hexes.attackBoost.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "attack"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.attackDrop.rawValue:
-            if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "attack"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.defenseBoost.rawValue:
-            if target.applyHex(hex: Hexes.defenseBoost.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "defense"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.defenseDrop.rawValue:
-            if target.applyHex(hex: Hexes.defenseDrop.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "defense"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.agilityBoost.rawValue:
-            if target.applyHex(hex: Hexes.agilityBoost.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "agility"])
-            } else {
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.agilityDrop.rawValue:
-            if target.applyHex(hex: Hexes.agilityDrop.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "agility"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.precisionBoost.rawValue:
-            if target.applyHex(hex: Hexes.precisionBoost.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "precision"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.precisionDrop.rawValue:
-            if target.applyHex(hex: Hexes.precisionDrop.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "precision"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.resistanceBoost.rawValue:
-            if target.applyHex(hex: Hexes.resistanceBoost.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexPositive, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statIncreased", params: [target.name, "resistance"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.resistanceDrop.rawValue:
-            if target.applyHex(hex: Hexes.resistanceDrop.getHex(), resistable: resistable) {
-                AudioPlayer.shared.playConfirmSound()
-                if AudioPlayer.shared.hapticToggle {
-                    let haptic = UIImpactFeedbackGenerator(style: .medium)
-                    haptic.impactOccurred()
-                }
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "statDecreased", params: [target.name, "resistance"])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        case Hexes.taunted.rawValue:
-            if target.applyHex(hex: Hexes.taunted.getHex(), resistable: false) {
-                AudioPlayer.shared.playConfirmSound()
-                
-                targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
-                
-                return Localization.shared.getTranslation(key: "nameProvoked", params: [target.name])
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
-            }
-        default: //non stat hexes or unknown hex
+        if hex != nil {
             if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
-                if target.applyHex(hex: appliedHex, resistable: resistable) {
+                switch target.applyHex(hex: appliedHex, resistable: resistable) {
+                case 1:
+                    AudioPlayer.shared.playCancelSound()
+                    return Localization.shared.getTranslation(key: "hexFailed")
+                case 2:
+                    AudioPlayer.shared.playCancelSound()
+                    return Localization.shared.getTranslation(key: "hexResisted", params: [target.name])
+                default:
                     AudioPlayer.shared.playConfirmSound()
                     if AudioPlayer.shared.hapticToggle {
                         let haptic = UIImpactFeedbackGenerator(style: .medium)
@@ -231,15 +77,13 @@ struct HexApplication {
                         targetPlayer.setState(state: PlayerState.hexNegative, fighter: target)
                     }
                     
-                    return Localization.shared.getTranslation(key: "becameHex", params: [target.name, appliedHex.name])
-                } else {
-                    AudioPlayer.shared.playCancelSound()
-                    return Localization.shared.getTranslation(key: "hexFailed")
+                    return Localization.shared.getTranslation(key: hex!, params: [target.name])
+                    
                 }
-            } else {
-                AudioPlayer.shared.playCancelSound()
-                return Localization.shared.getTranslation(key: "hexFailed")
             }
         }
+        
+        AudioPlayer.shared.playCancelSound()
+        return Localization.shared.getTranslation(key: "hexFailed")
     }
 }

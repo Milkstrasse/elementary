@@ -44,14 +44,14 @@ class FightLogic: ObservableObject {
         if singleMode {
             //apply effect of artifact on "entering"
             if players[0].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-                if players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                    backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [players[1].getCurrentFighter().name, "attack"]))
+                if players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                    backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[1].getCurrentFighter().name]))
                 }
             }
             
             if players[1].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-                if players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                    backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [players[0].getCurrentFighter().name, "attack"]))
+                if players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                    backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[0].getCurrentFighter().name]))
                 }
             }
         } else {
@@ -59,8 +59,8 @@ class FightLogic: ObservableObject {
                 //apply effect of artifact on "entering"
                 if fighter.getArtifact().name == Artifacts.mask.rawValue {
                     for fghtr in players[1].fighters {
-                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                            backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [fghtr.name, "attack"]))
+                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                            backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
                         }
                     }
                 }
@@ -70,8 +70,8 @@ class FightLogic: ObservableObject {
                 //apply effect of artifact on "entering"
                 if fighter.getArtifact().name == Artifacts.mask.rawValue {
                     for fghtr in players[0].fighters {
-                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) {
-                            backupLog.append(Localization.shared.getTranslation(key: "statDecreased", params: [fghtr.name, "attack"]))
+                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                            backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
                         }
                     }
                 }
@@ -479,16 +479,16 @@ class FightLogic: ObservableObject {
                 
                 if !singleMode && spell.range == 2 {
                     for fighter in originalArr[index].player.fighters.indices {
-                        addSpecialTurns(playerMove: originalArr[index], fighter: fighter, oppositePlayer: originalArr[index].player, index: index, currentOffset: offset)
+                        offset = addSpecialTurns(playerMove: originalArr[index], fighter: fighter, oppositePlayer: originalArr[index].player, index: index, currentOffset: offset)
                     }
                 } else if !singleMode && spell.range == 4 {
                     for fighter in oppositePlayer.fighters.indices {
-                        addSpecialTurns(playerMove: originalArr[index], fighter: fighter, oppositePlayer: oppositePlayer, index: index, currentOffset: offset)
+                        offset = addSpecialTurns(playerMove: originalArr[index], fighter: fighter, oppositePlayer: oppositePlayer, index: index, currentOffset: offset)
                     }
                 } else if spell.range >= 3 {
-                    addSpecialTurns(playerMove: originalArr[index], fighter: originalArr[index].move.target, oppositePlayer: oppositePlayer, index: index, currentOffset: offset)
+                    offset = addSpecialTurns(playerMove: originalArr[index], fighter: originalArr[index].move.target, oppositePlayer: oppositePlayer, index: index, currentOffset: offset)
                 } else {
-                    addSpecialTurns(playerMove: originalArr[index], fighter: originalArr[index].move.target, oppositePlayer: originalArr[index].player, index: index, currentOffset: offset)
+                    offset = addSpecialTurns(playerMove: originalArr[index], fighter: originalArr[index].move.target, oppositePlayer: originalArr[index].player, index: index, currentOffset: offset)
                 }
             }
             
@@ -524,7 +524,7 @@ class FightLogic: ObservableObject {
     ///   - oppositePlayer: The opposite player
     ///   - index: The index of the current player move
     ///   - currentOffset: The current offset to correctly insert move into the queue
-    private func addSpecialTurns(playerMove: (player: Player, move: Move), fighter: Int, oppositePlayer: Player, index: Int, currentOffset: Int) {
+    private func addSpecialTurns(playerMove: (player: Player, move: Move), fighter: Int, oppositePlayer: Player, index: Int, currentOffset: Int) -> Int {
         var offset: Int = currentOffset
         
         //effect of sword artifact
@@ -545,6 +545,8 @@ class FightLogic: ObservableObject {
         playerQueue.insert((player: oppositePlayer, move: Move(source: playerMove.move.target, index: -1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
 
         offset += 1
+        
+        return offset
     }
     
     /// Executes a move from the queue and skips unneccessary moves.

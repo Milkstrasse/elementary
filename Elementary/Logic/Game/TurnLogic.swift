@@ -135,7 +135,7 @@ class TurnLogic {
             
             //if fighter was forced to use spells with no uses
             if spell.useCounter - attacker.manaUse > spell.uses {
-                return Localization.shared.getTranslation(key: "fail")
+                return Localization.shared.getTranslation(key: "spellFailed")
             }
             
             return attack(player: player, move: move, attacker: attacker, defender: defender)
@@ -166,16 +166,16 @@ class TurnLogic {
         if usedSpell.range == 1 {
             if fightLogic!.singleMode {
                 if defender.lastSpell >= 0 && defender.singleSpells[defender.lastSpell].typeID == 13 {
-                    if spell.typeID != 2 {
-                        return Localization.shared.getTranslation(key: "fail")
+                    if spell.typeID != 2 { //attack can't go through shield
+                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected")
                     } else {
                         usedShield = true
                     }
                 }
             } else {
                 if defender.lastSpell >= 0 && defender.multiSpells[defender.lastSpell].typeID == 13 {
-                    if spell.typeID != 2 {
-                        return Localization.shared.getTranslation(key: "fail")
+                    if spell.typeID != 2 { //attack can't go through shield
+                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected")
                     } else {
                         usedShield = true
                     }
@@ -183,16 +183,16 @@ class TurnLogic {
             }
         }
         
-        if attacker.hasHex(hexName: Hexes.taunted.rawValue) && usedSpell.power <= 0 {
-            return Localization.shared.getTranslation(key: "fail")
+        if attacker.hasHex(hexName: Hexes.taunted.rawValue) && usedSpell.power <= 0 { //taunted -> has to attack
+            return Localization.shared.getTranslation(key: "spellFailed")
         }
         
         //determine what kind of attack this is
         if usedSpell.power > 0 { //damaging attack
             if defender.currhp == 0 || oppositePlayer.hasToSwap { //target no longer fighting
-                return Localization.shared.getTranslation(key: "fail")
+                return Localization.shared.getTranslation(key: "spellFailed")
             } else if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "fail")
+                return Localization.shared.getTranslation(key: "spellFailed")
             }
             
             if usedSpell.range == 1 {
@@ -230,7 +230,7 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
                 if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                    return Localization.shared.getTranslation(key: "fail")
+                    return Localization.shared.getTranslation(key: "hexResisted")
                 }
                 
                 if move.targetedPlayer == player.id {
@@ -241,7 +241,7 @@ class TurnLogic {
             }
         } else if usedSpell.healAmount > 0 {
             if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "fail")
+                return Localization.shared.getTranslation(key: "healFailed")
             }
             
             oppositePlayer.setState(state: PlayerState.healing, index: move.target)
@@ -274,7 +274,7 @@ class TurnLogic {
             }
         } else {
             if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic?.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "fail")
+                return Localization.shared.getTranslation(key: "spellFailed")
             }
             
             switch spell.typeID {
@@ -287,7 +287,7 @@ class TurnLogic {
             case 13:
                 //shield can't be used twice in a row -> failure
                 if attacker.lastSpell == -2 {
-                    return Localization.shared.getTranslation(key: "fail")
+                    return Localization.shared.getTranslation(key: "spellFailed")
                 } else {
                     return Localization.shared.getTranslation(key: "nameProtected", params: [attacker.name])
                 }
@@ -342,7 +342,7 @@ class TurnLogic {
                 break
             }
             
-            return Localization.shared.getTranslation(key: "fail")
+            return Localization.shared.getTranslation(key: "spellFailed")
         }
     }
     
