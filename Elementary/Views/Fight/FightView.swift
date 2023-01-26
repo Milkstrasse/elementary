@@ -20,7 +20,7 @@ enum Section {
 struct FightView: View {
     @EnvironmentObject var manager: ViewManager
     
-    let fightLogic: FightLogic
+    @ObservedObject var fightLogic: FightLogic
     
     @State var transitionToggle: Bool = true
     
@@ -33,6 +33,7 @@ struct FightView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            Color(hex: fightLogic.weather?.element.color ?? "#FF42A1").animation(.linear, value: fightLogic.weather).ignoresSafeArea()
             VStack {
                 Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
                 Spacer()
