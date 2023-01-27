@@ -212,6 +212,11 @@ struct PlayerSelectionView: View {
                                         ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
                                                 addFighter(fighter: fighter)
+                                                
+                                                offset = 0
+                                                
+                                                selectionToggle = false
+                                                infoToggle = true
                                             }) {
                                                 SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
@@ -221,6 +226,11 @@ struct PlayerSelectionView: View {
                                         ForEach(GlobalData.shared.getSecondSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
                                                 addFighter(fighter: fighter)
+                                                
+                                                offset = 0
+                                                
+                                                selectionToggle = false
+                                                infoToggle = true
                                             }) {
                                                 SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
@@ -236,6 +246,11 @@ struct PlayerSelectionView: View {
                                     ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { fighter in
                                         Button(action: {
                                             addFighter(fighter: fighter)
+                                            
+                                            offset = 0
+                                            
+                                            selectionToggle = false
+                                            infoToggle = true
                                         }) {
                                             SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
@@ -245,6 +260,11 @@ struct PlayerSelectionView: View {
                                     ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { fighter in
                                         Button(action: {
                                             addFighter(fighter: fighter)
+                                            
+                                            offset = 0
+                                            
+                                            selectionToggle = false
+                                            infoToggle = true
                                         }) {
                                             SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
