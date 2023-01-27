@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Affects a fighter during multiple rounds.
 class Hex: Hashable {
-    private let id = UUID()
+    private let id: UUID
     
     let name: String
     let symbol: UInt16
@@ -31,6 +31,8 @@ class Hex: Hashable {
     ///   - damageAmount: The amount of damage the hex does
     ///   - opposite: The opposite of the hex if available
     init(name: String, symbol: UInt16, duration: Int, element: Element = Element(), positive: Bool, damageAmount: Int = 0, opposite: Hexes? = nil) {
+        id = UUID()
+        
         self.name = name
         self.symbol = symbol
         self.duration = duration

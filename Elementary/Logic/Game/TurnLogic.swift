@@ -21,7 +21,7 @@ class TurnLogic {
     func startTurn(player: Player, fightLogic: FightLogic) -> String {
         self.fightLogic = fightLogic
         
-        let move: Move = fightLogic.playerQueue[0].move
+        let move: Move = fightLogic.playerQueue.queue[0].move
         let attacker: Fighter = player.getFighter(index: move.source)
         
         //determine targeted fighter
@@ -167,7 +167,7 @@ class TurnLogic {
             if fightLogic!.singleMode {
                 if defender.lastSpell >= 0 && defender.singleSpells[defender.lastSpell].typeID == 13 {
                     if spell.typeID != 2 { //attack can't go through shield
-                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected")
+                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
                     } else {
                         usedShield = true
                     }
@@ -175,7 +175,7 @@ class TurnLogic {
             } else {
                 if defender.lastSpell >= 0 && defender.multiSpells[defender.lastSpell].typeID == 13 {
                     if spell.typeID != 2 { //attack can't go through shield
-                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected")
+                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
                     } else {
                         usedShield = true
                     }
