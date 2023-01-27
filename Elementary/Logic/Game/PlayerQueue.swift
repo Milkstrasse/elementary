@@ -116,12 +116,28 @@ struct PlayerQueue {
                         source.lastSpell = -2 //shield fails
                     } else if source.multiSpells[source.lastSpell].typeID == 13 {
                         source.lastSpell = -2 //shield fails
+                    } else {
+                        if singleMode {
+                            for spell in source.singleSpells.indices { //spell could be overwritten -> search
+                                if source.singleSpells[spell].name == moveSpell.name {
+                                    source.lastSpell = spell
+                                    break
+                                }
+                            }
+                        } else {
+                            for spell in source.multiSpells.indices { //spell could be overwritten -> search
+                                if source.multiSpells[spell].name == moveSpell.name {
+                                    source.lastSpell = spell
+                                    break
+                                }
+                            }
+                        }
                     }
                 } else {
                     if singleMode {
                         for spell in source.singleSpells.indices { //spell could be overwritten -> search
                             if source.singleSpells[spell].name == moveSpell.name {
-                                if source.lastSpell == -1 {
+                                if source.lastSpell == -1 && moveSpell.typeID == 10 {
                                     source.lastSpell = -3
                                 } else {
                                     source.lastSpell = spell
