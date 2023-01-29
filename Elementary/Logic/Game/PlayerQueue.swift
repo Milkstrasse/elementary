@@ -281,7 +281,13 @@ struct PlayerQueue {
                             if originalArr[n].player.id != originalArr[index].player.id {
                                 if source.multiSpells[originalArr[n].move.spell].range >= 3 {
                                     originalArr[n].move.target = originalArr[index].move.target
-                                    queue[queue.count - originalArr.count + n].move.target = originalArr[index].move.target
+                                    for m in index + offset ..< queue.count {
+                                        if queue[m].player.id != originalArr[index].player.id {
+                                            if source.multiSpells[queue[m].move.spell].range >= 3 {
+                                                queue[m].move.target = originalArr[index].move.target
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -310,6 +316,16 @@ struct PlayerQueue {
             //fighter receives artifact effects
             queue.append((player: originalArr[index].player, move: Move(source: originalArr[index].move.source, index: -1, target: originalArr[index].move.source, targetedPlayer: originalArr[index].player.id, spell: -1, type: MoveType.artifact)))
         }
+        
+        /*for playerMove in queue {
+            if singleMode && playerMove.move.spell >= 0 {
+                print("player: \(playerMove.player.id), source: \(playerMove.move.source), target: \(playerMove.move.target), targetedPlayer: \(playerMove.move.targetedPlayer), spell: " + playerMove.player.fighters[playerMove.move.source].singleSpells[playerMove.move.spell].name + ", type: " + playerMove.move.type.rawValue)
+            } else if playerMove.move.spell >= 0 {
+                print("player: \(playerMove.player.id), source: \(playerMove.move.source), target: \(playerMove.move.target), targetedPlayer: \(playerMove.move.targetedPlayer), spell: " + playerMove.player.fighters[playerMove.move.source].multiSpells[playerMove.move.spell].name + ", type: " + playerMove.move.type.rawValue)
+            } else {
+                print("player: \(playerMove.player.id), source: \(playerMove.move.source), target: \(playerMove.move.target), targetedPlayer: \(playerMove.move.targetedPlayer), type: " + playerMove.move.type.rawValue)
+            }
+        }*/
     }
     
     /// Add artifact and fainting/leaving moves to player queue.
