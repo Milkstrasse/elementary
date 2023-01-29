@@ -30,26 +30,31 @@ struct PlayerSelectionView: View {
     
     /// Tries to add a selected fighter to the team.
     /// - Parameter fighter: The selected fighter
-    func addFighter(fighter: Fighter) {
+    /// - Returns: Returns if fighter was successfully added to the team
+    func addFighter(fighter: Fighter) -> Bool {
         if GlobalData.shared.artifactUse == 1 && isArtifactInUse(artifact: getArtifact(fighter: fighter)) {
             AudioPlayer.shared.playCancelSound()
+            return false
         } else if GlobalData.shared.teamLimit == 0 {
             AudioPlayer.shared.playStandardSound()
             fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter(images: fighter.images) //make copy
+            return true
         } else if !isPartOfTeam(fighter: fighter) {
             if GlobalData.shared.teamLimit == 2 {
                 for opponent in opponents {
                     if opponent?.name == fighter.name {
                         AudioPlayer.shared.playCancelSound()
-                        return
+                        return false
                     }
                 }
             }
             
             AudioPlayer.shared.playStandardSound()
             fighters[selectedSlot] = SavedFighterData(fighter: fighter).toFighter(images: fighter.images) //make copy
+            return true
         } else {
             AudioPlayer.shared.playCancelSound()
+            return false
         }
     }
     
@@ -211,12 +216,12 @@ struct PlayerSelectionView: View {
                                     HStack(spacing: 5) {
                                         ForEach(GlobalData.shared.getFirstSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
-                                                addFighter(fighter: fighter)
-                                                
-                                                offset = 0
-                                                
-                                                selectionToggle = false
-                                                infoToggle = true
+                                                if addFighter(fighter: fighter) {
+                                                    offset = 0
+                                                    
+                                                    selectionToggle = false
+                                                    infoToggle = true
+                                                }
                                             }) {
                                                 SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
@@ -225,12 +230,12 @@ struct PlayerSelectionView: View {
                                     HStack(spacing: 5) {
                                         ForEach(GlobalData.shared.getSecondSavedHalf(), id: \.self) { fighter in
                                             Button(action: {
-                                                addFighter(fighter: fighter)
-                                                
-                                                offset = 0
-                                                
-                                                selectionToggle = false
-                                                infoToggle = true
+                                                if addFighter(fighter: fighter) {
+                                                    offset = 0
+                                                    
+                                                    selectionToggle = false
+                                                    infoToggle = true
+                                                }
                                             }) {
                                                 SquarePortraitView(fighter: fighter, outfitIndex: fighter.outfitIndex, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                             }
@@ -245,12 +250,12 @@ struct PlayerSelectionView: View {
                                 HStack(spacing: 5) {
                                     ForEach(GlobalData.shared.getFirstHalf(), id: \.self) { fighter in
                                         Button(action: {
-                                            addFighter(fighter: fighter)
-                                            
-                                            offset = 0
-                                            
-                                            selectionToggle = false
-                                            infoToggle = true
+                                            if addFighter(fighter: fighter) {
+                                                offset = 0
+                                                
+                                                selectionToggle = false
+                                                infoToggle = true
+                                            }
                                         }) {
                                             SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
@@ -259,12 +264,12 @@ struct PlayerSelectionView: View {
                                 HStack(spacing: 5) {
                                     ForEach(GlobalData.shared.getSecondHalf(), id: \.self) { fighter in
                                         Button(action: {
-                                            addFighter(fighter: fighter)
-                                            
-                                            offset = 0
-                                            
-                                            selectionToggle = false
-                                            infoToggle = true
+                                            if addFighter(fighter: fighter) {
+                                                offset = 0
+                                                
+                                                selectionToggle = false
+                                                infoToggle = true
+                                            }
                                         }) {
                                             SquarePortraitView(fighter: fighter, outfitIndex: 0, isSelected: self.isSelected(fighter: fighter), isInverted: false)
                                         }
