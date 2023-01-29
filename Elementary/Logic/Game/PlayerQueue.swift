@@ -338,10 +338,10 @@ struct PlayerQueue {
         
         //attacked fighter faints or exits the fight
         queue.insert((player: oppositePlayer, move: Move(source: playerMove.move.target, index: -1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
-
+        
         offset += 1
         
         return offset
     }
-
+    
 }

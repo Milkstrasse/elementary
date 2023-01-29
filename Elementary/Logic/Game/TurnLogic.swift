@@ -203,7 +203,7 @@ class TurnLogic {
                 } else if spell.range < 5 {
                     oppositePlayer.setState(state: PlayerState.hurting, index: move.target)
                 } else {
-                    if move.target >= fightLogic!.gameLogic.fullAmount/2 {
+                    if move.target >= fightLogic!.gameLogic.fighterCounts[0] {
                         player.setState(state: PlayerState.hurting, index: move.target)
                     } else {
                         oppositePlayer.setState(state: PlayerState.hurting, index: move.target)

@@ -101,11 +101,9 @@ struct TeamManager {
     }
     
     /// Checks if team fulfills all requirements to fight.
-    /// - Parameters:
-    ///   - fighters: The fighters of the team
-    ///   - singleMode: Determines the requirements for the team
+    ///   - Parameter fighters: The fighters of the team
     /// - Returns: Returns if team fulfills all fight requirements
-    static func isTeamValid(fighters: [Fighter?], singleMode: Bool) -> Bool {
+    static func isTeamValid(fighters: [Fighter?]) -> Bool {
         var counter: Int = 0
         for fighter in fighters {
             if fighter != nil {
@@ -113,11 +111,7 @@ struct TeamManager {
             }
         }
         
-        if singleMode {
-            return counter > 0 && counter <= 4
-        } else {
-            return counter == 4
-        }
+        return counter > 0 && counter <= 4
     }
     
     /// Resets each fighter in both teams to make them ready for a fight.

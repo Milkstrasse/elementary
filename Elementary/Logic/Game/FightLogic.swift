@@ -29,9 +29,9 @@ class FightLogic: ObservableObject {
     ///   - hasCPUPlayer: If one of the players is the CPU
     init(players: [Player], hasCPUPlayer: Bool, singleMode: Bool) {
         if singleMode {
-            gameLogic = GameLogic(fullAmount: 2)
+            gameLogic = GameLogic(topFighterCount: 1, bottomFighterCount: 1)
         } else {
-            gameLogic = GameLogic(fullAmount: 8)
+            gameLogic = GameLogic(topFighterCount: players[0].fighters.count, bottomFighterCount: players[1].fighters.count)
         }
         
         self.hasCPUPlayer = hasCPUPlayer
@@ -88,11 +88,7 @@ class FightLogic: ObservableObject {
     /// Checks if there are enough fighters on both sides.
     /// - Returns: Returns whether this fight has enough fighters on both sides
     func isValid() -> Bool {
-        if singleMode {
-            return (!players[0].fighters.isEmpty && players[0].fighters.count <= 4) && (!players[1].fighters.isEmpty && players[1].fighters.count <= 4)
-        } else {
-            return players[0].fighters.count == gameLogic.fullAmount/2 && players[1].fighters.count == gameLogic.fullAmount/2
-        }
+        return (!players[0].fighters.isEmpty && players[0].fighters.count <= 4) && (!players[1].fighters.isEmpty && players[1].fighters.count <= 4)
     }
     
     /// Player declares which move they want to make in the following round of the fight.
@@ -111,7 +107,7 @@ class FightLogic: ObservableObject {
             }
         }
         
-        if playerQueue.addToQueue(player: player, move: move, fighterAmount: gameLogic.fullAmount/2) {
+        if playerQueue.addToQueue(player: player, move: move, fighterAmount: gameLogic.fighterCounts[0]) {
             if singleMode {
                 gameLogic.setReady(player: player.id, ready: true)
             } else {
@@ -269,7 +265,6 @@ class FightLogic: ObservableObject {
     ///   - move: The move the player wants to make
     /// - Returns: Returns wether the move gets skipped or not
     private func startTurn(player: Player, move: Move) -> Bool {
-        let oppositePlayer: Player = players[player.getOppositePlayerId()]
         let attacker: Fighter = player.getFighter(index: move.source)
         
         //check if move is skippable
@@ -305,7 +300,7 @@ class FightLogic: ObservableObject {
                 return true
             }
             
-            let target: Fighter = oppositePlayer.getFighter(index: move.target)
+            let target: Fighter = players[move.targetedPlayer].getFighter(index: move.target)
             
             if weather?.name != Weather.volcanicStorm.rawValue {
                 switch move.index {

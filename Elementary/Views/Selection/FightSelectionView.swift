@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FightSelectionView: View {
     @EnvironmentObject var manager: ViewManager
-    @State var gameLogic: GameLogic = GameLogic(fullAmount: 8)
+    @State var gameLogic: GameLogic = GameLogic(topFighterCount: 0, bottomFighterCount: 0)
     
     @State var topFighters: [Fighter?] = [nil, nil, nil, nil]
     @State var bottomFighters: [Fighter?] = [nil, nil, nil, nil]
@@ -119,7 +119,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: topReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: General.smallFont)
                     }
-                    .disabled(!TeamManager.isTeamValid(fighters: topFighters, singleMode: singleMode) || hasCPUPlayer)
+                    .disabled(!TeamManager.isTeamValid(fighters: topFighters) || hasCPUPlayer)
                     Spacer()
                 }
                 .frame(width: 280 + 3 * General.innerPadding/2).rotationEffect(.degrees(180))
@@ -152,7 +152,7 @@ struct FightSelectionView: View {
                     }) {
                         BasicButton(label: bottomReady ? Localization.shared.getTranslation(key: "cancel") : Localization.shared.getTranslation(key: "ready"), width: 110, height: 35, fontSize: General.smallFont)
                     }
-                    .disabled(!TeamManager.isTeamValid(fighters: bottomFighters, singleMode: singleMode))
+                    .disabled(!TeamManager.isTeamValid(fighters: bottomFighters))
                     Spacer()
                 }
                 .frame(width: 280 + 3 * General.innerPadding/2)

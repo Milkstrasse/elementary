@@ -47,7 +47,7 @@ struct TargetView: View {
     /// - Parameter fighter: The targeted fighter
     /// - Returns: Returns generated info on a fighter
     func generateInfo(fighter: Fighter) -> String {
-        let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]
+        let spellIndex: Int = fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]]
         
         if spellIndex >= 0 && player.getCurrentFighter().multiSpells[spellIndex].typeID > 10 {
             return Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"])
@@ -61,7 +61,7 @@ struct TargetView: View {
             VStack(spacing: General.innerPadding/2) {
                 ForEach(fightLogic.players[target].fighters.indices, id: \.self) { index in
                     Button(action: {
-                        if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: target, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                        if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: target, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]], type: MoveType.spell)) {
                             if player.isAtLastFighter(index: player.currentFighterId) {
                                 AudioPlayer.shared.playConfirmSound()
                                 currentSection = Section.waiting
@@ -80,10 +80,10 @@ struct TargetView: View {
                     }
                     .id(index).opacity(fightLogic.players[target].getFighter(index: index).currhp == 0 ? 0.5 : 1.0).disabled(fightLogic.players[target].getFighter(index: index).currhp == 0)
                 }
-                if fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2] > -1 && player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range == 5 {
+                if fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]] > -1 && player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]]].range == 5 {
                     ForEach(player.fighters.indices, id: \.self) { index in
                         Button(action: {
-                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: player.id, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2], type: MoveType.spell)) {
+                            if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: index, targetedPlayer: player.id, spell: fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]], type: MoveType.spell)) {
                                 if player.isAtLastFighter(index: player.currentFighterId) {
                                     AudioPlayer.shared.playConfirmSound()
                                     currentSection = Section.waiting
@@ -105,7 +105,7 @@ struct TargetView: View {
                 }
             }
             .onAppear {
-                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fullAmount/2]].range < 3 {
+                if player.getCurrentFighter().multiSpells[fightLogic.gameLogic.tempSpells[player.currentFighterId + player.id * fightLogic.gameLogic.fighterCounts[0]]].range < 3 {
                     target = player.id
                 } else {
                     target = player.getOppositePlayerId()

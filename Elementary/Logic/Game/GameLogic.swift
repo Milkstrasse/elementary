@@ -11,11 +11,11 @@ struct GameLogic {
     var forfeited: [Bool] = [false, false]
     var tempSpells: [Int]
     
-    let fullAmount: Int
+    let fighterCounts: [Int]
     
-    init(fullAmount: Int) {
-        self.fullAmount = fullAmount
-        tempSpells = [Int](repeating: -1, count: fullAmount)
+    init(topFighterCount: Int, bottomFighterCount: Int) {
+        tempSpells = [Int](repeating: -1, count: topFighterCount + bottomFighterCount)
+        fighterCounts = [topFighterCount, bottomFighterCount]
     }
     
     /// Flags player as ready or not for starting a game, starting a new round or having a rematch.
@@ -32,7 +32,7 @@ struct GameLogic {
     ///   - fighter: The id of the fighter using the spell
     ///   - spell: The id of the spell
     mutating func useSpell(player: Int, fighter: Int, spell: Int) {
-        tempSpells[fighter + player * fullAmount/2] = spell
+        tempSpells[fighter + player * fighterCounts[0]] = spell
     }
     
     /// Removes the spell after an undo.
@@ -40,7 +40,7 @@ struct GameLogic {
     ///   - player: The id of the player
     ///   - fighter: The id of the fighter using the spell
     mutating func removeSpell(player: Int, fighter: Int) {
-        tempSpells[fighter + player * fullAmount/2] = -1
+        tempSpells[fighter + player * fighterCounts[0]] = -1
     }
     
     /// Checks if any spells have been stored.
@@ -48,7 +48,7 @@ struct GameLogic {
     /// - Returns: Returns if atleast one spell has been stored
     func spellHasBeenUsed(player: Int) -> Bool {
         var counter: Int = 0
-        for index in player * fullAmount/2 ..< fullAmount/2 + player * fullAmount/2 {
+        for index in player * fighterCounts[0] ..< fighterCounts[0] + player * fighterCounts[player] {
             if tempSpells[index] > -1 {
                 counter += 1
             }
@@ -59,7 +59,7 @@ struct GameLogic {
     
     /// Remove all stored spells.
     mutating func clearSpells() {
-        tempSpells = [Int](repeating: -1, count: fullAmount)
+        tempSpells = [Int](repeating: -1, count: fighterCounts[0] + fighterCounts[1])
     }
     
     /// Checks if both players are flagged as ready.
