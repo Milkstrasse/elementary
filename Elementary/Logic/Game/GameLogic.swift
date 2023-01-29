@@ -31,7 +31,7 @@ struct GameLogic {
     ///   - player: The id of the player
     ///   - fighter: The id of the fighter using the spell
     ///   - spell: The id of the spell
-    mutating func useSpell(player: Int, fighter: Int, spell: Int) {
+    mutating func storeSpell(player: Int, fighter: Int, spell: Int) {
         tempSpells[fighter + player * fighterCounts[0]] = spell
     }
     

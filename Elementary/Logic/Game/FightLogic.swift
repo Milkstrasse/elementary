@@ -10,6 +10,7 @@ import Foundation
 /// This is the main logic of the game. Stores all participating fighters, determines the turn order and the amount of turns needed in each round, determines when the game is over and who has won.
 class FightLogic: ObservableObject {
     var gameLogic: GameLogic
+    var turnLogic: TurnLogic?
     
     let singleMode: Bool
     let hasCPUPlayer: Bool
@@ -83,6 +84,8 @@ class FightLogic: ObservableObject {
         fightLog = [Localization.shared.getTranslation(key: "fightBegin")]
         
         FightLog.shared.generatePlayerInfo(player1Fighters: players[0].fighters, player2Fighters: players[1].fighters)
+        
+        turnLogic = TurnLogic(fightLogic: self)
     }
     
     /// Checks if there are enough fighters on both sides.
@@ -160,7 +163,7 @@ class FightLogic: ObservableObject {
                         fightLog.append(backupLog.removeFirst())
                     } else {
                         if !playerQueue.queue.isEmpty {
-                            while startTurn(player: playerQueue.queue[0].player, move: playerQueue.queue[0].move) && playerQueue.queue.count > 1 {
+                            while turnLogic!.startTurn(player: playerQueue.queue[0].player, move: playerQueue.queue[0].move) && playerQueue.queue.count > 1 {
                                 playerQueue.queue.removeFirst()
                             }
                             
@@ -257,103 +260,6 @@ class FightLogic: ObservableObject {
         }
         
         gameLogic.setReady(player: player.id, ready: false)
-    }
-    
-    /// Executes a move from the queue and skips unneccessary moves.
-    /// - Parameters:
-    ///   - player: The player that makes the move
-    ///   - move: The move the player wants to make
-    /// - Returns: Returns wether the move gets skipped or not
-    private func startTurn(player: Player, move: Move) -> Bool {
-        let attacker: Fighter = player.getFighter(index: move.source)
-        
-        //check if move is skippable
-        switch move.type {
-        case .spell:
-            if player.hasToSwap || attacker.currhp == 0 { //fighter is unable to use spells
-                return true
-            }
-        case .special:
-            if attacker.hasSwapped {
-                return true
-            } else if !player.hasToSwap && attacker.currhp > 0 { //fighter is still able to fight
-                return true
-            }
-        case .hex:
-            if player.hasToSwap || attacker.currhp == 0 { //fighter is no longer present
-                return true
-            } else if move.index >= attacker.hexes.count { //fighter has not enough hexes
-                return true
-            }
-            
-            let hex: Hex = attacker.hexes[move.index]
-            
-            if hex.damageAmount == 0 { //hex has no effect
-                return true
-            } else if hex.name == Hexes.bombed.rawValue && hex.duration != 1 { //hex has no effect yet
-                return true
-            } else if hex.name == Hexes.doomed.rawValue && hex.duration != 1 { //hex has no effect yet
-                return true
-            }
-        case .artifact:
-            if player.hasToSwap || attacker.currhp == 0 { //fighter is no longer present
-                return true
-            }
-            
-            let target: Fighter = players[move.targetedPlayer].getFighter(index: move.target)
-            
-            if weather?.name != Weather.volcanicStorm.rawValue {
-                switch move.index {
-                case 0:
-                    if singleMode {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    } else {
-                        if attacker.getArtifact().name != Artifacts.sword.rawValue || attacker.multiSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    }
-                case 1:
-                    if singleMode {
-                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.singleSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    } else {
-                        if target.getArtifact().name != Artifacts.helmet.rawValue || attacker.multiSpells[move.spell].subSpells[0].power == 0 {
-                            return true
-                        }
-                    }
-                case 2:
-                    if (target.getArtifact().name != Artifacts.thread.rawValue && attacker.getArtifact().name != Artifacts.thread.rawValue) || target.currhp > 0 {
-                        return true
-                    }
-                default:
-                    if attacker.getArtifact().name != Artifacts.cornucopia.rawValue { //artifact has no effect
-                        return true
-                    } else if attacker.getArtifact().name == Artifacts.potion.rawValue && attacker.currhp > attacker.getModifiedBase().health/2 { //artifact has no effect yet
-                        return true
-                    }
-                }
-            } else { //weather makes artifacts useless
-                return true
-            }
-        default:
-            break
-        }
-        
-        //execute move
-        if move.type == MoveType.swap { //check if swap possible
-            if attacker.hasHex(hexName: Hexes.chained.rawValue) {
-                fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
-            } else {
-                fightLog.append(player.swapFighters(target: move.index, fightLogic: self))
-            }
-        } else {
-            fightLog.append(TurnLogic.shared.startTurn(player: player, fightLogic: self))
-        }
-        
-        return false
     }
     
     /// Checks if game is over.

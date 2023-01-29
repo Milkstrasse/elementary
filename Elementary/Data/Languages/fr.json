@@ -25,7 +25,7 @@
     
     "info": "Info",
     "default": "Défaut",
-    "icequeen": "Reine d'hiver"
+    "icequeen": "Reine d'hiver",
     
     "alchemist": "Alchimiste",
     "enchantress": "Enchanteresse",
@@ -79,6 +79,7 @@
     "rapid": "Rapide",
     "teams": "Covens",
     "artifacts": "Artefacts",
+    "veryLimited": "Très limité",
     "limited": "Limité",
     "unlimited": "Illimité",
     "critical": "Critique",

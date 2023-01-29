@@ -53,6 +53,10 @@
 		B8631ABD28B0323600222E54 /* FighterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8631ABC28B0323600222E54 /* FighterInfoView.swift */; };
 		B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */; };
 		B86E8B782984447F0028F459 /* PlayerQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E8B772984447F0028F459 /* PlayerQueue.swift */; };
+		B86E8B7D2986D74F0028F459 /* AudioSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E8B7C2986D74F0028F459 /* AudioSettingsView.swift */; };
+		B86E8B7F2986D92E0028F459 /* TextSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E8B7E2986D92E0028F459 /* TextSettingsView.swift */; };
+		B86E8B822986DA520028F459 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E8B812986DA520028F459 /* GeneralSettingsView.swift */; };
+		B86E8B842986DA5F0028F459 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E8B832986DA5F0028F459 /* AdvancedSettingsView.swift */; };
 		B887DC222900942300512E65 /* UserProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B887DC212900942300512E65 /* UserProgress.swift */; };
 		B88D9F9128B3E22100AAC683 /* FightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9028B3E22100AAC683 /* FightView.swift */; };
 		B88D9F9328B3E36900AAC683 /* CPUSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */; };
@@ -136,6 +140,10 @@
 		B8631ABC28B0323600222E54 /* FighterInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FighterInfoView.swift; sourceTree = "<group>"; };
 		B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
 		B86E8B772984447F0028F459 /* PlayerQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerQueue.swift; sourceTree = "<group>"; };
+		B86E8B7C2986D74F0028F459 /* AudioSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSettingsView.swift; sourceTree = "<group>"; };
+		B86E8B7E2986D92E0028F459 /* TextSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSettingsView.swift; sourceTree = "<group>"; };
+		B86E8B812986DA520028F459 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
+		B86E8B832986DA5F0028F459 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		B887DC212900942300512E65 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
 		B88D9F9028B3E22100AAC683 /* FightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightView.swift; sourceTree = "<group>"; };
 		B88D9F9228B3E36900AAC683 /* CPUSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUSelectionView.swift; sourceTree = "<group>"; };
@@ -275,13 +283,13 @@
 		B8631A8628AFA17300222E54 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				B86E8B7B2986D6980028F459 /* Settings */,
 				B8AD405628B1819500708AA5 /* CreditsView.swift */,
 				B82256F8292247A3001E083A /* Help */,
 				B8631A8728AFA18900222E54 /* MainView.swift */,
 				B8D3D2CC29013D2B003C4268 /* MissionsView.swift */,
 				B82256F629224786001E083A /* ModeSelection */,
 				B82256F729224793001E083A /* Overview */,
-				B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */,
 				B8A22F91291C0C55006049D2 /* ShopView.swift */,
 			);
 			path = Main;
@@ -297,6 +305,18 @@
 				B8AD419C296579A200729D3A /* Effects.swift */,
 			);
 			path = UIElements;
+			sourceTree = "<group>";
+		};
+		B86E8B7B2986D6980028F459 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B86E8B832986DA5F0028F459 /* AdvancedSettingsView.swift */,
+				B86E8B7C2986D74F0028F459 /* AudioSettingsView.swift */,
+				B86E8B812986DA520028F459 /* GeneralSettingsView.swift */,
+				B8AD404C28B0DE6B00708AA5 /* SettingsView.swift */,
+				B86E8B7E2986D92E0028F459 /* TextSettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		B88D9F8F28B3E21200AAC683 /* Fight */ = {
@@ -523,10 +543,12 @@
 				B8AD41CA296865A900729D3A /* TargetView.swift in Sources */,
 				B8631ABB28AFEB2800222E54 /* General.swift in Sources */,
 				B8631A8028AFA05700222E54 /* Spell.swift in Sources */,
+				B86E8B7D2986D74F0028F459 /* AudioSettingsView.swift in Sources */,
 				B8AD406328B2292200708AA5 /* DamageCalculator.swift in Sources */,
 				B8E943DC28B6407800DECE32 /* TeamView.swift in Sources */,
 				B8631A8828AFA18900222E54 /* MainView.swift in Sources */,
 				B8631A8528AFA0E900222E54 /* FightLog.swift in Sources */,
+				B86E8B822986DA520028F459 /* GeneralSettingsView.swift in Sources */,
 				B8E943D528B559B300DECE32 /* OptionsView.swift in Sources */,
 				B81728B7294F3F4400E647B9 /* Base.swift in Sources */,
 				B8631A7C28AFA05700222E54 /* Move.swift in Sources */,
@@ -550,6 +572,7 @@
 				B8A22F92291C0C55006049D2 /* ShopView.swift in Sources */,
 				B8631A6F28AFA01300222E54 /* Localization.swift in Sources */,
 				B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */,
+				B86E8B7F2986D92E0028F459 /* TextSettingsView.swift in Sources */,
 				B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */,
 				B81728B5294F3E4700E647B9 /* Outfit.swift in Sources */,
 				B8AD406728B2292200708AA5 /* GameLogic.swift in Sources */,
@@ -559,6 +582,7 @@
 				B88D9F9F28B50BA200AAC683 /* PlayerFightView.swift in Sources */,
 				B8AD405528B1287B00708AA5 /* ElementalChartView.swift in Sources */,
 				B8B0F49428AF971D00AA245B /* ElementaryApp.swift in Sources */,
+				B86E8B842986DA5F0028F459 /* AdvancedSettingsView.swift in Sources */,
 				B8631A7028AFA01300222E54 /* GlobalData.swift in Sources */,
 				B8D3D2CD29013D2B003C4268 /* MissionsView.swift in Sources */,
 				B8AD406828B2292200708AA5 /* Player.swift in Sources */,

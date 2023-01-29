@@ -156,10 +156,10 @@ struct SpellsView: View {
                                         }
                                         
                                         if player.getCurrentFighter().multiSpells[index].range%2 != 0 {
-                                            fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                            fightLogic.gameLogic.storeSpell(player: player.id, fighter: player.currentFighterId, spell: index)
                                             currentSection = Section.targeting
                                         } else if fightLogic.makeMove(player: player, move: Move(source: player.currentFighterId, index: -1, target: target, targetedPlayer: targetedPlayer, spell: index, type: MoveType.spell)) {
-                                            fightLogic.gameLogic.useSpell(player: player.id, fighter: player.currentFighterId, spell: index)
+                                            fightLogic.gameLogic.storeSpell(player: player.id, fighter: player.currentFighterId, spell: index)
                                             
                                             if player.isAtLastFighter(index: player.currentFighterId) {
                                                 AudioPlayer.shared.playConfirmSound()
