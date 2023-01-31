@@ -411,8 +411,17 @@ class TurnLogic {
                 
                 return Localization.shared.getTranslation(key: "swappedHexes")
             case 17:
-                attacker.removeAllHexes()
-                defender.removeAllHexes()
+                if fightLogic.singleMode {
+                    attacker.removeAllHexes()
+                    defender.removeAllHexes()
+                } else {
+                    for fighter in fightLogic.players[0].fighters {
+                        fighter.removeAllHexes()
+                    }
+                    for fighter in fightLogic.players[1].fighters {
+                        fighter.removeAllHexes()
+                    }
+                }
                 
                 return Localization.shared.getTranslation(key: "clearedHexes")
             case 18:
