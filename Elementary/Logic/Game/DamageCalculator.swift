@@ -66,9 +66,6 @@ struct DamageCalculator {
         
         //multiply with critical modifier
         var chance: Int = Int.random(in: 0 ..< 100)
-        if attacker.getArtifact().name == Artifacts.bow.rawValue && defender.currhp < defender.getModifiedBase(weather: weather).health/2 {
-            chance -= 30
-        }
         
         if moveSpell.typeID != 1 && chance < (18 + attacker.getModifiedBase().precision) * (10/100) {
             chance = Int.random(in: 0 ..< 100)

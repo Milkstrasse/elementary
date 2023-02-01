@@ -15,13 +15,13 @@ struct Artifact {
 enum Artifacts: String, CaseIterable {
     case noArtifact
     case amulet
-    case bow
+    case armor
     case charm
     case cornucopia
-    case armor
     case crystal
     case fetish
     case grimoire
+    case hat
     case helmet
     case incense
     case mask

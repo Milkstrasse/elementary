@@ -2,7 +2,7 @@
   "element": "rock",
   "typeID": 14,
   "range": 3,
-  "priority": 10,
+  "priority": 9,
   "uses": 24,
   "subSpells": [
       {

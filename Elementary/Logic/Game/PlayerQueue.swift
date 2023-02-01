@@ -193,10 +193,20 @@ struct PlayerQueue {
             spellB = fighterB.multiSpells[playerMoveB.move.spell]
         }
         
+        var priorityA: Int = spellA.priority
+        var priorityB: Int = spellB.priority
+        
+        if fighterA.getArtifact().name == Artifacts.hat.rawValue {
+            priorityA += 7
+        }
+        if fighterA.getArtifact().name == Artifacts.hat.rawValue {
+            priorityB += 7
+        }
+        
         //priority move goes first
-        if spellA.priority > spellB.priority {
+        if priorityA > priorityB {
             return true
-        } else if spellA.priority < spellB.priority {
+        } else if priorityA < priorityB {
             return false
         }
         

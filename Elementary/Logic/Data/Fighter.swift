@@ -121,8 +121,7 @@ class Fighter: Hashable, Equatable {
             } else if  getArtifact().name == Artifacts.fetish.rawValue {
                 for hex in hexes {
                     if !hex.positive {
-                        attack += 40
-                        break
+                        attack += 25
                     }
                 }
             }
