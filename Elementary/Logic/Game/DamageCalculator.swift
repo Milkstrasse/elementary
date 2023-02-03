@@ -149,7 +149,7 @@ struct DamageCalculator {
     /// - Returns: Returns the received modifier
     private func getWeatherModifier(weather: Hex, spellElement: String) -> Float {
         switch weather.name {
-        case Weather.snowstorm.rawValue:
+        case Weather.blizzard.rawValue:
             if spellElement == "ice" || spellElement == "wind" {
                 return GlobalData.shared.weatherModifier
             }
@@ -158,7 +158,7 @@ struct DamageCalculator {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.overcastSky.rawValue:
-            if spellElement == "aether" || spellElement == "decay" {
+            if spellElement == "aether" || spellElement == "time" {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.mysticWeather.rawValue:

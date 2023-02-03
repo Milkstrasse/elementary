@@ -139,7 +139,7 @@ struct UserProgress: Codable {
     /// - Returns: Returns daily element
     func getDailyElement() -> Element {
         var index: Int = Calendar.current.component(.month, from: lastDate) + Calendar.current.component(.weekday, from: lastDate) - 2
-        index -= index/12 * 12
+        index -= index/GlobalData.shared.elementArray.count * GlobalData.shared.elementArray.count
         
         return GlobalData.shared.elementArray[index]
     }

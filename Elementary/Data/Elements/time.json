@@ -2,11 +2,11 @@
     "symbol": "0xf252",
     "color": "#9465D2",
     "strengths": [
-        "plant",
+        "bug",
         "wood"
     ],
     "weaknesses": [
-        "aether",
-        "metal"
+        "digital",
+        "wind"
     ]
 }

@@ -12,7 +12,7 @@
   "singleSpells": [
       "windSimpleAttack",
       "forceOut",
-      "decaySpecialAttack",
+      "timeSpecialAttack",
       "restoration"
   ],
   "multiSpells": [

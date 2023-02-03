@@ -2,11 +2,11 @@
     "symbol": "0xf3a5",
     "color": "#C6CAB6",
     "strengths": [
-        "electric",
+        "bug",
         "fire"
     ],
     "weaknesses": [
-        "water",
-        "wind"
+        "wind",
+        "wood"
     ]
 }

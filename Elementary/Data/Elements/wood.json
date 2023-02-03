@@ -3,10 +3,10 @@
     "color": "#62C666",
     "strengths": [
         "aether",
-        "metal"
+        "rock"
     ],
     "weaknesses": [
-        "decay",
-        "fire"
+        "fire",
+        "time"
     ]
 }

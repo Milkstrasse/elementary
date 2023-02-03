@@ -2,11 +2,11 @@
     "symbol": "0xf186",
     "color": "#C8A3E8",
     "strengths": [
-        "decay",
-        "metal"
+        "electric",
+        "wind"
     ],
     "weaknesses": [
-        "wind",
+        "digital",
         "wood"
     ]
 }

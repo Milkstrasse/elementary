@@ -1,0 +1,12 @@
+{
+  "element": "digital",
+  "typeID": 0,
+  "range": 3,
+  "uses": 12,
+  "subSpells": [
+      {
+          "power": 80,
+          "range": 1
+      }
+  ]
+}

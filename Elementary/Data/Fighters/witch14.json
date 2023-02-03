@@ -1,0 +1,34 @@
+{
+  "element": "digital",
+  "title": "warlock",
+  "base": {
+      "health": 50,
+      "attack": 130,
+      "defense": 70,
+      "agility": 150,
+      "precision": 105,
+      "resistance": 45
+  },
+  "singleSpells": [
+      "digitalSimpleAttack",
+      "healingWish",
+      "doom",
+      "aetherSimpleAttack"
+  ],
+  "multiSpells": [
+      "digitalSimpleAttack",
+      "protection",
+      "attackDown",
+      "healingEffect"
+  ],
+  "outfits": [
+      {
+          "name": "default",
+          "cost": 0
+      },
+      {
+          "name": "icequeen",
+          "cost": 200
+      }
+  ]
+}

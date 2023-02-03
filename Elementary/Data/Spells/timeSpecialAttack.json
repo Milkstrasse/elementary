@@ -1,0 +1,12 @@
+{
+  "element": "time",
+  "typeID": 7,
+  "range": 3,
+  "uses": 12,
+  "subSpells": [
+      {
+          "power": 80,
+          "range": 1
+      }
+  ]
+}

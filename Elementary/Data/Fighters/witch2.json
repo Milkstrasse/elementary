@@ -1,5 +1,5 @@
 {
-  "element": "decay",
+  "element": "time",
   "title": "enchantress",
   "base": {
       "health": 80,
@@ -10,13 +10,13 @@
       "resistance": 80
   },
   "singleSpells": [
-      "decaySimpleAttack",
+      "timeSimpleAttack",
       "block",
       "poison",
       "waterSimpleAttack"
   ],
   "multiSpells": [
-      "decaySimpleAttack",
+      "timeSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

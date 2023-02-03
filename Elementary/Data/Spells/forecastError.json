@@ -1,5 +1,5 @@
 {
-  "element": "wood",
+  "element": "digital",
   "typeID": 11,
   "range": 0,
   "uses": 14,
@@ -7,7 +7,7 @@
       {
           "power": 0,
           "range": 0,
-          "weather": "springWeather"
+          "weather": "forecastError"
       }
   ]
 }
