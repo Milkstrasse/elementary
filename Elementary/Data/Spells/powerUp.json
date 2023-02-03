@@ -5,13 +5,13 @@
   "uses": 24,
   "subSpells": [
       {
-          "power": 40,
-          "range": 0
-      },
-      {
           "power": 0,
           "range": 0,
           "hex": "attackBoost"
+      },
+      {
+          "power": 40,
+          "range": 0
       }
   ]
 }

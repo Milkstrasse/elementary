@@ -289,7 +289,9 @@ class TurnLogic {
             if defender.currhp == 0 || oppositePlayer.hasToSwap { //target no longer fighting
                 return Localization.shared.getTranslation(key: "spellFailed")
             } else if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "spellFailed")
+                if usedSpell.range != 0 {
+                    return Localization.shared.getTranslation(key: "spellFailed")
+                }
             } else if spell.typeID == 10 && (attacker.lastSpell >= 0 || attacker.lastSpell == -2) {
                 return Localization.shared.getTranslation(key: "spellFailed")
             }
@@ -329,7 +331,9 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
                 if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                    return Localization.shared.getTranslation(key: "hexResisted")
+                    if usedSpell.range != 0 {
+                        return Localization.shared.getTranslation(key: "hexResisted")
+                    }
                 }
                 
                 if move.targetedPlayer == player.id {
@@ -340,7 +344,9 @@ class TurnLogic {
             }
         } else if usedSpell.healAmount > 0 {
             if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "healFailed")
+                if usedSpell.range != 0 {
+                    return Localization.shared.getTranslation(key: "healFailed")
+                }
             }
             
             oppositePlayer.setState(state: PlayerState.healing, index: move.target)
@@ -373,7 +379,9 @@ class TurnLogic {
             }
         } else {
             if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
-                return Localization.shared.getTranslation(key: "spellFailed")
+                if usedSpell.range != 0 {
+                    return Localization.shared.getTranslation(key: "spellFailed")
+                }
             }
             
             switch spell.typeID {
