@@ -470,7 +470,7 @@ class TurnLogic {
     private func applyHealing(defender: Fighter, spell: SubSpell) -> String {
         var newHealth: Int
         
-        if !defender.hasHex(hexName: Hexes.blocked.rawValue) {
+        if !defender.hasHex(hexName: Hexes.cursed.rawValue) {
             newHealth = defender.getModifiedBase().health/(100/spell.healAmount)
             if newHealth >= (defender.getModifiedBase().health - defender.currhp) {
                 defender.currhp = defender.getModifiedBase().health

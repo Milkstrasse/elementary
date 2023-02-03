@@ -286,7 +286,7 @@ class Fighter: Hashable, Equatable {
                     removeHex(hex: hex)
                 }
             }
-        case Hexes.blocked.rawValue:
+        case Hexes.cursed.rawValue:
             if hasHex(hexName: Hexes.healed.rawValue) {
                 removeHex(hex: hex)
             }
@@ -309,7 +309,7 @@ class Fighter: Hashable, Equatable {
                     return 1
                 }
             } else if hex.name == Hexes.healed.rawValue {
-                if hasHex(hexName: Hexes.blocked.rawValue) {
+                if hasHex(hexName: Hexes.cursed.rawValue) {
                     return 1
                 }
             }

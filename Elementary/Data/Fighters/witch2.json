@@ -11,7 +11,7 @@
   },
   "singleSpells": [
       "timeSimpleAttack",
-      "block",
+      "curse",
       "poison",
       "waterSimpleAttack"
   ],

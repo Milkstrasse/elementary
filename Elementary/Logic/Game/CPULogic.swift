@@ -111,7 +111,7 @@ struct CPULogic {
         }
         
         //low health -> should heal
-        if attacker.currhp <= attacker.getModifiedBase().health/3 && !attacker.hasHex(hexName: Hexes.blocked.rawValue) {
+        if attacker.currhp <= attacker.getModifiedBase().health/3 && !attacker.hasHex(hexName: Hexes.cursed.rawValue) {
             for spell in availableSpells {
                 if attacker.singleSpells[spell].typeID == 12 {
                     return Move(source: player.currentFighterId, index: -1, target: player.currentFighterId, targetedPlayer: player.id, spell: spell, type: MoveType.spell)
