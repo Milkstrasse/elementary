@@ -162,7 +162,7 @@
     "fetishDescr": "**Attaque** augmentée avec sortilège négatif",
     "grimoire": "Ancien Grimoire",
     "grimoireDescr": "**Supprime** les sortilèges après l'échange",
-    "hat": "Chapeau de sorcière",
+    "hat": "Chapeau pointu",
     "hatDescr": "Les sorts **spéciaux** ont priorité",
     "helmet": "Casque épineux",
     "helmetDescr": "Blesse l'agresseur",
@@ -286,6 +286,7 @@
     "nameProvoked": "{0} a été provoquée.",
     "swappedArtifacts": "Les artefacts ont été échangés.",
     "nameTargeted": "{0} est devenue le centre d'attention.",
+    "equippedArtifact": "{0} a équipé avec {1}.",
     
     "superEffective": "Super efficace",
     "veryEffective": "Très efficace",

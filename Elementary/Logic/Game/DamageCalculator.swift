@@ -85,14 +85,17 @@ struct DamageCalculator {
         let damage: Int = Int(ceil(dmg))
         
         if damage >= defender.currhp { //prevent hp below 0
-            if defender.currhp == defender.getModifiedBase().health && defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+            if defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
                 defender.currhp = 1
-                defender.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
             } else {
                 defender.currhp = 0
             }
         } else {
             defender.currhp -= damage
+        }
+        
+        if defender.getArtifact().name == Artifacts.ring.rawValue {
+            defender.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
         }
         
         if moveSpell.typeID == 9 { //heal after attacking

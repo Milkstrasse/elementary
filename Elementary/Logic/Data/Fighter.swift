@@ -33,11 +33,11 @@ class Fighter: Hashable, Equatable {
     private(set) var artifact: Artifact
     private var artifactOverride: Artifact?
     
-    private var attackMod: Int = 0
-    private var defenseMod: Int = 0
-    private var agilityMod: Int = 0
-    private var precisionMod: Int = 0
-    private var resistanceMod: Int = 0
+    var attackMod: Int = 0
+    var defenseMod: Int = 0
+    var agilityMod: Int = 0
+    var precisionMod: Int = 0
+    var resistanceMod: Int = 0
     
     var manaUse: Int = 2
     
@@ -110,13 +110,7 @@ class Fighter: Hashable, Equatable {
         let resistance: Int = max(base.resistance + getHexBonus(hex: resistanceMod) + nature.resistanceMod, 0)
         
         if weather?.name != Weather.volcanicStorm.rawValue {
-            if getArtifact().name == Artifacts.wand.rawValue && currhp < health/4 {
-                attack += 40
-            } else if getArtifact().name == Artifacts.charm.rawValue && currhp < health/4 {
-                defense += 40
-            } else if getArtifact().name == Artifacts.sevenLeague.rawValue && currhp < health/4 {
-                agility += 40
-            } else if getArtifact().name == Artifacts.armor.rawValue || getArtifact().name == Artifacts.sword.rawValue {
+            if getArtifact().name == Artifacts.armor.rawValue || getArtifact().name == Artifacts.sword.rawValue {
                 attack += 40
             } else if  getArtifact().name == Artifacts.fetish.rawValue {
                 for hex in hexes {
@@ -433,6 +427,12 @@ class Fighter: Hashable, Equatable {
         for index in multiSpells.indices {
             multiSpells[index].useCounter = 0
         }
+        
+        attackMod = 0
+        defenseMod = 0
+        agilityMod = 0
+        precisionMod = 0
+        resistanceMod = 0
     }
     
     func hash(into hasher: inout Hasher) {

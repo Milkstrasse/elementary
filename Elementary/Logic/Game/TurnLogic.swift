@@ -85,10 +85,21 @@ class TurnLogic {
                         return true
                     }
                 default:
-                    if attacker.getArtifact().name != Artifacts.cornucopia.rawValue { //artifact has no effect
+                    if attacker.currhp > attacker.getModifiedBase().health/3 && attacker.getArtifact().name != Artifacts.cornucopia.rawValue {
                         return true
-                    } else if attacker.getArtifact().name == Artifacts.potion.rawValue && attacker.currhp > attacker.getModifiedBase().health/2 { //artifact has no effect yet
-                        return true
+                    } else {
+                        switch attacker.getArtifact().name {
+                        case Artifacts.charm.rawValue:
+                            break
+                        case Artifacts.sevenLeague.rawValue:
+                            break
+                        case Artifacts.wand.rawValue:
+                            break
+                        case Artifacts.potion.rawValue:
+                            break
+                        default:
+                            return true
+                        }
                     }
                 }
             } else { //weather makes artifacts useless
@@ -173,19 +184,39 @@ class TurnLogic {
                     } else {
                         attacker.currhp += attacker.getModifiedBase().health/16
                     }
-                } else if attacker.getArtifact().name == Artifacts.potion.rawValue {
-                    if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
-                        attacker.currhp = attacker.getModifiedBase().health
-                    } else {
-                        attacker.currhp += attacker.getModifiedBase().health/4
+                    
+                    player.setState(state: PlayerState.healing, index:  move.source)
+                    
+                    return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
+                } else {
+                    switch attacker.getArtifact().name {
+                    case Artifacts.potion.rawValue:
+                        if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/4 {
+                            attacker.currhp = attacker.getModifiedBase().health
+                        } else {
+                            attacker.currhp += attacker.getModifiedBase().health/4
+                        }
+                        
+                        attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                        
+                        player.setState(state: PlayerState.healing, index:  move.source)
+                        
+                        return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
+                    case Artifacts.charm.rawValue:
+                        attacker.defenseMod += 40
+                    case Artifacts.wand.rawValue:
+                        attacker.attackMod += 40
+                    case Artifacts.sevenLeague.rawValue:
+                        attacker.agilityMod += 40
+                    default:
+                        break
                     }
                     
+                    let artifact: String = attacker.getArtifact().name
+                    
                     attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
+                    return Localization.shared.getTranslation(key: "equippedArtifact", params: [attacker.name, artifact])
                 }
-                
-                player.setState(state: PlayerState.healing, index:  move.source)
-                
-                return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
             } else {
                 let damage: Int
                 
@@ -390,6 +421,8 @@ class TurnLogic {
                     player.hasToSwap = true
                     defender.hasSwapped = true
                     return Localization.shared.getTranslation(key: "nameRetreated", params: [defender.name])
+                } else {
+                    return Localization.shared.getTranslation(key: "swapFailed", params: [defender.name])
                 }
             case 13:
                 //shield can't be used twice in a row -> failure
@@ -403,6 +436,8 @@ class TurnLogic {
                     oppositePlayer.hasToSwap = true
                     defender.hasSwapped = true
                     return Localization.shared.getTranslation(key: "forcedOut", params: [defender.name])
+                } else {
+                    return Localization.shared.getTranslation(key: "swapFailed", params: [defender.name])
                 }
             case 16:
                 let hexes: [Hex] = attacker.hexes
@@ -455,10 +490,8 @@ class TurnLogic {
             case 21:
                 return Localization.shared.getTranslation(key: "nameTargeted", params: [defender.name])
             default:
-                break
+                return Localization.shared.getTranslation(key: "spellFailed")
             }
-            
-            return Localization.shared.getTranslation(key: "spellFailed")
         }
     }
     
