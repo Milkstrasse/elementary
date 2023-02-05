@@ -282,6 +282,6 @@ struct CPULogic {
     private func createSwapMove(player: Player, target: Player, weather: Hex?) -> Move {
         let targetIndex: Int = CPULogic.shared.getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: target.getCurrentFighter().getElement(), hasToSwap: true, weather: weather)
         
-        return Move(source: player.currentFighterId, index: targetIndex, target: targetIndex, targetedPlayer: player.id, spell: -1, type: MoveType.swap)
+        return Move(source: player.currentFighterId, index: 0, target: targetIndex, targetedPlayer: player.id, spell: -1, type: MoveType.swap)
     }
 }

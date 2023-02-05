@@ -50,7 +50,7 @@ class Hex: Hashable {
     }
     
     static func == (lhs: Hex, rhs: Hex) -> Bool {
-        return lhs.name == rhs.name && lhs.duration == rhs.duration
+        return lhs.id == rhs.id
     }
 }
 

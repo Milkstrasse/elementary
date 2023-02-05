@@ -16,25 +16,25 @@ enum Artifacts: String, CaseIterable {
     case noArtifact
     case amulet
     case armor
+    case boots
     case charm
     case cornucopia
     case crystal
     case fetish
-    case talisman
+    case grimoire
     case hat
     case helmet
     case incense
     case mask
+    case mirror
     case potion
     case ring
-    case boots
+    case sandals
     case shield
     case sword
-    case talaria
-    case mirror
+    case talisman
     case thread
     case wand
-    case grimoire
     
     /// Creates and returns an artifact.
     /// - Returns: Returns an artifact

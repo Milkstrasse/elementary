@@ -105,16 +105,40 @@ class TurnLogic {
             } else { //weather makes artifacts useless
                 return true
             }
-        default:
+        case .swap:
             break
         }
         
         //execute move
         if move.type == MoveType.swap { //check if swap possible
-            if attacker.hasHex(hexName: Hexes.chained.rawValue) {
-                fightLogic.fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
-            } else {
-                fightLogic.fightLog.append(player.swapFighters(target: move.index, fightLogic: fightLogic))
+            let target: Fighter = fightLogic.players[move.targetedPlayer].getFighter(index: move.target)
+            
+            if move.index == 0 {
+                if attacker.hasHex(hexName: Hexes.chained.rawValue) {
+                    fightLogic.fightLog.append(Localization.shared.getTranslation(key: "swapFailed", params: [attacker.name]))
+                } else {
+                    fightLogic.fightLog.append(player.swapFighters(target: move.target, fightLogic: fightLogic))
+                }
+            } else if move.index == 1 {
+                if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                    player.setState(state: PlayerState.neutral, fighter: attacker)
+                    fightLogic.players[move.targetedPlayer].setState(state: PlayerState.hexNegative, fighter: target)
+                    
+                    fightLogic.fightLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [target.name]))
+                } else {
+                    fightLogic.fightLog.append(Localization.shared.getTranslation(key: "hexFailed"))
+                }
+            } else if move.index == 2 {
+                if let newWeather = Weather.getWeather(element: attacker.getElement()) {
+                    if fightLogic.weather?.name != newWeather.name {
+                        AudioPlayer.shared.playConfirmSound()
+                        fightLogic.weather = newWeather
+                        fightLogic.fightLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
+                    } else { //weather already active or invalid weather
+                        AudioPlayer.shared.playCancelSound()
+                        fightLogic.fightLog.append(Localization.shared.getTranslation(key: "weatherFailed"))
+                    }
+                }
             }
         } else {
             fightLogic.fightLog.append(startMove(player: player))
@@ -340,7 +364,7 @@ class TurnLogic {
                     }
                 }
                 
-                if defender.getArtifact().name == Artifacts.talaria.rawValue && oppositePlayer.isAbleToSwap(singleMode: fightLogic.singleMode) && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+                if defender.getArtifact().name == Artifacts.sandals.rawValue && oppositePlayer.isAbleToSwap(singleMode: fightLogic.singleMode) && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
                     oppositePlayer.hasToSwap = true
                 }
             } else {

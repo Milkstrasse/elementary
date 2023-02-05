@@ -10,39 +10,96 @@ struct PlayerQueue {
     var singleMode: Bool
     var queue: [(player: Player, move: Move)] = []
     
+    private var startCount: Int = 0
+    
+    init(singleMode: Bool, players: [Player]) {
+        self.singleMode = singleMode
+        startCount = 0
+        
+        queue.append(contentsOf: createSwapTurns(player: players[0], fighter: 0, oppositePlayer: players[1], weather: nil))
+        queue.append(contentsOf: createSwapTurns(player: players[1], fighter: 0, oppositePlayer: players[0], weather: nil))
+    }
+    
+    /// Creates artifact turns that activate when swapping.
+    /// - Parameters:
+    ///   - player: The player who swapped
+    ///   - fighter: The index of the fighter
+    ///   - oppositePlayer: The opposite player
+    ///   - weather: The current weather of the fight
+    /// - Returns: Returns artifact turns that were created when swapping
+    mutating func createSwapTurns(player: Player, fighter: Int, oppositePlayer: Player, weather: Hex?) -> [(player: Player, move: Move)] {
+        var swapQueue: [(player: Player, move: Move)] = []
+        
+        if weather?.name == Weather.volcanicStorm.rawValue {
+            return swapQueue
+        }
+        
+        if singleMode {
+            //apply effect of artifact on "entering"
+            if player.getFighter(index: fighter).getArtifact().name == Artifacts.mask.rawValue && weather?.name != Weather.springWeather.rawValue {
+                swapQueue.append((player: player, move: Move(source: player.currentFighterId, index: 1, target: oppositePlayer.currentFighterId, targetedPlayer: oppositePlayer.id, spell: -1, type: MoveType.swap)))
+            } else if player.getFighter(index: fighter).getArtifact().name == Artifacts.grimoire.rawValue {
+                swapQueue.append((player: player, move: Move(source: player.currentFighterId, index: 2, target: player.currentFighterId, targetedPlayer: player.id, spell: -1, type: MoveType.swap)))
+            }
+        } else {
+            for fighter in player.fighterOrder {
+                //apply effect of artifact on "entering"
+                if player.getFighter(index: fighter).getArtifact().name == Artifacts.mask.rawValue && weather?.name != Weather.springWeather.rawValue {
+                    for target in oppositePlayer.fighters.indices {
+                        swapQueue.append((player: player, move: Move(source: fighter, index: 1, target: target, targetedPlayer: oppositePlayer.id, spell: -1, type: MoveType.swap)))
+                    }
+                } else if player.getFighter(index: fighter).getArtifact().name == Artifacts.grimoire.rawValue {
+                    swapQueue.append((player: player, move: Move(source: fighter, index: 2, target: fighter, targetedPlayer: player.id, spell: -1, type: MoveType.swap)))
+                }
+            }
+        }
+        
+        startCount += swapQueue.count
+        
+        return swapQueue
+    }
+    
     /// Adds a player move to the queue or rejects it.
     /// - Parameters:
     ///   - player: The player making the move
     ///   - move: The move the player makes
+    ///   - player: The opposite player
     ///   - fighterAmount: The amount of fighters able to make a move
+    ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the move was added or not
-    mutating func addToQueue(player: Player, move: Move, fighterAmount: Int) -> Bool {
+    mutating func addToQueue(player: Player, move: Move, oppositePlayer: Player, fighterAmount: Int, weather: Hex?) -> Bool {
+        if move.type == MoveType.swap {
+            let index: Int = startCount
+            queue.insert(contentsOf: createSwapTurns(player: player, fighter: move.target, oppositePlayer: oppositePlayer, weather: weather), at: index)
+            print("kkkkkkkkkkkkk")
+        }
+            
         if singleMode {
             if move.spell > -1 && player.getFighter(index: move.source).singleSpells[move.spell].useCounter + player.getFighter(index: move.source).manaUse > player.getFighter(index: move.source).singleSpells[move.spell].uses {
                 return false //spell cost is to high, fighter cannot use this spell
             }
             
             //add to queue
-            if player.id >= queue.count {
-                for _ in 0 ... player.id - queue.count {
+            if player.id + startCount >= queue.count {
+                for _ in 0 ... player.id + startCount - queue.count {
                     queue.append((player: Player(id: -1, fighters: []), move: move))
                 }
             }
             
-            queue[player.id] = (player: player, move: move)
+            queue[player.id + startCount] = (player: player, move: move)
         } else {
             if move.spell > -1 && player.getFighter(index: move.source).multiSpells[move.spell].useCounter + player.getFighter(index: move.source).manaUse > player.getFighter(index: move.source).multiSpells[move.spell].uses {
                 return false //spell cost is to high, fighter cannot use this spell
             }
             
             //add to queue
-            if player.currentFighterId + player.id * fighterAmount >= queue.count {
-                for _ in 0 ... player.currentFighterId + player.id * fighterAmount - queue.count {
+            if player.currentFighterId + player.id * fighterAmount + startCount >= queue.count {
+                for _ in 0 ... player.currentFighterId + player.id * fighterAmount + startCount - queue.count {
                     queue.append((player: Player(id: -1, fighters: []), move: move))
                 }
             }
             
-            queue[player.currentFighterId + player.id * fighterAmount] = (player: player, move: move)
+            queue[player.currentFighterId + player.id * fighterAmount + startCount] = (player: player, move: move)
         }
         
         return true
@@ -50,6 +107,8 @@ struct PlayerQueue {
     
     /// Remove player moves that are unused because fighter has fainted a long time ago.
     mutating func cleanQueue() {
+        startCount = 0
+        
         var tempQueue: [(player: Player, move: Move)] = []
         
         for index in queue.indices {

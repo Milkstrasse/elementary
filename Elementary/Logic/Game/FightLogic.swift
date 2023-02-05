@@ -15,6 +15,7 @@ class FightLogic: ObservableObject {
     let singleMode: Bool
     let hasCPUPlayer: Bool
     let players: [Player]
+    
     var playerQueue: PlayerQueue
     
     @Published var fighting: Bool = false
@@ -42,64 +43,7 @@ class FightLogic: ObservableObject {
         
         self.players = players
         
-        playerQueue = PlayerQueue(singleMode: singleMode)
-        
-        if singleMode {
-            //apply effect of artifact on "entering"
-            if players[0].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-                if players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
-                    backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[1].getCurrentFighter().name]))
-                }
-            } else if players[0].getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
-                if let newWeather = Weather.getWeather(element: players[0].getCurrentFighter().getElement()) {
-                    weather = newWeather
-                    backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
-                }
-            }
-            
-            if players[1].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-                if players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
-                    backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[0].getCurrentFighter().name]))
-                }
-            } else if players[1].getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
-                if let newWeather = Weather.getWeather(element: players[1].getCurrentFighter().getElement()) {
-                    weather = newWeather
-                    backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
-                }
-            }
-        } else {
-            for fighter in players[0].fighters {
-                //apply effect of artifact on "entering"
-                if fighter.getArtifact().name == Artifacts.mask.rawValue {
-                    for fghtr in players[1].fighters {
-                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
-                            backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
-                        }
-                    }
-                } else if fighter.getArtifact().name == Artifacts.grimoire.rawValue {
-                    if let newWeather = Weather.getWeather(element: fighter.getElement()) {
-                        weather = newWeather
-                        backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
-                    }
-                }
-            }
-            
-            for fighter in players[1].fighters {
-                //apply effect of artifact on "entering"
-                if fighter.getArtifact().name == Artifacts.mask.rawValue {
-                    for fghtr in players[0].fighters {
-                        if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
-                            backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
-                        }
-                    }
-                } else if fighter.getArtifact().name == Artifacts.grimoire.rawValue {
-                    if let newWeather = Weather.getWeather(element: fighter.getElement()) {
-                        weather = newWeather
-                        backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
-                    }
-                }
-            }
-        }
+        playerQueue = PlayerQueue(singleMode: singleMode, players: players)
         
         fightLog = [Localization.shared.getTranslation(key: "fightBegin")]
         
@@ -123,14 +67,15 @@ class FightLogic: ObservableObject {
         if singleMode && player.hasToSwap { //fighter either fainted or has special artifact to swap
             if !player.getCurrentFighter().hasHex(hexName: Hexes.chained.rawValue) || player.getCurrentFighter().currhp == 0 {
                 if move.type == MoveType.swap {
-                    backupLog.append(player.swapFighters(target: move.index, fightLogic: self))
+                    backupLog.append(player.swapFighters(target: move.target, fightLogic: self))
+                    playerQueue.queue.append(contentsOf: playerQueue.createSwapTurns(player: player, fighter: move.target, oppositePlayer: players[player.getOppositePlayerId()], weather: weather))
                 }
                 
                 return false //action is free, new fighter can make a move
             }
         }
         
-        if playerQueue.addToQueue(player: player, move: move, fighterAmount: gameLogic.fighterCounts[0]) {
+        if playerQueue.addToQueue(player: player, move: move, oppositePlayer: players[player.getOppositePlayerId()], fighterAmount: gameLogic.fighterCounts[0], weather: weather) {
             if singleMode {
                 gameLogic.setReady(player: player.id, ready: true)
             } else {
@@ -143,7 +88,9 @@ class FightLogic: ObservableObject {
         //CPU makes its move
         if hasCPUPlayer {
             if players[0].hasToSwap {
-                backupLog.append(players[0].swapFighters(target: CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, player: players[0], enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather), fightLogic: self))
+                let target: Int = CPULogic.shared.getTarget(currentFighter: players[0].currentFighterId, player: players[0], enemyElement: players[1].getCurrentFighter().getElement(), hasToSwap: true, weather: weather)
+                backupLog.append(players[0].swapFighters(target: target, fightLogic: self))
+                playerQueue.queue.append(contentsOf: playerQueue.createSwapTurns(player: players[0], fighter: target, oppositePlayer: players[1], weather: weather))
             }
             
             var rndmMove: Move
