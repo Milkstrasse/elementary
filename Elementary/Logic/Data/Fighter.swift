@@ -104,8 +104,8 @@ class Fighter: Hashable, Equatable {
     func getModifiedBase(weather: Hex? = nil) -> Base {
         let health: Int = max(base.health + nature.healthMod, 0)
         var attack: Int = max(base.attack + getHexBonus(hex: attackMod) + nature.attackMod, 0)
-        var defense: Int = max(base.defense + getHexBonus(hex: defenseMod) + nature.defenseMod, 0)
-        var agility: Int = max(base.agility + getHexBonus(hex: agilityMod) + nature.agilityMod, 0)
+        let defense: Int = max(base.defense + getHexBonus(hex: defenseMod) + nature.defenseMod, 0)
+        let agility: Int = max(base.agility + getHexBonus(hex: agilityMod) + nature.agilityMod, 0)
         let precision: Int = max(base.precision + getHexBonus(hex: precisionMod) + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + getHexBonus(hex: resistanceMod) + nature.resistanceMod, 0)
         

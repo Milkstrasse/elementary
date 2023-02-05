@@ -20,20 +20,21 @@ enum Artifacts: String, CaseIterable {
     case cornucopia
     case crystal
     case fetish
-    case grimoire
+    case talisman
     case hat
     case helmet
     case incense
     case mask
     case potion
     case ring
-    case sevenLeague
+    case boots
     case shield
     case sword
     case talaria
-    case talisman
+    case mirror
     case thread
     case wand
+    case grimoire
     
     /// Creates and returns an artifact.
     /// - Returns: Returns an artifact

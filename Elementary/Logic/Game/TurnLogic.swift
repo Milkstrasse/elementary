@@ -91,7 +91,7 @@ class TurnLogic {
                         switch attacker.getArtifact().name {
                         case Artifacts.charm.rawValue:
                             break
-                        case Artifacts.sevenLeague.rawValue:
+                        case Artifacts.boots.rawValue:
                             break
                         case Artifacts.wand.rawValue:
                             break
@@ -206,7 +206,7 @@ class TurnLogic {
                         attacker.defenseMod += 40
                     case Artifacts.wand.rawValue:
                         attacker.attackMod += 40
-                    case Artifacts.sevenLeague.rawValue:
+                    case Artifacts.boots.rawValue:
                         attacker.agilityMod += 40
                     default:
                         break

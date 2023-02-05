@@ -50,11 +50,21 @@ class FightLogic: ObservableObject {
                 if players[1].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
                     backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[1].getCurrentFighter().name]))
                 }
+            } else if players[0].getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
+                if let newWeather = Weather.getWeather(element: players[0].getCurrentFighter().getElement()) {
+                    weather = newWeather
+                    backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
+                }
             }
             
             if players[1].getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
                 if players[0].getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
                     backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [players[0].getCurrentFighter().name]))
+                }
+            } else if players[1].getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
+                if let newWeather = Weather.getWeather(element: players[1].getCurrentFighter().getElement()) {
+                    weather = newWeather
+                    backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
                 }
             }
         } else {
@@ -66,6 +76,11 @@ class FightLogic: ObservableObject {
                             backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
                         }
                     }
+                } else if fighter.getArtifact().name == Artifacts.grimoire.rawValue {
+                    if let newWeather = Weather.getWeather(element: fighter.getElement()) {
+                        weather = newWeather
+                        backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
+                    }
                 }
             }
             
@@ -76,6 +91,11 @@ class FightLogic: ObservableObject {
                         if fghtr.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
                             backupLog.append(Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [fghtr.name]))
                         }
+                    }
+                } else if fighter.getArtifact().name == Artifacts.grimoire.rawValue {
+                    if let newWeather = Weather.getWeather(element: fighter.getElement()) {
+                        weather = newWeather
+                        backupLog.append(Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather.name]))
                     }
                 }
             }

@@ -150,7 +150,7 @@ struct CPULogic {
                     if attacker.singleSpells[spell].typeID == 14 {
                         if attacker.singleSpells[spell].range < 3 && attacker.hexes.count < 1 {
                             //protect fighter from negative hexes & useless move
-                            if attacker.getArtifact().name != Artifacts.talisman.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
+                            if attacker.getArtifact().name != Artifacts.mirror.rawValue && attacker.getArtifact().name != Artifacts.amulet.rawValue {
                                 return Move(source: player.currentFighterId, index: -1, target: player.currentFighterId, targetedPlayer: player.id, spell: spell, type: MoveType.spell)
                             }
                         } else if attacker.singleSpells[spell].range >= 3 && defender.hexes.count < 1 {

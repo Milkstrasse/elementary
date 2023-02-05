@@ -35,7 +35,7 @@ struct HexApplication {
         //determine actual target
         var target: Fighter = defender
         var targetPlayer: Player = oppositePlayer
-        if defender.getArtifact().name == Artifacts.talisman.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+        if defender.getArtifact().name == Artifacts.mirror.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
             target = attacker
             targetPlayer = player
         }

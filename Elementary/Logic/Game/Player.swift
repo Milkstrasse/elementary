@@ -188,7 +188,7 @@ class Player: ObservableObject {
         
         var text: String
         
-        if getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+        if getCurrentFighter().getArtifact().name == Artifacts.talisman.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
             for hex in getCurrentFighter().hexes {
                 getCurrentFighter().removeHex(hex: hex)
             }
@@ -215,10 +215,21 @@ class Player: ObservableObject {
         let oppositePlayer: Player = fightLogic.players[getOppositePlayerId()]
         
         //apply artifact effect
-        if fightLogic.weather?.name != Weather.volcanicStorm.rawValue && getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
-            if fightLogic.weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
-                text += Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [oppositePlayer.getCurrentFighter().name]) + "\n"
+        if fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+            if getCurrentFighter().getArtifact().name == Artifacts.mask.rawValue {
+                if fightLogic.weather?.name != Weather.springWeather.rawValue && oppositePlayer.getCurrentFighter().applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                    text += Localization.shared.getTranslation(key: Hexes.attackDrop.getHex().name, params: [oppositePlayer.getCurrentFighter().name]) + "\n"
+                }
+            } else if getCurrentFighter().getArtifact().name == Artifacts.grimoire.rawValue {
+                let newWeather: Hex? = Weather.getWeather(element: getCurrentFighter().element)
+                if newWeather != nil && fightLogic.weather?.name != newWeather!.name {
+                    fightLogic.weather = newWeather
+                    text += Localization.shared.getTranslation(key: "weatherChanged", params: [newWeather!.name]) + "\n"
+                } else { //weather already active or invalid weather
+                    text += Localization.shared.getTranslation(key: "weatherFailed") + "\n"
+                }
             }
+
         }
         
         return String(text.dropLast())
