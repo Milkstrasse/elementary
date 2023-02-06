@@ -6,7 +6,7 @@
 //
 
 /// Keeps track of player moves.
-struct PlayerQueue {
+class PlayerQueue {
     var singleMode: Bool
     var queue: [(player: Player, move: Move)] = []
     
@@ -27,7 +27,7 @@ struct PlayerQueue {
     ///   - oppositePlayer: The opposite player
     ///   - weather: The current weather of the fight
     /// - Returns: Returns artifact turns that were created when swapping
-    mutating func createSwapTurns(player: Player, fighter: Int, oppositePlayer: Player, weather: Hex?) -> [(player: Player, move: Move)] {
+    func createSwapTurns(player: Player, fighter: Int, oppositePlayer: Player, weather: Hex?) -> [(player: Player, move: Move)] {
         var swapQueue: [(player: Player, move: Move)] = []
         
         if weather?.name == Weather.volcanicStorm.rawValue {
@@ -67,11 +67,10 @@ struct PlayerQueue {
     ///   - fighterAmount: The amount of fighters able to make a move
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the move was added or not
-    mutating func addToQueue(player: Player, move: Move, oppositePlayer: Player, fighterAmount: Int, weather: Hex?) -> Bool {
+    func addToQueue(player: Player, move: Move, oppositePlayer: Player, fighterAmount: Int, weather: Hex?) -> Bool {
         if move.type == MoveType.swap {
             let index: Int = startCount
             queue.insert(contentsOf: createSwapTurns(player: player, fighter: move.target, oppositePlayer: oppositePlayer, weather: weather), at: index)
-            print("kkkkkkkkkkkkk")
         }
             
         if singleMode {
@@ -106,7 +105,7 @@ struct PlayerQueue {
     }
     
     /// Remove player moves that are unused because fighter has fainted a long time ago.
-    mutating func cleanQueue() {
+    func cleanQueue() {
         startCount = 0
         
         var tempQueue: [(player: Player, move: Move)] = []
@@ -124,7 +123,7 @@ struct PlayerQueue {
     /// - Parameters:
     ///   - players: The players fighting
     ///   - weather: The current weather of the fight
-    mutating func finalizeMoves(players: [Player], weather: Hex?) {
+    func finalizeMoves(players: [Player], weather: Hex?) {
         for index in queue.indices {
             if queue[index].move.type == MoveType.swap {
                 continue
@@ -283,7 +282,7 @@ struct PlayerQueue {
     /// - Parameters:
     ///   - players: The players fighting
     ///   - weather: The current weather of the fight
-    mutating func addTurns(players: [Player], weather: Hex?) {
+    func addTurns(players: [Player], weather: Hex?) {
         //order queue
         for i in 1 ..< queue.count {
             var j: Int = i
@@ -404,7 +403,7 @@ struct PlayerQueue {
     ///   - oppositePlayer: The opposite player
     ///   - index: The index of the current player move
     ///   - currentOffset: The current offset to correctly insert move into the queue
-    private mutating func addSpecialTurns(playerMove: (player: Player, move: Move), fighter: Int, oppositePlayer: Player, index: Int, currentOffset: Int) -> Int {
+    private func addSpecialTurns(playerMove: (player: Player, move: Move), fighter: Int, oppositePlayer: Player, index: Int, currentOffset: Int) -> Int {
         var offset: Int = currentOffset
         
         //effect of sword artifact
