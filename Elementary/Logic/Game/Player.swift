@@ -196,7 +196,7 @@ class Player: ObservableObject {
         
         getCurrentFighter().lastSpell = -1
         
-        text = Localization.shared.getTranslation(key: "swapWith", params: [getCurrentFighter().name, fighters[target].name]) + "\n"
+        text = Localization.shared.getTranslation(key: "swapWith", params: [getCurrentFighter().name, getFighter(index: target).name]) + "\n"
         
         let temp: Int = fighterOrder[currentFighterId]
         fighterOrder[currentFighterId] = fighterOrder[target]
