@@ -65,7 +65,7 @@ struct SaveData: Codable {
             encoder.outputFormatting = .prettyPrinted
             
             let data: Data = try encoder.encode(saveData)
-            if let url = makeURL(forFileNamed: SaveData.settingsName) {
+            if let url = makeURL(forFileNamed: settingsName) {
                 try data.write(to: url, options: [.atomic])
             }
         } catch {
@@ -79,7 +79,7 @@ struct SaveData: Codable {
         
         do {
             let data: Data = try JSONEncoder().encode(progress)
-            if let url = makeURL(forFileNamed: SaveData.userName) {
+            if let url = makeURL(forFileNamed: userName) {
                 try data.write(to: url, options: [.atomic])
             }
         } catch {
@@ -89,8 +89,8 @@ struct SaveData: Codable {
     
     /// Loads and stores the data of the save file.
     static func load() {
-        if let url = makeURL(forFileNamed: SaveData.settingsName) {
-            if SaveData.fileManager.fileExists(atPath: url.path) {
+        if let url = makeURL(forFileNamed: settingsName) {
+            if fileManager.fileExists(atPath: url.path) {
                 do {
                     let data: Data = try Data(contentsOf: url)
                     let savedData: SaveData = try JSONDecoder().decode(SaveData.self, from: data)
@@ -126,8 +126,8 @@ struct SaveData: Codable {
             }
         }
         
-        if let url = makeURL(forFileNamed: SaveData.userName) {
-            if SaveData.fileManager.fileExists(atPath: url.path) {
+        if let url = makeURL(forFileNamed: userName) {
+            if fileManager.fileExists(atPath: url.path) {
                 do {
                     let data: Data = try Data(contentsOf: url)
                     let progress: UserProgress = try JSONDecoder().decode(UserProgress.self, from: data)
@@ -143,15 +143,15 @@ struct SaveData: Codable {
             }
         }
         
-        if let url = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             let modUrl = URL.init(fileURLWithPath: url.path + "/mods")
             if !fileManager.directoryExists(atUrl: modUrl) {
                 do {
-                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
-                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
-                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
-                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
-                    try SaveData.fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
+                    try fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
                 } catch {
                     print("\(error)")
                 }
@@ -174,7 +174,7 @@ struct SaveData: Codable {
     /// - Parameter fileName: The name of the file
     /// - Returns: Returns the URL to the location of the file
     private static func makeURL(forFileNamed fileName: String) -> URL? {
-        if let url = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
             return url.appendingPathComponent(fileName)
         } else {
             return nil
