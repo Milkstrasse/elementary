@@ -139,18 +139,17 @@ struct SaveData: Codable {
             saveProgress()
         }
         
-        if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let modUrl = URL.init(fileURLWithPath: url.path + "/mods")
-            if !fileManager.directoryExists(atUrl: modUrl) {
-                do {
-                    try fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
-                    try fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
-                    try fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
-                    try fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
-                    try fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
-                } catch {
-                    print("\(error)")
-                }
+        url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let modUrl = URL.init(fileURLWithPath: url.path + "/mods")
+        if !fileManager.directoryExists(atUrl: modUrl) {
+            do {
+                try fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: url.path + "/mods/elements", withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: url.path + "/mods/languages", withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: url.path + "/mods/spells", withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: url.path + "/mods/fighters", withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("\(error)")
             }
         }
     }

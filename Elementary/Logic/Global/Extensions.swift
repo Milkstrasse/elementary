@@ -11,15 +11,13 @@ extension Image {
     /// Creates image from png saved in folder.
     /// - Parameter fileName: The name of the png image
     init(fileName: String) {
-        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let url = URL.init(fileURLWithPath: mainURL.path + "/mods/assets/" + fileName + ".png")
-            if SaveData.fileManager.fileExists(atPath: url.path) {
-                self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
-            } else if let url = Bundle.main.url(forResource: fileName, withExtension: "png", subdirectory: "Assets") {
-                self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
-            } else {
-                self.init(uiImage: UIImage())
-            }
+        let mainURL: URL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let url: URL = URL.init(fileURLWithPath: mainURL.path + "/mods/assets/" + fileName + ".png")
+        
+        if SaveData.fileManager.fileExists(atPath: url.path) {
+            self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
+        } else if let url: URL = Bundle.main.url(forResource: fileName, withExtension: "png", subdirectory: "Assets") {
+            self.init(uiImage: UIImage(contentsOfFile: url.path) ?? UIImage())
         } else {
             self.init(uiImage: UIImage())
         }
@@ -30,15 +28,13 @@ extension UIImage {
     /// Creates image from png saved in folder.
     /// - Parameter fileName: The name of the png image
     convenience init?(fileName: String) {
-        if let mainURL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let url = URL.init(fileURLWithPath: mainURL.path + "/mods/assets/" + fileName + ".png")
-            if SaveData.fileManager.fileExists(atPath: url.path) {
-                self.init(contentsOfFile: url.path)
-            } else if let url = Bundle.main.url(forResource: fileName, withExtension: "png", subdirectory: "Assets") {
-                self.init(contentsOfFile: url.path)
-            } else {
-                self.init()
-            }
+        let mainURL: URL = SaveData.fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let url: URL = URL.init(fileURLWithPath: mainURL.path + "/mods/assets/" + fileName + ".png")
+        
+        if SaveData.fileManager.fileExists(atPath: url.path) {
+            self.init(contentsOfFile: url.path)
+        } else if let url: URL = Bundle.main.url(forResource: fileName, withExtension: "png", subdirectory: "Assets") {
+            self.init(contentsOfFile: url.path)
         } else {
             self.init()
         }

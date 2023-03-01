@@ -27,7 +27,7 @@ class Localization {
     /// Loads all translations of an language file.
     /// - Parameter language: The name of the language file
     func loadLanguage(language: String) {
-        if let url = Bundle.main.url(forResource: language, withExtension: "json", subdirectory: "Languages") {
+        if let url: URL = Bundle.main.url(forResource: language, withExtension: "json", subdirectory: "Languages") {
             do {
                 let data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
@@ -46,7 +46,7 @@ class Localization {
     
     /// Loads all translations of the current language file.
     func loadCurrentLanguage() {
-        if let url = Bundle.main.url(forResource: currentLang, withExtension: "json", subdirectory: "Languages") {
+        if let url: URL = Bundle.main.url(forResource: currentLang, withExtension: "json", subdirectory: "Languages") {
             do {
                 let data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
