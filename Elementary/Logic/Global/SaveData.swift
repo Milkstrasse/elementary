@@ -65,9 +65,8 @@ struct SaveData: Codable {
             encoder.outputFormatting = .prettyPrinted
             
             let data: Data = try encoder.encode(saveData)
-            if let url = makeURL(forFileNamed: settingsName) {
-                try data.write(to: url, options: [.atomic])
-            }
+            let url: URL = makeURL(forFileNamed: settingsName)
+            try data.write(to: url, options: [.atomic])
         } catch {
             print("\(error)")
         }
@@ -79,9 +78,8 @@ struct SaveData: Codable {
         
         do {
             let data: Data = try JSONEncoder().encode(progress)
-            if let url = makeURL(forFileNamed: userName) {
-                try data.write(to: url, options: [.atomic])
-            }
+            let url: URL = makeURL(forFileNamed: userName)
+            try data.write(to: url, options: [.atomic])
         } catch {
             print("\(error)")
         }
@@ -89,58 +87,56 @@ struct SaveData: Codable {
     
     /// Loads and stores the data of the save file.
     static func load() {
-        if let url = makeURL(forFileNamed: settingsName) {
-            if fileManager.fileExists(atPath: url.path) {
-                do {
-                    let data: Data = try Data(contentsOf: url)
-                    let savedData: SaveData = try JSONDecoder().decode(SaveData.self, from: data)
-                    
-                    Localization.shared.currentLang = savedData.langCode
-                    AudioPlayer.shared.generalVolume = savedData.generalVolume
-                    AudioPlayer.shared.musicVolume = savedData.musicVolume
-                    AudioPlayer.shared.soundVolume = savedData.soundVolume
-                    AudioPlayer.shared.voiceVolume = savedData.voiceVolume
-                    AudioPlayer.shared.hapticToggle = savedData.hapticToggle
-                    
-                    Localization.shared.currentLang = savedData.langCode
-                    GlobalData.shared.textSpeed = savedData.textSpeed
-                    
-                    GlobalData.shared.teamLimit = savedData.teamRestricted
-                    GlobalData.shared.artifactUse = savedData.artifactUse
-                    
-                    GlobalData.shared.attackModifier = savedData.attackModifier
-                    GlobalData.shared.criticalModifier = savedData.criticalModifier
-                    GlobalData.shared.elementalModifier = savedData.elementalModifier
-                    GlobalData.shared.weatherModifier = savedData.weatherModifier
-                    GlobalData.shared.deviation = savedData.deviation
-                    
-                    GlobalData.shared.savedFighters = savedData.savedFighters
-                } catch {
-                    print("\(error)")
-                }
-            } else { //no save file found -> create file and necessary folders
-                let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
-                Localization.shared.currentLang = langCode
+        var url: URL = makeURL(forFileNamed: settingsName)
+        if fileManager.fileExists(atPath: url.path) {
+            do {
+                let data: Data = try Data(contentsOf: url)
+                let savedData: SaveData = try JSONDecoder().decode(SaveData.self, from: data)
                 
-                saveSettings()
+                Localization.shared.currentLang = savedData.langCode
+                AudioPlayer.shared.generalVolume = savedData.generalVolume
+                AudioPlayer.shared.musicVolume = savedData.musicVolume
+                AudioPlayer.shared.soundVolume = savedData.soundVolume
+                AudioPlayer.shared.voiceVolume = savedData.voiceVolume
+                AudioPlayer.shared.hapticToggle = savedData.hapticToggle
+                
+                Localization.shared.currentLang = savedData.langCode
+                GlobalData.shared.textSpeed = savedData.textSpeed
+                
+                GlobalData.shared.teamLimit = savedData.teamRestricted
+                GlobalData.shared.artifactUse = savedData.artifactUse
+                
+                GlobalData.shared.attackModifier = savedData.attackModifier
+                GlobalData.shared.criticalModifier = savedData.criticalModifier
+                GlobalData.shared.elementalModifier = savedData.elementalModifier
+                GlobalData.shared.weatherModifier = savedData.weatherModifier
+                GlobalData.shared.deviation = savedData.deviation
+                
+                GlobalData.shared.savedFighters = savedData.savedFighters
+            } catch {
+                print("\(error)")
             }
+        } else { //no save file found -> create file and necessary folders
+            let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
+            Localization.shared.currentLang = langCode
+            
+            saveSettings()
         }
         
-        if let url = makeURL(forFileNamed: userName) {
-            if fileManager.fileExists(atPath: url.path) {
-                do {
-                    let data: Data = try Data(contentsOf: url)
-                    let progress: UserProgress = try JSONDecoder().decode(UserProgress.self, from: data)
-                    GlobalData.shared.userProgress = progress
-                } catch {
-                    print("\(error)")
-                }
-            } else { //no save file found -> create file and necessary folders
-                let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
-                Localization.shared.currentLang = langCode
-                
-                saveProgress()
+        url = makeURL(forFileNamed: userName)
+        if fileManager.fileExists(atPath: url.path) {
+            do {
+                let data: Data = try Data(contentsOf: url)
+                let progress: UserProgress = try JSONDecoder().decode(UserProgress.self, from: data)
+                GlobalData.shared.userProgress = progress
+            } catch {
+                print("\(error)")
             }
+        } else { //no save file found -> create file and necessary folders
+            let langCode: String = String(Locale.preferredLanguages[0].prefix(2))
+            Localization.shared.currentLang = langCode
+            
+            saveProgress()
         }
         
         if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -162,9 +158,8 @@ struct SaveData: Codable {
     /// Save latest fight data into save file
     static func saveFight() {
         do {
-            if let url = makeURL(forFileNamed: FightLog.fileName) {
-                try FightLog.shared.fightLog.write(to: url, atomically: true, encoding: .utf8)
-            }
+            let url: URL = makeURL(forFileNamed: FightLog.fileName)
+            try FightLog.shared.fightLog.write(to: url, atomically: true, encoding: .utf8)
         } catch {
             print("\(error)")
         }
@@ -173,22 +168,8 @@ struct SaveData: Codable {
     /// Get the URL to the correct location of a file.
     /// - Parameter fileName: The name of the file
     /// - Returns: Returns the URL to the location of the file
-    private static func makeURL(forFileNamed fileName: String) -> URL? {
-        if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            return url.appendingPathComponent(fileName)
-        } else {
-            return nil
-        }
-    }
-}
-
-extension FileManager {
-    /// Checks if directory exists.
-    /// - Parameter url: The url of the directory
-    /// - Returns: Return wether directory exists  or not
-    func directoryExists(atUrl url: URL) -> Bool {
-        var isDirectory: ObjCBool = false
-        let exists = self.fileExists(atPath: url.path, isDirectory:&isDirectory)
-        return exists && isDirectory.boolValue
+    private static func makeURL(forFileNamed fileName: String) -> URL {
+        let url: URL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return url.appendingPathComponent(fileName)
     }
 }

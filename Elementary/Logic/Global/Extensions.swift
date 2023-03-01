@@ -66,3 +66,14 @@ extension Color {
         self.init(red: red, green: green, blue: blue)
     }
 }
+
+extension FileManager {
+    /// Checks if directory exists.
+    /// - Parameter url: The url of the directory
+    /// - Returns: Return wether directory exists  or not
+    func directoryExists(atUrl url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        let exists = self.fileExists(atPath: url.path, isDirectory:&isDirectory)
+        return exists && isDirectory.boolValue
+    }
+}
