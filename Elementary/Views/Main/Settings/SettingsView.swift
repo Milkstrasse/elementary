@@ -31,6 +31,7 @@ struct SettingsView: View {
     
     @State var transitionToggle: Bool = true
     
+    /// Creates the settings view.
     init() {
         generalVolume = Int(AudioPlayer.shared.generalVolume * 10)
         musicVolume = Int(AudioPlayer.shared.musicVolume * 10)

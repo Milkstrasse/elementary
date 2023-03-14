@@ -12,6 +12,10 @@ class PlayerQueue {
     
     private var startCount: Int = 0
     
+    /// Create a queue to keep track of player moves.
+    /// - Parameters:
+    ///   - singleMode: Indicates single mode or group mode
+    ///   - players: The players making the moves
     init(singleMode: Bool, players: [Player]) {
         self.singleMode = singleMode
         startCount = 0

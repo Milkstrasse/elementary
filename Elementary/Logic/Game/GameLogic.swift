@@ -13,6 +13,10 @@ struct GameLogic {
     
     let fighterCounts: [Int]
     
+    /// Creates the logic to track different player states.
+    /// - Parameters:
+    ///   - topFighterCount: The amount of fighters of the top team
+    ///   - bottomFighterCount: The amount of fighters of the bottom team
     init(topFighterCount: Int, bottomFighterCount: Int) {
         tempSpells = [Int](repeating: -1, count: topFighterCount + bottomFighterCount)
         fighterCounts = [topFighterCount, bottomFighterCount]

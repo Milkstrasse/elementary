@@ -34,6 +34,7 @@ struct SaveData: Codable {
     static let settingsName: String = "settings.json"
     static let userName: String = "user.json"
     
+    /// Creates a save file.
     init() {
         generalVolume = AudioPlayer.shared.generalVolume
         musicVolume = AudioPlayer.shared.musicVolume

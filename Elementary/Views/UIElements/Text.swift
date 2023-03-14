@@ -125,6 +125,13 @@ struct CustomText: View {
     
     var textArray: [[String]]
     
+    /// Creates a text with custom fonts.
+    /// - Parameters:
+    ///   - text: The string to display
+    ///   - fontColor: The color of the text
+    ///   - fontSize: The size of the text
+    ///   - isBold: Indicates whether the text is bold or not
+    ///   - alignment: The alignment of the text
     init(text: String, fontColor: Color = Color("Text"), fontSize: CGFloat, isBold: Bool = false, alignment: HorizontalAlignment = .leading) {
         self.text = text
         self.fontColor = fontColor

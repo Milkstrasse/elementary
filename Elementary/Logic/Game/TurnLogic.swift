@@ -11,6 +11,8 @@ import SwiftUI
 class TurnLogic {
     var fightLogic: FightLogic
     
+    /// Creates the main logic for a player's turn-
+    /// - Parameter fightLogic: The logic of the fight
     init(fightLogic: FightLogic) {
         self.fightLogic = fightLogic
     }
