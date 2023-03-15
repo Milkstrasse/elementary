@@ -131,7 +131,7 @@ class TurnLogic {
                     fightLogic.fightLog.append(Localization.shared.getTranslation(key: "hexFailed"))
                 }
             } else if move.index == 2 {
-                if let newWeather = Weather.getWeather(element: attacker.getElement()) {
+                if let newWeather: Hex = Weather.getWeather(element: attacker.getElement()) {
                     if fightLogic.weather?.name != newWeather.name {
                         AudioPlayer.shared.playConfirmSound()
                         fightLogic.weather = newWeather

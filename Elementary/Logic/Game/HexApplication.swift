@@ -56,7 +56,7 @@ struct HexApplication {
         
         //try to apply hex
         if hex != nil {
-            if let appliedHex = Hexes(rawValue: hex!)?.getHex() {
+            if let appliedHex: Hex = Hexes(rawValue: hex!)?.getHex() {
                 switch target.applyHex(hex: appliedHex, resistable: resistable) {
                 case 1:
                     AudioPlayer.shared.playCancelSound()
@@ -67,7 +67,7 @@ struct HexApplication {
                 default:
                     AudioPlayer.shared.playConfirmSound()
                     if AudioPlayer.shared.hapticToggle {
-                        let haptic = UIImpactFeedbackGenerator(style: .medium)
+                        let haptic: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
                         haptic.impactOccurred()
                     }
                     

@@ -44,7 +44,7 @@ class GlobalData {
     
     /// Loads data from elements folder.
     func loadElements() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
+        if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
             for url in urls {
                 do {
                     let data = try Data(contentsOf: url)
@@ -66,7 +66,7 @@ class GlobalData {
     
     /// Loads data from spells folder.
     func loadSpells() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
+        if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
             for url in urls {
                 do {
                     let data = try Data(contentsOf: url)
@@ -88,7 +88,7 @@ class GlobalData {
     /// Loads data from fighters folder.
     /// - Parameter manager: Access to ViewManager to display progress
     func loadFighters(manager: ViewManager) {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
+        if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
             for url in urls {
                 do {
                     let data = try Data(contentsOf: url)
@@ -113,7 +113,7 @@ class GlobalData {
     
     /// Loads data from natures folder.
     func loadNatures() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
+        if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
             for url in urls {
                 do {
                     let data = try Data(contentsOf: url)

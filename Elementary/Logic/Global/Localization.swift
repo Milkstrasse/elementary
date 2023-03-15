@@ -17,7 +17,7 @@ class Localization {
     
     /// Gets name of each language file in folder.
     func getLanguages() {
-        if let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Languages") {
+        if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "Languages") {
             for url in urls {
                 languages.append(url.deletingPathExtension().lastPathComponent)
             }

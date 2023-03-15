@@ -124,7 +124,7 @@ struct InfoView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         CustomText(text: Localization.shared.getTranslation(key: fightLogic.weather?.name ?? "clearSkies").uppercased(), fontSize: General.mediumFont, isBold: true)
                         HStack(spacing: 0) {
-                            if let weather = fightLogic.weather {
+                            if let weather: Hex = fightLogic.weather {
                                 Text(General.createSymbol(int: weather.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color.white).fixedSize().frame(width: 25)
                                 CustomText(text: Localization.shared.getTranslation(key: weather.name + "Descr"), fontSize: General.smallFont)
                             } else {

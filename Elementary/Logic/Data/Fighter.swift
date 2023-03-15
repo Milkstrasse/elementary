@@ -189,7 +189,7 @@ class Fighter: Hashable, Equatable {
                 for imgFrame in imgFrames {
                     let context = CIContext()
                     if let ciImage: CIImage = CIImage(image: wholeImage!) {
-                        if let splitImage = context.createCGImage(ciImage, from: imgFrame) {
+                        if let splitImage: CGImage = context.createCGImage(ciImage, from: imgFrame) {
                             let uiImage = UIImage(cgImage: splitImage)
                             tempImages[outfitIndex].append(Image(uiImage: uiImage))
                         }

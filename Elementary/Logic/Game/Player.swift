@@ -122,7 +122,7 @@ class Player: ObservableObject {
             AudioPlayer.shared.playAttackSound()
         case .hurting:
             if AudioPlayer.shared.hapticToggle {
-                let haptic = UIImpactFeedbackGenerator(style: .heavy)
+                let haptic: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
                 haptic.impactOccurred()
             }
             

@@ -13,7 +13,7 @@ struct ElementalChartView: View {
             ForEach(GlobalData.shared.elementArray, id: \.self.name) { element in
                 HStack(spacing: General.innerPadding/2) {
                     ForEach(element.weaknesses.indices, id: \.self) { index in
-                        if let temp = GlobalData.shared.elements[element.weaknesses[index]] {
+                        if let temp: Element = GlobalData.shared.elements[element.weaknesses[index]] {
                             ZStack {
                                 Rectangle().fill(Color(hex: temp.color))
                                 Text(General.createSymbol(string: temp.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color.white)
@@ -27,7 +27,7 @@ struct ElementalChartView: View {
                     }
                     Text(General.createSymbol(string:"0xf061")).frame(maxWidth: .infinity).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color.white)
                     ForEach(element.strengths.indices, id: \.self) { index in
-                        if let temp = GlobalData.shared.elements[element.strengths[index]] {
+                        if let temp: Element = GlobalData.shared.elements[element.strengths[index]] {
                             ZStack {
                                 Rectangle().fill(Color(hex: temp.color))
                                 Text(General.createSymbol(string: temp.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color.white)
