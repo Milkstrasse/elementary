@@ -62,7 +62,7 @@ class Fighter: Hashable, Equatable {
         lastSpell = -1
         
         for index in dataSpells.indices {
-            let spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
+            let spell: Spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
             singleSpells.append(spell)
         }
         
@@ -70,7 +70,7 @@ class Fighter: Hashable, Equatable {
         dataSpells = data.multiSpells
         
         for index in dataSpells.indices {
-            let spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
+            let spell: Spell = GlobalData.shared.spells[dataSpells[index]] ?? Spell()
             multiSpells.append(spell)
         }
         
@@ -187,10 +187,10 @@ class Fighter: Hashable, Equatable {
                 let imgFrames: [CGRect] = [CGRectMake(0, 1200, 600, 600), CGRectMake(600, 1200, 600, 600), CGRectMake(1200, 1200, 600, 600), CGRectMake(0, 600, 600, 600), CGRectMake(600, 600, 600, 600), CGRectMake(1200, 600, 600, 600), CGRectMake(0, 0, 600, 600)]
                 
                 for imgFrame in imgFrames {
-                    let context = CIContext()
+                    let context: CIContext = CIContext()
                     if let ciImage: CIImage = CIImage(image: wholeImage!) {
                         if let splitImage: CGImage = context.createCGImage(ciImage, from: imgFrame) {
-                            let uiImage = UIImage(cgImage: splitImage)
+                            let uiImage: UIImage = UIImage(cgImage: splitImage)
                             tempImages[outfitIndex].append(Image(uiImage: uiImage))
                         }
                     }

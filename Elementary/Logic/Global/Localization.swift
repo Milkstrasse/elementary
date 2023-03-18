@@ -29,7 +29,7 @@ class Localization {
     func loadLanguage(language: String) {
         if let url: URL = Bundle.main.url(forResource: language, withExtension: "json", subdirectory: "Languages") {
             do {
-                let data = try Data(contentsOf: url)
+                let data: Data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
                 
                 currentLang = language
@@ -48,7 +48,7 @@ class Localization {
     func loadCurrentLanguage() {
         if let url: URL = Bundle.main.url(forResource: currentLang, withExtension: "json", subdirectory: "Languages") {
             do {
-                let data = try Data(contentsOf: url)
+                let data: Data = try Data(contentsOf: url)
                 translations = try JSONDecoder().decode([String:String].self, from: data)
             } catch {
                 print("\(error)")
@@ -70,7 +70,7 @@ class Localization {
         let translation: String? = translations[key]
         
         if translation != nil && !params.isEmpty {
-            let charSet = CharacterSet(charactersIn: "{}")
+            let charSet: CharacterSet = CharacterSet(charactersIn: "{}")
             var components: [String] = translation!.components(separatedBy: charSet)
             
             for index in components.indices {

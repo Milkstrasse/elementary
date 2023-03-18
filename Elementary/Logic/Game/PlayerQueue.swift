@@ -292,7 +292,7 @@ class PlayerQueue {
             var j: Int = i
             
             while j > 0 && isFasterFighter(playerMoveA: queue[j], playerMoveB: queue[j - 1], weather: weather) {
-                let temp = queue[j]
+                let temp: (player: Player, move: Move) = queue[j]
                 queue[j] = queue[j - 1]
                 queue[j - 1] = temp
                 

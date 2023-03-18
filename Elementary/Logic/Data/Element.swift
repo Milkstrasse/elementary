@@ -31,7 +31,7 @@ struct Element: Decodable {
     /// Creates element from JSON data.
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container: KeyedDecodingContainer = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownElement" //will be overwritten by GlobalData
         symbol = try container.decode(String.self, forKey: .symbol)

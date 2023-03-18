@@ -261,12 +261,12 @@ struct UserProgress: Codable {
     /// Formats the number of points.
     /// - Returns: Returns formatted number of points
     func getFormattedPoints() -> String {
-        let formatter = NumberFormatter()
+        let formatter: NumberFormatter = NumberFormatter()
         formatter.locale = .current
         formatter.numberStyle = .decimal
 
-        let number = NSNumber(value: points)
-        let formattedValue = formatter.string(from: number)!
+        let number: NSNumber = NSNumber(value: points)
+        let formattedValue: String = formatter.string(from: number)!
         return "\(formattedValue)"
     }
 }

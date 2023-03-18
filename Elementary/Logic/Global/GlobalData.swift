@@ -47,8 +47,8 @@ class GlobalData {
         if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Elements") {
             for url in urls {
                 do {
-                    let data = try Data(contentsOf: url)
-                    var elementData = try JSONDecoder().decode(Element.self, from: data)
+                    let data: Data = try Data(contentsOf: url)
+                    var elementData: Element = try JSONDecoder().decode(Element.self, from: data)
                     elementData.name = url.deletingPathExtension().lastPathComponent
                     
                     elements.updateValue(elementData, forKey: elementData.name)
@@ -69,8 +69,8 @@ class GlobalData {
         if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Spells") {
             for url in urls {
                 do {
-                    let data = try Data(contentsOf: url)
-                    var spellData = try JSONDecoder().decode(Spell.self, from: data)
+                    let data: Data = try Data(contentsOf: url)
+                    var spellData: Spell = try JSONDecoder().decode(Spell.self, from: data)
                     spellData.name = url.deletingPathExtension().lastPathComponent
                     
                     spells.updateValue(spellData, forKey: spellData.name)
@@ -91,8 +91,8 @@ class GlobalData {
         if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Fighters") {
             for url in urls {
                 do {
-                    let data = try Data(contentsOf: url)
-                    var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                    let data: Data = try Data(contentsOf: url)
+                    var fighterData: FighterData = try JSONDecoder().decode(FighterData.self, from: data)
                     fighterData.name = url.deletingPathExtension().lastPathComponent
                     
                     fighters.append(Fighter(data: fighterData))
@@ -116,8 +116,8 @@ class GlobalData {
         if let urls: [URL] = Bundle.main.urls(forResourcesWithExtension: nil, subdirectory: "Natures") {
             for url in urls {
                 do {
-                    let data = try Data(contentsOf: url)
-                    var natureData = try JSONDecoder().decode(Nature.self, from: data)
+                    let data: Data = try Data(contentsOf: url)
+                    var natureData: Nature = try JSONDecoder().decode(Nature.self, from: data)
                     natureData.name = url.deletingPathExtension().lastPathComponent
                     
                     natures.append(natureData)
@@ -253,8 +253,8 @@ class GlobalData {
             let url: URL = URL.init(fileURLWithPath: mainURL.path + "/mods/elements/" + path)
             
             do {
-                let data = try Data(contentsOf: url)
-                var elementData = try JSONDecoder().decode(Element.self, from: data)
+                let data: Data = try Data(contentsOf: url)
+                var elementData: Element = try JSONDecoder().decode(Element.self, from: data)
                 elementData.name = url.deletingPathExtension().lastPathComponent
                 
                 if GlobalData.shared.elements[elementData.name] == nil { //adds new element
@@ -284,8 +284,8 @@ class GlobalData {
             do {
                 let url: URL = URL.init(fileURLWithPath: mainURL.path + "/mods/spells/" + path)
                 
-                let data = try Data(contentsOf: url)
-                var spellData = try JSONDecoder().decode(Spell.self, from: data)
+                let data: Data = try Data(contentsOf: url)
+                var spellData: Spell = try JSONDecoder().decode(Spell.self, from: data)
                 spellData.name = url.deletingPathExtension().lastPathComponent
                 
                 //adds new spell or replaces spell
@@ -312,8 +312,8 @@ class GlobalData {
             do {
                 let url: URL = URL.init(fileURLWithPath: mainURL.path + "/mods/fighters/" + path)
                 
-                let data = try Data(contentsOf: url)
-                var fighterData = try JSONDecoder().decode(FighterData.self, from: data)
+                let data: Data = try Data(contentsOf: url)
+                var fighterData: FighterData = try JSONDecoder().decode(FighterData.self, from: data)
                 fighterData.name = url.deletingPathExtension().lastPathComponent
                 
                 for (index, fighter) in GlobalData.shared.fighters.enumerated() {
@@ -339,7 +339,7 @@ class GlobalData {
         
         if SaveData.fileManager.fileExists(atPath: url.path) {
             do {
-                let data = try Data(contentsOf: url)
+                let data: Data = try Data(contentsOf: url)
                 let translations: [String:String] = try JSONDecoder().decode([String:String].self, from: data)
                 
                 return translations

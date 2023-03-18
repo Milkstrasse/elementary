@@ -23,10 +23,10 @@ struct PlayerSelectionView: View {
     @Binding var selectionToggle: Bool
     @Binding var infoToggle: Bool
     
-    @GestureState var isNatureDecreasing = false
-    @GestureState var isNatureIncreasing = false
-    @GestureState var isArtifactDecreasing = false
-    @GestureState var isArtifactIncreasing = false
+    @GestureState var isNatureDecreasing: Bool = false
+    @GestureState var isNatureIncreasing: Bool = false
+    @GestureState var isArtifactDecreasing: Bool = false
+    @GestureState var isArtifactIncreasing: Bool = false
     
     /// Tries to add a selected fighter to the team.
     /// - Parameter fighter: The selected fighter

@@ -36,7 +36,7 @@ struct TextFitter {
                 txt += textArray[index]
             }
             
-            let array = createTextArray(text: txt, cutOff: cutOff)
+            let array: [String] = createTextArray(text: txt, cutOff: cutOff)
             
             for k in needsRedo ..< textArray.count {
                 textArray[k] = array[k - needsRedo]

@@ -38,10 +38,10 @@ struct Spell: Decodable, Hashable {
     /// Creates spell from JSON data.
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container: KeyedDecodingContainer = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownSpell" //will be overwritten by GlobalData
-        let elem = try container.decode(String.self, forKey: .element)
+        let elem: String = try container.decode(String.self, forKey: .element)
         element = GlobalData.shared.elements[elem] ?? Element()
         
         typeID = try container.decode(Int.self, forKey: .typeID)
@@ -91,7 +91,7 @@ struct SubSpell: Decodable {
     /// Creates action from JSON data.
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container: KeyedDecodingContainer = try decoder.container(keyedBy: CodingKeys.self)
         
         power = try container.decode(Int.self, forKey: .power)
         range = try container.decode(Int.self, forKey: .range)

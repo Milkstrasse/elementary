@@ -40,10 +40,10 @@ struct OverviewView: View {
     /// - Returns: Returns an array of fighters
     func getSubArray(row: Int) -> [Fighter] {
         if (6 + row * 6) < currentArray.count {
-            let rowArray = currentArray[row * 6 ..< 6 + row * 6]
+            let rowArray: ArraySlice = currentArray[row * 6 ..< 6 + row * 6]
             return Array(rowArray)
         } else {
-            let rowArray = currentArray[row * 6 ..< currentArray.count]
+            let rowArray: ArraySlice = currentArray[row * 6 ..< currentArray.count]
             return Array(rowArray)
         }
     }

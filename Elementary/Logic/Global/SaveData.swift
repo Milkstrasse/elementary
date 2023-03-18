@@ -141,7 +141,7 @@ struct SaveData: Codable {
         }
         
         url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let modUrl = URL.init(fileURLWithPath: url.path + "/mods")
+        let modUrl: URL = URL.init(fileURLWithPath: url.path + "/mods")
         if !fileManager.directoryExists(atUrl: modUrl) {
             do {
                 try fileManager.createDirectory(atPath: url.path + "/mods/assets", withIntermediateDirectories: true, attributes: nil)

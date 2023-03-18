@@ -19,7 +19,7 @@ struct TeamManager {
         var rndmFighters: [Int] = []
         switch GlobalData.shared.teamLimit {
         case 1: //only unique fighters on one team
-            var fighterSet = Set<Int>()
+            var fighterSet: Set<Int> = Set<Int>()
             
             while fighterSet.count < maxSize {
                 fighterSet.insert(Int.random(in: 0 ..< GlobalData.shared.fighters.count))
@@ -64,7 +64,7 @@ struct TeamManager {
                 rndmArtifacts.append(Int.random(in: 0 ..< Artifacts.allCases.count))
             }
         case 1: //unique artifacts
-            var artifactSet = Set<Int>()
+            var artifactSet: Set<Int> = Set<Int>()
             
             while artifactSet.count < maxSize {
                 artifactSet.insert(Int.random(in: 0 ..< Artifacts.allCases.count))

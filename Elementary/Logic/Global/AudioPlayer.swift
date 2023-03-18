@@ -38,7 +38,7 @@ class AudioPlayer {
         }
         
         do {
-            let path = Bundle.main.path(forResource: "LudumDare30-Track6.wav", ofType: nil)!
+            let path: String = Bundle.main.path(forResource: "LudumDare30-Track6.wav", ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             musicPlayer = try AVAudioPlayer(contentsOf: url)
@@ -56,7 +56,7 @@ class AudioPlayer {
     /// Plays the background music during of an fight.
     func playFightMusic() {
         do {
-            let path = Bundle.main.path(forResource: "LudumDare28-Track3.wav", ofType: nil)!
+            let path: String = Bundle.main.path(forResource: "LudumDare28-Track3.wav", ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             musicPlayer = try AVAudioPlayer(contentsOf: url)
@@ -74,7 +74,7 @@ class AudioPlayer {
     /// Plays a basic sound.
     func playStandardSound() {
         do {
-            let path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
+            let path: String = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
@@ -88,7 +88,7 @@ class AudioPlayer {
     /// Plays a confirm sound.
     func playConfirmSound() {
         do {
-            let path = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
+            let path: String = Bundle.main.path(forResource: "abs-confirm-1.mp3", ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
@@ -102,7 +102,7 @@ class AudioPlayer {
     /// Plays a cancel sound.
     func playCancelSound() {
         do {
-            let path = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
+            let path: String = Bundle.main.path(forResource: "abs-cancel-1.mp3", ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             soundPlayer = try AVAudioPlayer(contentsOf: url)
@@ -118,7 +118,7 @@ class AudioPlayer {
         let index: Int = Int.random(in: 0 ..< 3)
         
         do {
-            let path = Bundle.main.path(forResource: voices[index], ofType: nil)!
+            let path: String = Bundle.main.path(forResource: voices[index], ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)
@@ -134,7 +134,7 @@ class AudioPlayer {
         let index: Int = Int.random(in: 0 ..< 3)
         
         do {
-            let path = Bundle.main.path(forResource: voices[index + 3], ofType: nil)!
+            let path: String = Bundle.main.path(forResource: voices[index + 3], ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)
@@ -150,7 +150,7 @@ class AudioPlayer {
         let index: Int = Int.random(in: 0 ..< 3)
         
         do {
-            let path = Bundle.main.path(forResource: voices[index + 6], ofType: nil)!
+            let path: String = Bundle.main.path(forResource: voices[index + 6], ofType: nil)!
             let url: URL = URL(fileURLWithPath: path)
             
             voicePlayer = try AVAudioPlayer(contentsOf: url)

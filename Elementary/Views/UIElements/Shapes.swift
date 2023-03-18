@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TitlePanel: Shape {
     func path(in rect: CGRect) -> Path {
-        var path = Path()
+        var path: Path = Path()
 
         path.move(to: CGPoint(x: rect.maxX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
@@ -23,7 +23,7 @@ struct TitlePanel: Shape {
 
 struct TriangleA: Shape {
     func path(in rect: CGRect) -> Path {
-        var path = Path()
+        var path: Path = Path()
         
         path.move(to: CGPoint(x: rect.minX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxY * 1.65, y: rect.maxY))
@@ -36,7 +36,7 @@ struct TriangleA: Shape {
 
 struct TriangleB: Shape {
     func path(in rect: CGRect) -> Path {
-        var path = Path()
+        var path: Path = Path()
 
         path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
@@ -52,7 +52,7 @@ struct ZigZag: Shape {
         let points: CGFloat = 8
         let height: CGFloat = 50
         
-        var path = Path()
+        var path: Path = Path()
 
         path.move(to: CGPoint(x: rect.maxX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))

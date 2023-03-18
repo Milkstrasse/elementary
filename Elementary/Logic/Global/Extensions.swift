@@ -46,7 +46,7 @@ extension Color {
     /// Creates a color from a hex string.
     /// - Parameter hex: Hex code as a string
     init(hex: String) {
-        let hexString:String = String(hex.dropFirst())
+        let hexString: String = String(hex.dropFirst())
 
         if ((hexString.count) != 6) {
             self.init(red: 0, green: 0, blue: 0)
@@ -69,7 +69,7 @@ extension FileManager {
     /// - Returns: Return wether directory exists  or not
     func directoryExists(atUrl url: URL) -> Bool {
         var isDirectory: ObjCBool = false
-        let exists = self.fileExists(atPath: url.path, isDirectory:&isDirectory)
+        let exists: Bool = self.fileExists(atPath: url.path, isDirectory:&isDirectory)
         return exists && isDirectory.boolValue
     }
 }

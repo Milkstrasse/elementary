@@ -44,7 +44,7 @@ struct FighterData: Decodable {
     /// Creates data for a fighter from JSON data
     /// - Parameter decoder: The JSON decoder
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container: KeyedDecodingContainer = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownFighter" //will be overwritten by GlobalData
         title = try container.decode(String.self, forKey: .title)

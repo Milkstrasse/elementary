@@ -51,7 +51,7 @@ struct PlayerFightView: View {
     /// - Returns: Returns the width of the health bar
     func calcWidth(fighter: Fighter) -> CGFloat {
         let percentage: CGFloat = CGFloat(fighter.currhp)/CGFloat(fighter.getModifiedBase().health)
-        let width = round(175 * percentage)
+        let width: CGFloat = round(175 * percentage)
         
         return width
     }

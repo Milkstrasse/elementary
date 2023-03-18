@@ -17,14 +17,14 @@ struct AudioSettingsView: View {
     
     @State var langIndex: Int
     
-    @GestureState var isGeneralDecreasing = false
-    @GestureState var isGeneralIncreasing = false
-    @GestureState var isMusicDecreasing = false
-    @GestureState var isMusicIncreasing = false
-    @GestureState var isSoundDecreasing = false
-    @GestureState var isSoundIncreasing = false
-    @GestureState var isVoicesDecreasing = false
-    @GestureState var isVoicesIncreasing = false
+    @GestureState var isGeneralDecreasing: Bool = false
+    @GestureState var isGeneralIncreasing: Bool = false
+    @GestureState var isMusicDecreasing: Bool = false
+    @GestureState var isMusicIncreasing: Bool = false
+    @GestureState var isSoundDecreasing: Bool = false
+    @GestureState var isSoundIncreasing: Bool = false
+    @GestureState var isVoicesDecreasing: Bool = false
+    @GestureState var isVoicesIncreasing: Bool = false
     
     /// Resets audio values to default
     func resetAudioSettings() {
