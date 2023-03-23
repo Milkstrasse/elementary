@@ -156,7 +156,7 @@ struct SettingsView: View {
                             }
                             VStack(spacing: General.innerPadding/2) {
                                 GeneralSettingsView(teamIndex: $teamIndex, artifactIndex: $artifactIndex, langIndex: langIndex)
-                                AdvancedSettingsView(attackModifier: $attackModifier, criticalModifier: $criticalModifier, elementalModifier: $elementalModifier, weatherModifier: $elementalModifier, deviation: $deviation, langIndex: langIndex)
+                                AdvancedSettingsView(attackModifier: $attackModifier, criticalModifier: $criticalModifier, elementalModifier: $elementalModifier, weatherModifier: $weatherModifier, deviation: $deviation, langIndex: langIndex)
                             }
                         }
                         .padding(.horizontal, General.outerPadding)
