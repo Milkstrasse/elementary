@@ -267,6 +267,8 @@ class TurnLogic {
                 
                 print(attacker.name + " lost \(damage)DMG.")
                 
+                print("C")
+                
                 return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
             }
         default: //spell move
