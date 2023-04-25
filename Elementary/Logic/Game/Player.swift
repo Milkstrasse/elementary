@@ -188,7 +188,7 @@ class Player: ObservableObject {
         
         var text: String
         
-        if getCurrentFighter().getArtifact().name == Artifacts.talisman.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+        if getCurrentFighter().getArtifact().name == Artifacts.talisman.rawValue && fightLogic.weather?.name != Weather.mysticWeather.rawValue {
             for hex in getCurrentFighter().hexes {
                 getCurrentFighter().removeHex(hex: hex)
             }

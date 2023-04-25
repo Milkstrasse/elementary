@@ -109,7 +109,7 @@ class Fighter: Hashable, Equatable {
         let precision: Int = max(base.precision + getHexBonus(hex: precisionMod) + nature.precisionMod, 0)
         let resistance: Int = max(base.resistance + getHexBonus(hex: resistanceMod) + nature.resistanceMod, 0)
         
-        if weather?.name != Weather.volcanicStorm.rawValue {
+        if weather?.name != Weather.mysticWeather.rawValue {
             if getArtifact().name == Artifacts.armor.rawValue || getArtifact().name == Artifacts.sword.rawValue {
                 attack += 40
             } else if  getArtifact().name == Artifacts.fetish.rawValue {

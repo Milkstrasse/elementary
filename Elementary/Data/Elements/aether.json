@@ -1,12 +1,12 @@
 {
     "symbol": "0xf186",
-    "color": "#C8A3E8",
+    "color": "#F3BDCF",
     "strengths": [
         "electric",
         "wind"
     ],
     "weaknesses": [
-        "digital",
+        "time",
         "wood"
     ]
 }

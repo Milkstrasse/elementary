@@ -1,1 +1,1 @@
-{    "symbol": "0xf7e4",    "color": "#E8545E",    "strengths": [        "ice",        "wood"    ],    "weaknesses": [        "rock",        "water"    ]}
+{    "symbol": "0xf7e4",    "color": "#E8545E",    "strengths": [        "ice",        "wood"    ],    "weaknesses": [        "ground",        "water"    ]}

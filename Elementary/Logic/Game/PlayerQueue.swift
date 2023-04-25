@@ -34,7 +34,7 @@ class PlayerQueue {
     func createSwapTurns(player: Player, fighter: Int, oppositePlayer: Player, weather: Hex?) -> [(player: Player, move: Move)] {
         var swapQueue: [(player: Player, move: Move)] = []
         
-        if weather?.name == Weather.volcanicStorm.rawValue {
+        if weather?.name == Weather.mysticWeather.rawValue {
             return swapQueue
         }
         
@@ -145,7 +145,7 @@ class PlayerQueue {
             if queue[index].move.type == MoveType.spell { //spell move can be overwritten by artifacts/hexes
                 if source.lastSpell >= 0 && source.hasHex(hexName: Hexes.restricted.rawValue) {
                     queue[index].move.spell = source.lastSpell
-                } else if source.lastSpell >= 0 && source.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+                } else if source.lastSpell >= 0 && source.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.mysticWeather.rawValue {
                     queue[index].move.spell = source.lastSpell
                 } else if source.hasHex(hexName: Hexes.confused.rawValue) {
                     let randomIndex: Int

@@ -10,7 +10,6 @@ enum Weather: String, CaseIterable {
     case blizzard
     case sunnyDay
     case overcastSky
-    case mysticWeather
     case lightRain
     case sandstorm
     case thunderstorm
@@ -18,9 +17,8 @@ enum Weather: String, CaseIterable {
     case denseFog
     case heavyStorm
     case extremeHeat
-    case volcanicStorm
+    case mysticWeather
     case springWeather
-    case forecastError
     
     /// Creates and returns a weather hex.
     /// - Parameter duration: The duration of the hex
@@ -33,8 +31,6 @@ enum Weather: String, CaseIterable {
             return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, element: GlobalData.shared.elements["plant"]!, positive: true)
         case .overcastSky:
             return Hex(name: self.rawValue, symbol: 0xf6c3, duration: duration, element: GlobalData.shared.elements["bug"]!, positive: true)
-        case .mysticWeather:
-            return Hex(name: self.rawValue, symbol: 0xf75b, duration: duration, element: GlobalData.shared.elements["time"]!, positive: true)
         case .lightRain:
             return Hex(name: self.rawValue, symbol: 0xf75c, duration: duration, element: GlobalData.shared.elements["water"]!, positive: true)
         case .sandstorm:
@@ -49,12 +45,10 @@ enum Weather: String, CaseIterable {
             return Hex(name: self.rawValue, symbol: 0xf751, duration: duration, element: GlobalData.shared.elements["wind"]!, positive: true)
         case .extremeHeat:
             return Hex(name: self.rawValue, symbol: 0xf765, duration: duration, element: GlobalData.shared.elements["fire"]!, positive: true)
-        case .volcanicStorm:
+        case .mysticWeather:
             return Hex(name: self.rawValue, symbol: 0xf770, duration: duration, element: GlobalData.shared.elements["ground"]!, positive: true)
         case .springWeather:
             return Hex(name: self.rawValue, symbol: 0xf4d8, duration: duration, element: GlobalData.shared.elements["wood"]!, positive: true)
-        case .forecastError:
-            return Hex(name: self.rawValue, symbol: 0xf071, duration: duration, element: GlobalData.shared.elements["digital"]!, positive: true)
         }
     }
     
@@ -71,8 +65,6 @@ enum Weather: String, CaseIterable {
         case "sunnyDay":
             return true
         case "overcastSky":
-            return true
-        case "mysticWeather":
             return true
         case "lightRain":
             return true

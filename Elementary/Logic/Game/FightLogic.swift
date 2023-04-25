@@ -149,45 +149,43 @@ class FightLogic: ObservableObject {
                                 }
                             }
                             
-                            if weather?.name != Weather.forecastError.rawValue {
-                                if singleMode {
-                                    players[0].getCurrentFighter().hasSwapped = false
-                                    for hex in players[0].getCurrentFighter().hexes {
+                            if singleMode {
+                                players[0].getCurrentFighter().hasSwapped = false
+                                for hex in players[0].getCurrentFighter().hexes {
+                                    hex.duration -= 1
+                                    
+                                    if hex.duration == 0 {
+                                        players[0].getCurrentFighter().removeHex(hex: hex)
+                                    }
+                                }
+                                
+                                players[1].getCurrentFighter().hasSwapped = false
+                                for hex in players[1].getCurrentFighter().hexes {
+                                    hex.duration -= 1
+                                    
+                                    if hex.duration == 0 {
+                                        players[1].getCurrentFighter().removeHex(hex: hex)
+                                    }
+                                }
+                            } else {
+                                for fighter in players[0].fighters {
+                                    fighter.hasSwapped = false
+                                    for hex in fighter.hexes {
                                         hex.duration -= 1
                                         
                                         if hex.duration == 0 {
-                                            players[0].getCurrentFighter().removeHex(hex: hex)
+                                            fighter.removeHex(hex: hex)
                                         }
                                     }
-                                    
-                                    players[1].getCurrentFighter().hasSwapped = false
-                                    for hex in players[1].getCurrentFighter().hexes {
+                                }
+                                
+                                for fighter in players[1].fighters {
+                                    fighter.hasSwapped = false
+                                    for hex in fighter.hexes {
                                         hex.duration -= 1
                                         
                                         if hex.duration == 0 {
-                                            players[1].getCurrentFighter().removeHex(hex: hex)
-                                        }
-                                    }
-                                } else {
-                                    for fighter in players[0].fighters {
-                                        fighter.hasSwapped = false
-                                        for hex in fighter.hexes {
-                                            hex.duration -= 1
-                                            
-                                            if hex.duration == 0 {
-                                                fighter.removeHex(hex: hex)
-                                            }
-                                        }
-                                    }
-                                    
-                                    for fighter in players[1].fighters {
-                                        fighter.hasSwapped = false
-                                        for hex in fighter.hexes {
-                                            hex.duration -= 1
-                                            
-                                            if hex.duration == 0 {
-                                                fighter.removeHex(hex: hex)
-                                            }
+                                            fighter.removeHex(hex: hex)
                                         }
                                     }
                                 }

@@ -39,7 +39,7 @@ struct CPULogic {
         }
         
         //fighter is restricted -> use best move
-        if (attacker.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.volcanicStorm.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
+        if (attacker.getArtifact().name == Artifacts.armor.rawValue && weather?.name != Weather.mysticWeather.rawValue) || attacker.hasHex(hexName: Hexes.restricted.rawValue) {
             if attacker.getElement().hasDisadvantage(element: defender.getElement(), weather: weather) && player.isAbleToSwap() {
                 if !attacker.hasHex(hexName: Hexes.chained.rawValue) && getTarget(currentFighter: player.currentFighterId, player: player, enemyElement: defender.getElement(), hasToSwap: false, weather: weather) != player.currentFighterId {
                     return createSwapMove(player: player, target: target, weather: weather)
@@ -144,7 +144,7 @@ struct CPULogic {
         
         //consider using a hex
         rndm = Int.random(in: 0 ..< 3)
-        if rndm > 1 && weather?.name != Weather.volcanicStorm.rawValue {
+        if rndm > 1 && weather?.name != Weather.mysticWeather.rawValue {
             if attacker.currhp > attacker.getModifiedBase().health/4 * 3 {
                 for spell in availableSpells {
                     if attacker.singleSpells[spell].typeID == 14 {

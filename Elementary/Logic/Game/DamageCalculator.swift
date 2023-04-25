@@ -85,7 +85,7 @@ struct DamageCalculator {
         let damage: Int = Int(ceil(dmg))
         
         if damage >= defender.currhp { //prevent hp below 0
-            if defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.volcanicStorm.rawValue {
+            if defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.mysticWeather.rawValue {
                 defender.currhp = 1
             } else {
                 defender.currhp = 0
@@ -157,23 +157,23 @@ struct DamageCalculator {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.sunnyDay.rawValue:
-            if spellElement == "fire" || spellElement == "wood" {
+            if spellElement == "fire" || spellElement == "plant" {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.overcastSky.rawValue:
-            if spellElement == "aether" || spellElement == "time" {
-                return GlobalData.shared.weatherModifier
-            }
-        case Weather.mysticWeather.rawValue:
-            if spellElement == "electric" || spellElement == "metal" {
+            if spellElement == "aether" || spellElement == "rock" {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.lightRain.rawValue:
-            if spellElement == "plant" || spellElement == "water" {
+            if spellElement == "water" || spellElement == "wood" {
                 return GlobalData.shared.weatherModifier
             }
         case Weather.sandstorm.rawValue:
-            if spellElement == "ground" || spellElement == "rock" {
+            if spellElement == "ground" || spellElement == "time" {
+                return GlobalData.shared.weatherModifier
+            }
+        case Weather.thunderstorm.rawValue:
+            if spellElement == "electric" || spellElement == "metal" {
                 return GlobalData.shared.weatherModifier
             }
         default:

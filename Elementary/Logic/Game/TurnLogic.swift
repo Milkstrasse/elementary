@@ -60,7 +60,7 @@ class TurnLogic {
             
             let target: Fighter = fightLogic.players[move.targetedPlayer].getFighter(index: move.target)
             
-            if fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+            if fightLogic.weather?.name != Weather.mysticWeather.rawValue {
                 switch move.index {
                 case 0:
                     if fightLogic.singleMode {
@@ -347,7 +347,7 @@ class TurnLogic {
         if usedSpell.power > 0 { //damaging attack
             if defender.currhp == 0 || oppositePlayer.hasToSwap { //target no longer fighting
                 return Localization.shared.getTranslation(key: "spellFailed")
-            } else if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
+            } else if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.mysticWeather.rawValue { //protection from seconary effects
                 if usedSpell.range != 0 {
                     return Localization.shared.getTranslation(key: "spellFailed")
                 }
@@ -368,7 +368,7 @@ class TurnLogic {
                     }
                 }
                 
-                if defender.getArtifact().name == Artifacts.sandals.rawValue && oppositePlayer.isAbleToSwap(singleMode: fightLogic.singleMode) && fightLogic.weather?.name != Weather.volcanicStorm.rawValue {
+                if defender.getArtifact().name == Artifacts.sandals.rawValue && oppositePlayer.isAbleToSwap(singleMode: fightLogic.singleMode) && fightLogic.weather?.name != Weather.mysticWeather.rawValue {
                     oppositePlayer.hasToSwap = true
                 }
             } else {
@@ -389,7 +389,7 @@ class TurnLogic {
             if fightLogic.weather?.name == Weather.springWeather.rawValue {
                 return Localization.shared.getTranslation(key: "hexFailed")
             } else {
-                if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
+                if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.mysticWeather.rawValue { //protection from seconary effects
                     if usedSpell.range != 0 {
                         return Localization.shared.getTranslation(key: "hexResisted")
                     }
@@ -402,7 +402,7 @@ class TurnLogic {
                 }
             }
         } else if usedSpell.healAmount > 0 {
-            if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
+            if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.mysticWeather.rawValue { //protection from seconary effects
                 if usedSpell.range != 0 {
                     return Localization.shared.getTranslation(key: "healFailed")
                 }
@@ -437,7 +437,7 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "weatherFailed")
             }
         } else {
-            if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.volcanicStorm.rawValue { //protection from seconary effects
+            if move.index > 0 && defender.getArtifact().name == Artifacts.shield.rawValue && fightLogic.weather?.name != Weather.mysticWeather.rawValue { //protection from seconary effects
                 if usedSpell.range != 0 {
                     return Localization.shared.getTranslation(key: "spellFailed")
                 }

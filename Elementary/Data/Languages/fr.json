@@ -11,8 +11,6 @@
     "element": "Élément",
     
     "aether": "Éther",
-    "bug": "Insecte",
-    "digital": "Numérique",
     "electric": "Électrik",
     "fire": "Feu",
     "ground": "Sol",
@@ -229,7 +227,6 @@
     "blizzardDescr": "Augmente **glace** & **vent**",
     "sunnyDayDescr": "Augmente **feu** & **plante**",
     "overcastSkyDescr": "Augmente **éther** & **carie**",
-    "mysticWeatherDescr": "Augmente **numérique** & **temps**",
     "lightRainDescr": "Augmente **bois** & **eau**",
     "sandstormDescr": "Augmente **sol** & **roche**",
     "thunderstormDescr": "Augmente **électrik** & **métal**",
@@ -237,9 +234,8 @@
     "denseFogDescr": "Ignore le **test élémentaire**",
     "heavyStormDescr": "Renverse le **test d'agilité**",
     "extremeHeatDescr": "Permute **attaque** & **défense**",
-    "volcanicStormDescr": "Ignore **les artefacts**",
+    "mysticWeatherDescr": "Ignore **les artefacts**",
     "springWeatherDescr": "Prévient **les enchantements**",
-    "forecastErrorDescr": "Perpétue **les enchantements**",
     
     "hpBar": "{0}/{1}PV",
     "fightBegin": "Que le combat commence!",
