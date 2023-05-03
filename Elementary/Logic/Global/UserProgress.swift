@@ -227,15 +227,6 @@ struct UserProgress: Codable {
         }
     }
     
-    mutating func completeAllMissions() {
-        winStreak = 500
-        fightCounter = 500
-        winAllAlive = true
-        weatherUses = [Bool](repeating: true, count: Weather.allCases.count)
-        hexUses = [Bool](repeating: true, count: Hexes.allCases.count)
-        fightOneElement = true
-    }
-    
     /// Collect reward in form of points from a daily quest.
     /// - Parameters:
     ///   - points: Reward in points
