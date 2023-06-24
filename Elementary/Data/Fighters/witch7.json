@@ -12,7 +12,7 @@
       "metalSimpleAttack",
       "powerUp",
       "plantSimpleAttack",
-      "rockShieldAttack"
+      "groundShieldAttack"
   ],
   "multiSpells": [
       "metalSimpleAttack",

@@ -1,5 +1,5 @@
 {
-  "element": "rock",
+  "element": "ground",
   "typeID": 2,
   "range": 3,
   "uses": 20,
