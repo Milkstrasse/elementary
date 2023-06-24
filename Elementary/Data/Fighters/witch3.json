@@ -1,6 +1,5 @@
 {
   "element": "electric",
-  "title": "magus",
   "base": {
       "health": 75,
       "attack": 145,

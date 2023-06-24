@@ -18,7 +18,7 @@ struct PlayerFightView: View {
     @State var isGameOver: Bool = false
     @Binding var fightOver: Bool
     
-    @State var offset: CGFloat = 150
+    @State var offset: CGFloat = 200
     
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
@@ -71,7 +71,7 @@ struct PlayerFightView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                player.getCurrentFighter().getImage(blinking: blink, state: player.state).resizable().frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7).shadow(radius: 5, x: 5, y: 0).offset(x: -60 - offset, y: (geometry.size.width * 0.7 - 175)/2 * -1 - 175).animation(.linear(duration: 0.3).delay(0.2), value: offset)
+                player.getCurrentFighter().getImage(blinking: blink, state: player.state).resizable().frame(width: geometry.size.width * 0.7, height: geometry.size.width * 0.7).shadow(radius: 5, x: 5, y: 0).offset(x: -60 - offset, y: (geometry.size.width * 0.7 - 175)/2 * -1 - 175).animation(.linear(duration: 0.2).delay(0.4), value: offset)
                 Rectangle().fill(Color("MainPanel")).frame(width: geometry.size.width + 40, height: height).offset(x: -20, y: (height - 175)/2)
                 VStack(spacing: General.outerPadding) {
                     HStack {

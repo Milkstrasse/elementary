@@ -1,6 +1,5 @@
 {
   "element": "ice",
-  "title": "magus",
   "base": {
       "health": 70,
       "attack": 150,

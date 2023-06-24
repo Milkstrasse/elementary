@@ -61,12 +61,9 @@ struct FightSelectionView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 0) {
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3 + geometry.safeAreaInsets.top)
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
-                Spacer()
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0, y: 0).clipShape(TriangleB())
-                Image("Pattern").resizable(resizingMode: .tile).frame(height: 175 - geometry.size.width/3.3 + geometry.safeAreaInsets.bottom)
+            ZStack(alignment: .leading) {
+                Image("Pattern").resizable(resizingMode: .tile).frame(width: (175 + geometry.safeAreaInsets.top) * 3.3).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1)).offset(x: ((175 + geometry.safeAreaInsets.top) * 3.3 - geometry.size.width) * -1)
+                Image("Pattern").resizable(resizingMode: .tile).frame(width: (175 + geometry.safeAreaInsets.bottom) * 3.3).clipShape(TriangleB())
             }
             .ignoresSafeArea()
             VStack {
@@ -184,7 +181,7 @@ struct FightSelectionView: View {
                 topOffset = geometry.safeAreaInsets.top + 175
                 bottomOffset = geometry.safeAreaInsets.bottom + 175
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

@@ -287,7 +287,6 @@ struct PlayerSelectionView: View {
                                 Rectangle().fill(Color("Positive"))
                                 HStack(spacing: 0) {
                                     CustomText(text: Localization.shared.getTranslation(key: fighters[selectedSlot]!.name).uppercased(), fontSize: General.mediumFont, isBold: true)
-                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighters[selectedSlot]!.title).uppercased(), fontSize: General.smallFont, isBold: false)
                                     Spacer()
                                     Text(General.createSymbol(string: fighters[selectedSlot]!.getElement().symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                 }

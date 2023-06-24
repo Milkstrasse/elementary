@@ -11,7 +11,6 @@ import SwiftUI
 /// Contains all the important data of a fighter.
 class Fighter: Hashable, Equatable {
     let name: String
-    let title: String
     
     let element: Element
     private var elementOverride: Element?
@@ -48,7 +47,6 @@ class Fighter: Hashable, Equatable {
     /// - Parameter data: This contains the main data of the fighter
     init(data: FighterData, outfitIndex: Int = 0, images: [[Image]] = []) {
         name = data.name
-        title = data.title
         
         element = GlobalData.shared.elements[data.element] ?? Element()
         

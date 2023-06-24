@@ -35,9 +35,9 @@ struct FightView: View {
         GeometryReader { geometry in
             Color(hex: fightLogic.weather?.element.color ?? "#FF42A1").animation(.linear, value: fightLogic.weather).ignoresSafeArea()
             VStack {
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1))
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).rotation3DEffect(.degrees(180), axis: (x: 0, y: 0, z: 1)).offset(x: transitionToggle ? 100 : 0).animation(.linear(duration: 0.3).delay(0.2), value: transitionToggle)
                 Spacer()
-                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB())
+                Image("Pattern").resizable(resizingMode: .tile).offset(x: 0).clipShape(TriangleB()).offset(x: transitionToggle ? -100 : 0).animation(.linear(duration: 0.3).delay(0.2), value: transitionToggle)
             }
             .padding(.vertical, 175)
             VStack(spacing: 0) {
@@ -45,7 +45,7 @@ struct FightView: View {
                 Spacer()
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], height: 175 + geometry.safeAreaInsets.bottom, gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             AudioPlayer.shared.playFightMusic()

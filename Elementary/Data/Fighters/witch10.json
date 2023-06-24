@@ -1,6 +1,5 @@
 {
   "element": "water",
-  "title": "warlock",
   "base": {
       "health": 50,
       "attack": 130,

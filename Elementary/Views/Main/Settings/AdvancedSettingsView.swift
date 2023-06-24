@@ -18,8 +18,8 @@ struct AdvancedSettingsView: View {
     
     /// Resets advanced values to default
     func resetAdvancedSettings() {
-        GlobalData.shared.attackModifier = 18
-        attackModifier = 18
+        GlobalData.shared.attackModifier = 3
+        attackModifier = 3
         GlobalData.shared.criticalModifier = 2
         criticalModifier = 2
         GlobalData.shared.elementalModifier = 2
@@ -56,24 +56,24 @@ struct AdvancedSettingsView: View {
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
                     
-                    if attackModifier <= 8 {
-                        attackModifier = 24
+                    if attackModifier <= 1 {
+                        attackModifier = 5
                     } else {
-                        attackModifier -= 1
+                        attackModifier -= 0.5
                     }
                     
                     GlobalData.shared.attackModifier = attackModifier
                 }) {
                     ClearButton(label: "<", width: 35, height: General.largeHeight)
                 }
-                CustomText(text: "\(attackModifier)", fontSize: General.smallFont).frame(width: 100)
+                CustomText(text: "-\(attackModifier)", fontSize: General.smallFont).frame(width: 100)
                 Button(action: {
                     AudioPlayer.shared.playStandardSound()
                     
-                    if attackModifier >= 24 {
-                        attackModifier = 8
+                    if attackModifier >= 5 {
+                        attackModifier = 1
                     } else {
-                        attackModifier += 1
+                        attackModifier += 0.5
                     }
                     
                     GlobalData.shared.attackModifier = attackModifier
@@ -232,6 +232,6 @@ struct AdvancedSettingsView: View {
 
 struct AdvancedSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        AdvancedSettingsView(attackModifier: Binding.constant(18), criticalModifier: Binding.constant(2), elementalModifier: Binding.constant(2), weatherModifier: Binding.constant(1.5), deviation: Binding.constant(0), langIndex: 0)
+        AdvancedSettingsView(attackModifier: Binding.constant(3), criticalModifier: Binding.constant(2), elementalModifier: Binding.constant(2), weatherModifier: Binding.constant(1.5), deviation: Binding.constant(0), langIndex: 0)
     }
 }

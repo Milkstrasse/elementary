@@ -1,6 +1,5 @@
 {
   "element": "ground",
-  "title": "sage",
   "base": {
       "health": 100,
       "attack": 55,

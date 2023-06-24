@@ -25,7 +25,7 @@ class GlobalData {
     var artifactUse: Int = 0
     var teamLimit: Int = 1
     
-    var attackModifier: Float = 18
+    var attackModifier: Float = 3
     var criticalModifier: Float = 2
     var elementalModifier: Float = 2
     var weatherModifier: Float = 1.5

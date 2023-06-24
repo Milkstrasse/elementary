@@ -95,8 +95,8 @@ struct SettingsView: View {
     
     /// Resets advanced values to default
     func resetAdvancedSettings() {
-        GlobalData.shared.attackModifier = 18
-        attackModifier = 18
+        GlobalData.shared.attackModifier = 3
+        attackModifier = 3
         GlobalData.shared.criticalModifier = 2
         criticalModifier = 2
         GlobalData.shared.elementalModifier = 2
@@ -176,7 +176,7 @@ struct SettingsView: View {
                 }
                 .frame(width: geometry.size.height, height: geometry.size.width).rotationEffect(.degrees(90)).position(x: geometry.size.width/2, y: geometry.size.height/2)
             }
-            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).rotationEffect(.degrees(180)).offset(y: transitionToggle ? -50 : -(geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100)).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
+            ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
         .onAppear {
             transitionToggle = false

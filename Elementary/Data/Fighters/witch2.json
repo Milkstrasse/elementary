@@ -1,6 +1,5 @@
 {
   "element": "time",
-  "title": "enchantress",
   "base": {
       "health": 80,
       "attack": 75,

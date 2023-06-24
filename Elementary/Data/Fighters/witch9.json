@@ -1,6 +1,5 @@
 {
   "element": "rock",
-  "title": "sorceress",
   "base": {
       "health": 80,
       "attack": 120,
@@ -12,8 +11,8 @@
   "singleSpells": [
       "rockSimpleAttack",
       "taunt",
+      "confusion",
       "drainAttack",
-      "confusion"
   ],
   "multiSpells": [
       "rockSimpleAttack",

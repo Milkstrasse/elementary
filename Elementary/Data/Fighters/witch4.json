@@ -1,6 +1,5 @@
 {
   "element": "fire",
-  "title": "alchemist",
   "base": {
       "health": 145,
       "attack": 50,
@@ -13,7 +12,7 @@
       "fireSimpleAttack",
       "drainAttack",
       "sunnyDay",
-      "plantSpecial2Attack"
+      "timeSpecial2Attack"
   ],
   "multiSpells": [
       "fireSimpleAttack",

@@ -1,6 +1,5 @@
 {
   "element": "aether",
-  "title": "witch",
   "base": {
       "health": 75,
       "attack": 125,

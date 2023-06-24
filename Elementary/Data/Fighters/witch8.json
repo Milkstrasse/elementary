@@ -1,6 +1,5 @@
 {
   "element": "plant",
-  "title": "enchantress",
   "base": {
       "health": 125,
       "attack": 75,
@@ -12,8 +11,8 @@
   "singleSpells": [
       "plantSimpleAttack",
       "bomb",
-      "windSimpleAttack",
-      "trap"
+      "trap",
+      "windSimpleAttack"
   ],
   "multiSpells": [
       "plantSimpleAttack",

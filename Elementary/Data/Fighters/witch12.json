@@ -1,6 +1,5 @@
 {
   "element": "wood",
-  "title": "warlock",
   "base": {
       "health": 55,
       "attack": 125,

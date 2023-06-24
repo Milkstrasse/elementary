@@ -1,6 +1,5 @@
 {
   "element": "metal",
-  "title": "witch",
   "base": {
       "health": 80,
       "attack": 120,

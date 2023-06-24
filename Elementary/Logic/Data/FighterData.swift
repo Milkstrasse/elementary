@@ -10,7 +10,6 @@ import SwiftUI
 /// Contains all the base data of a fighter. This data should always remain the same.
 struct FighterData: Decodable {
     var name: String
-    let title: String
     
     let element: String
     let base: Base
@@ -29,9 +28,8 @@ struct FighterData: Decodable {
     ///   - element: The element of the fighter
     ///   - singleSpells: The spells of the fighter
     ///   - base: All the base stats of the fighter
-    init(name: String, title: String, element: String, base: Base, singleSpells: [String], multiSpells: [String], outfits: [Outfit]) {
+    init(name: String, element: String, base: Base, singleSpells: [String], multiSpells: [String], outfits: [Outfit]) {
         self.name = name
-        self.title = title
         
         self.element = element
         self.base = base
@@ -47,7 +45,6 @@ struct FighterData: Decodable {
         let container: KeyedDecodingContainer = try decoder.container(keyedBy: CodingKeys.self)
         
         name = "unknownFighter" //will be overwritten by GlobalData
-        title = try container.decode(String.self, forKey: .title)
         
         element = try container.decode(String.self, forKey: .element)
         base = try container.decode(Base.self, forKey: .base)
@@ -61,7 +58,6 @@ struct FighterData: Decodable {
 /// Contains all the data of a fighter. This struct is used to save a fighter in favorites.
 struct SavedFighterData: Codable, Equatable {
     let name: String
-    let title: String
     
     let element: String
     let base: Base
@@ -78,7 +74,6 @@ struct SavedFighterData: Codable, Equatable {
     /// - Parameter fighter: The desired fighter
     init(fighter: Fighter) {
         name = fighter.name
-        title = fighter.title
         element = fighter.getElement().name
         singleSpells = fighter.data.singleSpells
         multiSpells = fighter.data.multiSpells
@@ -96,7 +91,7 @@ struct SavedFighterData: Codable, Equatable {
     /// - Parameter images: The images corresponding to the fighter. Avoids the process of splitting the base image again
     /// - Returns: Returns the fighter created by the data
     func toFighter(images: [[Image]] = []) -> Fighter {
-        let fighter: Fighter = Fighter(data: FighterData(name: name, title: title, element: element, base: base, singleSpells: singleSpells, multiSpells: multiSpells, outfits: outfits), outfitIndex: outfitIndex, images: images)
+        let fighter: Fighter = Fighter(data: FighterData(name: name, element: element, base: base, singleSpells: singleSpells, multiSpells: multiSpells, outfits: outfits), outfitIndex: outfitIndex, images: images)
         for nat in GlobalData.shared.natures {
             if nat.name == nature {
                 fighter.nature = nat

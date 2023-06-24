@@ -257,9 +257,9 @@ struct CPULogic {
         case 3:
             dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: spell.subSpells[0].power + spell.useCounter * 5)
         case 4:
-            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.getModifiedBase().health - attacker.currhp)
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: spell.subSpells[0].power + attacker.getModifiedBase().health - attacker.currhp)
         case 5:
-            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: attacker.currhp)
+            dmg = DamageCalculator.shared.calcNonCriticalDamage(attacker: attacker, defender: defender, spell: spell.subSpells[0], spellElement: spell.element, weather: weather, powerOverride: spell.subSpells[0].power + attacker.currhp)
         case 10:
             if attacker.lastSpell >= 0 || attacker.lastSpell == -2 {
                 dmg = 0

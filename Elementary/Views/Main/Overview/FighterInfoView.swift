@@ -25,7 +25,6 @@ struct FighterInfoView: View {
                                 Rectangle().fill(Color("Positive"))
                                 HStack(spacing: 0) {
                                     CustomText(text: Localization.shared.getTranslation(key: fighter.name).uppercased(), fontSize: General.mediumFont, isBold: true)
-                                    CustomText(text: " - " + Localization.shared.getTranslation(key: fighter.title).uppercased(), fontSize: General.smallFont, isBold: false)
                                     Spacer()
                                     Text(General.createSymbol(string: fighter.getElement().symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color("Text")).frame(width: General.smallHeight, height: General.smallHeight)
                                 }

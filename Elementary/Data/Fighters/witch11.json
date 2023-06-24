@@ -1,6 +1,5 @@
 {
   "element": "wind",
-  "title": "sage",
   "base": {
       "health": 95,
       "attack": 50,
