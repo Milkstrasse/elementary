@@ -190,6 +190,8 @@
     "spells": "Sorts",
     "spellsDescr": "Utilisez la magie pour combattre",
     
+    "roundsLeft": "tour(s) restant(s)",
+    
     "noHexes": "Pas de sortilèges",
     "attackBoostDescr": "Augmente **l'attaque**",
     "attackDropDescr": "Diminue **l'attaque**",
