@@ -82,7 +82,7 @@ struct DamageCalculator {
             dmg = dmg + Float(random)/100 * dmg
         }
         
-        let damage: Int = Int(ceil(dmg))
+        let damage: Int = Int(max(ceil(dmg), 0))
         
         if damage >= defender.currhp { //prevent hp below 0
             if defender.getArtifact().name == Artifacts.ring.rawValue && weather?.name != Weather.mysticWeather.rawValue {

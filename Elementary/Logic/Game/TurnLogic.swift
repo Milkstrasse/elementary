@@ -380,7 +380,7 @@ class TurnLogic {
             if player.id == 1 && fightLogic.hasCPUPlayer {
                 for (index, currHex) in Hexes.allCases.enumerated() {
                     if currHex.rawValue == usedSpell.hex {
-                        GlobalData.shared.userProgress.hexUses[index] = true
+                        GlobalData.shared.userProgress.updateHexUses(index: index)
                         break
                     }
                 }
@@ -415,7 +415,7 @@ class TurnLogic {
             if player.id == 1 && fightLogic.hasCPUPlayer {
                 for (index, currWeather) in Weather.allCases.enumerated() {
                     if currWeather.rawValue == usedSpell.weather {
-                        GlobalData.shared.userProgress.weatherUses[index] = true
+                        GlobalData.shared.userProgress.updateWeatherUses(index: index)
                         break
                     }
                 }

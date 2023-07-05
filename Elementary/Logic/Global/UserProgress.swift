@@ -8,29 +8,33 @@
 import Foundation
 
 /// Tracks progress of user with different stats.
-struct UserProgress: Codable {
+class UserProgress: NSObject, Codable {
     var lastDate: Date = Date()
     
-    var fightCounter: Int = 0
+    @objc var fightCounter: Int = 0
     private var winCounter: Int = 0
-    var winStreak: Int = 0
+    @objc var winStreak: Int = 0
     
-    var winAllAlive: Bool = false
+    @objc var winAllAlive: Bool = false
     
     var weatherUses: [Bool] = [Bool](repeating: false, count: Weather.allCases.count)
+    @objc var weatherCounter: Int = 0
     var hexUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
+    @objc var hexCounter: Int = 0
     var artifactsUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
+    @objc var artifactCounter: Int = 0
     
-    var fightOneElement: Bool = false
+    @objc var fightOneElement: Bool = false
     
-    var dailyFightCounter: Int = 0
-    var dailyWinCounter: Int = 0
-    var dailyElementWin: Bool = false
-    var dailyArtifactUsed: Bool = false
+    @objc var dailyFightCounter: Int = 0
+    @objc var dailyWinCounter: Int = 0
+    @objc var dailyElementWin: Bool = false
+    @objc var dailyArtifactUsed: Bool = false
     
     private var unlockedOutfits: [String:[Int]] = [:]
-    var missionCollected: [Bool] = [Bool](repeating: false, count: 12)
-    var dailyCollected: [Bool] = [Bool](repeating: false, count: 5)
+    
+    var questCollected: [Bool] = [Bool](repeating: false, count: 4)
+    var milestoneCollected: [Bool] = [Bool](repeating: false, count: 10)
     
     var points: Int = 0
     
@@ -38,7 +42,7 @@ struct UserProgress: Codable {
     /// - Parameters:
     ///   - winner: Indicates the winner
     ///   - fighters: The fighters used in the fight
-    mutating func addWin(winner: Int, fighters: [Fighter]) {
+    func addWin(winner: Int, fighters: [Fighter]) {
         if winner == 1 {
             winCounter += 1
             dailyWinCounter += 1
@@ -70,7 +74,7 @@ struct UserProgress: Codable {
     }
     
     /// Advances user progress by increasing fight counters.
-    mutating func addFight() {
+    func addFight() {
         resetDaily()
         
         dailyFightCounter += 1
@@ -81,7 +85,7 @@ struct UserProgress: Codable {
     /// - Parameters:
     ///   - teamA: Team of fighters
     ///   - teamB: Team of fighters
-    mutating func checkTeams(teamA: [Fighter], teamB: [Fighter]) {
+    func checkTeams(teamA: [Fighter], teamB: [Fighter]) {
         var element: String
         var counter: Int = 0
         
@@ -98,7 +102,7 @@ struct UserProgress: Codable {
                     
                     for (index, artifact) in Artifacts.allCases.enumerated() {
                         if artifact.rawValue == fighter.artifact.name {
-                            artifactsUses[index] = true
+                            updateArtifactUses(index: index)
                             break
                         }
                     }
@@ -123,7 +127,7 @@ struct UserProgress: Codable {
                 
                 for (index, artifact) in Artifacts.allCases.enumerated() {
                     if artifact.rawValue == fighter.artifact.name {
-                        artifactsUses[index] = true
+                        updateArtifactUses(index: index)
                         break
                     }
                 }
@@ -145,63 +149,57 @@ struct UserProgress: Codable {
     }
     
     /// Resets daily missions
-    mutating func resetDaily() {
+    func resetDaily() {
         if !Calendar.current.isDateInToday(lastDate) {
             dailyFightCounter = 0
             dailyWinCounter = 0
             dailyElementWin = false
             dailyArtifactUsed = false
             
-            dailyCollected = [Bool](repeating: false, count: 5)
+            questCollected = [Bool](repeating: false, count: 4)
             
             lastDate = Date()
         }
     }
     
-    /// Add up all weather effects that have been used once.
-    /// - Returns: Returns number of used weather effects
-    func getWeatherAmount() -> Int {
-        var counter: Int = 0
+    func updateWeatherUses(index: Int) {
+        weatherUses[index] = true
+        
+        weatherCounter = 0
         for weather in weatherUses {
             if weather {
-                counter += 1
+                weatherCounter += 1
             }
         }
-        
-        return counter
     }
     
-    /// Add up all hexes that have been used once.
-    /// - Returns: Returns number of used hexes
-    func getHexAmount() -> Int {
-        var counter: Int = 0
+    func updateHexUses(index: Int) {
+        hexUses[index] = true
+        
+        hexCounter = 0
         for hex in hexUses {
             if hex {
-                counter += 1
+                hexCounter += 1
             }
         }
-        
-        return counter
     }
     
-    /// Add up all artifacts that have been used once.
-    /// - Returns: Returns number of used hexes
-    func getArtifactAmount() -> Int {
-        var counter: Int = 0
-        for hex in artifactsUses {
-            if hex {
-                counter += 1
+    func updateArtifactUses(index: Int) {
+        artifactsUses[index] = true
+        
+        artifactCounter = 0
+        for artifact in artifactsUses {
+            if artifact {
+                artifactCounter += 1
             }
         }
-        
-        return counter
     }
     
     /// Unlocks a outfit for a fighter.
     /// - Parameters:
     ///   - fighter: The owner of the outfit
     ///   - index: The number of the outfit
-    mutating func unlockOutfit(points: Int, fighter: String, index: Int) {
+    func unlockOutfit(points: Int, fighter: String, index: Int) {
         self.points -= points
         if unlockedOutfits[fighter] == nil {
             unlockedOutfits.updateValue([index], forKey: fighter)
@@ -226,27 +224,19 @@ struct UserProgress: Codable {
             return unlockedOutfits[fighter]!.contains(index)
         }
     }
-    
-    /// Collect reward in form of points from a daily quest.
-    /// - Parameters:
-    ///   - points: Reward in points
-    ///   - index: Index of daily quest to mark as collected
-    mutating func dailyCollect(points: Int, index: Int) {
-        dailyCollected[index] = true
-        
-        self.points += 9000
-        self.points = min(self.points, 9999999)
-    }
-    
+
     /// Collect reward  in form of points from a mission.
-    /// - Parameters:
-    ///   - points: Reward in points
-    ///   - index: Index of daily quest to mark as collected
-    mutating func missionCollect(points: Int, index: Int) {
-        missionCollected[index] = true
-        
-        self.points += points
+    func missionCollect(mission: inout Mission, index: Int) {
+        self.points += mission.reward
         self.points = min(self.points, 9999999)
+        
+        if index < questCollected.count {
+            questCollected[index] = true
+        } else {
+            milestoneCollected[index - questCollected.count] = true
+        }
+        
+        mission.isClaimed = true
     }
     
     /// Formats the number of points.

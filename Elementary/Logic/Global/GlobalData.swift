@@ -32,6 +32,7 @@ class GlobalData {
     var deviation: Int = 10
     
     var userProgress: UserProgress = UserProgress()
+    var missionManager: MissionManager = MissionManager()
     
     /// Loads data from folders.
     ///  - Parameter manager: Access to ViewManager to display progress
@@ -40,6 +41,11 @@ class GlobalData {
         loadSpells()
         loadFighters(manager: manager)
         loadNatures()
+        
+        missionManager.addQuests(userProgress: userProgress)
+        missionManager.addMilestones(userProgress: userProgress)
+        
+        missionManager.checkMissions(value: userProgress)
     }
     
     /// Loads data from elements folder.

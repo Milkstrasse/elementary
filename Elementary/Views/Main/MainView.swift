@@ -91,15 +91,20 @@ struct MainView: View {
                     }
                     VStack {
                         HStack(spacing: General.innerPadding) {
-                            Button(action: {
-                                AudioPlayer.shared.playStandardSound()
-                                
-                                transitionToggle = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    manager.setView(view: AnyView(MissionsView(userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
+                            ZStack(alignment: .topTrailing) {
+                                Button(action: {
+                                    AudioPlayer.shared.playStandardSound()
+                                    
+                                    transitionToggle = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        manager.setView(view: AnyView(MissionsView(missionManager: GlobalData.shared.missionManager, userProgress: GlobalData.shared.userProgress).environmentObject(manager)))
+                                    }
+                                }) {
+                                    IconButton(label: "\u{f02e}")
                                 }
-                            }) {
-                                IconButton(label: "\u{f02e}")
+                                if GlobalData.shared.missionManager.unclaimedRewards > 0 {
+                                    Circle().fill(Color("Positive")).frame(width: 10, height: 10).offset(x: 5, y: -5)
+                                }
                             }
                             Button(action: {
                                 AudioPlayer.shared.playStandardSound()

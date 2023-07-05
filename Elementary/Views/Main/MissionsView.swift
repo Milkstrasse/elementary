@@ -10,15 +10,13 @@ import SwiftUI
 struct MissionsView: View {
     @EnvironmentObject var manager: ViewManager
     
+    @State var missionManager: MissionManager
     @State var userProgress: UserProgress
     
     @State var transitionToggle: Bool = true
     
     @State var blink: Bool = false
     @State var stopBlinking: Bool = false
-    
-    let fightCounter: [Float] = [25, 50, 100]
-    let winStreak: [Float] = [5, 10, 25]
     
     /// Sends signal to blink.
     /// - Parameter delay: The delay between blinks
@@ -68,6 +66,8 @@ struct MissionsView: View {
                             GlobalData.shared.userProgress = userProgress
                             SaveData.saveProgress()
                             
+                            GlobalData.shared.missionManager = missionManager
+                            
                             transitionToggle = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 manager.setView(view: AnyView(MainView(currentFighter: GlobalData.shared.getRandomFighter()).environmentObject(manager)))
@@ -97,114 +97,46 @@ struct MissionsView: View {
                     HStack(spacing: General.innerPadding) {
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: General.innerPadding/2) {
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["5"]).uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.dailyFightCounter)/5 * 100, 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if Float(userProgress.dailyFightCounter)/5 >= 1 && !userProgress.dailyCollected[0] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 10, index: 0)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
+                                ForEach(missionManager.quests.indices, id: \.self) { index in
+                                    ZStack(alignment: .trailing) {
+                                        Rectangle().fill(Color("MainPanel"))
+                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
+                                        HStack {
+                                            CustomText(text: Localization.shared.getTranslation(key: missionManager.quests[index].title, params: missionManager.quests[index].params).uppercased(), fontSize: General.smallFont)
+                                            Spacer()
+                                            CustomText(text: "\(missionManager.quests[index].completion)%", fontSize: General.smallFont)
+                                        }
+                                        .padding(.all, General.innerPadding)
+                                        if missionManager.quests[index].completion >= 100 && !userProgress.questCollected[index] {
+                                            Button(action: {
+                                                userProgress.missionCollect(mission: &missionManager.quests[index], index: index)
+                                                missionManager.unclaimedRewards -= 1
+                                            }) {
+                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
+                                            }
                                         }
                                     }
+                                    .frame(height: General.largeHeight)
                                 }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winUsingMission", params: [userProgress.getDailyElement().name]).uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: userProgress.dailyElementWin ? "100%" : "0%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if userProgress.dailyElementWin && !userProgress.dailyCollected[1] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 10, index: 1)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winMission", params: ["2"]).uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.dailyWinCounter)/2 * 100, 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if Float(userProgress.dailyWinCounter)/2 >= 1 && !userProgress.dailyCollected[2] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 10, index: 2)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "useArtifactMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: userProgress.dailyArtifactUsed ? "100%" : "0%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if userProgress.dailyArtifactUsed && !userProgress.dailyCollected[3] {
-                                        Button(action: {
-                                            userProgress.dailyCollect(points: 10, index: 3)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "completeMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(dailyComplete(), 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if dailyComplete() >= 100 && !userProgress.missionCollected[4] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 20, index: 4)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
                             }
                             .padding(.leading, General.outerPadding)
                         }
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: General.innerPadding/2) {
-                                ForEach(fightCounter.indices, id: \.self) { index in
+                                ForEach(missionManager.milestones.indices, id: \.self) { index in
                                     ZStack(alignment: .trailing) {
                                         Rectangle().fill(Color("MainPanel"))
                                             .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
                                         HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "fightMission", params: ["\(Int(fightCounter[index]))"]).uppercased(), fontSize: General.smallFont)
+                                            CustomText(text: Localization.shared.getTranslation(key: missionManager.milestones[index].title, params: missionManager.milestones[index].params).uppercased(), fontSize: General.smallFont)
                                             Spacer()
-                                            CustomText(text: "\(Int(min(Float(userProgress.fightCounter)/fightCounter[index] * 100, 100)))%", fontSize: General.smallFont)
+                                            CustomText(text: "\(missionManager.milestones[index].completion)%", fontSize: General.smallFont)
                                         }
                                         .padding(.all, General.innerPadding)
-                                        if Float(userProgress.fightCounter)/fightCounter[index] >= 1 && !userProgress.missionCollected[index] {
+                                        if missionManager.milestones[index].completion >= 100 && !userProgress.milestoneCollected[index + userProgress.questCollected.count] {
                                             Button(action: {
-                                                userProgress.missionCollect(points: 50, index: index)
+                                                userProgress.missionCollect(mission: &missionManager.milestones[index], index: index + userProgress.questCollected.count)
+                                                missionManager.unclaimedRewards -= 1
                                             }) {
                                                 BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
                                             }
@@ -212,116 +144,6 @@ struct MissionsView: View {
                                     }
                                     .frame(height: General.largeHeight)
                                 }
-                                ForEach(winStreak.indices, id: \.self) { index in
-                                    ZStack(alignment: .trailing) {
-                                        Rectangle().fill(Color("MainPanel"))
-                                            .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                        HStack {
-                                            CustomText(text: Localization.shared.getTranslation(key: "winStreakMission", params: ["\(Int(winStreak[index]))"]).uppercased(), fontSize: General.smallFont)
-                                            Spacer()
-                                            CustomText(text: "\(Int(min(Float(userProgress.winStreak)/winStreak[index] * 100, 100)))%", fontSize: General.smallFont)
-                                        }
-                                        .padding(.all, General.innerPadding)
-                                        if Float(userProgress.winStreak)/winStreak[index] >= 1 && !userProgress.missionCollected[fightCounter.count + index] {
-                                            Button(action: {
-                                                userProgress.missionCollect(points: 50, index: fightCounter.count + index)
-                                            }) {
-                                                BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                            }
-                                        }
-                                    }
-                                    .frame(height: General.largeHeight)
-                                }
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "winAliveMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: userProgress.winAllAlive ? "100%" : "0%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if userProgress.winAllAlive && !userProgress.missionCollected[fightCounter.count + winStreak.count] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "weatherMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if Float(userProgress.getWeatherAmount())/Float(Weather.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 1] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 1)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "hexMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if Float(userProgress.getHexAmount())/Float(Hexes.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 2] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 2)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "artifactMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: "\(Int(min(Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) * 100, 100)))%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if Float(userProgress.getArtifactAmount())/Float(Artifacts.allCases.count) >= 1 && !userProgress.missionCollected[fightCounter.count + winStreak.count + 3] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 3)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
-                                ZStack(alignment: .trailing) {
-                                    Rectangle().fill(Color("MainPanel"))
-                                        .overlay(Rectangle().strokeBorder(Color("Border"), lineWidth: General.borderWidth))
-                                    HStack {
-                                        CustomText(text: Localization.shared.getTranslation(key: "fightElementMission").uppercased(), fontSize: General.smallFont)
-                                        Spacer()
-                                        CustomText(text: userProgress.fightOneElement ? "100%" : "0%", fontSize: General.smallFont)
-                                    }
-                                    .padding(.all, General.innerPadding)
-                                    if userProgress.fightOneElement && !userProgress.missionCollected[fightCounter.count + winStreak.count + 4] {
-                                        Button(action: {
-                                            userProgress.missionCollect(points: 50, index: fightCounter.count + winStreak.count + 4)
-                                        }) {
-                                            BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
-                                        }
-                                    }
-                                }
-                                .frame(height: General.largeHeight)
                             }
                             .padding(.trailing, General.outerPadding)
                         }
@@ -333,6 +155,8 @@ struct MissionsView: View {
                             
                             userProgress = UserProgress()
                             SaveData.saveProgress()
+                            
+                            missionManager.resetAll(userProgress: userProgress)
                         }) {
                             BorderedButton(label: "reset", width: 155, height: General.smallHeight, isInverted: false)
                         }
@@ -368,6 +192,6 @@ struct MissionsView: View {
 
 struct MissionsView_Previews: PreviewProvider {
     static var previews: some View {
-        MissionsView(userProgress: UserProgress())
+        MissionsView(missionManager: MissionManager(), userProgress: UserProgress())
     }
 }

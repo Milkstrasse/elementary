@@ -60,6 +60,7 @@ struct FightView: View {
                 GlobalData.shared.userProgress.addFight()
                 GlobalData.shared.userProgress.checkTeams(teamA: fightLogic.players[0].fighters, teamB: fightLogic.players[1].fighters)
             }
+            GlobalData.shared.missionManager.checkMissions(value: GlobalData.shared.userProgress)
             SaveData.saveProgress()
             
             transitionToggle = true
