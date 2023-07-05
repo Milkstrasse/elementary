@@ -30,23 +30,23 @@ enum Weather: String, CaseIterable {
         case .sunnyDay:
             return Hex(name: self.rawValue, symbol: 0xf185, duration: duration, element: GlobalData.shared.elements["plant"]!, positive: true)
         case .overcastSky:
-            return Hex(name: self.rawValue, symbol: 0xf6c3, duration: duration, element: GlobalData.shared.elements["bug"]!, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf6c3, duration: duration, element: GlobalData.shared.elements["aether"]!, positive: true)
         case .lightRain:
             return Hex(name: self.rawValue, symbol: 0xf75c, duration: duration, element: GlobalData.shared.elements["water"]!, positive: true)
         case .sandstorm:
-            return Hex(name: self.rawValue, symbol: 0xf6c4, duration: duration, element: GlobalData.shared.elements["rock"]!, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf6c4, duration: duration, element: GlobalData.shared.elements["ground"]!, positive: true)
         case .thunderstorm:
             return Hex(name: self.rawValue, symbol: 0xf76c, duration: duration, element: GlobalData.shared.elements["electric"]!, positive: true)
         case .magneticStorm:
             return Hex(name: self.rawValue, symbol: 0xf076, duration: duration, element: GlobalData.shared.elements["metal"]!, positive: true)
         case .denseFog:
-            return Hex(name: self.rawValue, symbol: 0xf760, duration: duration, element: GlobalData.shared.elements["time"]!, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf760, duration: duration, element: GlobalData.shared.elements["rock"]!, positive: true)
         case .heavyStorm:
             return Hex(name: self.rawValue, symbol: 0xf751, duration: duration, element: GlobalData.shared.elements["wind"]!, positive: true)
         case .extremeHeat:
             return Hex(name: self.rawValue, symbol: 0xf765, duration: duration, element: GlobalData.shared.elements["fire"]!, positive: true)
         case .mysticWeather:
-            return Hex(name: self.rawValue, symbol: 0xf770, duration: duration, element: GlobalData.shared.elements["ground"]!, positive: true)
+            return Hex(name: self.rawValue, symbol: 0xf770, duration: duration, element: GlobalData.shared.elements["time"]!, positive: true)
         case .springWeather:
             return Hex(name: self.rawValue, symbol: 0xf4d8, duration: duration, element: GlobalData.shared.elements["wood"]!, positive: true)
         }
