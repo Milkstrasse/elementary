@@ -13,8 +13,6 @@
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
-		<key>UISceneConfigurations</key>
-		<dict/>
 	</dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
