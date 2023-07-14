@@ -57,7 +57,7 @@ struct HexApplication {
         //try to apply hex
         if hex != nil {
             if let appliedHex: Hex = Hexes(rawValue: hex!)?.getHex() {
-                switch target.applyHex(hex: appliedHex, resistable: resistable) {
+                switch target.applyHex(newHex: appliedHex, resistable: resistable) {
                 case 1:
                     AudioPlayer.shared.playCancelSound()
                     return Localization.shared.getTranslation(key: "hexFailed")

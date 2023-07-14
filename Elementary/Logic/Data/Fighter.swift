@@ -259,10 +259,10 @@ class Fighter: Hashable, Equatable {
     
     /// Tries to to apply an hex to the fighter
     /// - Parameters:
-    ///   - hex: The desired hex
+    ///   - newHex: The desired hex
     ///   - resistable: Indicates wether the hex can be resisted or not
     /// - Returns: Returns a numbered outcome, 0 = success, 1 = failure, 2 = resistance
-    func applyHex(hex: Hex, resistable: Bool = true) -> Int {
+    func applyHex(newHex: Hex, resistable: Bool = true) -> Int {
         if resistable { //chance hex will be resisted
             let chance: Int = Int.random(in: 0 ..< 100)
             if chance < (getModifiedBase().resistance/10 * getModifiedBase().resistance/10)/10 {
@@ -271,7 +271,7 @@ class Fighter: Hashable, Equatable {
         }
         
         //checks if hex removes other hexes
-        switch hex.name {
+        switch newHex.name {
         case Hexes.blessed.rawValue:
             for hex in hexes {
                 if !hex.positive {
@@ -279,16 +279,22 @@ class Fighter: Hashable, Equatable {
                 }
             }
         case Hexes.cursed.rawValue:
-            if hasHex(hexName: Hexes.healed.rawValue) {
-                removeHex(hex: hex)
+            for hex in hexes {
+                if hex.name == Hexes.healed.rawValue {
+                    removeHex(hex: hex)
+                }
             }
         case Hexes.invigorated.rawValue:
-            if hasHex(hexName: Hexes.exhausted.rawValue) {
-                removeHex(hex: hex)
+            for hex in hexes {
+                if hex.name == Hexes.exhausted.rawValue {
+                    removeHex(hex: hex)
+                }
             }
         case Hexes.exhausted.rawValue:
-            if hasHex(hexName: Hexes.invigorated.rawValue) {
-                removeHex(hex: hex)
+            for hex in hexes {
+                if hex.name == Hexes.invigorated.rawValue {
+                    removeHex(hex: hex)
+                }
             }
         default:
             break
@@ -296,20 +302,20 @@ class Fighter: Hashable, Equatable {
         
         if hexes.count < 3 { //fighter can only have up to three hexes
             //checks if other hex or an artifact prevents the new hex
-            if !hex.positive {
+            if !newHex.positive {
                 if hasHex(hexName: Hexes.blessed.rawValue) {
                     return 1
                 }
-            } else if hex.name == Hexes.healed.rawValue {
+            } else if newHex.name == Hexes.healed.rawValue {
                 if hasHex(hexName: Hexes.cursed.rawValue) {
                     return 1
                 }
             }
             
-            hexes.append(hex) //hex has been added
+            hexes.append(newHex) //hex has been added
             
             //makes changes to fighter if neccessary
-            switch hex.name {
+            switch newHex.name {
             case Hexes.attackBoost.rawValue:
                 attackMod += 1
                 return 0

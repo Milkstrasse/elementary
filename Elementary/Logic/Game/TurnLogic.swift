@@ -122,7 +122,7 @@ class TurnLogic {
                     fightLogic.fightLog.append(player.swapFighters(target: move.target, fightLogic: fightLogic))
                 }
             } else if move.index == 1 {
-                if target.applyHex(hex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
+                if target.applyHex(newHex: Hexes.attackDrop.getHex(), resistable: false) == 0 {
                     player.setState(state: PlayerState.neutral, fighter: attacker)
                     fightLogic.players[move.targetedPlayer].setState(state: PlayerState.hexNegative, fighter: target)
                     
@@ -472,12 +472,12 @@ class TurnLogic {
                 
                 attacker.removeAllHexes()
                 for hex in defender.hexes {
-                    attacker.applyHex(hex: hex, resistable: false)
+                    attacker.applyHex(newHex: hex, resistable: false)
                 }
                 
                 defender.removeAllHexes()
                 for hex in hexes {
-                    defender.applyHex(hex: hex, resistable: false)
+                    defender.applyHex(newHex: hex, resistable: false)
                 }
                 
                 return Localization.shared.getTranslation(key: "swappedHexes")
