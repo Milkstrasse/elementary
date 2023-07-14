@@ -8,7 +8,7 @@
 import SwiftUI
 
 class ViewManager: ObservableObject {
-    @Published var currentView: AnyView = AnyView(Color.yellow)
+    @Published var currentView: AnyView = AnyView(Color.yellow.ignoresSafeArea())
     @Published var progress: Float = 0
     
     /// Sets a new view to display onto the screen.
