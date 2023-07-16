@@ -174,7 +174,12 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "nameRetreated", params: [defender.name])
             }
         case .hex:
-            let damage: Int = defender.getModifiedBase().health/(100/defender.hexes[move.index].damageAmount)
+            let damage: Int
+            if defender.getArtifact().name == Artifacts.incense.rawValue {
+                damage = defender.getModifiedBase().health/(100/(Int(Float(defender.hexes[move.index].damageAmount) * 1.5)))
+            } else {
+                damage = defender.getModifiedBase().health/(100/defender.hexes[move.index].damageAmount)
+            }
             
             if damage >= defender.currhp { //prevent hp below 0
                 defender.currhp = 0
