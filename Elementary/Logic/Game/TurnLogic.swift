@@ -210,6 +210,10 @@ class TurnLogic {
         case .artifact:
             if move.index < 0 {
                 if attacker.getArtifact().name == Artifacts.cornucopia.rawValue {
+                    if attacker.hasHex(hexName: Hexes.cursed.rawValue) {
+                        return Localization.shared.getTranslation(key: "healFailed")
+                    }
+                    
                     if attacker.getModifiedBase().health - attacker.currhp <= attacker.getModifiedBase().health/16 {
                         attacker.currhp = attacker.getModifiedBase().health
                     } else {
@@ -271,8 +275,6 @@ class TurnLogic {
                 player.setState(state: PlayerState.hurting, index: move.source)
                 
                 print(attacker.name + " lost \(damage)DMG.")
-                
-                print("C")
                 
                 return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
             }
