@@ -95,8 +95,8 @@ struct SettingsView: View {
     
     /// Resets advanced values to default
     func resetAdvancedSettings() {
-        GlobalData.shared.attackModifier = 3
-        attackModifier = 3
+        GlobalData.shared.attackModifier = 18
+        attackModifier = 18
         GlobalData.shared.criticalModifier = 2
         criticalModifier = 2
         GlobalData.shared.elementalModifier = 2

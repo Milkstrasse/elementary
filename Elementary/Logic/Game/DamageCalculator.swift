@@ -195,16 +195,16 @@ struct DamageCalculator {
     func calcNonCriticalDamage(attacker: Fighter, defender: Fighter, spell: SubSpell, spellElement: Element, weather: Hex?, powerOverride: Int = 0) -> Float {
         let attack: Float
         if powerOverride > 0 {
-            attack = Float(powerOverride) + Float(attacker.getModifiedBase(weather: weather).attack)
+            attack = Float(powerOverride)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         } else if powerOverride == 0 {
-            attack = Float(spell.power) + Float(attacker.getModifiedBase(weather: weather).attack)
+            attack = Float(spell.power)/100 * Float(attacker.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         } else {
-            attack = Float(spell.power) + Float(defender.getModifiedBase(weather: weather).attack)
+            attack = Float(spell.power)/100 * Float(defender.getModifiedBase(weather: weather).attack) * GlobalData.shared.attackModifier
         }
         
-        let defense: Float = Float(defender.getModifiedBase(weather: weather).defense)
+        let defense: Float = max(Float(defender.getModifiedBase(weather: weather).defense), 1.0) //prevent division by zero
         
-        var dmg: Float = (attack - defense)/GlobalData.shared.attackModifier
+        var dmg: Float = attack/defense
         
         //multiply with elemental modifier
         dmg *= getElementalModifier(attacker: attacker, defender: defender, spellElement: spellElement, weather: weather)
