@@ -115,6 +115,8 @@ struct MissionManager {
     }
     
     mutating func resetAll(userProgress: UserProgress) {
+        unclaimedRewards = 0
+        
         quests = []
         addQuests(userProgress: userProgress)
         
