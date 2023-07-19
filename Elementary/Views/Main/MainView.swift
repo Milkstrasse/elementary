@@ -14,7 +14,6 @@ struct MainView: View {
     let currentFighter: Fighter
     
     @State var blink: Bool = false
-    @State var stopBlinking: Bool = false
     
     /// Sends signal to blink.
     /// - Parameter delay: The delay between blinks
@@ -25,10 +24,8 @@ struct MainView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 blink = false
                 
-                if !stopBlinking {
-                    let blinkInterval: Int = Int.random(in: 5 ... 10)
-                    blink(delay: TimeInterval(blinkInterval))
-                }
+                let blinkInterval: Int = Int.random(in: 5 ... 10)
+                blink(delay: TimeInterval(blinkInterval))
             }
         }
     }
@@ -151,9 +148,6 @@ struct MainView: View {
             
             let blinkInterval: Int = Int.random(in: 5 ... 10)
             blink(delay: TimeInterval(blinkInterval))
-        }
-        .onDisappear {
-            stopBlinking = true
         }
     }
 }

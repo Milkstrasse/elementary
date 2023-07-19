@@ -21,7 +21,6 @@ struct PlayerFightView: View {
     @State var offset: CGFloat = 200
     
     @State var blink: Bool = false
-    @State var stopBlinking: Bool = false
     
     @State var shakeAmount: CGFloat = 0
     
@@ -38,10 +37,8 @@ struct PlayerFightView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 blink = false
                 
-                if !stopBlinking {
-                    let blinkInterval: Int = Int.random(in: 5 ... 10)
-                    blink(delay: TimeInterval(blinkInterval))
-                }
+                let blinkInterval: Int = Int.random(in: 5 ... 10)
+                blink(delay: TimeInterval(blinkInterval))
             }
         }
     }
@@ -223,9 +220,6 @@ struct PlayerFightView: View {
             blink(delay: TimeInterval(blinkInterval))
             
             offset = 0
-        }
-        .onDisappear {
-            stopBlinking = true
         }
     }
 }
