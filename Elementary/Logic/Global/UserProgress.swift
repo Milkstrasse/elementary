@@ -21,7 +21,7 @@ class UserProgress: NSObject, Codable {
     @objc var weatherCounter: Int = 0
     var hexUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
     @objc var hexCounter: Int = 0
-    var artifactsUses: [Bool] = [Bool](repeating: false, count: Hexes.allCases.count)
+    var artifactsUses: [Bool] = [Bool](repeating: false, count: Artifacts.allCases.count)
     @objc var artifactCounter: Int = 0
     
     @objc var fightOneElement: Bool = false

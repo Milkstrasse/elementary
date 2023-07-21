@@ -420,8 +420,19 @@ class PlayerQueue {
         
         //attacked fighter faints or exits the fight
         queue.insert((player: oppositePlayer, move: Move(source: playerMove.move.target, index: -1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: -1, type: MoveType.special)), at: index + offset + 1)
-        
         offset += 1
+        
+        if !singleMode {
+            for fghter in playerMove.player.fighters.indices {
+                //effect of book artifact
+                queue.insert((player: playerMove.player, move: Move(source: fghter, index: 3, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                offset += 1
+            }
+        } else {
+            //effect of book artifact
+            queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 3, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+            offset += 1
+        }
         
         return offset
     }

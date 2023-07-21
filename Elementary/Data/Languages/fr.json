@@ -180,6 +180,8 @@
     "wandDescr": "Augmente **attaque** à faible PV",
     "grimoire": "Ancien Grimoire",
     "grimoireDescr": "Invoquer l'élémentaire **météo**",
+    "book": "Livre interdit",
+    "bookDescr": "Augmente **l'attaque** après l'évano. l'adversaire",
     
     "information": "Information",
     "informationDescr": "Recevoir des informations sur le combat",

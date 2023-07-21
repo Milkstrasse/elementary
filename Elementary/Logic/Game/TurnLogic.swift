@@ -86,6 +86,10 @@ class TurnLogic {
                     if (target.getArtifact().name != Artifacts.thread.rawValue && attacker.getArtifact().name != Artifacts.thread.rawValue) || target.currhp > 0 {
                         return true
                     }
+                case 3:
+                    if attacker.getArtifact().name != Artifacts.book.rawValue || target.currhp > 0 {
+                        return true
+                    }
                 default:
                     if attacker.currhp > attacker.getModifiedBase().health/3 && attacker.getArtifact().name != Artifacts.cornucopia.rawValue {
                         return true
@@ -252,6 +256,14 @@ class TurnLogic {
                     attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
                     return Localization.shared.getTranslation(key: "equippedArtifact", params: [attacker.name, artifact])
                 }
+            } else if move.index == 3 {
+                if attacker.applyHex(newHex: Hexes.attackBoost.getHex(), resistable: false) == 0 {
+                    player.setState(state: PlayerState.hexPositive, index: move.source)
+                    
+                    return Localization.shared.getTranslation(key: Hexes.attackBoost.getHex().name, params: [attacker.name])
+                } else {
+                    return Localization.shared.getTranslation(key: "hexFailed")
+                }
             } else {
                 let damage: Int
                 
@@ -330,7 +342,7 @@ class TurnLogic {
             if fightLogic.singleMode {
                 if defender.lastSpell >= 0 && defender.singleSpells[defender.lastSpell].typeID == 13 {
                     if spell.typeID != 2 { //attack can't go through shield
-                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
+                        return Localization.shared.getTranslation(key: "spellFailed") + "\n" + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
                     } else {
                         usedShield = true
                     }
@@ -338,7 +350,7 @@ class TurnLogic {
             } else {
                 if defender.lastSpell >= 0 && defender.multiSpells[defender.lastSpell].typeID == 13 {
                     if spell.typeID != 2 { //attack can't go through shield
-                        return Localization.shared.getTranslation(key: "spellFailed") + " " + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
+                        return Localization.shared.getTranslation(key: "spellFailed") + "\n" + Localization.shared.getTranslation(key: "spellProtected", params: [defender.name])
                     } else {
                         usedShield = true
                     }

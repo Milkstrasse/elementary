@@ -184,6 +184,7 @@ struct InfoView: View {
                                 }
                                 .padding(.all, General.innerPadding)
                             }
+                            .onTapGesture {}
                             .gesture(DragGesture(minimumDistance: 0)
                                 .onChanged { value in
                                     if selectIndex < 0 {
