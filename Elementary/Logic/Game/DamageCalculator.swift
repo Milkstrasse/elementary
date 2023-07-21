@@ -16,7 +16,7 @@ struct DamageCalculator {
     ///   - attacker: The fighter that attacks
     ///   - defender: The fighter to be targeted
     ///   - spell: The index of the spell used
-    ///   - subSpell: The index of the part of the spell used
+    ///   - spellIndex: The index of the part of the spell used
     ///   - spellElement: The element of the used spell
     ///   - weather: The current weather of the fight
     ///   - usedShield: Indicates wether the target used a shield successfully

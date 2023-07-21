@@ -83,10 +83,12 @@ class TurnLogic {
                         }
                     }
                 case 2:
+                    //TODO: if target already fainted from a different spell, skip turn
                     if (target.getArtifact().name != Artifacts.thread.rawValue && attacker.getArtifact().name != Artifacts.thread.rawValue) || target.currhp > 0 {
                         return true
                     }
                 case 3:
+                    //TODO: if target already fainted from a different spell, skip turn
                     if attacker.getArtifact().name != Artifacts.book.rawValue || target.currhp > 0 {
                         return true
                     }
@@ -154,9 +156,7 @@ class TurnLogic {
     }
     
     /// Executes a player move. Determines whether fighter uses their spell or an other action.
-    /// - Parameters:
-    ///   - player: The player
-    ///   - fightLogic: Access to fighter info
+    /// - Parameter player: The player
     /// - Returns: Returns a description of what occured during the player's turn
     private func startMove(player: Player) -> String {
         let move: Move = fightLogic.playerQueue.queue[0].move

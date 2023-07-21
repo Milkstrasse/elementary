@@ -17,7 +17,9 @@ struct TeamView: View {
     @State var selectIndex: Int = -1
     
     /// Generates and returns info on a fighter.
-    /// - Parameter fighter: The current fighter
+    /// - Parameters:
+    ///   - fighter: The fighter
+    ///   - index: The index of the fighter
     /// - Returns: Returns generated info on a fighter
     func generateInfo(fighter: Fighter, index: Int) -> String {
         var text: String = Localization.shared.getTranslation(key: "hpBar", params: ["\(fighter.currhp)", "\(fighter.getModifiedBase().health)"]) + " - "

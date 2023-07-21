@@ -27,6 +27,7 @@ class Hex: Hashable {
     ///   - name: The name of the hex
     ///   - symbol: The symbol of the hex
     ///   - duration: The duration of the hex
+    ///   - element: The element of the hex (used for weather)
     ///   - positive: If the hex has a positive effect
     ///   - damageAmount: The amount of damage the hex does
     ///   - opposite: The opposite of the hex if available

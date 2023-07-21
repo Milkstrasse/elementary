@@ -17,9 +17,11 @@ struct Move {
     
     /// Creates a move.
     /// - Parameters:
-    ///   - source: The fighter that made the move
-    ///   - index: The target for a swap or the spell index
-    ///   - spell: The spell used to make the move, set to placeholder spell f the move is a swap
+    ///   - source: The fighter index that made the move
+    ///   - index: The target for a swap or a number for determining the outcome
+    ///   - target: The index of the targeted fighter
+    ///   - targetedPlayer: The player of the target
+    ///   - spell: The index of the spell
     ///   - type: The type of move
     init(source: Int, index: Int, target: Int, targetedPlayer: Int, spell: Int, type: MoveType) {
         self.source = source

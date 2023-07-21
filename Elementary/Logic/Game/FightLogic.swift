@@ -28,7 +28,8 @@ class FightLogic: ObservableObject {
     /// Creates the logic used for a fight.
     /// - Parameters:
     ///   - players: The player fighting against each other
-    ///   - hasCPUPlayer: If one of the players is the CPU
+    ///   - hasCPUPlayer: Indicates if one of the players is the CPU
+    ///   - singleMode: Indicates which category the fight is
     init(players: [Player], hasCPUPlayer: Bool, singleMode: Bool) {
         if singleMode {
             gameLogic = GameLogic(topFighterCount: 1, bottomFighterCount: 1)

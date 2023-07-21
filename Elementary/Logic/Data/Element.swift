@@ -5,7 +5,7 @@
 //  Created by Janice Hablützel on 08.01.22.
 //
 
-/// Contains info on element.
+/// Contains info on an element.
 struct Element: Decodable {
     var name: String
     let symbol: String

@@ -17,8 +17,8 @@ struct SpellsView: View {
     @State var selectIndex: Int = -1
     
     /// Returns the effectiveness of a spell against the current opponent.
-    /// - Parameter spellElement: The element of the spell
-    /// - Returns: Returns the effectiveness of a spell against the current opponent
+    /// - Parameter spell: The spell
+    /// - Returns: Returns the effectiveness of a spell against the current opponent or the most suited opponent
     func getEffectiveness(spell: Spell) -> String {
         var modifiers: [Float] = [Float](repeating: 0, count: fightLogic.gameLogic.fighterCounts[player.getOppositePlayerId()])
         let element: Element = GlobalData.shared.elements[spell.element.name] ?? Element()

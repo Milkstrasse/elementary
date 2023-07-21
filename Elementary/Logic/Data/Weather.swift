@@ -103,6 +103,9 @@ enum Weather: String, CaseIterable {
         }
     }
     
+    /// Goes through all weather hexes to find a weather hex matching the element.
+    /// - Parameter element: An element
+    /// - Returns: Return the matching weather
     static func getWeather(element: Element) -> Hex? {
         for weather in Weather.allCases {
             let tempWeather: Hex = weather.getHex(duration: 5)

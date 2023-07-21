@@ -7,12 +7,14 @@
 
 import Foundation
 
+/// Keeps track of missions.
 struct MissionManager {
     var quests: [Mission]
     var milestones: [Mission]
     
     var unclaimedRewards: Int
     
+    /// Creates the manager without any missions.
     init() {
         quests = []
         milestones = []
@@ -20,6 +22,8 @@ struct MissionManager {
         unclaimedRewards = 0
     }
     
+    /// Adds quests (daily missions) to the manager.
+    /// - Parameter userProgress: The progress of the user
     mutating func addQuests(userProgress: UserProgress) {
         var tempRequirements: [NSPredicate] = []
         for n in 1 ... 5 {
@@ -38,6 +42,8 @@ struct MissionManager {
         quests.append(Mission(title: "useArtifactMission", requirements: [NSPredicate(format: "%K == %@", "dailyArtifactUsed", NSNumber(value: true))], isSpecial: false, reward: 5))
     }
     
+    /// Adds milestones (constant missions) to the manager.
+    /// - Parameter userProgress: The progress of the user
     mutating func addMilestones(userProgress: UserProgress) {
         var tempRequirements: [NSPredicate] = []
         for n in 1 ... 25 {
@@ -92,6 +98,8 @@ struct MissionManager {
         milestones.append(Mission(title: "artifactMission", requirements: tempRequirements, isSpecial: false, reward: userProgress.artifactsUses.count * 5))
     }
     
+    /// Goes through all missions and checks if progress was made.
+    /// - Parameter value: The user progress used to determine progress
     mutating func checkMissions(value: UserProgress) {
         unclaimedRewards = 0
         for index in quests.indices {
@@ -109,11 +117,15 @@ struct MissionManager {
         }
     }
     
+    /// Remove quests and add new ones.
+    /// - Parameter userProgress: The user progress
     mutating func resetDaily(userProgress: UserProgress) {
         quests = []
         addQuests(userProgress: userProgress)
     }
     
+    /// Resets the manager by removing all missions and adding new ones back.
+    /// - Parameter userProgress: The user progress
     mutating func resetAll(userProgress: UserProgress) {
         unclaimedRewards = 0
         
@@ -125,6 +137,7 @@ struct MissionManager {
     }
 }
 
+/// Contains info on an mission.
 struct Mission {
     let title: String
     let params: [String]
@@ -135,6 +148,13 @@ struct Mission {
     
     let reward: Int
     
+    /// Creates a mission.
+    /// - Parameters:
+    ///   - title: The title
+    ///   - params: Additional text needed for translation
+    ///   - requirements: The requirements to fulfill mission
+    ///   - isSpecial: Indicates in which order the requirements are looked at
+    ///   - reward: The reward
     init(title: String, params: [String] = [], requirements: [NSPredicate], isSpecial: Bool, reward: Int) {
         self.title = title
         self.params = params
@@ -148,6 +168,8 @@ struct Mission {
         self.reward = reward
     }
     
+    /// Checks requirements and updates the completion progress of the mission
+    /// - Parameter value: The user progress used to determine progress
     mutating func updateCompletion(value: UserProgress) {
         if completion >= 100 {
             return
@@ -197,6 +219,11 @@ struct Mission {
         }
     }
     
+    /// Checks if a requirement has been fulfilled.
+    /// - Parameters:
+    ///   - requirement: The requirement
+    ///   - value: The object used to determine progress
+    /// - Returns: Returns true if requirement is met
     func requirementIsMet(requirement: NSPredicate, value: NSObject) -> Bool {
         return requirement.evaluate(with: value)
     }

@@ -143,7 +143,7 @@ class Player: ObservableObject {
     /// Changes the state of the player which will be reflected by the current fighter with different images. The current fighter will be changed to the selected fighter.
     /// - Parameters:
     ///   - state: The state the player will enter
-    ///   - index: The selected fighter
+    ///   - fighter: The selected fighter
     func setState(state: PlayerState, fighter: Fighter) {
         var index: Int = 0
         for order in fighterOrder.indices {

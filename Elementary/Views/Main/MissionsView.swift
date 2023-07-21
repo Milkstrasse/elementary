@@ -32,23 +32,6 @@ struct MissionsView: View {
         }
     }
     
-    /// Calculates the percentage of completed daily missions.
-    /// - Returns: Returns percentage of completed daily missions
-    func dailyComplete() -> Float {
-        var counter: Float = min(Float(userProgress.dailyFightCounter)/5, 1)
-        counter += min(Float(userProgress.dailyWinCounter)/2, 1)
-        if userProgress.dailyElementWin {
-            counter += 1
-        }
-        if userProgress.dailyArtifactUsed {
-            counter += 1
-        }
-        
-        counter = counter/4 * 100
-        
-        return counter
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {

@@ -26,8 +26,10 @@ struct FighterData: Decodable {
     /// - Parameters:
     ///   - name: The name of the fighter
     ///   - element: The element of the fighter
-    ///   - singleSpells: The spells of the fighter
     ///   - base: All the base stats of the fighter
+    ///   - singleSpells: The spells of the fighter for single fights
+    ///   - multiSpells: The spells of the fighter for multi fights
+    ///   - outfits: All possible outfits for the fighter
     init(name: String, element: String, base: Base, singleSpells: [String], multiSpells: [String], outfits: [Outfit]) {
         self.name = name
         

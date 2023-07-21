@@ -162,6 +162,8 @@ class UserProgress: NSObject, Codable {
         }
     }
     
+    /// Stores and updates which weather hexes have been used
+    /// - Parameter index: The index of the weather hex
     func updateWeatherUses(index: Int) {
         weatherUses[index] = true
         
@@ -173,6 +175,8 @@ class UserProgress: NSObject, Codable {
         }
     }
     
+    /// Stores and updates which hexes have been used
+    /// - Parameter index: The index of the hex
     func updateHexUses(index: Int) {
         hexUses[index] = true
         
@@ -184,6 +188,8 @@ class UserProgress: NSObject, Codable {
         }
     }
     
+    /// Stores and updates which artifacts have been used
+    /// - Parameter index: The index of the artifact
     func updateArtifactUses(index: Int) {
         artifactsUses[index] = true
         
@@ -197,8 +203,9 @@ class UserProgress: NSObject, Codable {
     
     /// Unlocks a outfit for a fighter.
     /// - Parameters:
+    ///   - points: The cost of the outfit
     ///   - fighter: The owner of the outfit
-    ///   - index: The number of the outfit
+    ///   - index: The index of the outfit
     func unlockOutfit(points: Int, fighter: String, index: Int) {
         self.points -= points
         if unlockedOutfits[fighter] == nil {
@@ -224,8 +231,11 @@ class UserProgress: NSObject, Codable {
             return unlockedOutfits[fighter]!.contains(index)
         }
     }
-
+    
     /// Collect reward  in form of points from a mission.
+    /// - Parameters:
+    ///   - mission: The fulfilled mission
+    ///   - index: The index of the mission
     func missionCollect(mission: inout Mission, index: Int) {
         self.points += mission.reward
         self.points = min(self.points, 9999999)

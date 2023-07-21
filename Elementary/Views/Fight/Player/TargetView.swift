@@ -19,7 +19,7 @@ struct TargetView: View {
     /// - Parameters:
     ///   - fighter: The targeted fighter
     ///   - spellIndex: The index of the intended spell
-    /// - Returns: Returns the effectiveness of a spell against the current opponent
+    /// - Returns: Returns the effectiveness of a spell against the opponent
     func getEffectiveness(fighter: Fighter, spellIndex: Int) -> String {
         let modifier: Float
         

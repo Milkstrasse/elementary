@@ -67,7 +67,7 @@ class PlayerQueue {
     /// - Parameters:
     ///   - player: The player making the move
     ///   - move: The move the player makes
-    ///   - player: The opposite player
+    ///   - oppositePlayer: The opposite player
     ///   - fighterAmount: The amount of fighters able to make a move
     ///   - weather: The current weather of the fight
     /// - Returns: Returns wether the move was added or not
