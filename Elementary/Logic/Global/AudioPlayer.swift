@@ -26,6 +26,28 @@ class AudioPlayer {
     
     let voices: [String] = ["attack1.wav", "attack2.wav", "attack3.wav", "damaged1.wav", "damaged2.wav", "damaged3.wav", "healed1.wav", "healed2.wav", "healed3.wav"]
     
+    /// Creates the different audio players to play audio.
+    init() {
+        do { //prevents audible lag
+            var path: String = Bundle.main.path(forResource: "LudumDare30-Track6.wav", ofType: nil)!
+            var url: URL = URL(fileURLWithPath: path)
+
+            musicPlayer = try AVAudioPlayer(contentsOf: url)
+            
+            path = Bundle.main.path(forResource: "abs-pointer-1.mp3", ofType: nil)!
+            url = URL(fileURLWithPath: path)
+            
+            soundPlayer = try AVAudioPlayer(contentsOf: url)
+            
+            path = Bundle.main.path(forResource: voices[0], ofType: nil)!
+            url = URL(fileURLWithPath: path)
+            
+            voicePlayer = try AVAudioPlayer(contentsOf: url)
+        } catch {
+            print("\(error)")
+        }
+    }
+    
     /// Change volume of music player.
     func setMusicPlayer() {
         musicPlayer?.volume = musicVolume * generalVolume
