@@ -83,7 +83,7 @@ class TurnLogic {
                         }
                     }
                 case 2:
-                    if target.getArtifact().name != Artifacts.apple.rawValue {
+                    if target.getArtifact().name != Artifacts.grail.rawValue {
                         print(target.name)
                         return true
                     }
@@ -98,7 +98,7 @@ class TurnLogic {
                         return true
                     }
                 default:
-                    if attacker.currhp > attacker.getModifiedBase().health/3 && attacker.getArtifact().name != Artifacts.cornucopia.rawValue {
+                    if attacker.currhp > attacker.getModifiedBase().health/3 && attacker.getArtifact().name != Artifacts.cornucopia.rawValue && attacker.getArtifact().name != Artifacts.apple.rawValue {
                         return true
                     } else {
                         switch attacker.getArtifact().name {
@@ -109,6 +109,10 @@ class TurnLogic {
                         case Artifacts.wand.rawValue:
                             break
                         case Artifacts.potion.rawValue:
+                            break
+                        case Artifacts.cornucopia.rawValue:
+                            break
+                        case Artifacts.apple.rawValue:
                             break
                         default:
                             return true
@@ -233,6 +237,16 @@ class TurnLogic {
                     player.setState(state: PlayerState.healing, index:  move.source)
                     
                     return Localization.shared.getTranslation(key: "gainedHP", params: [attacker.name])
+                } else if attacker.getArtifact().name == Artifacts.apple.rawValue {
+                    if attacker.currhp <= attacker.getModifiedBase().health/16 {
+                        attacker.currhp = 0
+                    } else {
+                        attacker.currhp -= attacker.getModifiedBase().health/16
+                    }
+                    
+                    player.setState(state: PlayerState.hurting, index:  move.source)
+                    
+                    return Localization.shared.getTranslation(key: "lostHP", params: [attacker.name])
                 } else {
                     switch attacker.getArtifact().name {
                     case Artifacts.potion.rawValue:
@@ -262,9 +276,9 @@ class TurnLogic {
                     attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
                     return Localization.shared.getTranslation(key: "equippedArtifact", params: [attacker.name, artifact])
                 }
-            case 2: //apple artifact
-                attacker.overrideArtifact(artifact: Artifacts.apple.getArtifact())
-                return Localization.shared.getTranslation(key: "receivedArtifact", params: [attacker.name, Artifacts.apple.rawValue])
+            case 2: //grail artifact
+                attacker.overrideArtifact(artifact: Artifacts.grail.getArtifact())
+                return Localization.shared.getTranslation(key: "receivedArtifact", params: [attacker.name, Artifacts.grail.rawValue])
             case 4: //book artifact
                 if attacker.applyHex(newHex: Hexes.attackBoost.getHex(), resistable: false) == 0 {
                     player.setState(state: PlayerState.hexPositive, index: move.source)

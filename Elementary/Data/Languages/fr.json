@@ -183,7 +183,9 @@
     "book": "Livre interdit",
     "bookDescr": "Augmente **l'attaque** après l'évano. l'adversaire",
     "apple": "Pomme empoisonnée",
-    "appleDescr": "**Donner cet artefact** aux attaquants",
+    "appleDescr": "Inflige des **dégâts** à chaque tour",
+    "grail": "Heiliger Gral",
+    "grailDescr": "**Donner cet artefact** aux attaquants",
     
     "information": "Information",
     "informationDescr": "Recevoir des informations sur le combat",

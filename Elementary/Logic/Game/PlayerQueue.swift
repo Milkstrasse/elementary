@@ -408,7 +408,7 @@ class PlayerQueue {
         queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
         offset += 1
         
-        //effect of apple artifact
+        //effect of grail artifact
         queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 2, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
         offset += 1
         
