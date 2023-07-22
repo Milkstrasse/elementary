@@ -402,16 +402,21 @@ class PlayerQueue {
         
         //effect of sword artifact
         queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 0, target: playerMove.move.source, targetedPlayer: playerMove.player.id, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
-        //effect of helmet artifact
-        queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 2)
+        offset += 1
         
-        offset += 2
+        //effect of helmet artifact
+        queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 1, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+        offset += 1
+        
+        //effect of apple artifact
+        queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 2, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+        offset += 1
         
         //attacking fighter faints or exits the fight
         queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: -1, target: playerMove.move.source, targetedPlayer: playerMove.player.id, spell: -1, type: MoveType.special)), at: index + offset + 1)
         offset += 1
         //effect of thread artifact
-        queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 2, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+        queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 3, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
         offset += 1
         
         //attacking fighter faints or exits the fight
@@ -425,12 +430,12 @@ class PlayerQueue {
         if !singleMode {
             for fghter in playerMove.player.fighters.indices {
                 //effect of book artifact
-                queue.insert((player: playerMove.player, move: Move(source: fghter, index: 3, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+                queue.insert((player: playerMove.player, move: Move(source: fghter, index: 4, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
                 offset += 1
             }
         } else {
             //effect of book artifact
-            queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 3, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
+            queue.insert((player: playerMove.player, move: Move(source: playerMove.move.source, index: 4, target: fighter, targetedPlayer: playerMove.move.targetedPlayer, spell: playerMove.move.spell, type: MoveType.artifact)), at: index + offset + 1)
             offset += 1
         }
         

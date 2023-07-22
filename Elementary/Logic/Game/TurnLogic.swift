@@ -83,11 +83,16 @@ class TurnLogic {
                         }
                     }
                 case 2:
+                    if target.getArtifact().name != Artifacts.apple.rawValue {
+                        print(target.name)
+                        return true
+                    }
+                case 3:
                     //TODO: if target already fainted from a different spell, skip turn
                     if (target.getArtifact().name != Artifacts.thread.rawValue && attacker.getArtifact().name != Artifacts.thread.rawValue) || target.currhp > 0 {
                         return true
                     }
-                case 3:
+                case 4:
                     //TODO: if target already fainted from a different spell, skip turn
                     if attacker.getArtifact().name != Artifacts.book.rawValue || target.currhp > 0 {
                         return true
@@ -212,7 +217,8 @@ class TurnLogic {
                 return Localization.shared.getTranslation(key: "gainedHP", params: [defender.name])
             }
         case .artifact:
-            if move.index < 0 {
+            switch move.index {
+            case -1:
                 if attacker.getArtifact().name == Artifacts.cornucopia.rawValue {
                     if attacker.hasHex(hexName: Hexes.cursed.rawValue) {
                         return Localization.shared.getTranslation(key: "healFailed")
@@ -256,7 +262,10 @@ class TurnLogic {
                     attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
                     return Localization.shared.getTranslation(key: "equippedArtifact", params: [attacker.name, artifact])
                 }
-            } else if move.index == 3 {
+            case 2: //apple artifact
+                attacker.overrideArtifact(artifact: Artifacts.apple.getArtifact())
+                return Localization.shared.getTranslation(key: "receivedArtifact", params: [attacker.name, Artifacts.apple.rawValue])
+            case 4: //book artifact
                 if attacker.applyHex(newHex: Hexes.attackBoost.getHex(), resistable: false) == 0 {
                     player.setState(state: PlayerState.hexPositive, index: move.source)
                     
@@ -264,10 +273,10 @@ class TurnLogic {
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
-            } else {
+            default: //helmet, sword, threads artifact
                 let damage: Int
                 
-                if move.index == 2 {
+                if move.index == 3 { //threads artifact
                     damage = attacker.getModifiedBase().health
                 } else { //recoil damage from sword or helmet artifact
                     damage = attacker.getModifiedBase().health/10
