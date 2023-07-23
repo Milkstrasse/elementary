@@ -184,8 +184,10 @@
     "bookDescr": "Augmente **l'attaque** après l'évano. l'adversaire",
     "apple": "Pomme empoisonnée",
     "appleDescr": "Inflige des **dégâts** à chaque tour",
-    "grail": "Heiliger Gral",
+    "grail": "Saint Graal",
     "grailDescr": "**Donner cet artefact** aux attaquants",
+    "scale": "Écaille de sirène",
+    "scaleDescr": "Change **d'élément** en fonction de la météo",
     
     "information": "Information",
     "informationDescr": "Recevoir des informations sur le combat",

@@ -38,6 +38,7 @@ enum Artifacts: String, CaseIterable {
     case book
     case grail
     case apple
+    case scale
     
     /// Creates and returns an artifact.
     /// - Returns: Returns an artifact

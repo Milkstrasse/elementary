@@ -1,7 +1,7 @@
 {
   "element": "time",
-  "typeID": 11,
-  "range": 0,
+"typeID": 11,
+  "range": 6,
   "uses": 14,
   "subSpells": [
       {

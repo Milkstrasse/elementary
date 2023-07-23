@@ -84,7 +84,6 @@ class TurnLogic {
                     }
                 case 2:
                     if target.getArtifact().name != Artifacts.grail.rawValue {
-                        print(target.name)
                         return true
                     }
                 case 3:
@@ -96,6 +95,20 @@ class TurnLogic {
                     //TODO: if target already fainted from a different spell, skip turn
                     if attacker.getArtifact().name != Artifacts.book.rawValue || target.currhp > 0 {
                         return true
+                    }
+                case 5:
+                    if fightLogic.singleMode {
+                        if attacker.singleSpells[move.spell].typeID != 11 || target.getArtifact().name != Artifacts.scale.rawValue {
+                            return true
+                        } else if attacker.singleSpells[move.spell].typeID == 11 && attacker.singleSpells[move.spell].element.name == target.getElement().name {
+                            return true
+                        }
+                    } else {
+                        if attacker.multiSpells[move.spell].typeID != 11 || target.getArtifact().name != Artifacts.scale.rawValue {
+                            return true
+                        } else if attacker.multiSpells[move.spell].typeID == 11 && attacker.multiSpells[move.spell].element.name == target.getElement().name {
+                            return true
+                        }
                     }
                 default:
                     if attacker.currhp > attacker.getModifiedBase().health/3 && attacker.getArtifact().name != Artifacts.cornucopia.rawValue && attacker.getArtifact().name != Artifacts.apple.rawValue {
@@ -287,6 +300,17 @@ class TurnLogic {
                 } else {
                     return Localization.shared.getTranslation(key: "hexFailed")
                 }
+            case 5: //scale artifact
+                let spell: Spell
+                if fightLogic.singleMode {
+                    spell = attacker.singleSpells[move.spell]
+                } else {
+                    spell = attacker.multiSpells[move.spell]
+                }
+                
+                defender.overrideElement(newElement: spell.element)
+                
+                return Localization.shared.getTranslation(key: "elementChanged", params: [defender.name, spell.element.name])
             default: //helmet, sword, threads artifact
                 let damage: Int
                 
