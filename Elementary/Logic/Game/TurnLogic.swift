@@ -83,7 +83,7 @@ class TurnLogic {
                         }
                     }
                 case 2:
-                    if target.getArtifact().name != Artifacts.grail.rawValue {
+                    if attacker.getArtifact().name != Artifacts.grail.rawValue || target.getArtifact().name == Artifacts.grail.rawValue {
                         return true
                     }
                 case 3:
@@ -287,11 +287,11 @@ class TurnLogic {
                     let artifact: String = attacker.getArtifact().name
                     
                     attacker.overrideArtifact(artifact: Artifacts.noArtifact.getArtifact())
-                    return Localization.shared.getTranslation(key: "equippedArtifact", params: [attacker.name, artifact])
+                    return Localization.shared.getTranslation(key: "usedArtifact", params: [attacker.name, artifact])
                 }
             case 2: //grail artifact
-                attacker.overrideArtifact(artifact: Artifacts.grail.getArtifact())
-                return Localization.shared.getTranslation(key: "receivedArtifact", params: [attacker.name, Artifacts.grail.rawValue])
+                defender.overrideArtifact(artifact: Artifacts.grail.getArtifact())
+                return Localization.shared.getTranslation(key: "receivedArtifact", params: [defender.name, Artifacts.grail.rawValue])
             case 4: //book artifact
                 if attacker.applyHex(newHex: Hexes.attackBoost.getHex(), resistable: false) == 0 {
                     player.setState(state: PlayerState.hexPositive, index: move.source)

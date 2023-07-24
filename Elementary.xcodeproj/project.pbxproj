@@ -244,9 +244,9 @@
 				B8631ABA28AFEB2800222E54 /* General.swift */,
 				B8631A6D28AFA01300222E54 /* GlobalData.swift */,
 				B8631A6C28AFA01300222E54 /* Localization.swift */,
+				B854D1D32A559AE2005D9CBD /* MissionManager.swift */,
 				B8631A6A28AF9FEA00222E54 /* SaveData.swift */,
 				B887DC212900942300512E65 /* UserProgress.swift */,
-				B854D1D32A559AE2005D9CBD /* MissionManager.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
