@@ -50,7 +50,11 @@ struct TextFitter {
         
         var finalText: String = ""
         for line in textArray {
-            finalText += line + "\n"
+            if line.last == " " { //final cleanup
+                finalText += line.dropLast(1) + "\n"
+            } else {
+                finalText += line + "\n"
+            }
         }
         
         return String(finalText.dropLast())
