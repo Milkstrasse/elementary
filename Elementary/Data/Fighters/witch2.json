@@ -1,21 +1,21 @@
 {
-  "element": "time",
+  "element": "electric",
   "base": {
-      "health": 80,
-      "attack": 75,
-      "defense": 100,
-      "agility": 65,
-      "precision": 150,
-      "resistance": 80
+      "health": 75,
+      "attack": 145,
+      "defense": 55,
+      "agility": 105,
+      "precision": 120,
+      "resistance": 50
   },
   "singleSpells": [
-      "timeSimpleAttack",
-      "curse",
-      "poison",
-      "waterSimpleAttack"
+      "electricSimpleAttack",
+      "magneticStorm",
+      "trap",
+      "woodSpecial2Attack"
   ],
   "multiSpells": [
-      "timeSimpleAttack",
+      "electricSimpleAttack",
       "protection",
       "attackDown",
       "healingEffect"

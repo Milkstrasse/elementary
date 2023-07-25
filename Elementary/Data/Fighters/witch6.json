@@ -1,24 +1,24 @@
 {
-  "element": "ice",
+  "element": "metal",
   "base": {
-      "health": 70,
-      "attack": 150,
-      "defense": 50,
-      "agility": 100,
-      "precision": 125,
-      "resistance": 55
+      "health": 80,
+      "attack": 120,
+      "defense": 105,
+      "agility": 75,
+      "precision": 95,
+      "resistance": 75
   },
   "singleSpells": [
-      "iceSimpleAttack",
-      "precisionUp",
-      "aetherSwapAttack",
-      "waterSpecialAttack"
+      "metalSimpleAttack",
+      "powerUp",
+      "plantSimpleAttack",
+      "groundShieldAttack"
   ],
   "multiSpells": [
-      "iceSimpleAttack",
+      "metalSimpleAttack",
       "protection",
       "attackDown",
-      "suckerPunch"
+      "healingEffect"
   ],
   "outfits": [
       {

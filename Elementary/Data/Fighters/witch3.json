@@ -1,24 +1,24 @@
 {
-  "element": "electric",
+  "element": "fire",
   "base": {
-      "health": 75,
-      "attack": 145,
-      "defense": 55,
-      "agility": 105,
-      "precision": 120,
-      "resistance": 50
+      "health": 145,
+      "attack": 50,
+      "defense": 120,
+      "agility": 75,
+      "precision": 55,
+      "resistance": 105
   },
   "singleSpells": [
-      "electricSimpleAttack",
-      "magneticStorm",
-      "trap",
-      "woodSpecial2Attack"
+      "fireSimpleAttack",
+      "drainAttack",
+      "sunnyDay",
+      "timeSpecial2Attack"
   ],
   "multiSpells": [
-      "electricSimpleAttack",
+      "fireSimpleAttack",
       "protection",
       "attackDown",
-      "healingEffect"
+      "sunnyDay"
   ],
   "outfits": [
       {

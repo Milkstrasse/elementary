@@ -1,23 +1,23 @@
 {
-  "element": "plant",
+  "element": "rock",
   "base": {
-      "health": 125,
-      "attack": 75,
-      "defense": 150,
-      "agility": 50,
-      "precision": 80,
-      "resistance": 70
+      "health": 80,
+      "attack": 120,
+      "defense": 105,
+      "agility": 75,
+      "precision": 95,
+      "resistance": 75
   },
   "singleSpells": [
-      "plantSimpleAttack",
-      "bomb",
-      "trap",
-      "windSimpleAttack"
+      "rockSimpleAttack",
+      "taunt",
+      "confusion",
+      "drainAttack",
   ],
   "multiSpells": [
-      "plantSimpleAttack",
+      "rockSimpleAttack",
       "protection",
-      "attackDown",
+      "slap",
       "healingEffect"
   ],
   "outfits": [
