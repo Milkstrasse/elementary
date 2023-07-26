@@ -175,7 +175,11 @@ struct FightSelectionView: View {
                 } else {
                     PlayerSelectionView(opponents: bottomFighters, fighters: $topFighters, selectedSlot: $topSelectedSlot, height: geometry.safeAreaInsets.top + 175, singleMode: singleMode, offset: $topOffset, selectionToggle: $topSelectionToggle, infoToggle: $topInfoToggle).frame(width: geometry.size.width).rotationEffect(.degrees(180)).ignoresSafeArea().disabled(topReady)
                 }
-                PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, selectedSlot: $bottomSelectedSlot, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: $bottomOffset, selectionToggle: $bottomSelectionToggle, infoToggle: $bottomInfoToggle).frame(width: geometry.size.width).ignoresSafeArea().disabled(bottomReady)
+                if #available(iOS 16.0, *) {
+                    PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, selectedSlot: $bottomSelectedSlot, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: $bottomOffset, selectionToggle: $bottomSelectionToggle, infoToggle: $bottomInfoToggle).frame(width: geometry.size.width).ignoresSafeArea().disabled(bottomReady).defersSystemGestures(on: .vertical)
+                } else {
+                    PlayerSelectionView(opponents: topFighters, fighters: $bottomFighters, selectedSlot: $bottomSelectedSlot, height: geometry.safeAreaInsets.bottom + 175, singleMode: singleMode, offset: $bottomOffset, selectionToggle: $bottomSelectionToggle, infoToggle: $bottomInfoToggle).frame(width: geometry.size.width).ignoresSafeArea().disabled(bottomReady)
+                }
             }
             .onAppear {
                 topOffset = geometry.safeAreaInsets.top + 175

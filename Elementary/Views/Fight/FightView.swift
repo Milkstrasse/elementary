@@ -43,7 +43,11 @@ struct FightView: View {
             VStack(spacing: 0) {
                 PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[0], height: 175 + geometry.safeAreaInsets.top, gameOver: $gameOver, fightOver: $fightOver, isInteractable: !hasCPUPlayer).rotationEffect(.degrees(180))
                 Spacer()
-                PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], height: 175 + geometry.safeAreaInsets.bottom, gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
+                if #available(iOS 16.0, *) {
+                    PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], height: 175 + geometry.safeAreaInsets.bottom, gameOver: $gameOver, fightOver: $fightOver, isInteractable: true).defersSystemGestures(on: .vertical)
+                } else {
+                    PlayerFightView(fightLogic: fightLogic, player: fightLogic.players[1], height: 175 + geometry.safeAreaInsets.bottom, gameOver: $gameOver, fightOver: $fightOver, isInteractable: true)
+                }
             }
             ZigZag().fill(Color("Positive")).frame(height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).offset(y: transitionToggle ? -50 : geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom + 100).animation(.linear(duration: 0.3), value: transitionToggle).ignoresSafeArea()
         }
