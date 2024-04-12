@@ -24,11 +24,7 @@ struct InfoView: View {
                             CustomText(text: Localization.shared.getTranslation(key: player.getCurrentFighter().name).uppercased(), fontSize: General.mediumFont, isBold: true)
                             ForEach(player.getCurrentFighter().hexes, id: \.self) { hex in
                                 HStack(spacing: 0) {
-                                    if hex.symbol < 60000 {
-                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                    } else {
-                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                    }
+                                    Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                     if isDetectingPress && selectIndex == 1 {
                                         CustomText(text: "\(hex.duration) " + Localization.shared.getTranslation(key: "roundsLeft"), fontSize: General.smallFont)
                                     } else {
@@ -68,11 +64,7 @@ struct InfoView: View {
                             CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().name).uppercased(), fontSize: General.mediumFont, isBold: true)
                             ForEach(fightLogic.players[player.getOppositePlayerId()].getCurrentFighter().hexes, id: \.self) { hex in
                                 HStack(spacing: 0) {
-                                    if hex.symbol < 60000 {
-                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                    } else {
-                                        Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                    }
+                                    Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                     if isDetectingPress && selectIndex == 1 {
                                         CustomText(text: "\(hex.duration) " + Localization.shared.getTranslation(key: "roundsLeft"), fontSize: General.smallFont)
                                     } else {
@@ -114,11 +106,7 @@ struct InfoView: View {
                                     CustomText(text: Localization.shared.getTranslation(key: player.getFighter(index: index).name).uppercased(), fontSize: General.mediumFont, isBold: true)
                                     ForEach(player.getFighter(index: index).hexes, id: \.self) { hex in
                                         HStack(spacing: 0) {
-                                            if hex.symbol < 60000 {
-                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                            } else {
-                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                            }
+                                            Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             if isDetectingPress && selectIndex == index {
                                                 CustomText(text: "\(hex.duration) " + Localization.shared.getTranslation(key: "roundsLeft"), fontSize: General.smallFont)
                                             } else {
@@ -162,11 +150,7 @@ struct InfoView: View {
                                     CustomText(text: Localization.shared.getTranslation(key: fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).name).uppercased(), fontSize: General.mediumFont, isBold: true)
                                     ForEach(fightLogic.players[player.getOppositePlayerId()].getFighter(index: index).hexes, id: \.self) { hex in
                                         HStack(spacing: 0) {
-                                            if hex.symbol < 60000 {
-                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Free", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                            } else {
-                                                Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
-                                            }
+                                            Text(General.createSymbol(int: hex.symbol)).font(.custom("Font Awesome 5 Pro", size: General.smallFont)).foregroundColor(Color(hex.positive ? "Positive" : "Negative")).fixedSize().frame(width: 20, alignment: .leading)
                                             if isDetectingPress && selectIndex == player.fighters.count + index {
                                                 CustomText(text: "\(hex.duration) " + Localization.shared.getTranslation(key: "roundsLeft"), fontSize: General.smallFont)
                                             } else {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B81728B5294F3E4700E647B9 /* Outfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81728B4294F3E4700E647B9 /* Outfit.swift */; };
 		B81728B7294F3F4400E647B9 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81728B6294F3F4400E647B9 /* Base.swift */; };
-		B82256F429223717001E083A /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = B82256F329223717001E083A /* Font Awesome 5 Free-Solid-900.otf */; };
 		B82256FD2922493A001E083A /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82256FC2922493A001E083A /* Shapes.swift */; };
 		B83E4E19291CF0FB00DD527F /* TeamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E4E18291CF0FB00DD527F /* TeamManager.swift */; };
 		B853CA55291BD34700788C78 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853CA54291BD34700788C78 /* ModeSelectionView.swift */; };
@@ -98,7 +97,6 @@
 /* Begin PBXFileReference section */
 		B81728B4294F3E4700E647B9 /* Outfit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outfit.swift; sourceTree = "<group>"; };
 		B81728B6294F3F4400E647B9 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
-		B82256F329223717001E083A /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Solid-900.otf"; path = "../../../../../../Downloads/fontawesome-free-5.15.4-desktop/otfs/Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		B82256FC2922493A001E083A /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		B83E4E18291CF0FB00DD527F /* TeamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamManager.swift; sourceTree = "<group>"; };
 		B853CA54291BD34700788C78 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 		B8B0F4A328AF975B00AA245B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				B82256F329223717001E083A /* Font Awesome 5 Free-Solid-900.otf */,
 				B86AC32328D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf */,
 				B8631A8D28AFA28100222E54 /* RobotoCondensed-Bold.ttf */,
 				B8631A8C28AFA28100222E54 /* RobotoCondensed-Regular.ttf */,
@@ -516,7 +513,6 @@
 				B8631AA228AFA3D100222E54 /* abs-cancel-1.mp3 in Resources */,
 				B86AC32428D1BAE200F00F62 /* Font Awesome 5 Pro-Solid-900.otf in Resources */,
 				B8631A5F28AF984900222E54 /* Natures in Resources */,
-				B82256F429223717001E083A /* Font Awesome 5 Free-Solid-900.otf in Resources */,
 				B8631AA728AFA3D100222E54 /* damaged2.wav in Resources */,
 				B8631AA428AFA3D100222E54 /* healed3.wav in Resources */,
 				B8631AA028AFA3D100222E54 /* attack1.wav in Resources */,

@@ -30,6 +30,7 @@ struct CreditsView: View {
             }
         }
     }
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {

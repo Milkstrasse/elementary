@@ -107,7 +107,7 @@ enum Hexes: String, CaseIterable {
         case .poisoned:
             return Hex(name: self.rawValue, symbol: 0xf54c, duration: 3, positive: false, damageAmount: 10, opposite: .healed)
         case .healed:
-            return Hex(name: self.rawValue, symbol: 0xe05c, duration: 3, positive: true, damageAmount: -10, opposite: .poisoned)
+            return Hex(name: self.rawValue, symbol: 0xf4c3, duration: 3, positive: true, damageAmount: -10, opposite: .poisoned)
         case .confused:
             return Hex(name: self.rawValue, symbol: 0xf074, duration: 3, positive: false)
         case .bombed:
@@ -115,7 +115,7 @@ enum Hexes: String, CaseIterable {
         case .blessed:
             return Hex(name: self.rawValue, symbol: 0xf665, duration: 3, positive: true)
         case .cursed:
-            return Hex(name: self.rawValue, symbol: 0xf6e2, duration: 3, positive: false)
+            return Hex(name: self.rawValue, symbol: 0xf6db, duration: 3, positive: false)
         case .chained:
             return Hex(name: self.rawValue, symbol: 0xf0c1, duration: 3, positive: false)
         case .invigorated:
