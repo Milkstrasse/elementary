@@ -111,9 +111,9 @@ struct MissionsView: View {
                                             CustomText(text: "\(missionManager.milestones[index].completion)%", fontSize: General.smallFont)
                                         }
                                         .padding(.all, General.innerPadding)
-                                        if missionManager.milestones[index].completion >= 100 && !userProgress.milestoneCollected[index + userProgress.questCollected.count] {
+                                        if missionManager.milestones[index].completion >= 100 && !userProgress.milestoneCollected[index] {
                                             Button(action: {
-                                                userProgress.missionCollect(mission: &missionManager.milestones[index], index: index + userProgress.questCollected.count)
+                                                userProgress.missionCollect(mission: &missionManager.milestones[index], index: index)
                                                 missionManager.unclaimedRewards -= 1
                                             }) {
                                                 BasicButton(label: Localization.shared.getTranslation(key: "collect"), width: 110, height: 35, fontSize: General.smallFont, isInverted: true).padding(.trailing, 7.5)
